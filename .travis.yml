@@ -8,7 +8,7 @@ install:
 - make dep
 script:
 - make test
-deploy:
+before_deploy:
   provider: script
   script: make build
   "on":

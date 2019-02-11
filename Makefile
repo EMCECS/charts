@@ -4,7 +4,13 @@ HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
 YQ_VERSION   := 2.2.1
 YAMLLINT_VERSION := 1.14.0
 
-.PHONY: test build
+test:
+	for CHART in ecs-cluster ecs-flex-operator mongoose zookeeper-operator; do \
+		helm lint $$CHART ; \
+		helm unittest $$CHART ; \
+		yamllint -c .yamllint.yml -s $$CHART/Chart.yaml $$CHART/values.yaml ; \
+	done
+	yamllint -c .yamllint.yml -s .yamllint.yml .travis.yml
 
 dep:
 	wget -q ${HELM_URL}/${HELM_TGZ}
@@ -16,14 +22,6 @@ dep:
 	export PATH=$PATH:/tmp
 	sudo pip install yamllint=="${YAMLLINT_VERSION}"
 	sudo pip install yq=="${YQ_VERSION}"
-
-test:
-	for CHART in ecs-cluster ecs-flex-operator mongoose zookeeper-operator; do \
-		helm lint $$CHART ; \
-		helm unittest $$CHART ; \
-		yamllint -c .yamllint.yml -s $$CHART/Chart.yaml $$CHART/values.yaml ; \
-	done
-	yamllint -c .yamllint.yml -s .yamllint.yml .travis.yml
 
 build:
 	REINDEX=0

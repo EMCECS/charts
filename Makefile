@@ -27,14 +27,17 @@ test:
 
 build:
 	REINDEX=0
-	for CHART in ecs-cluster ecs-flex-operator mongoose zookeeper-operator; do ; \
-		CURRENT_VER=$(yq r $$CHART/Chart.yaml version) ; \
-		CHK_INDEX=$(yq r docs/index.yaml "entries.$$CHART[*].version" | "\- $$CURRENT_VER") ; \
-		ifeq ($$CHK_INDEX,1) ; \
-			helm package $$CHART --destination docs ; \
+	for CHART in ecs-cluster ecs-flex-operator mongoose zookeeper-operator; do \
+		CURRENT_VER=`yq r $$CHART/Chart.yaml version` ; \
+		yq r docs/index.yaml "entries.$${CHART}[*].version" | grep -q "\- $${CURRENT_VER}" ; \
+		if [[ "$${?}" -eq "1" ]] ; then \
+		    echo "Updating package for $${CHART}" ; \
+			helm package $${CHART} --destination docs ; \
 			REINDEX=1 ; \
-		endif
-	done
-	ifeq($$REINDEX,1)
-		cd docs && helm repo index .
-	endif
+		else  \
+		    echo "Packages for $${CHART} are up to date" ; \
+		fi ; \
+	done ; \
+	if [[ "$${REINDEX}" == "1" ]]; then \
+		cd docs && helm repo index . ; \
+	fi

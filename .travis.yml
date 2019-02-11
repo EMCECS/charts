@@ -1,14 +1,13 @@
 ---
 language: python
-sudo: false
+sudo: true
 env:
   global:
-  - HELM_VERSION="v2.12.3"
 install:
 - make dep
 script:
 - make test
-deploy:
+before_deploy:
   provider: script
   script: make build
   "on":

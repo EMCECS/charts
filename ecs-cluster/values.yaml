@@ -15,7 +15,7 @@ tag: 0.1.5
 pullPolicy: Always
 
 # Override the default number of replicas which taken according to Memory profile for each service
-# replicas: 0
+# replicas: 4
 
 # The default memory profile for the ECS cluster. Valid values are "Micro",
 # "Default", and  "Small"

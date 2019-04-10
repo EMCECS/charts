@@ -5,7 +5,7 @@ YQ_VERSION   := 2.2.1
 YAMLLINT_VERSION := 1.14.0
 
 test:
-	for CHART in ecs-cluster ecs-flex-operator mongoose zookeeper-operator; do \
+	for CHART in ecs-cluster ecs-flex-operator mongoose zookeeper-operator decks kahm; do \
 		helm lint $$CHART ; \
 		helm unittest $$CHART ; \
 		yamllint -c .yamllint.yml -s $$CHART/Chart.yaml $$CHART/values.yaml ; \

@@ -1,0 +1,47 @@
+---
+# Default values for ecs-flex.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# These global settings relate to DECKS
+global:
+  # Name of a Kubernetes secret with Docker credentials for the private registry
+  # registrySecret: ecs-flex-registry
+
+  # The private docker registry hosting containers for ECS Flex
+  registry: emccorp
+
+  # Default: "" == Watch ALL namespaces
+  watchNamespace: ""
+
+# The default docker tag and pull policy for the DECKS and
+# logReceiver
+tag: latest
+pullPolicy: Always
+
+# The number of replicas for the DECKS deployment
+replicaCount: 1
+
+# The image configured for the DECKS
+image:
+  repository: decks
+  # tag: stable
+  # pullPolicy: Always
+
+# We usually recommend not to specify default resources and to leave this as a conscious
+# choice for the user. This also increases chances charts run on environments with little
+# resources, such as Minikube. If you do want to specify resources, uncomment the following
+# lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+resources: {}
+# limits:
+#  cpu: 100m
+#  memory: 128Mi
+# requests:
+#  cpu: 100m
+#  memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

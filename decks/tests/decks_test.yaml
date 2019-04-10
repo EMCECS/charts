@@ -1,0 +1,44 @@
+suite: test decks
+templates:
+  - decks.yaml
+tests:
+  - it: should create a deployment
+    asserts:
+    - isKind:
+        of: Deployment
+  - it: should have a default image
+    asserts:
+    - equal:
+        path: spec.template.spec.containers[0].image
+        value: emccorp/decks:latest
+    - equal:
+        path: spec.template.spec.containers[0].imagePullPolicy
+        value: Always
+  - it: should have name ending with decks
+    asserts:
+    - matchRegex:
+        path: metadata.name
+        pattern: ^decks$
+  - it: should have a selector
+    asserts:
+    - matchRegex:
+        path: spec.selector.matchLabels.name
+        pattern: ^decks$
+  - it: should have a name label
+    asserts:
+    - matchRegex:
+        path: spec.template.metadata.labels.name
+        pattern: ^decks$
+  - it: should configure the image
+    set:
+      global.registry: REGISTRY
+      image.repository: REPO
+      image.tag: TAG
+      image.pullPolicy: IfNotPresent
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: REGISTRY/REPO:TAG
+      - equal:
+          path: spec.template.spec.containers[0].imagePullPolicy
+          value: IfNotPresent

@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: decks
+  labels:
+    release: {{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: decks
+  template:
+    metadata:
+      labels:
+        name: decks
+        release: {{ .Release.Name }}
+    spec:
+      serviceAccountName: "decks"
+{{- if .Values.global.registrySecret }}
+      imagePullSecrets:
+        - name: {{ .Values.global.registrySecret }}
+{{- end }}
+      containers:
+      - name: decks
+{{- if .Values.image.tag }}
+        image: {{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+{{- else }}
+        image: {{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ .Values.tag }}
+{{- end }}
+{{- if .Values.image.pullPolicy }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+{{- else }}
+        imagePullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
+        command:
+        - decks
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: WATCH_NAMESPACE
+{{- if eq .Values.global.watchNamespace "" }}
+          value: ""
+{{- else }}
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+{{- end }}
+{{- if .Values.global.registrySecret }}
+        - name: REGISTRY_SECRET
+          value: {{ .Values.global.registrySecret }}
+{{- end }}
+        - name: CONTROLLER_NAME
+          value: decks

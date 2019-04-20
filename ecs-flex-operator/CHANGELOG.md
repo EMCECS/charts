@@ -30,6 +30,10 @@ Add exporter command will will output static YAML files for cluster creation for
 
 Set initial management user password based on Kubernetes secret value, removing any static default passwords from cluster instances that complete provisioning
 
+Improve VNest service startup times
+
+Resolve multiple configuration errors in ECSCluster instance components
+
 ### Fixes
 
 Correct issue in which the ECS Flex registry secret is not passed to ECSCluster instances

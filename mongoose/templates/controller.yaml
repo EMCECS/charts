@@ -42,4 +42,5 @@ spec:
           --storage-auth-uid={{ required "target.accessKey is required" .Values.target.accessKey }}
           --storage-auth-secret={{ required ".target.secretKey is required" .Values.target.secretKey }}
           --storage-net-node-addrs={{ required "target.addresses is required" .Values.target.addresses }}
+          --storage-net-node-port={{ required "target.port is required" .Values.target.port }}
 

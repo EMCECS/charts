@@ -32,6 +32,6 @@ controller:
 # the S3 target
 driver:
   image:
-    name: emcmongoose/mongoose-storage-driver-service
+    name: emcmongoose/mongoose
     tag: 4.1.1
     pullPolicy: IfNotPresent

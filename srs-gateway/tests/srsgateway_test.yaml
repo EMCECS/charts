@@ -64,6 +64,27 @@ tests:
     - equal:
         path: spec.notifier.grpcRetries
         value: 3
+    - equal:
+        path: spec.configUpload.registry
+        value: emccorp
+    - equal:
+        path: spec.configUpload.repository
+        value: config-upload
+    - equal:
+        path: spec.configUpload.tag
+        value: 0.12.0
+    - equal:
+        path: spec.configUpload.pullPolicy
+        value: Always
+    - equal:
+        path: spec.configUpload.uploadPeriodHours
+        value: 12
+    - equal:
+        path: spec.configUpload.restartPolicy
+        value: Never 
+    - equal:
+        path: spec.configUpload.disable
+        value: true
   - it: should create an SRS GW custom resource with disable flag true
     set:
       product: MOTHERSOFINVENTION
@@ -199,6 +220,41 @@ tests:
     - equal:
         path: spec.notifier.pullPolicy
         value: IfNotPresent
+
+  - it: should create configUpload deployment with explicit registry, repository, tag, and pullPolicy
+    set:
+      product: NANOOK
+      gateway.hostname: 192.0.2.7
+      configUpload.disable: false
+      configUpload.registry: my-configupload
+      configUpload.repository: my-configupload
+      configUpload.tag: my-tag
+      configUpload.pullPolicy: IfNotPresent
+      configUpload.uploadPeriodHours: 2
+      configUpload.restartPolicy: OnFailure
+      
+    asserts:
+    - equal:
+        path: spec.configUpload.disable
+        value: null 
+    - equal:
+        path: spec.configUpload.registry
+        value: my-configupload 
+    - equal:
+        path: spec.configUpload.repository
+        value: my-configupload 
+    - equal:
+        path: spec.configUpload.tag
+        value: my-tag
+    - equal:
+        path: spec.configUpload.pullPolicy
+        value: IfNotPresent 
+    - equal:
+        path: spec.configUpload.uploadPeriodHours
+        value: 2
+    - equal:
+        path: spec.configUpload.restartPolicy
+        value: OnFailure
   - it: should NOT include a spec.dockerSecret if dockerSecret, dockerUsername, and dockerPassword not set
     set:
       product: NANOOK

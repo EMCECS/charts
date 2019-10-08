@@ -227,6 +227,26 @@ spec:
       pullPolicy: {{ .Values.pullPolicy }}
   {{- end }}
 
+  deosEvents:
+{{- if .Values.deosEvents.pullFreq }}
+    pullFreq: {{ .Values.deosEvents.pullFreq }}
+{{- else }}
+    pullFreq: 30
+{{- end }}
+
+    image:
+      repository: {{ .Values.global.registry }}/{{ .Values.deosEvents.image.repository }}
+{{- if .Values.deosEvents.image.tag }}
+      tag: {{ .Values.deosEvents.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.deosEvents.image.pullPolicy }}
+      pullPolicy: {{ .Values.deosEvents.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
+
   resource:
 {{- if .Values.resource.replicas }}
     replicas: {{ .Values.resource.replicas }}

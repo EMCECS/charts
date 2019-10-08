@@ -161,3 +161,31 @@ tests:
     - equal:
         path: spec.zookeeper.persistence.storageClassName
         value: my-zookeeper-sc
+  - it: should have a default deos-events image
+    asserts:
+    - equal:
+        path: spec.deosEvents.image.repository
+        value: emccorp/deos-events
+    - equal:
+        path: spec.deosEvents.image.tag
+        value: 0.12.0
+    - equal:
+        path: spec.deosEvents.image.pullPolicy
+        value: Always
+    - equal:
+        path: spec.deosEvents.pullFreq
+        value: 30
+  - it: should have deos-events pullFreq changes
+    set:
+      deosEvents.pullFreq: 1
+    asserts:
+    - equal:
+        path: spec.deosEvents.pullFreq
+        value: 1
+  - it: should have default deos-events pullFreq
+    set:
+      deosEvents.pullFreq: null
+    asserts:
+    - equal:
+        path: spec.deosEvents.pullFreq
+        value: 30

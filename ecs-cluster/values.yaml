@@ -466,3 +466,12 @@ deos_hc:
     repository: deos-hc
     # tag: stable
     # pullPolicy: IfNotPresent
+
+# deos_events to pull the events every pullFreq (default: 30 seconds) from the object store
+# and convert them into the k8s events
+deosEvents:
+  pullFreq: 30
+  image:
+    repository: deos-events
+    # tag: stable
+    # pullPolicy: IfNotPresent

@@ -20,7 +20,7 @@ spec:
       {{- end }}
       containers:
         - name: {{ .Release.Name }}-influxdata-operator
-          image: {{ .Values.global.registry }}/{{ .Values.influx.image.repository }}:{{ default .Values.tag .Values.influx.image.tag }}
+          image: {{ default .Values.global.registry .Values.influx.registry }}/{{ .Values.influx.image.repository }}:{{ default .Values.tag .Values.influx.image.tag }}
           ports:
             - containerPort: {{ .Values.influx.metricsPort }}
               name: metrics

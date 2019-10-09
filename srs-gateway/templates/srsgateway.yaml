@@ -66,6 +66,9 @@ spec:
     grpcConnTimeout: {{ .Values.notifier.grpcConnTimeout }}
     grpcRetries: {{ .Values.notifier.grpcRetries }}
   configUpload:
+{{- if .Values.configUpload.disable }}
+    disable: {{ .Values.configUpload.disable }}
+{{- end }}
 {{- if .Values.configUpload.registry }}
     registry: {{ .Values.configUpload.registry }}
 {{- else }}

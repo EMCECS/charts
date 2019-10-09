@@ -96,7 +96,8 @@ influx:
   metricsPort: 6000
   image:
     repository: influxdb-operator
-    # tag: 0.12.0
+#    registry: ecs
+    tag: v1
     # pullPolicy: Always
   replicas: 1
 

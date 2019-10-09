@@ -89,6 +89,7 @@ notifier:
   grpcRetries: 3
 
 configUpload:
+  disable: true
   # registry: "emccorp"
   repository: "config-upload"
   # tag: "stable"

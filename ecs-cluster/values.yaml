@@ -29,6 +29,9 @@ memoryProfile: Small
 # restrictions.
 serviceDiscovery: FabricProxySidecar
 
+# LogDirection defines the place for writing the ECS components logs
+logDirection: stdout
+
 #
 # ECS Service Configuration
 #

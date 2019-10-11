@@ -13,7 +13,6 @@ spec:
   replicas: {{ .Values.replicas }}
 {{- end }}
   memoryProfile: {{ .Values.memoryProfile }}
-  logDirection: {{ .Values.logDirection }}
 
   chunkManager:
 {{- if .Values.chunkManager.replicas }}

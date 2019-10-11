@@ -34,6 +34,7 @@ image:
 # deployed by the operator. If "logReceiver.create" is enabled, then a
 # syslog-based receiver will be created, and other connectivity configuration
 # options will be ignored.
+# If log receiver configuration is not provided then ECS logs will be redirected to stdout
 logReceiver:
 
   # The type of log receiver that ECS Flex will use to consolidate logs. Valid

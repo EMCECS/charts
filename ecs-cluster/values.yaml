@@ -31,9 +31,6 @@ serviceDiscovery: FabricProxySidecar
 
 enableAdvancedStatistics: true
 
-# LogDirection defines the place for writing the ECS components logs. Valid values are "stdout" and "file"
-logDirection: stdout
-
 #
 # ECS Service Configuration
 #

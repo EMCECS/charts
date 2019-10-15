@@ -1,0 +1,35 @@
+suite: test audit event ts resource
+templates:
+  - audit_event_ts.yaml
+tests:
+  - it: should create a kubernetes configmap
+    asserts:
+      - isKind:
+          of: ConfigMap 
+  - it: should have a resource name
+    asserts:
+    - equal:
+        path: metadata.name
+        value: RELEASE-NAME-audit-events-ts
+  - it: should have a namespace
+    asserts:
+    - equal:
+        path: metadata.namespace
+        value: NAMESPACE
+  - it: should have labels
+    asserts:
+    - equal:
+        path: metadata.labels
+        value:
+          release: RELEASE-NAME
+          product: "objectscale" 
+          app.kubernetes.io/instance: RELEASE-NAME
+          app.kubernetes.io/managed-by: Tiller
+          app.kubernetes.io/name: deos-RELEASE-NAME
+          app.kubernetes.io/version: 0.12.0
+          helm.sh/chart: ecs-cluster-0.12.0
+  - it: should have values for the keys
+    asserts:
+    - equal:
+        path: data.ts
+        value: "" 

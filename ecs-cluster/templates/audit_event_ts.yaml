@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-audit-events-ts
+  namespace: {{ .Release.Namespace}}
+  labels:
+    release: {{ .Release.Name }}
+    product: "objectscale"
+    app.kubernetes.io/name: deos-{{ .Release.Name }}
+    app.kubernetes.io/version: {{.Values.tag}}
+    app.kubernetes.io/instance: {{.Release.Name}}
+    app.kubernetes.io/managed-by: {{.Release.Service}}
+    helm.sh/chart: {{.Chart.Name}}-{{.Chart.Version | replace "+" "_"}}
+data:
+    ts: ""

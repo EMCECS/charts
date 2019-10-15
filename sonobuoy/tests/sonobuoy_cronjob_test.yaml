@@ -20,7 +20,7 @@ tests:
     asserts:
       - equal:
           path: spec.jobTemplate.spec.template.spec.containers[0].image
-          value: REGISTRY/REPO:TAG
+          value: REGISTRY/REPO:7.65
       - equal:
           path: spec.jobTemplate.spec.template.spec.containers[0].imagePullPolicy
           value: IfNotPresent

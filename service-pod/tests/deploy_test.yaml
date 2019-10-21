@@ -14,30 +14,27 @@ tests:
       - equal:
           path: spec.template.spec.containers[0].imagePullPolicy
           value: Always
-  - it: should have name ending with graphql
+  - it: should have name
     asserts:
       - equal:
           path: metadata.name
-          value: release-name-service-pod
+          value: RELEASE-NAME-service-pod
   - it: should have a selector
     asserts:
       - equal:
-          path: spec.selector.matchLabels.name
-          value: release-name-service-pod
+          path: spec.selector.matchLabels.app
+          value: RELEASE-NAME-service-pod
   - it: should have a labels
     asserts:
       - equal:
-          path: spec.selector.matchLabels.name
-          value: release-name-service-pod
+          path: metadata.labels.release
+          value: RELEASE-NAME
       - equal:
-          path: spec.selector.matchLabels.release
-          value: release-name
-      - equal:
-          path: spec.selector.matchLabels.product
+          path: metadata.labels.product
           value: objectscale 
       - equal:
-          path: spec.selector.matchLabels.app
-          value: release-name-service-pod
+          path: metadata.labels.app
+          value: RELEASE-NAME-service-pod
   - it: should configure the image
     set:
       global.registry: REGISTRY

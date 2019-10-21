@@ -9,11 +9,14 @@ tests:
   - it: should have a selector
     asserts:
       - equal:
-          path: spec.selector.name
-          pattern: release-name-service-pod
+          path: spec.selector.app
+          value: RELEASE-NAME-service-pod
   - it: should configure the ssh port
     asserts:
       - contains:
           path: spec.ports
           content:
             port: 22
+            protocol: TCP
+            targetPort: 22
+

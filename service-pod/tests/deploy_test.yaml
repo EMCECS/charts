@@ -16,25 +16,34 @@ tests:
           value: Always
   - it: should have name ending with graphql
     asserts:
-      - matchRegex:
+      - equal:
           path: metadata.name
-          pattern: ^.+-graphql$
+          value: release-name-service-pod
   - it: should have a selector
     asserts:
-      - matchRegex:
+      - equal:
           path: spec.selector.matchLabels.name
-          pattern: ^.+-graphql$
-  - it: should have a name label
+          value: release-name-service-pod
+  - it: should have a labels
     asserts:
-      - matchRegex:
-          path: spec.template.metadata.labels.name
-          pattern: ^.+-graphql$
+      - equal:
+          path: spec.selector.matchLabels.name
+          value: release-name-service-pod
+      - equal:
+          path: spec.selector.matchLabels.release
+          value: release-name
+      - equal:
+          path: spec.selector.matchLabels.product
+          value: objectscale 
+      - equal:
+          path: spec.selector.matchLabels.app
+          value: release-name-service-pod
   - it: should configure the image
     set:
       global.registry: REGISTRY
-      graphql.image.repository: REPO
-      graphql.image.tag: TAG
-      graphql.image.pullPolicy: IfNotPresent
+      image.repository: REPO
+      image.tag: TAG
+      image.pullPolicy: IfNotPresent
     asserts:
       - equal:
           path: spec.template.spec.containers[0].image
@@ -42,10 +51,10 @@ tests:
       - equal:
           path: spec.template.spec.containers[0].imagePullPolicy
           value: IfNotPresent
-  - it: should configure the operator name
+  - it: should configure the product name
     asserts:
       - contains:
           path: spec.template.spec.containers[0].env
           content:
-            name: OPERATOR_NAME
-            value: ecs-flex-operator
+            name: DELL_EMC_PRODUCT 
+            value: objectscale

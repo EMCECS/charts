@@ -1,6 +1,6 @@
-suite: test graphql service
+suite: test service-pod service
 templates:
-  - graphql-service.yaml
+  - service.yaml
 tests:
   - it: should create a service
     asserts:
@@ -8,13 +8,12 @@ tests:
           of: Service
   - it: should have a selector
     asserts:
-      - matchRegex:
+      - equal:
           path: spec.selector.name
-          pattern: ^.+-graphql$
-  - it: should configure the graphql port
+          pattern: release-name-service-pod
+  - it: should configure the ssh port
     asserts:
       - contains:
           path: spec.ports
           content:
-            name: http
-            port: 8080
+            port: 22

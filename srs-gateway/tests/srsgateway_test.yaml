@@ -36,7 +36,7 @@ tests:
         value: remote-access
     - equal:
         path: spec.remoteAccess.tag
-        value: 0.12.0
+        value: 0.14.0
     - equal:
         path: spec.remoteAccess.pullPolicy
         value: Always
@@ -51,7 +51,7 @@ tests:
         value: srs-notifier
     - equal:
         path: spec.notifier.tag
-        value: 0.12.0
+        value: 0.14.0
     - equal:
         path: spec.notifier.pullPolicy
         value: Always
@@ -72,7 +72,7 @@ tests:
         value: config-upload
     - equal:
         path: spec.configUpload.tag
-        value: 0.12.0
+        value: 0.14.0
     - equal:
         path: spec.configUpload.pullPolicy
         value: Always
@@ -182,7 +182,7 @@ tests:
         value: srs-notifier
     - equal:
         path: spec.notifier.tag
-        value: 0.12.0
+        value: 0.14.0
     - equal:
         path: spec.notifier.pullPolicy
         value: Always
@@ -204,7 +204,7 @@ tests:
         value: remote-access
     - equal:
         path: spec.remoteAccess.tag
-        value: 0.12.0
+        value: 0.14.0
     - equal:
         path: spec.remoteAccess.pullPolicy
         value: Always

@@ -1,0 +1,83 @@
+suite: test operator
+templates:
+  - operator.yaml
+tests:
+  - it: should create a deployment
+    asserts:
+    - isKind:
+        of: Deployment
+  - it: should have a default image
+    asserts:
+    - equal:
+        path: spec.template.spec.containers[0].image
+        value: emccorp/ecs-flex-operator:0.12.0
+    - equal:
+        path: spec.template.spec.containers[0].imagePullPolicy
+        value: Always
+  - it: should have name ending with operator
+    asserts:
+    - matchRegex:
+        path: metadata.name
+        pattern: ^.+-operator$
+  - it: should have a selector
+    asserts:
+    - matchRegex:
+        path: spec.selector.matchLabels.name
+        pattern: ^.+-operator$
+  - it: should have a name label
+    asserts:
+    - matchRegex:
+        path: spec.template.metadata.labels.name
+        pattern: ^.+-operator$
+  - it: should configure the image
+    set:
+      global.registry: REGISTRY
+      image.repository: REPO
+      image.tag: TAG
+      image.pullPolicy: IfNotPresent
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: REGISTRY/REPO:TAG
+      - equal:
+          path: spec.template.spec.containers[0].imagePullPolicy
+          value: IfNotPresent
+  - it: should configure a custom syslog receiver with all params
+    set:
+      logReceiver.host:     SYSLOG
+      logReceiver.protocol: tcp
+      logReceiver.port:     514
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: LOG_RECEIVER_HOST
+            value: SYSLOG
+            name: LOG_RECEIVER_PROTO
+            value: tcp
+            name: LOG_RECEIVER_PORT
+            value: "514"
+            name: WATCH_NAMESPACE
+            value: ""
+            name: OPERATOR_NAME
+            value: ecs-flex-operator
+
+  - it: should enable a syslog receiver
+    set:
+      logReceiver.create: true
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: LOG_RECEIVER_TYPE
+            value: Syslog
+            name: LOG_RECEIVER_HOST
+            value: ecs-flex-rsyslog-service.NAMESPACE.svc.cluster.local
+            name: LOG_RECEIVER_PROTO
+            value: tcp
+            name: LOG_RECEIVER_PORT
+            value: "514"
+            name: WATCH_NAMESPACE
+            value: ""
+            name: OPERATOR_NAME
+            value: ecs-flex-operator

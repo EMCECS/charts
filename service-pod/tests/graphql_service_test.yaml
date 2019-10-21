@@ -1,0 +1,20 @@
+suite: test graphql service
+templates:
+  - graphql-service.yaml
+tests:
+  - it: should create a service
+    asserts:
+      - isKind:
+          of: Service
+  - it: should have a selector
+    asserts:
+      - matchRegex:
+          path: spec.selector.name
+          pattern: ^.+-graphql$
+  - it: should configure the graphql port
+    asserts:
+      - contains:
+          path: spec.ports
+          content:
+            name: http
+            port: 8080

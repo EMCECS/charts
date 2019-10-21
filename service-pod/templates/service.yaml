@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: {{ .Release.Name }}-service-pod 
+    release: {{ .Release.Name }}
+    product: {{ .Values.product }}
+  name: {{ .Release.Name }}-service-pod 
+  namespace: {{ .Release.Namespace }}
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 22
+    targetPort: 22
+    protocol: TCP
+  selector:
+    app: {{ .Release.Name }}-service-pod

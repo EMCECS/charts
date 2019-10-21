@@ -1,0 +1,41 @@
+---
+# Default values for service-pod.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# These global settings relate to service-pod 
+global:
+  # Name of a Kubernetes secret with Docker credentials for the private registry
+  # registrySecret: dockerhub-registry-secret
+
+  # The private docker registry hosting containers
+  registry: harbor.lss.emc.com/ecs
+  # registry: emccorp
+
+# The default docker tag and pull policy for service-pod
+tag: 0.14.0
+pullPolicy: Always
+product: objectscale
+
+# The image configured for the service-pod
+image:
+  repository: remote-access
+  # tag: stable
+  # pullPolicy: Always
+
+sshCred:
+  user: "root"
+  group: "adm"
+  password: "ChangeMe"
+
+
+# We usually recommend not to specify default resources and to leave this as a
+# conscious choice for the user. This also increases chances charts run on
+# environments with little resources, such as Minikube. If you do want to
+# specify resources, uncomment the following lines, adjust them as necessary,
+# and remove the curly braces after 'resources:'.
+resources:
+# limits:
+#  ephemeral-storage: 10Gi
+# requests:
+#  ephemeral-storage: 20Gi

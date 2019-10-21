@@ -1,0 +1,14 @@
+Thank you for installing {{ .Chart.Name }}. This release is capable of
+deploying and upgrading the service-pod.
+
+
+Your release is named {{ .Release.Name }}.
+
+To install service-pod by using Helm chart, use the helm install command below:
+
+  $ helm install <repository name>/service-pod
+
+For more information on the installation and configuration options, see the
+README at https://github.com/EMCECS/charts/tree/master/service-pod and the
+`values.yaml` file at
+https://github.com/EMCECS/charts/blob/master/service-pod/values.yaml

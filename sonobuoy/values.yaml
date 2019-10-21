@@ -14,7 +14,7 @@ global:
   watchNamespace: ""
 
 # The default docker tag and pull policy for sonobuoy
-tag: 0.12.0
+tag: 0.14.0
 pullPolicy: Always
 
 replicaCount: 1
@@ -22,11 +22,13 @@ replicaCount: 1
 # tag for alpine-curl image should be hard-coded here
 alpine_curl_image:
   repository: alpine-curl
+  ## tag should only be updated when new version created.
   tag: 7.65
 
 sonobuoy_image:
   repository: sonobuoy
-  tag: 0.12.0
+  ## tag should only be updated when new version is created
+  tag: v0.14
 
 resources: {}
 # We usually recommend not to specify default resources and to leave this

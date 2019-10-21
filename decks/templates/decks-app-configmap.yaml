@@ -17,21 +17,22 @@ data:
     eventRules: |-
     healthChecks: |-
     eventRemedies: |-
-    symptomid: DECKS-1007
-      description: Unable to register with Dell EMC Secure Remote Services
-        remedies:
-          - Make sure a valid Dell EMC license has been applied
-          - Make sure the SRS Gateway has not been disabled
-          - Verify the correct hostname or IP addr/port was used for
-            the SRS gateway
-          - Verify the correct Dell EMC customer support account name
-            and password were specified
-          - Verify the SRS Gateway system is running
-          - Check if the SRS gateway has connectivity through the firewall
-            to Dell EMC
-          - Verify the network connection to the SRS gateway
-          - Check the health of the SRS gateway by connecting to the user
-            interface
-          - Check the status of the SRS Gateway resource in the k8s cluster
-          - Make sure the kubernetes cluster has enabled external IP provisioning
-            capabilities (for example LoadBalancer)
+      symptoms:
+        - symptomid: DECKS-1007
+          description: Unable to register with Dell EMC Secure Remote Services
+          remedies:
+            - Make sure a valid Dell EMC license has been applied
+            - Make sure the SRS Gateway has not been disabled
+            - Verify the correct hostname or IP addr/port was used for
+              the SRS gateway
+            - Verify the correct Dell EMC customer support account name
+              and password were specified
+            - Verify the SRS Gateway system is running
+            - Check if the SRS gateway has connectivity through the firewall
+              to Dell EMC
+            - Verify the network connection to the SRS gateway
+            - Check the health of the SRS gateway by connecting to the user
+              interface
+            - Check the status of the SRS Gateway resource in the k8s cluster
+            - Make sure the kubernetes cluster has enabled external
+              IP provisioning capabilities, (for example LoadBalancer)

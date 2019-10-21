@@ -4,7 +4,8 @@ HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
 YQ_VERSION   := 2.2.1
 YAMLLINT_VERSION := 1.14.0
 CHARTS := ecs-cluster ecs-flex-operator mongoose zookeeper-operator decks kahm srs-gateway dks-testapp fio-test sonobuoy dellemc-license
-DECKSCHARTS := decks kahm srs-gateway dks-testapp fio-test sonobuoy dellemc-license
+DECKSCHARTS := decks kahm srs-gateway dks-testapp fio-test dellemc-license
+FLEXCHARTS := ecs-cluster ecs-flex-operator zookeeper-operator
 
 test:
 	for CHART in ${CHARTS}; do \
@@ -49,6 +50,22 @@ decksver:
 		yq w -i $$CHART/Chart.yaml version $${DECKSVER} ; \
 		echo "---\n`cat $$CHART/Chart.yaml`" > $$CHART/Chart.yaml ; \
 		sed -i -e "s/^\([ ]*\)tag:.*/\1tag: $${DECKSVER}/" $$CHART/values.yaml; \
+	done ;
+
+flexver:
+	if [ -z $${FLEXVER} ] ; then \
+		echo "Missing FLEXVER= param" ; \
+		exit 1 ; \
+	fi
+	echo "looking for yq command"
+	which yq
+	echo "Found it"
+	for CHART in ${FLEXCHARTS}; do  \
+		echo "Setting version $$FLEXVER in $$CHART" ;\
+		yq w -i $$CHART/Chart.yaml appVersion $${FLEXVER} ; \
+		yq w -i $$CHART/Chart.yaml version $${FLEXVER} ; \
+		echo "---\n`cat $$CHART/Chart.yaml`" > $$CHART/Chart.yaml ; \
+		sed -i -e "s/^\([ ]*\)tag:.*/\1tag: $${FLEXVER}/" $$CHART/values.yaml; \
 	done ;
 
 build:

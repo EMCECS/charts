@@ -16,7 +16,7 @@ global:
   watchNamespace: ""
 
 # The default docker tag and pull policy for the KAHM
-tag: 0.12.0
+tag: 0.14.0
 pullPolicy: Always
 
 # The number of replicas for the KAHM deployment

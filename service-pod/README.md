@@ -1,6 +1,6 @@
 #Dell EMC Service Pod Helm Chart
 
-This Helm chart deploys a service-pod capable of collecting logs, provides remote-access to the cluster, and allow easy access to the  debugging tools to debug the issues.
+This Helm chart deploys a service pod capable of collecting logs, provides remote-access to the cluster, and allow easy access to the  debugging tools to debug the issues.
 
 ## Table of Contents
 
@@ -14,7 +14,7 @@ This Helm chart deploys a service-pod capable of collecting logs, provides remot
 
 ## Description
 
-The Dell/EMC Service pod implements a Kubernetes pod and service that bundles the tools and scripts to debug the issues and to provides SSH access from outside of the Kubernetes cluster. The intent is to provide customers with remote access servicability through service-pod.
+The Dell/EMC service pod implements a Kubernetes pod and service that bundles the tools and scripts to debug the issues and to provides SSH access from outside of the Kubernetes cluster. The intent is to provide customers with remote access servicability through service-pod.
 
 For security, the service pod can be configured with a customizable user/group/password credentials for SSH access. The user/group/password credentials can be configured via a Kubernetes secret that contains the user/group/password. Note that the name of the credentials secret needs to match the name of the credentials secret that is used in the service pod deployment's secret mount.
 
@@ -43,7 +43,6 @@ Note that for external access, the ConfigMap that is used to configure Minikube 
 ## Requirements
 
 * A [Helm](https://helm.sh) installation with access to install to one or more namespaces.
-* A Kubernetes Storage Class capable of dynamically creating `ReadWriteOnce` (`RWO`) volumes. This is available in many public Kubernetes services, such as AWS EKS and Google GKE. For more information see the [storage class section](#sc-setup) below.
 
 ## Quick Start
 
@@ -56,7 +55,7 @@ $ helm repo add ecs https://emcecs.github.io/charts
 $ helm repo update
 ```
 
-3. Install the service-pod. This allows you to create a service-pod for debugging the issues
+3. Install the service-pod. This allows you to create a service-pod for debugging the issues, collect logs and to provide remote-access
 
 ```bash
 $ helm install --name object-scale-service-pod ecs/service-pod

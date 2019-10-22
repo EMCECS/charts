@@ -10,11 +10,15 @@ This Helm chart deploys a service pod capable of collecting logs, provides remot
 * [Requirements](#requirements)
 * [Quick Start](#quick-start)
 * [Configuration](#configuration)
-  * [Private Docker Registry](#private-docker-registry)
+* [Private Docker Registry](#private-docker-registry)
 
 ## Description
 
-The Dell/EMC service pod implements a Kubernetes pod and service that bundles the tools and scripts to debug the issues and to provides SSH access from outside of the Kubernetes cluster. The intent is to provide customers with remote access servicability through service-pod.
+The Dell EMC service pod is a k8s pod with the following capabilities:
+- login and analyze the k8s cluster environment
+- tools and scripts to triage the k8s cluster 
+- collect logs from the deployed pods
+- allow remote access via ssh
 
 For security, the service pod can be configured with a customizable user/group/password credentials for SSH access. The user/group/password credentials can be configured via a Kubernetes secret that contains the user/group/password. Note that the name of the credentials secret needs to match the name of the credentials secret that is used in the service pod deployment's secret mount.
 
@@ -30,7 +34,7 @@ ssh root@<service-pod-external-ip>
 ```
 e.g.
 ```
-ssh root@10.240.135.243
+ssh root@10.11.12.13
 (Password: ChangeMe)
 ```
 
@@ -55,11 +59,10 @@ $ helm repo add ecs https://emcecs.github.io/charts
 $ helm repo update
 ```
 
-3. Install the service-pod. This allows you to create a service-pod for debugging the issues, collect logs and to provide remote-access
-
+3. Install the service-pod. This allows you to create a service-pod for debugging the issues, collect logs and to provide remote-access. It is mandatory to provide a product name as a commond line option. 
 ```bash
-$ helm install --name object-scale-service-pod ecs/service-pod
-NAME:  object-scale-service-pod
+$ helm install --name objectscale-service-pod ecs/service-pod --set product=objectscale
+NAME:  objectscale-service-pod
 ...
 ```
 

@@ -4,7 +4,7 @@ metadata:
   labels:
     app: {{ .Release.Name }}-service-pod 
     release: {{ .Release.Name }}
-    product: {{ .Values.product }}
+    product: {{ required "product (e.g. objectscale) is required" .Values.product }} 
   name: {{ .Release.Name }}-service-pod 
   namespace: {{ .Release.Namespace }}
 spec:

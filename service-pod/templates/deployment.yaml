@@ -6,7 +6,7 @@ metadata:
   namespace: {{ .Release.Namespace }} 
   labels:
     release: {{ .Release.Name }}
-    product: {{ .Values.product }}
+    product: {{ required "product (e.g. objectscale) is required" .Values.product }}
     app: {{ .Release.Name }}-service-pod
 spec:
   replicas: 1
@@ -19,7 +19,7 @@ spec:
         app: {{ .Release.Name }}-service-pod
         name: {{ .Release.Name }}-service-pod
         release: {{ .Release.Name }}
-        product: {{ .Values.product }}
+        product: {{ required "product (e.g. objectscale) is required" .Values.product }}
     spec:
       serviceAccountName: {{ .Release.Name }}-service-pod-sa 
 {{- if .Values.global.registrySecret }}
@@ -52,10 +52,12 @@ spec:
             fieldRef:
               fieldPath: metadata.name
         - name: DELL_EMC_PRODUCT
-          value: {{ .Values.product }}
+          value: {{ required "product (e.g. objectscale) is required" .Values.product }}
 {{- if .Values.global.registrySecret }}
         - name: REGISTRY_SECRET
           value: {{ .Values.global.registrySecret }}
+        - name: RELEASE_NAME
+          value: {{ .Release.Name }}
 {{- end }}
         volumeMounts:
         - mountPath: /host/data

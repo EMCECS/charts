@@ -6,7 +6,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     release: {{ .Release.Name }}
-    product: {{ .Values.product }}
+    product: {{ required "product (e.g. objectscale) is required" .Values.product }}
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
@@ -15,7 +15,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     release: {{ .Release.Name }}
-    product: {{ .Values.product }}
+    product: {{ required "product (e.g. objectscale) is required" .Values.product }} 
 rules:
 - apiGroups:
   - ecs.dellemc.com
@@ -109,7 +109,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     release: {{ .Release.Name }}
-    product: {{ .Values.product }}
+    product: {{ required "product (e.g. objectscale) is required" .Values.product }} 
 subjects:
 - kind: ServiceAccount
   name: {{ .Release.Name }}-service-pod-sa

@@ -9,14 +9,15 @@ global:
   # registrySecret: dockerhub-registry-secret
 
   # The private docker registry hosting containers
-  # registry: harbor.lss.emc.com/ecs
-  registry: emccorp
+  registry: harbor.lss.emc.com/ecs
+  # registry: emccorp
 
 # The default docker tag and pull policy for service-pod
-tag: 0.14.0
+# tag: 0.14.0
+tag: service-pod
 pullPolicy: Always
 # product for which the service pod is required
-product: objectscale
+# product: objectscale
 
 # The image configured for the service-pod
 image:

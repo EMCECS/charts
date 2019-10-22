@@ -13,8 +13,7 @@ global:
   # registry: emccorp
 
 # The default docker tag and pull policy for service-pod
-# tag: 0.14.0
-tag: service-pod
+tag: 0.14.0
 pullPolicy: Always
 # product for which the service pod is required
 # product: objectscale

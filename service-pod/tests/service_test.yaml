@@ -3,15 +3,21 @@ templates:
   - service.yaml
 tests:
   - it: should create a service
+    set:
+      product: my-product
     asserts:
       - isKind:
           of: Service
   - it: should have a selector
+    set:
+      product: my-product
     asserts:
       - equal:
           path: spec.selector.app
           value: RELEASE-NAME-service-pod
   - it: should configure the ssh port
+    set:
+      product: my-product
     asserts:
       - contains:
           path: spec.ports
@@ -19,4 +25,3 @@ tests:
             port: 22
             protocol: TCP
             targetPort: 22
-

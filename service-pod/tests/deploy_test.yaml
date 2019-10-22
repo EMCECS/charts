@@ -59,6 +59,28 @@ tests:
       - equal:
           path: spec.template.spec.containers[0].imagePullPolicy
           value: IfNotPresent
+  - it: should configure the resources limits and requests
+    set:
+      product: my-product
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].resources.requests.ephemeral-storage
+          value: 10Gi 
+      - equal:
+          path: spec.template.spec.containers[0].resources.limits.ephemeral-storage
+          value: 20Gi 
+  - it: should update the resources limits and requests
+    set:
+      product: my-product
+      resources.requests.storage: 5Gi
+      resources.limits.storage: 10Gi
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].resources.requests.ephemeral-storage
+          value: 5Gi 
+      - equal:
+          path: spec.template.spec.containers[0].resources.limits.ephemeral-storage
+          value: 10Gi 
   - it: should configure the product name
     set:
       product: my-product

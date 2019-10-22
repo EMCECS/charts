@@ -59,6 +59,17 @@ spec:
         - name: RELEASE_NAME
           value: {{ .Release.Name }}
 {{- end }}
+{{- if .Values.resources }}
+        resources:
+{{- if .Values.resources.requests.storage }}
+          requests:
+             ephemeral-storage: {{ .Values.resources.requests.storage }}
+{{- end }}
+{{- if .Values.resources.limits.storage }}
+          limits:
+             ephemeral-storage: {{ .Values.resources.limits.storage }}
+{{- end }}
+{{- end }}
         volumeMounts:
         - mountPath: /host/data
           name: host-data

@@ -56,9 +56,9 @@ spec:
 {{- if .Values.global.registrySecret }}
         - name: REGISTRY_SECRET
           value: {{ .Values.global.registrySecret }}
+{{- end }}
         - name: RELEASE_NAME
           value: {{ .Release.Name }}
-{{- end }}
 {{- if .Values.resources }}
         resources:
 {{- if .Values.resources.requests.storage }}

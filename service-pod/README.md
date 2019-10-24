@@ -1,6 +1,6 @@
 #Dell EMC Service Pod Helm Chart
 
-This Helm chart deploys a service pod capable of collecting logs, provides remote-access to the cluster, and allow easy access to the  debugging tools to debug the issues.
+This Helm chart deploys a Dell EMC service pod to analyze the cluster, collect logs and allow remote access via ssh. 
 
 ## Table of Contents
 

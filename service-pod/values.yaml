@@ -9,12 +9,11 @@ global:
   # registrySecret: dockerhub-registry-secret
 
   # The private docker registry hosting containers
-  registry: harbor.lss.emc.com/ecs
-  # registry: emccorp
+  # registry: harbor.lss.emc.com/ecs
+  registry: emccorp
 
 # The default docker tag and pull policy for service-pod
-# tag: 0.14.0
-tag: service-pod
+tag: 0.14.0
 pullPolicy: Always
 # product for which the service pod is required
 # product: objectscale
@@ -32,6 +31,6 @@ sshCred:
 # specify the requests and limits for the ephemeral storage for the pod
 resources:
   requests:
-   storage: 10Gi
+    storage: 10Gi
   limits:
     storage: 20Gi

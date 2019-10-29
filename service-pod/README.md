@@ -38,6 +38,11 @@ ssh root@10.11.12.13
 (Password: ChangeMe)
 ```
 
+3. Change your password once you login:
+```
+passwd <enter new password>
+```
+
 ## Special Consideration for Deploying on Minikube
 When deploying on Minikube, you will need to install the MetalLB software loadbalancer, so that the service-pod will get an external IP for access from outside the cluster. Installation of MetalLB is documented in the ["Install MetalLB Software Load Balancer" section of the FLEX on Minikube wiki](https://asdwiki.isus.emc.com:8443/display/ECS/How+to+deploy+ECS+Flex+on+Minikube#HowtodeployECSFlexonMinikube-OPTIONAL:InstallMetalLBSoftwareLoadBalancer).
 

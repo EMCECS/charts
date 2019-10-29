@@ -11,7 +11,8 @@ spec:
   type: LoadBalancer
   ports:
   - port: 22
-    targetPort: 22
+    name: ssh
+    targetPort: ssh 
     protocol: TCP
   selector:
     app: {{ .Release.Name }}-service-pod

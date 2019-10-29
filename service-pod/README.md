@@ -15,10 +15,9 @@ This Helm chart deploys a Dell EMC service pod to analyze the cluster, collect l
 ## Description
 
 The Dell EMC service pod is a k8s pod with the following capabilities:
-- login and analyze the k8s cluster environment
+- remote login via ssh to analyze the k8s cluster environment
 - tools and scripts to triage the k8s cluster 
 - collect logs from the deployed pods
-- allow remote access via ssh
 
 For security, the service pod can be configured with a customizable user/group/password credentials for SSH access. The user/group/password credentials can be configured via a Kubernetes secret that contains the user/group/password. Note that the name of the credentials secret needs to match the name of the credentials secret that is used in the service pod deployment's secret mount.
 

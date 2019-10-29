@@ -22,6 +22,7 @@ tests:
       - contains:
           path: spec.ports
           content:
+            name: ssh
             port: 22
             protocol: TCP
-            targetPort: 22
+            targetPort: ssh 

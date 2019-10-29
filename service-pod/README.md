@@ -79,7 +79,7 @@ There are [configuration options](#configuration) you can peruse later at your h
 
 While the service-pod container image is hosted publicly, the service-pod also supports configuration of a private Docker registry for offline Kubernetes clusters or those that do not have access to public registries. To configure a private registry:
 
-1. Download the ice-pod container image bundle from [support.emc.com] and upload the images to your private registry.
+1. Download the service-pod container image bundle from [support.emc.com] and upload the images to your private registry.
 
 _*TODO: Add download link once available*_
 

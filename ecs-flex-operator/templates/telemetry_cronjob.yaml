@@ -1,0 +1,39 @@
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: objectscale-telemetry
+  namespace: {{ .Release.Namespace }}
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: telemetry-upload
+            product: "objectscale"
+            release: {{ .Release.Name }}
+        spec:
+          containers:
+          - image: harbor.lss.emc.com/ecs/telemetry-upload:experiment
+            imagePullPolicy: Always
+            name: telemetry-upload
+            command:
+            - telemetry-upload
+            env:
+            - name: RELEASE_NAME
+              value: {{ .Release.Name }}
+            - name: POD_NAMESPACE
+              value: {{ .Release.Namespace }}
+            - name: PRODUCT_NAME
+              value: "objectscale"
+            volumeMounts:
+            - mountPath: /host/data
+              name: host-data
+          dnsPolicy: ClusterFirst
+          serviceAccountName: "objectscale-telemetry"
+          volumes:
+          - emptyDir: {}
+            name: host-data
+          restartPolicy: Never

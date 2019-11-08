@@ -111,12 +111,18 @@ influx:
 graphql:
   image:
     repository: ecs-flex-graphql
-    # tag: 0.12.0
+    # tag: stable 
     # pullPolicy: Always
   withPlayground: false
   port: 8080
   service:
     type: LoadBalancer
+
+telemetry:
+  image:
+    repository: telemetry-upload
+    # tag: stable 
+    # pullPolicy: Always
 
 nodeSelector: {}
 

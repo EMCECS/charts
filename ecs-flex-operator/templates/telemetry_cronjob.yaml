@@ -4,6 +4,15 @@ kind: CronJob
 metadata:
   name: objectscale-telemetry
   namespace: {{ .Release.Namespace }}
+labels:
+    release: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ template "name" . }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: objectscale-telemetry 
+    app.kubernetes.io/part-of: ecs-flex-manager
 spec:
   schedule: "*/1 * * * *"
   jobTemplate:
@@ -11,13 +20,22 @@ spec:
       template:
         metadata:
           labels:
-            app: telemetry-upload
-            product: "objectscale"
             release: {{ .Release.Name }}
+            app.kubernetes.io/name: {{ template "name" . }}
+            helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+            app.kubernetes.io/managed-by: {{ .Release.Service }}
+            app.kubernetes.io/instance: {{ .Release.Name }}
+            app.kubernetes.io/version: {{ .Chart.AppVersion }}
+            app.kubernetes.io/component: objectscale-telemetry
+            app.kubernetes.io/part-of: ecs-flex-manager
         spec:
           containers:
-          - image: harbor.lss.emc.com/ecs/telemetry-upload:experiment
-            imagePullPolicy: Always
+          - image: {{ .Values.global.registry }}/{{ .Values.telemetry.image.repository }}:{{ default .Values.tag .Values.telemetry.image.tag }}
+{{- if .Values.telemetry.image.pullPolicy }}
+            imagePullPolicy: {{ .Values.telemetry.image.pullPolicy }}
+{{- else }}
+            imagePullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
             name: telemetry-upload
             command:
             - telemetry-upload
@@ -27,7 +45,7 @@ spec:
             - name: POD_NAMESPACE
               value: {{ .Release.Namespace }}
             - name: PRODUCT_NAME
-              value: "objectscale"
+              value: objectscale
             volumeMounts:
             - mountPath: /host/data
               name: host-data

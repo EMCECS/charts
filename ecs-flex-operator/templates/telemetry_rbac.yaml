@@ -6,6 +6,13 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     release: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ template "name" . }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: objectscale-telemetry
+    app.kubernetes.io/part-of: ecs-flex-manager
 {{- if .Values.global.registrySecret }}
 imagePullSecrets:
   - name: {{ .Values.global.registrySecret }}
@@ -21,6 +28,13 @@ metadata:
   name: objectscale-telemetry
   labels:
     release: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ template "name" . }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: objectscale-telemetry
+    app.kubernetes.io/part-of: ecs-flex-manager
 rules:
 - apiGroups:
   - decks.ecs.dellemc.com
@@ -49,6 +63,13 @@ metadata:
   name: objectscale-telemetry
   labels:
     release: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ template "name" . }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: objectscale-telemetry
+    app.kubernetes.io/part-of: ecs-flex-manager
 subjects:
 - kind: ServiceAccount
   name: objectscale-telemetry 

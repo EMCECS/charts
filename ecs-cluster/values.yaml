@@ -11,14 +11,14 @@ global:
   registry: emccorp
 
 # The default docker tag and pull policy for the ECS Cluster
-tag: 0.14.0
+tag: 0.16.0
 pullPolicy: Always
 
 # Override the default number of replicas which taken according to performance profile for each service
 # replicas: 4
 
 # The default performance profile for the ECS cluster. Valid values are "Micro",
-# "Default", and  "Small"
+# "Small", and "Large"
 performanceProfile: Small
 
 # Name of the storage class that all PVC should be provisioned from

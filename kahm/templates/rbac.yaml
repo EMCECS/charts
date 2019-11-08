@@ -20,12 +20,9 @@ metadata:
   labels:
     release: {{ .Release.Name }}
 rules:
-- apiGroups:
-  - ecs.dellemc.com
-  resources:
-  - "*"
-  verbs:
-  - "*"
+- apiGroups: ["*"]
+  resources: ["*"]
+  verbs: ["get", "watch", "list"]
 - apiGroups:
   - kahm.emcecs.github.com
   resources:
@@ -55,18 +52,6 @@ rules:
   verbs:
   - "*"
 - apiGroups:
-  - batch
-  resources:
-  - jobs
-  verbs:
-  - "*"
-- apiGroups:
-  - policy
-  resources:
-  - poddisruptionbudgets
-  verbs:
-  - "*"
-- apiGroups:
   - apps
   resources:
   - deployments
@@ -75,20 +60,6 @@ rules:
   - statefulsets
   verbs:
   - "*"
-- apiGroups:
-  - zookeeper.pravega.io
-  resources:
-  - "*"
-  verbs:
-  - "*"
-- apiGroups:
-  - storage.k8s.io
-  resources:
-  - storageclasses
-  - storageclasslists
-  verbs:
-  - get
-  - list
 ---
 {{- if eq .Values.global.watchNamespace "" }}
 kind: ClusterRoleBinding

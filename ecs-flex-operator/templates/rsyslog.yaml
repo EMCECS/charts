@@ -1,11 +1,17 @@
 {{- if .Values.logReceiver.create }}
 ---
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ecs-flex-rsyslog
   labels:
-    release: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ template "name" . }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: ecs-flex-operator
+    app.kubernetes.io/part-of: ecs-flex-manager
 spec:
   replicas: 1
   selector:

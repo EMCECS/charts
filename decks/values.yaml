@@ -17,7 +17,7 @@ global:
   watchNamespace: ""
 
 # The default docker tag and pull policy for the DECKS
-tag: 0.14.0
+tag: 1.0.0-16
 pullPolicy: Always
 
 # The number of replicas for the DECKS deployment
@@ -53,12 +53,11 @@ helmTestConfig:
     # tag: stable
     # pullPolicy: Always
   srsGateway:
-    # product to test "UNISPHERE" - fixed
     # The login setting configures the user/password credentials
     # for registering a product with the test SRS gateway
-    login: "isilon.test@emconlinesupport.com:Password1"
+    # login: "testuser123@example.com:MyFavePassword"
     # The gateway hostname can be an IP address or an FQDN
-    hostname: "10.249.238.219"
+    # hostname: "10.11.12.13"
     port: 9443
 
 # We usually recommend not to specify default resources and to leave this as a conscious

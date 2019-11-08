@@ -4,7 +4,11 @@ kind: CustomResourceDefinition
 metadata:
   name: ecsclusters.ecs.dellemc.com
   labels:
-    release: {{ .Release.Name }}
+    app.kubernetes.io/name: ecs-flex-manager
+    helm.sh/chart: ecs-flex-manager
+    app.kubernetes.io/component: ecs-flex-influx
+    app.kubernetes.io/part-of: ecs-flex-manager
+    app.kubernetes.io/managed-by: nautilus
   annotations:
     "helm.sh/hook": crd-install
 spec:

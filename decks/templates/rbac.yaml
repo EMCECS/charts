@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/name: "decks"
     app.kubernetes.io/version: {{.Values.tag}}
     app.kubernetes.io/instance: {{.Release.Name}}
-    app.kubernetes.io/managed-by: {{.Release.Service}}
+    app.kubernetes.io/managed-by: nautilus
     helm.sh/chart: {{.Chart.Name}}-{{.Chart.Version | replace "+" "_"}}
     release: {{.Release.Name}}
 {{- if .Values.global.registrySecret }}
@@ -28,7 +28,7 @@ metadata:
     app.kubernetes.io/name: "decks"
     app.kubernetes.io/version: {{.Values.tag}}
     app.kubernetes.io/instance: {{.Release.Name}}
-    app.kubernetes.io/managed-by: {{.Release.Service}}
+    app.kubernetes.io/managed-by: nautilus
     helm.sh/chart: {{.Chart.Name}}-{{.Chart.Version | replace "+" "_"}}
     release: {{ .Release.Name }}
 rules:
@@ -127,7 +127,7 @@ metadata:
     app.kubernetes.io/name: "decks"
     app.kubernetes.io/version: {{.Values.tag}}
     app.kubernetes.io/instance: {{.Release.Name}}
-    app.kubernetes.io/managed-by: {{.Release.Service}}
+    app.kubernetes.io/managed-by: nautilus
     helm.sh/chart: {{.Chart.Name}}-{{.Chart.Version | replace "+" "_"}}
     release: {{ .Release.Name }}
 subjects:

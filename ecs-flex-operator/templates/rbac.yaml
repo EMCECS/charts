@@ -4,6 +4,14 @@ kind: ServiceAccount
 metadata:
   name: ecs-flex-operator
   namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: {{ template "name" . }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: ecs-flex-operator
+    app.kubernetes.io/part-of: {{ template "name" . }}
 {{- if .Values.global.registrySecret }}
 imagePullSecrets:
   - name: {{ .Values.global.registrySecret }}

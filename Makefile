@@ -4,7 +4,7 @@ HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
 YQ_VERSION   := 2.2.1
 YAMLLINT_VERSION := 1.14.0
 CHARTS := ecs-cluster ecs-flex-operator mongoose zookeeper-operator decks kahm srs-gateway dks-testapp fio-test sonobuoy dellemc-license service-pod
-DECKSCHARTS := decks kahm srs-gateway dks-testapp fio-test dellemc-license service-pod
+DECKSCHARTS := decks kahm srs-gateway dks-testapp dellemc-license service-pod
 FLEXCHARTS := ecs-cluster ecs-flex-operator zookeeper-operator
 
 test:
@@ -41,13 +41,19 @@ decksver:
 		echo "Missing DECKSVER= param" ; \
 		exit 1 ; \
 	fi
+	
+	if [ -z $${DCHARTVER} ] ; then \
+		echo "Missing DCHARTVER= param" ; \
+		exit 1 ; \
+	fi
+	
 	echo "looking for yq command"
 	which yq
 	echo "Found it"
 	for CHART in ${DECKSCHARTS}; do  \
 		echo "Setting version $$DECKSVER in $$CHART" ;\
 		yq w -i $$CHART/Chart.yaml appVersion $${DECKSVER} ; \
-		yq w -i $$CHART/Chart.yaml version $${DECKSVER} ; \
+		yq w -i $$CHART/Chart.yaml version $${DCHARTVER} ; \
 		echo "---\n`cat $$CHART/Chart.yaml`" > $$CHART/Chart.yaml ; \
 		sed -i -e "s/^\([ ]*\)tag:.*/\1tag: $${DECKSVER}/" $$CHART/values.yaml; \
 	done ;

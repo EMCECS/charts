@@ -47,8 +47,18 @@ $ helm repo update
 
 3. Install the ECS Flex Operator. This allows you to create and manage ECS clusters.
 
+via Helm 2:
+
 ```bash
 $ helm install --name ecs-flex ecs/ecs-flex-operator
+NAME:   ecs-flex
+...
+```
+
+or via Helm 3:
+
+```bash
+$ helm install ecs-flex ecs/ecs-flex-operator
 NAME:   ecs-flex
 ...
 ```
@@ -58,7 +68,15 @@ There are [configuration options](#configuration) you can peruse later at your h
 4. Install an ECS Cluster.
 
 ```bash
-$ helm install --name my-cluster
+$ helm install --name my-cluster ecs/ecs-cluster
+NAME:   my-cluster
+...
+```
+
+or via Helm 3:
+
+```bash
+$ helm3 install my-cluster ecs/ecs-cluster
 NAME:   my-cluster
 ...
 ```

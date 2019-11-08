@@ -9,12 +9,18 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      name: ecs-flex-operator
+      app.kubernetes.io/name: ecs-flex-operator
+      app.kubernetes.io/component: ecs-flex-operator
   template:
     metadata:
       labels:
-        name: ecs-flex-operator
-        release: {{ .Release.Name }}
+        app.kubernetes.io/name: {{ template "name" . }}
+        helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+        app.kubernetes.io/managed-by: {{ .Release.Service }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/version: {{ .Chart.AppVersion }}
+        app.kubernetes.io/component: ecs-flex-operator
+        app.kubernetes.io/part-of: ecs-flex-manager
     spec:
       serviceAccountName: "ecs-flex-operator"
 {{- if .Values.global.registrySecret }}
@@ -23,11 +29,7 @@ spec:
 {{- end }}
       containers:
       - name: operator
-{{- if .Values.image.tag }}
-        image: {{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
-{{- else }}
-        image: {{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ .Values.tag }}
-{{- end }}
+        image: {{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ default .Values.tag .Values.image.tag }}
 {{- if .Values.image.pullPolicy }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
 {{- else }}
@@ -92,3 +94,9 @@ spec:
 {{- end }}
         - name: OPERATOR_NAME
           value: ecs-flex-operator
+        - name: LOG_DIRECTION
+{{- if .Values.logReceiver.type }}
+          value: file
+{{- else }}
+          value: stdout
+{{- end }}

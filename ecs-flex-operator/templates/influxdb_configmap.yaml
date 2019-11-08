@@ -4,7 +4,13 @@ kind: ConfigMap
 metadata:
   name: influxdb-config
   labels:
-    app: influxdb-config
+    app.kubernetes.io/name: {{ template "name" . }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: ecs-flex-influx
+    app.kubernetes.io/part-of: ecs-flex-manager
 data:
   influxdb.conf: |+
     reporting-disabled = true

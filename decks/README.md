@@ -1,6 +1,6 @@
-# Dell EMC Common Kubernetes Support
+# Dell EMC Common Kubernetes Services
 
-This Helm chart deploys a controller [decks] capable of watching Application Resources and Kubernetes Events. Its purpose is take a gateway request, verify the availability of a gateway, create the resource, and watch for updates to the gateway resource.
+This Helm chart deploys a controller [decks] capable of managing Dell EMC SRS Gateways, Dell EMC Licenses, Remote access, Telemetry upload.
 
 ## Table of Contents
 
@@ -18,7 +18,7 @@ DECKS includes a Kubernetes deployment that manage DECKS controller.
 ```bash
 $ kubectl get deployment decks
 NAME   DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-decks   1         1         1            1           70m
+decks   1         1         1            1          70m
 ```
 
 ## Requirements
@@ -36,7 +36,7 @@ $ helm repo add ecs https://emcecs.github.io/charts
 $ helm repo update
 ```
 
-3. Install the DECKS. This allows you to start watching the Kubernetes Application resources as well as Kubernetes Events.
+3. Install DECKS. This allows you to start manage Dell EMC SRS gateways and licenses
 
 ```bash
 $ helm install --name decks ecs/decks
@@ -53,16 +53,14 @@ There are [configuration options](#configuration) you can peruse later at your h
 DECKS can be configured to manage a single namespace within a Kubernetes cluster, or all namespaces. To configure a specific namespace, simply set the `global.watchNamespace` setting:
 
 ```bash
-$ helm install --name decks \
-    --set global.watchNamespace=my-namespace \
-    ecs/decks
+$ helm install --name decks --set global.watchNamespace=my-namespace ecs/decks
 ```
 
 To use the decks with any namespace on the Kubernetes cluster, you can retain the default configuration, which is to set the `global.watchNamespace` setting to an empty string (`""`).
 
 ### Private Docker Registry
 
-While the ECS Flex container images are hosted publicly, DECKS also supports configuration of a private Docker registry for offline Kubernetes clusters or those that do not have access to public registries. To configure a private registry:
+While the container images are hosted publicly, DECKS also supports configuration of a private Docker registry for offline Kubernetes clusters or those that do not have access to public registries. To configure a private registry:
 
 1. Download the DECKS container image from [support.emc.com] and upload the images to your private registry.
 
@@ -70,37 +68,33 @@ _*TODO: Add download link once available*_
 
 2. Add a Kubernetes secret for the [private Docker registry](https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod)
 
-```bash
-$ kubectl create secret docker-registry decks-registry \
+   ```bash
+   kubectl create secret docker-registry decks-registry \
     --docker-username=<DOCKER_USERNAME> \
     --docker-password=<DOCKER_PASSWORD> \
     --docker-email=<DOCKER_EMAIL>
-```
+   ```
 
 3. Set the registry secret and location in the Helm chart installations  via Helm:
 
-```bash
-helm install \
-    --set global.registry=<REGISTRY ADDRESS> \
+   ```bash
+   helm install --set global.registry=<REGISTRY ADDRESS> \
     --set global.registrySecret=<SECRET_NAME> \
     ecs/decks
-```
-4. Verify whether DECKS is installed successfully and working as expected. The "helm test <release-name>" instantiate a test-app which performs the followings:
-  - Instantiates a test-app applicaiton which does the following:
-  - Registers an SRS gateway. The test SRSGateway IP, Port, Login, and Product to be tested are configurable. They have default values set in the values.yaml file.
-  - Runs a call home test event.
-  - Verifies an external IP is generated for the remote access pod
-  - Verifies ssh connectivity to the remote access pod
-  "kubectl logs <release-name>-deck-test should show the testapp output logs.
+   ```
+4. Verify whether DECKS is installed successfully and working as expected by using the "helm test <release-name>" command.
+   - Use "helm upgrade" on the deployment by specifying a valid SRS gateway hostname, login and product name
+   - Then when a "helm test" is run it will: 
+     - Creates a decks test-app application/pod
+     - Registers an SRS gateway. The test SRSGateway IP, Port, Login, and Product   to be tested are configurable. 
+     - Runs a call home test event.
+     - Verifies an external IP is generated for the remote access pod
+     - Verifies ssh connectivity to the remote access pod
+       `kubectl logs <release-name>-deck-test` should show the testapp output logs.
+   - This is the *helm upgrade* to use to set the srs gateway params for the test:
+    ```bash
+       helm upgrade decks ecs/decks --set helmTestConfig.srsGateway.hostname="10.11.12.13" --set helmTestConfig.srsGateway.login=testuser123@example.com:MyFavePassword --set helmTestConfig.srsGateway.product=OBJECTSCALE
 
-```bash
-helm install --name decks ecs/decks --set helmTestConfig.srsGateway.hostname="10.249.253.18" --set helmTestConfig.srsGateway.login=scott.jones@nordstrom.com:Password1 --set helmTestConfig.srsGateway.product=OBJECTSCALE
-helm test <release-name>
+       helm test <release-name>
 
-```
-5. If the decks release is already installed and the customer wants to change the helm test parameters:
-```bash
-helm upgrade decks ecs/decks --set helmTestConfig.srsGateway.hostname="<IP address>" --set helmTestConfig.srsGateway.login=<login info> --set helmTestConfig.srsGateway.product=<product name>
-helm test <release-name>
-
-```
+    ```

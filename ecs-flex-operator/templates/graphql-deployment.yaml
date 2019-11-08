@@ -4,17 +4,28 @@ kind: Deployment
 metadata:
   name: ecs-flex-graphql
   labels:
-    release: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ template "name" . }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: ecs-flex-api
+    app.kubernetes.io/part-of: ecs-flex-manager
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: ecs-flex-graphql
+      app.kubernetes.io/name: {{ template "name" . }}
+      app.kubernetes.io/component: ecs-flex-graphql
   template:
     metadata:
       labels:
-        name: ecs-flex-graphql
-        release: {{ .Release.Name }}
+        app.kubernetes.io/name: {{ template "name" . }}
+        app.kubernetes.io/component: ecs-flex-graphql
+        helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+        app.kubernetes.io/managed-by: {{ .Release.Service }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/version: {{ .Chart.AppVersion }}
     spec:
       serviceAccountName: "ecs-flex-operator"
       containers:

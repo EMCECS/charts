@@ -4,6 +4,8 @@ kind: ServiceAccount
 metadata:
   name: objectscale-telemetry
   namespace: {{ .Release.Namespace }}
+  labels:
+    release: {{ .Release.Name }}
 {{- if .Values.global.registrySecret }}
 imagePullSecrets:
   - name: {{ .Values.global.registrySecret }}

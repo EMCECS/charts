@@ -12,7 +12,7 @@ global:
   registry: harbor.lss.emc.com/ecs
 
 # The default docker tag and pull policy for the DKS test application
-tag: 1.0.0-16
+tag: 1.0.0-17
 pullPolicy: Always
 
 # The image configured for DKS testapp

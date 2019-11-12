@@ -14,8 +14,8 @@ metadata:
 spec:
   type: {{ .Values.graphql.service.type }}
   selector:
-    release: {{ .Release.Name }}
-    name: ecs-flex-graphql
+    app.kubernetes.io/name: {{ template "name" . }}
+    app.kubernetes.io/component: ecs-flex-api
   ports:
     - port: {{ .Values.graphql.port }}
       name: http

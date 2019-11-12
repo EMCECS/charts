@@ -10,7 +10,7 @@ tests:
     asserts:
     - equal:
         path: spec.template.spec.containers[0].image
-        value: emccorp/decks:1.0.0-16
+        value: emccorp/decks:1.0.0-17
     - equal:
         path: spec.template.spec.containers[0].imagePullPolicy
         value: Always

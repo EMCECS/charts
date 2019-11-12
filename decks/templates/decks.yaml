@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: decks
   labels:
+    app.kubernetes.io/name: "decks"
     release: {{ .Release.Name }}
 spec:
   replicas: 1
@@ -13,6 +14,7 @@ spec:
     metadata:
       labels:
         name: decks
+        app.kubernetes.io/name: "decks"
         release: {{ .Release.Name }}
     spec:
       serviceAccountName: "decks"

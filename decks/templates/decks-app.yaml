@@ -22,11 +22,15 @@ spec:
     - group: apps
       kind: Deployment
     - group: core
-      kind: ConfigMaps
+      kind: ConfigMap
     - group: core
       kind: ServiceAccount
+    - group: core
+      kind: Pod
+    - group: apps
+      kind: ReplicaSet
     - group: rbac.authorization.k8s.io
-      kind: ClusterRole
+      kind: ClusterRoles
     - group: rbac.authorization.k8s.io
       kind: ClusterRoleBinding
   assemblyPhase: "Pending"

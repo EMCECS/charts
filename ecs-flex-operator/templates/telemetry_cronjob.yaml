@@ -14,7 +14,11 @@ labels:
     app.kubernetes.io/component: objectscale-telemetry 
     app.kubernetes.io/part-of: ecs-flex-manager
 spec:
-  schedule: "*/1 * * * *"
+{{- if .Values.telemetry.schedule }}
+  schedule: "{{ .Values.telemetry.schedule }}"
+{{- else }}
+  schedule: "* */12 * * *"
+{{- end }}
   jobTemplate:
     spec:
       template:
@@ -31,11 +35,7 @@ spec:
         spec:
           containers:
           - image: {{ .Values.global.registry }}/{{ .Values.telemetry.image.repository }}:{{ default .Values.tag .Values.telemetry.image.tag }}
-{{- if .Values.telemetry.image.pullPolicy }}
-            imagePullPolicy: {{ .Values.telemetry.image.pullPolicy }}
-{{- else }}
-            imagePullPolicy: {{ .Values.pullPolicy }}
-{{- end }}
+            imagePullPolicy: {{ default .Values.pullPolicy .Values.telemetry.image.pullPolicy }}
             name: telemetry-upload
             command:
             - telemetry-upload

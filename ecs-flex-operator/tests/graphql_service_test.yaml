@@ -15,7 +15,7 @@ tests:
     asserts:
       - matchRegex:
           path: spec.selector.app\.kubernetes\.io/component
-          pattern: ^ecs-flex-api$
+          pattern: ^ecs-flex-graphql$
   - it: should configure the graphql port
     asserts:
       - contains:

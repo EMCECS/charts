@@ -51,6 +51,10 @@ spec:
               name: host-data
           dnsPolicy: ClusterFirst
           serviceAccountName: "objectscale-telemetry"
+{{- if .Values.global.registrySecret }}
+          imagePullSecrets:
+          - name: {{ .Values.global.registrySecret }}
+{{- end }}
           volumes:
           - emptyDir: {}
             name: host-data

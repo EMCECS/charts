@@ -111,7 +111,7 @@ influx:
 graphql:
   image:
     repository: ecs-flex-graphql
-    # tag: stable 
+    # tag: stable
     # pullPolicy: Always
   withPlayground: false
   port: 8080
@@ -121,10 +121,16 @@ graphql:
 telemetry:
   image:
     repository: telemetry-upload
-    # tag: stable 
+    # tag: stable
     # pullPolicy: Always
   # this is as per cronjob schedule, please follow the cronjob format to edit it
   schedule: "* */12 * * *"
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
 
 nodeSelector: {}
 

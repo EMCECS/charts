@@ -1,0 +1,61 @@
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: objectscale-telemetry
+  namespace: {{ .Release.Namespace }}
+labels:
+    release: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ template "name" . }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: objectscale-telemetry 
+    app.kubernetes.io/part-of: ecs-flex-manager
+spec:
+{{- if .Values.telemetry.schedule }}
+  schedule: "{{ .Values.telemetry.schedule }}"
+{{- else }}
+  schedule: "* */12 * * *"
+{{- end }}
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            release: {{ .Release.Name }}
+            app.kubernetes.io/name: {{ template "name" . }}
+            helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+            app.kubernetes.io/managed-by: {{ .Release.Service }}
+            app.kubernetes.io/instance: {{ .Release.Name }}
+            app.kubernetes.io/version: {{ .Chart.AppVersion }}
+            app.kubernetes.io/component: objectscale-telemetry
+            app.kubernetes.io/part-of: ecs-flex-manager
+        spec:
+          containers:
+          - image: {{ .Values.global.registry }}/{{ .Values.telemetry.image.repository }}:{{ default .Values.tag .Values.telemetry.image.tag }}
+            imagePullPolicy: {{ default .Values.pullPolicy .Values.telemetry.image.pullPolicy }}
+            name: telemetry-upload
+            command:
+            - telemetry-upload
+            env:
+            - name: RELEASE_NAME
+              value: {{ .Release.Name }}
+            - name: POD_NAMESPACE
+              value: {{ .Release.Namespace }}
+            - name: PRODUCT_NAME
+              value: objectscale
+            volumeMounts:
+            - mountPath: /host/data
+              name: host-data
+          dnsPolicy: ClusterFirst
+          serviceAccountName: "objectscale-telemetry"
+{{- if .Values.global.registrySecret }}
+          imagePullSecrets:
+          - name: {{ .Values.global.registrySecret }}
+{{- end }}
+          volumes:
+          - emptyDir: {}
+            name: host-data
+          restartPolicy: Never

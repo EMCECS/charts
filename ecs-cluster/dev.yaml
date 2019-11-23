@@ -234,7 +234,7 @@ diagnostic:
     type: LoadBalancer
 
 # The ECS object heads configuration specification
-objectHeads:
+s3:
 
   # Number of resource service replicas to run with the the deployment
   # replicas: 3

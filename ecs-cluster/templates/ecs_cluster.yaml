@@ -491,22 +491,13 @@ spec:
 {{- end }}
 
   s3:
-{{- if .Values.s3.replicas }}
-    replicas: {{ .Values.s3.replicas }}
-{{- end }}
+    replicas: {{ default .Values.s3.replicas }}
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.s3.image.repository }}
-{{- if .Values.s3.image.tag }}
-      tag: {{ .Values.s3.image.tag }}
-{{- else }}
-      tag: {{ .Values.tag }}
-{{- end }}
-{{- if .Values.s3.image.pullPolicy }}
-      pullPolicy: {{ .Values.s3.image.pullPolicy }}
-{{- else }}
-      pullPolicy: {{ .Values.pullPolicy }}
-{{- end }}
+      tag: {{ default .Values.s3.image.tag .Values.tag }}
+      pullPolicy: {{ default .Values.s3.image.pullPolicy .Values.pullPolicy }}
+
     service:
       {{ toYaml .Values.s3.service | nindent 6 | trim }}
 

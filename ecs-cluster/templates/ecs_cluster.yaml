@@ -490,25 +490,25 @@ spec:
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
 
-  s3:
-{{- if .Values.s3.replicas }}
-    replicas: {{ .Values.s3.replicas }}
+  objectHeads:
+{{- if .Values.objectHeads.replicas }}
+    replicas: {{ .Values.objectHeads.replicas }}
 {{- end }}
 
     image:
-      repository: {{ .Values.global.registry }}/{{ .Values.s3.image.repository }}
-{{- if .Values.s3.image.tag }}
-      tag: {{ .Values.s3.image.tag }}
+      repository: {{ .Values.global.registry }}/{{ .Values.objectHeads.image.repository }}
+{{- if .Values.objectHeads.image.tag }}
+      tag: {{ .Values.objectHeads.image.tag }}
 {{- else }}
       tag: {{ .Values.tag }}
 {{- end }}
-{{- if .Values.s3.image.pullPolicy }}
-      pullPolicy: {{ .Values.s3.image.pullPolicy }}
+{{- if .Values.objectHeads.image.pullPolicy }}
+      pullPolicy: {{ .Values.objectHeads.image.pullPolicy }}
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
     service:
-      {{ toYaml .Values.s3.service | nindent 6 | trim }}
+      {{ toYaml .Values.objectHeads.service | nindent 6 | trim }}
 
   nginx:
 {{- if .Values.nginx.replicas }}

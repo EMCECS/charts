@@ -17,7 +17,7 @@ metadata:
 =======
     app.kubernetes.io/name: ecs-flex-manager
     helm.sh/chart: ecs-flex-manager
-    app.kubernetes.io/component: ecs-flex-influx
+    app.kubernetes.io/component: ecs-flex-operator
     app.kubernetes.io/part-of: ecs-flex-manager
     app.kubernetes.io/managed-by: nautilus
 >>>>>>> [FLEX-2005] Update charts for Helm 3:ecs-flex-operator/crds/ecscluster.yaml

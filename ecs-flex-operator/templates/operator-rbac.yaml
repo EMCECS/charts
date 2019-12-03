@@ -98,6 +98,12 @@ rules:
   verbs:
   - get
   - list
+- apiGroups:
+  - app.k8s.io
+  resources:
+  - "*"
+  verbs:
+  - "*"
 ---
 {{- if eq .Values.global.watchNamespace "" }}
 kind: ClusterRoleBinding

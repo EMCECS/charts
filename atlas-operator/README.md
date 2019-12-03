@@ -53,3 +53,18 @@ with kubectl:
 ```bash
 $ kubectl delete crd/atlasclusters.atlas.dellemc.com
 ```
+
+
+## Running unit tests
+
+This chart uses the unittest plugin for helm to test expected outputs without requiring a full k8s cluster. To install:
+
+```bash
+helm plugin install https://github.com/lrills/helm-unittest
+```
+
+The unit tests can then be run:
+
+```bash
+helm unittest .
+```

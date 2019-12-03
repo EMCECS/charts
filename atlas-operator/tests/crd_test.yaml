@@ -1,0 +1,34 @@
+suite: test crd
+templates:
+  - crd.yaml
+tests:
+  - it: should create a custom resource
+    asserts:
+      - isKind:
+          of: CustomResourceDefinition
+      - equal:
+          path: metadata.name
+          value: atlasclusters.atlas.dellemc.com
+      - equal:
+          path: spec.group
+          value: atlas.dellemc.com
+  - it: should create the kinds
+    asserts:
+      - equal:
+          path: spec.names.kind
+          value: AtlasCluster
+  - it: should have a version
+    asserts:
+      - equal:
+          path: spec.versions
+          value:
+            - name: v1beta1
+              served: true
+              storage: true
+tests:
+  - it: should skip creating a custom resource when disabled
+    set:
+      global.installCRD: false
+    asserts:
+      - hasDocuments:
+        count: 0

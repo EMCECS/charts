@@ -1,7 +1,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: service-account-atlas-operator
+  name: atlas-operator-binding
   labels:
 {{ include "atlas-operator.labels" . | indent 4 }}
 roleRef:

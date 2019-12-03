@@ -1,0 +1,36 @@
+suite: test role binding
+templates:
+  - role_binding.yaml
+tests:
+  - it: should create a ClusterRoleBinding resource
+    asserts:
+      - isKind:
+          of: ClusterRoleBinding
+      - equal:
+          path: metadata.name
+          value: atlas-operator-binding
+  - it: should have labels
+    asserts:
+      - equal:
+          path: metadata.labels.app\.kubernetes\.io/name
+          value: atlas-operator
+      - matchRegex:
+          path: metadata.labels.helm\.sh/chart
+          pattern: ^atlas-operator-
+      - equal:
+          path: metadata.labels.app\.kubernetes\.io/instance
+          value: RELEASE-NAME
+  - it: should bind the role to the default account
+    asserts:
+      - equal:
+          path: roleRef.kind
+          value: ClusterRole
+      - equal:
+          path: roleRef.name
+          value: atlas-operator
+      - equal:
+          path: subjects[0].kind
+          value: ServiceAccount
+      - equal:
+          path: subjects[0].name
+          value: default

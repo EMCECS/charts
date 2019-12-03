@@ -133,6 +133,10 @@ telemetry:
   # this is as per cronjob schedule, please follow the cronjob format to edit it
   schedule: "* */12 * * *"
 
+installcontroller:
+  image:
+    repository: objectscale-install-controller
+
 nodeSelector: {}
 
 tolerations: []

@@ -31,11 +31,52 @@ spec:
       containers:
         - name: ecs-flex-graphql
           image: {{ .Values.global.registry }}/{{ .Values.graphql.image.repository }}:{{ default .Values.tag .Values.graphql.image.tag }}
+          imagePullPolicy: {{ default .Values.pullPolicy .Values.graphql.image.pullPolicy }}
           env:
             - name: OPERATOR_NAME
               value: ecs-flex-operator
+            - name: LOG_DIRECTION
+{{- if .Values.logReceiver.type }}
+              value: file
+{{- else }}
+              value: stdout
+{{- end }}
           args:
 {{- if .Values.graphql.withPlayground }}
             - "-P"
 {{- end }}
-          imagePullPolicy: {{ default .Values.pullPolicy .Values.graphql.image.pullPolicy }}
+{{- if .Values.logReceiver.type }}
+        - name: fluentbit-agent
+          image: {{ .Values.global.registry }}/{{ .Values.fluentbitAgent.image.repository }}:{{ default .Values.tag .Values.fluentbitAgent.image.tag }}
+          imagePullPolicy: {{ default .Values.pullPolicy .Values.fluentbitAgent.image.pullPolicy }}
+          env:
+            - name: POD
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: RELEASE_NAME
+              value: {{ .Release.Name }}
+            - name: IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          volumeMounts:
+          - name: log
+            readOnly: true
+            mountPath: /var/log
+          - name: config
+            mountPath: /fluent-bit/etc
+
+      volumes:
+        - name: log
+          emptyDir: {}
+        - name: config
+          configMap:
+            name: {{ .Release.Name }}-logs-config
+{{- end }}
+
+

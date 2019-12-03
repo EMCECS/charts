@@ -131,3 +131,10 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+# The log agent configuration for log collection of Manager components
+fluentbitAgent:
+  image:
+    repository: fluent-bit
+    tag: stable
+    # pullPolicy: IfNotPresent

@@ -135,7 +135,7 @@ telemetry:
 
 installcontroller:
   image:
-    repository: objectscale-install-controller
+    repository: install-controller
 
 nodeSelector: {}
 

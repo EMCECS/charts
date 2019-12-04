@@ -2,16 +2,19 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: ecs-flex-operator
+  name: objectscale-operator
   namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: {{ template "name" . }}
-    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/name: objectscale-manager
     app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/version: {{ .Chart.AppVersion }}
-    app.kubernetes.io/component: ecs-flex-operator
-    app.kubernetes.io/part-of: {{ template "name" . }}
+    app.kubernetes.io/component: objectscale-operator
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name}}
+    operator: objectscale-operator
+    product: objectscale
 {{- if .Values.global.registrySecret }}
 imagePullSecrets:
   - name: {{ .Values.global.registrySecret }}
@@ -24,10 +27,24 @@ kind: Role
 {{- end }}
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: ecs-flex-operator
+  name: objectscale-operator
   labels:
-    release: {{ .Release.Name }}
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: objectscale-operator
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name}}
+    operator: objectscale-operator
+    product: objectscale
 rules:
+- apiGroups:
+  - ""
+  resources:
+  - nodes 
+  verbs: ["get", "watch", "list"]
 - apiGroups:
   - ecs.dellemc.com
   resources:
@@ -89,12 +106,21 @@ kind: RoleBinding
 {{- end }}
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
-  name: service-account-ecs-flex-operator
+  name: service-account-objectscale-operator
   labels:
-    release: {{ .Release.Name }}
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: objectscale-operator
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name}}
+    operator: objectscale-operator
+    product: objectscale
 subjects:
 - kind: ServiceAccount
-  name: ecs-flex-operator
+  name: objectscale-operator
 {{- if eq .Values.global.watchNamespace "" }}
   namespace: {{ .Release.Namespace }}
 {{- end }}
@@ -104,5 +130,5 @@ roleRef:
 {{- else }}
   kind: Role
 {{- end }}
-  name: ecs-flex-operator
+  name: objectscale-operator
   apiGroup: rbac.authorization.k8s.io

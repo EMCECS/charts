@@ -7,7 +7,7 @@ kind: Role
 {{- end }}
 metadata:
   creationTimestamp: null
-  name: {{ .Release.Name }}-influxdata-operator
+  name: objectscale-influxdb-operator
   namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: {{ template "name" . }}
@@ -60,7 +60,7 @@ rules:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: {{ .Release.Name }}-influxdata-operator
+  name: objectscale-influxdb-operator
   namespace: {{ .Release.Namespace }}
 ---
 {{- if eq .Values.global.watchNamespace "" }}
@@ -70,10 +70,10 @@ kind: RoleBinding
 {{- end }}
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Release.Name }}-influxdata-operator
+  name: objectscale-influxdb-operator
 subjects:
   - kind: ServiceAccount
-    name: {{ .Release.Name }}-influxdata-operator
+    name: objectscale-influxdb-operator
     namespace: {{ .Release.Namespace }}
 roleRef:
   {{- if eq .Values.global.watchNamespace "" }}
@@ -81,5 +81,5 @@ roleRef:
   {{- else }}
   kind: Role
   {{- end }}
-  name: {{ .Release.Name }}-influxdata-operator
+  name: objectscale-influxdb-operator
   apiGroup: rbac.authorization.k8s.io

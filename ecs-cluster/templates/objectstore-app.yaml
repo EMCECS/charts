@@ -1,0 +1,77 @@
+{{- if .Values.createApplicationResource }}
+---
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: {{.Release.Name}}
+  namespace: {{.Release.Namespace}}
+  labels:
+    app.kubernetes.io/name: {{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Chart.Version }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    helm.sh/chart: {{.Chart.Name}}-{{ .Chart.Version | replace "+" "_" }}
+    product: objectscale
+    release: {{.Release.Name}}
+  annotations:
+    com.dellemc.kahm.subscribed: "true"
+    nautilus.dellemc.com/chart-name: ecs-cluster
+    nautilus.dellemc.com/chart-version: {{ .Chart.Version }}
+    nautilus.dellemc.com/chart-values: {{ .Values | toJson | quote }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{.Release.Name}}
+  componentKinds:
+    - group: core
+      kind: Service
+    - group: core
+      kind: Pod
+    - group: apps
+      kind: Deployment
+    - group: apps
+      kind: ReplicaSet
+    - group: apps
+      kind: StatefulSet
+    - group: core
+      kind: ConfigMap
+    - group: core
+      kind: Secret
+    - group: core
+      kind: PersistentVolumeClaim
+    - group: rbac.authorization.k8s.io
+      kind: Role
+    - group: rbac.authorization.k8s.io
+      kind: RoleBinding
+    - group: core
+      kind: ServiceAccount
+    - group: ecs.dellemc.com
+      kind: ECSCluster
+    - group: influxdata.com
+      kind: Influxdb
+    - group: influxdata.com
+      kind: Backup
+    - group: influxdata.com
+      kind: Restore
+    - group: batch
+      kind: Job
+    - group: batch
+      kind: CronJob
+    - group: zookeeper.pravega.io
+      kind: Zookeeper
+  assemblyPhase: "Pending"
+  descriptor:
+    type: objectstore
+    version: {{.Values.tag}}
+    description: >
+      Dell EMC ObjectScale Object Store
+    keywords:
+      - "deos"
+      - "objectscale"
+      - "object store"
+      - "flex"
+      - "ecs"
+      - "s3"
+    info:
+      - "Copyright © 2019 Dell Inc. or its subsidiaries. All Rights Reserved."
+{{- end }}

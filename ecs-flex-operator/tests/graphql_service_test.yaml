@@ -10,12 +10,12 @@ tests:
     asserts:
       - matchRegex:
           path: spec.selector.app\.kubernetes\.io/name
-          pattern: ^ecs-flex-operator$
+          pattern: ^objectscale-manager$
   - it: should have a selector component
     asserts:
       - matchRegex:
           path: spec.selector.app\.kubernetes\.io/component
-          pattern: ^ecs-flex-graphql$
+          pattern: ^objectscale-graphql$
   - it: should configure the graphql port
     asserts:
       - contains:

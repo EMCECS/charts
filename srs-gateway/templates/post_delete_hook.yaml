@@ -73,4 +73,7 @@ spec:
       containers:
       - name: post-delete-job
         image: "{{ .Values.hook.registry }}/{{.Values.hook.repository }}:{{ .Values.hook.tag }}"
-        command: ["sh", "-c", "[ $(kubectl get srsgateways {{ .Values.product | lower }} -n {{ .Release.Namespace }} --no-headers | wc -l) = 0 ]"]
+        command:
+        - sh
+        - -c
+        - "[ $(kubectl get srsgateways {{ .Values.product | lower }} -n {{ .Release.Namespace }} --no-headers | wc -l) = 0 ]"

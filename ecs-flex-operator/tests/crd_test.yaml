@@ -1,6 +1,6 @@
 suite: test crd
 templates:
-  - crd.yaml
+  - ecscluster-crd.yaml
 tests:
   - it: should create a custom resource
     asserts:

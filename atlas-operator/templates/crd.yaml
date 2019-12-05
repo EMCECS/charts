@@ -9,11 +9,26 @@ metadata:
   annotations:
     "helm.sh/hook": crd-install
 spec:
+  additionalPrinterColumns:
+  - JSONPath: .spec.image.tag
+    name: TAG
+    type: string
+  - JSONPath: .status.replicas
+    description: The number of Atlas replicas in the cluster
+    name: REPLIACAS
+    type: integer
+  - JSONPath: .status.readyReplicas
+    description: The number of Atlas replicas ready to serve
+    name: READYREPLICAS
+    type: integer
   group: atlas.dellemc.com
   names:
     kind: AtlasCluster
     plural: atlasclusters
-  scope: ""
+    shortNames:
+    - atlas
+    - ac
+  scope: Namespaced
   subresources:
     status: {}
   validation:

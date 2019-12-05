@@ -1,6 +1,6 @@
 suite: test rsyslog
 templates:
-  - rsyslog.yaml
+  - syslog.yaml
 tests:
   - it: should render nothing if not enabled
     set:

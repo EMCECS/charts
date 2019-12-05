@@ -4,13 +4,16 @@ kind: ConfigMap
 metadata:
   name: influxdb-config
   labels:
-    app.kubernetes.io/name: {{ template "name" . }}
-    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/name: objectscale-manager
     app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/version: {{ .Chart.AppVersion }}
-    app.kubernetes.io/component: ecs-flex-influx
-    app.kubernetes.io/part-of: ecs-flex-manager
+    app.kubernetes.io/component: objectscale-graphql
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name}}
+    operator: objectscale-operator
+    product: objectscale
 data:
   influxdb.conf: |+
     reporting-disabled = true

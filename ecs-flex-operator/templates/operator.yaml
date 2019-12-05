@@ -2,27 +2,39 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ecs-flex-operator
+  name: objectscale-operator
   labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: objectscale-operator
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    operator: objectscale-operator
+    product: objectscale
     release: {{ .Release.Name }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: ecs-flex-operator
-      app.kubernetes.io/component: ecs-flex-operator
+      app.kubernetes.io/name: objectscale-manager
+      app.kubernetes.io/component: objectscale-operator
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ template "name" . }}
-        helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-        app.kubernetes.io/managed-by: {{ .Release.Service }}
+        app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/managed-by: {{ .Release.Service }}
         app.kubernetes.io/version: {{ .Chart.AppVersion }}
-        app.kubernetes.io/component: ecs-flex-operator
-        app.kubernetes.io/part-of: ecs-flex-manager
+        app.kubernetes.io/component: objectscale-operator
+        app.kubernetes.io/part-of: {{ .Release.Name }}
+        helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+        operator: objectscale-operator
+        product: objectscale
+        release: {{ .Release.Name }}
     spec:
-      serviceAccountName: "ecs-flex-operator"
+      serviceAccountName: objectscale-operator
 {{- if .Values.global.registrySecret }}
       imagePullSecrets:
         - name: {{ .Values.global.registrySecret }}
@@ -45,11 +57,15 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+        - name: OPERATOR_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
 {{- if .Values.logReceiver.create }}
         - name: LOG_RECEIVER_TYPE
           value: Syslog
         - name: LOG_RECEIVER_HOST
-          value: ecs-flex-rsyslog-service.{{ .Release.Namespace }}.svc.cluster.local
+          value: objectscale-syslog.{{ .Release.Namespace }}.svc.cluster.local
         - name: LOG_RECEIVER_PROTO
           value: tcp
         - name: LOG_RECEIVER_PORT
@@ -80,6 +96,12 @@ spec:
           value: "{{ .Values.logReceiver.port }}"
   {{- end }}
 {{- end }}
+        - name: LOG_DIRECTION
+                {{- if .Values.logReceiver.type }}
+          value: file
+                {{- else }}
+          value: stdout
+                {{- end }}
         - name: WATCH_NAMESPACE
 {{- if eq .Values.global.watchNamespace "" }}
           value: ""
@@ -91,12 +113,4 @@ spec:
 {{- if .Values.global.registrySecret }}
         - name: REGISTRY_SECRET
           value: {{ .Values.global.registrySecret }}
-{{- end }}
-        - name: OPERATOR_NAME
-          value: ecs-flex-operator
-        - name: LOG_DIRECTION
-{{- if .Values.logReceiver.type }}
-          value: file
-{{- else }}
-          value: stdout
 {{- end }}

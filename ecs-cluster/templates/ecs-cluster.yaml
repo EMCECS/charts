@@ -2,9 +2,17 @@ apiVersion: "ecs.dellemc.com/v1beta1"
 kind: "ECSCluster"
 metadata:
   name: {{ .Release.Name }}
-  labels:
-    release: {{ .Release.Name }}
   namespace: {{ .Release.Namespace}}
+  labels:
+    app.kubernetes.io/name: {{ .Release.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    operator: objectscale-operator
+    product: objectscale
+    release: {{ .Release.Name }}
 spec:
 {{- if .Values.global.registrySecret }}
   registrySecret: {{ .Values.global.registrySecret }}
@@ -603,4 +611,3 @@ spec:
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
-

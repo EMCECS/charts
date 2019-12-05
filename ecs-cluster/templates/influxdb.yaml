@@ -4,6 +4,14 @@ kind: Influxdb
 metadata:
   name: {{ .Release.Name }}-influxdb
   labels:
+    app.kubernetes.io/name: {{ .Release.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    operator: objectscale-operator
+    product: objectscale
     release: {{ .Release.Name }}
   namespace: {{ .Release.Namespace}}
 

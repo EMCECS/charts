@@ -3,26 +3,38 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ecs-flex-rsyslog
+  name: objectscale-syslog
   labels:
-    app.kubernetes.io/name: {{ template "name" . }}
-    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/name: objectscale-manager
     app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/version: {{ .Chart.AppVersion }}
-    app.kubernetes.io/component: ecs-flex-operator
-    app.kubernetes.io/part-of: ecs-flex-manager
+    app.kubernetes.io/component: objectscale-syslog
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name}}
+    operator: objectscale-operator
+    product: objectscale
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ecs-flex-rsyslog
+      app.kubernetes.io/name: objectscale-manager
+      app.kubernetes.io/component: objectscale-syslog
   template:
     metadata:
-      name: ecs-flex-rsyslog
+      name: objectscale-syslog
       labels:
-        release: {{ .Release.Name }}
-        app: ecs-flex-rsyslog
+        app.kubernetes.io/name: objectscale-manager
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/managed-by: {{ .Release.Service }}
+        app.kubernetes.io/version: {{ .Chart.AppVersion }}
+        app.kubernetes.io/component: objectscale-syslog
+        app.kubernetes.io/part-of: {{ .Release.Name }}
+        helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+        release: {{ .Release.Name}}
+        operator: objectscale-operator
+        product: objectscale
     spec:
 {{- if .Values.global.registrySecret }}
       imagePullSecrets:
@@ -31,11 +43,11 @@ spec:
       volumes:
         - name: conf
           configMap:
-            name: ecs-flex-configmap
+            name: objectscale-syslog
 {{- if .Values.logReceiver.persistence.enabled }}
         - name: data
           persistentVolumeClaim:
-            claimName: ecs-flex-rsyslog-claim
+            claimName: objectscale-syslog
 {{- end }}
       containers:
       - name: rsyslog
@@ -66,12 +78,22 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ecs-flex-rsyslog-service
+  name: objectscale-syslog
   labels:
-    release: {{ .Release.Name }}
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: objectscale-syslog
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name}}
+    operator: objectscale-operator
+    product: objectscale
 spec:
   selector:
-    app: ecs-flex-rsyslog
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/component: objectscale-syslog
   ports:
   - name: tcp-syslog
     port: 514
@@ -85,10 +107,18 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ecs-flex-configmap
+  name: objectscale-syslog
   labels:
-    release: {{ .Release.Name }}
-    app: ecs-flex-rsyslog
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: objectscale-syslog
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name}}
+    operator: objectscale-operator
+    product: objectscale
 data:
   rsyslog.conf: |
     module(load="imuxsock")    # local system logging support (e.g. via logger command)
@@ -112,10 +142,22 @@ data:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: ecs-flex-rsyslog-claim
+  name: objectscale-syslog
   labels:
-    release: {{ .Release.Name }}
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: objectscale-syslog
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name}}
+    operator: objectscale-operator
+    product: objectscale
 spec:
+  {{- if .Values.logReceiver.persistence.storageClassName }}
+  storageClassName: {{ .Values.logReceiver.persistence.storageClassName }}
+  {{- end }}
   accessModes:
   - {{ .Values.logReceiver.persistence.accessMode | quote}}
   resources:

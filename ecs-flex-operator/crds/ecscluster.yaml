@@ -4,23 +4,11 @@ kind: CustomResourceDefinition
 metadata:
   name: ecsclusters.ecs.dellemc.com
   labels:
-<<<<<<< HEAD:ecs-flex-operator/templates/ecscluster-crd.yaml
-    app.kubernetes.io/name: objectscale-manager
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion }}
-    app.kubernetes.io/part-of: {{ .Release.Name }}
-    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-    release: {{ .Release.Name }}
-  annotations:
-    "helm.sh/hook": crd-install
-=======
     app.kubernetes.io/name: ecs-flex-manager
     helm.sh/chart: ecs-flex-manager
     app.kubernetes.io/component: ecs-flex-operator
     app.kubernetes.io/part-of: ecs-flex-manager
     app.kubernetes.io/managed-by: nautilus
->>>>>>> [FLEX-2005] Update charts for Helm 3:ecs-flex-operator/crds/ecscluster.yaml
 spec:
   group: ecs.dellemc.com
   names:

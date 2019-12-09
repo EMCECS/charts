@@ -21,7 +21,7 @@ createApplicationResource: true
 
 # The default docker tag and pull policy for the ECS Flex operator and
 # logReceiver
-tag: 0.17.0
+tag: 0.18.0
 pullPolicy: Always
 
 # The number of replicas for the ECS Flex Operator deployment
@@ -130,8 +130,8 @@ telemetry:
     repository: telemetry-upload
     # tag: stable
     # pullPolicy: Always
-  # this is as per cronjob schedule, please follow the cronjob format to edit it
-  schedule: "* */12 * * *"
+  # this is as per cronjob schedule - every 12 hours, please follow the cronjob format to edit it
+  schedule: "0 */12 * * *"
 
 installcontroller:
   image:

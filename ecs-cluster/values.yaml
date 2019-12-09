@@ -11,7 +11,7 @@ global:
   registry: emccorp
 
 # The default docker tag and pull policy for the ECS Cluster
-tag: 0.17.0
+tag: 0.18.0
 pullPolicy: Always
 
 # Override the default number of replicas which taken according to performance profile for each service
@@ -240,7 +240,7 @@ diagnostic:
         targetPort: 9101
 
 # The ECS object heads configuration specification
-objectHeads:
+s3:
 
   # Number of resource service replicas to run with the the deployment
   # replicas: 3

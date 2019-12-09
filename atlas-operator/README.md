@@ -26,10 +26,10 @@ image:
 Install the chart with the release name `my-release` use one of these options:
 ```bash
 # Use the default settings
-$ helm install --name my-release atlas-operator
+$ helm install my-release atlas-operator
 
 # Or pass in the my-values.yaml file
-$ helm install --name my-release --values values.yaml atlas-operator
+$ helm install my-release --values values.yaml atlas-operator
 
 ```
 > **Tip**: List all releases using `helm list`
@@ -39,12 +39,11 @@ $ helm install --name my-release --values values.yaml atlas-operator
 To uninstall/delete the `my-release` deployment:
 
 ```bash
-$ helm delete my-release [--purge]
+$ helm delete my-release
 ```
 
 The command removes all the Kubernetes components associated with the chart and deletes
-the release. The purge option also removes the provisioned release name, so that the
-name itself can also be reused.
+the release.
 
 If you need to reinstall the operator and CRDs from scratch, you have to manually
 remove the existing CRDs. Helm does not removed CRDs automatically. This can be done

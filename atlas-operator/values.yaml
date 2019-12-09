@@ -11,11 +11,6 @@ global:
   # The Docker registry hosting containers for the Atlas operator
   registry: emccorp
 
-  # Install the CRD during the chart installation.  This should be peformed by
-  # default, but if there are multiple instances of atlas-operator on the same
-  # cluster, then it should be disabled.
-  installCRD: true
-
   # Extra labels that will be applied to all resources created by the chart
   labels: {}
 

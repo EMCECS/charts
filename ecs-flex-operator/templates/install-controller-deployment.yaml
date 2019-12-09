@@ -2,13 +2,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: objectscale-graphql
+  name: objectscale-install-controller
   labels:
     app.kubernetes.io/name: objectscale-manager
-    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: objectscale-install-controller
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/version: {{ .Chart.AppVersion }}
-    app.kubernetes.io/component: objectscale-graphql
     app.kubernetes.io/part-of: {{ .Release.Name }}
     helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     release: {{ .Release.Name}}
@@ -19,16 +19,16 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: objectscale-manager
-      app.kubernetes.io/component: objectscale-graphql
+      app.kubernetes.io/component: objectscale-install-controller
   template:
     metadata:
       labels:
         app.kubernetes.io/name: objectscale-manager
-        app.kubernetes.io/component: objectscale-graphql
+        app.kubernetes.io/component: objectscale-install-controller
         app.kubernetes.io/managed-by: {{ .Release.Service }}
         app.kubernetes.io/instance: {{ .Release.Name }}
-        app.kubernetes.io/part-of: {{ .Release.Name }}
         app.kubernetes.io/version: {{ .Chart.AppVersion }}
+        app.kubernetes.io/part-of: {{ .Release.Name }}
         helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
         release: {{ .Release.Name}}
         operator: objectscale-operator
@@ -36,13 +36,9 @@ spec:
     spec:
       serviceAccountName: objectscale-operator
       containers:
-        - name: objectscale-graphql
-          image: {{ .Values.global.registry }}/{{ .Values.graphql.image.repository }}:{{ default .Values.tag .Values.graphql.image.tag }}
+        - name: objectscale-install-controller
+          image: {{ .Values.global.registry }}/{{ .Values.installcontroller.image.repository }}:{{ default .Values.tag .Values.installcontroller.image.tag }}
           env:
-            - name: OPERATOR_NAME
-              value: objectscale-operator
-          args:
-{{- if .Values.graphql.withPlayground }}
-            - "-P"
-{{- end }}
-          imagePullPolicy: {{ default .Values.pullPolicy .Values.graphql.image.pullPolicy }}
+              - name: OPERATOR_NAME
+                value: objectscale-operator
+          imagePullPolicy: {{ default .Values.pullPolicy .Values.installcontroller.image.pullPolicy }}

@@ -1,0 +1,83 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: {{.Release.Name}}-app-configmap
+    namespace: {{.Release.namespace}}
+    labels:
+      app.kubernetes.io/name: {{.Release.Name}}
+      app.kubernetes.io/version: {{.Values.tag}}
+      app.kubernetes.io/instance: {{.Release.Name}}
+      app.kubernetes.io/managed-by: {{.Release.Service}}
+      helm.sh/chart: {{.Chart.Name}}-{{.Chart.Version | replace "+" "_"}}
+      product: objectscale
+      release: {{.Release.Name}}
+    annotations:
+        com.dellemc.kahm.subscribed: "true"
+data:
+    eventRules: |-
+      rules:
+        - description: "Hard quota exceeded for this bucket"
+          matchon:
+            - label: SymptomID
+              value: DEOS-1006
+          notifiers:
+            - objectscale-srs
+    eventRemedies: |-
+      symptoms:
+        - symptomid: DEOS-1006
+          description: Hard quota exceeded for this bucket
+          remedies:
+            - Free up space in the bucket
+    health: |-
+      spec:
+        healthchecks:
+          - fields:
+            - name: name
+              type: string
+            - name: description
+              type: string
+            - name: enabled
+              type: boolean
+            - name: schedule
+              type: string
+            - name: latestSuccess
+              type: date
+            - name: latestFailure
+              type: date
+            - name: message
+              type: string
+            name: objectstore healthchecks
+          name: objectstore-healthchecks
+        status:
+          deos-hc:
+            overview: red
+            rows:
+            - name: pod network check
+              description: Check pod network connectivity
+              enabled: true
+              schedule: Every 6 hours
+              latestSuccess: 2019-10-18 12:01
+              latestFailure: 2019-10-12 17:00
+              message: Able to connect to all DEOS pods for this object store
+            - name: pod phase status check
+              description: Check pod phase status
+              enabled: true
+              schedule: Every 6 hours
+              latestSuccess: 2019-10-18 12:01
+              latestFailure: 2019-10-29 17:00
+              message: obj1-heads-jfjfjajsdfj pod restared 127 times
+            - name: management restapi connectivity
+              description: Check management api connectivity
+              enabled: true
+              schedule: Every 6 hours
+              latestSuccess: 2019-10-18 12:01
+              latestFailure: 2019-10-12 17:00
+              message: timed out connecting to management api
+            - name: load balancer checks
+              description: Check k8s LoadBalancer services have IPs
+              enabled: true
+              schedule: Every 6 hours
+              latestSuccess: 2019-10-18 12:01
+              latestFailure: 2019-10-12 17:00
+              message: All load balancers have IPs

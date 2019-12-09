@@ -1,6 +1,6 @@
 suite: test telemetry cronjob 
 templates:
-  - telemetry_cronjob.yaml
+  - telemetry-cronjob.yaml
 tests:
   - it: should create a cronjob 
     asserts:
@@ -27,7 +27,7 @@ tests:
         path: spec.jobTemplate.spec.template.metadata.labels.app\.kubernetes\.io/component
         value: objectscale-telemetry 
         path: spec.jobTemplate.spec.template.metadata.labels.app\.kubernetes\.io/name
-        value: ecs-flex-operator
+        value: objectscale-manager
   - it: should configure the image
     set:
       global.registry: REGISTRY

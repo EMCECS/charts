@@ -29,6 +29,11 @@ performanceProfile: Small
 # restrictions.
 serviceDiscovery: FabricProxySidecar
 
+# Create an application resource for management using Dell EMC common installer or other application-resource
+# controllers
+createApplicationResource: true
+
+# Enable collection of objectstore stats via InfluxDB time-series database
 enableAdvancedStatistics: true
 
 #

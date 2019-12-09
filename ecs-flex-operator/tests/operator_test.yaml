@@ -44,6 +44,7 @@ tests:
           value: IfNotPresent
   - it: should configure a custom syslog receiver with all params
     set:
+      logReceiver.type:     Syslog
       logReceiver.host:     SYSLOG
       logReceiver.protocol: tcp
       logReceiver.port:     514
@@ -51,17 +52,47 @@ tests:
       - contains:
           path: spec.template.spec.containers[0].env
           content:
+            name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: LOG_RECEIVER_TYPE
+            value: Syslog
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
             name: LOG_RECEIVER_HOST
             value: SYSLOG
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
             name: LOG_RECEIVER_PROTO
             value: tcp
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
             name: LOG_RECEIVER_PORT
             value: "514"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
             name: WATCH_NAMESPACE
             value: ""
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
             name: OPERATOR_NAME
-            value: ecs-flex-operator
-
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: LOG_DIRECTION
+            value: file
   - it: should enable a syslog receiver
     set:
       logReceiver.create: true
@@ -69,15 +100,32 @@ tests:
       - contains:
           path: spec.template.spec.containers[0].env
           content:
+            name: OPERATOR_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
             name: LOG_RECEIVER_TYPE
             value: Syslog
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
             name: LOG_RECEIVER_HOST
-            value: ecs-flex-rsyslog-service.NAMESPACE.svc.cluster.local
+            value: objectscale-syslog.NAMESPACE.svc.cluster.local
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
             name: LOG_RECEIVER_PROTO
             value: tcp
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
             name: LOG_RECEIVER_PORT
             value: "514"
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
             name: WATCH_NAMESPACE
             value: ""
-            name: OPERATOR_NAME
-            value: ecs-flex-operator

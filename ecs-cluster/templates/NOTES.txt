@@ -10,7 +10,7 @@ To get started, simply read your access keys and endpoint(s):
         <<<$(kubectl get secret {{ .Release.Name }}-initial-user -o jsonpath='{.data.accessKey}' | base64 -d; echo -n " "; kubectl get secret {{ .Release.Name }}-initial-user -o jsonpath='{.data.secretKey}' | base64 -d )
 {{- if eq .Values.s3.service.type "LoadBalancer" }}
   $ read -r INTERNAL_ENDPOINT EXTERNAL_ENDPOINT \
-        <<<$(kubectl get svc {{ .Release.Name }}-heads \
+        <<<$(kubectl get svc {{ .Release.Name }}-s3 \
         -o jsonpath='{.spec.clusterIP} {.status.loadBalancer.ingress[0].ip}')
 
 NOTE: It may take a couple minutes for the Kubernetes cluster to assign a
@@ -18,7 +18,7 @@ NOTE: It may take a couple minutes for the Kubernetes cluster to assign a
       that the Kubernetes cluster supports a "LoadBalancer" service type, or
       contact your Kubernetes provider support.
 {{- else }}
-  $ read -r INTERNAL_ENDPOINT <<<$(kubectl get svc {{ .Release.Name }}-heads \
+  $ read -r INTERNAL_ENDPOINT <<<$(kubectl get svc {{ .Release.Name }}-s3 \
         -o jsonpath='{.spec.clusterIP}')
 
 NOTE: This cluster has been provisioned with only an internal ClusterIP. If you

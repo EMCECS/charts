@@ -4,12 +4,14 @@ metadata:
   name: {{ .Release.Name }}-audit-events-ts
   namespace: {{ .Release.Namespace}}
   labels:
+    app.kubernetes.io/name: {{ .Release.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    operator: objectscale-operator
+    product: objectscale
     release: {{ .Release.Name }}
-    product: "objectscale"
-    app.kubernetes.io/name: deos-{{ .Release.Name }}
-    app.kubernetes.io/version: {{.Values.tag}}
-    app.kubernetes.io/instance: {{.Release.Name}}
-    app.kubernetes.io/managed-by: {{.Release.Service}}
-    helm.sh/chart: {{.Chart.Name}}-{{.Chart.Version | replace "+" "_"}}
 data:
     ts: ""

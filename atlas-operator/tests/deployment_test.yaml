@@ -22,6 +22,18 @@ tests:
       - equal:
           path: metadata.labels.app\.kubernetes\.io/instance
           value: RELEASE-NAME
+  - it: should have custom labels
+    set:
+      global.labels:
+        superchart: "fancyproduct-1.0: [notalist]"
+        agar.io/id: "1234"
+    asserts:
+      - equal:
+          path: metadata.labels.superchart
+          value: "fancyproduct-1.0: [notalist]"
+      - equal:
+          path: metadata.labels.agar\.io/id
+          value: "1234"
   - it: should have one replica
     asserts:
       - equal:

@@ -130,8 +130,12 @@ telemetry:
     repository: telemetry-upload
     # tag: stable
     # pullPolicy: Always
-  # this is as per cronjob schedule, please follow the cronjob format to edit it
-  schedule: "* */12 * * *"
+  # this is as per cronjob schedule - every 12 hours, please follow the cronjob format to edit it
+  schedule: "0 */12 * * *"
+
+installcontroller:
+  image:
+    repository: install-controller
 
 nodeSelector: {}
 

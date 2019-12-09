@@ -1,18 +1,14 @@
-{{- if eq .Values.installObjectStoreCRD true }}
+---
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
   name: ecsclusters.ecs.dellemc.com
   labels:
-    app.kubernetes.io/name: objectscale-manager
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion }}
-    app.kubernetes.io/part-of: {{ .Release.Name }}
-    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-    release: {{ .Release.Name }}
-  annotations:
-    "helm.sh/hook": crd-install
+    app.kubernetes.io/name: ecs-flex-manager
+    helm.sh/chart: ecs-flex-manager
+    app.kubernetes.io/component: ecs-flex-influx
+    app.kubernetes.io/part-of: ecs-flex-manager
+    app.kubernetes.io/managed-by: nautilus
 spec:
   group: ecs.dellemc.com
   names:
@@ -24,7 +20,10 @@ spec:
     - ecs
     - ecs-cluster
   scope: Namespaced
-  version: v1beta1
+  versions:
+    - name: v1beta1
+      served: true
+      storage: true
   additionalPrinterColumns:
   - name: PHASE
     type: string
@@ -42,4 +41,3 @@ spec:
     type: string
     description: The HTTPS location for the management API
     JSONPath: .status.endpoints.managementAPI
-{{- end }}

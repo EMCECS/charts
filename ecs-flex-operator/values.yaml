@@ -60,7 +60,7 @@ logReceiver:
   # host: my-syslog-server
   #
   # Configure protocol to receive logs for a Syslog-based receiver. Valid values
-  # for syslog receivers are "tcp" and "udp". Valid values for Elasticsearch are
+  # for syslog receivers are "tcp". Valid values for Elasticsearch are
   # "http" and "https"
   # protocol: tcp
   #

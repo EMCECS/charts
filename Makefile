@@ -3,9 +3,9 @@ HELM_URL     := https://storage.googleapis.com/kubernetes-helm
 HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
 YQ_VERSION   := 2.2.1
 YAMLLINT_VERSION := 1.14.0
-CHARTS := ecs-cluster ecs-flex-operator mongoose zookeeper-operator decks kahm srs-gateway dks-testapp fio-test sonobuoy dellemc-license service-pod
+CHARTS := ecs-cluster ecs-flex-operator mongoose zookeeper-operator atlas-operator decks kahm srs-gateway dks-testapp fio-test sonobuoy dellemc-license service-pod
 DECKSCHARTS := decks kahm srs-gateway dks-testapp dellemc-license service-pod
-FLEXCHARTS := ecs-cluster ecs-flex-operator zookeeper-operator
+FLEXCHARTS := ecs-cluster ecs-flex-operator zookeeper-operator atlas-operator
 
 test:
 	for CHART in ${CHARTS}; do \

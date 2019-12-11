@@ -4,10 +4,10 @@ kind: CustomResourceDefinition
 metadata:
   name: influxdbs.influxdata.com
   labels:
-    app.kubernetes.io/name: ecs-flex-manager
-    helm.sh/chart: ecs-flex-manager
+    app.kubernetes.io/name: objectscale-manager
+    helm.sh/chart: objectscale-manager
     app.kubernetes.io/component: ecs-flex-influx
-    app.kubernetes.io/part-of: ecs-flex-manager
+    app.kubernetes.io/part-of: objectscale-manager
     app.kubernetes.io/managed-by: nautilus
 spec:
   group: influxdata.com
@@ -27,10 +27,10 @@ kind: CustomResourceDefinition
 metadata:
   name: backups.influxdata.com
   labels:
-    app.kubernetes.io/name: ecs-flex-manager
-    helm.sh/chart: ecs-flex-manager
+    app.kubernetes.io/name: objectscale-manager
+    helm.sh/chart: objectscale-manager
     app.kubernetes.io/component: ecs-flex-influx
-    app.kubernetes.io/part-of: ecs-flex-manager
+    app.kubernetes.io/part-of: objectscale-manager
     app.kubernetes.io/managed-by: nautilus
 spec:
   group: influxdata.com
@@ -50,10 +50,10 @@ kind: CustomResourceDefinition
 metadata:
   name: restores.influxdata.com
   labels:
-    app.kubernetes.io/name: ecs-flex-manager
-    helm.sh/chart: ecs-flex-manager
+    app.kubernetes.io/name: objectscale-manager
+    helm.sh/chart: objectscale-manager
     app.kubernetes.io/component: ecs-flex-influx
-    app.kubernetes.io/part-of: ecs-flex-manager
+    app.kubernetes.io/part-of: objectscale-manager
     app.kubernetes.io/managed-by: nautilus
 spec:
   group: influxdata.com

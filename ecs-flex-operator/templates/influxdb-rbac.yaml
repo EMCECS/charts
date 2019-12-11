@@ -16,7 +16,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/version: {{ .Chart.AppVersion }}
     app.kubernetes.io/component: ecs-flex-influx
-    app.kubernetes.io/part-of: ecs-flex-manager
+    app.kubernetes.io/part-of: objectscale-manager
 rules:
   - apiGroups:
       - ""

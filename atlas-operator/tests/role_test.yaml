@@ -1,0 +1,22 @@
+suite: test role
+templates:
+  - role.yaml
+tests:
+  - it: should create a ClusterRole resource
+    asserts:
+      - isKind:
+          of: ClusterRole
+      - equal:
+          path: metadata.name
+          value: atlas-operator
+  - it: should have labels
+    asserts:
+      - equal:
+          path: metadata.labels.app\.kubernetes\.io/name
+          value: atlas-operator
+      - matchRegex:
+          path: metadata.labels.helm\.sh/chart
+          pattern: ^atlas-operator-
+      - equal:
+          path: metadata.labels.app\.kubernetes\.io/instance
+          value: RELEASE-NAME

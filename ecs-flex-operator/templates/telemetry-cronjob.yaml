@@ -4,8 +4,19 @@ kind: CronJob
 metadata:
   name: objectscale-telemetry
   namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: objectscale-telemetry
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name}}
+    operator: objectscale-operator
+    product: objectscale
 spec:
-{{- if .Values.telemetry.schedule }}
+        {{- if .Values.telemetry.schedule }}
   schedule: "{{ .Values.telemetry.schedule }}"
 {{- else }}
   schedule: "0 */12 * * *"

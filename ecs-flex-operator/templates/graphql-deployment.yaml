@@ -52,7 +52,7 @@ spec:
 {{- if .Values.graphql.withPlayground }}
             - "-P"
 {{- end }}
-{{- if .Values.logReceiver.type }}
+{{- if or .Values.logReceiver.type .Values.logReceiver.create }}
         - name: fluentbit-agent
           image: {{ .Values.global.registry }}/{{ .Values.fluentbitAgent.image.repository }}:{{ default .Values.tag .Values.fluentbitAgent.image.tag }}
           imagePullPolicy: {{ default .Values.pullPolicy .Values.fluentbitAgent.image.pullPolicy }}

@@ -21,7 +21,7 @@ createApplicationResource: true
 
 # The default docker tag and pull policy for the ECS Flex operator and
 # logReceiver
-tag: 0.17.0
+tag: 0.18.0
 pullPolicy: Always
 
 # The number of replicas for the ECS Flex Operator deployment

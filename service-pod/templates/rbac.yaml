@@ -117,5 +117,4 @@ subjects:
 roleRef:
   kind: ClusterRole
   name: {{ .Release.Name }}-service-pod-cr
-  namespace: {{ .Release.Namespace }}
   apiGroup: rbac.authorization.k8s.io

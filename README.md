@@ -16,6 +16,7 @@ $ helm repo update
 
 * [ECS Flex Operator](ecs-flex-operator)
 * [ECS Cluster](ecs-cluster)
+* [Atlas Operator](atlas-operator)
 * [Zookeeper Operator](zookeeper-operator)
 * [Mongoose Load Testing Tool](mongoose)
 * [DECKS](decks)

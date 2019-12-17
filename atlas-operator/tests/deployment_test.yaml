@@ -1,0 +1,70 @@
+suite: test deployment
+templates:
+  - deployment.yaml
+tests:
+  - it: should create a deployment
+    asserts:
+      - isKind:
+          of: Deployment
+  - it: should have a name
+    asserts:
+      - equal:
+          path: metadata.name
+          value: atlas-operator
+  - it: should have labels
+    asserts:
+      - equal:
+          path: metadata.labels.app\.kubernetes\.io/name
+          value: atlas-operator
+      - matchRegex:
+          path: metadata.labels.helm\.sh/chart
+          pattern: ^atlas-operator-
+      - equal:
+          path: metadata.labels.app\.kubernetes\.io/instance
+          value: RELEASE-NAME
+  - it: should have custom labels
+    set:
+      global.labels:
+        superchart: "fancyproduct-1.0: [notalist]"
+        agar.io/id: "1234"
+    asserts:
+      - equal:
+          path: metadata.labels.superchart
+          value: "fancyproduct-1.0: [notalist]"
+      - equal:
+          path: metadata.labels.agar\.io/id
+          value: "1234"
+  - it: should have one replica
+    asserts:
+      - equal:
+          path: spec.replicas
+          value: 1
+  - it: should have a default image
+    asserts:
+      - matchRegex:
+          path: spec.template.spec.containers[0].image
+          pattern: ^emccorp/atlas-operator:.+$
+      - equal:
+          path: spec.template.spec.containers[0].imagePullPolicy
+          value: IfNotPresent
+  - it: should have a selector
+    asserts:
+      - equal:
+          path: spec.selector.matchLabels.app\.kubernetes\.io/name
+          value: atlas-operator
+      - equal:
+          path: spec.selector.matchLabels.app\.kubernetes\.io/instance
+          value: RELEASE-NAME
+  - it: should configure the image
+    set:
+      global.registry: REGISTRY
+      image.repository: REPO
+      image.tag: TAG
+      image.pullPolicy: Always
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: REGISTRY/REPO:TAG
+      - equal:
+          path: spec.template.spec.containers[0].imagePullPolicy
+          value: Always

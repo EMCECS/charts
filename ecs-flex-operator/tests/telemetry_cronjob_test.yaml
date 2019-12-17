@@ -10,7 +10,7 @@ tests:
     asserts:
     - equal:
         path: spec.jobTemplate.spec.template.spec.containers[0].image
-        value: emccorp/telemetry-upload:0.17.0
+        value: emccorp/telemetry-upload:0.18.0
   - it: should have a default pullPolicy
     asserts:
     - equal:

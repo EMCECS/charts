@@ -1,0 +1,49 @@
+---
+# Default values for Atlas operator
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# These values are overridden when the Atlas operator is included within a subchart
+global:
+  # Name of a Kubernetes secret with Docker credentials for the private registry
+  # registrySecret: ecs-flex-registry
+
+  # The Docker registry hosting containers for the Atlas operator
+  registry: emccorp
+
+  # Extra labels that will be applied to all resources created by the chart
+  labels: {}
+
+image:
+  repository: atlas-operator
+  tag: v0.1
+  pullPolicy: IfNotPresent
+
+nameOverride: ""
+
+podSecurityContext: {}
+#  fsGroup: 2000
+
+securityContext: {}
+#  capabilities:
+#    drop:
+#    - ALL
+#  readOnlyRootFilesystem: true
+#  runAsNonRoot: true
+#  runAsUser: 1000
+
+# If you do want to specify resources, uncomment the following lines, adjust them as necessary,
+# and remove the curly braces after 'resources:'.
+resources: {}
+#  limits:
+#    cpu: 100m
+#    memory: 128Mi
+#  requests:
+#    cpu: 100m
+#    memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

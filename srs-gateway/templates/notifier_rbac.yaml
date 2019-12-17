@@ -71,5 +71,4 @@ subjects:
 roleRef:
   kind: ClusterRole
   name: {{ template "srs-gateway.notifierServiceAccountName" . }}
-  namespace: {{ .Release.Namespace }}
   apiGroup: rbac.authorization.k8s.io

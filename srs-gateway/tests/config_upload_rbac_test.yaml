@@ -78,10 +78,6 @@ tests:
         value: cosmikdebris-config-upload
       documentIndex: 2
     - equal:
-        path: roleRef.namespace
-        value: NAMESPACE
-      documentIndex: 2
-    - equal:
         path: roleRef.apiGroup
         value: rbac.authorization.k8s.io
       documentIndex: 2
@@ -161,10 +157,6 @@ tests:
     - equal:
         path: roleRef.name
         value: wickedcoolname-config-upload
-      documentIndex: 2
-    - equal:
-        path: roleRef.namespace
-        value: NAMESPACE
       documentIndex: 2
     - equal:
         path: roleRef.apiGroup

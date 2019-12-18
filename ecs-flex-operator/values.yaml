@@ -40,7 +40,6 @@ image:
 # options will be ignored.
 # If log receiver configuration is not provided then ECS logs will be redirected to stdout
 logReceiver:
-
   # The type of log receiver that ECS Flex will use to consolidate logs. Valid
   # are: "Syslog" and "Elasticsearch".  When using a "Syslog" receiver, you can
   # optionally instruct ECS Flex to create a syslog receiver.  In the case of
@@ -142,6 +141,10 @@ telemetry:
     # pullPolicy: Always
   # this is as per cronjob schedule - every 12 hours, please follow the cronjob format to edit it
   schedule: "0 */12 * * *"
+
+decks:
+  webdav:
+    port: 8000
 
 installcontroller:
   image:

@@ -20,4 +20,7 @@ data:
     upstream graphql {
       server objectscale-graphql:{{ .Values.graphql.port }};
     }
+    upstream webdav {
+      server decks-webdav:{{ .Values.decks.webdav.port }};
+    }
 {{- end }}

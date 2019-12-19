@@ -90,7 +90,7 @@ tests:
         path: spec.storageServer.volumes.storageClassName
         value: my-sc
     - equal:
-        path: spec.vnest.volumes.storageClassName
+        path: spec.atlas.persistence.spec.storageClassName
         value: my-sc
     - equal:
         path: spec.zookeeper.persistence.spec.storageClassName
@@ -103,12 +103,12 @@ tests:
     - equal:
         path: spec.storageServer.volumes.storageClassName
         value: my-sc
-  - it: should customize SC for VNest persistance field
+  - it: should customize SC for Atlas persistance field
     set:
-      vnest.persistence.storageClassName: my-sc
+      atlas.persistence.storageClassName: my-sc
     asserts:
     - equal:
-        path: spec.vnest.volumes.storageClassName
+        path: spec.atlas.persistence.spec.storageClassName
         value: my-sc
   - it: should customize SC for Zookeeper persistance field
     set:
@@ -128,22 +128,22 @@ tests:
         path: spec.storageServer.volumes.storageClassName
         value: my-ss-sc
     - equal:
-        path: spec.vnest.volumes.storageClassName
+        path: spec.atlas.persistence.spec.storageClassName
         value: my-sc
     - equal:
         path: spec.zookeeper.persistence.spec.storageClassName
         value: my-sc
-  - it: should customize separate SC for VNest with global SC
+  - it: should customize separate SC for Atlas with global SC
     set:
       storageClassName: my-sc
-      vnest.persistence.storageClassName: my-vnest-sc
+      atlas.persistence.storageClassName: my-atlas-sc
     asserts:
     - equal:
         path: spec.storageServer.volumes.storageClassName
         value: my-sc
     - equal:
-        path: spec.vnest.volumes.storageClassName
-        value: my-vnest-sc
+        path: spec.atlas.persistence.spec.storageClassName
+        value: my-atlas-sc
     - equal:
         path: spec.zookeeper.persistence.spec.storageClassName
         value: my-sc
@@ -156,7 +156,7 @@ tests:
         path: spec.storageServer.volumes.storageClassName
         value: my-sc
     - equal:
-        path: spec.vnest.volumes.storageClassName
+        path: spec.atlas.persistence.spec.storageClassName
         value: my-sc
     - equal:
         path: spec.zookeeper.persistence.spec.storageClassName

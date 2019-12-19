@@ -22,6 +22,34 @@ spec:
 {{- end }}
   performanceProfile: {{ .Values.performanceProfile }}
 
+  atlas:
+{{- if .Values.atlas.replicas }}
+    replicas: {{ .Values.atlas.replicas }}
+{{- end }}
+    image:
+      repository: {{ .Values.global.registry }}/{{ .Values.atlas.image.repository }}
+{{- if .Values.atlas.image.tag }}
+      tag: {{ .Values.atlas.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.atlas.image.pullPolicy }}
+      pullPolicy: {{ .Values.atlas.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
+
+    persistence:
+      spec:
+{{- if .Values.atlas.persistence.storageClassName }}
+        storageClassName: {{ .Values.atlas.persistence.storageClassName }}
+{{- else if .Values.storageClassName }}
+        storageClassName: {{ .Values.storageClassName }}
+{{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.atlas.persistence.size }}
+ 
   chunkManager:
 {{- if .Values.chunkManager.replicas }}
     replicas: {{ .Values.chunkManager.replicas }}
@@ -56,33 +84,6 @@ spec:
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
 
-  vnest:
-{{- if .Values.vnest.replicas }}
-    replicas: {{ .Values.vnest.replicas }}
-{{- end }}
-    image:
-      repository: {{ .Values.global.registry }}/{{ .Values.vnest.image.repository }}
-{{- if .Values.vnest.image.tag }}
-      tag: {{ .Values.vnest.image.tag }}
-{{- else }}
-      tag: {{ .Values.tag }}
-{{- end }}
-{{- if .Values.vnest.image.pullPolicy }}
-      pullPolicy: {{ .Values.vnest.image.pullPolicy }}
-{{- else }}
-      pullPolicy: {{ .Values.pullPolicy }}
-{{- end }}
-
-    volumes:
-      volumesCount: {{ .Values.vnest.persistence.volumesCount }}
-{{- if .Values.vnest.persistence.storageClassName }}
-      storageClassName: {{ .Values.vnest.persistence.storageClassName }}
-{{- else if .Values.storageClassName }}
-      storageClassName: {{ .Values.storageClassName }}
-{{- end }}
-      resources:
-        requests:
-          storage: {{ .Values.vnest.persistence.size }}
   zookeeper:
 {{- if .Values.zookeeper.replicas }}
     size: {{ .Values.zookeeper.replicas }}

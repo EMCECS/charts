@@ -83,7 +83,7 @@ spec:
           emptyDir: {}
         - name: config
           configMap:
-            name: {{ .Release.Name }}-logs-config
+            name: {{ .Release.Name }}-manager-logs-config
 {{- end }}
 
 

@@ -504,7 +504,7 @@ spec:
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.s3.image.repository }}
-      tag: {{ default .Values.s3.image.tag .Values.tag }}
+      tag: {{ default .Values.tag .Values.s3.image.tag }}
       pullPolicy: {{ default .Values.s3.image.pullPolicy .Values.pullPolicy }}
 
     service:

@@ -2,3 +2,6 @@ dependencies:
 - name: zookeeper-operator
   version: ~0.19.0
   repository: file://../zookeeper-operator
+- name: atlas-operator
+  version: ~0.19.0
+  repository: file://../atlas-operator

@@ -43,7 +43,7 @@ atlas:
 
   persistence:
     # Size of each volume to be provisioned
-    size: 16Gi
+    size: 32Gi
 
     # Name of the storage class that storage should be provisioned from
     # storageClassName:

@@ -51,6 +51,13 @@ rules:
   verbs:
   - "*"
 - apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - clusterroles
+  - clusterrolebindings
+  verbs:
+  - "*"
+- apiGroups:
   - app.k8s.io
   resources:
   - "*"
@@ -76,6 +83,7 @@ rules:
   - daemonsets
   - deployments
   - replicasets
+  - serviceaccounts
   verbs:
   - "*"
 - apiGroups:

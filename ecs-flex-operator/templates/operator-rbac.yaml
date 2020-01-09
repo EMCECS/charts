@@ -104,6 +104,12 @@ rules:
   - "*"
   verbs:
   - "*"
+- apiGroups:
+  - atlas.dellemc.com
+  resources:
+  - "*"
+  verbs:
+  - "*"
 ---
 {{- if eq .Values.global.watchNamespace "" }}
 kind: ClusterRoleBinding

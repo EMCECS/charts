@@ -23,29 +23,14 @@ spec:
   performanceProfile: {{ .Values.performanceProfile }}
 
   atlas:
-{{- if .Values.atlas.replicas }}
-    replicas: {{ .Values.atlas.replicas }}
-{{- end }}
+    replicas: {{ default 1 .Values.atlas.replicas }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.atlas.image.repository }}
-{{- if .Values.atlas.image.tag }}
       tag: {{ .Values.atlas.image.tag }}
-{{- else }}
-      tag: {{ .Values.tag }}
-{{- end }}
-{{- if .Values.atlas.image.pullPolicy }}
-      pullPolicy: {{ .Values.atlas.image.pullPolicy }}
-{{- else }}
-      pullPolicy: {{ .Values.pullPolicy }}
-{{- end }}
-
+      pullPolicy: {{ default .Values.pullPolicy .Values.atlas.image.pullPolicy }}
     persistence:
       spec:
-{{- if .Values.atlas.persistence.storageClassName }}
-        storageClassName: {{ .Values.atlas.persistence.storageClassName }}
-{{- else if .Values.storageClassName }}
-        storageClassName: {{ .Values.storageClassName }}
-{{- end }}
+        storageClassName: {{ default .Values.storageClassName .Values.atlas.persistence.storageClassName }}
         resources:
           requests:
             storage: {{ .Values.atlas.persistence.size }}

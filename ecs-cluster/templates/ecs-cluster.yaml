@@ -26,14 +26,14 @@ spec:
     replicas: {{ default 1 .Values.atlas.replicas }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.atlas.image.repository }}
-      tag: {{ .Values.atlas.image.tag }}
+      tag: {{ default .Values.tag .Values.atlas.image.tag }}
       pullPolicy: {{ default .Values.pullPolicy .Values.atlas.image.pullPolicy }}
     persistence:
       spec:
         storageClassName: {{ default .Values.storageClassName .Values.atlas.persistence.storageClassName }}
         resources:
           requests:
-            storage: {{ .Values.atlas.persistence.size }}
+            storage: {{ required "atlas.persistence.size is required" .Values.atlas.persistence.size }}
  
   chunkManager:
 {{- if .Values.chunkManager.replicas }}

@@ -23,7 +23,7 @@ spec:
   performanceProfile: {{ .Values.performanceProfile }}
 
   atlas:
-    replicas: {{ default 1 .Values.atlas.replicas }}
+    replicas: {{ coalesce .Values.atlas.replicas (index (dict "Large" 3) (title .Values.performanceProfile)) 1 }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.atlas.image.repository }}
       tag: {{ default .Values.tag .Values.atlas.image.tag }}

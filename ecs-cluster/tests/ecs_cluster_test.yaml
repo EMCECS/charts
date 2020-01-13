@@ -189,3 +189,26 @@ tests:
     - equal:
         path: spec.deosEvents.pullFreq
         value: 30
+  - it: should create a single node atlas cluster
+    set:
+      performanceProfile: small
+    asserts:
+    - equal:
+        path: spec.atlas.replicas
+        value: 1
+  - it: should create a three node atlas cluster
+    set:
+      performanceProfile: large
+    asserts:
+    - equal:
+        path: spec.atlas.replicas
+        value: 3
+  - it: should create a custom sized atlas cluster
+    set:
+      performanceProfile: large
+      atlas:
+        replicas: 5
+    asserts:
+    - equal:
+        path: spec.atlas.replicas
+        value: 5

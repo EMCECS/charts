@@ -284,17 +284,6 @@ geoReceiver:
         port: 9094
 
 # The ECS API control service configuration specification
-stat:
-  # Override the number of object control replicas to run with the the deployment
-  # replicas: 1
-
-  # Docker repository to be used for stat instances
-  image:
-    repository: statistics
-    # tag: stable
-    # pullPolicy: IfNotPresent
-
-# The ECS API control service configuration specification
 control:
   # Override the number of object control replicas to run with the the deployment
   # replicas: 1

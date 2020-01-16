@@ -342,24 +342,6 @@ spec:
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
 
-  stat:
-{{- if .Values.stat.replicas }}
-    replicas: {{ .Values.stat.replicas }}
-{{- end }}
-
-    image:
-      repository: {{ .Values.global.registry }}/{{ .Values.stat.image.repository }}
-{{- if .Values.stat.image.tag }}
-      tag: {{ .Values.stat.image.tag }}
-{{- else }}
-      tag: {{ .Values.tag }}
-{{- end }}
-{{- if .Values.stat.image.pullPolicy }}
-      pullPolicy: {{ .Values.stat.image.pullPolicy }}
-{{- else }}
-      pullPolicy: {{ .Values.pullPolicy }}
-{{- end }}
-
   telegraf:
     replicas: {{ default 1 .Values.telegraf.replicas }}
     volumes:

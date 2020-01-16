@@ -16,7 +16,7 @@ Dell EMC Elastic Cloud Storage is a highly-scalable, enterprise, S3-compatible o
 ## Requirements
 
 * A [Helm](https://helm.sh) installation with access to install to one or more namespaces.
-* [ECS Flex Operator](https://github.com/EMCECS/charts/tree/master/ecs-flex-operator). Only a single operator needs to be installed for a monitored namespace or Kubernetes cluster.
+* [ECS Flex Object Scale Manager](https://github.com/EMCECS/charts/tree/master/object-scale-manager). Only a single operator needs to be installed for a monitored namespace or Kubernetes cluster.
 * A Kubernetes Storage Class capable of dynamically creating `ReadWriteOnce` (`RWO`) volumes. This is available in many public Kubernetes services, such as AWS EKS and Google GKE. For more information see the [storage class section](#sc-setup) below.
 
 ## Quick Start
@@ -33,11 +33,11 @@ $ helm repo update
 3. Install the ECS Flex Operator. This allows you to create and manage ECS clusters.
 
 ```bash
-$ helm install --name ecs-flex ecs/ecs-flex-operator
+$ helm install --name ecs-flex ecs/object-scale-manager
 NAME:   ecs-flex
 ```
 
-There are [configuration options](../ecs-flex-operator#configuration) you can peruse later at your heart's delight.
+There are [configuration options](../object-scale-manager#configuration) you can peruse later at your heart's delight.
 
 4. Install an ECS Cluster.
 

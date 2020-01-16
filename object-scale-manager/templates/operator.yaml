@@ -51,7 +51,7 @@ spec:
         - containerPort: 60000
           name: metrics
         command:
-        - ecs-flex-operator
+        - object-scale-manager
         env:
         - name: POD_NAME
           valueFrom:
@@ -115,7 +115,7 @@ spec:
           value: {{ .Values.global.registrySecret }}
 {{- end }}
         - name: OPERATOR_NAME
-          value: ecs-flex-operator
+          value: object-scale-manager
         - name: LOG_DIRECTION
 {{- if .Values.logReceiver.type }}
           value: file

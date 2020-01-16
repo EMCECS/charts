@@ -14,7 +14,7 @@ $ helm repo update
 ```
 ## Available Charts
 
-* [ECS Flex Operator](ecs-flex-operator)
+* [ECS Flex Object Scale Manager](object-scale-manager)
 * [ECS Cluster](ecs-cluster)
 * [Atlas Operator](atlas-operator)
 * [Zookeeper Operator](zookeeper-operator)
@@ -52,7 +52,7 @@ $ helm repo update
 $ helm search ecs
 NAME                  	CHART VERSION	APP VERSION	DESCRIPTION                                                 
 ecs/ecs-cluster       	0.1.6        	0.1.6      	Dell EMC Elastic Cloud Storage is highly scalable, and hi...
-ecs/ecs-flex-operator 	0.1.6        	0.1.6      	Dell EMC Elastic Cloud Storage is highly scalable, and hi...
+ecs/object-scale-manager 	0.1.6        	0.1.6      	Dell EMC Elastic Cloud Storage is highly scalable, and hi...
 ecs/decks             	0.2.0        	0.2.0      	A Helm chart for Dell EMC Common Kubernetes Services        
 ecs/kahm              	0.2.0        	0.2.0      	A Helm chart for Kubernetes Applications Health Management  
 ecs/mongoose          	0.1.3        	4.1.1      	Mongoose is a horizontally scalable and configurable S3 p...
@@ -76,6 +76,6 @@ $ kubectl create secret docker-registry ecs-flex-registry \
   --docker-email=<DOCKER_EMAIL>
 ```
 
-You can then set it in the Helm chart installations (`ecs-flex-operator` and `ecs-cluster`) with a Helm setting: `--set global.registrySecret=<SECRET_NAME>`.  If you set the `registrySecret` setting in the ecs-flex-operator, it will be assumed in any operator created ECS clusters; however, the parameter can still be set in an `ecs-cluster` release.
+You can then set it in the Helm chart installations (`object-scale-manager` and `ecs-cluster`) with a Helm setting: `--set global.registrySecret=<SECRET_NAME>`.  If you set the `registrySecret` setting in the object-scale-manager, it will be assumed in any operator created ECS clusters; however, the parameter can still be set in an `ecs-cluster` release.
 
 

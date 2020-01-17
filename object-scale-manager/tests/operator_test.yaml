@@ -10,11 +10,7 @@ tests:
     asserts:
     - equal:
         path: spec.template.spec.containers[0].image
-<<<<<<< HEAD:object-scale-manager/tests/operator_test.yaml
-        value: emccorp/object-scale-manager:0.18.0
-=======
-        value: emccorp/ecs-flex-operator:0.20.0
->>>>>>> master:ecs-flex-operator/tests/operator_test.yaml
+        value: emccorp/object-scale-manager:0.20.0
     - equal:
         path: spec.template.spec.containers[0].imagePullPolicy
         value: Always

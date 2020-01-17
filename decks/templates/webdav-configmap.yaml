@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: webdav-initdir
-data:
-  wevdav-initdir: |
-    fio
-    sonobuoy

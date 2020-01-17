@@ -132,9 +132,7 @@ data:
         "containers": [
           {
             "command": [
-              "/bin/bash",
-              "-c",
-              "./run-sonobuoy-test.sh"
+              "sh /run-sonobuoy-test.sh"
             ],
             "env": [
               {
@@ -142,24 +140,6 @@ data:
                 "valueFrom": {
                   "fieldRef": {
                     "fieldPath": "status.podIP"
-                  }
-                }
-              },
-              {
-                "name": "WEBDAV_SECRET_USERNAME",
-                "valueFrom": {
-                  "secretKeyRef": {
-                    "name": "decks-webdav-secret",
-                    "key": "username"
-                  }
-                }
-              },
-              {
-                "name": "WEBDAV_SECRET_PASSWORD",
-                "valueFrom": {
-                  "secretKeyRef": {
-                    "name": "decks-webdav-secret",
-                    "key": "password"
                   }
                 }
               },

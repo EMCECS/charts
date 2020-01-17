@@ -50,7 +50,7 @@ $ helm repo update
 via Helm 2:
 
 ```bash
-$ helm install --name ecs-flex ecs/object-scale-manager
+$ helm install --name ecs-flex ecs/ecs-flex-operator
 NAME:   ecs-flex
 ...
 ```
@@ -58,7 +58,7 @@ NAME:   ecs-flex
 or via Helm 3:
 
 ```bash
-$ helm install ecs-flex ecs/object-scale-manager
+$ helm install ecs-flex ecs/ecs-flex-operator
 NAME:   ecs-flex
 ...
 ```
@@ -94,7 +94,7 @@ The ECS Flex Operator can be configured to manage a single namespace within a Ku
 ```bash
 $ helm install --name ecs-flex \
     --set global.watchNamespace=my-namespace \
-    ecs/object-scale-manager
+    ecs/ecs-flex-operator
 ```
 
 To use the operator with any namespace on the Kubernetes cluster, you can retain the default configuration, which is to set the `global.watchNamespace` setting to an empty string (`""`).
@@ -122,7 +122,7 @@ $ kubectl create secret docker-registry ecs-flex-registry \
 helm install \
     --set global.registry=<REGISTRY ADDRESS> \
     --set global.registrySecret=<SECRET_NAME> \
-    ecs/object-scale-manager
+    ecs/ecs-flex-operator
 ```
 
 ### Log Aggregation
@@ -143,7 +143,7 @@ $ helm install --name ecs-flex \
     --set logReceiver.host=elastic \
     --set logReceiver.port=9200 \
     --set logReceiver.protocol=http \
-    ecs/object-scale-manager
+    ecs/ecs-flex-operator
 ```
 
 *To connect to a Syslog-based receiver:*
@@ -154,13 +154,13 @@ $ helm install --name ecs-flex \
     --set logReceiver.host=rsyslog \
     --set logReceiver.port=514 \
     --set logReceiver.protocol=tcp \
-    ecs/object-scale-manager
+    ecs/ecs-flex-operator
 ```
 
 The ECS Flex operator can also create a Syslog-based receiver in a Kubernetes deployment:
 
 ```bash
-$ helm install --name ecs-flex --set logReceiver.create=true ecs/object-scale-manager
+$ helm install --name ecs-flex --set logReceiver.create=true ecs/ecs-flex-operator
 ```
 
 ## <a name="sc-setup"></a>Private Kubernetes Storage Class Setup

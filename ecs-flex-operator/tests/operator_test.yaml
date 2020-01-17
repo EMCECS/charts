@@ -10,7 +10,7 @@ tests:
     asserts:
     - equal:
         path: spec.template.spec.containers[0].image
-        value: emccorp/ecs-flex-operator:0.18.0
+        value: emccorp/ecs-flex-operator:0.20.0
     - equal:
         path: spec.template.spec.containers[0].imagePullPolicy
         value: Always

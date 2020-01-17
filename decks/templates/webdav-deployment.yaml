@@ -50,16 +50,8 @@ spec:
         volumeMounts:
         - mountPath: /var/lib/dav
           name: decks-webdav-claim0    
-        - mountPath: /etc/conf
-          name: decks-webdav-config-volume
       restartPolicy: Always
       volumes:
       - name: decks-webdav-claim0
         persistentVolumeClaim:
           claimName: decks-webdav-claim0
-      - name: decks-webdav-config-volume
-        configMap:
-          name: webdav-initdir
-          items:
-          - key: wevdav-initdir
-            path: webdav-config

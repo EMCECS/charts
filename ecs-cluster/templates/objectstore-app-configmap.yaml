@@ -32,24 +32,25 @@ data:
     health: |-
       spec:
         healthchecks:
-          - fields:
-            - name: name
-              type: string
-            - name: description
-              type: string
-            - name: enabled
-              type: boolean
-            - name: schedule
-              type: string
-            - name: latestSuccess
-              type: date
-            - name: latestFailure
-              type: date
-            - name: message
-              type: string
-            name: objectstore healthchecks
+          fieldcolumns:
+            - name: deos-hc
+              fields:
+              - name: name
+                type: string
+              - name: description
+                type: string
+              - name: enabled
+                type: boolean
+              - name: schedule
+                type: string
+              - name: latestSuccess
+                type: date
+              - name: latestFailure
+                type: date
+              - name: message
+                type: string
           name: objectstore-healthchecks
-        status:
+        healthcheckstatus:
           deos-hc:
             overview: red
             rows:

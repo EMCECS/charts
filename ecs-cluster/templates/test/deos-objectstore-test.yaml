@@ -9,13 +9,16 @@ metadata:
   namespace: "{{ .Release.Namespace }}"
 spec:
   containers:
-  - command: ["/bin/sh", "-c"]
-    args: ["deos-hc all"]
+  - command: ["sh", "/run-deos-hc.sh"]
     env:
     - name: POD_NAMESPACE
       value: "{{ .Release.Namespace }}"
     - name: RELEASE_NAME
       value: "{{ .Release.Name }}"
+    - name: POD_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: metadata.name
     image: {{ .Values.global.registry }}/{{ .Values.deos_hc.image.repository }}:{{ .Values.tag }}
 {{- if .Values.deos_hc.image.pullPolicy }}
     imagePullPolicy: {{ .Values.deos_hc.image.pullPolicy }}

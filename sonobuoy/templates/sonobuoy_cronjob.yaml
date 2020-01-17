@@ -16,18 +16,18 @@ spec:
             env:
             - name: curSecret
               value: {{ .Values.global.registrySecret }}
-            - name: curWebdavSecret
-              value: "decks-webdav-secret"
             command:
-              - /bin/sh
-              - -c
-              - ./create-sonobuoy-job.sh
+              - sh /create-sonobuoy-job.sh
             imagePullPolicy: {{ .Values.pullPolicy }}
             name: alpine-curl
             volumeMounts:
             - mountPath: /etc/sonobuoy
               name: sonobuoy-volume-config
           restartPolicy: Never
+{{- if .Values.global.registrySecret }}
+          imagePullSecrets:
+          - name: {{ .Values.global.registrySecret }}
+{{- end }}
           volumes:
           - configMap:
               name: sonobuoy-config-cronjob

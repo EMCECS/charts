@@ -21,39 +21,41 @@ data:
     health: |-
       spec:
         healthchecks:
-          - fields:
-            - name: name
-              type: string
-            - name: description
-              type: string
-            - name: enabled
-              type: boolean
-            - name: schedule
-              type: string
-            - name: latestSuccess
-              type: date
-            - name: latestFailure
-              type: date
-            - name: message
-              type: string
-            name: deos-fio
-            - name: name
-              type: string
-            - name: description
-              type: string
-            - name: enabled
-              type: boolean
-            - name: schedule
-              type: string
-            - name: latestSuccess
-              type: date
-            - name: latestFailure
-              type: date
-            - name: message
-              type: string
-            name: sonobuoy
+          fieldcolumns:
+            - name: deos-fio
+              fields:
+                - name: name
+                  type: string
+                - name: description
+                  type: string
+                - name: enabled
+                  type: boolean
+                - name: schedule
+                  type: string
+                - name: latestSuccess
+                  type: date
+                - name: latestFailure
+                  type: date
+                - name: message
+                  type: string
+            - name: sonobuoy
+              fields:
+                - name: name
+                  type: string
+                - name: description
+                  type: string
+                - name: enabled
+                  type: boolean
+                - name: schedule
+                  type: string
+                - name: latestSuccess
+                  type: date
+                - name: latestFailure
+                  type: date
+                - name: message
+                  type: string
           name: objectscale-manager-healthchecks
-        status:
+        healthcheckstatus:
           deos-fio:
             overview: green
             rows:

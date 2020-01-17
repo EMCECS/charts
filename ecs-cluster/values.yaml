@@ -11,7 +11,7 @@ global:
   registry: emccorp
 
 # The default docker tag and pull policy for the ECS Cluster
-tag: 0.18.0
+tag: 0.20.0
 pullPolicy: Always
 
 # Override the default number of replicas which taken according to performance profile for each service
@@ -40,17 +40,13 @@ enableAdvancedStatistics: true
 # ECS Service Configuration
 #
 
-vnest:
-  # Override the default ECS Cluster replicas to set the number of nodes in the
-  # vNest cluster separately. This value should not be set when using
-  # FabricProxy as the service discovery mechanism
+atlas:
   # replicas: 3
 
   image:
-    repository: vnest
-    # tag: stable
-    # pullPolicy: IfNotPresent
-    # Persistent storage options for vnest volume requests
+    repository: atlas
+    tag: v1.0.0
+    pullPolicy: IfNotPresent
 
   persistence:
     # Size of each volume to be provisioned
@@ -282,17 +278,6 @@ geoReceiver:
     ports:
       - name: geo
         port: 9094
-
-# The ECS API control service configuration specification
-stat:
-  # Override the number of object control replicas to run with the the deployment
-  # replicas: 1
-
-  # Docker repository to be used for stat instances
-  image:
-    repository: statistics
-    # tag: stable
-    # pullPolicy: IfNotPresent
 
 # The ECS API control service configuration specification
 control:

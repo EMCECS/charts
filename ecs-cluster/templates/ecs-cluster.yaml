@@ -22,6 +22,19 @@ spec:
 {{- end }}
   performanceProfile: {{ .Values.performanceProfile }}
 
+  atlas:
+    replicas: {{ coalesce .Values.atlas.replicas (index (dict "Large" 3) (title .Values.performanceProfile)) 1 }}
+    image:
+      repository: {{ .Values.global.registry }}/{{ .Values.atlas.image.repository }}
+      tag: {{ default .Values.tag .Values.atlas.image.tag }}
+      pullPolicy: {{ default .Values.pullPolicy .Values.atlas.image.pullPolicy }}
+    persistence:
+      spec:
+        storageClassName: {{ default .Values.storageClassName .Values.atlas.persistence.storageClassName }}
+        resources:
+          requests:
+            storage: {{ required "atlas.persistence.size is required" .Values.atlas.persistence.size }}
+ 
   chunkManager:
 {{- if .Values.chunkManager.replicas }}
     replicas: {{ .Values.chunkManager.replicas }}
@@ -56,33 +69,6 @@ spec:
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
 
-  vnest:
-{{- if .Values.vnest.replicas }}
-    replicas: {{ .Values.vnest.replicas }}
-{{- end }}
-    image:
-      repository: {{ .Values.global.registry }}/{{ .Values.vnest.image.repository }}
-{{- if .Values.vnest.image.tag }}
-      tag: {{ .Values.vnest.image.tag }}
-{{- else }}
-      tag: {{ .Values.tag }}
-{{- end }}
-{{- if .Values.vnest.image.pullPolicy }}
-      pullPolicy: {{ .Values.vnest.image.pullPolicy }}
-{{- else }}
-      pullPolicy: {{ .Values.pullPolicy }}
-{{- end }}
-
-    volumes:
-      volumesCount: {{ .Values.vnest.persistence.volumesCount }}
-{{- if .Values.vnest.persistence.storageClassName }}
-      storageClassName: {{ .Values.vnest.persistence.storageClassName }}
-{{- else if .Values.storageClassName }}
-      storageClassName: {{ .Values.storageClassName }}
-{{- end }}
-      resources:
-        requests:
-          storage: {{ .Values.vnest.persistence.size }}
   zookeeper:
 {{- if .Values.zookeeper.replicas }}
     size: {{ .Values.zookeeper.replicas }}
@@ -356,24 +342,6 @@ spec:
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
 
-  stat:
-{{- if .Values.stat.replicas }}
-    replicas: {{ .Values.stat.replicas }}
-{{- end }}
-
-    image:
-      repository: {{ .Values.global.registry }}/{{ .Values.stat.image.repository }}
-{{- if .Values.stat.image.tag }}
-      tag: {{ .Values.stat.image.tag }}
-{{- else }}
-      tag: {{ .Values.tag }}
-{{- end }}
-{{- if .Values.stat.image.pullPolicy }}
-      pullPolicy: {{ .Values.stat.image.pullPolicy }}
-{{- else }}
-      pullPolicy: {{ .Values.pullPolicy }}
-{{- end }}
-
   telegraf:
     replicas: {{ default 1 .Values.telegraf.replicas }}
     volumes:
@@ -503,7 +471,7 @@ spec:
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.s3.image.repository }}
-      tag: {{ default .Values.s3.image.tag .Values.tag }}
+      tag: {{ default .Values.tag .Values.s3.image.tag }}
       pullPolicy: {{ default .Values.s3.image.pullPolicy .Values.pullPolicy }}
 
     service:

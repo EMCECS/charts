@@ -53,7 +53,7 @@ tests:
     asserts:
     - equal:
         path: spec.template.spec.containers[0].image
-        value: my-registry/rsyslog:0.18.0
+        value: my-registry/rsyslog:0.20.0
     - equal:
         path: spec.template.spec.containers[0].imagePullPolicy
         value: Always

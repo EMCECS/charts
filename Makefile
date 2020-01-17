@@ -5,7 +5,7 @@ YQ_VERSION   := 2.2.1
 YAMLLINT_VERSION := 1.14.0
 CHARTS := ecs-cluster object-scale-manager mongoose zookeeper-operator atlas-operator decks kahm srs-gateway dks-testapp fio-test sonobuoy dellemc-license service-pod
 DECKSCHARTS := decks kahm srs-gateway dks-testapp dellemc-license service-pod
-FLEXCHARTS := ecs-cluster object-scale-manager zookeeper-operator atlas-operator
+FLEXCHARTS := ecs-cluster object-scale-manager zookeeper-operator
 
 test:
 	for CHART in ${CHARTS}; do \

@@ -115,7 +115,7 @@ spec:
           value: {{ .Values.global.registrySecret }}
 {{- end }}
         - name: OPERATOR_NAME
-          value: object-scale-manager
+          value: objectscale-operator
         - name: LOG_DIRECTION
 {{- if .Values.logReceiver.type }}
           value: file

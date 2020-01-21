@@ -51,7 +51,7 @@ spec:
         - containerPort: 60000
           name: metrics
         command:
-        - object-scale-manager
+        - objectscale-operator
         env:
         - name: POD_NAME
           valueFrom:

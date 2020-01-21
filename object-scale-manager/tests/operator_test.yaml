@@ -10,7 +10,7 @@ tests:
     asserts:
     - equal:
         path: spec.template.spec.containers[0].image
-        value: emccorp/object-scale-manager:0.20.0
+        value: emccorp/objectscale-operator:0.20.0
     - equal:
         path: spec.template.spec.containers[0].imagePullPolicy
         value: Always

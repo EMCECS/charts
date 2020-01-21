@@ -40,17 +40,13 @@ enableAdvancedStatistics: true
 # ECS Service Configuration
 #
 
-vnest:
-  # Override the default ECS Cluster replicas to set the number of nodes in the
-  # vNest cluster separately. This value should not be set when using
-  # FabricProxy as the service discovery mechanism
+atlas:
   # replicas: 3
 
   image:
-    repository: vnest
-    # tag: stable
-    # pullPolicy: IfNotPresent
-    # Persistent storage options for vnest volume requests
+    repository: atlas
+    tag: v1.0.0
+    pullPolicy: IfNotPresent
 
   persistence:
     # Size of each volume to be provisioned

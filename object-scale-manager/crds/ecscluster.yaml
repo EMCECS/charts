@@ -6,7 +6,7 @@ metadata:
   labels:
     app.kubernetes.io/name: objectscale-manager
     helm.sh/chart: objectscale-manager
-    app.kubernetes.io/component: object-scale-manager
+    app.kubernetes.io/component: objectscale-operator
     app.kubernetes.io/part-of: objectscale-manager
     app.kubernetes.io/managed-by: nautilus
 spec:

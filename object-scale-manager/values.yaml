@@ -27,7 +27,7 @@ pullPolicy: Always
 # The number of replicas for the ECS Flex Operator deployment
 replicaCount: 1
 
-# The image configured for the ECS Flex Operator
+# The image configured for the ObjectScale Manager
 image:
   repository: object-scale-manager
   # tag: stable

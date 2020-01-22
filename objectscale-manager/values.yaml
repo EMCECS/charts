@@ -29,7 +29,7 @@ replicaCount: 1
 
 # The image configured for the ObjectScale Manager
 image:
-  repository: objectscale-manager
+  repository: objectscale-operator
   # tag: stable
   # pullPolicy: Always
 

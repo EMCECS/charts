@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-    name: objectscale-manager-app-configmap
+    name: objectscale-manager-app-config
     namespace: {{.Release.namespace}}
     labels:
       app.kubernetes.io/name: objectscale-manager

@@ -1,3 +1,4 @@
+{{- if .Values.started }}
 apiVersion: "ecs.dellemc.com/v1beta1"
 kind: "ECSCluster"
 metadata:
@@ -34,7 +35,7 @@ spec:
         resources:
           requests:
             storage: {{ required "atlas.persistence.size is required" .Values.atlas.persistence.size }}
- 
+
   chunkManager:
 {{- if .Values.chunkManager.replicas }}
     replicas: {{ .Values.chunkManager.replicas }}
@@ -569,4 +570,5 @@ spec:
       pullPolicy: {{ .Values.fabricProxy.image.pullPolicy }}
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
 {{- end }}

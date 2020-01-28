@@ -3,6 +3,10 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# This flag decides if an objecstore is actually started or paused
+# Setting started = false will cause the manager to remove the objectstore
+started: true
+
 global:
   # Name of a Kubernetes secret with Docker credentials for the private registry
   # registrySecret: ecs-flex-registry

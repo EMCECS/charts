@@ -142,9 +142,12 @@ telemetry:
   # this is as per cronjob schedule - every 12 hours, please follow the cronjob format to edit it
   schedule: "0 */12 * * *"
 
+# The service name and port that decks-support-store is listening on for download requests
 decks:
-  webdav:
-    port: 8000
+  supportStore:
+    service:
+      name: decks-support-store
+      port: 7443
 
 installcontroller:
   image:

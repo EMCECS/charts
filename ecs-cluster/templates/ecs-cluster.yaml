@@ -477,24 +477,24 @@ spec:
     service:
       {{ toYaml .Values.s3.service | nindent 6 | trim }}
 
-  nginx:
-{{- if .Values.nginx.replicas }}
-    replicas: {{ .Values.nginx.replicas }}
+  management-gateway:
+{{- if .Values.management-gateway.replicas }}
+    replicas: {{ .Values.management-gateway.replicas }}
 {{- end }}
     image:
-      repository: {{ .Values.global.registry }}/{{ .Values.nginx.image.repository }}
-{{- if .Values.nginx.image.tag }}
-      tag: {{ .Values.nginx.image.tag }}
+      repository: {{ .Values.global.registry }}/{{ .Values.management-gateway.image.repository }}
+{{- if .Values.management-gateway.image.tag }}
+      tag: {{ .Values.management-gateway.image.tag }}
 {{- else }}
       tag: {{ .Values.tag }}
 {{- end }}
-{{- if .Values.nginx.image.pullPolicy }}
-      pullPolicy: {{ .Values.nginx.image.pullPolicy }}
+{{- if .Values.management-gateway.image.pullPolicy }}
+      pullPolicy: {{ .Values.management-gateway.image.pullPolicy }}
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
     service:
-      {{ toYaml .Values.nginx.service | nindent 6 | trim }}
+      {{ toYaml .Values.management-gateway.service | nindent 6 | trim }}
 
   provision:
     enabled: {{.Values.provision.enabled }}

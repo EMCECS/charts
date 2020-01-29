@@ -16,7 +16,7 @@ metadata:
   annotations:
     com.dellemc.kahm.subscribed: "true"
     nautilus.dellemc.com/run-level: "10"
-    nautilus.dellemc.com/chart-name: ecs-flex-operator
+    nautilus.dellemc.com/chart-name: objectscale-manager
     nautilus.dellemc.com/chart-version: {{ .Chart.Version }}
     nautilus.dellemc.com/chart-values: {{ .Values | toJson | quote }}
 spec:

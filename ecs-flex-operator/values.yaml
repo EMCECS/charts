@@ -131,6 +131,7 @@ graphql:
     # pullPolicy: Always
   withPlayground: false
   port: 8080
+  serviceName: objectscale-graphql
   service:
     type: ClusterIP
 

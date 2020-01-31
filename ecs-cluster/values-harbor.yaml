@@ -364,7 +364,7 @@ managementGateway:
 
   # Docker repository to be used for managementGateway instances
   image:
-    repository: managementGateway
+    repository: management-gateway
     # tag: stable
     # pullPolicy: IfNotPresent
   service:

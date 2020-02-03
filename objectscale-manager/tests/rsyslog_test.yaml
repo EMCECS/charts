@@ -51,9 +51,9 @@ tests:
       global.registry: my-registry
       logReceiver.create: true
     asserts:
-    - equal:
+    - matchRegex:
         path: spec.template.spec.containers[0].image
-        value: my-registry/rsyslog:0.20.0
+        pattern: my-registry/rsyslog:.*
     - equal:
         path: spec.template.spec.containers[0].imagePullPolicy
         value: Always

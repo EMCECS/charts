@@ -8,9 +8,9 @@ tests:
         of: CronJob 
   - it: should have a default image
     asserts:
-    - equal:
+    - matchRegex:
         path: spec.jobTemplate.spec.template.spec.containers[0].image
-        value: emccorp/telemetry-upload:0.20.0
+        pattern: emccorp/telemetry-upload:.*
   - it: should have a default pullPolicy
     asserts:
     - equal:

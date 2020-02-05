@@ -11,7 +11,7 @@ global:
   registry: emccorp
 
 # The default docker tag and pull policy for the ECS Cluster
-tag: 0.20.0
+tag: 0.21.0
 pullPolicy: Always
 
 # Override the default number of replicas which taken according to performance profile for each service
@@ -363,36 +363,36 @@ influxdb:
     # tag: latest
     # pullPolicy: IfNotPresent
 
-# The NGINX configuration specification
-nginx:
-  # Override the number of nginx replicas to run with the the deployment
+# The managementGateway configuration specification
+managementGateway:
+  # Override the number of managementGateway replicas to run with the the deployment
   # replicas: 1
 
-  # Docker repository to be used for NGINX instances
+  # Docker repository to be used for managementGateway instances
   image:
-    repository: nginx
+    repository: management-gateway
     # tag: stable
     # pullPolicy: IfNotPresent
   service:
 
-    # Specify the service port configuration for the NGINX service
+    # Specify the service port configuration for the managementGateway service
     ports:
       - name: api
         port: 4443
         targetPort: 4443
 
-# Specify the service type for the NGINX container. The default is a
+# Specify the service type for the managementGateway container. The default is a
 # "ClusterIP"
 #
 # type: LoadBalancer
 
-# Specify a specific load balancer IP address for the NGINX service. By
+# Specify a specific load balancer IP address for the managementGateway service. By
 # default, Kubernetes will allocate an address automatically from the
 # load-balancer pool.
 #
 # loadBalancerIP: 10.0.0.1
 
-# Specify a custom annotation for the NGINX service. This is required for
+# Specify a custom annotation for the managementGateway service. This is required for
 # some public cloud load balancer providers when using a load balancer type
 # service. The default value is an empty map.
 #

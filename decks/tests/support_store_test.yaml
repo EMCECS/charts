@@ -10,9 +10,9 @@ tests:
     set:
       image.pullPolicy: Always
     asserts:
-      - equal:
+      - matchRegex:
           path: spec.template.spec.containers[0].image
-          value: emccorp/decks-support-store:1.0.0
+          pattern: ^emccorp/decks-support-store:.*
       - equal:
           path: spec.template.spec.containers[0].imagePullPolicy
           value: Always

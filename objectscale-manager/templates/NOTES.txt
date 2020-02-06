@@ -17,19 +17,22 @@ PLUGIN_ADDR=$(kubectl get svc objectscale-vsphere-plugin -o jsonpath='{.status.l
 Then run registration image as follows:
 
 kubectl run register-vsphere-plugin \
-    {{ .Values.global.registry }}/register-vsphere-plugin:latest \
-    -- \
-    -action registerPlugin
-    -remote \
-    -u ${VC_USERNAME} \
-    -p ${VC_PASSWORD} \
-    -k com.vmware.vsphere.plugin \
-    -v {{ .Chart.AppVersion }} \
-    -pu https://${PLUGIN_ADDR}/plugin.json \
-    -st 1a:8c:e0:17:57:46:a6:4c:5d:97:29:b8:f3:02:9c:b3:43:90:60:f9 \
-    -c 'Unstructured Data Storage, Inc.' \
-    -n 'ECS-FLEX-UI' \
-    -s 'ECS Flex vSphere Plugin'
+--restart=Never \
+--image={{ .Values.global.registry }}/register-vsphere-plugin:latest \
+--command=false \
+-- \
+-action registerPlugin \
+-remote \
+-url ${VC_ADDRESS} \
+-u ${VC_USERNAME} \
+-p ${VC_PASSWORD} \
+-k com.vmware.objectscale.plugin \
+-v {{ .Chart.AppVersion }} \
+-pu https://${PLUGIN_ADDR}:4443/plugin.json \
+-st 1a:8c:e0:17:57:46:a6:4c:5d:97:29:b8:f3:02:9c:b3:43:90:60:f9 \
+-c 'Unstructured Data Storage, Inc.' \
+-n 'ECS-FLEX-UI' \
+-s 'ECS-Flex-vSphere Plugin'
 
 You can then check plugin deployment status from vCenter under:
 

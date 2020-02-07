@@ -115,7 +115,7 @@ influx:
   replicas: 1
 
 vSpherePlugin:
-  enabled: true
+  enabled: false
   image:
     repository: ecs-flex-vsphere-plugin
     # tag: stable

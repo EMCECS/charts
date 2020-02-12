@@ -1,0 +1,51 @@
+suite: test graphql deployment
+templates:
+  - graphql-deployment.yaml
+tests:
+  - it: should create a deployment
+    asserts:
+      - isKind:
+          of: Deployment
+  - it: should have a default image
+    asserts:
+      - matchRegex:
+          path: spec.template.spec.containers[0].image
+          value: emccorp/ecs-flex-graphql:.*
+      - equal:
+          path: spec.template.spec.containers[0].imagePullPolicy
+          value: Always
+  - it: should have name ending with graphql
+    asserts:
+      - matchRegex:
+          path: metadata.name
+          pattern: ^.+-graphql$
+  - it: should have a selector
+    asserts:
+      - matchRegex:
+          path: spec.selector.matchLabels.app\.kubernetes\.io/component
+          pattern: ^.+-graphql$
+  - it: should have a name label
+    asserts:
+      - matchRegex:
+          path: spec.template.metadata.labels.app\.kubernetes\.io/component
+          pattern: ^.+-graphql$
+  - it: should configure the image
+    set:
+      global.registry: REGISTRY
+      graphql.image.repository: REPO
+      graphql.image.tag: TAG
+      graphql.image.pullPolicy: IfNotPresent
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: REGISTRY/REPO:TAG
+      - equal:
+          path: spec.template.spec.containers[0].imagePullPolicy
+          value: IfNotPresent
+  - it: should configure the operator name
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: OPERATOR_NAME
+            value: objectscale-operator

@@ -12,9 +12,6 @@ tests:
         path: spec.syslogAgent.image.repository
         value: emccorp/rsyslog
     - equal:
-        path: spec.syslogAgent.image.tag
-        value: 0.20.0
-    - equal:
         path: spec.syslogAgent.image.pullPolicy
         value: Always
   - it: should customize the log agent
@@ -166,9 +163,6 @@ tests:
     - equal:
         path: spec.deosEvents.image.repository
         value: emccorp/deos-events
-    - equal:
-        path: spec.deosEvents.image.tag
-        value: 0.20.0
     - equal:
         path: spec.deosEvents.image.pullPolicy
         value: Always

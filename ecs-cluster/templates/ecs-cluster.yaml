@@ -1,3 +1,4 @@
+{{- if .Values.started }}
 apiVersion: "ecs.dellemc.com/v1beta1"
 kind: "ECSCluster"
 metadata:
@@ -34,7 +35,7 @@ spec:
         resources:
           requests:
             storage: {{ required "atlas.persistence.size is required" .Values.atlas.persistence.size }}
- 
+
   chunkManager:
 {{- if .Values.chunkManager.replicas }}
     replicas: {{ .Values.chunkManager.replicas }}
@@ -477,24 +478,24 @@ spec:
     service:
       {{ toYaml .Values.s3.service | nindent 6 | trim }}
 
-  nginx:
-{{- if .Values.nginx.replicas }}
-    replicas: {{ .Values.nginx.replicas }}
+  managementGateway:
+{{- if .Values.managementGateway.replicas }}
+    replicas: {{ .Values.managementGateway.replicas }}
 {{- end }}
     image:
-      repository: {{ .Values.global.registry }}/{{ .Values.nginx.image.repository }}
-{{- if .Values.nginx.image.tag }}
-      tag: {{ .Values.nginx.image.tag }}
+      repository: {{ .Values.global.registry }}/{{ .Values.managementGateway.image.repository }}
+{{- if .Values.managementGateway.image.tag }}
+      tag: {{ .Values.managementGateway.image.tag }}
 {{- else }}
       tag: {{ .Values.tag }}
 {{- end }}
-{{- if .Values.nginx.image.pullPolicy }}
-      pullPolicy: {{ .Values.nginx.image.pullPolicy }}
+{{- if .Values.managementGateway.image.pullPolicy }}
+      pullPolicy: {{ .Values.managementGateway.image.pullPolicy }}
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
     service:
-      {{ toYaml .Values.nginx.service | nindent 6 | trim }}
+      {{ toYaml .Values.managementGateway.service | nindent 6 | trim }}
 
   provision:
     enabled: {{.Values.provision.enabled }}
@@ -569,4 +570,5 @@ spec:
       pullPolicy: {{ .Values.fabricProxy.image.pullPolicy }}
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
 {{- end }}

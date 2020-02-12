@@ -1,0 +1,157 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: objectscale-operator
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: objectscale-operator
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    operator: objectscale-operator
+    product: objectscale
+    release: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: objectscale-manager
+      app.kubernetes.io/component: objectscale-operator
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: objectscale-manager
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/managed-by: {{ .Release.Service }}
+        app.kubernetes.io/version: {{ .Chart.AppVersion }}
+        app.kubernetes.io/component: objectscale-operator
+        app.kubernetes.io/part-of: {{ .Release.Name }}
+        helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+        operator: objectscale-operator
+        product: objectscale
+        release: {{ .Release.Name }}
+    spec:
+      serviceAccountName: objectscale-operator
+{{- if .Values.global.registrySecret }}
+      imagePullSecrets:
+        - name: {{ .Values.global.registrySecret }}
+{{- end }}
+      containers:
+      - name: operator
+        image: {{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ default .Values.tag .Values.image.tag }}
+{{- if .Values.image.pullPolicy }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+{{- else }}
+        imagePullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
+        ports:
+        - containerPort: 60000
+          name: metrics
+        command:
+        - objectscale-operator
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: OPERATOR_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+{{- if .Values.logReceiver.create }}
+        - name: LOG_RECEIVER_TYPE
+          value: Syslog
+        - name: LOG_RECEIVER_HOST
+          value: objectscale-syslog.{{ .Release.Namespace }}.svc.cluster.local
+        - name: LOG_RECEIVER_PROTO
+          value: tcp
+        - name: LOG_RECEIVER_PORT
+          value: "514"
+{{- else }}
+  {{- if .Values.logReceiver.type }}
+        - name: LOG_RECEIVER_TYPE
+          value: {{ .Values.logReceiver.type }}
+  {{- end }}
+  {{- if .Values.logReceiver.user }}
+        - name: LOG_RECEIVER_USER
+          value: {{ .Values.logReceiver.user }}
+  {{- end }}
+  {{- if .Values.logReceiver.password }}
+        - name: LOG_RECEIVER_PASSWORD
+          value: {{ .Values.logReceiver.password }}
+  {{- end }}
+  {{- if .Values.logReceiver.host }}
+        - name: LOG_RECEIVER_HOST
+          value: {{ .Values.logReceiver.host }}
+  {{- end }}
+  {{- if .Values.logReceiver.protocol }}
+        - name: LOG_RECEIVER_PROTO
+          value: {{ .Values.logReceiver.protocol }}
+  {{- end }}
+  {{- if .Values.logReceiver.port }}
+        - name: LOG_RECEIVER_PORT
+          value: "{{ .Values.logReceiver.port }}"
+  {{- end }}
+{{- end }}
+        - name: LOG_DIRECTION
+                {{- if .Values.logReceiver.type }}
+          value: file
+                {{- else }}
+          value: stdout
+                {{- end }}
+        - name: WATCH_NAMESPACE
+{{- if eq .Values.global.watchNamespace "" }}
+          value: ""
+{{- else }}
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+{{- end }}
+{{- if .Values.global.registrySecret }}
+        - name: REGISTRY_SECRET
+          value: {{ .Values.global.registrySecret }}
+{{- end }}
+        - name: OPERATOR_NAME
+          value: objectscale-operator
+        - name: LOG_DIRECTION
+{{- if .Values.logReceiver.type }}
+          value: file
+{{- else }}
+          value: stdout
+{{- end }}
+{{- if or .Values.logReceiver.type .Values.logReceiver.create }}
+      - name: fluentbit-agent
+        image: {{ .Values.global.registry }}/{{ .Values.fluentbitAgent.image.repository }}:{{ default .Values.tag .Values.fluentbitAgent.image.tag }}
+        imagePullPolicy: {{ default .Values.pullPolicy .Values.fluentbitAgent.image.pullPolicy }}
+        env:
+          - name: POD
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          - name: RELEASE_NAME
+            value: {{ .Release.Name }}
+          - name: IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+        volumeMounts:
+          - name: log
+            readOnly: true
+            mountPath: /var/log
+          - name: config
+            mountPath: /fluent-bit/etc
+
+      volumes:
+        - name: log
+          emptyDir: {}
+        - name: config
+          configMap:
+            name: {{ .Release.Name }}-manager-logs-config
+{{- end }}

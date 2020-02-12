@@ -17,7 +17,7 @@ global:
   watchNamespace: ""
 
 # The default docker tag and pull policy for the DECKS
-tag: 1.0.2-17
+tag: 1.1.0-1
 pullPolicy: Always
 
 # The number of replicas for the DECKS deployment
@@ -31,17 +31,18 @@ image:
 
 ## Allow callers to bypass creating app resource
 createdecksappResource: true
-webdav:
+supportStore:
   image:
-    repository: decks-webdav
-    version: 2.4
+    repository: decks-support-store
+    version: 1.0.0
     pullPolicy: Always
-  containerPort: 80
   persistentVolume:
     size: 200Gi
+  containerPort: 7443
   service:
-    port: 8000
-    targetPort: 80
+    port: 7443
+    targetPort: 7443
+    type: ClusterIP
 #  username: admin
 #  password: ChangeMe
 

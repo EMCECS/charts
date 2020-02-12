@@ -1,0 +1,26 @@
+{{- if .Values.vSpherePlugin.enabled }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: objectscale-vsphere-plugin
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: objectscale-vsphere-plugin
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name}}
+    operator: objectscale-operator
+    product: objectscale
+data:
+  upstream.conf: |
+    upstream graphql {
+      server {{ .Values.graphql.serviceName }}:{{ .Values.graphql.port }};
+    }
+    upstream decks {
+      server {{ .Values.decks.supportStore.service.name }}:{{ .Values.decks.supportStore.service.port }};
+    }
+{{- end }}

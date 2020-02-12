@@ -1,0 +1,56 @@
+Thank you for installing {{ .Chart.Name }}. This release is capable of
+deploying and upgrading Dell EMC Elastic Cloud Storage (ECS) Clusters for a
+highly scalable, private, S3-compatible object storage.
+
+Your release is named {{ .Release.Name }}.
+
+{{- if .Values.vSpherePlugin.enabled }}
+Congratulations! You've enabled the vSphere Plugin, so you can manage this installation
+directly from vCenter.  To enable the plug-in, add your vCenter details with these
+environment variables:
+
+VC_ADDRESS=<address and port of vCenter>
+VC_USERNAME=<username of vCenter admin user>
+VC_PASSWORD=<password of vCenter admin user>
+PLUGIN_ADDR=$(kubectl get svc objectscale-vsphere-plugin -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+
+Then run registration image as follows:
+
+kubectl run register-vsphere-plugin \
+--restart=Never \
+--image={{ .Values.global.registry }}/register-vsphere-plugin:latest \
+--command=false \
+-- \
+-action registerPlugin \
+-remote \
+-url ${VC_ADDRESS} \
+-u ${VC_USERNAME} \
+-p ${VC_PASSWORD} \
+-k com.vmware.objectscale.plugin \
+-v {{ .Chart.AppVersion }} \
+-pu https://${PLUGIN_ADDR}:4443/plugin.json \
+-st 1a:8c:e0:17:57:46:a6:4c:5d:97:29:b8:f3:02:9c:b3:43:90:60:f9 \
+-c 'Unstructured Data Storage, Inc.' \
+-n 'ECS-FLEX-UI' \
+-s 'ECS-Flex-vSphere Plugin'
+
+You can then check plugin deployment status from vCenter under:
+
+    Home -> Administration -> Solutions -> Client Plugins
+
+Once deployed, you can manage object stores from:
+
+    Hosts and Clusters -> <Your Cluster Name> -> Configure -> ObjectScale -> Object Stores
+
+Enjoy!
+{{- else }}
+
+To get started, install your first ECS cluster, you can use the Helm chart:
+
+  $ helm install <repository name>/ecs-cluster
+
+For more information on the installation and configuration options, see the
+README at https://github.com/EMCECS/charts/tree/master/ecs-cluster and the
+`values.yaml` file at
+https://github.com/EMCECS/charts/blob/master/ecs-cluster/values.yaml
+{{- end }}

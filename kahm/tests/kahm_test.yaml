@@ -8,9 +8,9 @@ tests:
         of: StatefulSet 
   - it: should have a default image
     asserts:
-    - equal:
+    - matchRegex:
         path: spec.template.spec.containers[0].image
-        value: emccorp/kahm:1.0.0-17
+        pattern: emccorp/kahm:1.1.0-1
     - equal:
         path: spec.template.spec.containers[0].imagePullPolicy
         value: Always

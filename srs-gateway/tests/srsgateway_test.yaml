@@ -35,9 +35,6 @@ tests:
         path: spec.remoteAccess.repository
         value: remote-access
     - equal:
-        path: spec.remoteAccess.tag
-        value: 1.0.2-17
-    - equal:
         path: spec.remoteAccess.pullPolicy
         value: Always
     - equal:
@@ -49,9 +46,6 @@ tests:
     - equal:
         path: spec.notifier.repository
         value: srs-notifier
-    - equal:
-        path: spec.notifier.tag
-        value: 1.0.2-17
     - equal:
         path: spec.notifier.pullPolicy
         value: Always
@@ -70,9 +64,6 @@ tests:
     - equal:
         path: spec.configUpload.repository
         value: config-upload
-    - equal:
-        path: spec.configUpload.tag
-        value: 1.0.2-17
     - equal:
         path: spec.configUpload.pullPolicy
         value: Always
@@ -181,9 +172,6 @@ tests:
         path: spec.notifier.repository
         value: srs-notifier
     - equal:
-        path: spec.notifier.tag
-        value: 1.0.2-17
-    - equal:
         path: spec.notifier.pullPolicy
         value: Always
   - it: should create notifier deployment with explicit registry, repository, tag, and pullPolicy
@@ -202,9 +190,6 @@ tests:
     - equal:
         path: spec.remoteAccess.repository
         value: remote-access
-    - equal:
-        path: spec.remoteAccess.tag
-        value: 1.0.2-17
     - equal:
         path: spec.remoteAccess.pullPolicy
         value: Always

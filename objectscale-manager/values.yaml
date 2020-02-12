@@ -1,0 +1,168 @@
+---
+# Default values for ecs-flex.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# These global settings relate to both the ECS Flex operator as well as the
+# Zookeeper Operator subchart
+global:
+  # Name of a Kubernetes secret with Docker credentials for the private registry
+  # registrySecret: ecs-flex-registry
+
+  # The private docker registry hosting containers for ECS Flex
+  registry: emccorp
+
+  # Default: "" == Watch ALL namespaces
+  watchNamespace: ""
+
+# Create an application resource for management using Dell EMC common installer or other application-resource
+# controllers
+createApplicationResource: true
+
+# The default docker tag and pull policy for the ECS Flex operator and
+# logReceiver
+tag: 0.22.0
+pullPolicy: Always
+
+# The number of replicas for the ECS Flex Operator deployment
+replicaCount: 1
+
+# The image configured for the ObjectScale Manager
+image:
+  repository: objectscale-operator
+  # tag: stable
+  # pullPolicy: Always
+
+# A customer provided log server can be used for external log aggregation.
+# This receiver will be forwarded all ECS platform logs from any ECS instance
+# deployed by the operator. If "logReceiver.create" is enabled, then a
+# syslog-based receiver will be created, and other connectivity configuration
+# options will be ignored.
+# If log receiver configuration is not provided then ECS logs will be redirected to stdout
+logReceiver:
+  # The type of log receiver that ECS Flex will use to consolidate logs. Valid
+  # are: "Syslog" and "Elasticsearch".  When using a "Syslog" receiver, you can
+  # optionally instruct ECS Flex to create a syslog receiver.  In the case of
+  # Elasticsearch, the administrator is expected to create the cluster, and then
+  # provide connectivity details in the "logReceiver" configuration block below.
+  #
+  # type: Syslog
+
+  # User login will be used by fluentd to connect to the elastic search.
+  # user: elastic
+
+  # Password will be used by fluentd to connect to the elsatic search.
+  # password: 123456
+
+  # Configure an external Syslog or Elasticsearch hostname to receive logs from
+  # ECS instances
+  # host: my-syslog-server
+  #
+  # Configure protocol to receive logs for a Syslog-based receiver. Valid values
+  # for syslog receivers are "tcp". Valid values for Elasticsearch are
+  # "http" and "https"
+  # protocol: tcp
+  #
+  # Port to use for customer provided Syslog or Elasticsearch receiver
+  # port: 514
+
+  # The ECS Flex operator can deploy an rSyslog receiver to aggregate logs from
+  # ECS instances. This feature is recommended for enterprise support of ECS
+  # systems.
+  create: false
+
+  # The Docker image used for the rSyslog receiver
+  image:
+    repository: rsyslog
+    # tag: stable
+    # pullPolicy: Always
+
+  persistence:
+    enabled: true
+    accessMode: ReadWriteOnce
+    size: 50Gi
+    # storageClassName: default
+
+# We usually recommend not to specify default resources and to leave this as a conscious
+# choice for the user. This also increases chances charts run on environments with little
+# resources, such as Minikube. If you do want to specify resources, uncomment the following
+# lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+resources: {}
+# limits:
+#  cpu: 100m
+#  memory: 128Mi
+# requests:
+#  cpu: 100m
+#  memory: 128Mi
+
+# Will install crd for object store
+installObjectStoreCRD: true
+
+# installApplicationCRD will install crd for application resources
+installApplicationCRD: true
+
+# installInfluxCRD will install crd for influx
+installInfluxCRD: true
+
+influx:
+  # metricsPort is the port that will be used by metrics in influx
+  metricsPort: 6000
+  image:
+    repository: influxdb-operator
+    # registry: ecs
+    # tag: v1
+    # pullPolicy: Always
+  replicas: 1
+
+vSpherePlugin:
+  enabled: false
+  image:
+    repository: ecs-flex-vsphere-plugin
+    # tag: stable
+    # pullPolicy: Always
+  port: 4443
+  service:
+    type: LoadBalancer
+
+graphql:
+  image:
+    repository: ecs-flex-graphql
+    # tag: stable
+    # pullPolicy: Always
+  withPlayground: false
+  port: 8080
+  serviceName: objectscale-graphql
+  service:
+    type: ClusterIP
+
+telemetry:
+  image:
+    repository: telemetry-upload
+    # tag: stable
+    # pullPolicy: Always
+  # this is as per cronjob schedule - every 12 hours, please follow the cronjob format to edit it
+  schedule: "0 */12 * * *"
+
+# The service name and port that decks-support-store is listening on for download requests
+decks:
+  supportStore:
+    service:
+      name: decks-support-store
+      port: 7443
+
+installcontroller:
+  image:
+    repository: install-controller
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# The log agent configuration for log collection of Manager components
+fluentbitAgent:
+  image:
+    repository: fluent-bit
+    tag: 0.22.0
+    # pullPolicy: IfNotPresent

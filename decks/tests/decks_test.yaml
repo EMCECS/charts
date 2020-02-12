@@ -8,9 +8,9 @@ tests:
         of: Deployment
   - it: should have a default image
     asserts:
-    - equal:
+    - matchRegex:
         path: spec.template.spec.containers[0].image
-        value: emccorp/decks:1.0.2-17
+        pattern: emccorp/decks:.*
     - equal:
         path: spec.template.spec.containers[0].imagePullPolicy
         value: Always

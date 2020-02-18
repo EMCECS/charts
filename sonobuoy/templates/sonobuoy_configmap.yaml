@@ -132,7 +132,9 @@ data:
         "containers": [
           {
             "command": [
-              "sh /run-sonobuoy-test.sh"
+              "/bin/bash",
+              "-c",
+              "./run-sonobuoy-test.sh"
             ],
             "env": [
               {

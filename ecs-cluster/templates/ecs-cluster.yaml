@@ -124,6 +124,15 @@ spec:
 {{- if .Values.storageServer.persistence.protected }}
       protected: {{ .Values.storageServer.persistence.protected }}
 {{- end }}
+{{- if .Values.storageServer.persistence.erasureCoding }}
+      erasureCoding:
+{{- if .Values.storageServer.persistence.erasureCoding.dataBlocks }}
+        dataBlocks: {{ .Values.storageServer.persistence.erasureCoding.dataBlocks }}
+{{- end }}
+{{- if .Values.storageServer.persistence.erasureCoding.codeBlocks }}
+        codeBlocks: {{ .Values.storageServer.persistence.erasureCoding.codeBlocks }}
+{{- end }}
+{{- end }}
       volumesCount: {{ .Values.storageServer.persistence.volumesCount }}
 {{- if .Values.storageServer.persistence.storageClassName }}
       storageClassName: {{ .Values.storageServer.persistence.storageClassName }}

@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-    name: {{.Release.Name}}-app-configmap
+    name: {{.Release.Name}}-app-config
     namespace: {{.Release.namespace}}
     labels:
       app.kubernetes.io/name: {{.Release.Name}}

@@ -27,7 +27,6 @@ dep:
 	tar xzf ${HELM_TGZ} -C /tmp --strip-components=1
 	PATH=`pwd`/linux-amd64/:$PATH
 	chmod +x /tmp/helm
-	helm init --client-only
 	helm plugin list | grep -q "unittest" ; \
 	if [ "$${?}" -eq "1" ] ; then \
 		helm plugin install https://github.com/lrills/helm-unittest ; \

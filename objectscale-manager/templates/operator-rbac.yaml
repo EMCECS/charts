@@ -114,7 +114,7 @@ rules:
 - apiGroups:
   - influxdata.com
   resources:
-  - "influxdbs"
+  - influxdbs
   verbs:
   - "*"
 ---

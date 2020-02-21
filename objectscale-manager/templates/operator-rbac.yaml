@@ -67,6 +67,7 @@ rules:
   - batch
   resources:
   - jobs
+  - cronjobs
   verbs:
   - "*"
 - apiGroups:
@@ -108,6 +109,12 @@ rules:
   - atlas.dellemc.com
   resources:
   - "*"
+  verbs:
+  - "*"
+- apiGroups:
+  - influxdata.com
+  resources:
+  - "influxdbs"
   verbs:
   - "*"
 ---

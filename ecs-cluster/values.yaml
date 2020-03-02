@@ -22,7 +22,7 @@ pullPolicy: Always
 # replicas: 4
 
 # The default performance profile for the ECS cluster. Valid values are "Micro",
-# "Small", and "Large"
+# "Small", "Medium" and "Large"
 performanceProfile: Small
 
 # Name of the storage class that all PVC should be provisioned from

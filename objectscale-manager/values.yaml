@@ -21,7 +21,7 @@ createApplicationResource: true
 
 # The default docker tag and pull policy for the ECS Flex operator and
 # logReceiver
-tag: 0.22.0
+tag: 0.23.0
 pullPolicy: Always
 
 # The number of replicas for the ECS Flex Operator deployment
@@ -164,5 +164,5 @@ affinity: {}
 fluentbitAgent:
   image:
     repository: fluent-bit
-    tag: 0.22.0
+    tag: 0.23.0
     # pullPolicy: IfNotPresent

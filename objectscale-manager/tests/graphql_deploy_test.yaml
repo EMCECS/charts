@@ -53,4 +53,4 @@ tests:
     asserts:
       - equal:
           path: spec.template.spec.serviceAccountName
-          value: objectscale-operator
+          value: objectscale-api

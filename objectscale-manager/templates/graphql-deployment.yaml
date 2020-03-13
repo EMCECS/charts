@@ -34,11 +34,7 @@ spec:
         operator: objectscale-operator
         product: objectscale
     spec:
-{{- if .Values.VMwarePersistentService }}
       serviceAccountName: objectscale-api
-{{- else }}
-      serviceAccountName: objectscale-operator
-{{- end }}
       containers:
         - name: objectscale-graphql
           image: {{ .Values.global.registry }}/{{ .Values.graphql.image.repository }}:{{ default .Values.tag .Values.graphql.image.tag }}

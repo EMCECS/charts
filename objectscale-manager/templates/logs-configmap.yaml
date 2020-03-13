@@ -56,8 +56,12 @@ data:
         tls             On
         tls.verify      Off
         Type            logEvent
+{{- if .Values.logReceiver.user }}
         HTTP_User       {{ .Values.logReceiver.user }}
+{{- end }}
+{{- if .Values.logReceiver.password }}
         HTTP_Passwd     {{ .Values.logReceiver.password }}
+{{- end }}
         Host            {{ .Values.logReceiver.host }}
         Port            {{ .Values.logReceiver.port }}
         Logstash_Format On

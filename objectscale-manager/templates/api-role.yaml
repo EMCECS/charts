@@ -37,6 +37,12 @@ rules:
   verbs:
   - "*"
 - apiGroups:
+  - kahm.emcecs.github.com
+  resources:
+  - "*"
+  verbs:
+  - "*"
+- apiGroups:
   - ""
   resources:
   - pods

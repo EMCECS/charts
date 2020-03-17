@@ -15,6 +15,10 @@ global:
   # Default: "" == Watch ALL namespaces
   watchNamespace: ""
 
+objectStoreAvailableVersions:
+ - 0.22.0
+ - 0.23.0
+
 # Create an application resource for management using Dell EMC common installer or other application-resource
 # controllers
 createApplicationResource: true

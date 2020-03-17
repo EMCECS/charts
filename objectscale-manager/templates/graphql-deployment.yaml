@@ -40,6 +40,8 @@ spec:
           image: {{ .Values.global.registry }}/{{ .Values.graphql.image.repository }}:{{ default .Values.tag .Values.graphql.image.tag }}
           imagePullPolicy: {{ default .Values.pullPolicy .Values.graphql.image.pullPolicy }}
           env:
+            - name: AVAILABLE_STORE_VERSIONS
+              value: {{ .Values.objectStoreAvailableVersions | toJson | quote }}
             - name: OPERATOR_NAME
               value: objectscale-operator
             - name: LOG_DIRECTION

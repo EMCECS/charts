@@ -1,0 +1,13 @@
+suite: test api rbac
+templates:
+  - api-sa.yaml
+tests:
+  - it: should create a service account
+    asserts:
+      - isKind:
+          of: ServiceAccount
+  - it: should have a name objectscale-api
+    asserts:
+      - equal:
+          path: metadata.name
+          value: objectscale-api

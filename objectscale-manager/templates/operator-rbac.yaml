@@ -1,4 +1,3 @@
-{{- if eq .Values.VMwarePersistentService false }}
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -153,4 +152,3 @@ roleRef:
 {{- end }}
   name: objectscale-operator
   apiGroup: rbac.authorization.k8s.io
-{{- end }}

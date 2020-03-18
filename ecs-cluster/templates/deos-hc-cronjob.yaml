@@ -12,6 +12,9 @@ spec:
   jobTemplate:
     spec:
       template:
+        metadata:
+          labels:
+            release: {{ .Release.Name }}
         spec:
           containers:
           - command: ["sh", "/run-deos-hc.sh"]

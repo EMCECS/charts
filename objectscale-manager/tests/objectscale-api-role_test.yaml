@@ -1,0 +1,19 @@
+suite: test api role
+templates:
+  - objectscale-api-role.yaml
+tests:
+  - it: should not create a role, when in PSP
+    set:
+      VMwarePersistentService: true
+    asserts:
+      - hasDocuments:
+          count: 0
+  - it: should create a role, when not in PSP
+    asserts:
+      - isKind:
+          of: Role
+  - it: should have a name objectscale-api
+    asserts:
+      - equal:
+          path: metadata.name
+          value: objectscale-api

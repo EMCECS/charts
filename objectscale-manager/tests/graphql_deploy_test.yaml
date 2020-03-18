@@ -49,3 +49,8 @@ tests:
           content:
             name: OPERATOR_NAME
             value: objectscale-operator
+  - it: should use the correct service account
+    asserts:
+      - equal:
+          path: spec.template.spec.serviceAccountName
+          value: objectscale-api

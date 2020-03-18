@@ -2,7 +2,9 @@ apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
   name: sonobuoy-cronjob
-  namespace: default
+  labels:
+    release: {{.Release.Name }}
+  namespace: {{.Release.Namespace}}
 spec:
   schedule: "0 2 * * 1" # The job is running every Monday at 2am by default
   successfulJobsHistoryLimit: 1
@@ -10,6 +12,9 @@ spec:
   jobTemplate:
     spec:
       template:
+        metadata:
+          labels:
+            release: {{ .Release.Name }}
         spec:
           containers:
           - image: {{ .Values.global.registry }}/{{ .Values.alpine_curl_image.repository }}:{{ .Values.alpine_curl_image.tag }}

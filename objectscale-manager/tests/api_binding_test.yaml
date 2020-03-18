@@ -1,0 +1,49 @@
+suite: test api binding
+templates:
+  - api-binding.yaml
+tests:
+  - it: should create a role binding, when in PSP & with watch namespace
+    set:
+      VMwarePersistentService: true
+      global.watchNamespace: my-namespace
+    asserts:
+      - isKind:
+          of: RoleBinding
+  - it: should create a cluster role binding, when in PSP & no watch namespace,
+    set:
+      VMwarePersistentService: true
+    asserts:
+      - isKind:
+          of: ClusterRoleBinding
+  - it: should create a role binding, when not in PSP
+    set:
+      VMwarePersistentService: false
+    asserts:
+      - isKind:
+          of: RoleBinding
+  - it: should have a name service-account-objectscale-api
+    set:
+      VMwarePersistentService: true
+    asserts:
+      - equal:
+          path: metadata.name
+          value: service-account-objectscale-api
+  - it: should bind to the correct service account
+    asserts:
+      - equal:
+          path: subjects[0].name
+          value: objectscale-api
+  - it: should bind to the objectscale-admin role, when in PSP
+    set:
+      VMwarePersistentService: true
+    asserts:
+      - equal:
+          path: roleRef.name
+          value: objectscale-admin
+  - it: should bind to the objectscale-api role, when not in PSP
+    set:
+      VMwarePersistentService: false
+    asserts:
+      - equal:
+          path: roleRef.name
+          value: objectscale-api

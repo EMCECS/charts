@@ -1,0 +1,13 @@
+suite: test api role
+templates:
+  - objectscale-admin-role.yaml
+tests:
+  - it: should create a cluster role
+    asserts:
+      - isKind:
+          of: ClusterRole
+  - it: should have a name objectscale-admin
+    asserts:
+      - equal:
+          path: metadata.name
+          value: objectscale-admin

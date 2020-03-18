@@ -14,6 +14,9 @@ spec:
   jobTemplate:
     spec:
       template:
+        metadata:
+          labels:
+            release: {{ .Release.Name }}
         spec:
           containers:
             - name: {{.Release.Name}}

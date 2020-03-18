@@ -35,7 +35,6 @@ spec:
         operator: objectscale-operator
         product: objectscale
     spec:
-      serviceAccountName: objectscale-operator
       volumes:
         - name: config-volume
           configMap:

@@ -14,6 +14,9 @@ metadata:
     operator: objectscale-operator
     product: objectscale
     release: {{ .Release.Name }}
+{{- if .Values.group }}
+    group: {{ .Values.group }}
+{{- end }}
 spec:
 {{- if .Values.global.registrySecret }}
   registrySecret: {{ .Values.global.registrySecret }}

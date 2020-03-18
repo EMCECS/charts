@@ -15,9 +15,14 @@ global:
   # Default: "" == Watch ALL namespaces
   watchNamespace: ""
 
+# This is the list of available objectsore versions to graphql for UI to configure the store.
 objectStoreAvailableVersions:
   - 0.22.0
   - 0.23.0
+
+# By setting this flag to "true", all necessary resources for ecs-flex to run in
+# VMWare Persistent Services Platform will be created and configured accordingly.
+VMwarePersistentService: false
 
 # Create an application resource for management using Dell EMC common installer or other application-resource
 # controllers

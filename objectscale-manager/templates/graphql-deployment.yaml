@@ -34,7 +34,7 @@ spec:
         operator: objectscale-operator
         product: objectscale
     spec:
-      serviceAccountName: objectscale-operator
+      serviceAccountName: objectscale-api
       containers:
         - name: objectscale-graphql
           image: {{ .Values.global.registry }}/{{ .Values.graphql.image.repository }}:{{ default .Values.tag .Values.graphql.image.tag }}

@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: objectscale-influxdb-operator
+  namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: objectscale-manager
     app.kubernetes.io/instance: {{ .Release.Name }}

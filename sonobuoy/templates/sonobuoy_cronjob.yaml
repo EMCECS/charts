@@ -18,9 +18,11 @@ spec:
         spec:
           containers:
           - image: {{ .Values.global.registry }}/{{ .Values.alpine_curl_image.repository }}:{{ .Values.alpine_curl_image.tag }}
+          {{- if .Values.global.registrySecret }}
             env:
             - name: curSecret
               value: {{ .Values.global.registrySecret }}
+          {{- end }}
             command:
               - /bin/sh
               - -c

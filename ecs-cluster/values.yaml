@@ -105,14 +105,14 @@ storageServer:
     # storageClassName:
 
     erasureCoding:
-      # Data blocks count for erasure coding can be tuned with the values below. "protected: false" required for this.
-      # If values are not set, they will be calculated automatically (3 SS replicas: 3db/3cb, 4: 6db/3cb, 5+: 12/4).
-      # dataBlocks: 12
-      # codeBlocks: 4
-      # Manually set values must conform the following formulas:
-      # dataBlocks + codeBlocks <= (storageServer.replicas - 1) * codeBlocks
-      # dataBlocks + codeBlocks <= 16
-      # 60 % dataBlocks == 0
+    # Data blocks count for erasure coding can be tuned with the values below. "protected: false" required for this.
+    # If values are not set, they will be calculated automatically (3 SS replicas: 3db/3cb, 4: 6db/3cb, 5+: 12/4).
+    # dataBlocks: 12
+    # codeBlocks: 4
+    # Manually set values must conform the following formulas:
+    # dataBlocks + codeBlocks <= (storageServer.replicas - 1) * codeBlocks
+    # dataBlocks + codeBlocks <= 16
+    # 60 % dataBlocks == 0
 
 # The ECS chunk manager configuration specification
 chunkManager:
@@ -265,7 +265,7 @@ s3:
     # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
     type: ClusterIP
 
-    # Specify the service port configuration for the managementGateway service
+    # Specify the service port configuration for the s3 service
     ports:
       - name: secure
         port: 9021
@@ -302,10 +302,10 @@ s3:
       # commonName:        # override common Name for this CSR.  Defaults to cluster.local FQDN.
       # email: insertyouremail@example.com.local
       names:               # names used to sign this cert
-        country:            USA
-        state:              MA
-        locality:           Hopkinton
-        organization:       Dell EMC
+        country: USA
+        state: MA
+        locality: Hopkinton
+        organization: Dell EMC
         organizationalUnit: ObjectScale
       keyAlgorithm: RSA       # algorithm use to generate the key (ex. RSA, DSA, ECSDA)
       keySize: 2048           # size of the key in bits (ex. 2048, 4096, 8192)
@@ -441,8 +441,8 @@ managementGateway:
     # Specify the service port configuration for the managementGateway service
     ports:
       - name: secure
-        port: 443
-        targetPort: 443
+        port: 4443
+        targetPort: 4443
 
     # loadBalancerIP:     # select specific load balancer IP of the connection
     # nodePort:           # select specific node port for the connection
@@ -472,10 +472,10 @@ managementGateway:
       # commonName:        # override common Name for this CSR.  Defaults to cluster.local FQDN.
       # email: insertyouremail@example.com.local
       names:               # names used to sign this cert
-        country:            USA
-        state:              MA
-        locality:           Hopkinton
-        organization:       Dell EMC
+        country: USA
+        state: MA
+        locality: Hopkinton
+        organization: Dell EMC
         organizationalUnit: ObjectScale
       keyAlgorithm: RSA       # algorithm use to generate the key (ex. RSA, DSA, ECSDA)
       keySize: 2048           # size of the key in bits (ex. 2048, 4096, 8192)

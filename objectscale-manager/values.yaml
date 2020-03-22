@@ -134,7 +134,7 @@ vSpherePlugin:
     # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
     type: ClusterIP
 
-    # Specify the service port configuration for the managementGateway service
+    # Specify the service port configuration for the vSpherePlugin service
     ports:
       - name: api
         port: 4443
@@ -168,10 +168,10 @@ vSpherePlugin:
       # commonName:        # override common Name for this CSR.  Defaults to cluster.local FQDN.
       # email: insertyouremail@example.com.local
       names:               # names used to sign this cert
-        country:            USA
-        state:              MA
-        locality:           Hopkinton
-        organization:       Dell EMC
+        country: USA
+        state: MA
+        locality: Hopkinton
+        organization: Dell EMC
         organizationalUnit: ObjectScale
       keyAlgorithm: RSA       # algorithm use to generate the key (ex. RSA, DSA, ECSDA)
       keySize: 2048           # size of the key in bits (ex. 2048, 4096, 8192)

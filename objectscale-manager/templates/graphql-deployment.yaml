@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: objectscale-graphql
+  namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: objectscale-manager
     app.kubernetes.io/instance: {{ .Release.Name }}
@@ -50,8 +51,8 @@ spec:
 {{- else }}
               value: stdout
 {{- end }}
-          args:
 {{- if .Values.graphql.withPlayground }}
+          args:
             - "-P"
 {{- end }}
 {{- if or .Values.logReceiver.type .Values.logReceiver.create }}

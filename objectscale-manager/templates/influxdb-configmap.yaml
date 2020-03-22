@@ -4,6 +4,7 @@ kind: ConfigMap
 metadata:
   # TODO: make release name based
   name: influxdb-config
+  namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: objectscale-manager
     app.kubernetes.io/instance: {{ .Release.Name }}

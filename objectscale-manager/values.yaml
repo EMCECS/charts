@@ -133,11 +133,11 @@ vSpherePlugin:
 
   service:
     # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
-    type: ClusterIP
+    type: LoadBalancer
 
     # Specify the service port configuration for the vSpherePlugin service
     ports:
-      - name: api
+      - name: http
         port: 4443
         targetPort: 4443
 

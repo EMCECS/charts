@@ -20,7 +20,5 @@ spec:
   selector:
     app.kubernetes.io/name: objectscale-manager
     app.kubernetes.io/component: objectscale-vsphere-plugin
-  ports:
-    - port: {{ .Values.vSpherePlugin.port }}
-      name: http
+  ports: {{ toYaml .Values.vSpherePlugin.service.ports | nindent 6 }}
 {{- end }}

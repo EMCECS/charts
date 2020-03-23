@@ -15,8 +15,8 @@ Dell EMC Elastic Cloud Storage is a highly-scalable, enterprise, S3-compatible o
 
 ## Requirements
 
-* A [Helm](https://helm.sh) installation with access to install to one or more namespaces.
-* [ECS Flex Operator](https://github.com/EMCECS/charts/tree/master/ecs-flex-operator). Only a single operator needs to be installed for a monitored namespace or Kubernetes cluster.
+* A [Helm 3](https://helm.sh) installation with access to install to one or more namespaces.
+* [ObjectScale Manager](https://github.com/EMCECS/charts/tree/master/objectscale-manager). Only a single operator needs to be installed for a monitored namespace or Kubernetes cluster.
 * A Kubernetes Storage Class capable of dynamically creating `ReadWriteOnce` (`RWO`) volumes. This is available in many public Kubernetes services, such as AWS EKS and Google GKE. For more information see the [storage class section](#sc-setup) below.
 
 ## Quick Start
@@ -25,27 +25,27 @@ Dell EMC Elastic Cloud Storage is a highly-scalable, enterprise, S3-compatible o
 
 2. Setup the [EMCECS Helm Repository](https://github.com/EMCECS/charts).
 
-```bash
-$ helm repo add ecs https://emcecs.github.io/charts
-$ helm repo update
-```
+  ```bash
+  $ helm repo add ecs https://emcecs.github.io/charts
+  $ helm repo update
+  ```
 
-3. Install the ECS Flex Operator. This allows you to create and manage ECS clusters.
+3. Install the ObjectScale manager. This allows you to create and manage object stores.
 
-```bash
-$ helm install --name ecs-flex ecs/ecs-flex-operator
-NAME:   ecs-flex
-```
+  ```bash
+  $ helm install obj-mgr1 ecs/objectscale-manager
+  NAME:   obj-mgr1
+  ```
 
 There are [configuration options](../ecs-flex-operator#configuration) you can peruse later at your heart's delight.
 
-4. Install an ECS Cluster.
+4. Install an object store 
 
-```bash
-$ helm install --name my-cluster
-NAME:   my-cluster
-...
-```
+  ```bash
+  $ helm install objectstore1 ecs/ecs-cluster 
+  NAME:   objectstore1
+  ...
+  ```
 
 There are [configuration options](#configuration) for that, too.
 
@@ -62,7 +62,6 @@ For private Kubernetes deployments, if a dynamic storage class does not already 
 ### VMware vSphere Storage Class Setup
 
 VMware vSphere supports a private storage class for dynamic creation and attachment of VMDK volumes. This driver is distributed with Kubernetes, so simply create a storage-class as follows:
-
 ```bash
 $ kubectl apply -f - <<-EOF
 apiVersion: storage.k8s.io/v1

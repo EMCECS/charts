@@ -15,6 +15,11 @@ global:
   # Default: "" == Watch ALL namespaces
   watchNamespace: ""
 
+# This is the list of available objectsore versions to graphql for UI to configure the store.
+objectStoreAvailableVersions:
+  - 0.22.0
+  - 0.23.0
+
 # By setting this flag to "true", all necessary resources for ecs-flex to run in
 # VMWare Persistent Services Platform will be created and configured accordingly.
 VMwarePersistentService: false
@@ -124,9 +129,52 @@ vSpherePlugin:
     repository: ecs-flex-vsphere-plugin
     # tag: stable
     # pullPolicy: Always
-  port: 4443
+
   service:
-    type: LoadBalancer
+    # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
+    type: ClusterIP
+
+    # Specify the service port configuration for the vSpherePlugin service
+    ports:
+      - name: api
+        port: 4443
+        targetPort: 4443
+
+    # loadBalancerIP:     # select specific load balancer IP of the connection
+    # nodePort:           # select specific node port for the connection
+
+    # externalHostnames:
+    #   - objectscale-vsp.example.com
+    # externalIPAddresses:
+    #   - 203.0.113.10
+    #   - 203.0.113.30
+    # externalIPv6Addresses:
+    #   - 2001:0db8:0000:0000:0000:0000:0000:0001
+
+  tls:
+
+    # Type of certificate signing: SelfSigned, KubernetesSigned, or ExternallySigned
+    certificateType: SelfSigned
+
+    certificate: {}
+      # publicKey: < server side customer certificate>
+      # privateKey: <private key for server side cert>
+      # password: # cert password (optional)
+      # authority: |-  # (optional)
+      #   rootCA: xxxx
+      #   intermediateCA:      # provide the intermediate CA here (optional)
+
+    signingRequest:
+      # commonName:        # override common Name for this CSR.  Defaults to cluster.local FQDN.
+      # email: insertyouremail@example.com.local
+      names:               # names used to sign this cert
+        country: USA
+        state: MA
+        locality: Hopkinton
+        organization: Dell EMC
+        organizationalUnit: ObjectScale
+      keyAlgorithm: RSA       # algorithm use to generate the key (ex. RSA, DSA, ECSDA)
+      keySize: 2048           # size of the key in bits (ex. 2048, 4096, 8192)
 
 graphql:
   image:

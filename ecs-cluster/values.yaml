@@ -105,14 +105,14 @@ storageServer:
     # storageClassName:
 
     erasureCoding:
-      # Data blocks count for erasure coding can be tuned with the values below. "protected: false" required for this.
-      # If values are not set, they will be calculated automatically (3 SS replicas: 3db/3cb, 4: 6db/3cb, 5+: 12/4).
-      # dataBlocks: 12
-      # codeBlocks: 4
-      # Manually set values must conform the following formulas:
-      # dataBlocks + codeBlocks <= (storageServer.replicas - 1) * codeBlocks
-      # dataBlocks + codeBlocks <= 16
-      # 60 % dataBlocks == 0
+    # Data blocks count for erasure coding can be tuned with the values below. "protected: false" required for this.
+    # If values are not set, they will be calculated automatically (3 SS replicas: 3db/3cb, 4: 6db/3cb, 5+: 12/4).
+    # dataBlocks: 12
+    # codeBlocks: 4
+    # Manually set values must conform the following formulas:
+    # dataBlocks + codeBlocks <= (storageServer.replicas - 1) * codeBlocks
+    # dataBlocks + codeBlocks <= 16
+    # 60 % dataBlocks == 0
 
 # The ECS chunk manager configuration specification
 chunkManager:
@@ -262,7 +262,53 @@ s3:
     # pullPolicy: IfNotPresent
 
   service:
+    # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
     type: ClusterIP
+
+    # Specify the service port configuration for the s3 service
+    ports:
+      - name: secure
+        port: 9021
+        targetPort: 9021
+      - name: insecure
+        port: 9020
+        targetPort: 9020
+
+    # loadBalancerIP:     # select specific load balancer IP of the connection
+    # nodePort:           # select specific node port for the connection
+
+    # externalHostnames:
+    #   - objectscale-vsp.example.com
+    # externalIPAddresses:
+    #   - 203.0.113.10
+    #   - 203.0.113.30
+    # externalIPv6Addresses:
+    #   - 2001:0db8:0000:0000:0000:0000:0000:0001
+
+  tls:
+
+    # Type of certificate signing: SelfSigned, KubernetesSigned, or ExternallySigned
+    certificateType: SelfSigned
+
+    certificate: {}
+      # publicKey: < server side customer certificate>
+      # privateKey: <private key for server side cert>
+      # password: # cert password (optional)
+      # authority: |-  # (optional)
+    #   rootCA: xxxx
+    #   intermediateCA:      # provide the intermediate CA here (optional)
+
+    signingRequest:
+      # commonName:        # override common Name for this CSR.  Defaults to cluster.local FQDN.
+      # email: insertyouremail@example.com.local
+      names:               # names used to sign this cert
+        country: USA
+        state: MA
+        locality: Hopkinton
+        organization: Dell EMC
+        organizationalUnit: ObjectScale
+      keyAlgorithm: RSA       # algorithm use to generate the key (ex. RSA, DSA, ECSDA)
+      keySize: 2048           # size of the key in bits (ex. 2048, 4096, 8192)
 
 # The ECS space reclaimer configuration specification
 spaceReclaimer:
@@ -387,31 +433,52 @@ managementGateway:
     repository: management-gateway
     # tag: stable
     # pullPolicy: IfNotPresent
+
   service:
+    # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
+    type: ClusterIP
 
     # Specify the service port configuration for the managementGateway service
     ports:
-      - name: api
+      - name: secure
         port: 4443
         targetPort: 4443
 
-# Specify the service type for the managementGateway container. The default is a
-# "ClusterIP"
-#
-# type: LoadBalancer
+    # loadBalancerIP:     # select specific load balancer IP of the connection
+    # nodePort:           # select specific node port for the connection
 
-# Specify a specific load balancer IP address for the managementGateway service. By
-# default, Kubernetes will allocate an address automatically from the
-# load-balancer pool.
-#
-# loadBalancerIP: 10.0.0.1
+    # externalHostnames:
+    #   - objectscale-vsp.example.com
+    # externalIPAddresses:
+    #   - 203.0.113.10
+    #   - 203.0.113.30
+    # externalIPv6Addresses:
+    #   - 2001:0db8:0000:0000:0000:0000:0000:0001
 
-# Specify a custom annotation for the managementGateway service. This is required for
-# some public cloud load balancer providers when using a load balancer type
-# service. The default value is an empty map.
-#
-# annotations:
-#   some-annotation: some-value
+  tls:
+
+    # Type of certificate signing: SelfSigned, KubernetesSigned, or ExternallySigned
+    certificateType: SelfSigned
+
+    certificate: {}
+      # publicKey: < server side customer certificate>
+      # privateKey: <private key for server side cert>
+    # password: # cert password (optional)
+    # authority: |-  # (optional)
+    #   rootCA: xxxx
+    #   intermediateCA:      # provide the intermediate CA here (optional)
+
+    signingRequest:
+      # commonName:        # override common Name for this CSR.  Defaults to cluster.local FQDN.
+      # email: insertyouremail@example.com.local
+      names:               # names used to sign this cert
+        country: USA
+        state: MA
+        locality: Hopkinton
+        organization: Dell EMC
+        organizationalUnit: ObjectScale
+      keyAlgorithm: RSA       # algorithm use to generate the key (ex. RSA, DSA, ECSDA)
+      keySize: 2048           # size of the key in bits (ex. 2048, 4096, 8192)
 
 # Enable or disable the cluster automatic provisioning. This step will provision
 # the ECS resources into a single storage pool and virtual data center scoped to

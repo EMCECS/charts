@@ -234,6 +234,11 @@ diagnostic:
   # Number of resource service replicas to run with the the deployment
   # replicas: 1
 
+  # Docker repository to be used for dthealth service instances
+  dthealthimage:
+    repository: dthealth
+    # tag: stable
+    # pullPolicy: IfNotPresent
   # Docker repository to be used for diagnostic service instances
   image:
     repository: diagnostic-service
@@ -242,6 +247,9 @@ diagnostic:
   service:
     # Specify the service port configuration for the diagnostic service
     ports:
+      - name: dthealth
+        port: 8080
+        targetPort: 8080
       - name: diag
         port: 9100
         targetPort: 9100

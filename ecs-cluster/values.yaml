@@ -268,10 +268,10 @@ s3:
     # Specify the service port configuration for the s3 service
     ports:
       - name: secure
-        port: 9021
+        port: 443
         targetPort: 9021
       - name: insecure
-        port: 9020
+        port: 80
         targetPort: 9020
 
     # loadBalancerIP:     # select specific load balancer IP of the connection

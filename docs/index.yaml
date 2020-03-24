@@ -458,25 +458,6 @@ entries:
     version: 0.24.0
   - apiVersion: v1
     appVersion: 0.23.0
-    created: "2020-03-24T01:29:05.919064149-04:00"
-    dependencies:
-    - condition: installMonitoringHelmDependency
-      name: ecs-monitoring
-      repository: file://../../../../monitoring/k8s/charts/ecs-monitoring
-      version: 0.0.1
-    description: |
-      Dell EMC ObjectScale is highly scalable, and high performance S3 compatible object storage platform.
-    digest: e95d5a92283baa66bf40962b6b144056528eb6cfcb7e96620a8c35693f361c88
-    icon: https://avatars0.githubusercontent.com/u/12926680
-    maintainers:
-    - name: Dell EMC
-      url: http://dellemc.com
-    name: ecs-cluster
-    urls:
-    - ecs-cluster-0.23.3.tgz
-    version: 0.23.3
-  - apiVersion: v1
-    appVersion: 0.23.0
     created: "2020-03-24T01:29:05.917619405-04:00"
     dependencies:
     - condition: installMonitoringHelmDependency
@@ -1144,33 +1125,6 @@ entries:
     urls:
     - objectscale-manager-0.24.0.tgz
     version: 0.24.0
-  - apiVersion: v1
-    appVersion: 0.23.0
-    created: "2020-03-24T01:29:05.947793644-04:00"
-    dependencies:
-    - name: zookeeper-operator
-      repository: file://../zookeeper-operator
-      version: ~0.22.1
-    - name: atlas-operator
-      repository: file://../atlas-operator
-      version: ~0.19.0
-    - name: fio-test
-      repository: file://../fio-test
-      version: 0.22.1
-    - name: sonobuoy
-      repository: file://../sonobuoy
-      version: ~0.16.5
-    description: |
-      Dell EMC ObjectScale is highly scalable, and high performance S3 compatible object storage platform.
-    digest: e132f70b1c4b38ce2b311227c33594e636f2703b6bc29cd917d036696a812b53
-    icon: https://avatars0.githubusercontent.com/u/12926680
-    maintainers:
-    - name: Dell EMC
-      url: http://dellemc.com
-    name: objectscale-manager
-    urls:
-    - objectscale-manager-0.23.3.tgz
-    version: 0.23.3
   - apiVersion: v1
     appVersion: 0.23.0
     created: "2020-03-24T01:29:05.944835861-04:00"

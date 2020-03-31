@@ -1,0 +1,17 @@
+suite: test psp namespace
+templates:
+  - persistent-services-platform-namespace.yaml
+tests:
+  - it: should create a namespace
+    set:
+      VMwarePersistentService: true
+    asserts:
+      - isKind:
+          of: Namespace
+  - it: should have the correct name
+    set:
+      VMwarePersistentService: true
+    asserts:
+      - equal:
+          path: metadata.name
+          value: dellemc-objectscale-system

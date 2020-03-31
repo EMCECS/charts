@@ -1,7 +1,7 @@
 dependencies:
 - name: zookeeper-operator
   repository: file://../zookeeper-operator
-  version: 0.22.1
+  version: 0.24.0
 - name: atlas-operator
   repository: file://../atlas-operator
   version: 0.19.0
@@ -11,5 +11,5 @@ dependencies:
 - name: sonobuoy
   repository: file://../sonobuoy
   version: 0.16.5
-digest: sha256:a29046b8b94373625892b2868218cb07946a550d2648b104181aac5cd022ced1
-generated: "2020-02-27T23:07:45.945410832-05:00"
+digest: sha256:9e36abcd42fd05076c84dc5cc6f994a040b50792e87e94db01a3a7012de4ea1c
+generated: "2020-03-24T01:29:05.420189034-04:00"

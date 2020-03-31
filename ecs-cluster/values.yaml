@@ -15,7 +15,7 @@ global:
   registry: emccorp
 
 # The default docker tag and pull policy for the ECS Cluster
-tag: 0.23.0
+tag: 0.24.0
 pullPolicy: Always
 
 # Override the default number of replicas which taken according to performance profile for each service
@@ -276,10 +276,10 @@ s3:
     # Specify the service port configuration for the s3 service
     ports:
       - name: secure
-        port: 9021
+        port: 443
         targetPort: 9021
       - name: insecure
-        port: 9020
+        port: 80
         targetPort: 9020
 
     # loadBalancerIP:     # select specific load balancer IP of the connection
@@ -448,7 +448,7 @@ managementGateway:
 
     # Specify the service port configuration for the managementGateway service
     ports:
-      - name: secure
+      - name: api
         port: 4443
         targetPort: 4443
 

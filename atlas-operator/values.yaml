@@ -16,7 +16,7 @@ global:
 
 image:
   repository: atlas-operator
-  tag: v0.3
+  tag: v0.4
   pullPolicy: IfNotPresent
 
 nameOverride: ""

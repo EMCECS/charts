@@ -19,6 +19,7 @@ global:
 objectStoreAvailableVersions:
   - 0.22.0
   - 0.23.0
+  - 0.24.0
 
 # By setting this flag to "true", all necessary resources for ecs-flex to run in
 # VMWare Persistent Services Platform will be created and configured accordingly.
@@ -30,7 +31,7 @@ createApplicationResource: true
 
 # The default docker tag and pull policy for the ECS Flex operator and
 # logReceiver
-tag: 0.23.0
+tag: 0.24.0
 pullPolicy: Always
 
 # The number of replicas for the ECS Flex Operator deployment
@@ -216,5 +217,5 @@ affinity: {}
 fluentbitAgent:
   image:
     repository: fluent-bit
-    tag: 0.23.0
+    tag: 0.24.0
     # pullPolicy: IfNotPresent

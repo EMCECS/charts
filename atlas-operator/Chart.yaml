@@ -1,10 +1,11 @@
 ---
 apiVersion: v1
 name: atlas-operator
-version: 0.19.0
-appVersion: 0.3
+version: 0.24.0
+appVersion: 0.4
 description: |
-  Atlas is a highly available key-value store for shared metadata
+  Atlas operator deploys a custom resource for an atlas cluster and a
+  pod to provision atlas clusters.
 maintainers:
 - name: Dell EMC
   url: https://dellemc.com

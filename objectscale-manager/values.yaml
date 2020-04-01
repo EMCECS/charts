@@ -172,7 +172,7 @@ vSpherePlugin:
         locality: Hopkinton
         organization: Dell EMC
         organizationalUnit: ObjectScale
-      keyAlgorithm: RSA # algorithm use to generate the key (ex. RSA, DSA, ECSDA)
+      keyAlgorithm: RSA # algorithm use to generate the key (ex. RSA, ECDSA)
       keySize: 2048 # size of the key in bits (ex. 2048, 4096, 8192)
 
 graphql:

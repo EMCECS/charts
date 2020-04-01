@@ -17,7 +17,6 @@ global:
   # Should we start deos-hc cronejob to collect the healthchecks of the objectstores
   enableHealthcheck: true
 
-
 # The default docker tag and pull policy for the ECS Cluster
 tag: 0.24.0
 pullPolicy: Always

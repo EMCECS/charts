@@ -16,7 +16,6 @@ global:
   # Should we start the sonobuoy cronejob to collect the healthchecks of the objectstores
   enableHealthcheck: true
 
-
 # The default docker tag and pull policy for sonobuoy
 tag: 0.16.5
 pullPolicy: Always

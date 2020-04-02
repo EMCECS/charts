@@ -6,6 +6,14 @@
 # These global settings relate to both the ECS Flex operator as well as the
 # Zookeeper Operator subchart
 global:
+  # Name of the target platform
+  # By setting this value all necessary resources for ecs-flex will be created and configured accordingly.
+  # Valid values are
+  # "VMwarePersistentService" - VMWare Persistent Services Platform
+  # "Atlantic" - Project Atlantic Bare-Metal Kubernetes platform
+  # TODO: OBSREQ-318 platform should be moved to Global Chart Values
+  platform: VMwarePersistentService
+
   # Name of a Kubernetes secret with Docker credentials for the private registry
   # registrySecret: ecs-flex-registry
 
@@ -20,10 +28,6 @@ objectStoreAvailableVersions:
   - 0.22.0
   - 0.23.0
   - 0.24.0
-
-# By setting this flag to "true", all necessary resources for ecs-flex to run in
-# VMWare Persistent Services Platform will be created and configured accordingly.
-VMwarePersistentService: false
 
 # Create an application resource for management using Dell EMC common installer or other application-resource
 # controllers

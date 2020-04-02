@@ -1,4 +1,4 @@
-{{- if .Values.VMwarePersistentService }}
+{{- if eq .Values.global.platform "VMwarePersistentService" }}
   {{- if eq .Values.global.watchNamespace "" }}
 kind: ClusterRoleBinding
   {{- else }}
@@ -28,7 +28,7 @@ subjects:
   namespace: {{ .Release.Namespace }}
 {{- end }}
 roleRef:
-{{- if .Values.VMwarePersistentService }}
+{{- if eq .Values.global.platform "VMwarePersistentService" }}
   {{- if eq .Values.global.watchNamespace "" }}
   kind: ClusterRole
   {{- else }}

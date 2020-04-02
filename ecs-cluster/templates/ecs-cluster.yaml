@@ -18,6 +18,7 @@ metadata:
     group: {{ .Values.group }}
 {{- end }}
 spec:
+  platform: {{ .Values.global.platform | default "VMwarePersistentService" }}
 {{- if .Values.global.registrySecret }}
   registrySecret: {{ .Values.global.registrySecret }}
 {{- end }}

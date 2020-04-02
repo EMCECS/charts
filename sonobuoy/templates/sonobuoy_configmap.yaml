@@ -202,4 +202,4 @@ data:
 kind: ConfigMap
 metadata:
   name: sonobuoy-config-cronjob
-  namespace: default
+  namespace: {{ .Release.Namespace }}

@@ -1,4 +1,4 @@
-{{- if (ne .Values.global.platform "VMwarePersistentService") }}
+{{- if (ne .Values.global.platform "VMware") }}
 ---
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1

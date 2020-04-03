@@ -11,8 +11,9 @@ global:
   # Valid values are
   # "VMwarePersistentService" - VMWare Persistent Services Platform
   # "Atlantic" - Project Atlantic Bare-Metal Kubernetes platform
+  # "Default" - All others
   # TODO: OBSREQ-318 platform should be moved to Global Chart Values
-  platform: VMwarePersistentService
+  platform: Default
 
   # Name of a Kubernetes secret with Docker credentials for the private registry
   # registrySecret: ecs-flex-registry

@@ -143,6 +143,7 @@ vSpherePlugin:
 
     # loadBalancerIP:     # select specific load balancer IP of the connection
     # nodePort:           # select specific node port for the connection
+
     # externalHostnames:
     #   - objectscale-vsp.example.com
     # externalIPAddresses:
@@ -152,6 +153,7 @@ vSpherePlugin:
     #   - 2001:0db8:0000:0000:0000:0000:0000:0001
 
   tls:
+
     # Type of certificate signing: SelfSigned, KubernetesSigned, or ExternallySigned
     certificateType: SelfSigned
 
@@ -166,14 +168,14 @@ vSpherePlugin:
     signingRequest:
       # commonName:        # override common Name for this CSR.  Defaults to cluster.local FQDN.
       # email: insertyouremail@example.com.local
-      names: # names used to sign this cert
+      names:               # names used to sign this cert
         country: USA
         state: MA
         locality: Hopkinton
         organization: Dell EMC
         organizationalUnit: ObjectScale
-      keyAlgorithm: RSA # algorithm use to generate the key (ex. RSA, ECDSA)
-      keySize: 2048 # size of the key in bits (ex. 2048, 4096, 8192)
+      keyAlgorithm: RSA       # algorithm use to generate the key (ex. RSA, DSA, ECSDA)
+      keySize: 2048           # size of the key in bits (ex. 2048, 4096, 8192)
 
 graphql:
   image:

@@ -15,7 +15,7 @@ global:
   # Default: "" == Watch ALL namespaces
   watchNamespace: ""
 
-  # Should we start fio cronejob to collect the healthchecks of the objectstores
+  # Start a FIO cronejob to collect the healthchecks of the objectstores
   enableHealthcheck: true
 
 replicaCount: 1

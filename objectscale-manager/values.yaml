@@ -15,8 +15,8 @@ global:
   # Default: "" == Watch ALL namespaces
   watchNamespace: ""
 
-  # Should we start the fio and sonobouy cronejobs to collect the healthchecks of the objectstores
-  # this flag is set under global because the fio and sonobouy are sub-charts and the cronjobs runs under the sub-charts
+  # Start FIO and sonobouy cronejobs to collect the healthchecks of the objectstores
+  # this flag is set under global because the FIO and sonobouy are sub-charts and the cronjobs runs under the sub-charts
   enableHealthcheck: true
 
 # This is the list of available objectsore versions to graphql for UI to configure the store.

@@ -1,4 +1,4 @@
-{{- if (.Values.global.platform) and (eq .Values.global.platform "VMware") }}
+{{- if eq .Values.global.platform "VMware" }}
   {{- if eq .Values.global.watchNamespace "" }}
 kind: ClusterRoleBinding
   {{- else }}
@@ -28,7 +28,7 @@ subjects:
   namespace: {{ .Release.Namespace }}
 {{- end }}
 roleRef:
-{{- if (.Values.global.platform) and (eq .Values.global.platform "VMware") }}
+{{- if eq .Values.global.platform "VMware" }}
   {{- if eq .Values.global.watchNamespace "" }}
   kind: ClusterRole
   {{- else }}

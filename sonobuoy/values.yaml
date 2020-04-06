@@ -13,7 +13,7 @@ global:
   # Default: "" == Watch ALL namespaces
   watchNamespace: ""
 
-  # Start a sonobuoy cronejob to collect the healthchecks of the objectstores
+  # Start a sonobuoy cronjob to get the healthcheck of the k8s cluster
   enableHealthcheck: true
 
 # The default docker tag and pull policy for sonobuoy

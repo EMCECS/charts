@@ -15,7 +15,7 @@ global:
   # Default: "" == Watch ALL namespaces
   watchNamespace: ""
 
-  # Start FIO and sonobouy cronejobs to collect the healthchecks of the objectstores
+  # Start the  FIO and sonobouy cronjobs to gather the healthcheck of the k8s cluster
   # this flag is set under global because the FIO and sonobouy are sub-charts and the cronjobs runs under the sub-charts
   enableHealthcheck: true
 

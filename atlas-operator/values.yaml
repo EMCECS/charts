@@ -11,12 +11,16 @@ global:
   # The Docker registry hosting containers for the Atlas operator
   registry: emccorp
 
+  # Specifies if the Operator should watch all namespaces for AtlasCluster
+  # resources or only the namespace that is is deployed in.
+  watchAllNamespaces: true
+
   # Extra labels that will be applied to all resources created by the chart
   labels: {}
 
 image:
   repository: atlas-operator
-  tag: v0.4
+  tag: v0.5
   pullPolicy: IfNotPresent
 
 nameOverride: ""

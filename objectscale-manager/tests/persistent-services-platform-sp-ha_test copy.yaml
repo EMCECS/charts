@@ -1,29 +1,20 @@
 suite: test psp storage policy
 templates:
-  - persistent-services-platform-storage-policy.yaml
+  - persistent-services-platform-sp-ha.yaml
 tests:
   - it: should create a storage policy
     set:
-      VMwarePersistentService: true
+      global.platform: "VMware"
     asserts:
       - isKind:
           of: StoragePolicy
   - it: should have the correct name
     set:
-      VMwarePersistentService: true
-    asserts:
-      - equal:
-          path: metadata.name
-          value: dellemc-objectscale-local
-  - it: should have the correct name
-    set:
-      VMwarePersistentService: true
+      global.platform: "VMware"
     asserts:
       - equal:
         path: metadata.name
         value: dellemc-objectscale-highly-available
   - it: should not create a storage policy
-    set:
-      VMwarePersistentService: false
     assert:
       - nil

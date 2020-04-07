@@ -163,7 +163,8 @@ vSpherePlugin:
     # Type of certificate signing: SelfSigned, KubernetesSigned, or ExternallySigned
     certificateType: SelfSigned
 
-    certificate: {}
+    certificate:
+      {}
       # publicKey: < server side customer certificate>
       # privateKey: <private key for server side cert>
       # password: # cert password (optional)
@@ -213,7 +214,7 @@ installcontroller:
   image:
     repository: install-controller
 
-sonobouy:
+sonobuoy:
   enabled: true
 
 nodeSelector: {}

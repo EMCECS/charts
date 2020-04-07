@@ -18,6 +18,6 @@ tests:
           pattern: ^sonobuoy$
   - it: should be nil
     set:
-      sonobouy.enabled: false
+      sonobuoy.enabled: false
     assert:
       - nil

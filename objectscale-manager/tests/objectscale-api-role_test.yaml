@@ -2,9 +2,9 @@ suite: test api role
 templates:
   - objectscale-api-role.yaml
 tests:
-  - it: should not create a role, when in PSP
+  - it: should not create this role, when in PSP
     set:
-      VMwarePersistentService: true
+      global.platform: "VMware"
     asserts:
       - hasDocuments:
           count: 0

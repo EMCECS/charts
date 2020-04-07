@@ -1,13 +1,14 @@
 dependencies:
-- name: zookeeper-operator
-  version: ~0.24.0
-  repository: file://../zookeeper-operator
-- name: atlas-operator
-  version: ~0.24.0
-  repository: file://../atlas-operator
-- name: fio-test
-  version: 0.22.1
-  repository: file://../fio-test
-- name: sonobuoy
-  version: ~0.16.5
-  repository: file://../sonobuoy
+  - name: zookeeper-operator
+    version: ~0.24.0
+    repository: file://../zookeeper-operator
+  - name: atlas-operator
+    version: ~0.24.0
+    repository: file://../atlas-operator
+  - name: fio-test
+    version: 0.22.1
+    repository: file://../fio-test
+  - name: sonobuoy
+    version: ~0.16.5
+    repository: file://../sonobuoy
+    condition: sonobuoy.enabled

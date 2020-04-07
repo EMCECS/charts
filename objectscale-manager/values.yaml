@@ -144,10 +144,10 @@ vSpherePlugin:
 
     # Specify the service port configuration for the vSpherePlugin service
     ports:
-    - name: http
-      port: 4443
-      targetPort: 4443
-      #nodePort: 31240
+      - name: http
+        port: 4443
+        targetPort: 4443
+        #nodePort: 31240
     #loadBalancerIP: "1.2.3.4"
     #externalHostnames:
     #  - objectscale-vsp.example.com
@@ -160,23 +160,23 @@ vSpherePlugin:
   tls:
     # Type of certificate signing: SelfSigned, KubernetesSigned, or ExternallySigned
     certificateType: SelfSigned
-    certificate:
-      publicKey: "publicKey" 
-      privateKey: "privateKey"
-      password: "password" 
-      authority: |-
-         rootCA: "rootCA"
-         intermediateCA: "intermediateCA"
+    certificate: {}
+      # publicKey: "publicKey"
+      # privateKey: "privateKey"
+      # password: "password"
+      # authority: |-
+      #    rootCA: "rootCA"
+      #    intermediateCA: "intermediateCA"
     signingRequest:
-      commonName: "vinod.com"
-      email: insertyouremail@example.com.local
+      # commonName:        # override common Name for this CSR.  Defaults to cluster.local FQDN.
+      # email: insertyouremail@example.com.local
       names:
         country: USA
         state: MA
         locality: Hopkinton
         organization: Dell EMC
         organizationalUnit: ObjectScale
-      keyAlgorithm: RSA       # algorithm use to generate the key (ex. RSA, DSA, ECSDA)
+      keyAlgorithm: RSA       # algorithm use to generate the key (ex. RSA, ECDSA)
       keySize: 2048           # size of the key in bits (ex. 2048, 4096, 8192)
 
 graphql:

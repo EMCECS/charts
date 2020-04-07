@@ -274,14 +274,14 @@ s3:
 
   service:
     # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
-    type: LoadBalancer
+    type: ClusterIP
 
     # Specify the service port configuration for the vSpherePlugin service
     ports:
-    - name: http
-      port: 4443
-      targetPort: 4443
-      #nodePort: 31240
+      - name: http
+        port: 4443
+        targetPort: 4443
+        #nodePort: 31240
     #loadBalancerIP: "1.2.3.4"
     #externalHostnames:
     #  - objectscale-vsp.example.com
@@ -294,16 +294,16 @@ s3:
   tls:
     # Type of certificate signing: SelfSigned, KubernetesSigned, or ExternallySigned
     certificateType: SelfSigned
-    certificate:
-      publicKey: "publicKey"
-      privateKey: "privateKey"
-      password: "password"
-      authority: |-
-         rootCA: "rootCA"
-         intermediateCA: "intermediateCA"
+    certificate: {}
+      # publicKey: "publicKey"
+      # privateKey: "privateKey"
+      # password: "password"
+      # authority: |-
+      #    rootCA: "rootCA"
+      #    intermediateCA: "intermediateCA"
     signingRequest:
-      commonName: "vinod.com"
-      email: insertyouremail@example.com.local
+      # commonName:        # override common Name for this CSR.  Defaults to cluster.local FQDN.
+      # email: insertyouremail@example.com.local
       names:
         country: USA
         state: MA
@@ -466,10 +466,10 @@ managementGateway:
     certificate: {}
       # publicKey: < server side customer certificate>
       # privateKey: <private key for server side cert>
-    # password: # cert password (optional)
-    # authority: |-  # (optional)
-    #   rootCA: xxxx
-    #   intermediateCA:      # provide the intermediate CA here (optional)
+      # password: # cert password (optional)
+      # authority: |-  # (optional)
+      #   rootCA: xxxx
+      #   intermediateCA:      # provide the intermediate CA here (optional)
 
     signingRequest:
       # commonName:        # override common Name for this CSR.  Defaults to cluster.local FQDN.

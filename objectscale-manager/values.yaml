@@ -40,7 +40,7 @@ replicaCount: 1
 # The image configured for the ObjectScale Manager
 image:
   repository: objectscale-operator
-  tag: vinod 
+  # tag: stable
   # pullPolicy: Always
 
 # A customer provided log server can be used for external log aggregation.

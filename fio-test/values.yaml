@@ -11,9 +11,6 @@ global:
   # The private docker registry hosting containers for ECS Flex
   registry: emccorp
 
-  # Default: true == Watch ALL namespaces
-  watchAllNamespaces: true
-
 replicaCount: 1
 
 image:

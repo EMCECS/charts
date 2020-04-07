@@ -12,8 +12,8 @@ global:
   # registry: harbor.lss.emc.com/ecs
   registry: emccorp
 
-  # Default: "" == Watch ALL namespaces
-  watchNamespace: ""
+  # Default: true == Watch ALL namespaces
+  watchAllNamespaces: true
 
 # The default docker tag and pull policy for the KAHM
 tag: 1.1.0-1

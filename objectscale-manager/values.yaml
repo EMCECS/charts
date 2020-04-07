@@ -6,24 +6,32 @@
 # These global settings relate to both the ECS Flex operator as well as the
 # Zookeeper Operator subchart
 global:
+  # Name of the target platform
+  # By setting this value all necessary resources for ecs-flex will be created and configured accordingly.
+  # Valid values are
+  # "VMware" - VMWare Persistent Services Platform
+  # "Atlantic" - Project Atlantic Bare-Metal Kubernetes platform
+  # "Default" - All others
+  platform: Default
+
   # Name of a Kubernetes secret with Docker credentials for the private registry
   # registrySecret: ecs-flex-registry
 
   # The private docker registry hosting containers for ECS Flex
   registry: emccorp
 
-  # Default: "" == Watch ALL namespaces
-  watchNamespace: ""
+  # Default: true == Watch ALL namespaces
+  watchAllNamespaces: true
+
+  # Start the  FIO and sonobouy cronjobs to gather the healthcheck of the k8s cluster
+  # this flag is set under global because the FIO and sonobouy are sub-charts and the cronjobs runs under the sub-charts
+  enableHealthcheck: true
 
 # This is the list of available objectsore versions to graphql for UI to configure the store.
 objectStoreAvailableVersions:
   - 0.22.0
   - 0.23.0
   - 0.24.0
-
-# By setting this flag to "true", all necessary resources for ecs-flex to run in
-# VMWare Persistent Services Platform will be created and configured accordingly.
-VMwarePersistentService: false
 
 # Create an application resource for management using Dell EMC common installer or other application-resource
 # controllers

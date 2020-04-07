@@ -50,13 +50,13 @@ There are [configuration options](#configuration) you can peruse later at your h
 
 ### Namespace Access
 
-DECKS can be configured to manage a single namespace within a Kubernetes cluster, or all namespaces. To configure a specific namespace, simply set the `global.watchNamespace` setting:
+DECKS can be configured to manage a single namespace within a Kubernetes cluster, or all namespaces. To watch its own namespace, simply set the `global.watchAllNamespaces` setting:
 
 ```bash
-$ helm install --name decks --set global.watchNamespace=my-namespace ecs/decks
+$ helm install decks --set global.watchAllNamespaces=false
 ```
 
-To use the decks with any namespace on the Kubernetes cluster, you can retain the default configuration, which is to set the `global.watchNamespace` setting to an empty string (`""`).
+To use the decks with any namespace on the Kubernetes cluster, you can retain the default configuration, which is to set the `global.watchAllNamespaces` setting to true.
 
 ### Private Docker Registry
 

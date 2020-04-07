@@ -3,7 +3,6 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-
 # These global settings relate to fio-test
 global:
   # Name of a Kubernetes secret with Docker credentials for the private registry
@@ -12,9 +11,8 @@ global:
   # The private docker registry hosting containers for ECS Flex
   registry: emccorp
 
-  # Default: "" == Watch ALL namespaces
-  watchNamespace: ""
-
+  # Start a FIO cronejob to collect the healthchecks of the objectstores
+  enableHealthcheck: true
 
 replicaCount: 1
 
@@ -22,7 +20,6 @@ image:
   repository: deos-fio
   tag: 3.14
   pullPolicy: Always
-
 
 resources: {}
 # We usually recommend not to specify default resources and to leave this as

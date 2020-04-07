@@ -89,15 +89,15 @@ There are [configuration options](../ecs-cluster#configuration) for that, too.
 
 ### Namespace Access
 
-The ECS Flex Operator can be configured to manage a single namespace within a Kubernetes cluster, or all namespaces. To configure a specific namespace, simply set the `global.watchNamespace` setting:
+The ECS Flex Operator can be configured to manage a single namespace within a Kubernetes cluster, or all namespaces. To configure a watch on its own namespace, simply set the `global.watchAllNamespaces` setting:
 
 ```bash
-$ helm install --name ecs-flex \
-    --set global.watchNamespace=my-namespace \
+$ helm install ecs-flex \
+    --set global.watchAllNamespaces=false \
     ecs/ecs-flex-operator
 ```
 
-To use the operator with any namespace on the Kubernetes cluster, you can retain the default configuration, which is to set the `global.watchNamespace` setting to an empty string (`""`).
+To use the operator with any namespace on the Kubernetes cluster, you can retain the default configuration, which is to set the `global.watchAllNamespaces` setting to true.
 
 ### Private Docker Registry
 

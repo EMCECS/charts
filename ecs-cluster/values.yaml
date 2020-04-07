@@ -276,20 +276,24 @@ s3:
     # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
     type: ClusterIP
 
-    # Specify the service port configuration for the vSpherePlugin service
+    # Specify the service port configuration for the s3 service
     ports:
-      - name: http
-        port: 4443
-        targetPort: 4443
-        #nodePort: 31240
-    #loadBalancerIP: "1.2.3.4"
-    #externalHostnames:
-    #  - objectscale-vsp.example.com
-    #externalIPAddresses:
-    #  - 203.0.113.10
-    #  - 203.0.113.30
-    #externalIPv6Addresses:
-    #  - 2001:0db8:0000:0000:0000:0000:0000:0001
+      - name: secure
+        port: 443
+        targetPort: 9021
+      - name: insecure
+        port: 80
+        targetPort: 9020
+        # nodePort:           # select specific node port for the connection
+
+    # loadBalancerIP:     # select specific load balancer IP of the connection
+    # externalHostnames:
+    #   - objectscale-vsp.example.com
+    # externalIPAddresses:
+    #   - 203.0.113.10
+    #   - 203.0.113.30
+    # externalIPv6Addresses:
+    #   - 2001:0db8:0000:0000:0000:0000:0000:0001
 
   tls:
     # Type of certificate signing: SelfSigned, KubernetesSigned, or ExternallySigned
@@ -446,10 +450,9 @@ managementGateway:
       - name: api
         port: 4443
         targetPort: 4443
+        # nodePort:           # select specific node port for the connection
 
     # loadBalancerIP:     # select specific load balancer IP of the connection
-    # nodePort:           # select specific node port for the connection
-
     # externalHostnames:
     #   - objectscale-vsp.example.com
     # externalIPAddresses:

@@ -14,6 +14,9 @@ global:
   # The private docker registry and organization hosting containers for ECS Flex
   registry: emccorp
 
+  # Start a deos-hc cronejob to collect the healthchecks of the objectstores
+  enableHealthcheck: true
+
 # The default docker tag and pull policy for the ECS Cluster
 tag: 0.24.0
 pullPolicy: Always

@@ -1,14 +1,15 @@
-Thank you for installing {{ .Chart.Name }}. This release is capable of
-deploying and upgrading Kubernetes Application Health Managements.
 
+Thank you for installing {{ .Chart.Name }}. This release is capable of
+deploying and upgrading Dell EMC Common Kubernetes Services
 
 Your release is named {{ .Release.Name }}.
 
-To install DECKS by using Helm chart, use the helm install command below:
+To install DECKS via a Helm chart, use the helm install command below:
 
-  $ helm install <repository name>/decks
+  $ helm install dsvcs <repository name>/decks
 
 For more information on the installation and configuration options, see the
 README at https://github.com/EMCECS/charts/tree/master/decks and the
 `values.yaml` file at
 https://github.com/EMCECS/charts/blob/master/decks/values.yaml
+

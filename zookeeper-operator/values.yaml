@@ -11,8 +11,8 @@ global:
   #
   # Specifies which namespace the Operator should watch for new ClusterResource
   # resources
-  # Default: "" == Watch ALL namespaces
-  watchNamespace: ""
+  # Default: true == Watch ALL namespaces
+  watchAllNamespaces: true
 
   # Install the CRD during the chart installation.  This should be peformed by
   # default, but if there are multiple instances of zookeeper-operator on the same

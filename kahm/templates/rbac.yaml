@@ -9,7 +9,7 @@ imagePullSecrets:
   - name: {{ .Values.global.registrySecret }}
 {{- end }}
 ---
-{{- if eq .Values.global.watchNamespace "" }}
+{{- if eq .Values.global.watchAllNamespaces true }}
 kind: ClusterRole
 {{- else }}
 kind: Role
@@ -17,6 +17,9 @@ kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: kahm
+{{- if ne .Values.global.watchAllNamespaces true }}
+  namespace: {{ .Release.Namespace }}
+{{- end }}
   labels:
     release: {{ .Release.Name }}
 rules:
@@ -61,7 +64,7 @@ rules:
   verbs:
   - "*"
 ---
-{{- if eq .Values.global.watchNamespace "" }}
+{{- if eq .Values.global.watchAllNamespaces true }}
 kind: ClusterRoleBinding
 {{- else }}
 kind: RoleBinding
@@ -69,16 +72,17 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
   name: service-account-kahm
+{{- if ne .Values.global.watchAllNamespaces true }}
+  namespace: {{ .Release.Namespace }}
+{{- end }}
   labels:
     release: {{ .Release.Name }}
 subjects:
 - kind: ServiceAccount
   name: kahm
-{{- if eq .Values.global.watchNamespace "" }}
   namespace: {{ .Release.Namespace }}
-{{- end }}
 roleRef:
-{{- if eq .Values.global.watchNamespace "" }}
+{{- if eq .Values.global.watchAllNamespaces true }}
   kind: ClusterRole
 {{- else }}
   kind: Role

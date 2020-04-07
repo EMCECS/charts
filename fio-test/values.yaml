@@ -11,6 +11,9 @@ global:
   # The private docker registry hosting containers for ECS Flex
   registry: emccorp
 
+  # Start a FIO cronejob to collect the healthchecks of the objectstores
+  enableHealthcheck: true
+
 replicaCount: 1
 
 image:

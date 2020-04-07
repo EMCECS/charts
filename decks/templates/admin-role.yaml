@@ -1,5 +1,5 @@
 ---
-{{- if eq .Values.global.watchNamespace "" }}
+{{- if eq .Values.global.watchAllNamespaces true }}
 kind: ClusterRole
 {{- else }}
 kind: Role
@@ -7,6 +7,9 @@ kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: decks-admin
+{{- if ne .Values.global.watchAllNamespaces true }}
+  namespace: {{ .Release.Namespace }}
+{{- end }}
   labels:
     app.kubernetes.io/name: "decks"
     app.kubernetes.io/version: {{.Values.tag}}

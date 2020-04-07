@@ -1,5 +1,5 @@
 ---
-{{- if eq .Values.global.watchNamespace "" }}
+{{- if eq .Values.global.watchAllNamespaces true }}
 kind: ClusterRole
 {{- else }}
 kind: Role

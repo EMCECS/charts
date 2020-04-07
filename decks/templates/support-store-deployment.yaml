@@ -1,9 +1,13 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: decks-support-store
   labels:
     io.kompose.service: decks-support-store
-  name: decks-support-store
+    app.kubernetes.io/name: decks
+    release: {{.Release.Name}}
+    name: decks
 spec:
   replicas: 1
   selector:
@@ -42,14 +46,22 @@ spec:
             secretKeyRef:
               name: decks-support-store-secret
               key: salt
-        image: {{ .Values.global.registry }}/{{.Values.supportStore.image.repository }}:{{ .Values.supportStore.image.version }}
+        image: {{ .Values.global.registry }}/{{- if .Values.supportStore }}{{- default .Values.supportStore.image.repository "decks-support-store" -}}:{{- default .Values.supportStore.image.version "1.0.0" -}}{{- else }}decks-support-store:1.0.0{{- end}}
+        {{- if .Values.supportStore }}
         imagePullPolicy: {{ default .Values.pullPolicy .Values.supportStore.image.pullPolicy }}
+        {{- else }}
+        imagePullPolicy: Always
+        {{- end}}
         command: ["/bin/sh", "-c"]
         args: ["chmod +x /usr/local/bin/*.sh;
                 sh /usr/local/bin/run-nginx.sh;
                 nginx -g 'daemon off;'"]
         ports:
+        {{- if .Values.supportStore }}
         - containerPort: {{ .Values.supportStore.containerPort }}
+        {{- else }}
+        - containerPort: 7443
+        {{- end }}
         resources: {}
         volumeMounts:
         - mountPath: /opt/secure/data

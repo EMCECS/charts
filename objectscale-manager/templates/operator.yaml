@@ -62,6 +62,8 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+        - name: PLATFORM
+          value: {{ .Values.global.platform | default "Default" }}
 {{- if .Values.logReceiver.create }}
         - name: LOG_RECEIVER_TYPE
           value: Syslog
@@ -104,7 +106,7 @@ spec:
           value: stdout
                 {{- end }}
         - name: WATCH_NAMESPACE
-{{- if eq .Values.global.watchNamespace "" }}
+{{- if eq .Values.global.watchAllNamespaces true}}
           value: ""
 {{- else }}
           valueFrom:

@@ -50,15 +50,20 @@ There are [configuration options](#configuration) you can peruse later at your h
 
 ### Namespace Access
 
-The KAHM can be configured to manage a single namespace within a Kubernetes cluster, or all namespaces. To configure a specific namespace, simply set the `global.watchNamespace` setting:
+The KAHM can be configured to manage a single namespace within a Kubernetes cluster, or all namespaces. To configure to watch its own namespace, simply set the `global.watchAllNamespaces` setting:
 
 ```bash
 $ helm install --name kahm \
-    --set global.watchNamespace=my-namespace \
+    --set global.watchAllNamespaces=false \
     ecs/kahm
 ```
 
-To use the kahm with any namespace on the Kubernetes cluster, you can retain the default configuration, which is to set the `global.watchNamespace` setting to an empty string (`""`).
+To use the kahm to watch all namespaces on the Kubernetes cluster, you can retain the default configuration, which is to set the `global.watchAllNamespaces` setting to true.
+```bash
+$ helm install --name kahm \
+    --set global.watchAllNamespaces=true \
+    ecs/kahm
+```
 
 ### Private Docker Registry
 

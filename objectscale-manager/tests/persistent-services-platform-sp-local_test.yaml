@@ -1,0 +1,41 @@
+suite: test psp storage policy
+templates:
+  - persistent-services-platform-sp-local.yaml
+tests:
+  - it: should create a storage policy
+    set:
+      global.platform: "VMware"
+    asserts:
+      - isKind:
+          of: StoragePolicy
+  - it: should have the correct name
+    set:
+      global.platform: "VMware"
+    asserts:
+      - equal:
+          path: metadata.name
+          value: dellemc-objectscale-local
+  - it: should have the correct hostFailuresToTolerate rule
+    set:
+      global.platform: "VMware"
+    asserts:
+      - equal:
+          path: spec.rules.VSAN\.hostFailuresToTolerate
+          value: "0"
+  - it: should have the correct locality rule
+    set:
+      global.platform: "VMware"
+    asserts:
+      - equal:
+          path: spec.rules.VSAN\.locality
+          value: "HostLocal"
+  - it: should have the correct stripeWidth rule
+    set:
+      global.platform: "VMware"
+    asserts:
+      - equal:
+          path: spec.rules.VSAN\.stripeWidth
+          value: "1"
+  - it: should not create a storage policy
+    assert:
+      - nil

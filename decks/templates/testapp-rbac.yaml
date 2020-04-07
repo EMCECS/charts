@@ -16,7 +16,7 @@ imagePullSecrets:
   - name: {{ .Values.global.registrySecret }}
 {{- end }}
 ---
-{{- if eq .Values.global.watchNamespace "" }}
+{{- if eq .Values.global.watchAllNamespaces true }}
 kind: ClusterRole
 {{- else }}
 kind: Role
@@ -24,6 +24,9 @@ kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: decks-testapp
+{{- if ne .Values.global.watchAllNamespaces true }}
+  namespace: {{.Release.Namespace}}
+{{- end }}
   labels:
     app.kubernetes.io/name: "decks"
     app.kubernetes.io/version: {{.Values.tag}}
@@ -85,7 +88,7 @@ rules:
   verbs:
   - "*"
 ---
-{{- if eq .Values.global.watchNamespace "" }}
+{{- if eq .Values.global.watchAllNamespaces true }}
 kind: ClusterRoleBinding
 {{- else }}
 kind: RoleBinding
@@ -93,6 +96,9 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
   name: decks-testapp
+{{- if ne .Values.global.watchAllNamespaces true }}
+  namespace: {{.Release.Namespace}}
+{{- end }}
   labels:
     app.kubernetes.io/name: "decks"
     app.kubernetes.io/version: {{.Values.tag}}
@@ -103,11 +109,9 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: decks-testapp
-{{- if eq .Values.global.watchNamespace "" }}
   namespace: {{ .Release.Namespace }}
-{{- end }}
 roleRef:
-{{- if eq .Values.global.watchNamespace "" }}
+{{- if eq .Values.global.watchAllNamespaces true }}
   kind: ClusterRole
 {{- else }}
   kind: Role

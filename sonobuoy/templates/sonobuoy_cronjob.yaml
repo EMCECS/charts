@@ -1,3 +1,4 @@
+{{- if .Values.global.enableHealthcheck}}
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
@@ -45,3 +46,4 @@ spec:
           - configMap:
               name: sonobuoy-config-cronjob
             name: sonobuoy-volume-config
+{{- end }}

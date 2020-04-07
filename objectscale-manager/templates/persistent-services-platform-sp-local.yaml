@@ -1,0 +1,16 @@
+{{- if (eq .Values.global.platform "VMware") }}
+---
+apiVersion: appplatform.wcp.vmware.com/v1beta1
+kind: StoragePolicy
+metadata:
+    labels:
+      controller-tools.k8s.io: "1.0"
+    name: dellemc-objectscale-local
+    namespace: dellemc-objectscale-system
+spec:
+  name: dellemc-objectscale-local
+  rules:
+    VSAN.hostFailuresToTolerate: "0"
+    VSAN.locality: "HostLocal"
+    VSAN.stripeWidth: "1"
+{{- end }}

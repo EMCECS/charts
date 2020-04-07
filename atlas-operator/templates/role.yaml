@@ -1,7 +1,10 @@
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
+kind: {{ .Values.global.watchAllNamespaces | ternary "ClusterRole" "Role" }}
 metadata:
   name: atlas-operator
+{{- if ne .Values.global.watchAllNamespaces true }}
+  namespace: {{ .Release.Namespace }}
+{{- end }}
   labels:
 {{ include "atlas-operator.labels" . | indent 4 }}
 rules:

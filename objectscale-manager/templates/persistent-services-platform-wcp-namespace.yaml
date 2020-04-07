@@ -1,0 +1,14 @@
+{{- if (eq .Values.global.platform "VMware") }}
+---
+apiVersion: appplatform.wcp.vmware.com/v1alpha1
+kind: WCPNamespace
+metadata:
+  labels:
+    controller-tools.k8s.io: "1.0"
+  name: dellemc-objectscale-system
+  namespace: dellemc-objectscale-system
+spec:
+  spbmPolicies:
+  - dellemc-objectscale-local
+  - dellemc-objectscale-highly-available
+{{- end }}

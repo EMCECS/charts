@@ -1,3 +1,4 @@
+{{- if .Values.global.enableHealthcheck }}
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
@@ -35,3 +36,4 @@ spec:
           - name: {{ .Values.global.registrySecret }}
 {{- end }}
           restartPolicy: Never
+{{- end }}

@@ -3,6 +3,8 @@ templates:
   - sonobuoy_cronjob.yaml
 tests:
   - it: should create a cronjob
+    set:
+      global.enableHealthcheck: true
     asserts:
     - isKind:
         of: CronJob

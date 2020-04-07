@@ -1,3 +1,4 @@
+{{- if .Values.global.enableHealthcheck}}
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
@@ -18,11 +19,15 @@ spec:
         spec:
           containers:
           - image: {{ .Values.global.registry }}/{{ .Values.alpine_curl_image.repository }}:{{ .Values.alpine_curl_image.tag }}
-          {{- if .Values.global.registrySecret }}
             env:
-            - name: curSecret
-              value: {{ .Values.global.registrySecret }}
+          {{- if .Values.global.registrySecret }}
+              - name: curSecret
+                value: {{ .Values.global.registrySecret }}
           {{- end }}
+              - name: NAMESPACE
+                valueFrom:
+                  fieldRef:
+                    fieldPath: metadata.namespace
             command:
               - /bin/sh
               - -c
@@ -41,3 +46,4 @@ spec:
           - configMap:
               name: sonobuoy-config-cronjob
             name: sonobuoy-volume-config
+{{- end }}

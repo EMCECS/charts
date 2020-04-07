@@ -1,5 +1,5 @@
-{{- if .Values.VMwarePersistentService }}
-  {{- if eq .Values.global.watchNamespace "" }}
+{{- if eq .Values.global.platform "VMware" }}
+  {{- if eq .Values.global.watchAllNamespaces true }}
 kind: ClusterRoleBinding
   {{- else }}
 kind: RoleBinding
@@ -10,6 +10,13 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
   name: service-account-objectscale-api
+{{- if eq .Values.global.platform "VMware" }}
+  {{- if ne .Values.global.watchAllNamespaces true }}
+  namespace: {{ .Release.Namespace }}
+  {{- end }}
+{{- else }}
+  namespace: {{ .Release.Namespace }}
+{{- end }}
   labels:
     app.kubernetes.io/name: objectscale-manager
     app.kubernetes.io/instance: {{ .Release.Name }}
@@ -24,12 +31,10 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: objectscale-api
-{{- if eq .Values.global.watchNamespace "" }}
   namespace: {{ .Release.Namespace }}
-{{- end }}
 roleRef:
-{{- if .Values.VMwarePersistentService }}
-  {{- if eq .Values.global.watchNamespace "" }}
+{{- if eq .Values.global.platform "VMware" }}
+  {{- if eq .Values.global.watchAllNamespaces true }}
   kind: ClusterRole
   {{- else }}
   kind: Role

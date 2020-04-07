@@ -1,0 +1,25 @@
+suite: test deos-hc cronjob 
+templates:
+  - deos-hc-cronjob.yaml
+tests:
+  - it: should create a cronjob 
+    set:
+      global.enableHealthcheck: true
+    asserts:
+    - isKind:
+        of: CronJob 
+  - it: should have a default image
+    asserts:
+    - matchRegex:
+        path: spec.jobTemplate.spec.template.spec.containers[0].image
+        pattern: emccorp/deos-hc:.*
+  - it: should have a default pullPolicy
+    asserts:
+    - equal:
+        path: spec.jobTemplate.spec.template.spec.containers[0].imagePullPolicy
+        value: Always
+  - it: should not create a cronjob 
+    set:
+      global.enableHealthcheck: false 
+    assert:
+     - nil

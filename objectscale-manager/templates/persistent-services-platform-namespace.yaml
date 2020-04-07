@@ -1,4 +1,4 @@
-{{- if (eq .Values.VMwarePersistentService true) }}
+{{- if (eq .Values.global.platform "VMware") }}
 ---
 apiVersion: v1
 kind: Namespace

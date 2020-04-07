@@ -4,28 +4,31 @@ templates:
 tests:
   - it: should create a wcp namespace
     set:
-      VMwarePersistentService: true
+      global.platform: "VMware"
     asserts:
       - isKind:
           of: WCPNamespace
   - it: should have the correct name
     set:
-      VMwarePersistentService: true
+      global.platform: "VMware"
     asserts:
       - equal:
           path: metadata.name
           value: dellemc-objectscale-system
   - it: should have the correct local storage policy configured
     set:
-      VMwarePersistentService: true
+      global.platform: "VMware"
     asserts:
       - equal:
           path: spec.spbmPolicies[0]
           value: dellemc-objectscale-local
   - it: should have the correct highly available storage policy configured
     set:
-      VMwarePersistentService: true
+      global.platform: "VMware"
     asserts:
       - equal:
           path: spec.spbmPolicies[1]
           value: dellemc-objectscale-highly-available
+  - it: should be nil
+    assert:
+      - nil

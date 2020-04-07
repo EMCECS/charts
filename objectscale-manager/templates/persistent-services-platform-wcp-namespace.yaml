@@ -1,4 +1,4 @@
-{{- if (eq .Values.VMwarePersistentService true) }}
+{{- if (eq .Values.global.platform "VMware") }}
 ---
 apiVersion: appplatform.wcp.vmware.com/v1alpha1
 kind: WCPNamespace

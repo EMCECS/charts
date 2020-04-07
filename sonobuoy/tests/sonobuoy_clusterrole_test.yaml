@@ -16,8 +16,3 @@ tests:
       - matchRegex:
           path: metadata.labels.component
           pattern: ^sonobuoy$
-  - it: should be nil
-    set:
-      sonobuoy.enabled: false
-    assert:
-      - nil

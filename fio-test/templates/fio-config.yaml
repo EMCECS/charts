@@ -4,6 +4,7 @@ kind: ConfigMap
 metadata:
   name: |-
     {{.Release.Name}}-fio-config
+  namespace: {{ .Release.Namespace }}
 data:
   default-config.fio: |-
     # fio config parameters ref : https://fio.readthedocs.io/en/latest/fio_doc.html#command-line-options

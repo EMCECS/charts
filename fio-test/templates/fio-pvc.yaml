@@ -4,6 +4,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: |-
     {{ .Release.Name }}-fio-test-volume
+  namespace: {{ .Release.Namespace }}
 spec:
   accessModes:
     - ReadWriteOnce

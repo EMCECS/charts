@@ -30,13 +30,13 @@ $ kubectl create clusterrolebinding your-user-cluster-admin-binding --clusterrol
 
 Default values can be overridden when installing the operator by creating a yaml file and passing in with the `--values` option.
 
-By default the chart will tell the Zookeeper Operator to watch all namespaces and installs a ClusterRole RBAC definition.  If a specific namespace is required, this should be passed using the `watchNamespace` value.
+By default the chart will tell the Zookeeper Operator to watch all namespaces and installs a ClusterRole RBAC definition.  If a watch is required in its own namespace only, the  `watchAllNamespaces` value should be set to false.
 
 > **Note**: Kubernetes resources to create the Zookeeper Cluster will be created in the same namespace as the ZookeeperCluster resource
 
 _my-values.yaml:_
 ```
-watchNamespace: "my-namespace"
+watchAllNamespaces: false 
 
 ```
 

@@ -1,6 +1,6 @@
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-{{- if eq .Values.global.watchNamespace "" }}
+{{- if eq .Values.global.watchAllNamespaces true }}
 kind: ClusterRole
 {{- else }}
 kind: Role
@@ -8,7 +8,9 @@ kind: Role
 metadata:
   creationTimestamp: null
   name: objectscale-influxdb-operator
+{{- if ne .Values.global.watchAllNamespaces true }}
   namespace: {{ .Release.Namespace }}
+{{- end }}
   labels:
     app.kubernetes.io/name: {{ template "name" . }}
     helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
@@ -63,7 +65,7 @@ metadata:
   name: objectscale-influxdb-operator
   namespace: {{ .Release.Namespace }}
 ---
-{{- if eq .Values.global.watchNamespace "" }}
+{{- if eq .Values.global.watchAllNamespaces true }}
 kind: ClusterRoleBinding
 {{- else }}
 kind: RoleBinding
@@ -71,12 +73,15 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: objectscale-influxdb-operator
+{{- if ne .Values.global.watchAllNamespaces true }}
+  namespace: {{ .Release.Namespace }}
+{{- end }}
 subjects:
   - kind: ServiceAccount
     name: objectscale-influxdb-operator
     namespace: {{ .Release.Namespace }}
 roleRef:
-  {{- if eq .Values.global.watchNamespace "" }}
+  {{- if eq .Values.global.watchAllNamespaces true }}
   kind: ClusterRole
   {{- else }}
   kind: Role

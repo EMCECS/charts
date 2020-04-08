@@ -147,26 +147,29 @@ vSpherePlugin:
       - name: http
         port: 4443
         targetPort: 4443
-        #nodePort: 31240
-    #loadBalancerIP: "1.2.3.4"
-    #externalHostnames:
-    #  - objectscale-vsp.example.com
-    #externalIPAddresses:
-    #  - 203.0.113.10
-    #  - 203.0.113.30
-    #externalIPv6Addresses:
-    #  - 2001:0db8:0000:0000:0000:0000:0000:0001
+        # nodePort:           # select specific node port for the connection
+
+    # loadBalancerIP:     # select specific load balancer IP of the connection
+    # externalHostnames:
+    #   - objectscale-vsp.example.com
+    # externalIPAddresses:
+    #   - 203.0.113.10
+    #   - 203.0.113.30
+    # externalIPv6Addresses:
+    #   - 2001:0db8:0000:0000:0000:0000:0000:0001
 
   tls:
     # Type of certificate signing: SelfSigned, KubernetesSigned, or ExternallySigned
     certificateType: SelfSigned
+
     certificate: {}
-      # publicKey: "publicKey"
-      # privateKey: "privateKey"
-      # password: "password"
-      # authority: |-
-      #    rootCA: "rootCA"
-      #    intermediateCA: "intermediateCA"
+      # publicKey: < server side customer certificate>
+      # privateKey: <private key for server side cert>
+      # password: # cert password (optional)
+      # authority: |-  # (optional)
+      #   rootCA: xxxx
+      #   intermediateCA:      # provide the intermediate CA here (optional)
+
     signingRequest:
       # commonName:        # override common Name for this CSR.  Defaults to cluster.local FQDN.
       # email: insertyouremail@example.com.local

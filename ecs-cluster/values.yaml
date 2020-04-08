@@ -298,13 +298,15 @@ s3:
   tls:
     # Type of certificate signing: SelfSigned, KubernetesSigned, or ExternallySigned
     certificateType: SelfSigned
+
     certificate: {}
-      # publicKey: "publicKey"
-      # privateKey: "privateKey"
-      # password: "password"
-      # authority: |-
-      #    rootCA: "rootCA"
-      #    intermediateCA: "intermediateCA"
+      # publicKey: < server side customer certificate>
+      # privateKey: <private key for server side cert>
+      # password: # cert password (optional)
+      # authority: |-  # (optional)
+      #   rootCA: xxxx
+      #   intermediateCA:      # provide the intermediate CA here (optional)
+
     signingRequest:
       # commonName:        # override common Name for this CSR.  Defaults to cluster.local FQDN.
       # email: insertyouremail@example.com.local
@@ -477,7 +479,7 @@ managementGateway:
     signingRequest:
       # commonName:        # override common Name for this CSR.  Defaults to cluster.local FQDN.
       # email: insertyouremail@example.com.local
-      names:               # names used to sign this cert
+      names:
         country: USA
         state: MA
         locality: Hopkinton

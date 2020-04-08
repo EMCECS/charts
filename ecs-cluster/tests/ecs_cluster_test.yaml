@@ -206,3 +206,160 @@ tests:
     - equal:
         path: spec.atlas.replicas
         value: 5
+  - it: s3 should have a default SelfSigned certifcate
+    asserts:
+    - equal:
+        path: spec.s3.tls.certificateType
+        value: SelfSigned 
+    - equal:
+        path: spec.s3.tls.certificate
+        value: {}
+  - it: s3 should have a KubernetesSigned certifcate
+    set:
+      s3.tls.certificateType: KubernetesSigned 
+      s3.tls.signingRequest.commonName: commonName 
+      s3.tls.signingRequest.email: email 
+      s3.tls.signingRequest.keyAlgorithm: RSA
+      s3.tls.signingRequest.keySize: 2048
+      s3.tls.signingRequest.names.country: country
+      s3.tls.signingRequest.names.locality: locality
+      s3.tls.signingRequest.names.organization: organization
+      s3.tls.signingRequest.names.organizationalUnit: organizationalUnit
+      s3.tls.signingRequest.names.state: state
+    asserts:
+    - equal:
+        path: spec.s3.tls.certificateType
+        value: KubernetesSigned 
+    - equal:
+        path: spec.s3.tls.signingRequest.commonName
+        value: "commonName" 
+    - equal:
+        path: spec.s3.tls.signingRequest.email
+        value: "email" 
+    - equal:
+        path: spec.s3.tls.signingRequest.keyAlgorithm
+        value: "RSA" 
+    - equal:
+        path: spec.s3.tls.signingRequest.keySize
+        value: 2048
+    - equal:
+        path: spec.s3.tls.signingRequest.names.country
+        value: "country" 
+    - equal:
+        path: spec.s3.tls.signingRequest.names.locality 
+        value: "locality" 
+    - equal:
+        path: spec.s3.tls.signingRequest.names.organization 
+        value: "organization" 
+    - equal:
+        path: spec.s3.tls.signingRequest.names.organizationalUnit
+        value: "organizationalUnit" 
+    - equal:
+        path: spec.s3.tls.signingRequest.names.state
+        value: "state"
+  - it: s3 should have a ExternallySigned certifcate
+    set:
+      s3.tls.certificateType: ExternallySigned 
+      s3.tls.certificate.publicKey: publicKey 
+      s3.tls.certificate.privateKey: privateKey 
+      s3.tls.certificate.password: password
+      s3.tls.certificate.authority: authority
+    asserts:
+    - equal:
+        path: spec.s3.tls.certificateType
+        value: ExternallySigned 
+    - equal:
+        path: spec.s3.tls.certificate.publicKey
+        value: "publicKey"
+    - equal:
+        path: spec.s3.tls.certificate.privateKey
+        value: "privateKey"
+    - equal:
+        path: spec.s3.tls.certificate.password
+        value: "password"
+    - equal:
+        path: spec.s3.tls.certificate.authority
+        value: "authority"
+  - it: management-gateway should have a default SelfSigned certifcate
+    asserts:
+    - equal:
+        path: spec.s3.tls.certificateType
+        value: SelfSigned 
+    - equal:
+        path: spec.s3.tls.certificate
+        value: {}
+
+  - it: managementGateway should have a KubernetesSigned certifcate
+    set:
+      managementGateway.tls.certificateType: KubernetesSigned 
+      managementGateway.tls.signingRequest.commonName: commonName 
+      managementGateway.tls.signingRequest.email: email 
+      managementGateway.tls.signingRequest.keyAlgorithm: RSA
+      managementGateway.tls.signingRequest.keySize: 2048
+      managementGateway.tls.signingRequest.names.country: country
+      managementGateway.tls.signingRequest.names.locality: locality
+      managementGateway.tls.signingRequest.names.organization: organization
+      managementGateway.tls.signingRequest.names.organizationalUnit: organizationalUnit
+      managementGateway.tls.signingRequest.names.state: state
+    asserts:
+    - equal:
+        path: spec.managementGateway.tls.certificateType
+        value: KubernetesSigned 
+    - equal:
+        path: spec.managementGateway.tls.signingRequest.commonName
+        value: "commonName" 
+    - equal:
+        path: spec.managementGateway.tls.signingRequest.email
+        value: "email" 
+    - equal:
+        path: spec.managementGateway.tls.signingRequest.keyAlgorithm
+        value: "RSA" 
+    - equal:
+        path: spec.managementGateway.tls.signingRequest.keySize
+        value: 2048
+    - equal:
+        path: spec.managementGateway.tls.signingRequest.names.country
+        value: "country" 
+    - equal:
+        path: spec.managementGateway.tls.signingRequest.names.locality 
+        value: "locality" 
+    - equal:
+        path: spec.managementGateway.tls.signingRequest.names.organization 
+        value: "organization" 
+    - equal:
+        path: spec.managementGateway.tls.signingRequest.names.organizationalUnit
+        value: "organizationalUnit" 
+    - equal:
+        path: spec.managementGateway.tls.signingRequest.names.state
+        value: "state"
+  - it: managementGateway should have a ExternallySigned certifcate
+    set:
+      managementGateway.tls.certificateType: ExternallySigned 
+      managementGateway.tls.certificate.publicKey: publicKey 
+      managementGateway.tls.certificate.privateKey: privateKey 
+      managementGateway.tls.certificate.password: password
+      managementGateway.tls.certificate.authority: authority
+    asserts:
+    - equal:
+        path: spec.managementGateway.tls.certificateType
+        value: ExternallySigned 
+    - equal:
+        path: spec.managementGateway.tls.certificate.publicKey
+        value: "publicKey"
+    - equal:
+        path: spec.managementGateway.tls.certificate.privateKey
+        value: "privateKey"
+    - equal:
+        path: spec.managementGateway.tls.certificate.password
+        value: "password"
+    - equal:
+        path: spec.managementGateway.tls.certificate.authority
+        value: "authority"
+  - it: management-gateway should have a default SelfSigned certifcate
+    asserts:
+    - equal:
+        path: spec.managementGateway.tls.certificateType
+        value: SelfSigned 
+    - equal:
+        path: spec.managementGateway.tls.certificate
+        value: {}

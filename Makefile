@@ -128,7 +128,7 @@ create-kahm-manifest:
 	-f kahm/values.yaml >> ${TEMP_PACKAGE}/${KAHM_MANIFEST}
 
 create-decks-manifest:
-	helm template decks ./decks -n ${NAMESPACE} --set watchAllNamespaces=false \
+	helm template decks ./decks -n ${NAMESPACE} --set global.watchAllNamespaces=false \
 	-f decks/values.yaml >> ${TEMP_PACKAGE}/${DECKS_MANIFEST}
 
 archive-package:

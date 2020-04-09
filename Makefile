@@ -120,7 +120,7 @@ create-manifests: create-manager-manifest create-kahm-manifest create-decks-mani
 
 create-manager-manifest:
 	helm template objectscale-manager ./objectscale-manager -n ${NAMESPACE} \
-	--set global.platform=VMware --set watchAllNamespaces=false \
+	--set global.platform=VMware --set global.watchAllNamespaces=false \
 	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/${MANAGER_MANIFEST}
 
 create-kahm-manifest:

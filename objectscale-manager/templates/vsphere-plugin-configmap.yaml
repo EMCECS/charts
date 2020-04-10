@@ -42,16 +42,19 @@ data:
             location /wcp/login {
                 proxy_pass_request_headers on;
                 proxy_pass_request_body on;
+                # WORKAROUND UNTIL VMWARE FIXES STICKY SESSION BUG
                 proxy_pass https://kube-apiserver-4-svc.kube-system.svc.cluster.local:443/wcp/login;
             }
             location /rest/saml-hook {
                 proxy_pass_request_headers on;
                 proxy_pass_request_body on;
+                # WORKAROUND UNTIL VMWARE FIXES STICKY SESSION BUG
                 proxy_pass https://kube-apiserver-4-svc.kube-system.svc.cluster.local:443/wcp/vsphere-ui-saml-hook;
             }
             location /graphql {
                 proxy_pass http://graphql;
             }
+            # TODO: OBSREQ-491 uncomment after decks in working
             # location /data {
             #     proxy_pass https://decks;
             # }

@@ -124,7 +124,7 @@ create-manager-manifest:
 	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/${MANAGER_MANIFEST}
 
 create-kahm-manifest:
-	helm template kahm ./kahm -n ${NAMESPACE} --set watchAllNamespaces=false \
+	helm template kahm ./kahm -n ${NAMESPACE} --set global.watchAllNamespaces=false \
 	-f kahm/values.yaml >> ${TEMP_PACKAGE}/${KAHM_MANIFEST}
 
 create-decks-manifest:

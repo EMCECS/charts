@@ -1,0 +1,20 @@
+suite: test psp operator
+templates:
+  - persistent-services-platform-operator.yaml
+tests:
+  - it: should create a operator
+    set:
+      global.platform: "VMware"
+    asserts:
+      - isKind:
+          of: Operator
+  - it: should have the correct name
+    set:
+      global.platform: "VMware"
+    asserts:
+      - equal:
+          path: metadata.name
+          value: objectscale-ui
+  - it: should not create a operator
+    assert:
+      - nil

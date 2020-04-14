@@ -1,4 +1,4 @@
-{{- if (eq .Values.global.platform "VMware") }}
+{{- if (eq .Values.global.platform "VMware-PKS") }}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -21,9 +21,9 @@ data:
     upstream graphql {
       server {{ .Values.graphql.serviceName }}:{{ .Values.graphql.port }};
     }
-    # upstream decks {
-    #   server {{ .Values.decks.supportStore.service.name }}:{{ .Values.decks.supportStore.service.port }};
-    # }
+    upstream decks {
+      server {{ .Values.decks.supportStore.service.name }}:{{ .Values.decks.supportStore.service.port }};
+    }
   nginx.conf: |
     events {
       worker_connections  4096;  ## Default: 1024
@@ -39,28 +39,15 @@ data:
             ssl_ciphers          AES:!ADH;
             ssl_certificate /etc/nginx/ssl/tls.crt;
             ssl_certificate_key /etc/nginx/ssl/tls.key;
-            location /wcp/login {
-                proxy_pass_request_headers on;
-                proxy_pass_request_body on;
-                # WORKAROUND UNTIL VMWARE FIXES STICKY SESSION BUG
-                proxy_pass https://kube-apiserver-4-svc.kube-system.svc.cluster.local:443/wcp/login;
-            }
-            location /rest/saml-hook {
-                proxy_pass_request_headers on;
-                proxy_pass_request_body on;
-                # WORKAROUND UNTIL VMWARE FIXES STICKY SESSION BUG
-                proxy_pass https://kube-apiserver-4-svc.kube-system.svc.cluster.local:443/wcp/vsphere-ui-saml-hook;
-            }
             location /graphql {
                 proxy_pass http://graphql;
             }
-            # TODO: OBSREQ-491 uncomment after decks in working
-            # location /data {
-            #     proxy_pass https://decks;
-            # }
+            location /data {
+                proxy_pass https://decks;
+            }
             location /platform {
                 default_type application/json;
-                return 200 '{"value":"VMware"}';
+                return 200 '{"value":"VMware-PKS"}';
             }
             location / {
                 root   /usr/share/nginx/html;

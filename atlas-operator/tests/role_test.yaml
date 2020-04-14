@@ -9,6 +9,18 @@ tests:
       - equal:
           path: metadata.name
           value: atlas-operator
+  - it: should create a Role resource in a namespace
+    set:
+      global.watchAllNamespaces: false
+    asserts:
+      - isKind:
+          of: Role
+      - equal:
+          path: metadata.name
+          value: atlas-operator
+      - equal:
+          path: metadata.namespace
+          value: NAMESPACE
   - it: should have labels
     asserts:
       - equal:

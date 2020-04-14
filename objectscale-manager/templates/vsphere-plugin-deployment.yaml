@@ -1,9 +1,10 @@
-{{- if .Values.vSpherePlugin.enabled }}
+{{- if or (eq .Values.global.platform "VMware") (eq .Values.global.platform "VMware-PKS") }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: objectscale-vsphere-plugin
+  namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: objectscale-manager
     app.kubernetes.io/instance: {{ .Release.Name }}
@@ -39,6 +40,11 @@ spec:
         - name: config-volume
           configMap:
             name: objectscale-vsphere-plugin
+  {{- if (eq .Values.global.platform "VMware") }}
+        - name: certificate
+          secret:
+            secretName: flex-plugin-secret
+  {{- end }}
       containers:
         - name: objectscale-vsphere-plugin
           image: {{ .Values.global.registry }}/{{ .Values.vSpherePlugin.image.repository }}:{{ default .Values.tag .Values.vSpherePlugin.image.tag }}
@@ -47,6 +53,14 @@ spec:
               value: objectscale-operator
           imagePullPolicy: {{ default .Values.pullPolicy .Values.vSpherePlugin.image.pullPolicy }}
           volumeMounts:
-            - mountPath: /conf
-              name: config-volume
+            - name: config-volume
+              mountPath: /conf/upstream.conf
+              subPath: upstream.conf
+            - name: config-volume
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+  {{- if (eq .Values.global.platform "VMware") }}
+            - name: certificate
+              mountPath: /etc/nginx/ssl
+  {{- end }}
 {{- end }}

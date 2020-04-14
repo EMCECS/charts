@@ -7,7 +7,19 @@ CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-oper
 DECKSCHARTS := decks kahm srs-gateway dks-testapp dellemc-license service-pod
 FLEXCHARTS := ecs-cluster objectscale-manager zookeeper-operator
 
+# packaging
+TEMP_PACKAGE     := temp_package
+MANAGER_MANIFEST := objectscale-manager.yaml
+KAHM_MANIFEST    := kahm.yaml
+DECKS_MANIFEST   := decks.yaml
+PACKAGE_NAME     := objectscale-charts-package.tgz
+NAMESPACE         = dellemc-objectscale-system
+
+clean: clean-package
+
 test:
+	@echo "looking for yamllint"
+	which yamllint
 	for CHART in ${CHARTS}; do \
 		set -x ; \
 		helm lint $$CHART ; \
@@ -74,12 +86,13 @@ flexver:
 	done ;
 
 build:
-	echo "looking for yq command"
+	@echo "looking for yq command"
 	which yq
-	echo "Found it"
+	@echo "Ensure no helm repo accessible" 
+	helm repo list | grep .; \
+        if [ $${?} -eq 0 ]; then exit 1; fi
 	REINDEX=0; \
 	for CHART in ${CHARTS}; do \
-		set -x; \
 		CURRENT_VER=`yq r $$CHART/Chart.yaml version` ; \
 		yq r docs/index.yaml "entries.$${CHART}[*].version" | grep -q "\- $${CURRENT_VER}$$" ; \
 		if [ "$${?}" -eq "1" ] || [ "$${REBUILDHELMPKG}" ] ; then \
@@ -94,3 +107,35 @@ build:
 	if [ "$${REINDEX}" -eq "1" ]; then \
 		cd docs && helm repo index . ; \
 	fi
+
+package: create-temp-package copy-crds create-manifests archive-package
+create-temp-package:
+	mkdir -p ${TEMP_PACKAGE}
+
+copy-crds:
+	cp -R objectscale-manager/crds ${TEMP_PACKAGE}
+	cp -R atlas-operator/crds ${TEMP_PACKAGE}
+	cp -R zookeeper-operator/crds ${TEMP_PACKAGE}
+	cp -R kahm/crds ${TEMP_PACKAGE}
+	cp -R decks/crds ${TEMP_PACKAGE}
+
+create-manifests: create-manager-manifest create-kahm-manifest create-decks-manifest
+
+create-manager-manifest:
+	helm template objectscale-manager ./objectscale-manager -n ${NAMESPACE} \
+	--set global.platform=VMware --set global.watchAllNamespaces=false \
+	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/${MANAGER_MANIFEST}
+
+create-kahm-manifest:
+	helm template kahm ./kahm -n ${NAMESPACE} --set global.watchAllNamespaces=false \
+	-f kahm/values.yaml >> ${TEMP_PACKAGE}/${KAHM_MANIFEST}
+
+create-decks-manifest:
+	helm template decks ./decks -n ${NAMESPACE} --set global.watchAllNamespaces=false \
+	-f decks/values.yaml >> ${TEMP_PACKAGE}/${DECKS_MANIFEST}
+
+archive-package:
+	tar -zcvf ${PACKAGE_NAME} ${TEMP_PACKAGE}/*
+
+clean-package:
+	rm -rf ${TEMP_PACKAGE} ${PACKAGE_NAME}

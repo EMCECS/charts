@@ -4,15 +4,15 @@ templates:
 tests:
   - it: should create a ClusterRole
     asserts:
-    - isKind:
-        of: ClusterRole
+      - isKind:
+          of: ClusterRole
   - it: should have name ending with serviceaccount
     asserts:
-    - matchRegex:
-        path: metadata.name
-        pattern: ^sonobuoy-serviceaccount$
+      - matchRegex:
+          path: metadata.name
+          pattern: ^sonobuoy-serviceaccount$
   - it: should have a component label
     asserts:
-    - matchRegex:
-        path: metadata.labels.component
-        pattern: ^sonobuoy$
+      - matchRegex:
+          path: metadata.labels.component
+          pattern: ^sonobuoy$

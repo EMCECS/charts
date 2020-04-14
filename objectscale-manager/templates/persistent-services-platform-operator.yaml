@@ -1,0 +1,16 @@
+{{- if (eq .Values.global.platform "VMware") }}
+---
+apiVersion: appplatform.wcp.vmware.com/v1beta1
+kind: Operator
+metadata:
+  labels:
+    controller-tools.k8s.io: "1.0"
+  name: objectscale-ui
+  namespace: dellemc-objectscale-system
+spec:
+  name: ObjectScale
+  uiBackendSecret: flex-plugin-secret
+  uiBackendService: objectscale-vsphere-plugin
+  vSphereUiPluginUrl: /plugin.json
+  vSphereExtensionKey: com.dellemc.vsphere.plugin
+{{- end }}

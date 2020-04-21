@@ -238,7 +238,7 @@ diagnostic:
   # replicas: 1
 
   # Docker repository to be used for dthealth service instances
-  dthealthimage:
+  dthealthImage:
     repository: dthealth
     # tag: stable
     # pullPolicy: IfNotPresent

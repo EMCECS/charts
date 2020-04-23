@@ -46,10 +46,22 @@ rules:
 - apiGroups:
   - ""
   resources:
-  - nodes 
+  - nodes
   verbs: ["get", "watch", "list"]
 - apiGroups:
   - ecs.dellemc.com
+  resources:
+  - "*"
+  verbs:
+  - "*"
+- apiGroups:
+  - decks.ecs.dellemc.com
+  resources:
+  - "*"
+  verbs:
+  - "*"
+- apiGroups:
+  - rbac.authorization.k8s.io
   resources:
   - "*"
   verbs:
@@ -65,6 +77,8 @@ rules:
   - events
   - configmaps
   - secrets
+  - serviceaccounts
+  - clusterroles
   verbs:
   - "*"
 - apiGroups:
@@ -122,9 +136,9 @@ rules:
   verbs:
   - "*"
 - apiGroups:
-  - certificates.k8s.io 
+  - certificates.k8s.io
   resources:
-  - certificatesigningrequests 
+  - certificatesigningrequests
   verbs:
   - "*"
 ---

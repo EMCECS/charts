@@ -96,14 +96,6 @@ rules:
   verbs:
   - "*"
 - apiGroups:
-  - storage.k8s.io
-  resources:
-  - storageclasses
-  - storageclasslists
-  verbs:
-  - get
-  - list
-- apiGroups:
   - app.k8s.io
   resources:
   - "*"
@@ -119,12 +111,6 @@ rules:
   - influxdata.com
   resources:
   - influxdbs
-  verbs:
-  - "*"
-- apiGroups:
-  - certificates.k8s.io
-  resources:
-  - certificatesigningrequests
   verbs:
   - "*"
 ---
@@ -167,7 +153,7 @@ roleRef:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
-  name: service-account-objectscale-operator-cluster-resources
+  name: service-account-objectscale-cluster-resources
   labels:
     app.kubernetes.io/name: objectscale-manager
     app.kubernetes.io/instance: {{ .Release.Name }}
@@ -185,6 +171,6 @@ subjects:
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: objectscale-operator-cluster-resources
+  name: objectscale-cluster-resources
   apiGroup: rbac.authorization.k8s.io
 {{- end }}

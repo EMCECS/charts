@@ -1,6 +1,6 @@
 suite: test vsphere configmap pks
 templates:
-  - vsphere-plugin-configmap-pks.yaml
+  - vsphere-plugin-configmap.yaml
 tests:
   - it: should create a configmap
     set:

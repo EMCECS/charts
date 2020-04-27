@@ -5,8 +5,8 @@ kind: WCPNamespace
 metadata:
   labels:
     controller-tools.k8s.io: "1.0"
-  name: dellemc-objectscale-system
-  namespace: dellemc-objectscale-system
+  name: {{ .Release.Namespace }}
+  namespace: {{ .Release.Namespace }}
 spec:
   spbmPolicies:
   - dellemc-objectscale-local

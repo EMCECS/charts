@@ -14,7 +14,7 @@ tests:
     asserts:
       - equal:
           path: metadata.name
-          value: objectscale-ui
+          value: objectscale-ui-NAMESPACE
   - it: should not create a operator
     assert:
       - nil

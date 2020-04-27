@@ -14,7 +14,7 @@ tests:
     asserts:
       - equal:
           path: metadata.name
-          value: dellemc-objectscale-system
+          value: NAMESPACE
   - it: should be nil
     assert:
       - nil

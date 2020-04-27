@@ -6,7 +6,7 @@ metadata:
     labels:
       controller-tools.k8s.io: "1.0"
     name: dellemc-objectscale-local
-    namespace: dellemc-objectscale-system
+    namespace: {{ .Release.Namespace }}
 spec:
   name: dellemc-objectscale-local
   rules:

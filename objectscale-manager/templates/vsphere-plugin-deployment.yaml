@@ -43,7 +43,11 @@ spec:
   {{- if (eq .Values.global.platform "VMware") }}
         - name: certificate
           secret:
-            secretName: flex-plugin-secret
+            {{- if (eq .Release.Namespace "dellemc-objectscale-system") }}
+            secretName: objectscale-plugin-secret
+            {{- else }}
+            secretName: objectscale-plugin-secret-{{ .Release.Namespace }}
+            {{- end }}
   {{- end }}
       containers:
         - name: objectscale-vsphere-plugin
@@ -53,6 +57,9 @@ spec:
               value: objectscale-operator
           imagePullPolicy: {{ default .Values.pullPolicy .Values.vSpherePlugin.image.pullPolicy }}
           volumeMounts:
+            - name: config-volume
+              mountPath: /usr/share/nginx/html/plugin.json
+              subPath: plugin.json
             - name: config-volume
               mountPath: /conf/upstream.conf
               subPath: upstream.conf

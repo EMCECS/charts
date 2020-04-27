@@ -23,11 +23,6 @@ metadata:
     product: objectscale
 rules:
 - apiGroups:
-  - ""
-  resources:
-  - nodes 
-  verbs: ["get", "watch", "list"]
-- apiGroups:
   - decks.ecs.dellemc.com
   resources:
   - "*"
@@ -46,6 +41,12 @@ rules:
   verbs:
   - "*"
 - apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - "*"
+  verbs:
+  - "*"
+- apiGroups:
   - ""
   resources:
   - pods
@@ -56,6 +57,8 @@ rules:
   - events
   - configmaps
   - secrets
+  - serviceaccounts
+  - clusterroles
   verbs:
   - "*"
 - apiGroups:
@@ -87,14 +90,6 @@ rules:
   verbs:
   - "*"
 - apiGroups:
-  - storage.k8s.io
-  resources:
-  - storageclasses
-  - storageclasslists
-  verbs:
-  - get
-  - list
-- apiGroups:
   - app.k8s.io
   resources:
   - "*"
@@ -120,9 +115,3 @@ rules:
     - get
     - watch
     - list
-- apiGroups:
-  - certificates.k8s.io
-  resources:
-  - certificatesigningrequests
-  verbs:
-  - "*"

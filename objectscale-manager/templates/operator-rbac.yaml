@@ -44,11 +44,6 @@ metadata:
     product: objectscale
 rules:
 - apiGroups:
-  - ""
-  resources:
-  - nodes
-  verbs: ["get", "watch", "list"]
-- apiGroups:
   - ecs.dellemc.com
   resources:
   - "*"
@@ -110,14 +105,6 @@ rules:
   verbs:
   - "*"
 - apiGroups:
-  - storage.k8s.io
-  resources:
-  - storageclasses
-  - storageclasslists
-  verbs:
-  - get
-  - list
-- apiGroups:
   - app.k8s.io
   resources:
   - "*"
@@ -133,12 +120,6 @@ rules:
   - influxdata.com
   resources:
   - influxdbs
-  verbs:
-  - "*"
-- apiGroups:
-  - certificates.k8s.io
-  resources:
-  - certificatesigningrequests
   verbs:
   - "*"
 ---
@@ -175,4 +156,31 @@ roleRef:
   kind: Role
 {{- end }}
   name: objectscale-operator
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: objectscale-cluster-resources
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: objectscale-operator
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name}}
+    operator: objectscale-operator
+    product: objectscale
+subjects:
+  - kind: ServiceAccount
+    name: objectscale-operator
+    namespace: {{ .Release.Namespace }}
+  - kind: ServiceAccount
+    name: objectscale-api
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: objectscale-cluster-resources
   apiGroup: rbac.authorization.k8s.io

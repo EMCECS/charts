@@ -1,4 +1,5 @@
-{{- if (eq .Values.global.platform "VMware") }}
+{{- if or (eq .Values.global.platform "VMware") (eq .Values.global.platform "VMware-PKS") }}
+{{- $useUniqueNames := (ne .Release.Namespace "dellemc-objectscale-system") -}}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -19,11 +20,14 @@ metadata:
 data:
   upstream.conf: |
     upstream graphql {
-      server {{ .Values.graphql.serviceName }}:{{ .Values.graphql.port }};
+        server {{ .Values.graphql.serviceName }}:{{ .Values.graphql.port }};
     }
-    # upstream decks {
-    #   server {{ .Values.decks.supportStore.service.name }}:{{ .Values.decks.supportStore.service.port }};
-    # }
+    {{- if (eq .Values.global.platform "VMware-PKS") }}
+    # TODO: OBSREQ-491 remove above check when decks works for VMware
+    upstream decks {
+        server {{ .Values.decks.supportStore.service.name }}:{{ .Values.decks.supportStore.service.port }};
+    }
+    {{- end }}
   nginx.conf: |
     events {
       worker_connections  4096;  ## Default: 1024
@@ -39,6 +43,7 @@ data:
             ssl_ciphers          AES:!ADH;
             ssl_certificate /etc/nginx/ssl/tls.crt;
             ssl_certificate_key /etc/nginx/ssl/tls.key;
+            {{- if (eq .Values.global.platform "VMware") }}
             location /wcp/login {
                 proxy_pass_request_headers on;
                 proxy_pass_request_body on;
@@ -51,20 +56,190 @@ data:
                 # WORKAROUND UNTIL VMWARE FIXES STICKY SESSION BUG
                 proxy_pass https://kube-apiserver-4-svc.kube-system.svc.cluster.local:443/wcp/vsphere-ui-saml-hook;
             }
+            {{- end }}
             location /graphql {
                 proxy_pass http://graphql;
             }
-            # TODO: OBSREQ-491 uncomment after decks in working
-            # location /data {
-            #     proxy_pass https://decks;
-            # }
+            {{- if (eq .Values.global.platform "VMware-PKS") }}
+            # TODO: OBSREQ-491 remove above check when decks works for VMware
+            location /data {
+                proxy_pass https://decks;
+            }
+            {{- end}}
             location /platform {
                 default_type application/json;
-                return 200 '{"value":"VMware"}';
+                return 200 '{"value":"{{ .Values.global.platform }}"}';
             }
             location / {
                 root   /usr/share/nginx/html;
                 index  index.html index.htm;
+            }
+        }
+    }
+  plugin.json: |
+    {
+        "manifestVersion": "1.0.0",
+        "requirements": {
+            "plugin.api.version": "1.0.0"
+        },
+        "configuration": {
+            "nameKey": "plugin.name",
+            "icon": {
+                "name": "star"
+            },
+            {{- if (eq .Values.global.platform "VMware") }}
+            "sso": {
+                "saml": {
+                    "hokSolution": {
+                        "pushHook": {
+                            "uri": "rest/saml-hook"
+                        }
+                    }
+                }
+            }
+            {{- end}}
+        },
+        "objects": {
+            "ClusterComputeResource": {
+                "summary": {
+                    "view": {
+                        "uri": "index.html?view=summary",
+                        "size": {
+                            "widthSpan": 1,
+                            "heightSpan": 2
+                        }
+                    }
+                },
+                "monitor": {
+                    "views": [
+                        {
+                            "navigationId": "deos.monitor.events",
+                            "labelKey": "cluster.monitor.list.events",
+                            "uri": "index.html?view=events"
+                        },
+                        {
+                            "navigationId": "deos.monitor.health",
+                            "labelKey": "cluster.monitor.list.health",
+                            "uri": "index.html?view=health"
+                        }
+                    ]
+                },
+                "configure": {
+                    "views": [
+                        {
+                            "navigationId": "deos.configure.dashboard",
+                            "labelKey": "cluster.configure.list.dashboard",
+                            "uri": "index.html?view=dashboard"
+                        },
+                        {
+                            "navigationId": "deos.configure.objectstores",
+                            "labelKey": "cluster.configure.list.objectstores",
+                            "uri": "index.html?view=objectstores"
+                        },
+                        {
+                            "navigationId": "deos.configure.settings",
+                            "labelKey": "cluster.configure.list.settings",
+                            "uri": "index.html?view=settings"
+                        }
+                    ]
+                }
+            }
+        },
+        "definitions": {
+            "iconSpriteSheet": {
+                "uri": "assets/images/sprites.png",
+                "definitions": {
+                    "star": {
+                        "x": 0,
+                        "y": 96
+                    }
+                }
+            },
+            "i18n": {
+                "locales": [
+                    "en-US",
+                    "de-DE",
+                    "fr-FR"
+                ],
+                "definitions": {
+                    "plugin.name": {
+                    {{- if and (eq $useUniqueNames true) (eq .Values.global.platform "VMware") }}
+                        "en-US": "ObjectScale-{{ .Release.Namespace }}",
+                        "de-DE": "ObjectScale-{{ .Release.Namespace }}",
+                        "fr-FR": "ObjectScale-{{ .Release.Namespace }}"
+                    {{- else }}
+                        "en-US": "ObjectScale",
+                        "de-DE": "ObjectScale",
+                        "fr-FR": "ObjectScale"
+                    {{- end}}
+                    },
+                    "cluster.monitor.list.events": {
+                    {{- if and (eq $useUniqueNames true) (eq .Values.global.platform "VMware") }}
+                        "en-US": "Events-{{ .Release.Namespace }}",
+                        "de-DE": "Events-{{ .Release.Namespace }}",
+                        "fr-FR": "Events-{{ .Release.Namespace }}"
+                    {{- else }}
+                        "en-US": "Events",
+                        "de-DE": "Events",
+                        "fr-FR": "Events"
+                    {{- end}}
+                    },
+                    "cluster.monitor.list.health": {
+                    {{- if and (eq $useUniqueNames true) (eq .Values.global.platform "VMware") }}
+                        "en-US": "Health-{{ .Release.Namespace }}",
+                        "de-DE": "Gesundheit-{{ .Release.Namespace }}",
+                        "fr-FR": "santé-{{ .Release.Namespace }}"
+                    {{- else }}
+                        "en-US": "Health",
+                        "de-DE": "Gesundheit",
+                        "fr-FR": "santé"
+                    {{- end}}
+                    },
+                    "cluster.configure.list.dashboard": {
+                    {{- if and (eq $useUniqueNames true) (eq .Values.global.platform "VMware") }}
+                        "en-US": "Dashboard-{{ .Release.Namespace }}",
+                        "de-DE": "Dashboard-{{ .Release.Namespace }}",
+                        "fr-FR": "Dashboard-{{ .Release.Namespace }}"
+                    {{- else }}
+                        "en-US": "Dashboard",
+                        "de-DE": "Dashboard",
+                        "fr-FR": "Dashboard"
+                    {{- end}}
+                    },
+                    "cluster.configure.list.objectstores": {
+                    {{- if and (eq $useUniqueNames true) (eq .Values.global.platform "VMware") }}
+                        "en-US": "Object Stores-{{ .Release.Namespace }}",
+                        "de-DE": "Object Stores-{{ .Release.Namespace }}",
+                        "fr-FR": "Object Stores-{{ .Release.Namespace }}"
+                    {{- else }}
+                        "en-US": "Object Stores",
+                        "de-DE": "Object Stores",
+                        "fr-FR": "Object Stores"
+                    {{- end}}
+                    },
+                    "cluster.configure.list.settings": {
+                    {{- if and (eq $useUniqueNames true) (eq .Values.global.platform "VMware") }}
+                        "en-US": "Settings-{{ .Release.Namespace }}",
+                        "de-DE": "Settings-{{ .Release.Namespace }}",
+                        "fr-FR": "Settings-{{ .Release.Namespace }}"
+                    {{- else }}
+                        "en-US": "Settings",
+                        "de-DE": "Settings",
+                        "fr-FR": "Settings"
+                    {{- end}}
+                    },
+                    "cluster.action.deploy.label": {
+                    {{- if and (eq $useUniqueNames true) (eq .Values.global.platform "VMware") }}
+                        "en-US": "Deploy ECS-{{ .Release.Namespace }}",
+                        "de-DE": "Deploy ECS-{{ .Release.Namespace }}",
+                        "fr-FR": "Deploy ECS-{{ .Release.Namespace }}"
+                    {{- else }}
+                        "en-US": "Deploy ECS",
+                        "de-DE": "Deploy ECS",
+                        "fr-FR": "Deploy ECS"
+                    {{- end}}
+                    }
+                }
             }
         }
     }

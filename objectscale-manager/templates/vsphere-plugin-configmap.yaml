@@ -187,12 +187,12 @@ data:
                     "cluster.monitor.list.health": {
                     {{- if and (eq $useUniqueNames true) (eq .Values.global.platform "VMware") }}
                         "en-US": "Health-{{ .Release.Namespace }}",
-                        "de-DE": "Health-{{ .Release.Namespace }}",
-                        "fr-FR": "Health-{{ .Release.Namespace }}"
+                        "de-DE": "Gesundheit-{{ .Release.Namespace }}",
+                        "fr-FR": "santé-{{ .Release.Namespace }}"
                     {{- else }}
                         "en-US": "Health",
-                        "de-DE": "Health",
-                        "fr-FR": "Health"
+                        "de-DE": "Gesundheit",
+                        "fr-FR": "santé"
                     {{- end}}
                     },
                     "cluster.configure.list.dashboard": {

@@ -44,9 +44,9 @@ spec:
         - name: certificate
           secret:
             {{- if (eq .Release.Namespace "dellemc-objectscale-system") }}
-            secretName: flex-plugin-secret
+            secretName: objectscale-plugin-secret
             {{- else }}
-            secretName: flex-plugin-secret-{{ .Release.Namespace }}
+            secretName: objectscale-plugin-secret-{{ .Release.Namespace }}
             {{- end }}
   {{- end }}
       containers:

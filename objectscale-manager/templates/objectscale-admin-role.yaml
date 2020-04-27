@@ -23,11 +23,6 @@ metadata:
     product: objectscale
 rules:
 - apiGroups:
-  - ""
-  resources:
-  - nodes 
-  verbs: ["get", "watch", "list"]
-- apiGroups:
   - decks.ecs.dellemc.com
   resources:
   - "*"

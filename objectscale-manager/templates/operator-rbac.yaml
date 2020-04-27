@@ -44,11 +44,6 @@ metadata:
     product: objectscale
 rules:
 - apiGroups:
-  - ""
-  resources:
-  - nodes 
-  verbs: ["get", "watch", "list"]
-- apiGroups:
   - ecs.dellemc.com
   resources:
   - "*"
@@ -221,6 +216,9 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: objectscale-operator
+    namespace: {{ .Release.Namespace }}
+  - kind: ServiceAccount
+    name: objectscale-api
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole

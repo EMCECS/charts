@@ -73,7 +73,6 @@ rules:
   - configmaps
   - secrets
   - serviceaccounts
-  - clusterroles
   verbs:
   - "*"
 - apiGroups:

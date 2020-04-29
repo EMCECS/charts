@@ -56,12 +56,6 @@ rules:
   verbs:
   - "*"
 - apiGroups:
-  - rbac.authorization.k8s.io
-  resources:
-  - "*"
-  verbs:
-  - "*"
-- apiGroups:
   - ""
   resources:
   - pods

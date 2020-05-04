@@ -1,4 +1,3 @@
----
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
@@ -17,27 +16,27 @@ spec:
     plural: ecsclusters
     singular: ecscluster
     shortNames:
-    - ecs
-    - ecs-cluster
+      - ecs
+      - ecs-cluster
   scope: Namespaced
   versions:
     - name: v1beta1
       served: true
       storage: true
   additionalPrinterColumns:
-  - name: PHASE
-    type: string
-    description: The current phase of cluster operation
-    JSONPath: .status.phase
-  - name: READY COMPONENTS
-    type: string
-    description: A string display of the number of components ready
-    JSONPath: .status.readyComponents
-  - name: S3 ENDPOINT
-    type: string
-    description: The HTTPS endpoint for accessing the cluster via S3
-    JSONPath: .status.endpoints.s3Secure
-  - name: MGMT API
-    type: string
-    description: The HTTPS location for the management API
-    JSONPath: .status.endpoints.managementAPI
+    - name: PHASE
+      type: string
+      description: The current phase of cluster operation
+      JSONPath: .status.phase
+    - name: READY COMPONENTS
+      type: string
+      description: A string display of the number of components ready
+      JSONPath: .status.readyComponents
+    - name: S3 ENDPOINT
+      type: string
+      description: The HTTPS endpoint for accessing the cluster via S3
+      JSONPath: .status.endpoints.s3Secure
+    - name: MGMT API
+      type: string
+      description: The HTTPS location for the management API
+      JSONPath: .status.endpoints.managementAPI

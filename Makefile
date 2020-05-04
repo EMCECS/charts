@@ -13,7 +13,7 @@ MANAGER_MANIFEST := objectscale-manager.yaml
 KAHM_MANIFEST    := kahm.yaml
 DECKS_MANIFEST   := decks.yaml
 PACKAGE_NAME     := objectscale-charts-package.tgz
-NAMESPACE         = dellemc-objectscale-system
+NAMESPACE         = ben
 REGISTRY          = objectscale
 
 clean: clean-package
@@ -107,7 +107,7 @@ build:
 		cd docs && helm repo index . ; \
 	fi
 
-package: create-temp-package copy-crds create-manifests archive-package
+package: create-temp-package copy-crds combine-crds create-manifests archive-package
 create-temp-package:
 	mkdir -p ${TEMP_PACKAGE}
 
@@ -118,12 +118,18 @@ copy-crds:
 	cp -R kahm/crds ${TEMP_PACKAGE}
 	cp -R decks/crds ${TEMP_PACKAGE}
 
+combine-crds:
+	sed -i '1s/^/---\n/' ${TEMP_PACKAGE}/crds/*.yaml
+	cat ${TEMP_PACKAGE}/crds/*.yaml > ${TEMP_PACKAGE}/combined-crds.yaml
+
 create-manifests: create-manager-manifest create-kahm-manifest create-decks-manifest
 
 create-manager-manifest:
 	helm template objectscale-manager ./objectscale-manager -n ${NAMESPACE} \
 	--set global.platform=VMware --set global.watchAllNamespaces=false \
 	--set sonobuoy.enabled=false --set global.registry=${REGISTRY} \
+	--set vSpherePlugin.image.tag=0.26.0 --set graphql.image.tag=0.25.1.0-254.25a6812 \
+	--set image.tag=0.26.0 \
 	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/${MANAGER_MANIFEST}
 
 create-kahm-manifest:

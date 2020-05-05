@@ -9,5 +9,5 @@ metadata:
     appplatform.vmware.com/kind: supervisorservice
 data:
   ecs-objectscale-crd.yaml: |-
-    {{ tpl ($.Files.Get "combined-crds.yaml") $ | indent 4}}
+{{ .Files.Get "vmware_package/ecs-objectscale-crd.yaml" | indent 4 }}
 {{- end }}

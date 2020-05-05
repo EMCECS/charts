@@ -9,6 +9,7 @@ FLEXCHARTS := ecs-cluster objectscale-manager zookeeper-operator
 
 # packaging
 TEMP_PACKAGE     := temp_package
+VMWARE_PACKAGE   := objectscale-manager/vmware_package
 MANAGER_MANIFEST := objectscale-manager.yaml
 KAHM_MANIFEST    := kahm.yaml
 DECKS_MANIFEST   := decks.yaml
@@ -119,8 +120,9 @@ copy-crds:
 	cp -R decks/crds ${TEMP_PACKAGE}
 
 combine-crds:
+	mkdir -p ${VMWARE_PACKAGE}
 	sed -i '1s/^/---\n/' ${TEMP_PACKAGE}/crds/*.yaml
-	cat ${TEMP_PACKAGE}/crds/*.yaml > ${TEMP_PACKAGE}/combined-crds.yaml
+	cat ${TEMP_PACKAGE}/crds/*.yaml > ${VMWARE_PACKAGE}/ecs-objectscale-crd.yaml
 
 create-manifests: create-manager-manifest create-kahm-manifest create-decks-manifest
 
@@ -144,4 +146,4 @@ archive-package:
 	tar -zcvf ${PACKAGE_NAME} ${TEMP_PACKAGE}/*
 
 clean-package:
-	rm -rf ${TEMP_PACKAGE} ${PACKAGE_NAME}
+	rm -rf ${TEMP_PACKAGE} ${PACKAGE_NAME} ${VMWARE_PACKAGE}

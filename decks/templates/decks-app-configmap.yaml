@@ -36,3 +36,14 @@ data:
             - Check the status of the SRS Gateway resource in the k8s cluster
             - Make sure the kubernetes cluster has enabled external
               IP provisioning capabilities, (for example LoadBalancer)
+        - symptomid: DECKS-1015
+          description: Unable to send events to the Dell EMC Secure Remote Service
+          remedies:
+            - Verify the SRS Gateway system is running
+            - Check if the SRS gateway has connectivity through the firewall
+              to Dell EMC
+            - Verify the network connection to the SRS gateway
+            - Check the health of the SRS gateway by connecting to the user
+              interface
+            - View the logs of the decks and srs-notifier services for any
+              additional details

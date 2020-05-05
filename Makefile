@@ -8,7 +8,8 @@ DECKSCHARTS := decks kahm srs-gateway dks-testapp dellemc-license service-pod
 FLEXCHARTS := ecs-cluster objectscale-manager zookeeper-operator
 
 # packaging
-TEMP_PACKAGE     := temp_package
+#TEMP_PACKAGE     := temp_package
+TEMP_PACKAGE     := objectscale-manager/temp_package
 VMWARE_PACKAGE   := objectscale-manager/vmware_package
 MANAGER_MANIFEST := objectscale-manager.yaml
 KAHM_MANIFEST    := kahm.yaml
@@ -120,9 +121,8 @@ copy-crds:
 	cp -R decks/crds ${TEMP_PACKAGE}
 
 combine-crds:
-	mkdir -p ${VMWARE_PACKAGE}
 	sed -i '1s/^/---\n/' ${TEMP_PACKAGE}/crds/*.yaml
-	cat ${TEMP_PACKAGE}/crds/*.yaml > ${VMWARE_PACKAGE}/ecs-objectscale-crd.yaml
+	cat ${TEMP_PACKAGE}/crds/*.yaml > ${TEMP_PACKAGE}/ecs-objectscale-crd.yaml
 
 create-manifests: create-manager-manifest create-kahm-manifest create-decks-manifest
 
@@ -130,8 +130,6 @@ create-manager-manifest:
 	helm template objectscale-manager ./objectscale-manager -n ${NAMESPACE} \
 	--set global.platform=VMware --set global.watchAllNamespaces=false \
 	--set sonobuoy.enabled=false --set global.registry=${REGISTRY} \
-	--set vSpherePlugin.image.tag=0.26.0 --set graphql.image.tag=0.25.1.0-254.25a6812 \
-	--set image.tag=0.26.0 \
 	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/${MANAGER_MANIFEST}
 
 create-kahm-manifest:

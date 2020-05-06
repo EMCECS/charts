@@ -8,10 +8,9 @@ DECKSCHARTS := decks kahm srs-gateway dks-testapp dellemc-license service-pod
 FLEXCHARTS := ecs-cluster objectscale-manager zookeeper-operator
 
 # packaging
-#TEMP_PACKAGE     := temp_package
-TEMP_PACKAGE     := objectscale-manager/temp_package
-VMWARE_PACKAGE   := objectscale-manager/vmware_package
+TEMP_PACKAGE     := temp_package
 MANAGER_MANIFEST := objectscale-manager.yaml
+VMWARE_MANIFEST  := vmware-config-map.yaml
 KAHM_MANIFEST    := kahm.yaml
 DECKS_MANIFEST   := decks.yaml
 PACKAGE_NAME     := objectscale-charts-package.tgz
@@ -109,20 +108,22 @@ build:
 		cd docs && helm repo index . ; \
 	fi
 
-package: create-temp-package copy-crds combine-crds create-manifests archive-package
+package: create-temp-package create-manifests combine-crds create-vmware-package archive-package
 create-temp-package:
 	mkdir -p ${TEMP_PACKAGE}
 
-copy-crds:
+combine-crds:
 	cp -R objectscale-manager/crds ${TEMP_PACKAGE}
 	cp -R atlas-operator/crds ${TEMP_PACKAGE}
 	cp -R zookeeper-operator/crds ${TEMP_PACKAGE}
 	cp -R kahm/crds ${TEMP_PACKAGE}
 	cp -R decks/crds ${TEMP_PACKAGE}
-
-combine-crds:
 	sed -i '1s/^/---\n/' ${TEMP_PACKAGE}/crds/*.yaml
 	cat ${TEMP_PACKAGE}/crds/*.yaml > ${TEMP_PACKAGE}/ecs-objectscale-crd.yaml
+	rm -rf ${TEMP_PACKAGE}/crds
+
+create-vmware-package:
+	./vmware_pack.sh
 
 create-manifests: create-manager-manifest create-kahm-manifest create-decks-manifest
 
@@ -144,4 +145,4 @@ archive-package:
 	tar -zcvf ${PACKAGE_NAME} ${TEMP_PACKAGE}/*
 
 clean-package:
-	rm -rf ${TEMP_PACKAGE} ${PACKAGE_NAME} ${VMWARE_PACKAGE}
+	rm -rf ${TEMP_PACKAGE} ${PACKAGE_NAME}

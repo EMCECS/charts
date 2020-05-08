@@ -14,7 +14,7 @@ VMWARE_MANIFEST  := vmware-config-map.yaml
 KAHM_MANIFEST    := kahm.yaml
 DECKS_MANIFEST   := decks.yaml
 PACKAGE_NAME     := objectscale-charts-package.tgz
-NAMESPACE         = ben
+NAMESPACE         = dellemc-objectscale-system
 REGISTRY          = objectscale
 
 clean: clean-package

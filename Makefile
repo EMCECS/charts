@@ -10,7 +10,6 @@ FLEXCHARTS := ecs-cluster objectscale-manager zookeeper-operator
 # packaging
 TEMP_PACKAGE     := temp_package
 MANAGER_MANIFEST := objectscale-manager.yaml
-VMWARE_MANIFEST  := vmware-config-map.yaml
 KAHM_MANIFEST    := kahm.yaml
 DECKS_MANIFEST   := decks.yaml
 PACKAGE_NAME     := objectscale-charts-package.tgz

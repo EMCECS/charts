@@ -16,6 +16,9 @@ global:
   # Default: true == Watch ALL namespaces
   watchAllNamespaces: true
 
+  # Platform:
+  platform: Default
+
 # The default docker tag and pull policy for the DECKS
 tag: 1.1.3
 pullPolicy: Always
@@ -31,6 +34,9 @@ image:
 
 ## Allow callers to bypass creating app resource
 createdecksappResource: true
+
+# Name of the storage class that PVCs should be provisioned from
+# storageClassName:
 
 #  username: admin
 #  password: ChangeMe

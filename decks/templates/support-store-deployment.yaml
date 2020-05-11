@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: decks-support-store
+  namespace: {{.Release.Namespace}}
   labels:
     io.kompose.service: decks-support-store
     app.kubernetes.io/name: decks

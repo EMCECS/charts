@@ -1,7 +1,12 @@
+{{- if ne .Values.global.platform "VMware"}}
+---
 apiVersion: v1
 kind: Pod
 metadata:
   name: "{{ .Release.Name }}-kahm-test"
+  namespace: {{.Release.Namespace}}
+  labels:
+    release: {{.Release.Name}}
   annotations:
     "helm.sh/hook": test-success
 spec:
@@ -26,7 +31,7 @@ spec:
     - kahm-testapp
     env:
     - name: KAHM_RELEASE_NAME
-      value: "{{ .Release.Name }}" 
+      value: "{{ .Release.Name }}"
     - name: REGISTRY_SECRET
       value: {{ .Values.global.registrySecret }}
     - name: DOCKER_REGISTRY
@@ -36,3 +41,4 @@ spec:
     - name: KAHM_NAMESPACE
       value: "{{ .Release.Namespace}}"
   restartPolicy: Never
+{{- end}}

@@ -3,7 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
     name: decks-app-config
-    namespace: {{.Release.namespace}}
+    namespace: {{.Release.Namespace}}
     labels:
         app.kubernetes.io/name: "decks"
         app.kubernetes.io/version: {{.Values.tag}}

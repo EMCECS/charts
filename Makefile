@@ -15,6 +15,7 @@ DECKS_MANIFEST   := decks.yaml
 PACKAGE_NAME     := objectscale-charts-package.tgz
 NAMESPACE         = dellemc-objectscale-system
 REGISTRY          = objectscale
+STORAGECLASSNAME  = dellemc-objectscale-highly-available
 
 clean: clean-package
 
@@ -128,12 +129,14 @@ create-manager-manifest:
 	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/${MANAGER_MANIFEST}
 
 create-kahm-manifest:
-	helm template kahm ./kahm -n ${NAMESPACE} --set global.watchAllNamespaces=false \
-	--set global.registry=${REGISTRY} -f kahm/values.yaml >> ${TEMP_PACKAGE}/${KAHM_MANIFEST}
+	helm template kahm ./kahm -n ${NAMESPACE} --set global.platform=VMware \
+	--set global.watchAllNamespaces=false --set global.registry=${REGISTRY} \
+	--set storageClassName=${STORAGECLASSNAME} -f kahm/values.yaml >> ${TEMP_PACKAGE}/${KAHM_MANIFEST}
 
 create-decks-manifest:
-	helm template decks ./decks -n ${NAMESPACE} --set global.watchAllNamespaces=false \
-	--set global.registry=${REGISTRY} -f decks/values.yaml >> ${TEMP_PACKAGE}/${DECKS_MANIFEST}
+	helm template decks ./decks -n ${NAMESPACE} --set global.platform=VMware \
+	--set global.watchAllNamespaces=false --set global.registry=${REGISTRY} \
+	--set storageClassName=${STORAGECLASSNAME} -f decks/values.yaml >> ${TEMP_PACKAGE}/${DECKS_MANIFEST}
 
 archive-package:
 	tar -zcvf ${PACKAGE_NAME} ${TEMP_PACKAGE}/*

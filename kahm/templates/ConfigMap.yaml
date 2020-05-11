@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 data:
     dbType: {{.Values.db.dbType }}
@@ -5,5 +6,6 @@ data:
 kind: ConfigMap
 metadata:
   name: kahm-db-config
+  namespace: {{.Release.Namespace}}
   labels:
     release: {{ .Release.Name }}

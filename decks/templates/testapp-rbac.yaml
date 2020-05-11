@@ -1,3 +1,4 @@
+{{- if ne .Values.global.platform "VMware"}}
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -118,3 +119,4 @@ roleRef:
 {{- end }}
   name: decks-testapp
   apiGroup: rbac.authorization.k8s.io
+{{- end}}

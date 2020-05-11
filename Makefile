@@ -117,8 +117,7 @@ combine-crds:
 	cp -R zookeeper-operator/crds ${TEMP_PACKAGE}
 	cp -R kahm/crds ${TEMP_PACKAGE}
 	cp -R decks/crds ${TEMP_PACKAGE}
-	sed -i '1s/^/---\n/' ${TEMP_PACKAGE}/crds/*.yaml
-	cat ${TEMP_PACKAGE}/crds/*.yaml > ${TEMP_PACKAGE}/ecs-objectscale-crd.yaml
+	cat ${TEMP_PACKAGE}/crds/*.yaml > ${TEMP_PACKAGE}/objectscale-crd.yaml
 	rm -rf ${TEMP_PACKAGE}/crds
 
 create-vmware-package:

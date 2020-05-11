@@ -1,7 +1,7 @@
 {{- if (eq .Values.global.platform "VMware") }}
 ---
 apiVersion: appplatform.wcp.vmware.com/v1beta1
-kind: Operator
+kind: VCUIPlugin
 metadata:
   labels:
     controller-tools.k8s.io: "1.0"

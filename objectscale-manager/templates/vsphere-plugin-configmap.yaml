@@ -22,12 +22,9 @@ data:
     upstream graphql {
         server {{ .Values.graphql.serviceName }}:{{ .Values.graphql.port }};
     }
-    {{- if (eq .Values.global.platform "VMware-PKS") }}
-    # TODO: OBSREQ-491 remove above check when decks works for VMware
     upstream decks {
         server {{ .Values.decks.supportStore.service.name }}:{{ .Values.decks.supportStore.service.port }};
     }
-    {{- end }}
   nginx.conf: |
     events {
       worker_connections  4096;  ## Default: 1024
@@ -47,25 +44,20 @@ data:
             location /wcp/login {
                 proxy_pass_request_headers on;
                 proxy_pass_request_body on;
-                # WORKAROUND UNTIL VMWARE FIXES STICKY SESSION BUG
-                proxy_pass https://kube-apiserver-4-svc.kube-system.svc.cluster.local:443/wcp/login;
+                proxy_pass https://kube-apiserver-authproxy-svc.kube-system.svc.cluster.local:443/wcp/login;
             }
             location /rest/saml-hook {
                 proxy_pass_request_headers on;
                 proxy_pass_request_body on;
-                # WORKAROUND UNTIL VMWARE FIXES STICKY SESSION BUG
-                proxy_pass https://kube-apiserver-4-svc.kube-system.svc.cluster.local:443/wcp/vsphere-ui-saml-hook;
+                proxy_pass https://kube-apiserver-authproxy-svc.kube-system.svc.cluster.local:443/wcp/vsphere-ui-saml-hook;
             }
             {{- end }}
             location /graphql {
                 proxy_pass http://graphql;
             }
-            {{- if (eq .Values.global.platform "VMware-PKS") }}
-            # TODO: OBSREQ-491 remove above check when decks works for VMware
             location /data {
                 proxy_pass https://decks;
             }
-            {{- end}}
             location /platform {
                 default_type application/json;
                 return 200 '{"value":"{{ .Values.global.platform }}"}';

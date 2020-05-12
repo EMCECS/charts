@@ -1,6 +1,6 @@
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: decks-support-store
   namespace: {{.Release.Namespace}}
@@ -68,7 +68,17 @@ spec:
         - mountPath: /opt/secure/data
           name: decks-support-store-claim0
       restartPolicy: Always
-      volumes:
-      - name: decks-support-store-claim0
-        persistentVolumeClaim:
-          claimName: decks-support-store-claim0
+  volumeClaimTemplates:
+    - metadata:
+        labels:
+          app: decks
+          release: decks
+        name: decks-support-store-claim0
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        storageClassName: dellemc-objectscale-highly-available
+        dataSource: null
+        resources:
+          requests:
+            storage: 200Gi

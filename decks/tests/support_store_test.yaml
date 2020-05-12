@@ -1,11 +1,11 @@
 suite: test support store
 templates:
-  - support-store-deployment.yaml
+  - support-store-stateful-set.yaml
 tests:
-  - it: should create a deployment
+  - it: should create a stateful set
     asserts:
       - isKind:
-          of: Deployment
+          of: StatefulSet
   - it: should have a default image
     set:
       image.pullPolicy: Always

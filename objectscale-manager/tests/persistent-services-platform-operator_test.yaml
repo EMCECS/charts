@@ -2,12 +2,12 @@ suite: test psp operator
 templates:
   - persistent-services-platform-operator.yaml
 tests:
-  - it: should create a operator
+  - it: should create a VCUIPlugin
     set:
       global.platform: "VMware"
     asserts:
       - isKind:
-          of: Operator
+          of: VCUIPlugin
   - it: should have the correct name
     set:
       global.platform: "VMware"

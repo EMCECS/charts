@@ -56,6 +56,9 @@ spec:
         spec:
           description: AtlasClusterSpec defines the desired state of AtlasCluster
           properties:
+            disableReconciliation:
+              description: Disable automatic reconciliation for the AtlasCluster
+              type: boolean
             image:
               description: Container image
               properties:
@@ -903,12 +906,6 @@ spec:
                     - name
                     type: object
                   type: array
-                labels:
-                  additionalProperties:
-                    type: string
-                  description: Labels specifies the labels to attach to pods the operator
-                    creates for the atlas cluster.
-                  type: object
                 nodeSelector:
                   additionalProperties:
                     type: string

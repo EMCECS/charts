@@ -565,6 +565,20 @@ spec:
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
 
+  cmfswitch:
+    image:
+      repository: {{ .Values.global.registry }}/{{ .Values.cmfswitch.image.repository }}
+      {{- if .Values.cmfswitch.image.tag }}
+      tag: {{ .Values.cmfswitch.image.tag }}
+      {{- else }}
+      tag: {{ .Values.tag }}
+      {{- end }}
+      {{- if .Values.cmfswitch.image.pullPolicy }}
+      pullPolicy: {{ .Values.cmfswitch.image.pullPolicy }}
+      {{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+  {{- end }}
+
   syslogAgent:
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.syslogAgent.image.repository }}

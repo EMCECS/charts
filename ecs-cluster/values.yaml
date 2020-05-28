@@ -504,6 +504,11 @@ expandsp:
   image:
     repository: provision
 
+# The job will assign new created ss to the sp
+cmfswitch:
+  image:
+    repository: cmf-switch
+
 #
 # Sidecar configuration
 #

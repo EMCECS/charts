@@ -44,6 +44,13 @@ metadata:
     product: objectscale
 rules:
 - apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - roles
+  - rolebindings
+  verbs:
+  - '*'
+- apiGroups:
   - ecs.dellemc.com
   resources:
   - "*"

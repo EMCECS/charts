@@ -560,3 +560,7 @@ deosEvents:
     repository: deos-events
     # tag: stable
     # pullPolicy: IfNotPresent
+
+# Flex 1.0 ObjectStore monitoring stack
+monitoring:
+  enabled: false

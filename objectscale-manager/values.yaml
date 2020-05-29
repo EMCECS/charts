@@ -231,3 +231,7 @@ fluentbitAgent:
     repository: fluent-bit
     tag: 0.28.0
     # pullPolicy: IfNotPresent
+
+# Flex 1.0 regional monitoring stack
+monitoring:
+  enabled: false

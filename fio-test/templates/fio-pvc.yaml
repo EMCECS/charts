@@ -7,7 +7,10 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   accessModes:
-    - ReadWriteOnce
+  - ReadWriteOnce
+  {{- if .Values.global.storageClassName}}
+  storageClassName: {{.Values.global.storageClassName}}
+  {{- end}}
   resources:
     requests:
       storage: 20Gi

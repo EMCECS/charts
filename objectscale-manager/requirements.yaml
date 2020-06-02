@@ -6,13 +6,13 @@ dependencies:
     version: 0.25.0
     repository: file://../atlas-operator
   - name: fio-test
-    version: 0.22.2
+    version: 0.28.2
     repository: file://../fio-test
   - name: sonobuoy
     version: 0.16.6
     repository: file://../sonobuoy
     condition: sonobuoy.enabled
-  - name: objectscale-monitoring
-    version: x.x
-    condition: monitoring.enabled
-    repository: file://../../../../monitoring/k8s/charts/objectscale-monitoring
+#  - name: objectscale-monitoring
+#    version: x.x
+#    condition: monitoring.enabled
+#    repository: file://../../../../monitoring/k8s/charts/objectscale-monitoring

@@ -126,6 +126,7 @@ create-manager-manifest:
 	helm template objectscale-manager ./objectscale-manager -n ${NAMESPACE} \
 	--set global.platform=VMware --set global.watchAllNamespaces=false \
 	--set sonobuoy.enabled=false --set global.registry=${REGISTRY} \
+	--set global.storageClassName=${STORAGECLASSNAME} \
 	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/${MANAGER_MANIFEST}
 
 create-kahm-manifest:

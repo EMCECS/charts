@@ -52,33 +52,12 @@ data:
           name: objectstore-healthchecks
         healthcheckstatus:
           deos-hc:
-            overview: red
+            overview: none
             rows:
-            - name: pod network check
-              description: Check pod network connectivity
+            - name:
+              description:
               enabled: true
               schedule: Every 6 hours
-              latestSuccess: 2019-10-18 12:01
-              latestFailure: 2019-10-12 17:00
-              message: Able to connect to all DEOS pods for this object store
-            - name: pod phase status check
-              description: Check pod phase status
-              enabled: true
-              schedule: Every 6 hours
-              latestSuccess: 2019-10-18 12:01
-              latestFailure: 2019-10-29 17:00
-              message: obj1-heads-jfjfjajsdfj pod restared 127 times
-            - name: management restapi connectivity
-              description: Check management api connectivity
-              enabled: true
-              schedule: Every 6 hours
-              latestSuccess: 2019-10-18 12:01
-              latestFailure: 2019-10-12 17:00
-              message: timed out connecting to management api
-            - name: load balancer checks
-              description: Check k8s LoadBalancer services have IPs
-              enabled: true
-              schedule: Every 6 hours
-              latestSuccess: 2019-10-18 12:01
-              latestFailure: 2019-10-12 17:00
-              message: All load balancers have IPs
+              latestSuccess:
+              latestFailure:
+              message:

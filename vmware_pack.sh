@@ -29,7 +29,7 @@ $(awk '{printf "%4s%s\n", "", $0}' temp_package/decks.yaml)
       eula: "By accepting this EULA, you are agreeing to ..."
       label: "Dell EMC ObjectScale"
       description: "Dell EMC ObjectScale is a highly available and scalable object storage platform"
-      versions: ["0.28.0"]
+      versions: ["0.28.3"]
       enabled: false
 EOT
 

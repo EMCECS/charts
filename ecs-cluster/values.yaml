@@ -248,6 +248,9 @@ diagnostic:
     # tag: stable
     # pullPolicy: IfNotPresent
   service:
+    # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
+    type: ClusterIP
+
     # Specify the service port configuration for the diagnostic service
     ports:
       - name: dthealth

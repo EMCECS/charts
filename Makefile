@@ -5,7 +5,7 @@ YQ_VERSION   := 2.4.1
 YAMLLINT_VERSION := 1.20.0
 CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm srs-gateway dks-testapp fio-test sonobuoy dellemc-license service-pod
 DECKSCHARTS := decks kahm srs-gateway dks-testapp dellemc-license service-pod
-FLEXCHARTS := ecs-cluster objectscale-manager zookeeper-operator
+FLEXCHARTS := ecs-cluster objectscale-manager
 
 # packaging
 TEMP_PACKAGE     := temp_package
@@ -21,14 +21,9 @@ clean: clean-package
 
 test:
 	helm lint ${CHARTS} --set product=objectscale
-	helm unittest ${CHARTS}
-	for CHART in ${CHARTS}; do \
-		yamllint -c .yamllint.yml -s $$CHART/Chart.yaml $$CHART/values.yaml ; \
-		if [ "$${?}" -eq "1" ] ; then \
-			exit 1 ; \
-		fi ; \
-	done
+	yamllint -c .yamllint.yml */Chart.yaml */values.yaml
 	yamllint -c .yamllint.yml -s .yamllint.yml .travis.yml
+	helm unittest ${CHARTS}
 
 dep:
 	wget -q ${HELM_URL}/${HELM_TGZ}
@@ -62,7 +57,7 @@ decksver:
 		yq w -i $$CHART/Chart.yaml appVersion $${DECKSVER} ; \
 		yq w -i $$CHART/Chart.yaml version $${DCHARTVER} ; \
 		echo "---\n`cat $$CHART/Chart.yaml`" > $$CHART/Chart.yaml ; \
-		sed -i -e "s/^\([ ]*\)tag:.*/\1tag: $${DECKSVER}/" $$CHART/values.yaml; \
+		sed -i -e "0,/^tag.*/s//tag: $${DECKSVER}/"  $$CHART/values.yaml; \
 	done ;
 
 flexver:
@@ -78,7 +73,7 @@ flexver:
 		yq w -i $$CHART/Chart.yaml appVersion $${FLEXVER} ; \
 		yq w -i $$CHART/Chart.yaml version $${FLEXVER} ; \
 		echo "---\n`cat $$CHART/Chart.yaml`" > $$CHART/Chart.yaml ; \
-		sed -i -e "s/^\([ ]*\)tag:.*/\1tag: $${FLEXVER}/" $$CHART/values.yaml; \
+		sed -i -e "0,/^tag.*/s//tag: $${FLEXVER}/"  $$CHART/values.yaml; \
 	done ;
 
 build:

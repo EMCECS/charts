@@ -115,7 +115,7 @@ combine-crds:
 create-vmware-package:
 	./vmware_pack.sh
 
-create-manifests: create-manager-manifest create-kahm-manifest create-decks-manifest
+create-manifests: create-manager-manifest create-kahm-manifest create-decks-manifest create-deploy-script
 
 create-manager-manifest:
 	helm template objectscale-manager ./objectscale-manager -n ${NAMESPACE} \
@@ -133,6 +133,13 @@ create-decks-manifest:
 	helm template decks ./decks -n ${NAMESPACE} --set global.platform=VMware \
 	--set global.watchAllNamespaces=false --set global.registry=${REGISTRY} \
 	--set storageClassName=${STORAGECLASSNAME} -f decks/values.yaml >> ${TEMP_PACKAGE}/${DECKS_MANIFEST}
+
+create-deploy-script:
+	echo "kubectl apply -f ./objectscale-manager.yaml -f ./decks.yaml -f ./kahm.yaml" > ${TEMP_PACKAGE}/deploy-${NAMESPACE}.sh
+	sed -n "/fio-pvc/,/^---/p" temp_package/objectscale-manager.yaml > ${TEMP_PACKAGE}/fio-pvc.yaml
+	echo "sleep 1" >> ${TEMP_PACKAGE}/deploy-${NAMESPACE}.sh
+	echo "kubectl apply -f ./fio-pvc.yaml" >> ${TEMP_PACKAGE}/deploy-${NAMESPACE}.sh
+	chmod 700 ${TEMP_PACKAGE}/deploy-${NAMESPACE}.sh
 
 archive-package:
 	tar -zcvf ${PACKAGE_NAME} ${TEMP_PACKAGE}/*

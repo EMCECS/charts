@@ -31,6 +31,9 @@ image:
   # tag: stable
   # pullPolicy: Always
 
+## Allow callers to bypass creating app resource
+createkahmappResource: true
+
 # Name of the storage class that PVCs should be provisioned from
 # storageClassName:
 

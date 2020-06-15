@@ -1,12 +1,12 @@
 ---
-{{- if .Values.createdecksappResource}}
+  {{- if .Values.createkahmappResource}}
 apiVersion: app.k8s.io/v1beta1
 kind: Application
 metadata:
-  name: "decks"
+  name: "kahm"
   namespace: {{.Release.Namespace}}
   labels:
-    app.kubernetes.io/name: "decks"
+    app.kubernetes.io/name: "kahm"
     app.kubernetes.io/version: {{.Values.tag}}
     app.kubernetes.io/instance: {{.Release.Name}}
     app.kubernetes.io/managed-by: nautilus
@@ -19,7 +19,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: "decks"
+      app.kubernetes.io/name: "kahm"
   componentKinds:
     - group: apps
       kind: Deployment
@@ -37,14 +37,15 @@ spec:
       kind: ClusterRoleBinding
   assemblyPhase: "Pending"
   descriptor:
-    type: "decks"
+    type: "kahm"
     version: {{.Values.tag}}
     description: >
-      Dell EMC Common Kubernetes Services
+      Kubernetes Application Health Management
     keywords:
-      - "decks"
+      - "kahm"
       - "srs"
-      - "licensing"
+      - "event"
+      - "health"
     info:
       - "Copyright (c) 2019-2020 Dell Inc. or its subsidiaries. All Rights Reserved."
-{{- end}}
+  {{- end}}

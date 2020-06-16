@@ -34,6 +34,9 @@ spec:
     persistentVolumeClaim:
       metadata:
         name: {{ .Release.Name }}-influxdb-data-pvc
+      labels:
+        app: {{ .Release.Name }}-influxdb
+        release: {{ .Release.Name }}
       spec:
         accessModes: [ "ReadWriteOnce" ]
         storageClassName: {{ default .Values.storageClassName  .Values.influxdb.persistence.storageClassName }}

@@ -70,7 +70,7 @@ spec:
   volumeClaimTemplates:
     - metadata:
         labels:
-          app: decks
+          app: decks-support-store
           release: decks
         name: decks-support-store-claim0
       spec:

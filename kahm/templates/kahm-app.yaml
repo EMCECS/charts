@@ -22,7 +22,7 @@ spec:
       app.kubernetes.io/name: "kahm"
   componentKinds:
     - group: apps
-      kind: Deployment
+      kind: StatefulSet
     - group: core
       kind: ConfigMap
     - group: core

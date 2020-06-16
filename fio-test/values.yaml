@@ -14,6 +14,10 @@ global:
   # Start a FIO cronejob to collect the healthchecks of the objectstores
   enableHealthcheck: true
 
+  # Name of the storage class that PVCs should be provisioned from
+  # global so that it can be passed to subchart
+  # storageClassName:
+
 replicaCount: 1
 
 image:

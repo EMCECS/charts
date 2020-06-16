@@ -3,11 +3,14 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: |-
-    {{ .Release.Name }}-fio-test-volume
-  namespace: {{ .Release.Namespace }}
+    {{.Release.Name}}-fio-test-volume
+  namespace: {{.Release.Namespace}}
 spec:
   accessModes:
-    - ReadWriteOnce
+  - ReadWriteOnce
+  {{- if .Values.global.storageClassName}}
+  storageClassName: {{.Values.global.storageClassName}}
+  {{- end}}
   resources:
     requests:
-      storage: 20Gi
+      storage: 4Gi

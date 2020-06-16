@@ -30,15 +30,16 @@ global:
 
 # This is the list of available objectstore versions to graphql for UI to configure the store.
 objectStoreAvailableVersions:
-  - 0.29.0
   - 0.28.3
+  - 0.29.0
+  - 0.30.0
 
 # Create an application resource for management using Dell EMC common installer or other application-resource
 # controllers
 createApplicationResource: true
 
 # The default docker tag and pull policy for objectscale-manager services
-tag: 0.29.0
+tag: 0.30.0
 pullPolicy: Always
 
 # The default number of replicas for the objectscale-manager deployment
@@ -208,8 +209,8 @@ decks:
       name: decks-support-store
       port: 7443
   ## used by graphql to set chart versions during creation of licenses and srs gateways
-  licenseChartVersion: "1.1.3"
-  srsGatewayChartVersion: "1.1.3"
+  licenseChartVersion: "1.2.0"
+  srsGatewayChartVersion: "1.2.0"
 
 installcontroller:
   image:

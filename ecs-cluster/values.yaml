@@ -18,7 +18,7 @@ global:
   enableHealthcheck: true
 
 # The default docker tag and pull policy for the ECS Cluster
-tag: 0.29.0
+tag: 0.30.0
 pullPolicy: Always
 
 # Override the default number of replicas which taken according to performance profile for each service

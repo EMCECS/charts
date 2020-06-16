@@ -117,24 +117,24 @@ create-vmware-package:
 
 create-manifests: create-manager-manifest create-kahm-manifest create-decks-manifest create-deploy-script
 
-create-manager-manifest:
+create-manager-manifest: create-temp-package
 	helm template objectscale-manager ./objectscale-manager -n ${NAMESPACE} \
 	--set global.platform=VMware --set global.watchAllNamespaces=false \
 	--set sonobuoy.enabled=false --set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
 	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/${MANAGER_MANIFEST}
 
-create-kahm-manifest:
+create-kahm-manifest: create-temp-package
 	helm template kahm ./kahm -n ${NAMESPACE} --set global.platform=VMware \
 	--set global.watchAllNamespaces=false --set global.registry=${REGISTRY} \
 	--set storageClassName=${STORAGECLASSNAME} -f kahm/values.yaml >> ${TEMP_PACKAGE}/${KAHM_MANIFEST}
 
-create-decks-manifest:
+create-decks-manifest: create-temp-package
 	helm template decks ./decks -n ${NAMESPACE} --set global.platform=VMware \
 	--set global.watchAllNamespaces=false --set global.registry=${REGISTRY} \
 	--set storageClassName=${STORAGECLASSNAME} -f decks/values.yaml >> ${TEMP_PACKAGE}/${DECKS_MANIFEST}
 
-create-deploy-script:
+create-deploy-script: create-temp-package
 	echo "kubectl apply -f ./objectscale-manager.yaml -f ./decks.yaml -f ./kahm.yaml" > ${TEMP_PACKAGE}/deploy-${NAMESPACE}.sh
 	sed -n "/fio-pvc/,/^---/p" temp_package/objectscale-manager.yaml > ${TEMP_PACKAGE}/fio-pvc.yaml
 	echo "sleep 1" >> ${TEMP_PACKAGE}/deploy-${NAMESPACE}.sh

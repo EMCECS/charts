@@ -76,7 +76,7 @@ spec:
 
   zookeeper:
 {{- if .Values.zookeeper.replicas }}
-    size: {{ .Values.zookeeper.replicas }}
+    replicas: {{ .Values.zookeeper.replicas }}
 {{- end }}
     labels:
       app: zookeeper
@@ -84,11 +84,7 @@ spec:
       release: {{ .Release.Name }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.zookeeper.image.repository }}
-{{- if .Values.zookeeper.image.tag }}
       tag: {{ .Values.zookeeper.image.tag }}
-{{- else }}
-      tag: {{ .Values.tag }}
-{{- end }}
 {{- if .Values.zookeeper.image.pullPolicy }}
       pullPolicy: {{ .Values.zookeeper.image.pullPolicy }}
 {{- else }}

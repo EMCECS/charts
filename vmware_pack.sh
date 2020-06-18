@@ -37,7 +37,7 @@ $(awk '{printf "%4s%s\n", "", $0}' temp_package/decks.yaml)
       versions: ["${objs_ver}"]
       enabled: false
       eula: |+
-        $(cat dellemc_eula.txt)
+        $(sed "s/^/        /" ./dellemc_eula.txt)
 EOT
 
 # Remove trailing whitespaace

@@ -33,13 +33,14 @@ objectStoreAvailableVersions:
   - 0.29.0
   - 0.30.0
   - 0.31.0
+  - 0.31.1
 
 # Create an application resource for management using Dell EMC common installer or other application-resource
 # controllers
 createApplicationResource: true
 
 # The default docker tag and pull policy for objectscale-manager services
-tag: 0.31.0
+tag: 0.31.1
 pullPolicy: Always
 
 # The default number of replicas for the objectscale-manager deployment

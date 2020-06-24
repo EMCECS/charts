@@ -27,14 +27,18 @@ data:
     }
   nginx.conf: |
     events {
-      worker_connections  4096;  ## Default: 1024
+        worker_connections  4096;  ## Default: 1024
     }
     http {
         include /etc/nginx/mime.types;
         include /conf/upstream.conf;
         server {
+            resolver kube-dns.kube-system.svc.cluster.local;
             listen       4443;
             server_name  localhost;
+            access_log /dev/stdout;
+            error_log /dev/stdout;
+            rewrite_log on;
             ssl on;
             ssl_protocols        TLSv1.2;
             ssl_ciphers          AES:!ADH;
@@ -57,6 +61,11 @@ data:
             }
             location /data {
                 proxy_pass https://decks;
+            }
+            location ~* ^/grafana/[a-z0-9]([-a-z0-9]*[a-z0-9])?/[a-z0-9]([-a-z0-9]*[a-z0-9])? {
+                rewrite ^/grafana/([a-z0-9-]+)/([a-z0-9-]+)/(.*) /$3 break;
+                rewrite ^/grafana/([a-z0-9-]+)/([a-z0-9-]+) / break;
+                proxy_pass http://$2-grafana.$1.svc.cluster.local:3000;
             }
             location /platform {
                 default_type application/json;

@@ -20,7 +20,7 @@ global:
 
 image:
   repository: atlas-operator
-  tag: v0.7
+  tag: v0.8
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -36,15 +36,13 @@ securityContext: {}
 #  runAsNonRoot: true
 #  runAsUser: 1000
 
-# If you do want to specify resources, uncomment the following lines, adjust them as necessary,
-# and remove the curly braces after 'resources:'.
-resources: {}
-#  limits:
-#    cpu: 100m
-#    memory: 128Mi
-#  requests:
-#    cpu: 100m
-#    memory: 128Mi
+resources:
+  requests:
+    cpu: 250m
+    memory: 64Mi
+  limits:
+    cpu: 1
+    memory: 128Mi
 
 nodeSelector: {}
 

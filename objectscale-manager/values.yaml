@@ -64,7 +64,7 @@ logReceiver:
   # Elasticsearch, the administrator is expected to create the cluster, and then
   # provide connectivity details in the "logReceiver" configuration block below.
   #
-  type: Syslog
+  # type: Syslog
 
   # User login will be used by fluentd to connect to the elastic search.
   # user: elastic
@@ -87,7 +87,7 @@ logReceiver:
   # The ObjectScale operator can deploy an rSyslog receiver to aggregate logs from
   # ECS instances. This feature is recommended for enterprise support of ECS
   # systems.
-  create: true
+  # create: false
 
   # The Docker image used for the rSyslog receiver
   image:

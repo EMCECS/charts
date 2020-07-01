@@ -7,13 +7,13 @@ tests:
       sylogReceiver.create: true
     asserts:
       - hasDocuments:
-          count: 4
+          count: 3
   - it: should create a deployment
     set:
       logReceiver.create: true
     asserts:
       - isKind:
-          of: Deployment
+          of: StatefulSet
         documentIndex: 0
   - it: should create a service
     set:
@@ -36,16 +36,6 @@ tests:
     asserts:
       - hasDocuments:
           count: 3
-  - it: should include the pvc if persistence is enabled
-    set:
-      logReceiver.create: true
-      logReceiver.persistence.enabled: true
-    asserts:
-      - hasDocuments:
-          count: 4
-      - isKind:
-          of: PersistentVolumeClaim
-        documentIndex: 3
   - it: should have a default syslog image
     set:
       global.registry: my-registry

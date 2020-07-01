@@ -1,7 +1,7 @@
 {{- if .Values.logReceiver.create }}
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: objectscale-syslog
   namespace: {{ .Release.Namespace }}
@@ -17,6 +17,7 @@ metadata:
     operator: objectscale-operator
     product: objectscale
 spec:
+  serviceName: objectscale-syslog
   replicas: 1
   selector:
     matchLabels:
@@ -45,11 +46,6 @@ spec:
         - name: conf
           configMap:
             name: objectscale-syslog
-{{- if .Values.logReceiver.persistence.enabled }}
-        - name: data
-          persistentVolumeClaim:
-            claimName: objectscale-syslog
-{{- end }}
       containers:
       - name: rsyslog
 {{- if .Values.logReceiver.image.tag }}
@@ -72,9 +68,32 @@ spec:
         - name: conf
           mountPath: /conf
 {{- if .Values.logReceiver.persistence.enabled }}
-        - name: data
+        - name: objectscale-syslog-claim0
           mountPath: /var/log
 {{- end }}
+  volumeClaimTemplates:
+    - metadata:
+        name: objectscale-syslog-claim0
+        labels:
+          app.kubernetes.io/name: objectscale-manager
+          app.kubernetes.io/instance: {{ .Release.Name }}
+          app.kubernetes.io/managed-by: {{ .Release.Service }}
+          app.kubernetes.io/version: {{ .Chart.AppVersion }}
+          app.kubernetes.io/component: objectscale-syslog
+          app.kubernetes.io/part-of: {{ .Release.Name }}
+          helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+          release: {{ .Release.Name}}
+          operator: objectscale-operator
+          product: objectscale
+      spec:
+        {{- if .Values.logReceiver.persistence.storageClassName }}
+        storageClassName: {{ .Values.logReceiver.persistence.storageClassName }}
+        {{- end }}
+        accessModes:
+        - {{ .Values.logReceiver.persistence.accessMode | quote}}
+        resources:
+          requests:
+            storage: {{ .Values.logReceiver.persistence.size | quote}}
 ---
 apiVersion: v1
 kind: Service

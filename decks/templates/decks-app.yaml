@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/name: "decks"
     app.kubernetes.io/version: {{.Values.tag}}
     app.kubernetes.io/instance: {{.Release.Name}}
-    app.kubernetes.io/managed-by: nautilus
+    app.kubernetes.io/managed-by: {{.Release.Service}}
     helm.sh/chart: {{.Chart.Name}}-{{.Chart.Version | replace "+" "_"}}
     release: {{.Release.Name}}
   annotations:

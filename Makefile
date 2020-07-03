@@ -134,12 +134,12 @@ create-manager-manifest: create-temp-package
 
 create-kahm-manifest: create-temp-package
 	helm template kahm ./kahm -n ${NAMESPACE} --set global.platform=VMware \
-	--set global.watchAllNamespaces=false --set global.registry=${REGISTRY} \
+	--set global.watchAllNamespaces=false --set global.registry=${KAHM_REGISTRY} \
 	--set storageClassName=${STORAGECLASSNAME} -f kahm/values.yaml >> ${TEMP_PACKAGE}/yaml/${KAHM_MANIFEST}
 
 create-decks-manifest: create-temp-package
 	helm template decks ./decks -n ${NAMESPACE} --set global.platform=VMware \
-	--set global.watchAllNamespaces=false --set global.registry=${REGISTRY} \
+	--set global.watchAllNamespaces=false --set global.registry=${DECKS_REGISTRY} \
 	--set storageClassName=${STORAGECLASSNAME} -f decks/values.yaml >> ${TEMP_PACKAGE}/yaml/${DECKS_MANIFEST}
 
 create-deploy-script: create-temp-package

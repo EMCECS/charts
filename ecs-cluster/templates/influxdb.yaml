@@ -1,3 +1,4 @@
+---
 {{ if .Values.enableAdvancedStatistics }}
 apiVersion: influxdata.com/v1alpha1
 kind: Influxdb
@@ -13,11 +14,14 @@ metadata:
     operator: objectscale-operator
     product: objectscale
     release: {{ .Release.Name }}
-  namespace: {{ .Release.Namespace}}
+  namespace: {{ .Release.Namespace }}
 
 spec:
-  # Add fields here
+{{- if .Values.started }}
   size: 1
+{{- else }}
+  size: 0
+{{- end }}
   baseImage: {{ .Values.global.registry }}/{{ .Values.influxdb.image.repository }}:{{ default .Values.tag .Values.influxdb.image.tag }}
   imagePullPolicy: {{ default .Values.pullPolicy .Values.influxdb.image.pullPolicy }}
   pod:

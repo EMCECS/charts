@@ -15,7 +15,7 @@ PACKAGE_NAME     := objectscale-charts-package.tgz
 NAMESPACE         = dellemc-objectscale-system
 TEMP_PACKAGE     := temp_package/${NAMESPACE}
 REGISTRY          = objectscale
-DECKS_REGISTRY	  = objectscale
+DECKS_REGISTRY    = objectscale
 KAHM_REGISTRY     = objectscale
 STORAGECLASSNAME  = dellemc-objectscale-highly-available
 

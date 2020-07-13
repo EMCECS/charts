@@ -125,7 +125,7 @@ create-manifests: create-manager-manifest create-kahm-manifest create-decks-mani
 
 create-manager-manifest: create-temp-package
 	helm template objectscale-manager ./objectscale-manager -n ${NAMESPACE} \
-	--set global.platform=${PLATFORM} --set global.watchAllNamespaces=false \
+	--set global.platform=VMware --set global.watchAllNamespaces=false \
 	--set sonobuoy.enabled=false --set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
 	--set logReceiver.create=true --set logReceiver.type=Syslog \

@@ -43,6 +43,9 @@ createApplicationResource: true
 # Enable collection of objectstore stats via InfluxDB time-series database
 enableAdvancedStatistics: true
 
+features:
+  enableCRR: false
+
 #
 # ECS Service Configuration
 #
@@ -143,6 +146,20 @@ blob:
   image:
     repository: blob-service
     # tag: stable
+    # pullPolicy: IfNotPresent
+
+# The ECS Object Service configuration specification
+objectsvc:
+
+  # Override the default ECS Cluster replicas to set the number of nodes in the
+  # objectsvc cluster separately. This value should not be set when using
+  # FabricProxy as the service discovery mechanism
+  # replicas: 1
+
+  # Docker repository to be used for chunk manager instances
+  image:
+    repository: object-service
+    tag: 3.6.0.0-165.60fcc54
     # pullPolicy: IfNotPresent
 
 # The ECS storage server manager configuration specification

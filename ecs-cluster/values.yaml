@@ -43,8 +43,11 @@ createApplicationResource: true
 # Enable collection of objectstore stats via InfluxDB time-series database
 enableAdvancedStatistics: true
 
+# Different features of ECSCluster that can be enabled or disabled
 features:
-  enabledCRR: false
+
+  # Enable Cross Region Replication
+  enableCRR: false
 
 #
 # ECS Service Configuration
@@ -159,7 +162,7 @@ objectsvc:
   # Docker repository to be used for chunk manager instances
   image:
     repository: object-service
-    tag: 3.6.0.0-165.60fcc54
+    tag: 3.6.0.0-177.664c010
     # pullPolicy: IfNotPresent
 
 # The ECS storage server manager configuration specification

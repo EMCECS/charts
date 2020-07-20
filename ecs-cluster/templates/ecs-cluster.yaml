@@ -646,4 +646,4 @@ spec:
 {{- end }}
 {{- end }}
 
-  enabledCRR: {{ .Values.features.enabledCRR }}
+  enableCRR: {{ .Values.features.enableCRR }}

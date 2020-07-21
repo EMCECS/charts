@@ -49,6 +49,10 @@ features:
   # Enable Cross Region Replication
   enableCRR: false
 
+  # Enable collection of objectstore stats via InfluxDB time-series database.
+  # Deploying of Monitoring components (Telegraf, Grafana, Throttler, Fluxd)
+  enableAdvancedStatistics: true
+
 #
 # ECS Service Configuration
 #

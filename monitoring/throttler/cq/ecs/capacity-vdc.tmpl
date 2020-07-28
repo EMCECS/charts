@@ -1,0 +1,19 @@
+import "http"
+
+// Capacity for VDC: total, used, available, reserved
+// Depends on capacity-nodes CQ: MONITORING-483
+
+from(bucket: "monitoring_vdc")
+|> filter(fn: (r) => r._measurement == "cq_capacity_nodes" and
+                     (r._field == "total_i" or r._field == "used"
+                     or r._field == "available" or r._field == "reserved"
+                     or r._field == "offline"))
+|> range(start:{{ .Start }}, stop:{{ .Stop }})
+// Get last result of cq_capacity_nodes
+|> last()
+// Drop _host and _host_id tags
+|> keep(columns: ["_stop", "_value", "_field"])
+|> rename(columns: {_stop: "_time"})
+// Sum values per _field
+|> sum()
+|> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")

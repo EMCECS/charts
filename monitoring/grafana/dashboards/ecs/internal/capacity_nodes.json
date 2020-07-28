@@ -1,0 +1,539 @@
+{
+  "__inputs": [
+    {
+      "name": "DS_FLUX",
+      "label": "Flux",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "grafana-influxdb-flux-datasource",
+      "pluginName": "Flux (InfluxDB) [BETA]"
+    }
+  ],
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "6.2.5"
+    },
+    {
+      "type": "datasource",
+      "id": "grafana-influxdb-flux-datasource",
+      "name": "Flux (InfluxDB) [BETA]",
+      "version": "5.2.11"
+    },
+    {
+      "type": "panel",
+      "id": "graph",
+      "name": "Graph",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "iteration": 1582193027590,
+  "links": [
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "tags": [
+        "Capacity"
+      ],
+      "title": "Related dashboards",
+      "type": "dashboards"
+    }
+  ],
+  "panels": [
+    {
+      "columns": [],
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 4,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 15,
+      "links": [],
+      "options": {},
+      "pageSize": 10,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "hidden"
+        },
+        {
+          "alias": " ",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "/vl[0-3]_/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "bytes"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Measurement",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Field",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "query": "import \"math\"\n\ndiskStatusOK = from(bucket: \"monitoring_main\")\n// Show only not MISSING and not REMOVED disksdiskStatusOK = from(bucket: \"monitoring_main\")\n|> filter(fn: (r) => r._measurement == \"ssm_sstable_SSTable_SS_partitions_PD_status\" and r._field == \"hwState\" and r.SS == \"$node_id\")\n|> range(start: -12h)\n|> last()\n|> keep(columns: [\"_time\", \"_field\", \"_value\", \"SSTable\", \"SS\", \"PD\"])\n|> pivot(rowKey: [\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")// drop 'SSTable' to get the latest value per PD after sorting by '_time'\n|> keep(columns: [\"PD\", \"SS\", \"hwState\", \"hwState\",, \"_time\"])\n|> rename(columns:{hwState: \"_value\"})\n|> sort(columns: [\"_time\"])\n|> last()\n|> filter(fn: (r) => r._value != \"MISSING\" and r._value != \"REMOVED\")\n|> keep(columns: [\"SS\", \"PD\"])\n\ntotalSpace = from(bucket: \"monitoring_main\")\n|> filter(fn: (r) => r._measurement == \"ssm_sstable_SSTable_SS_partitions_PD\"\n              and r._field == \"totalSpace\" and r.SS == \"$node_id\")\n|> range(start: -12h)\n|> last()\n|> keep(columns: [\"_time\", \"_stop\", \"_field\", \"_value\", \"SSTable\", \"SS\", \"PD\"])\n|> pivot(rowKey: [\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n|> rename(columns:{totalSpace: \"_value\"})\n|> sort(columns: [\"_time\"])\n|> last()\n|> keep(columns: [\"PD\", \"SS\", \"SSTable\", \"_value\", \"_stop\"])\n|> rename(columns: {_stop: \"_time\"})\n\ntotalSpaceOK = join(tables: {totalSpace: totalSpace, diskStatusOK: diskStatusOK}, on: [\"SS\", \"PD\"])\n\nfreeSpace = from(bucket: \"monitoring_main\")\n|> filter(fn: (r) => r._measurement == \"ssm_sstable_SSTable_SS_partitions_PD\"\n              and r._field == \"freeSpace\" and r.SS == \"$node_id\")\n|> range(start: -12h)\n|> last()\n|> keep(columns: [\"_time\", \"_stop\", \"_field\", \"_value\", \"SSTable\", \"SS\", \"PD\"])\n|> pivot(rowKey: [\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n|> rename(columns:{freeSpace: \"_value\"})\n|> sort(columns: [\"_time\"])\n|> last()\n|> keep(columns: [\"PD\", \"SS\", \"SSTable\", \"_value\", \"_stop\"])\n|> rename(columns: {_stop: \"_time\"})\n\nfreeSpaceOK = join(tables: {freeSpace: freeSpace, diskStatusOK: diskStatusOK}, on: [\"SS\", \"PD\"])\n\n\n// used = (total - free) for each SSTable/PD/SS\n// BAD disk freeSpace value may be greater than totalSpace value, show 0 in this caseused = join(tables: {totalSpace: totalSpaceOK, freeSpace: freeSpaceOK}, on: [\"SSTable\", \"SS\", \"PD\"])\nused = join(tables: {totalSpace: totalSpaceOK, freeSpace: freeSpaceOK}, on: [\"SSTable\", \"SS\", \"PD\"])\n|> rename(columns: {_time_freeSpace: \"_time\"})\n|> keep(columns: [\"_time\", \"_value_freeSpace\", \"_value_totalSpace\", \"PD\", \"SS\", \"SSTable\"])\n|> map(fn: (r) => ({_value: int(v: math.mMax(x: float(v: r._value_totalSpace - r._value_freeSpace), y: float(v: 0)))}))\n|> keep(columns: [\"_time\", \"_value\", \"PD\", \"SS\"])\n|> sum()\n|> set(key: \"_field\",value: \"used\")\n\navailable = freeSpaceOK\n|> keep(columns: [\"_time\", \"_value\", \"PD\", \"SS\"])\n|> sum()\n|> set(key: \"_field\",value: \"available\")\n\ntotal = totalSpaceOK\n|> keep(columns: [\"_time\", \"_value\", \"PD\", \"SS\"])\n|> sum()\n|> set(key: \"_field\",value: \"total\")\n\nunion(tables: [available, total, used])\n|> pivot(rowKey: [\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n|> keep(columns: [\"PD\", \"used\", \"available\", \"total\"])\n|> group()\n|> map(fn: (r) => ({\n\"vl0_Partition\": r.PD,\n\"vl1_Total\": r.total,\n\"vl2_Used\": r.used,\n\"vl3_Available\": r.available,\n})",
+          "refId": "A",
+          "resultFormat": "table"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Disks",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 4
+      },
+      "id": 8,
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "fill": 1,
+          "gridPos": {
+            "h": 9,
+            "w": 8,
+            "x": 0,
+            "y": 5
+          },
+          "id": 11,
+          "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": true,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {},
+          "percentage": false,
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "query": "// stale_update_period = 6 hours\nstale_update_period_s = 21600\nextended_range_start = int(v:$__range_from_s) - stale_update_period_s\nextended_range_stop = int(v:$__range_to_s)\n\nfrom(bucket: \"monitoring_main\")\n|> filter(fn: (r) => r._measurement == \"ssm_sstable_SSTable_SS_partitions_PD\" and r._field == \"totalSpace\"and r.PD == \"$pd\")\n|> range(start: extended_range_start, stop: extended_range_stop)\n|> fillMissing(period: 5m)\n|> keep(columns: [\"_time\", \"_field\", \"_value\", \"SSTable\", \"PD\"])\n|> pivot(rowKey: [\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n|> rename(columns:{totalSpace: \"_value\"})\n|> window(every: 60m)\n|> sort(columns: [\"_time\"])\n|> last()\n|> drop(columns: [\"SSTable\"])\n|> sum()\n|> rename(columns:{_stop: \"_time\"})\n|> group()\n|> range($range)\n|> keep(columns: [\"_time\", \"_value\", \"PD\"])\n|> set(key: \"_field\", value: \"Total\")\n",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "Total",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "decimals": 2,
+              "format": "bytes",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "fill": 1,
+          "gridPos": {
+            "h": 9,
+            "w": 8,
+            "x": 8,
+            "y": 5
+          },
+          "id": 13,
+          "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": true,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {},
+          "percentage": false,
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "query": "import \"math\"\nstale_update_period_s = 21600\nextended_range_start = int(v:$__range_from_s) - stale_update_period_s\nextended_range_stop = int(v:$__range_to_s)\n\ntotalSpace = from(bucket: \"monitoring_main\")\n|> filter(fn: (r) => r._measurement == \"ssm_sstable_SSTable_SS_partitions_PD\" and r._field == \"totalSpace\" and r.PD == \"$pd\")\n|> range(start: extended_range_start, stop: extended_range_stop)\n|> fillMissing(period: 5m)\n|> keep(columns: [\"_time\", \"_field\", \"_value\", \"SSTable\", \"PD\"])\n|> pivot(rowKey: [\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n|> rename(columns:{totalSpace: \"_value\"})\n|> window(every: 60m)\n|> sort(columns: [\"_time\"])\n|> last()\n|> drop(columns: [\"SSTable\"])\n|> sum()\n|> rename(columns:{_stop: \"_time\"})\n|> keep(columns: [\"_time\", \"_value\", \"PD\"])\n\nfreeSpace = from(bucket: \"monitoring_main\")\n|> filter(fn: (r) => r._measurement == \"ssm_sstable_SSTable_SS_partitions_PD\" and r._field == \"freeSpace\" and r.PD == \"$pd\")\n|> range(start: extended_range_start, stop: extended_range_stop)\n|> fillMissing(period: 5m)\n|> keep(columns: [\"_time\", \"_field\", \"_value\", \"SSTable\", \"PD\"])\n|> pivot(rowKey: [\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n|> rename(columns:{freeSpace: \"_value\"})\n|> window(every: 60m)\n|> sort(columns: [\"_time\"])\n|> last()\n|> drop(columns: [\"SSTable\"])\n|> sum()\n|> rename(columns:{_stop: \"_time\"})\n|> keep(columns: [\"_time\", \"_value\", \"PD\"])\n\n// used = (total - free)\n// BAD disk freeSpace value may be greater than totalSpace value, show 0 in this case\njoin(tables: {totalSpace: totalSpace, freeSpace: freeSpace}, on: [\"_time\", \"PD\"])\n|> map(fn: (r) => ({_value: int(v: math.mMax(x: float(v: r._value_totalSpace - r._value_freeSpace), y: float(v: 0)))}))\n|> group()\n|> range($range)\n|> set(key: \"_field\", value: \"Used\")",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "Used",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "decimals": 2,
+              "format": "bytes",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "fill": 1,
+          "gridPos": {
+            "h": 9,
+            "w": 8,
+            "x": 16,
+            "y": 5
+          },
+          "id": 12,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {},
+          "percentage": false,
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "query": "// stale_update_period = 6 hours\nstale_update_period_s = 21600\nextended_range_start = int(v:$__range_from_s) - stale_update_period_s\nextended_range_stop = int(v:$__range_to_s)\n\nfrom(bucket: \"monitoring_main\")\n|> filter(fn: (r) => r._measurement == \"ssm_sstable_SSTable_SS_partitions_PD\" and r._field == \"freeSpace\" and r.PD == \"$pd\")\n|> range(start: extended_range_start, stop: extended_range_stop)\n|> fillMissing(period: 5m)\n|> keep(columns: [\"_time\", \"_field\", \"_value\", \"SSTable\", \"PD\"])\n|> pivot(rowKey: [\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n|> rename(columns:{freeSpace: \"_value\"})\n|> window(every: 60m)\n|> sort(columns: [\"_time\"])\n|> last()\n|> drop(columns: [\"SSTable\"])\n|> sum()\n|> rename(columns:{_stop: \"_time\"})\n|> group()\n|> range($range)\n|> keep(columns: [\"_time\", \"_value\", \"PD\"])\n|> set(key: \"_field\", value: \"Available\")\n",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "Available",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "decimals": 2,
+              "format": "bytes",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        }
+      ],
+      "title": "Capacity History by Disk ($pd)",
+      "type": "row"
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 18,
+  "style": "dark",
+  "tags": [
+    "Capacity"
+  ],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "${DS_FLUX}",
+        "definition": "from(bucket:\"monitoring_main\")|> range(start: -12h)|> filter(fn:(r) => r._measurement == \"ssm_sstable_SSTable_SS\" and r._field != \"state\")|> drop(columns: [\"_value\"])|> group(columns:[\"SS\"])|> distinct(column:\"SS\")",
+        "hide": 0,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "node_id",
+        "options": [],
+        "query": "from(bucket:\"monitoring_main\")|> range(start: -12h)|> filter(fn:(r) => r._measurement == \"ssm_sstable_SSTable_SS\" and r._field != \"state\")|> drop(columns: [\"_value\"])|> group(columns:[\"SS\"])|> distinct(column:\"SS\")",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "${DS_FLUX}",
+        "definition": "from(bucket:\"monitoring_main\") |> filter(fn: (r) => r._measurement == \"ssm_sstable_SSTable_SS_partitions_PD_status\" and r.SS == \"$node_id\") |> range(start: -12h) |> keep(columns: [\"PD\"]) |> distinct(column: \"PD\")",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Partition Uid",
+        "multi": false,
+        "name": "pd",
+        "options": [],
+        "query": "from(bucket:\"monitoring_main\") |> filter(fn: (r) => r._measurement == \"ssm_sstable_SSTable_SS_partitions_PD_status\" and r.SS == \"$node_id\") |> range(start: -12h) |> keep(columns: [\"PD\"]) |> distinct(column: \"PD\")",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "",
+  "title": "Capacity - by Nodes",
+  "uid": "VF6cjStWk",
+  "version": 2
+}

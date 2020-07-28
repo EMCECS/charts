@@ -1,0 +1,171 @@
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ template "influxdb.fullname" . }}-nginx-context"
+  labels:
+    release: {{ .Release.Name }}
+data:
+  http.conf: |+
+    server {
+      server_name {{ include "influxdb.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local;
+
+    {{- if not .Values.global.tls_enabled }}
+      listen {{ .Values.service.bind_address }};
+    {{- else }}
+      listen {{ .Values.service.bind_address }} ssl;
+
+      {{- if $.Values.global.use_vault_for_ssl }}
+      ssl_certificate     /vault/secrets/server.crt;
+      ssl_certificate_key /vault/secrets/server.key;
+      ssl_client_certificate /vault/secrets/trusted_client_ca.crt;
+      ssl_verify_client         optional;
+      ssl_verify_depth          2;
+      {{- else }}
+      ssl_certificate     /etc/nginx/cert/server.crt;
+      ssl_certificate_key /etc/nginx/cert/server.key;
+      ssl_password_file   /etc/nginx/cert/password;
+      ssl_verify_client         off;
+      {{- end }}
+      ssl_protocols             TLSv1.2;
+      ssl_session_cache   shared:SSL:1m;
+      ssl_session_timeout 5m;
+    {{- end }}
+
+        location / {
+            proxy_pass http://127.0.0.1:{{ .Values.config.http.bind_address }};
+            proxy_buffering            off;
+            proxy_buffer_size          32k;
+            proxy_buffers           16 32k;
+            proxy_busy_buffers_size   256k;
+            proxy_set_header Connection "";
+            proxy_set_header Authorization "";
+
+            proxy_set_header   Host			 $host;
+            proxy_set_header   X-Real-IP		$remote_addr;
+            proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+            add_header Cache-Control private;
+        }
+      }
+
+    {{- $top := . }}
+    {{- $scheme := ternary "https" "http" .Values.global.tls_enabled }}
+    {{- $replicas := include "common-lib.influxdb_replicas" . }}
+
+    {{range $i, $e := until (int $replicas)}}
+    {{ $j := add $i 1 }}
+    server {
+      listen 127.0.0.1{{$j}}:8{{$j}}86;
+      server_name 127.0.0.1{{$j}};
+    {{- if $.Values.global.tls_enabled }}
+      ssl_session_cache   shared:SSL:1m;
+      ssl_session_timeout 5m;
+    {{- end }}
+
+      location / {
+          resolver {{ $.Values.global.internal_dns }} valid=30s;
+          set $upstream_influxdb_{{$i}} {{ $top.Release.Name }}-influxdb-{{$i}}.{{ $top.Release.Name }}-influxdb.{{ $top.Release.Namespace }}.svc.cluster.local;
+
+          proxy_pass {{ $scheme }}://$upstream_influxdb_{{$i}}:8086;
+          proxy_set_header Connection "";
+          proxy_set_header Authorization "";
+        {{- if $.Values.global.tls_enabled }}
+          {{- if $.Values.global.use_vault_for_ssl }}
+          proxy_ssl_certificate         /vault/secrets/influxdb_client.crt;
+          proxy_ssl_certificate_key     /vault/secrets/influxdb_client.key;
+          proxy_ssl_trusted_certificate /vault/secrets/trusted_influxdb_server_ca.crt;
+          proxy_ssl_name          {{ $top.Release.Name }}-influxdb.{{ $top.Release.Namespace }}.svc.cluster.local;
+          proxy_ssl_verify        on;
+          proxy_ssl_verify_depth  2;
+          {{- else }}
+          proxy_ssl_certificate     /etc/nginx/cert/client.crt;
+          proxy_ssl_certificate_key /etc/nginx/cert/client.key;
+          proxy_ssl_password_file   /etc/nginx/cert/password;
+          proxy_ssl_verify       off;
+          {{- end }}
+          proxy_ssl_protocols     TLSv1.2;
+        {{- end }}
+          proxy_read_timeout      180s;
+          proxy_buffering            off;
+          proxy_buffer_size          32k;
+          proxy_buffers           16 32k;
+          proxy_busy_buffers_size   256k;
+
+          proxy_set_header   Host			 $host;
+          proxy_set_header   X-Real-IP		$remote_addr;
+          proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+          add_header Cache-Control private;
+      }
+    }
+    {{- end }}
+  stream.conf: |+
+    resolver {{ $.Values.global.internal_dns }} valid=30s;
+    {{- $serviceRpcPort  := .Values.service.rpc.bind_address -}}
+    map $server_port $remote_ip_addr {
+      {{- range $i, $e := until (int $replicas) -}}
+      {{- $j := add $i 1 }}
+      8{{$j}}88 "{{ $top.Release.Name }}-influxdb-{{$i}}.{{ $top.Release.Name }}-influxdb.{{ $top.Release.Namespace }}.svc.cluster.local:{{ $serviceRpcPort }}";
+      {{- end }}
+      {{ $serviceRpcPort }} "127.0.0.1:{{ .Values.config.rpc.bind_address }}";
+    }
+    server {
+    {{- if not .Values.global.tls_enabled }}
+      listen {{ .Values.service.rpc.bind_address }};
+    {{- else }}
+      listen {{ .Values.service.rpc.bind_address }} ssl;
+
+    {{- if $.Values.global.use_vault_for_ssl }}
+      ssl_certificate     /vault/secrets/server.crt;
+      ssl_certificate_key /vault/secrets/server.key;
+      ssl_client_certificate /vault/secrets/trusted_client_ca.crt;
+      ssl_verify_client         optional;
+      ssl_verify_depth          2;
+    {{- else }}
+      ssl_certificate     /etc/nginx/cert/server.crt;
+      ssl_certificate_key /etc/nginx/cert/server.key;
+      ssl_password_file   /etc/nginx/cert/password;
+      ssl_verify_client         off;
+    {{- end }}
+      ssl_protocols             TLSv1.2;
+      ssl_session_timeout 5m;
+    {{- end }}
+
+      proxy_pass $remote_ip_addr;
+    }
+    {{- range $i, $e := until (int $replicas)}}
+    {{- $j := add $i 1 }}
+    server {
+      listen 127.0.0.1{{$j}}:8{{$j}}88;
+
+    {{- if $.Values.global.tls_enabled }}
+      ssl_session_timeout 5m;
+      proxy_ssl  on;
+      {{- if $.Values.global.use_vault_for_ssl }}
+      proxy_ssl_certificate         /vault/secrets/influxdb_client.crt;
+      proxy_ssl_certificate_key     /vault/secrets/influxdb_client.key;
+      proxy_ssl_trusted_certificate /vault/secrets/trusted_influxdb_server_ca.crt;
+      proxy_ssl_name          {{ $top.Release.Name }}-influxdb.{{ $top.Release.Namespace }}.svc.cluster.local;
+      proxy_ssl_verify        on;
+      proxy_ssl_verify_depth  2;
+      {{- else }}
+      proxy_ssl_certificate     /etc/nginx/cert/client.crt;
+      proxy_ssl_certificate_key /etc/nginx/cert/client.key;
+      proxy_ssl_password_file   /etc/nginx/cert/password;
+      proxy_ssl_verify       off;
+      {{- end }}
+      proxy_ssl_protocols     TLSv1.2;
+    {{- end }}
+      proxy_pass $remote_ip_addr;
+    }
+    {{- end }}

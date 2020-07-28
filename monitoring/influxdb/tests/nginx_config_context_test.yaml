@@ -1,0 +1,68 @@
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+
+suite: test nginx config
+templates:
+  - nginx-config-context.yaml
+test:
+  - it: influxdb tls enabled
+    set:
+      global.tls_enabled: true
+    asserts:
+      - matchRegex:
+        path: data.http\.conf
+        pattern: listen 18086 ssl;
+      - matchRegex:
+        path: data.stream\.conf
+        pattern: listen 18088 ssl;
+  - it: influxdb tls disabled
+    set:
+      global.tls_enabled: false
+    asserts:
+      - matchRegex:
+        path: data.http\.conf
+        pattern: listen 18086;
+      - matchRegex:
+        path: data.stream\.conf
+        pattern: listen 18088;
+  - it: 3 influxdb replicas
+    set:
+      global.influxdb_replicas: 3
+    asserts:
+      - matchRegex:
+        path: data.http\.conf
+        pattern: listen 127.0.0.11:8186;
+        pattern: listen 127.0.0.11:8286;
+        pattern: listen 127.0.0.11:8386;
+      - matchRegex:
+        path: data.stream\.conf
+        pattern: listen 127.0.0.11:8188;
+        pattern: listen 127.0.0.12:8288;
+        pattern: listen 127.0.0.13:8388;
+  - it: internal_dns original
+    asserts:
+      - matchRegex:
+        path: data.http\.conf
+        pattern: resolver kube-dns.kube-system.svc.cluster.local valid=30s;
+      - matchRegex:
+          path: data.stream\.conf
+          pattern: resolver kube-dns.kube-system.svc.cluster.local valid=30s;
+  - it: internal_dns  custom
+    set:
+      global.internal_dns: coredns.kube-system.svc.cluster.local
+    asserts:
+      - matchRegex:
+        path: data.http\.conf
+        pattern: resolver coredns.kube-system.svc.cluster.local valid=30s;
+      - matchRegex:
+        path: data.stream\.conf
+        pattern: resolver coredns.kube-system.svc.cluster.local valid=30s;

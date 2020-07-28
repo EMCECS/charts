@@ -1,0 +1,118 @@
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+
+suite: test grafana-config
+templates:
+  - grafana-config.yaml
+tests:
+  - it: oauth enabled proxy disabled
+    set:
+      config.oauth.enabled: true
+      config.oauth.client_id: cl_id
+      config.oauth.auth_url: authurl
+      config.oauth.token_url: tokenurl
+      config.oauth.api_url: apiurl
+      config.oauth.signout_url: logouturl
+    asserts:
+      - matchRegex:
+          path: data.grafana\.ini
+          pattern: "name = Platform Keycloak\\s+enabled = true"
+      - matchRegex:
+          path: data.grafana\.ini
+          pattern: "client_id = cl_id"
+      - matchRegex:
+          path: data.grafana\.ini
+          pattern: "auth_url = authurl"
+      - matchRegex:
+          path: data.grafana\.ini
+          pattern: "token_url = tokenurl"
+      - matchRegex:
+          path: data.grafana\.ini
+          pattern: "api_url = apiurl"
+      - matchRegex:
+          path: data.grafana\.ini
+          pattern: "signout_redirect_url =\\s+\n"
+      - notMatchRegex:
+          path: data.grafana\.ini
+          pattern: ";name = OAuth\\s+;enabled = false"
+  - it: oauth disabled
+    set:
+      config.oauth.enabled: false
+    asserts:
+      - notMatchRegex:
+          path: data.grafana\.ini
+          pattern: "name = Platform Keycloak\\s+enabled = true"
+      - matchRegex:
+          path: data.grafana\.ini
+          pattern: ";name = OAuth\\s+;enabled = false"
+  - it: oauth enabled with auto login
+    set:
+      config.oauth.enabled: true
+      config.oauth.auto_login: true
+    asserts:
+      - matchRegex:
+          path: data.grafana\.ini
+          pattern: "oauth_auto_login = true"
+  - it: oauth enabled without auto login
+    set:
+      config.oauth.enabled: true
+      config.oauth.auto_login: false
+    asserts:
+      - matchRegex:
+          path: data.grafana\.ini
+          pattern: "oauth_auto_login = false"
+  - it: oauth disabled autologin value ignored
+    set:
+      config.oauth.enabled: false
+      config.oauth.auto_login: true
+    asserts:
+      - matchRegex:
+          path: data.grafana\.ini
+          pattern: "oauth_auto_login = false"
+  - it: proxy enabled oauth enabled
+    set:
+      config.oauth.enabled: true
+      config.oauth.signout_url: logouturl
+      config.reverse_proxy.enabled: true
+      config.reverse_proxy.domain: "1.1.1.1:222"
+    asserts:
+      - matchRegex:
+          path: data.grafana\.ini
+          pattern: "name = Platform Keycloak\\s+enabled = true"
+      - matchRegex:
+          path: data.grafana\.ini
+          pattern: "signout_redirect_url = logouturl\\?redirect_uri=https://1.1.1.1:222/grafana"
+      - matchRegex:
+          path: data.grafana\.ini
+          pattern: "domain = 1.1.1.1:222"
+      - matchRegex:
+          path: data.grafana\.ini
+          pattern: "root_url = https://1.1.1.1:222/grafana"
+      - notMatchRegex:
+          path: data.grafana\.ini
+          pattern: ";name = OAuth\\s+;enabled = false"
+      - notMatchRegex:
+          path: data.grafana\.ini
+          pattern: ";domain = localhost"
+      - notMatchRegex:
+          path: data.grafana\.ini
+          pattern: "root_url = %\\(protocol\\)s://%\\(domain\\)s"
+  - it: proxy disabled
+    set:
+      config.reverse_proxy.disabled: true
+    asserts:
+      - matchRegex:
+          path: data.grafana\.ini
+          pattern: ";domain = localhost"
+      - matchRegex:
+          path: data.grafana\.ini
+          pattern: "root_url = %\\(protocol\\)s://%\\(domain\\)s"

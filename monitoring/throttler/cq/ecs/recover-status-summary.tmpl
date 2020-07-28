@@ -1,0 +1,9 @@
+import "http"
+from(bucket: "monitoring_vdc")
+|> filter(fn: (r) => r._measurement == "cq_total_cm_Recover_Statistics" and (r._field =~ /data_to_recover|data_recovered/))
+|> range(start: {{ .Start }}, stop: {{ .Stop }})
+|> fillMissing(period: 5m)
+|> range(start:{{ .KeepStart }}, stop:{{ .Stop }})
+|> keep(columns:["_value", "_time", "_start", "_stop", "_field"])
+|> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
+|> map(fn: (r) => ({_time: r._time, data_to_recover: int(v:(r.data_to_recover>=0))*r.data_to_recover, data_recovered: r.data_recovered}))

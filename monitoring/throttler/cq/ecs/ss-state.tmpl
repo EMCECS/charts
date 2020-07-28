@@ -1,0 +1,17 @@
+import "http"
+
+// SS state per SS
+// state to SSState mapping: "SS UP" - 1; other - 0.
+
+from(bucket: "monitoring_main")
+|> filter(fn: (r) => r._measurement == "ssm_sstable_SSTable_SS" and r._field == "state")
+|> range(start:{{ .Start }},stop:{{ .Stop }})
+|> last()
+|> keep(columns: ["_stop", "SS", "_value"])
+|> last()
+|> rename(columns:{_stop: "_time"})
+|> map(fn: (r) => ({
+             _time: r._time,
+             SS: r.SS,
+             SSState: int(v: r._value == "SS UP")
+}))

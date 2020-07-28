@@ -1,0 +1,174 @@
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+{{- $scheme := ternary "HTTPS" "HTTP" .Values.global.tls_enabled }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "fluxd.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "fluxd.fullname" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    helm.sh/chart: {{ include "fluxd.chart" . }}
+spec:
+  replicas: {{ include "common-lib.replicaCount" (dict "top" . "micro" 1 "small" 1 "medium" 1 "large" 5)}}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "fluxd.fullname" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "fluxd.fullname" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/scheme: {{ $scheme }}
+        prometheus.io/port: "{{ .Values.service.bind_address }}"
+        {{- if .Values.global.use_vault_for_ssl }}
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/agent-inject-status: "update"
+        vault.hashicorp.com/agent-requests-cpu: ""
+        vault.hashicorp.com/agent-limits-cpu: ""
+        vault.hashicorp.com/agent-inject-secret-server.crt: "intermediate_pki/issue/intermediate_pki_issuer"
+        vault.hashicorp.com/agent-inject-template-server.crt: |
+          {{`{{`}}- with secret "intermediate_pki/issue/intermediate_pki_issuer" "common_name={{ include "fluxd.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local" {{`}}`}}
+          {{`{{`}} .Data.certificate {{`}}`}}
+          {{`{{`}}- end {{`}}`}}
+        vault.hashicorp.com/agent-inject-secret-server.key: "intermediate_pki/issue/intermediate_pki_issuer"
+        vault.hashicorp.com/agent-inject-template-server.key: |
+          {{`{{`}}- with secret "intermediate_pki/issue/intermediate_pki_issuer" "common_name={{ include "fluxd.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local" {{`}}`}}
+          {{`{{`}} .Data.private_key {{`}}`}}
+          {{`{{`}}- end {{`}}`}}
+        vault.hashicorp.com/agent-inject-secret-trusted_client_ca.crt: "intermediate_pki/issue/intermediate_pki_issuer"
+        vault.hashicorp.com/agent-inject-template-trusted_client_ca.crt: |
+          {{`{{`}}- with secret "intermediate_pki/issue/intermediate_pki_issuer" "common_name={{ include "fluxd.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local" {{`}}`}}
+          {{`{{`}}- range $cert := .Data.ca_chain {{`}}`}}
+          {{`{{`}} $cert {{`}}`}}
+          {{`{{`}}- end {{`}}`}}
+          {{`{{`}}- end {{`}}`}}
+        vault.hashicorp.com/agent-inject-secret-influxdb_client.crt: "intermediate_pki/issue/intermediate_pki_issuer"
+        vault.hashicorp.com/agent-inject-template-influxdb_client.crt: |
+          {{`{{`}}- with secret "intermediate_pki/issue/intermediate_pki_issuer" "common_name={{ include "fluxd.fullname" . }}-influxdb-client.{{ .Release.Namespace }}.svc.cluster.local" {{`}}`}}
+          {{`{{`}} .Data.certificate {{`}}`}}
+          {{`{{`}}- end {{`}}`}}
+        vault.hashicorp.com/agent-inject-secret-influxdb_client.key: "intermediate_pki/issue/intermediate_pki_issuer"
+        vault.hashicorp.com/agent-inject-template-influxdb_client.key: |
+          {{`{{`}}- with secret "intermediate_pki/issue/intermediate_pki_issuer" "common_name={{ include "fluxd.fullname" . }}-influxdb-client.{{ .Release.Namespace }}.svc.cluster.local" {{`}}`}}
+          {{`{{`}} .Data.private_key {{`}}`}}
+          {{`{{`}}- end {{`}}`}}
+        vault.hashicorp.com/agent-inject-secret-trusted_influxdb_server_ca.crt: "intermediate_pki/issue/intermediate_pki_issuer"
+        vault.hashicorp.com/agent-inject-template-trusted_influxdb_server_ca.crt: |
+          {{`{{`}}- with secret "intermediate_pki/issue/intermediate_pki_issuer" "common_name={{ include "fluxd.fullname" . }}-influxdb-client.{{ .Release.Namespace }}.svc.cluster.local" {{`}}`}}
+          {{`{{`}}- range $cert := .Data.ca_chain {{`}}`}}
+          {{`{{`}} $cert {{`}}`}}
+          {{`{{`}}- end {{`}}`}}
+          {{`{{`}}- end {{`}}`}}
+        vault.hashicorp.com/agent-inject-secret-telegraf_client.crt: "intermediate_pki/issue/intermediate_pki_issuer"
+        vault.hashicorp.com/agent-inject-template-telegraf_client.crt: |
+          {{`{{`}}- with secret "intermediate_pki/issue/intermediate_pki_issuer" "common_name={{ include "fluxd.fullname" . }}-telegraf-client.{{ .Release.Namespace }}.svc.cluster.local" {{`}}`}}
+          {{`{{`}} .Data.certificate {{`}}`}}
+          {{`{{`}}- end {{`}}`}}
+        vault.hashicorp.com/agent-inject-secret-telegraf_client.key: "intermediate_pki/issue/intermediate_pki_issuer"
+        vault.hashicorp.com/agent-inject-template-telegraf_client.key: |
+          {{`{{`}}- with secret "intermediate_pki/issue/intermediate_pki_issuer" "common_name={{ include "fluxd.fullname" . }}-telegraf-client.{{ .Release.Namespace }}.svc.cluster.local" {{`}}`}}
+          {{`{{`}} .Data.private_key {{`}}`}}
+          {{`{{`}}- end {{`}}`}}
+        vault.hashicorp.com/agent-inject-secret-trusted_telegraf_server_ca.crt: "intermediate_pki/issue/intermediate_pki_issuer"
+        vault.hashicorp.com/agent-inject-template-trusted_telegraf_server_ca.crt: |
+          {{`{{`}}- with secret "intermediate_pki/issue/intermediate_pki_issuer" "common_name={{ include "fluxd.fullname" . }}-telegraf-client.{{ .Release.Namespace }}.svc.cluster.local" {{`}}`}}
+          {{`{{`}}- range $cert := .Data.ca_chain {{`}}`}}
+          {{`{{`}} $cert {{`}}`}}
+          {{`{{`}}- end {{`}}`}}
+          {{`{{`}}- end {{`}}`}}
+        vault.hashicorp.com/role: "vault_requester"
+        vault.hashicorp.com/tls-skip-verify: "true"
+        {{- end }}
+    spec:
+      serviceAccountName: {{ template "fluxd.serviceAccountName" . }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.global.monitoring_registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+        command: ["fluxd"]
+        args: ["--disable-lb", "--cf-disabled", "--disable-zk", "--node-id", "$(NODE_ID)", "--storage-hosts", "$(STORAGE_HOSTS)", "--store-namespace", "{{ .Release.Namespace }}", "--port", "{{ .Values.config.http.bind_address }}", "--logger-config", "/non_existing"]
+        resources:
+{{ include "common-lib.resources" (dict "top" . "micro" "150Mi" "small" "300Mi" "medium" "300Mi" "large" "300Mi") | indent 10}}
+        ports:
+        - name: api
+          containerPort: {{ .Values.config.http.bind_address }}
+        env:
+        - name: NODE_ID
+          valueFrom:
+            fieldRef:
+              # use pod name as node id
+              fieldPath: metadata.name
+        - name: STORAGE_HOSTS
+          value: "127.0.0.10:8086,127.0.0.11:8186,127.0.0.12:8286"
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        volumeMounts:
+        - mountPath: /etc/fluxd/hl.json
+          name: config-hl
+          subPath: hl.json
+      - name: nginx
+        image: "{{ .Values.global.monitoring_registry }}/nginx:{{ .Values.global.monitoring_tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+        resources:
+          requests:
+            memory: 50Mi
+        ports:
+        - name: api
+          containerPort: {{ .Values.service.bind_address }}
+        volumeMounts:
+        - mountPath: /etc/nginx/conf.d
+          name: nginx-config
+        {{- if .Values.global.tls_enabled }}
+        {{- if not .Values.global.use_vault_for_ssl }}
+        - mountPath: /etc/nginx/cert
+          name: cert
+        {{- end }}
+        {{- end }}
+        livenessProbe:
+          httpGet:
+            path: {{ .Values.livenessProbe.probePath }}
+            port: api
+            scheme: {{ $scheme }}
+          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds | default 30 }}
+          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds | default 5 }}
+        readinessProbe:
+          httpGet:
+            path: {{ .Values.readinessProbe.probePath }}
+            port: api
+            scheme: {{ $scheme }}
+          initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds | default 5 }}
+          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds | default 1 }}
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+{{ toYaml .Values.imagePullSecrets | indent 8 }}
+      {{- end }}
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: {{ template "fluxd.fullname" . }}-nginx
+      {{- if .Values.global.tls_enabled }}
+      {{- if not .Values.global.use_vault_for_ssl }}
+      - name: cert
+        configMap:
+          name: {{ .Release.Name }}-cert
+      {{- end }}
+      {{- end }}
+      - name: config-hl
+        configMap:
+          name: {{ include "fluxd.fullname" . }}-hl

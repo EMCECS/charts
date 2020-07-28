@@ -1,0 +1,16 @@
+import "http"
+from(bucket: "monitoring_main")
+|> filter(fn: (r) => r._measurement == "{{ .Params.measurement }}")
+|> range(start:{{ .Start }},stop:{{ .Stop }})
+|> keep(columns:["_time", "_field", "_value", "host"])
+|> difference(nonNegative: true)
+// see MONITORING-194 for details about next 2 lines
+|> window(every:5m)
+|> drop(columns:["host"])
+|> sum()
+|> drop(columns:["_stop"])
+|> rename(columns: {_start: "_time"})
+|> group()
+|> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
+|> rename(columns: { {{ .Params.column_rename }} })
+|> range(start:{{ .KeepStart }},stop:{{ .Stop }})

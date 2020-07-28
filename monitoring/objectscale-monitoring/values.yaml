@@ -1,0 +1,118 @@
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+
+## Default values.yaml for Monitoring
+## This is a YAML-formatted file.
+---
+global:
+  rsyslog_uds_dir: "/var/run/rsyslog"
+  rsyslog_uds_filename: "rsyslog.socket"
+  use_vault_for_ssl: true
+  tls_enabled: true
+  # Telegraf TLS is disabled until TLS support is added to ECS stat client
+  telegraf_tls_enabled: true
+  # communication_scheme defined separately from tls_enabled as found no way to make conditional set in values.yaml
+  communication_scheme: https
+  internal_dns: kube-dns.kube-system.svc.cluster.local
+
+cert:
+  enabled: false
+grafana:
+  config:
+    dashboards_dir: "dashboards/objectscale"
+    home_dashboard: "Data Access Performance - Overview"
+  platform_monitoring:
+    connected: true
+    release_name: monitoring
+    namespace: default
+throttler:
+  config:
+    cq_dir: "cq/objectscale"
+telegraf:
+  config:
+    influxdb_inputs_enabled: false
+    outputs:
+      - influxdb:
+          insecure_skip_verify: true
+          skip_database_creation: true
+          timeout: "30s"
+          database: "monitoring_op"
+          retention_policy: "default"
+          tagexclude: ["vdc", "storage_pool", "cluster", "release_name"]
+          fielddrop: ["*Timestamp"]
+          namepass:
+            - "tsdb_fluxd_http_api_request_duration_seconds"
+            - "tsdb_fluxd_http_api_requests_total"
+            - "tsdb_fluxd_host_state_change_total"
+            - "tsdb_fluxd_host_state"
+            - "tsdb_fluxd_host_selected"
+            - "tsdb_fluxd_host_selection_failed"
+            - "tsdb_fluxd_hl_*"
+            - "tsdb_fluxd_query_control_executing_duration_seconds"
+            - "tsdb_fluxd_http_lb_request_forwarded"
+            - "tsdb_fluxd_query_control_panics_total"
+            - "tsdb_influxdb"
+            - "tsdb_influxdb_database"
+            - "tsdb_influxdb_queryExecutor"
+            - "tsdb_telegraf_internal_gather"
+            - "tsdb_telegraf_internal_write"
+            - "cquerier_*"
+      - influxdb:
+          insecure_skip_verify: true
+          skip_database_creation: true
+          timeout: "30s"
+          database: "monitoring_vdc"
+          retention_policy: "default"
+          # host and node_id are removed because CQs from several nodes can write same data (even if not simultaneously)
+          tagexclude: ["host", "node_id", "vdc", "storage_pool", "cluster"]
+          namepass: ["cq_*"]
+    inputs:
+      # Influx HTTP write listener
+      - influxdb_listener:
+          ## Address and port to host HTTP listener on
+          service_address: ":11102"
+          ## maximum duration before timing out read of the request
+          read_timeout: "30s"
+          ## maximum duration before timing out write of the response
+          write_timeout: "30s"
+      # Collect statistics about itself
+      - internal:
+          interval: "300s"
+          collect_memstats: true
+          name_prefix: "tsdb_telegraf_"
+          tags:
+            tag: "system"
+            host: "$HOSTNAME"
+      - prometheus:
+          interval: "$COLLECTION_INTERVAL"
+          name_prefix: "tsdb_fluxd_"
+          bearer_token: "/var/run/secrets/kubernetes.io/serviceaccount/token"
+          monitor_kubernetes_pods: true
+          monitor_kubernetes_pods_namespace: "{{ .Release.Namespace }}"
+          kubernetes_label_selector: "app.kubernetes.io/name={{ .Release.Name }}-fluxd"
+          insecure_skip_verify: true
+          tags:
+            tag: "system"
+      - prometheus:
+          interval: "$COLLECTION_INTERVAL"
+          kubernetes_services:
+            - "{{ .Values.global.communication_scheme }}://{{ .Release.Name }}-throttler.{{ .Release.Namespace }}.svc.cluster.local:18094/metrics"
+          monitor_kubernetes_pods: false
+          insecure_skip_verify: true
+          tags:
+            tag: "system"
+            host: "throttler"
+    processors:
+      - override:
+          namepass:
+            - "tsdb_influxdb_httpd"
+          tagexclude: ["node_id", "ip"]

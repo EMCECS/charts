@@ -1,0 +1,51 @@
+import "http"
+// compute mean disk banwidth over selected time range
+
+all = from(bucket: "monitoring_main")
+|> filter(fn: (r) => r._measurement =~ /_IO_Statistics_data_(read|write)/ and r._field =~ /Total/)
+|> range(start:{{ .Start }},stop:{{ .Stop }})
+|> keep(columns: ["_measurement","node_id","_value","_stop","_time", "_field"])
+// compute mean of bandwidth over selected time-range
+|> derivative(nonNegative: true)
+|> mean()
+// sum up all nodes and processes
+|> drop(columns:["_measurement","node_id"])
+|> sum()
+
+// compute 'read' bandwidth
+reads = all
+|> filter(fn: (r) => r._field =~ /^read_/)
+|> pivot(rowKey:["_stop"], columnKey: ["_field"], valueColumn: "_value")
+|> set(key: "type_op", value: "read")
+|> map(fn: (r) => ({
+    _time: r._stop,
+    type_op: r.type_op,
+    total: r.read_CCTotal + r.read_ECTotal + r.read_GEOTotal
+      + r.read_RECOVERTotal + r.read_USERTotal + r.read_XORTotal,
+    consistency_checker: r.read_CCTotal,
+    erasure_encoding: r.read_ECTotal,
+    geo: r.read_GEOTotal,
+    hardware_recovery: r.read_RECOVERTotal,
+    user_traffic: r.read_USERTotal,
+    xor: r.read_XORTotal}))
+
+// compute 'write' bandwidth
+write = all
+|> filter(fn: (r) => r._field =~ /^write_/)
+|> pivot(rowKey:["_stop"], columnKey: ["_field"], valueColumn: "_value")
+|> set(key: "type_op", value: "write")
+|> map(fn: (r) => ({
+    _time: r._stop,
+    type_op: r.type_op,
+    total: r.write_CCTotal + r.write_ECTotal + r.write_GEOTotal
+      + r.write_RECOVERTotal + r.write_USERTotal + r.write_XORTotal,
+    consistency_checker: r.write_CCTotal,
+    erasure_encoding: r.write_ECTotal,
+    geo: r.write_GEOTotal,
+    hardware_recovery: r.write_RECOVERTotal,
+    user_traffic: r.write_USERTotal,
+    xor: r.write_XORTotal}))
+
+// union of results
+union(tables: [reads, write])
+|> group(columns:["_field", "type_op"])

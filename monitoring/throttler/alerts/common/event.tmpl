@@ -1,0 +1,12 @@
+|> map(fn: (r) => ({
+      _reason: r._reason,
+      _message: r._message,
+      _type: r._type,
+      _symptom_id:
+         if r._type == "Info" then "{{ index .Symptoms "Info" }}"
+         else if r._type == "Warning" then "{{ index .Symptoms "Warning" }}"
+         else if r._type == "Error" then "{{ index .Symptoms "Error" }}"
+         else if r._type == "Critical" then "{{ index .Symptoms "Critical" }}"
+         else ""
+    }))
+|> k8s.event(component: "{{ .Component }}",application: "{{ .Application }}")

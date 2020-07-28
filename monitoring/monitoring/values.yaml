@@ -1,0 +1,259 @@
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+
+## Default values.yaml for Monitoring
+## This is a YAML-formatted file.
+---
+global:
+  rsyslog_uds_dir: "/var/run/rsyslog"
+  rsyslog_uds_filename: "rsyslog.socket"
+  use_vault_for_ssl: true
+  tls_enabled: true
+  telegraf_tls_enabled: true
+  # communication_scheme defined separately from tls_enabled as found no way to make conditional set in values.yaml
+  communication_scheme: https
+  rsyslog_enabled: true
+  internal_dns: kube-dns.kube-system.svc.cluster.local
+  prometheus_alerts_enabled: true
+
+tls:
+  enabled: true
+cert:
+  enabled: false
+grafana:
+  config:
+    dashboards_dir: "dashboards/platform"
+    home_dashboard: "Process Health - Overview"
+throttler:
+  config:
+    cq_dir: "cq/platform"
+    alerter:
+      enabled: false
+prometheus-alerts:
+  config:
+    dir: "alerts/platform"
+    component: "platform-monitoring"
+  # TODO: application should be created for KAHM to discover event rules
+  # Now it cannot be created as API 'app.k8s.io/v1beta1' is not installed
+  # on Platform. This API is required by KAHM and should be available
+  # when it is included in platform
+  application_enabled: false
+telegraf:
+  # Need to have single replica as it has prometheus input
+  replicaCount: 1
+  serviceAccount:
+    create: true
+  rbac:
+    # Specifies whether RBAC resources should be created
+    create: true
+    # Create only for the release namespace or cluster wide (Role vs ClusterRole)
+    clusterWide: true
+    # Rules for the created rule
+    rules:
+      # When using the prometheus input to scrape all pods you need extra rules set to the ClusterRole to be
+      # able to scan the pods for scraping labels. The following rules have been taken from:
+      # https://github.com/helm/charts/blob/master/stable/prometheus/templates/server-clusterrole.yaml#L8-L46
+      - apiGroups:
+          - ""
+        resources:
+          - pods
+        verbs:
+          - get
+          - list
+          - watch
+  config:
+    outputs:
+      - influxdb:
+          insecure_skip_verify: true
+          database: "monitoring_op"
+          skip_database_creation: true
+          retention_policy: "default"
+          tagexclude: ["cluster", "release_name"]
+          namepass:
+            - "tsdb_fluxd_http_api_request_duration_seconds"
+            - "tsdb_fluxd_http_api_requests_total"
+            - "tsdb_fluxd_host_state_change_total"
+            - "tsdb_fluxd_host_state"
+            - "tsdb_fluxd_host_selected"
+            - "tsdb_fluxd_host_selection_failed"
+            - "tsdb_fluxd_hl_*"
+            - "tsdb_fluxd_query_control_executing_duration_seconds"
+            - "tsdb_fluxd_http_lb_request_forwarded"
+            - "tsdb_fluxd_query_control_panics_total"
+            - "tsdb_influxdb"
+            - "tsdb_influxdb_database"
+            - "tsdb_influxdb_queryExecutor"
+            - "tsdb_telegraf_internal_gather"
+            - "tsdb_telegraf_internal_write"
+            - "cquerier_*"
+            - "inventory_kubernetes_pod_container"
+      - influxdb:
+          insecure_skip_verify: true
+          skip_database_creation: true
+          timeout: "30s"
+          database: "monitoring_vdc"
+          retention_policy: "default"
+          # host and node_id are removed because CQs from several nodes can write same data (even if not simultaneously)
+          tagexclude: ["host", "node_id", "vdc", "storage_pool", "cluster", "release_name"]
+          namepass: ["cq_*"]
+    inputs:
+      # Influx HTTP write listener
+      - influxdb_listener:
+          ## Address and port to host HTTP listener on
+          service_address: ":11102"
+          ## maximum duration before timing out read of the request
+          read_timeout: "30s"
+          ## maximum duration before timing out write of the response
+          write_timeout: "30s"
+      # Collect statistics about itself
+      - internal:
+          interval: "$COLLECTION_INTERVAL"
+          collect_memstats: true
+          name_prefix: "tsdb_telegraf_"
+          tags:
+            tag: "system"
+            host: "$HOSTNAME"
+      - prometheus:
+          interval: "$COLLECTION_INTERVAL"
+          name_prefix: "tsdb_fluxd_"
+          bearer_token: "/var/run/secrets/kubernetes.io/serviceaccount/token"
+          monitor_kubernetes_pods: true
+          monitor_kubernetes_pods_namespace: "{{ .Release.Namespace }}"
+          kubernetes_label_selector: "app.kubernetes.io/name={{ .Release.Name }}-fluxd"
+          insecure_skip_verify: true
+          tags:
+            tag: "system"
+      - prometheus:
+          interval: "$COLLECTION_INTERVAL"
+          kubernetes_services:
+            - "{{ .Values.global.communication_scheme }}://{{ .Release.Name }}-throttler.{{ .Release.Namespace }}.svc.cluster.local:18094/metrics"
+          monitor_kubernetes_pods: false
+          insecure_skip_verify: true
+          tags:
+            tag: "system"
+            host: "throttler"
+      - kube_inventory:
+          name_prefix: "inventory_"
+          url: "https://kubernetes.default.svc/"
+          interval: "$COLLECTION_INTERVAL"
+          bearer_token: "/var/run/secrets/kubernetes.io/serviceaccount/token"
+          namespace: ""
+          response_timeout: "5s"
+          insecure_skip_verify: true
+          taginclude:
+            - "namespace"
+            - "node_name"
+            - "pod_name"
+            - "container_name"
+          fieldpass:
+            - "restarts_total"
+            - "state_code"
+          resource_include:
+            - "pods"
+telegraf-ds:
+  config:
+    outputs:
+      - influxdb:
+          insecure_skip_verify: true
+          database: "monitoring_op"
+          skip_database_creation: true
+          retention_policy: "default"
+          namepass:
+            - "kubernetes_node"
+            - "kubernetes_pod_network"
+            - "kubernetes_pod_container"
+            - "mem"
+            - "swap"
+            - "cpu"
+            - "processes"
+            - "procstat"
+            - "linux_sysctl_fs"
+            - "system"
+            - "nstat"
+            - "tsdb_telegraf_internal_gather"
+            - "tsdb_telegraf_internal_write"
+      - influxdb:
+          insecure_skip_verify: true
+          database: "monitoring_last"
+          skip_database_creation: true
+          retention_policy: "default"
+          namepass: ["cpufreq"]
+          tagexclude: ["cluster", "release_name"]
+    inputs:
+      # Collect statistics about itself
+      - internal:
+          interval: "$COLLECTION_INTERVAL"
+          collect_memstats: true
+          name_prefix: "tsdb_telegraf_"
+          tags:
+            tag: "system"
+            host: "$HOSTNAME"
+      # Collect stats from kubelet running on node
+      - kubernetes:
+          interval: "$COLLECTION_INTERVAL"
+          url: "https://$HOSTIP:10250"
+          bearer_token: "/var/run/secrets/kubernetes.io/serviceaccount/token"
+          insecure_skip_verify: true
+      - mem:
+          interval: "$COLLECTION_INTERVAL"
+          tags:
+            tag: "system"
+      - swap:
+          interval: "$COLLECTION_INTERVAL"
+          tags:
+            tag: "system"
+      - cpu:
+          interval: "$COLLECTION_INTERVAL"
+          ## Whether to report per-cpu stats or not
+          percpu: false
+          ## Whether to report total system cpu stats or not
+          totalcpu: true
+          ## If true, collect raw CPU time metrics.
+          collect_cpu_time: false
+          ## If true, compute and report the sum of all non-idle CPU states.
+          report_active: false
+          tags:
+            tag: "system"
+      - cpufreq:
+          ## Collect CPU info from /sys/devices/system/cpu/cpuX/cpufreq/ if available(intel_pstate or another driver
+          ## should be enabled). cpuinfo_max_freq, cpuinfo_min_freq, scaling_cur_freq
+          tags:
+            tag: "system"
+      # Get the number of processes and group them by status
+      - processes:
+          interval: "$COLLECTION_INTERVAL"
+          tags:
+            tag: "system"
+      # collect file descriptors info and other
+      - linux_sysctl_fs:
+          interval: "$COLLECTION_INTERVAL"
+          tags:
+            tag: "system"
+      # Read metrics about system load & uptime
+      - system:
+          interval: "$COLLECTION_INTERVAL"
+          tags:
+            tag: "system"
+      # Read metrics about system load & uptime
+      - nstat:
+          interval: "$COLLECTION_INTERVAL"
+          tags:
+            tag: "system"
+      # Read metrics about system processes
+      - procstat:
+          interval: "$COLLECTION_INTERVAL"
+          exe: "/usr/bin/dockerd"
+          pid_finder: "native"
+          tagexclude: ["exe", "user"]
+          fieldpass: ["memory_vms"]
+          tags:
+            tag: "system"

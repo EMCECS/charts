@@ -1,0 +1,19 @@
+---
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+
+apiVersion: v1
+name: kube-metrics-adapter
+version: 0.0.1
+appVersion: "0.1.2"
+description: kube-metrics-adapter
+engine: gotpl

@@ -1,0 +1,60 @@
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-rsyslog-client-config
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+data:
+  rsyslog.conf: |+
+    #### MODULES ####
+
+  {{- if .Values.global.rsyslog_enabled }}
+    # output module: unix socket
+    module(load="omuxsock")
+  {{- else }}
+    # output module: stdout
+    module(load="omstdout")
+  {{- end }}
+
+    # input module: file
+    module(load="imfile")
+
+    #### GLOBAL DIRECTIVES ####
+
+    # output unix socket path
+    $OMUxSockSocket {{ .Values.global.rsyslog_uds_dir }}/{{ .Values.global.rsyslog_uds_filename }}
+
+    #### RULES ####
+
+    # input log files
+    input(type="imfile"
+          File="/var/log/*.log"
+          Tag="{{ .Release.Name }}:"
+          addMetadata="on"
+    )
+
+    # output template
+    template(name="FileFormat" type="string"
+    string= "<%PRI%>%TIMESTAMP% %HOSTNAME% %syslogtag%%$!metadata!filename%%msg:::sp-if-no-1st-sp%%msg:::drop-last-lf%\n"
+            )
+
+  {{- if .Values.global.rsyslog_enabled }}
+    # send all to unix socket
+    *.* :omuxsock:;FileFormat
+  {{- else }}
+    # send all to stdout
+    *.* :omstdout:;FileFormat
+  {{- end }}

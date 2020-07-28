@@ -1,0 +1,95 @@
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+
+suite: test deployment
+templates:
+  - deployment.yaml
+tests:
+  - it: tls enabled
+    set:
+      global.tls_enabled: true
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[1].volumeMounts
+          content:
+            mountPath: /etc/nginx/cert
+            name: cert
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: cert
+            configMap:
+              name: RELEASE-NAME-cert
+      - equal:
+          path: spec.template.spec.containers[1].livenessProbe
+          value:
+            httpGet:
+              path: /api/health
+              port: api
+              scheme: HTTPS
+            initialDelaySeconds: 30
+            timeoutSeconds: 5
+      - equal:
+          path: spec.template.spec.containers[1].readinessProbe
+          value:
+            httpGet:
+              path: /api/health
+              port: api
+              scheme: HTTPS
+            initialDelaySeconds: 5
+            timeoutSeconds: 1
+  - it: tls disabled
+    set:
+      global.tls_enabled: false
+    asserts:
+      - notContains:
+          path: spec.template.spec.containers[1].volumeMounts
+          content:
+            mountPath: /etc/nginx/cert
+            name: cert
+      - notContains:
+          path: spec.template.spec.volumes
+          content:
+            name: cert
+            configMap:
+              name: RELEASE-NAME-cert
+      - equal:
+          path: spec.template.spec.containers[1].livenessProbe
+          value:
+            httpGet:
+              path: /api/health
+              port: api
+              scheme: HTTP
+            initialDelaySeconds: 30
+            timeoutSeconds: 5
+      - equal:
+          path: spec.template.spec.containers[1].readinessProbe
+          value:
+            httpGet:
+              path: /api/health
+              port: api
+              scheme: HTTP
+            initialDelaySeconds: 5
+            timeoutSeconds: 1
+  - it: oauth enabled
+    set:
+      config.oauth.enabled: true
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].envFrom
+          value:
+            - secretRef:
+                name: RELEASE-NAME-grafana-oauth
+  - it: oauth disabled
+    asserts:
+      - isNull:
+          path: spec.template.spec.containers[0].envFrom

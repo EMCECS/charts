@@ -1,0 +1,335 @@
+import "http"
+
+// Capacity per node: total, used, available, reserved, offline
+//
+// Example output:
+//
+//,result,table,_host_id,_host,_time,available,availableL1,availableL2,offline,reserved,total,totalL1,totalL2,used,usedL1,usedL2
+// //good node with good disks
+//,,0,ID1,hostname1,2019-09-10T11:00:00Z,65330308515040,54233857539680,11096450975360,0,32352244123264,223982544486400,212557931479040,11424613007360,158652235971360,158324073939360,328162032000
+// //bad node with offline capacity only
+//,,1,ID2,hostname2,2019-09-10T11:00:00Z,0,0,0,239981297664000,0,0,0,0,0,0,0
+// //good node with bad/suspect disks
+//,,3,ID3,hostname3,2019-09-10T11:00:00Z,68253398913920,57127420066560,11125978847360,15998753177600,32381771995264,223982544486400,212557931479040,11424613007360,155729145572480,155430511412480,298634160000
+
+
+// Threshold value for reserved capacity
+// TODO: value from CF should be used
+// (100 - <CF value com.emc.ecs.chunk.suicide_prevention.threshold.user, 90 by default>) / 100
+reservedThreshold = 0.1
+
+// Query node_id/hostname mapping for max retention period of monitoring_op
+// to get maximal amount of nodes
+hostsRangeStart = -5d
+
+nodeStatus = from(bucket: "monitoring_vdc")
+|> filter(fn: (r) => r._measurement == "cq_ss_state" and r._field == "SSState")
+|> range(start:{{ .Start }},stop:{{ .Stop }})
+|> last()
+|> keep(columns: ["SS", "_value"])
+
+nodeStatusGood = nodeStatus |> filter(fn: (r) => r._value == 1) |> keep(columns: ["SS"])
+nodeStatusBad = nodeStatus |> filter(fn: (r) => r._value != 1) |> keep(columns: ["SS"])
+
+diskStatus = from(bucket: "monitoring_vdc")
+|> filter(fn: (r) => r._measurement == "cq_disk_state" and r._field == "hwState")
+|> range(start:{{ .Start }},stop:{{ .Stop }})
+|> last()
+|> keep(columns: ["SS", "PD", "_value"])
+
+// Sets of disks filtered by statuses for further filtering of capacity metrics
+
+diskStatusGood = diskStatus
+|> filter(fn: (r) => r._value == "GOOD")
+|> keep(columns: ["SS", "PD"])
+
+diskStatusNotGood = diskStatus
+|> filter(fn: (r) => r._value != "GOOD")
+|> keep(columns: ["SS", "PD"])
+
+diskStatusGoodMaintenance = diskStatus
+|> filter(fn: (r) => r._value == "GOOD" or r._value == "MAINTENANCE")
+|> keep(columns: ["SS", "PD"])
+
+diskStatusMaintenance = diskStatus
+|> filter(fn: (r) => r._value == "MAINTENANCE")
+|> keep(columns: ["SS", "PD"])
+
+diskStatusBadSuspect = diskStatus
+|> filter(fn: (r) => r._value == "BAD" or r._value == "SUSPECT")
+|> keep(columns: ["SS", "PD"])
+
+diskStatusGoodBadSuspect = diskStatus
+|> filter(fn: (r) => r._value == "GOOD" or r._value == "BAD" or r._value == "SUSPECT")
+|> keep(columns: ["SS", "PD"])
+
+
+// Calculate free (available) space:
+// Good nodes: sum of free space on good disks
+// Bad nodes: 0
+
+freeSpace = from(bucket: "monitoring_vdc")
+|> filter(fn: (r) => r._measurement == "cq_capacity_disks_free" and r._field == "freeSpace")
+|> range(start:{{ .Start }},stop:{{ .Stop }})
+|> last()
+|> keep(columns: ["_stop", "SS", "PD", "SSTableLevel", "_value"])
+|> rename(columns: {_stop: "_time"})
+
+freeSpaceGoodNodes = join(tables: {freeSpace: freeSpace, nodeStatusGood: nodeStatusGood}, on: ["SS"])
+freeSpaceBadNodes = join(tables: {freeSpace: freeSpace, nodeStatusBad: nodeStatusBad}, on: ["SS"])
+
+// Free space values for good disks on good nodes
+freeSpaceGoodNodesGoodDisks = join(tables: {freeSpaceGoodNodes: freeSpaceGoodNodes, diskStatusGood: diskStatusGood},
+                                   on: ["PD", "SS"])
+
+// Set free space for not-good disks on good nodes to 0
+freeSpaceGoodNodesOtherDisks = join(tables:
+                                       {freeSpaceGoodNodes: freeSpaceGoodNodes, diskStatusNotGood: diskStatusNotGood},
+                                    on: ["PD", "SS"])
+|> map(fn: (r) => 0)
+
+// Set free space for all disks on bad nodes to 0
+freeSpaceBadNodes = freeSpaceBadNodes |> map(fn: (r) => 0)
+
+freeSpacePerSSTableLevel = union(tables: [freeSpaceGoodNodesGoodDisks, freeSpaceGoodNodesOtherDisks, freeSpaceBadNodes])
+
+available = freeSpacePerSSTableLevel
+// Drop 'SSTableLevel' and 'PD' to sum values per SS
+|> keep(columns: ["_value", "SS", "_time"])
+|> sum()
+|> set(key: "_field",value: "available")
+
+availableL1 = freeSpacePerSSTableLevel
+|> filter(fn: (r) => r.SSTableLevel == "1")
+|> keep(columns: ["_value", "SS", "_time"])
+|> sum()
+|> set(key: "_field",value: "availableL1")
+
+availableL2 = freeSpacePerSSTableLevel
+|> filter(fn: (r) => r.SSTableLevel == "2")
+|> keep(columns: ["_value", "SS", "_time"])
+|> sum()
+|> set(key: "_field",value: "availableL2")
+
+
+// Calculate total space:
+// Good nodes: sum of total space on good and maintenance disks
+// Bad nodes: sum of total space on maintenance disks
+
+totalSpace = from(bucket: "monitoring_vdc")
+|> filter(fn: (r) => r._measurement == "cq_capacity_disks_total" and r._field == "totalSpace")
+|> range(start:{{ .Start }},stop:{{ .Stop }})
+|> last()
+|> keep(columns: ["_stop", "SS", "PD", "SSTableLevel", "_value"])
+|> rename(columns: {_stop: "_time"})
+
+totalSpaceGoodNodes = join(tables: {totalSpace: totalSpace, nodeStatusGood: nodeStatusGood}, on: ["SS"])
+
+// Total space values for good and maintenance disks on good nodes
+totalSpaceGoodNodesDisks = join(tables:
+                                  {totalSpaceGoodNodes: totalSpaceGoodNodes,
+                                   diskStatusGoodMaintenance: diskStatusGoodMaintenance},
+                                on: ["PD", "SS"])
+
+// Set total space for not good and not maintenance disks on good nodes to 0
+totalSpaceGoodNodesOtherDisks = join(tables:
+                                       {totalSpaceGoodNodes: totalSpaceGoodNodes,
+                                        diskStatusBadSuspect: diskStatusBadSuspect},
+                                     on: ["PD", "SS"])
+|> map(fn: (r) => 0)
+
+totalSpaceBadNodes = join(tables: {totalSpace: totalSpace, nodeStatusBad: nodeStatusBad}, on: ["SS"])
+
+// Retain total space values for maintenance disks on bad nodes
+totalSpaceBadNodesDisks = join(tables:
+                                 {totalSpaceBadNodes: totalSpaceBadNodes, diskStatusMaintenance: diskStatusMaintenance},
+                               on: ["PD", "SS"])
+
+// Set total space for not maintenance disks on bad nodes to 0
+totalSpaceBadNodesOtherDisks = join(tables:
+                                      {totalSpaceBadNodes: totalSpaceBadNodes,
+                                       diskStatusGoodBadSuspect: diskStatusGoodBadSuspect},
+                                    on: ["PD", "SS"])
+|> map(fn: (r) => 0)
+
+totalPerSSTableLevel = union(tables: [totalSpaceGoodNodesDisks, totalSpaceBadNodesDisks,
+                                 totalSpaceGoodNodesOtherDisks, totalSpaceBadNodesOtherDisks])
+
+total = totalPerSSTableLevel
+// Drop 'SSTableLevel' and 'PD' to sum values per SS
+|> keep(columns: ["_value", "SS", "_time"])
+|> sum()
+|> set(key: "_field",value: "total_i")
+
+totalL1 = totalPerSSTableLevel
+|> filter(fn: (r) => r.SSTableLevel == "1")
+|> keep(columns: ["_value", "_time", "SS"])
+|> sum()
+|> set(key: "_field",value: "totalL1")
+
+totalL2 = totalPerSSTableLevel
+|> filter(fn: (r) => r.SSTableLevel == "2")
+|> keep(columns: ["_value", "_time", "SS"])
+|> sum()
+|> set(key: "_field",value: "totalL2")
+
+
+// Calculate used (allocated) space:
+// Good nodes: sum of used space on good and maintenance disks
+// Bad nodes: sum of used space on maintenance disks
+
+usedSpace = join(tables: {totalSpace: totalSpace, freeSpace: freeSpace}, on: ["PD", "SS", "SSTableLevel"])
+|> rename(columns: {_time_freeSpace: "_time"})
+|> keep(columns: ["_time", "_value_freeSpace", "_value_totalSpace", "PD", "SS", "SSTableLevel"])
+|> map(fn: (r) => ({_value: (r._value_totalSpace - r._value_freeSpace)}))
+
+usedSpaceGoodNodes = join(tables: {usedSpace: usedSpace, nodeStatusGood: nodeStatusGood}, on: ["SS"])
+
+// Used space values for good and maintenance disks on good nodes
+usedSpaceGoodNodesDisks = join(tables:
+                                 {usedSpaceGoodNodes: usedSpaceGoodNodes,
+                                  diskStatusGoodMaintenance: diskStatusGoodMaintenance},
+                               on: ["PD", "SS"])
+
+// Set used space for not good and not maintenance disks on good nodes to 0
+usedSpaceGoodNodesOtherDisks = join(tables:
+                                      {usedSpaceGoodNodes: usedSpaceGoodNodes,
+                                       diskStatusBadSuspect: diskStatusBadSuspect},
+                                    on: ["PD", "SS"])
+|> map(fn: (r) => 0)
+
+usedSpaceBadNodes = join(tables: {usedSpace: usedSpace, nodeStatusBad: nodeStatusBad}, on: ["SS"])
+
+// Used space values for good and maintenance disks on bad nodes
+usedSpaceBadNodesDisks = join(tables:
+                                {usedSpaceBadNodes: usedSpaceBadNodes,
+                                 diskStatusMaintenance: diskStatusMaintenance},
+                              on: ["PD", "SS"])
+
+// Set used space for not maintenance disks on bad nodes to 0
+usedSpaceBadNodesOtherDisks = join(tables:
+                                     {usedSpaceBadNodes: usedSpaceBadNodes,
+                                      diskStatusGoodBadSuspect: diskStatusGoodBadSuspect},
+                                   on: ["PD", "SS"])
+|> map(fn: (r) => 0)
+
+usedPerSSTableLevel = union(tables: [usedSpaceGoodNodesDisks, usedSpaceBadNodesDisks,
+                      usedSpaceGoodNodesOtherDisks, usedSpaceBadNodesOtherDisks])
+
+used = usedPerSSTableLevel
+// Drop 'SSTableLevel' and 'PD' to sum values per SS
+|> keep(columns: ["_value", "SS", "_time"])
+|> sum()
+|> set(key: "_field",value: "used")
+
+usedL1 = usedPerSSTableLevel
+|> filter(fn: (r) => r.SSTableLevel == "1")
+// Drop 'SSTableLevel' and 'PD' to sum values per SS
+|> keep(columns: ["_value", "SS", "_time"])
+|> sum()
+|> set(key: "_field",value: "usedL1")
+
+usedL2 = usedPerSSTableLevel
+|> filter(fn: (r) => r.SSTableLevel == "2")
+// Drop 'SSTableLevel' and 'PD' to sum values per SS
+|> keep(columns: ["_value", "SS", "_time"])
+|> sum()
+|> set(key: "_field",value: "usedL2")
+
+// Calculate offline space:
+// Good nodes: sum of total space on bad and suspect disks
+// Bad nodes: sum of total space good, bad and suspect disks
+
+// Offline space values for bad and suspect disks on good nodes
+offlineSpaceGoodNodesDisks = join(tables:
+                                    {totalSpaceGoodNodes: totalSpaceGoodNodes,
+                                     diskStatusBadSuspect: diskStatusBadSuspect},
+                                  on: ["PD", "SS"])
+
+// Set offline space for not bad and not suspect disks on good nodes to 0
+offlineSpaceGoodNodesOtherDisks = join(tables:
+                                         {totalSpaceGoodNodes: totalSpaceGoodNodes,
+                                          diskStatusGoodMaintenance: diskStatusGoodMaintenance},
+                                       on: ["PD", "SS"])
+|> map(fn: (r) => 0)
+
+// Offline space values for good, bad and suspect disks on bad nodes
+offlineSpaceBadNodesDisks = join(tables:
+                                   {totalSpaceBadNodes: totalSpaceBadNodes,
+                                    diskStatusGoodBadSuspect: diskStatusGoodBadSuspect},
+                                 on: ["PD", "SS"])
+
+// Set offline space for not good, not bad, not suspect disks on bad nodes to 0
+offlineSpaceBadNodesOtherDisks = join(tables:
+                                        {totalSpaceBadNodes: totalSpaceBadNodes,
+                                         diskStatusMaintenance: diskStatusMaintenance},
+                                      on: ["PD", "SS"])
+|> map(fn: (r) => 0)
+
+offline = union(tables: [offlineSpaceGoodNodesDisks, offlineSpaceGoodNodesOtherDisks,
+                         offlineSpaceBadNodesDisks, offlineSpaceBadNodesOtherDisks])
+// Drop 'SSTableLevel' and 'PD' to sum values per SS
+|> keep(columns: ["_value", "SS", "_time"])
+|> sum()
+|> set(key: "_field",value: "offline")
+
+
+// Reserved capacity calculation
+// if availableL1 >= totalCapacityL1 * reservedThreshold:
+//     reserved = totalCapacityL1 * reservedThreshold + availableL2
+// else
+//     reserved = available
+
+// Threshold capacity value per SS
+thresholdCapacity = totalL1
+|> map(fn: (r) => float(v: r._value) * reservedThreshold)
+|> keep(columns: ["SS", "_value"])
+
+// Table with threshold capacity and free L1 space per SS/PD
+thresholdCapacityavailableL1 = join(tables:
+                      {thresholdCapacity: thresholdCapacity, availableL1: availableL1}, on: ["SS"])
+|> rename(columns: {_value_availableL1: "availableL1", _value_thresholdCapacity: "thresholdCapacity"})
+
+// Separate entries above and below threshold
+availableL1AboveThreshold = thresholdCapacityavailableL1
+|> filter(fn: (r) => r.availableL1 >= r.thresholdCapacity)
+|> keep(columns: ["SS", "availableL1", "thresholdCapacity"])
+
+availableL1BelowThreshold = thresholdCapacityavailableL1
+|> filter(fn: (r) => r.availableL1 < r.thresholdCapacity)
+|> keep(columns: ["SS"])
+
+// Entries above threshold: reserved = totalCapacityL1 * reservedThreshold + availableL2
+reservedAboveThreshold = join(tables:
+                                {availableL1AboveThreshold: availableL1AboveThreshold, availableL2: availableL2},
+                              on: ["SS"])
+// "_value" column contains values from availableL2
+|> map(fn: (r) => int(v: r.thresholdCapacity + float(v: r._value)))
+
+// Entries below threshold: get 'available' values
+reservedBelowThreshold = join(tables:
+                                {availableL1BelowThreshold: availableL1BelowThreshold,
+                                 available: available},
+                              on: ["SS"])
+|> keep(columns: ["SS", "_value", "_time"])
+
+reserved = union(tables: [reservedAboveThreshold, reservedBelowThreshold])
+// Drop 'PD' to sum values per SS
+|> keep(columns: ["_value", "SS", "_time"])
+|> sum()
+|> set(key: "_field",value: "reserved")
+
+
+// Gather result table
+union(tables: [available, availableL1, availableL2,
+                        total, totalL1, totalL2,
+                        used, usedL1, usedL2,
+                        offline, reserved])
+|> pivot(rowKey: ["_time"], columnKey: ["_field"], valueColumn: "_value")
+|> keep(columns: ["SS", "_time",
+                  "total_i", "totalL1", "totalL2",
+                  "available", "availableL1", "availableL2",
+                  "used", "usedL1", "usedL2",
+                  "offline", "reserved"])
+|> rename(columns: {SS: "_host_id"})
+

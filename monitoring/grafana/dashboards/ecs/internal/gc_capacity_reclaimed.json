@@ -1,0 +1,401 @@
+{
+  "__inputs": [
+    {
+      "name": "DS_FLUX",
+      "label": "Flux",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "grafana-influxdb-flux-datasource",
+      "pluginName": "Flux (InfluxDB) [BETA]"
+    }
+  ],
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "6.2.5"
+    },
+    {
+      "type": "datasource",
+      "id": "grafana-influxdb-flux-datasource",
+      "name": "Flux (InfluxDB) [BETA]",
+      "version": "5.2.11"
+    },
+    {
+      "type": "panel",
+      "id": "graph",
+      "name": "Graph",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "keepTime": true,
+      "tags": [
+        "Garbage Collection"
+      ],
+      "title": "Related dashboards",
+      "type": "dashboards"
+    }
+  ],
+  "panels": [
+    {
+      "columns": [],
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 3,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 100,
+      "links": [],
+      "options": {},
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": null,
+        "desc": false
+      },
+      "styles": [
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Capacity Reclaimed",
+          "thresholds": [],
+          "type": "number",
+          "unit": "bytes"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "User Data Reclaimed",
+          "thresholds": [],
+          "type": "number",
+          "unit": "bytes"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "System Metadata Reclaimed",
+          "thresholds": [],
+          "type": "number",
+          "unit": "bytes"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "bytes"
+        }
+      ],
+      "targets": [
+        {
+          "query": "userReclaimed = from(bucket: \"monitoring_vdc\")\n|> filter(fn: (r) => r._measurement == \"cq_gc_data\" and r._field == \"user_gc_reclaimed\")\n|> range($range\r)\n|> last()\n|> keep(columns: [\"_time\", \"_value\"]) \n\nsystemReclaimed = from(bucket: \"monitoring_vdc\")\n|> filter(fn: (r) => r._measurement == \"cq_gc_data\" and r._field == \"system_gc_reclaimed\")\n|> range($range\r)\n|> last()\n|> keep(columns: [\"_time\", \"_value\"]) \n  \nunion(tables: [userReclaimed,systemReclaimed])\n|>sum()\n|> rename(columns:{_value: \"Capacity Reclaimed\"})",
+          "refId": "A",
+          "resultFormat": "table"
+        },
+        {
+          "query": "\nfrom(bucket: \"monitoring_vdc\")\n|> filter(fn: (r) => r._measurement == \"cq_gc_data\" and r._field == \"user_gc_reclaimed\")\n|> range($range\r)\n|> last()\n|> keep(columns: [\"_time\", \"_value\"]) \n|> rename(columns:{_value: \"User Data Reclaimed\"})",
+          "refId": "B",
+          "resultFormat": "table"
+        },
+        {
+          "query": "from(bucket: \"monitoring_vdc\")\n|> filter(fn: (r) => r._measurement == \"cq_gc_data\" and r._field == \"system_gc_reclaimed\")\n|> range($range\r)\n|> last()\n|> keep(columns: [\"_time\", \"_value\"]) \n|> rename(columns:{_value: \"System Metadata Reclaimed\"})",
+          "refId": "C",
+          "resultFormat": "table"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Capacity Reclaimed",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      },
+      "id": 90,
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "${DS_FLUX}",
+          "fill": 1,
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 4
+          },
+          "id": 99,
+          "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "rightSide": false,
+            "show": true,
+            "total": true,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {},
+          "percentage": false,
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "query": "extended_range_start = int(v:$__range_from_s) - 7200\nsafe_range_start = int(v:$__range_from_s) - 3600\nfrom(bucket: \"monitoring_vdc\")\n|> filter(fn: (r) => r._measurement == \"cq_gc_data\" and r._field == \"user_gc_reclaimed\")\n|> range(start: extended_range_start,stop:int(v:$__range_to_s)\r)\n|> difference(nonNegative: true)\n|> range(start: safe_range_start,stop:int(v:$__range_to_s)\r)",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "User Data Reclaimed",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "bits",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "${DS_FLUX}",
+          "fill": 1,
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 4
+          },
+          "id": 98,
+          "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": true,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {},
+          "percentage": false,
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "query": "extended_range_start = int(v:$__range_from_s) - 7200\nsafe_range_start = int(v:$__range_from_s) - 3600\nfrom(bucket: \"monitoring_vdc\")\n|> filter(fn: (r) => r._measurement == \"cq_gc_data\" and r._field == \"system_gc_reclaimed\")\n|> range(start: extended_range_start,stop:int(v:$__range_to_s)\r)\n|> difference(nonNegative: true)\n|> range(start: safe_range_start,stop:int(v:$__range_to_s)\r)\n",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "System Metadata Reclaimed",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "bits",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        }
+      ],
+      "title": "History Capacity Reclaimed",
+      "type": "row"
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 18,
+  "style": "dark",
+  "tags": [
+    "Garbage Collection"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {
+    "hidden": false,
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "utc",
+  "title": "Garbage Collection: Capacity Reclaimed",
+  "uid": "CRRPA51QMZzc",
+  "version": 1
+}

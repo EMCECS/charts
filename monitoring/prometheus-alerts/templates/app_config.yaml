@@ -1,0 +1,51 @@
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+
+# Config map with event rules for KAHM
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  # By KAHM rules name must be <APPLICATION_NAME>-app-config
+  name: {{ include "prometheus-alerts.fullname" . }}-app-config
+  labels:
+    app: "{{ template "prometheus-alerts.fullname" . }}"
+    chart: "{{ template "prometheus-alerts.chart" . }}"
+    release: {{ .Release.Name }}
+  annotations:
+    com.dellemc.kahm.subscribed: "true"
+data:
+  eventRules: |-
+    rules:
+      {{- range .Values.config.alerts }}
+      {{- range .symptoms }}
+      - description: {{ .event_rule.description }}
+        matchon:
+        - label: SymptomID
+          value: {{ .id }}
+        notifiers:
+        {{- range .event_rule.notifiers }}
+         - {{ . }}
+        {{- end }}
+      {{- end }}
+      {{- end }}
+  eventRemedies: |-
+    symptoms:
+      {{- range .Values.config.alerts }}
+      {{- range .symptoms }}
+      - symptomid: {{ .id }}
+        description: {{ .event_remedy.description }}
+        remedies:
+        {{- range .event_remedy.remedies }}
+         - {{ . }}
+        {{- end }}
+      {{- end }}
+      {{- end }}

@@ -22,10 +22,11 @@ STORAGECLASSNAME  = dellemc-objectscale-highly-available
 clean: clean-package
 
 test:
-	helm lint ${CHARTS} --set product=objectscale
-	yamllint -c .yamllint.yml */Chart.yaml */values.yaml
-	yamllint -c .yamllint.yml -s .yamllint.yml .travis.yml
-	helm unittest ${CHARTS}
+# 	helm lint ${CHARTS} --set product=objectscale
+# 	yamllint -c .yamllint.yml */Chart.yaml */values.yaml
+# 	yamllint -c .yamllint.yml -s .yamllint.yml .travis.yml
+# 	helm unittest ${CHARTS}
+	make -C monitoring test
 
 dep:
 	wget -q ${HELM_URL}/${HELM_TGZ}

@@ -1,0 +1,39 @@
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "telegraf.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ template "telegraf.fullname" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+data:
+  telegraf.conf: |+
+    {{- $top := . }}
+    {{ $scheme := ternary "https" "http" .Values.global.tls_enabled -}}
+        {{ template "global_tags" (dict "global_tags" .Values.config.global_tags "top" $top) }}
+        {{ template "agent" .Values.config.agent }}
+        {{ template "processors" .Values.config.processors }}
+        {{ template "inputs" (dict "inputs" .Values.config.inputs "top" $top) -}}
+
+    {{- $replicas := include "common-lib.influxdb_replicas" . }}
+    {{- $replicas_per_partition := .Values.global.influxdb_replicas_per_partition | default 3 }}
+    {{- $partitions_count := int (ceil (div $replicas $replicas_per_partition)) }}
+
+    {{range $i, $e := until (int $replicas)}}
+    {{- $urls := print $scheme "://" $top.Release.Name "-influxdb-" $i "." $top.Release.Name "-influxdb." $top.Release.Namespace ".svc.cluster.local:8086" }}
+        {{ $partition := floor ( div $i $replicas_per_partition) -}}
+        {{ template "outputs" (dict "outputs" $top.Values.config.outputs "urls" $urls "top" $top "part" $partition "part_cnt" $partitions_count) -}}
+
+    {{- end -}}

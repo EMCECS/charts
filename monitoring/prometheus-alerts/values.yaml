@@ -1,0 +1,81 @@
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+---
+## Default values.yaml for Prometheus
+## This is a YAML-formatted file.
+
+global:
+  monitoring_registry: emccorp
+  tls_enabled: true
+
+replicaCount: 1
+
+prometheus:
+  image:
+    repository: prometheus
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 100Mi
+    limits:
+      memory: 100Mi
+  readinessProbeInitialDelay: 30
+  readinessProbeTimeout: 30
+  readinessProbeFailureThreshold: 3
+  readinessProbeSuccessThreshold: 1
+  livenessProbeInitialDelay: 30
+  livenessProbeTimeout: 30
+  livenessProbeFailureThreshold: 3
+  livenessProbeSuccessThreshold: 1
+
+alertmanager:
+  image:
+    repository: alertmanager
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 32Mi
+    limits:
+      memory: 32Mi
+  readinessProbeInitialDelay: 30
+  readinessProbeTimeout: 30
+
+## Tolerations for pod assignment
+## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+##
+tolerations: []
+
+config:
+  # Directory with flux query files for each alert
+  # Query files should have name in format "alert_<ALERT_ID>.flux"
+  # Path is relative to this chart dir
+  dir: ""
+  # Interval of alert rules evaluation
+  interval: "5m"
+  # Component from which the alert event is generated
+  component: ""
+  # Prometheus TSDB retention
+  tsdb_retention: "6h"
+  # Alertmanager retention for notifications log file
+  alertmanager_retention: "120h"
+  # Interval to repeat sent alerts
+  alertmanager_repeat_interval: "2h"
+
+# Application should be created for KAHM to discover event rules
+application_enabled: false
+
+serviceAccount:
+  create: true
+
+rbac:
+  create: true
+  clusterWide: false

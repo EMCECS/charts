@@ -1,0 +1,28 @@
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "fluxd.fullname" . }}-hl
+  labels:
+    app: "{{ template "fluxd.fullname" . }}"
+    chart: "{{ template "fluxd.chart" . }}"
+    release: {{ .Release.Name }}
+data:
+  hl.json: |+
+    {
+      "range-selection-enabled": true,
+      "store-sync-enabled": true,
+      "store-type": "k8s",
+      "root-store-location": "fluxd-hostlookup-influxdb",
+      "start-sleep-max": "30s",
+      "update-interval": "5m",
+      "check-interval": "5m",
+      "writer-check-interval": "200s",
+      "history-duration": "120h",
+      "init-retry-interval": "20s",
+      "request-timeout": "30s",
+      "startup-ranges-fill-timeout": "3m",
+      "startup-ping-timeout": "20s",
+      "online-ping-interval": "30s",
+      "online-ping-retries": 3
+    }

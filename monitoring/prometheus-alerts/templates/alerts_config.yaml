@@ -1,0 +1,49 @@
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ template "prometheus-alerts.fullname" . }}-alerts-config"
+  labels:
+    app: "{{ template "prometheus-alerts.fullname" . }}"
+    chart: "{{ template "prometheus-alerts.chart" . }}"
+    release: {{ .Release.Name }}
+data:
+  process.tmpl: |-
+    {{- .Files.Get "alerts/common/process.tmpl" | nindent 4 }}
+
+  {{- $top := . }}
+  alerts.yaml: |-
+    groups:
+      - name: "{{ .Values.config.component }}"
+        rules:
+          {{- range .Values.config.alerts }}
+          {{- if .enabled }}
+          - alert: {{ .id | quote }}
+            range: {{ .range }}
+            expr: |-
+              {{- $fname := printf "alert_%s.flux" .id }}
+              {{- $path := printf "%s/%s" $top.Values.config.dir $fname }}
+              {{- $top.Files.Get $path | nindent 14 }}
+            annotations:
+              reason: {{ .reason | quote }}
+              message: {{ .message | quote }}
+            symptoms:
+            {{- range .symptoms }}
+              - id: {{ .id }}
+                types:
+                {{- range .types }}
+                  - {{ . }}
+                {{- end }}
+            {{- end }}
+          {{- end }}
+          {{- end }}

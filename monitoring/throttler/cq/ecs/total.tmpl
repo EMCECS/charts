@@ -1,0 +1,49 @@
+import "http"
+// calculate total value based on this formula A(t1) = A(t0) + delta(t0, t1).
+// at first, calculate delta(t0, t1) using difference() function.
+previous=from(bucket: "{{ .Params.database }}")
+// .PrevStart will be replaced with timestamp of the latest successful
+// filled cq interval (where cq_metadata point is set to done)
+|> range(start: {{ .PrevStart }}, stop: {{ .StartWithoutOffset }})
+|> filter(fn: (r) => r._measurement == "{{ .Params.measurement }}")
+{{if .Fields}}|> filter(fn: (r) => r._field =~ /^({{range $i, $f:=.Fields}}{{if $i}}|{{end}}{{$f}}{{end}})$/){{end}}
+|> last()
+
+first=from(bucket: "{{ .Params.database }}")
+|> range(start: {{ .PrevStop }}, stop: {{ .Stop }})
+|> filter(fn: (r) => r._measurement == "{{ .Params.measurement }}")
+{{if .Fields}}|> filter(fn: (r) => r._field =~ /^({{range $i, $f:=.Fields}}{{if $i}}|{{end}}{{$f}}{{end}})$/){{end}}
+|> first()
+
+// get latest current value
+current=from(bucket: "{{ .Params.database }}")
+|> range(start: {{ .Start }}, stop: {{ .Stop }})
+|> filter(fn: (r) => r._measurement == "{{ .Params.measurement }}")
+{{if .Fields}}|> filter(fn: (r) => r._field =~ /^({{range $i, $f:=.Fields}}{{if $i}}|{{end}}{{$f}}{{end}})$/){{end}}
+|> last()
+
+// delta(t0, t1) is calculated below
+diff=union(tables: [previous, first, current])
+|> drop(columns: ["_start", "_stop"])
+|> sort(columns: ["_time"])
+|> difference()
+|> keep(columns: ["_field", "_value", "_time"])
+|> sum()
+
+prev_total=from(bucket: "monitoring_vdc")
+|> filter(fn: (r) => r._measurement == "{{ .Target }}")
+|> range(start: {{ .PrevStart }}, stop: {{ .StartWithoutOffset }})
+|> last()
+|> keep(columns: ["_time", "_field", "_value"])
+
+// PRODUCE FINAL OUTPUT
+union(tables:[diff, prev_total])
+    |> group(columns: ["_field"])
+    |> sum()
+    // insert _time field equal to .Stop from CQ engine
+    |> map(fn: (r) => ({_time:{{ .Stop }},
+                        _field: r._field,
+                        _value: r._value,
+                        }))
+    |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
+    |> group()

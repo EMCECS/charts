@@ -1,0 +1,39 @@
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: telegraf-external-monitoring-endpoint
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+data:
+  external-monitoring-endpoint.conf: |+
+    # Settings for external monitoring
+    {{- if .Values.global.enable_external_telegraf_endpoint }}
+    # Assume Telegraf is listening on External endpoint
+    # to redirect to needed db-s
+    [[outputs.influxdb]]
+      skip_database_creation = true
+      urls = ["http://{{ .Values.global.external_telegraf_endpoint_ip }}:18086"]
+      timeout = "30s"
+    [global_tags]
+      cluster = "{{ .Values.global.cluster_name }}"
+    {{- end }}
+
+
+
+
+
+

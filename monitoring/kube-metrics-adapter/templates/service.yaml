@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "kube-metrics-adapter.fullname" . }}
+  labels:
+    app.kubernetes.io/name: "{{ template "kube-metrics-adapter.fullname" . }}"
+    chart: {{ template "kube-metrics-adapter.chart" . }}
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  ports:
+    - name: api
+      port: {{ .Values.service.bind_address }}
+      targetPort: {{ .Values.service.bind_address }}
+  selector:
+    app.kubernetes.io/name: {{ template "kube-metrics-adapter.fullname" . }}

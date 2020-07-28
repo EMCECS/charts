@@ -1,0 +1,2 @@
+
+|> http.to(url:"{{.Telegraf}}", method:"POST", name:"{{.Target}}", timeout:{{.HTTPToTimeout}}, timeColumn:"_time"{{if .Tags}}, tagColumns:[{{range $i, $e:=.Tags}}{{if $i}},{{end}}"{{.}}"{{end}}]{{end}}{{if .Values}}, valueColumns:[{{range $i, $e:=.Values}}{{if $i}},{{end}}"{{.}}"{{end}}]{{end}})

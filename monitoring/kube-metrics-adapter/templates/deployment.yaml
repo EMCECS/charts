@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "kube-metrics-adapter.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "kube-metrics-adapter.fullname" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    helm.sh/chart: {{ include "kube-metrics-adapter.chart" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "kube-metrics-adapter.fullname" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "kube-metrics-adapter.fullname" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      serviceAccountName: {{ template "kube-metrics-adapter.fullname" . }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.global.monitoring_registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+        args:
+          - --influxdb-address=http://127.0.0.10:8093/
+        ports:
+          - name: api
+            containerPort: {{ .Values.service.bind_address }}
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
+      - name: nginx
+        image: "{{ .Values.global.monitoring_registry }}/nginx:{{ .Values.global.monitoring_tag }}"
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            memory: 50Mi
+        volumeMounts:
+          - mountPath: /etc/nginx/conf.d
+            name: nginx-config
+          {{- if .Values.global.tls_enabled }}
+          - mountPath: /etc/nginx/cert
+            name: cert
+          {{- end }}
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: {{ template "kube-metrics-adapter.fullname" . }}-nginx
+      {{- if .Values.global.tls_enabled }}
+      - name: cert
+        configMap:
+          name: {{ .Release.Name }}-cert
+      {{- end }}

@@ -1,0 +1,26 @@
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+{{- if .Values.application_enabled }}
+# Application is required by KAHM to match <APP_NAME>-app-config config map
+# and events created by Alert Manager
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: {{ include "prometheus-alerts.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "prometheus-alerts.fullname" . }}
+  annotations:
+    com.dellemc.kahm.subscribed: "true"
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "prometheus-alerts.fullname" . }}
+{{- end }}

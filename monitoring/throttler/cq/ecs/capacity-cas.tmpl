@@ -1,0 +1,27 @@
+import "http"
+// work with count and size separately as one of them may not be present sometimes
+
+// compute cas objects size
+size=from(bucket: "monitoring_last")
+|> filter(fn: (r) => r._measurement == "{{ .Params.measurement }}" and r._field == "size")
+|> range(start:{{ .Start }},stop:{{ .Stop }})
+|> last()
+|> pivot(rowKey: ["_time"], columnKey: ["_field"], valueColumn: "_value")
+// drop DT id
+|> keep(columns: ["size", "BUCKET", "_stop"])
+// sum data for all DT-s
+|> sum(columns: ["size"])
+
+// compute cas objects count
+count=from(bucket: "monitoring_last")
+|> filter(fn: (r) => r._measurement == "{{ .Params.measurement }}" and r._field == "count")
+|> range(start:{{ .Start }},stop:{{ .Stop }})
+|> last()
+|> pivot(rowKey: ["_time"], columnKey: ["_field"], valueColumn: "_value")
+// drop DT id
+|> keep(columns: ["count", "BUCKET", "_stop"])
+// sum data for all DT-s
+|> sum(columns: ["count"])
+
+join(tables: {size:size, count:count}, on: ["BUCKET", "_stop"])
+|> rename(columns:{_stop: "_time", size: "data_detected", count: "objects_detected"})

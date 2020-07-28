@@ -1,0 +1,74 @@
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+
+#
+# Influxdb replicas
+#
+{{- define "common-lib.influxdb_replicas" -}}
+{{- if .Values.global.influxdb_replicas -}}
+{{- .Values.global.influxdb_replicas -}}
+{{- else -}}
+{{- if eq (".Values.global.performanceProfile" | upper) "MICRO" -}}
+1
+{{- else -}}
+3
+{{- end -}}
+{{- end -}}
+{{- end -}}
+
+#
+# Memory limit
+#
+{{- define "common-lib.memory" -}}
+{{- if .top.Values.resources.requests.memory -}}
+{{- .top.Values.resources.requests.memory -}}
+{{- else -}}
+{{- if eq (.top.Values.global.performanceProfile | upper) "MICRO" -}}
+{{- .micro -}}
+{{- else if eq (.top.Values.global.performanceProfile | upper) "SMALL" -}}
+{{- .small -}}
+{{- else if eq (.top.Values.global.performanceProfile | upper) "MEDIUM" -}}
+{{- .medium -}}
+{{- else -}}
+{{- .large -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+
+#
+# Resources section
+#
+{{- define "common-lib.resources" -}}
+requests:
+  memory: {{ template "common-lib.memory" (dict "top" .top "micro" .micro "small" .small "medium" .medium "large" .large) }}
+limits:
+  memory: {{ template "common-lib.memory" . }}
+{{- end }}
+
+#
+# Application replica count
+#
+{{- define "common-lib.replicaCount" -}}
+{{- if .top.Values.replicaCount -}}
+{{- .top.Values.replicaCount -}}
+{{- else -}}
+{{- if eq (.top.Values.global.performanceProfile | upper) "MICRO" -}}
+{{- .micro -}}
+{{- else if eq (.top.Values.global.performanceProfile | upper) "SMALL" -}}
+{{- .small -}}
+{{- else if eq (.top.Values.global.performanceProfile | upper) "MEDIUM" -}}
+{{- .medium -}}
+{{- else -}}
+{{- .large -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}

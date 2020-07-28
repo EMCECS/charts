@@ -1,0 +1,48 @@
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ template "prometheus-alerts.fullname" . }}-alertmanager-config"
+  labels:
+    app: "{{ template "prometheus-alerts.fullname" . }}"
+    chart: "{{ template "prometheus-alerts.chart" . }}"
+    release: {{ .Release.Name }}
+data:
+  alertmanager.yaml: |-
+    route:
+      group_by: [...]
+
+      # When a new group of alerts is created by an incoming alert, wait at
+      # least 'group_wait' to send the initial notification.
+      # This way ensures that you get multiple alerts for the same group that start
+      # firing shortly after another are batched together on the first
+      # notification.
+      group_wait: 1s
+
+      # When the first notification was sent, wait 'group_interval' to send a batch
+      # of new alerts that started firing for that group.
+      group_interval: 5m
+
+      # If an alert has successfully been sent, wait 'repeat_interval' to
+      # resend them.
+      repeat_interval: {{ .Values.config.alertmanager_repeat_interval }}
+
+      # A default receiver
+      receiver: k8s
+
+    receivers:
+      - name: 'k8s'
+        k8sevent_configs:
+          - namespace: "{{ .Release.Namespace }}"
+            application: "{{ template "prometheus-alerts.fullname" . }}"
+            component: "{{ .Values.config.component }}"

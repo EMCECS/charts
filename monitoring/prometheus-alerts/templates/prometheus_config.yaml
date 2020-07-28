@@ -1,0 +1,35 @@
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ template "prometheus-alerts.fullname" . }}-config"
+  labels:
+    app: "{{ template "prometheus-alerts.fullname" . }}"
+    chart: "{{ template "prometheus-alerts.chart" . }}"
+    release: {{ .Release.Name }}
+data:
+  prometheus.yaml: |-
+    global:
+      evaluation_interval: {{ .Values.config.interval }}
+
+    rule_files:
+      - /etc/alerts/alerts.yaml
+
+    alerting:
+      alertmanagers:
+        - static_configs:
+            - targets: ['localhost:9093']
+
+    fluxd:
+      url: "http://127.0.0.10:8093/api/v3/query"
+      process_template: "/etc/alerts/process.tmpl"

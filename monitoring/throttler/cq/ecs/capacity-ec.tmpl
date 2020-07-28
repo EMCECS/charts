@@ -1,0 +1,24 @@
+import "http"
+coding_data=from(bucket: "monitoring_vdc")
+|> filter(fn: (r) => r._measurement == "cq_total_cm_Chunk_Statistics"
+   and (r._field == "data_repo" or r._field == "data_copy" or r._field == "data_xor" or r._field == "data_level_0_btree"))
+|> range(start: {{ .Start }}, stop: {{ .Stop }})
+|> last()
+|> keep(columns:["_stop", "_value"])
+// sum all fields (repo+copy+xor+btree))
+|> sum()
+|> toFloat()
+|> set(key: "_field", value: "total_coding_data")
+
+coded_data=from(bucket: "monitoring_vdc")
+|> filter(fn: (r) => r._measurement == "cq_total_cm_EC_Statistics" and r._field == "data_ec_encoded_alive")
+|> range(start: {{ .Start }}, stop: {{ .Stop }})
+|> last()
+|> keep(columns:["_stop", "_value"])
+|> sum()
+|> toFloat()
+|> set(key: "_field", value: "total_coded_data")
+
+union(tables: [coding_data, coded_data])
+|> rename(columns:{_stop: "_time"})
+|> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")

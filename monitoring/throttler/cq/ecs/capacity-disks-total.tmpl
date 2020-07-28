@@ -1,0 +1,22 @@
+import "http"
+
+// Disk total space per SS/PD/SSTableLevel
+
+totalSpace = from(bucket: "monitoring_main")
+|> filter(fn: (r) => r._measurement == "ssm_sstable_SSTable_SS_partitions_PD" and r._field == "totalSpace")
+|> range(start:{{ .Start }},stop:{{ .Stop }})
+|> last()
+|> keep(columns: ["PD", "SS", "SSTable", "_value", "_stop"])
+|> last()
+|> rename(columns: {_stop: "_time"})
+
+totalL1 = totalSpace
+|> filter(fn: (r) => r.SSTable =~ /_1:$/)
+|> keep(columns: ["_value", "SS", "PD", "_time"])
+|> map(fn: (r) => ({SSTableLevel: "1", totalSpace: r._value}))
+
+totalL2 = totalSpace
+|> filter(fn: (r) => r.SSTable =~ /_2:$/)
+|> keep(columns: ["_value", "SS", "PD", "_time"])
+|> map(fn: (r) => ({SSTableLevel: "2", totalSpace: r._value}))
+union(tables: [totalL1, totalL2])

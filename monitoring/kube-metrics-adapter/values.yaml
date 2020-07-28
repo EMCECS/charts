@@ -1,0 +1,44 @@
+---
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+
+global:
+  monitoring_registry: ecs-monitoring
+  tls_enabled: true
+
+replicaCount: 1
+
+image:
+  repository: kube-metrics-adapter
+  pullPolicy: IfNotPresent
+
+## Configure resource requests and limits
+## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+resources:
+  limits:
+    cpu: 100m
+    memory: 100Mi
+  requests:
+    cpu: 100m
+    memory: 100Mi
+
+## Tolerations for pod assignment
+## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+##
+tolerations: []
+
+service:
+  bind_address: 443
+
+## While kube-metrics-adapter is deployed separately from platform monitoring,
+## monitoring release name is used to define Fluxd service address in nginx config
+monitoring_release: release

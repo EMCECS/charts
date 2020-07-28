@@ -1,0 +1,121 @@
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "telegraf.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "telegraf.fullname" . }}
+    helm.sh/chart: {{ include "telegraf.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  replicas:  {{ include "common-lib.replicaCount" (dict "top" . "micro" 1 "small" 1 "medium" 1 "large" 5)}}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ template "telegraf.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ template "telegraf.fullname" . }}
+      annotations:
+        # Include a hash of the configmap in the pod template
+        # This means that if the configmap changes, the deployment will be rolled
+        checksum/config: {{ include (print .Template.BasePath "/configmap.yaml") . | sha256sum }}
+        {{- if .Values.global.use_vault_for_ssl }}
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/agent-inject-status: "update"
+        vault.hashicorp.com/agent-requests-cpu: ""
+        vault.hashicorp.com/agent-limits-cpu: ""
+        vault.hashicorp.com/agent-inject-secret-server.crt: "intermediate_pki/issue/intermediate_pki_issuer"
+        vault.hashicorp.com/agent-inject-template-server.crt: |
+          {{`{{`}}- with secret "intermediate_pki/issue/intermediate_pki_issuer" "common_name={{ include "telegraf.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local" {{`}}`}}
+          {{`{{`}} .Data.certificate {{`}}`}}
+          {{`{{`}}- end {{`}}`}}
+        vault.hashicorp.com/agent-inject-secret-server.key: "intermediate_pki/issue/intermediate_pki_issuer"
+        vault.hashicorp.com/agent-inject-template-server.key: |
+          {{`{{`}}- with secret "intermediate_pki/issue/intermediate_pki_issuer" "common_name={{ include "telegraf.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local" {{`}}`}}
+          {{`{{`}} .Data.private_key {{`}}`}}
+          {{`{{`}}- end {{`}}`}}
+        vault.hashicorp.com/agent-inject-secret-trusted_client_ca.crt: "intermediate_pki/issue/intermediate_pki_issuer"
+        vault.hashicorp.com/agent-inject-template-trusted_client_ca.crt: |
+          {{`{{`}}- with secret "intermediate_pki/issue/intermediate_pki_issuer" "common_name={{ include "telegraf.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local" {{`}}`}}
+          {{`{{`}}- range $cert := .Data.ca_chain {{`}}`}}
+          {{`{{`}} $cert {{`}}`}}
+          {{`{{`}}- end {{`}}`}}
+          {{`{{`}}- end {{`}}`}}
+        vault.hashicorp.com/role: "vault_requester"
+        vault.hashicorp.com/tls-skip-verify: "true"
+        {{- end }}
+    spec:
+      serviceAccountName: {{ template "telegraf.serviceAccountName" . }}
+      containers:
+      - name: telegraf
+        image: "{{ .Values.global.monitoring_registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+        command: ["telegraf"]
+        args: ["--config", "/etc/telegraf/telegraf.conf", "--config-directory", "/etc/telegraf/telegraf.d/"]
+        resources:
+{{ include "common-lib.resources" (dict "top" . "micro" "50Mi" "small" "150Mi" "medium" "256Mi" "large" "256Mi") | indent 10}}
+        env:
+        - name: COLLECTION_INTERVAL
+          value: {{ .Values.config.collection_interval }}
+        volumeMounts:
+        - name: config
+          mountPath: /etc/telegraf
+        - name: additional-configs
+          mountPath: /etc/telegraf/telegraf.d
+{{- if .Values.extra_files.enabled }}
+        - name: extra-files
+          mountPath: {{ .Values.extra_files.mount_path }}
+{{- end }}
+      - name: nginx
+        image: "{{ .Values.global.monitoring_registry }}/nginx:{{ .Values.global.monitoring_tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+        resources:
+          requests:
+            memory: 50Mi
+        ports:
+        - name: api
+          containerPort: {{ .Values.service.bind_address }}
+        volumeMounts:
+        - mountPath: /etc/nginx/conf.d
+          name: nginx-config
+        {{- if and .Values.global.tls_enabled .Values.global.telegraf_tls_enabled }}
+        {{- if not .Values.global.use_vault_for_ssl }}
+        - mountPath: /etc/nginx/cert
+          name: cert
+        {{- end }}
+        {{- end }}
+      volumes:
+      - name: config
+        configMap:
+          name: {{ template "telegraf.fullname" . }}
+      - name: additional-configs
+        configMap:
+          name: telegraf-external-monitoring-endpoint
+          optional: true
+      {{- if and .Values.global.tls_enabled .Values.global.telegraf_tls_enabled }}
+      {{- if not .Values.global.use_vault_for_ssl }}
+      - name: cert
+        configMap:
+          name: {{ .Release.Name }}-cert
+      {{- end }}
+      {{- end }}
+      - name: nginx-config
+        configMap:
+          name: {{ template "telegraf.fullname" . }}-nginx
+{{- if .Values.extra_files.enabled }}
+      - name: extra-files
+        configMap:
+          name: {{ .Values.extra_files.config_map_name }}
+{{- end }}

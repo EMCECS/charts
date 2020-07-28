@@ -1,0 +1,18 @@
+import "http"
+
+// Disk hwState per SS/PD
+
+from(bucket: "monitoring_main")
+|> filter(fn: (r) => r._measurement == "ssm_sstable_SSTable_SS_partitions_PD_status" and r._field == "hwState")
+|> range(start:{{ .Start }},stop:{{ .Stop }})
+|> last()
+|> keep(columns: ["_stop", "SS", "PD", "_value"])
+|> last()
+// filter MISSING and REMOVED disks that are not used in capacity calculations
+|> filter(fn: (r) => r._value == "GOOD"
+                     or r._value == "MAINTENANCE"
+                     or r._value == "BAD"
+                     or r._value == "SUSPECT"
+                     )
+|> rename(columns:{_stop: "_time"})
+|> map(fn: (r) => ({hwState: r._value}))

@@ -1,0 +1,75 @@
+---
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+
+## Default values.yaml for Fluxd
+## This is a YAML-formatted file.
+
+global:
+  monitoring_registry: emccorp
+  tls_enabled: true
+  internal_dns: kube-dns.kube-system.svc.cluster.local
+
+replicaCount: 1
+
+image:
+  repository: grafana
+  pullPolicy: IfNotPresent
+
+## Configure resource requests and limits
+## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+resources:
+  requests:
+    memory: 300Mi
+  limits:
+    memory: 300Mi
+
+## Customize livenessProbe and readinessProbe
+##
+livenessProbe:
+  probePath: "/api/health"
+
+readinessProbe:
+  probePath: "/api/health"
+
+## Tolerations for pod assignment
+## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+##
+tolerations: []
+
+service:
+  bind_address: 3001
+  type: ClusterIP
+
+## TODO: make grafana listen on 127.0.0.1:13000
+config:
+  http:
+    bind_address: 3000
+  dashboards_dir: "dashboards/*"
+  home_dashboard: "Node Health"
+
+  reverse_proxy:
+    enabled: false
+    protocol: "https"
+    domain: ""
+    subpath: "grafana"
+
+  oauth:
+    enabled: false
+    # Set to true to attempt login with OAuth automatically, skipping the login screen
+    auto_login: true
+    auth_url: ""
+    token_url: ""
+    api_url: ""
+    signout_url: ""
+    client_id: ""
+    client_secret: ""

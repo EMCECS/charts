@@ -1,0 +1,71 @@
+// This is VDC-wide CQ for elements of capacity used calculation
+// Generates:
+// "user_data", "meta_data" (- both excluding deduction of gc pending/unreclaim values
+// "protection_overhead_wo_geo"
+
+import "http"
+chunk_size = 134217600
+
+// USER (REPO) DATA USAGE
+// without deduction of GC related values
+user_data = from(bucket: "monitoring_vdc")
+    |> filter(fn: (r) => r._measurement =~ /^cq_total_cm_(Chunk|EC)_Statistics$/
+                    and r._field =~ /^(chunks_repo_active|chunks_repo|chunks_repo_s0)$/)
+    |> range(start:{{ .Start }}, stop:{{ .Stop }})
+    |> last()
+    |> keep(columns:["_stop", "_field", "_value"])
+    |> pivot(rowKey:["_stop"],columnKey: ["_field"],valueColumn: "_value")
+    |> map(fn: (r) => (r.chunks_repo + r.chunks_repo_active - r.chunks_repo_s0) * chunk_size)
+    |> set(key: "_field", value: "user_data")
+    |> keep(columns:["_field", "_value"])
+
+// METADATA USAGE
+meta_data = from(bucket: "monitoring_vdc")
+    |> filter(fn: (r) => r._measurement =~ /^cq_total_cm_Chunk_Statistics$/
+                        and r._field =~ /^(chunks_level_(0|1)_(btree|journal)(|_s0|_active))$/)
+    |> range(start:{{ .Start }}, stop:{{ .Stop }})
+    |> last()
+    |> keep(columns:["_stop", "_field", "_value"])
+    |> pivot(rowKey:["_stop"],columnKey: ["_field"], valueColumn: "_value")
+    |> map(fn: (r) => (
+                (r.chunks_level_0_btree_active + r.chunks_level_0_btree - r.chunks_level_0_btree_s0)
+                + (r.chunks_level_1_btree_active + r.chunks_level_1_btree - r.chunks_level_1_btree_s0)
+                + (r.chunks_level_0_journal_active + r.chunks_level_0_journal - r.chunks_level_0_journal_s0)
+                + (r.chunks_level_1_journal_active + r.chunks_level_1_journal - r.chunks_level_1_journal_s0)
+                ) * chunk_size)
+    |> set(key: "_field", value: "meta_data")
+    |> keep(columns:["_field", "_value"])
+
+// LOCAL PROTECTION
+// output in raw all that can be calculated without additional data
+lprot_raw = from(bucket: "monitoring_vdc")
+    |> filter(fn: (r) => r._measurement =~ /^cq_total_cm_(Chunk|EC)_Statistics$/
+                and r._field =~ /^(chunks_typeII?_ec_pending|chunks_ec_encoded_alive|chunks_undertransform_ec_pending)$/)
+    |> range(start:{{ .Start }}, stop:{{ .Stop }})
+    |> last()
+    |> keep(columns:["_field", "_value"])
+    |> group()
+
+// PRODUCE FINAL OUTPUT
+union(tables:[user_data, meta_data, lprot_raw])
+    // insert _time field equal to .Stop from CQ engine
+    |> map(fn: (r) => ({_time:{{ .Stop }},
+                        _field: r._field,
+                        _value: r._value,
+                        }))
+    |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
+    |> map(fn: (r) => ({protection_overhead_wo_geo:
+        ((r.chunks_ec_encoded_alive + r.chunks_typeI_ec_pending
+            + r.chunks_typeII_ec_pending + r.chunks_undertransform_ec_pending) * chunk_size / 12 * 4)
+        + (r.user_data
+        - (r.chunks_undertransform_ec_pending * chunk_size)
+        - (r.chunks_typeII_ec_pending * chunk_size)
+        + r.meta_data
+        // + r.geo_copy - can't calculate it here, add 2x value later
+        - (r.chunks_ec_encoded_alive * chunk_size)
+        )*2,
+        user_data: r.user_data,
+        meta_data: r.meta_data,
+        _time: r._time
+        }))
+    |> group()

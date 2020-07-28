@@ -1,0 +1,115 @@
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "throttler.fullname" . }}-config
+  labels:
+    app: "{{ template "throttler.fullname" . }}"
+    chart: "{{ template "throttler.chart" . }}"
+    release: {{ .Release.Name }}
+data:
+  throttler.conf: |+
+    ### Throttler configuration file.
+    ###
+    ### [throttler]
+    ###
+    ### Contains the parameters to configure throttler engine.
+    ###
+    [throttler]
+      # Used to detect count of iterations which should be done by throttler before shutdown.
+      # By default, iterations-count is set to 0 which means that iterations count is unlimited.
+      iterations-count = 0
+
+      # Used to detect which metrics should be throttled: "service", "system", "all"
+      throttle-metrics-type = "system"
+
+      # Used to detect throttler scrape interval.
+      scrape-interval-minutes = 5
+
+      # Used to detect maximum available metrics' ingest rate (points per second).
+      max-ingest-rate = 350
+
+      # Used to detect maximum available metrics' cardinality.
+      max-metric-cardinality = 10000
+
+      # Used to increase current metrics push interval to time series database
+      # and pull interval (for system metrics) if the InfluxDB exceeded its limit
+      increase-metrics-interval-sec = 60
+
+      # Set the directory for all throttler's log messages
+      log-dir = "/var/log"
+
+    ###
+    ### [influx]
+    ### Contains the list with the necessary parameters for creating the connections to the InfluxDB instances.
+    ### These instances are used to detect current ingest rate per each time series database.
+    ###
+    [influx]
+      # List of InfluxDB endpoints in this format: host:port, separated by comma.
+      endpoints = ["127.0.0.10:8086,127.0.0.11:8186,127.0.0.12:8286"]
+
+    ###
+    ### [cf]
+    ###
+    ### Contains the parameters which are needed for communication with the cf service REST interface.
+    ###
+    [cf]
+      # Node with cf instance.
+      host = "127.0.0.1"
+
+      # Used to get auth token for the further communication.
+      username = "emcservice"
+
+      # Port of the service which is listening all incoming requests.
+      port = 4443
+
+      # Http scheme which is used for cf requests.
+      http-scheme = "https"
+
+      # Url to get auth token
+      auth-token-url = "/login"
+
+      # Base url for all cf specific requests.
+      auth-token-file = "/data/throttler/conf/.authcount"
+
+    ###
+    ### [http]
+    ###
+    ### Contains the parameters for http client.
+    ###
+    [http]
+      # Timeout for the outgoing http requests.
+      timeout-sec = 30
+
+    ###
+    ### [cq]
+    ###
+    ### Contains the parameters for CQ service.
+    ###
+    [cq]
+      # Timeout for the outgoing http requests.
+      fluxd-url = "http://127.0.0.20:8093/api/v3/query"
+      # Telegraf URL is sent to Fluxd with http.to() function
+      # and should be handled on Fluxd side
+      telegraf-url = "http://127.0.0.30:11002/write"
+      interval = "5m"
+      template-folder = "/etc/cq_flex"
+
+    [alerter]
+      fluxd-url = "http://127.0.0.20:8093/api/v3/query"
+      interval = {{ .Values.config.alerter.interval | quote }}
+      alerts-folder = "/etc/alerter/"
+      alerts-conf-path = "/etc/alerter/alerts.yaml"
+      event-template = "event.tmpl"
+

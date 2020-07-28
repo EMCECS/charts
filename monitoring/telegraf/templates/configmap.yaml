@@ -1,0 +1,80 @@
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "telegraf.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ template "telegraf.fullname" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+data:
+  telegraf.conf: |+
+{{- $top := . }}
+{{- $scheme := ternary "https" "http" .Values.global.tls_enabled }}
+    {{ template "global_tags" (dict "global_tags" .Values.config.global_tags "top" $top) }}
+    {{ template "agent" .Values.config.agent }}
+    {{ template "processors" .Values.config.processors }}
+    {{ template "inputs" (dict "inputs" .Values.config.inputs "top" $top) -}}
+
+{{- $replicas := include "common-lib.influxdb_replicas" . }}
+{{- $replicas_per_partition := .Values.global.influxdb_replicas_per_partition | default 3 }}
+{{- $partitions_count := int (ceil (div $replicas $replicas_per_partition)) }}
+
+{{- if .Values.config.influxdb_inputs_enabled }}
+{{range $i, $e := until (int $replicas)}}
+    [[inputs.influxdb]]
+      ## Works with InfluxDB debug endpoints out of the box,
+      ## but other services can use this format too.
+      ## See the influxdb plugin's README for more details.
+
+      ## Multiple URLs from which to read InfluxDB-formatted JSON
+      ## Default is "http://localhost:8086/debug/vars".
+      interval = "30s"
+      urls = [
+        "{{ $scheme }}://{{ $top.Release.Name }}-influxdb-{{$i}}.{{ $top.Release.Name }}-influxdb.{{ $top.Release.Namespace }}.svc.cluster.local:8086/debug/vars",
+      ]
+      name_prefix = "tsdb_"
+      insecure_skip_verify = true
+      [inputs.influxdb.tags]
+        tag = "system"
+        revision = "v2"
+        host = "{{ $top.Release.Name }}-influxdb-{{$i}}"
+{{- end -}}
+{{- end }}
+
+{{range $i, $e := until (int $replicas)}}
+  {{range $j, $db := list "monitoring_main" "monitoring_op" "monitoring_last" "monitoring_vdc"}}
+  {{- $urls := print $scheme "://" $top.Release.Name "-influxdb-" $i "." $top.Release.Name "-influxdb." $top.Release.Namespace ".svc.cluster.local:8086" }}
+  {{ $host := print $top.Release.Name "-influxdb-" $i }}
+    [[outputs.influxdb]]
+      urls = ["{{$urls}}"]
+      database = "{{$db}}"
+      insecure_skip_verify = true
+      namepass = ["tsdb_influxdb_httpd"]
+      retention_policy = "default"
+      skip_database_creation = true
+      tagexclude = ["cluster", "release_name"]
+      [outputs.influxdb.tagpass]
+        host = ["{{$host}}"]
+  {{- end }}
+{{- end }}
+
+    {{range $i, $e := until (int $replicas)}}
+{{- $urls := print $scheme "://" $top.Release.Name "-influxdb-" $i "." $top.Release.Name "-influxdb." $top.Release.Namespace ".svc.cluster.local:8086" }}
+    {{ $partition := floor ( div $i $replicas_per_partition) -}}
+    {{ template "outputs" (dict "outputs" $top.Values.config.outputs "urls" $urls "top" $top "part" $partition "part_cnt" $partitions_count) -}}
+
+{{- end -}}
+
+    {{ template "outputs" (dict "outputs" $top.Values.config.ext_outputs "urls" "" "top" $top "part" 0 "part_cnt" 1) -}}

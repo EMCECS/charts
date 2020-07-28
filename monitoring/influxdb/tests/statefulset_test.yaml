@@ -1,0 +1,133 @@
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+
+suite: test statefulset
+templates:
+  - statefulset.yaml
+tests:
+  - it: tls enabled
+    set:
+      global.tls_enabled: true
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[1].volumeMounts
+          content:
+            mountPath: /etc/nginx/cert
+            name: cert
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: cert
+            configMap:
+              name: RELEASE-NAME-cert
+      - equal:
+          path: spec.template.spec.containers[1].livenessProbe.httpGet
+          value:
+            path: /ping
+            port: api
+            scheme: HTTPS
+      - equal:
+          path: spec.template.spec.containers[1].readinessProbe.httpGet
+          value:
+            path: /ping
+            port: api
+            scheme: HTTPS
+  - it: tls disabled
+    set:
+      global.tls_enabled: false
+    asserts:
+      - notContains:
+          path: spec.template.spec.containers[1].volumeMounts
+          content:
+            mountPath: /etc/nginx/cert
+            name: cert
+      - notContains:
+          path: spec.template.spec.volumes
+          content:
+            name: cert
+            configMap:
+              name: RELEASE-NAME-cert
+      - equal:
+          path: spec.template.spec.containers[1].livenessProbe.httpGet
+          value:
+            path: /ping
+            port: api
+            scheme: HTTP
+      - equal:
+          path: spec.template.spec.containers[1].readinessProbe.httpGet
+          value:
+            path: /ping
+            port: api
+            scheme: HTTP
+  - it: recovery enabled
+    set:
+      disable_recovery: false
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[1].livenessProbe.initialDelaySeconds
+          value: 180
+      - equal:
+          path: spec.template.spec.containers[1].livenessProbe.timeoutSeconds
+          value: 1
+      - equal:
+          path: spec.template.spec.containers[1].livenessProbe.failureThreshold
+          value: 720
+      - equal:
+          path: spec.template.spec.containers[1].livenessProbe.periodSeconds
+          value: 30
+      - equal:
+          path: spec.template.spec.containers[1].readinessProbe.initialDelaySeconds
+          value: 120
+      - equal:
+          path: spec.template.spec.containers[1].readinessProbe.timeoutSeconds
+          value: 1
+      - equal:
+          path: spec.template.spec.containers[1].readinessProbe.failureThreshold
+          value: 720
+      - equal:
+          path: spec.template.spec.containers[1].readinessProbe.periodSeconds
+          value: 30
+  - it: recovery disabled
+    set:
+      disable_recovery: true
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[1].livenessProbe.initialDelaySeconds
+          value: 5
+      - equal:
+          path: spec.template.spec.containers[1].livenessProbe.timeoutSeconds
+          value: 1
+      - equal:
+          path: spec.template.spec.containers[1].livenessProbe.failureThreshold
+          value: 120
+      - equal:
+          path: spec.template.spec.containers[1].livenessProbe.periodSeconds
+          value: 30
+      - equal:
+          path: spec.template.spec.containers[1].readinessProbe.initialDelaySeconds
+          value: 5
+      - equal:
+          path: spec.template.spec.containers[1].readinessProbe.timeoutSeconds
+          value: 1
+      - equal:
+          path: spec.template.spec.containers[1].readinessProbe.failureThreshold
+          value: 120
+      - equal:
+          path: spec.template.spec.containers[1].readinessProbe.periodSeconds
+          value: 30
+  - it: storage class
+    set:
+      persistence.storageClassName: "myclass"
+    asserts:
+      - equal:
+          path: spec.volumeClaimTemplates[0].spec.storageClassName
+          value: "myclass"

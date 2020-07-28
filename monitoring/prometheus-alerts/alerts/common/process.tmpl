@@ -1,0 +1,10 @@
+|> map(fn: (r) => ({
+    _value: r._value,
+    type: r._type,
+    symptom_id:
+       if r._type == "Info" then "{{ index .Symptoms "Info" }}"
+       else if r._type == "Warning" then "{{ index .Symptoms "Warning" }}"
+       else if r._type == "Error" then "{{ index .Symptoms "Error" }}"
+       else if r._type == "Critical" then "{{ index .Symptoms "Critical" }}"
+       else ""
+}))

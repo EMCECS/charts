@@ -1,0 +1,46 @@
+import "http"
+
+// MONITORING-414
+// good, bad, maintenance counters for nodes for dashboards widget
+// example:
+//#datatype,string,long,long,long,long
+//#group,false,false,false,false,false
+//#default,_result,,,,
+//,result,table,bad_nodes,good_nodes,maintenance_nodes
+//,,0,0,8,0
+
+nodes = from(bucket: "monitoring_main")
+|> filter(fn: (r) => r._measurement == "ssm_sstable_SSTable_SS" and r._field == "state")
+|> range(start:{{ .Start }}, stop:{{ .Stop }})
+|> last()
+|> keep(columns: ["SS", "_value"])
+|> last()
+
+//filter out different statuses
+good_n = nodes
+|> filter(fn: (r) => r.state == "SS UP")
+|> count(columns: ["state"])
+|> group()
+|> sum(columns: ["state"])
+|> rename(columns:{"state": "good_nodes"})
+
+bad_n = nodes
+|> filter(fn: (r) => r.state !~ /SS UP|SS Maintenance/)
+|> count(columns: ["state"])
+|> group()
+|> sum(columns: ["state"])
+|> rename(columns:{"state": "bad_nodes"})
+
+maintenance_n = nodes
+|> filter(fn: (r) => r.state == "SS Maintenance")
+|> count(columns: ["state"])
+|> group()
+|> sum(columns: ["state"])
+|> rename(columns:{"state": "maintenance_nodes"})
+
+count_nodes = join(tables: {good_n: good_n, bad_n: bad_n})
+join(tables: {count_nodes: count_nodes, maintenance_n: maintenance_n})
+|> set(key: "_measurement", value: "cq_hardware_health_nodes_counter")
+|> map(fn: (r) => ({_time: {{ .Stop }}, good_nodes: r.good_nodes, bad_nodes: r.bad_nodes, maintenance_nodes: r.maintenance_nodes}))
+
+

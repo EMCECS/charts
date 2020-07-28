@@ -1,0 +1,68 @@
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+
+GIT_COMMIT_COUNT=$(shell git rev-list HEAD | wc -l)
+GIT_COMMIT_ID=$(shell git rev-parse HEAD)
+GIT_COMMIT_SHORT_ID=$(shell git rev-parse --short HEAD)
+GIT_BRANCH_ID=$(shell git rev-parse --abbrev-ref HEAD)
+
+PACKAGE_VERSION=0.33.0
+SERVICE_PACK=0
+NILE_OBJECT_VERSION=$(PACKAGE_VERSION).$(SERVICE_PACK)
+ECS_MONITORING_VERSION=$(NILE_OBJECT_VERSION)-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)
+
+CHARTS_VERSION=$(PACKAGE_VERSION)-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)
+
+MAKEFILE_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
+# include ${MAKEFILE_DIR}/../../common.mk
+
+CHARTS := fluxd grafana influxdb telegraf telegraf-ds throttler monitoring ecs-monitoring rsyslog rsyslog-client kube-metrics-adapter external-ecs-monitoring telegraf-external-config objectscale-monitoring prometheus-alerts
+
+CHARTS_DIR ?= ./build/charts/
+
+PLATFORM_PKG_ARGS := --values ./monitoring/alerts.yaml
+
+.PHONY: all
+all: clean test package
+
+.PHONY: test
+test:
+	for CHART in ${CHARTS}; do \
+		helm dependency update $$CHART || exit 1 ; \
+		helm lint $$CHART || exit 1 ; \
+		helm unittest $$CHART || exit 1 ; \
+		yamllint -c .yamllint.yml -s $$CHART/Chart.yaml $$CHART/values.yaml || exit 1 ; \
+	done
+
+.PHONY: package
+package: clean
+	helm package ./monitoring --dependency-update --destination ${CHARTS_DIR} $(PLATFORM_PKG_ARGS) --version ${CHARTS_VERSION}
+	mv ${CHARTS_DIR}/monitoring-${CHARTS_VERSION}.tgz ${CHARTS_DIR}/monitoring-${ECS_MONITORING_VERSION}.tgz
+	helm package ./monitoring --dependency-update --destination ${CHARTS_DIR} $(PLATFORM_PKG_ARGS) --values ./monitoring/profile_pravega.yaml --version ${CHARTS_VERSION}.pravega
+	mv ${CHARTS_DIR}/monitoring-${CHARTS_VERSION}.pravega.tgz ${CHARTS_DIR}/pravega-monitoring-${ECS_MONITORING_VERSION}.tgz
+	helm package ./ecs-monitoring --dependency-update --destination ${CHARTS_DIR} --version ${CHARTS_VERSION}
+	mv ${CHARTS_DIR}/ecs-monitoring-${CHARTS_VERSION}.tgz ${CHARTS_DIR}/ecs-monitoring-${ECS_MONITORING_VERSION}.tgz
+	helm package ./external-ecs-monitoring --dependency-update --destination ${CHARTS_DIR} --values ./external-ecs-monitoring/alerting_rules.yaml --version ${CHARTS_VERSION}
+	mv ${CHARTS_DIR}/external-ecs-monitoring-${CHARTS_VERSION}.tgz ${CHARTS_DIR}/external-ecs-monitoring-${ECS_MONITORING_VERSION}.tgz
+	helm package ./telegraf-external-config --dependency-update --destination ${CHARTS_DIR} --version ${CHARTS_VERSION}
+	mv ${CHARTS_DIR}/telegraf-external-config-${CHARTS_VERSION}.tgz ${CHARTS_DIR}/telegraf-external-config-${ECS_MONITORING_VERSION}.tgz
+	helm package ./objectscale-monitoring --dependency-update --destination ${CHARTS_DIR} --version ${CHARTS_VERSION}
+	mv ${CHARTS_DIR}/objectscale-monitoring-${CHARTS_VERSION}.tgz ${CHARTS_DIR}/objectscale-monitoring-${ECS_MONITORING_VERSION}.tgz
+
+.PHONY: clean
+clean:
+	rm -rf ${CHARTS_DIR}
+	rm -rf ./monitoring/charts
+	rm -rf ./ecs-monitoring/charts
+	rm -rf ./external-ecs-monitoring/charts
+	rm -rf ./telegraf-external-config/charts
+	rm -rf ./objectscale-monitoring/charts

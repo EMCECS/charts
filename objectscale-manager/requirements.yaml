@@ -9,3 +9,7 @@ dependencies:
     version: 0.16.6
     repository: file://../sonobuoy
     condition: sonobuoy.enabled
+  - name: ecs-monitoring
+    version: x.x
+    condition: monitoring.enabled
+    repository: file://../monitoring/objectscale-monitoring

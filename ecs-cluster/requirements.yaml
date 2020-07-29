@@ -2,4 +2,4 @@ dependencies:
 - name: ecs-monitoring
   version: x.x
   condition: monitoring.enabled
-  repository: file://../../../../monitoring/k8s/charts/ecs-monitoring
+  repository: file://../monitoring/ecs-monitoring

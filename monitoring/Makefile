@@ -34,17 +34,22 @@ PLATFORM_PKG_ARGS := --values ./monitoring/alerts.yaml
 .PHONY: all
 all: clean test package
 
-.PHONY: test
-test:
+.PHONY: dep
+dep:
 	for CHART in ${CHARTS}; do \
 		helm dependency update $$CHART || exit 1 ; \
+	done
+
+.PHONY: test
+test: dep
+	for CHART in ${CHARTS}; do \
 		helm lint $$CHART || exit 1 ; \
 		helm unittest $$CHART || exit 1 ; \
 		yamllint -c .yamllint.yml -s $$CHART/Chart.yaml $$CHART/values.yaml || exit 1 ; \
 	done
 
 .PHONY: package
-package: clean
+package: clean dep
 	helm package ./monitoring --dependency-update --destination ${CHARTS_DIR} $(PLATFORM_PKG_ARGS) --version ${CHARTS_VERSION}
 	mv ${CHARTS_DIR}/monitoring-${CHARTS_VERSION}.tgz ${CHARTS_DIR}/monitoring-${ECS_MONITORING_VERSION}.tgz
 	helm package ./monitoring --dependency-update --destination ${CHARTS_DIR} $(PLATFORM_PKG_ARGS) --values ./monitoring/profile_pravega.yaml --version ${CHARTS_VERSION}.pravega

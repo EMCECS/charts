@@ -6,6 +6,7 @@ YAMLLINT_VERSION := 1.20.0
 CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm srs-gateway dks-testapp fio-test sonobuoy dellemc-license service-pod
 DECKSCHARTS := decks kahm srs-gateway dks-testapp dellemc-license service-pod
 FLEXCHARTS := ecs-cluster objectscale-manager
+MONITORING_DIR := monitoring
 
 # packaging
 MANAGER_MANIFEST := objectscale-manager.yaml
@@ -21,12 +22,11 @@ STORAGECLASSNAME  = dellemc-objectscale-highly-available
 
 clean: clean-package
 
-test:
-# 	helm lint ${CHARTS} --set product=objectscale
-# 	yamllint -c .yamllint.yml */Chart.yaml */values.yaml
-# 	yamllint -c .yamllint.yml -s .yamllint.yml .travis.yml
+test: monitoring-test
+	helm lint ${CHARTS} --set product=objectscale
+	yamllint -c .yamllint.yml */Chart.yaml */values.yaml
+	yamllint -c .yamllint.yml -s .yamllint.yml .travis.yml
 # 	helm unittest ${CHARTS}
-	make -C monitoring test
 
 dep:
 	wget -q ${HELM_URL}/${HELM_TGZ}
@@ -79,7 +79,7 @@ flexver:
 		sed -i -e "0,/^tag.*/s//tag: $${FLEXVER}/"  $$CHART/values.yaml; \
 	done ;
 
-build:
+build: monitoring-dep
 	@echo "looking for yq command"
 	which yq
 	@echo "Ensure no helm repo accessible" 
@@ -168,3 +168,9 @@ create-manager-manifest-ci: create-temp-package
 	--set global.storageClassName=${STORAGECLASSNAME} \
 	--set logReceiver.create=false \
 	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
+
+monitoring-test:
+	make -C ${MONITORING_DIR} test
+
+monitoring-dep:
+	make -C ${MONITORING_DIR} dep

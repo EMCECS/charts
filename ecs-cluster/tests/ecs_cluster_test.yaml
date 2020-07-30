@@ -49,35 +49,17 @@ tests:
   # when we have global SC settin
   - it: should monitoring components not be deployed when advanced metrics is off
     set:
-      enableAdvancedStatistics: false
+      features.enableAdvancedStatistics: false
     asserts:
     - equal:
-        path: spec.telegraf.shouldBeDeployed
-        value: false
-    - equal:
-        path: spec.fluxd.shouldBeDeployed
-        value: false
-    - equal:
-        path: spec.throttler.shouldBeDeployed
-        value: false
-    - equal:
-        path: spec.grafana.shouldBeDeployed
+        path: spec.enableAdvancedStatistics
         value: false
   - it: should monitoring components be deployed when advanced metrics is on
     set:
-      enableAdvancedStatistics: true
+      features.enableAdvancedStatistics: true
     asserts:
     - equal:
-        path: spec.telegraf.shouldBeDeployed
-        value: true
-    - equal:
-        path: spec.fluxd.shouldBeDeployed
-        value: true
-    - equal:
-        path: spec.throttler.shouldBeDeployed
-        value: true
-    - equal:
-        path: spec.grafana.shouldBeDeployed
+        path: spec.enableAdvancedStatistics
         value: true
   - it: should customize SC for all persistance fields
     set:

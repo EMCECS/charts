@@ -19,6 +19,7 @@ REGISTRY          = objectscale
 DECKS_REGISTRY    = objectscale
 KAHM_REGISTRY     = objectscale
 STORAGECLASSNAME  = dellemc-objectscale-highly-available
+OPERATOR_VERSION  = 0.33.0
 
 clean: clean-package
 
@@ -104,7 +105,7 @@ build: monitoring-dep
 
 package: clean-package create-temp-package create-manifests combine-crds create-vmware-package archive-package
 create-temp-package:
-	mkdir -p ${TEMP_PACKAGE}/yaml 
+	mkdir -p ${TEMP_PACKAGE}/yaml
 	mkdir -p ${TEMP_PACKAGE}/scripts
 
 
@@ -129,6 +130,7 @@ create-manager-manifest: create-temp-package
 	--set global.platform=VMware --set global.watchAllNamespaces=false \
 	--set sonobuoy.enabled=false --set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
+	--set image.tag=${OPERATOR_VERSION} \
 	--set logReceiver.create=true --set logReceiver.type=Syslog \
 	--set logReceiver.persistence.storageClassName=${STORAGECLASSNAME} \
 	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
@@ -146,7 +148,7 @@ create-decks-manifest: create-temp-package
 create-deploy-script: create-temp-package
 	echo "kubectl apply -f ../yaml/objectscale-manager.yaml -f ../yaml/decks.yaml -f ../yaml/kahm.yaml" > ${TEMP_PACKAGE}/scripts/deploy-ns-${NAMESPACE}.sh
 	chmod 700 ${TEMP_PACKAGE}/scripts/deploy-ns-${NAMESPACE}.sh
-	
+
 
 archive-package:
 	tar -zcvf ${PACKAGE_NAME} ${TEMP_PACKAGE}/*

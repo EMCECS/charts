@@ -26,7 +26,7 @@ test: monitoring-test
 	helm lint ${CHARTS} --set product=objectscale
 	yamllint -c .yamllint.yml */Chart.yaml */values.yaml
 	yamllint -c .yamllint.yml -s .yamllint.yml .travis.yml
-# 	helm unittest ${CHARTS}
+	helm unittest ${CHARTS}
 
 dep:
 	wget -q ${HELM_URL}/${HELM_TGZ}

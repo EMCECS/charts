@@ -10,7 +10,6 @@
 #
 #
 
-{{- if .Values.global.monitoring.enabled }}
 {{- /*
   Configmap is not rendered when monitoring is globally disabled.
   This condition was added as a workaround to speed up 'helm unittest'
@@ -18,6 +17,7 @@
   Although monitoring is disabled in tests, subchart is rendered
   and it takes ~5 sec per test.
 */ -}}
+{{- if .Values.global.monitoring.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:

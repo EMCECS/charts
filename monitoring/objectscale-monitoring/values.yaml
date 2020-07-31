@@ -16,12 +16,12 @@
 global:
   rsyslog_uds_dir: "/var/run/rsyslog"
   rsyslog_uds_filename: "rsyslog.socket"
-  use_vault_for_ssl: true
-  tls_enabled: true
+  use_vault_for_ssl: false
+  tls_enabled: false
   # Telegraf TLS is disabled until TLS support is added to ECS stat client
-  telegraf_tls_enabled: true
+  telegraf_tls_enabled: false
   # communication_scheme defined separately from tls_enabled as found no way to make conditional set in values.yaml
-  communication_scheme: https
+  communication_scheme: http
   internal_dns: kube-dns.kube-system.svc.cluster.local
 
 cert:

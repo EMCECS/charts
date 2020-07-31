@@ -11,5 +11,5 @@ dependencies:
     condition: sonobuoy.enabled
   - name: objectscale-monitoring
     version: x.x
-    condition: monitoring.enabled
+    condition: global.monitoring.enabled
     repository: file://../monitoring/objectscale-monitoring

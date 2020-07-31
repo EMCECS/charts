@@ -20,6 +20,8 @@ global:
   tls_enabled: true
   telegraf_tls_enabled: true
   performanceProfile: "Small"
+  monitoring:
+    enabled: true
 
 image:
   repository: telegraf

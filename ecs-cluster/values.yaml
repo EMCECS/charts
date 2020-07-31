@@ -17,6 +17,10 @@ global:
   # Start a deos-hc cronjob to collect the healthchecks of the objectstores
   enableHealthcheck: true
 
+  # Flex 1.0 ObjectStore monitoring stack
+  monitoring:
+    enabled: false
+
 # The default docker tag and pull policy for the ECS Cluster
 tag: 0.33.0
 pullPolicy: IfNotPresent
@@ -584,7 +588,3 @@ deosEvents:
     repository: deos-events
     # tag: stable
     # pullPolicy: IfNotPresent
-
-# Flex 1.0 ObjectStore monitoring stack
-monitoring:
-  enabled: false

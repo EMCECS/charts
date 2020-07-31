@@ -28,6 +28,10 @@ global:
   # this flag is set under global because the FIO and sonobuoy are sub-charts and the cronjobs runs under the sub-charts
   enableHealthcheck: false
 
+  # Flex 1.0 regional monitoring stack
+  monitoring:
+    enabled: false
+
 # This is the list of available objectstore versions to graphql for UI to configure the store.
 objectStoreAvailableVersions:
   - 0.33.0
@@ -229,7 +233,3 @@ fluentbitAgent:
     repository: fluent-bit
     tag: 0.28.0
     # pullPolicy: IfNotPresent
-
-# Flex 1.0 regional monitoring stack
-monitoring:
-  enabled: false

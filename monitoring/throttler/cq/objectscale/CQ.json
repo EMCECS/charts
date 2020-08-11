@@ -23,5 +23,53 @@
       "system_gc_unreclaim", "user_data", "user_gc_pending", "user_gc_reclaimed", "user_gc_unreclaim"],
     "max-retry": 3,
     "sync-query": true
+  },
+  {
+    "template":"capacity-ec-region.tmpl",
+    "min-depth":"5m",
+    "max-depth":"1h",
+    "max-age":"1440h",
+    "start-offset":"-1h",
+    "keep-offset":"0m",
+    "target":"cq_capacity_ec_region",
+    "value-columns":["total_coded_data", "total_coding_data"],
+    "max-retry":3,
+    "sync-query":false
+  },
+  {
+    "template":"capacity-ec-rate-region.tmpl",
+    "min-depth":"5m",
+    "max-depth":"1h",
+    "max-age":"1440h",
+    "start-offset":"-1h",
+    "keep-offset":"0m",
+    "target":"cq_capacity_ec_rate_region",
+    "value-columns":["coding_rate"],
+    "max-retry":3,
+    "sync-query":false
+  },
+  {
+    "template":"rebalance-region.tmpl",
+    "min-depth":"5m",
+    "max-depth":"1h",
+    "max-age":"1440h",
+    "start-offset":"-1h",
+    "keep-offset":"0m",
+    "target":"cq_rebalancing_region",
+    "value-columns":["data_rebalanced", "pending_rebalance"],
+    "max-retry":3,
+    "sync-query":false
+  },
+  {
+    "template":"recover-status-region.tmpl",
+    "min-depth":"5m",
+    "max-depth":"1h",
+    "max-age":"1440h",
+    "start-offset":"-1h",
+    "keep-offset":"0m",
+    "target":"cq_recover_status_region",
+    "value-columns":["data_to_recover", "data_recovered"],
+    "max-retry":3,
+    "sync-query":false
   }
 ]

@@ -3,6 +3,8 @@ import "http"
 from(bucket: "monitoring_vdc")
 |> filter(fn: (r) => r._measurement == "cq_recover_status_summary" and (r._field == "data_to_recover" or r._field == "data_recovered"))
 |> range(start:{{ .Start }},stop:{{ .Stop }})
+|> fillMissing(period: 5m)
+|> range(start: {{ .KeepStart }}, stop: {{ .Stop }})
 |> keep(columns: ["_field", "_time", "_value"])
 |> group(columns: ["_field", "_time"])
 |> sum()

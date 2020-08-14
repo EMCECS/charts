@@ -1,9 +1,0 @@
-import "http"
-
-from(bucket: "monitoring_vdc")
-|> filter(fn: (r) => r._measurement == "cq_capacity_ec" and (r._field == "total_coded_data" or r._field == "total_coding_data"))
-|> range(start:{{ .Start }},stop:{{ .Stop }})
-|> keep(columns: ["_field", "_time", "_value"])
-|> group(columns: ["_field", "_time"])
-|> sum()
-|> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")

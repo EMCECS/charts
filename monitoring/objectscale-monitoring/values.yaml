@@ -59,11 +59,8 @@ prometheus-alerts:
               description: "Data recorded in TSDB is lagging by 30 mins"
               remedies:
                 - KB 536249
-  # TODO: application should be created for KAHM to discover event rules
-  # Now it cannot be created as API 'app.k8s.io/v1beta1' is not installed
-  # on Platform. This API is required by KAHM and should be available
-  # when it is included in platform
-  application_enabled: false
+  # Application should be created for KAHM to discover event rules
+  application_enabled: true
 telegraf:
   config:
     influxdb_inputs_enabled: false

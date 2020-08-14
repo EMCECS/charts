@@ -164,10 +164,38 @@ objectsvc:
   # FabricProxy as the service discovery mechanism
   # replicas: 1
 
-  # Docker repository to be used for chunk manager instances
+  # Docker repository to be used for objectsvc instances
   image:
     repository: object-service
     tag: 3.6.0.0-177.664c010
+    # pullPolicy: IfNotPresent
+
+# The ECS Object Notification Service configuration specification
+ons:
+
+  # Override the default ECS Cluster replicas to set the number of nodes in the
+  # ons cluster separately. This value should not be set when using
+  # FabricProxy as the service discovery mechanism
+  # replicas: 1
+
+  # Docker repository to be used for ons instances
+  image:
+    repository: ons
+    tag: latest
+    # pullPolicy: IfNotPresent
+
+# The ECS REP Service configuration specification
+rep:
+
+  # Override the default ECS Cluster replicas to set the number of nodes in the
+  # rep cluster separately. This value should not be set when using
+  # FabricProxy as the service discovery mechanism
+  # replicas: 1
+
+  # Docker repository to be used for rep instances
+  image:
+    repository: rep
+    # tag: latest
     # pullPolicy: IfNotPresent
 
 # The ECS storage server manager configuration specification

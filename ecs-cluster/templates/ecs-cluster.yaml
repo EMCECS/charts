@@ -91,6 +91,40 @@ spec:
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
 
+  ons:
+{{- if .Values.ons.replicas }}
+    replicas: {{ .Values.ons.replicas }}
+{{- end }}
+    image:
+      repository: {{ .Values.global.registry }}/{{ .Values.ons.image.repository }}
+{{- if .Values.ons.image.tag }}
+      tag: {{ .Values.ons.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.ons.image.pullPolicy }}
+      pullPolicy: {{ .Values.ons.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
+
+  rep:
+{{- if .Values.rep.replicas }}
+    replicas: {{ .Values.rep.replicas }}
+{{- end }}
+    image:
+      repository: {{ .Values.global.registry }}/{{ .Values.rep.image.repository }}
+{{- if .Values.rep.image.tag }}
+      tag: {{ .Values.rep.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.rep.image.pullPolicy }}
+      pullPolicy: {{ .Values.rep.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
+
   zookeeper:
 {{- if .Values.zookeeper.replicas }}
     replicas: {{ .Values.zookeeper.replicas }}

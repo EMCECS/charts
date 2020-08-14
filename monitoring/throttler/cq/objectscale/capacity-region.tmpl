@@ -8,8 +8,10 @@ from(bucket: "monitoring_vdc")
                      (r._field == "total_i" or r._field == "used"
                      or r._field == "available" or r._field == "reserved"
                      or r._field == "offline"))
-|> range(start:{{ .Start }},stop:{{ .Stop }})
+|> range(start: {{ .Start }}, stop: {{ .Stop }})
+|> fillMissing(period: 5m)
+|> range(start: {{ .KeepStart }}, stop: {{ .Stop }})
 |> keep(columns: ["_field", "_time", "_value"])
 |> group(columns: ["_field", "_time"])
 |> sum()
-|> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
+|> pivot(rowKey: ["_time"], columnKey: ["_field"], valueColumn: "_value")

@@ -14,7 +14,7 @@ d = "#datatype,string,long,long
 f = csv.from(csv: d)
 
 m = from(bucket: "monitoring_op")
-|> filter(fn: (r) => r._measurement =~ /tsdb_telegraf_internal_.*/ and (r._field == "errors" or r._field == "metrics_gathered"))
+|> filter(fn: (r) => r._measurement =~ /tsdb_telegraf_internal_.*/)
 |> range(start: {{ .Start }}, stop: {{ .Stop }})
 |> last()
 |> group()

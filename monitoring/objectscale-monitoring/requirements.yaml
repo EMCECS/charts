@@ -39,4 +39,3 @@ dependencies:
   - name: prometheus-alerts
     repository: "file://../prometheus-alerts"
     version: 0.0.1
-    condition: global.prometheus_alerts_enabled

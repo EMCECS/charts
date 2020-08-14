@@ -71,3 +71,8 @@ restapi:
   realm: "kahm-restapi"
   username: kahm
   password: ChangeMe
+
+hooks:
+  registry: "lachlanevenson"
+  repository: "k8s-kubectl"
+  tag: "v1.13.4"

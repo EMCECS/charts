@@ -87,3 +87,8 @@ supportStore:
     type: ClusterIP
     port: 7443
     targetPort: 7443
+
+hooks:
+  registry: "lachlanevenson"
+  repository: "k8s-kubectl"
+  tag: "v1.13.4"

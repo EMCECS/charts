@@ -1,0 +1,72 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: "{{.Release.Name}}-post-delete"
+  annotations:
+    "helm.sh/hook": post-delete
+    "helm.sh/hook-weight": "1"
+    "helm.sh/hook-delete-policy": hook-succeeded, before-hook-creation, hook-failed
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+      - persistentvolumeclaims
+    verbs:
+      - delete
+
+---
+
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: "{{.Release.Name}}-post-delete"
+  annotations:
+    "helm.sh/hook": post-delete
+    "helm.sh/hook-weight": "1"
+    "helm.sh/hook-delete-policy": hook-succeeded, before-hook-creation, hook-failed
+subjects:
+  - kind: ServiceAccount
+    name: "{{.Release.Name}}-post-delete"
+    namespace: "{{ .Release.Namespace }}"
+roleRef:
+  kind: ClusterRole
+  name: "{{.Release.Name}}-post-delete"
+  apiGroup: rbac.authorization.k8s.io
+
+---
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: "{{.Release.Name}}-post-delete"
+  annotations:
+    "helm.sh/hook": post-delete
+    "helm.sh/hook-weight": "1"
+    "helm.sh/hook-delete-policy": hook-succeeded, before-hook-creation, hook-failed
+
+---
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{.Release.Name}}-pvc-cleaner"
+  namespace: {{.Release.Namespace}}
+  annotations:
+    "helm.sh/hook": post-delete
+    "helm.sh/hook-weight": "2"
+    "helm.sh/hook-delete-policy": hook-succeeded, before-hook-creation, hook-failed
+spec:
+  backoffLimit: 1
+  activeDeadlineSeconds: 20
+  template:
+    metadata:
+      name: "{{.Release.Name}}-pvc-cleaner"
+    spec:
+      serviceAccountName: "{{.Release.Name}}-post-delete"
+      restartPolicy: Never
+      containers:
+        - name: post-delete-job
+          image: "{{ .Values.hooks.registry }}/{{.Values.hooks.repository }}:{{ .Values.hooks.tag }}"
+          command: ["kubectl", "delete", "pvc", "decks-support-store-claim0-decks-support-store-0", "-n", "{{.Release.Namespace}}", "--wait", "--ignore-not-found"]
+

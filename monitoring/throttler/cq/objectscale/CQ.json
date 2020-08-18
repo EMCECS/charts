@@ -22,7 +22,7 @@
     "value-columns":["meta_data", "protection_overhead_wo_geo", "system_gc_pending", "system_gc_reclaimed",
       "system_gc_unreclaim", "user_data", "user_gc_pending", "user_gc_reclaimed", "user_gc_unreclaim"],
     "max-retry": 3,
-    "sync-query": true
+    "sync-query": false
   },
   {
     "template":"capacity-ec-region.tmpl",

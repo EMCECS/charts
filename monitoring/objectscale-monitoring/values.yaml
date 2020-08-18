@@ -37,6 +37,30 @@ grafana:
 throttler:
   config:
     cq_dir: "cq/objectscale"
+prometheus-alerts:
+  config:
+    dir: "alerts/objectscale"
+    component: "objectscale-monitoring"
+    alerts:
+      - id: "MH_4019"
+        enabled: true
+        range: 30m
+        reason: "No data is pushed to the monitoring framework for the last 30 minutes"
+        message: "Data recorded in TSDB is lagging by 30 mins"
+        symptoms:
+          - id: 4019
+            types:
+              - Critical
+            event_rule:
+              description: "Data recorded in TSDB is lagging by 30 mins"
+              notifiers:
+                - objectscale-srs
+            event_remedy:
+              description: "Data recorded in TSDB is lagging by 30 mins"
+              remedies:
+                - KB 536249
+  # Application should be created for KAHM to discover event rules
+  application_enabled: true
 telegraf:
   config:
     influxdb_inputs_enabled: false

@@ -209,12 +209,12 @@
           "resultFormat": "table"
         },
         {
-          "query": "from(bucket: \"monitoring_vdc\")\r\n|> filter(fn: (r) => r._measurement == \"cq_capacity_ec_rate_region\"\r and r._field == \"coding_rate\")\r\n|> range($range)\r\n|> last()\r\n|> pivot(rowKey:[\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n",
+          "query": "from(bucket: \"monitoring_vdc\")\r\n|> filter(fn: (r) => r._measurement == \"cq_capacity_ec_rate_region\"\r and r._field == \"coding_rate\")\r\n|> range($range)\r\n|> last()\n|> drop(columns: [\"_measurement\"])\r\n|> pivot(rowKey:[\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")",
           "refId": "C",
           "resultFormat": "table"
         },
         {
-          "query": "from(bucket: \"monitoring_vdc\")\r\n|> filter(fn: (r) => (r._measurement == \"cq_capacity_ec_region\"\r or r._measurement == \"cq_capacity_ec_rate_region\"\r) and (r._field == \"total_coding_data\" or r._field == \"total_coded_data\" or r._field == \"coding_rate\"))\r\n|> range($range)\r\n|> last()\r\n|> pivot(rowKey:[\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n|> map(fn: (r) => ({est_time: (r.total_coding_data - r.total_coded_data) / (r.coding_rate)}))",
+          "query": "from(bucket: \"monitoring_vdc\")\r\n|> filter(fn: (r) => (r._measurement == \"cq_capacity_ec_region\"\r and (r._field == \"total_coding_data\" or r._field == \"total_coded_data\")) or (r._measurement == \"cq_capacity_ec_rate_region\"\r and r._field == \"coding_rate\"))\r\n|> range($range)\r\n|> last()\r\n|> drop(columns: [\"_measurement\"])\n|> pivot(rowKey:[\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n|> map(fn: (r) => ({est_time: (r.total_coding_data - r.total_coded_data) / (r.coding_rate)}))",
           "refId": "E",
           "resultFormat": "table"
         }
@@ -569,6 +569,7 @@
       "type": "row"
     }
   ],
+  "refresh": false,
   "schemaVersion": 18,
   "style": "dark",
   "tags": [],

@@ -10,7 +10,7 @@ previous=from(bucket: "{{ .Params.database }}")
 |> last()
 
 first=from(bucket: "{{ .Params.database }}")
-|> range(start: {{ .PrevStop }}, stop: {{ .Stop }})
+|> range(start: {{ .StartWithoutOffset }}, stop: {{ .Stop }})
 |> filter(fn: (r) => r._measurement == "{{ .Params.measurement }}")
 {{if .Fields}}|> filter(fn: (r) => r._field =~ /^({{range $i, $f:=.Fields}}{{if $i}}|{{end}}{{$f}}{{end}})$/){{end}}
 |> first()

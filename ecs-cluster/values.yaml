@@ -181,6 +181,20 @@ ons:
   # Docker repository to be used for ons instances
   image:
     repository: ons
+    tag: latest
+    # pullPolicy: IfNotPresent
+
+# The ECS REP Service configuration specification
+rep:
+
+  # Override the default ECS Cluster replicas to set the number of nodes in the
+  # rep cluster separately. This value should not be set when using
+  # FabricProxy as the service discovery mechanism
+  # replicas: 1
+
+  # Docker repository to be used for rep instances
+  image:
+    repository: rep
     # tag: latest
     # pullPolicy: IfNotPresent
 

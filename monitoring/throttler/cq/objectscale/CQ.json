@@ -25,6 +25,30 @@
     "sync-query": false
   },
   {
+    "template":"capacity-ec-region.tmpl",
+    "min-depth":"5m",
+    "max-depth":"1h",
+    "max-age":"1440h",
+    "start-offset":"-1h",
+    "keep-offset":"0m",
+    "target":"cq_capacity_ec_region",
+    "value-columns":["total_coded_data", "total_coding_data"],
+    "max-retry":3,
+    "sync-query":false
+  },
+  {
+    "template":"capacity-ec-rate-region.tmpl",
+    "min-depth":"5m",
+    "max-depth":"1h",
+    "max-age":"1440h",
+    "start-offset":"-1h",
+    "keep-offset":"0m",
+    "target":"cq_capacity_ec_rate_region",
+    "value-columns":["coding_rate"],
+    "max-retry":3,
+    "sync-query":false
+  },
+  {
     "template":"rebalance-region.tmpl",
     "min-depth":"5m",
     "max-depth":"1h",

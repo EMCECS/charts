@@ -36,3 +36,6 @@ dependencies:
   - name: rsyslog-client
     repository: "file://../rsyslog-client"
     version: 0.0.1
+  - name: prometheus-alerts
+    repository: "file://../prometheus-alerts"
+    version: 0.0.1

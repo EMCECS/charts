@@ -160,9 +160,6 @@ spec:
           containerPort: {{ .Values.service.bind_address }}
         - name: rpc
           containerPort: {{ .Values.service.rpc.bind_address }}
-        resources:
-          requests:
-            memory: 50Mi
         volumeMounts:
         - mountPath: /etc/nginx/nginx.conf
           name: nginx-config
@@ -220,15 +217,16 @@ spec:
       - name: rsyslog
         image: "{{ .Values.global.monitoring_registry }}/rsyslog:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-        resources:
-          requests:
-            memory: 50Mi
         volumeMounts:
-        - mountPath: /etc/rsyslog.conf
-          name: rsyslog-config
-          subPath: rsyslog.conf
         - name: varlog
           mountPath: /var/log
+        {{- if .Values.global.rsyslog_enabled }}
+        - name: rsyslog-config
+          mountPath: /etc/rsyslog.conf
+          subPath: rsyslog.conf
+        - name: rsyslog-socket
+          mountPath: {{ .Values.global.rsyslog_uds_dir }}
+        {{- end }}
       {{ if not .Values.disable_recovery }}
       - name: cron
         image: "{{ .Values.global.monitoring_registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
@@ -237,8 +235,6 @@ spec:
         args:
           - -c
           - env >> /etc/environment; cron -n
-        resources:
-{{ toYaml .Values.resources | indent 10 }}
         env:
         {{- if .Values.env }}
         {{- range .Values.env }}
@@ -261,9 +257,6 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         command: ["cron"]
         args: ["-n"]
-        resources:
-          requests:
-            memory: 10Mi
         volumeMounts:
         - name: varlog
           mountPath: /var/log
@@ -304,9 +297,14 @@ spec:
       - name: {{ template "influxdb.fullname" . }}-data
         emptyDir: {}
       {{- end }}
+      {{- if .Values.global.rsyslog_enabled }}
       - name: rsyslog-config
         configMap:
           name: {{ .Release.Name }}-rsyslog-client-config
+      - name: rsyslog-socket
+        hostPath:
+          path: {{ .Values.global.rsyslog_uds_dir }}
+      {{- end }}
       - name: varlog
         emptyDir: {}
       - name: restore-ranges-cron-config

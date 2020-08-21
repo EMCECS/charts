@@ -100,9 +100,6 @@ spec:
       - name: nginx
         image: "{{ .Values.global.monitoring_registry }}/nginx:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-        resources:
-          requests:
-            memory: 50Mi
         ports:
         - name: api
           containerPort: {{ .Values.service.bind_address }}
@@ -133,13 +130,14 @@ spec:
       - name: rsyslog
         image: "{{ .Values.global.monitoring_registry }}/rsyslog:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-        resources:
-          requests:
-            memory: 50Mi
         volumeMounts:
+        {{- if .Values.global.rsyslog_enabled }}
         - mountPath: /etc/rsyslog.conf
           name: rsyslog-config
           subPath: rsyslog.conf
+        - name: rsyslog-socket
+          mountPath: {{ .Values.global.rsyslog_uds_dir }}
+        {{- end }}
         - name: varlog
           mountPath: /var/log
       - name: logrotate
@@ -147,9 +145,6 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         command: ["cron"]
         args: ["-n"]
-        resources:
-          requests:
-            memory: 10Mi
         volumeMounts:
         - name: varlog
           mountPath: /var/log
@@ -191,9 +186,14 @@ spec:
       - name: config-grafana-ini
         configMap:
           name: {{ include "grafana.fullname" . }}-grafana-ini
+      {{- if .Values.global.rsyslog_enabled }}
       - name: rsyslog-config
         configMap:
           name: {{ .Release.Name }}-rsyslog-client-config
+      - name: rsyslog-socket
+        hostPath:
+          path: {{ .Values.global.rsyslog_uds_dir }}
+      {{- end }}
       - name: varlog
         emptyDir: {}
       - name: logrotate-config

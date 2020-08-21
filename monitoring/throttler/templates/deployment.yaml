@@ -130,9 +130,6 @@ spec:
       - name: nginx
         image: "{{ .Values.global.monitoring_registry }}/nginx:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: IfNotPresent
-        resources:
-          requests:
-            memory: 50Mi
         ports:
         - name: api
           containerPort: {{ .Values.service.bind_address }}

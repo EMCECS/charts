@@ -103,8 +103,6 @@ spec:
             port: 9093
           initialDelaySeconds: {{ .Values.alertmanager.readinessProbeInitialDelay }}
           timeoutSeconds: {{ .Values.alertmanager.readinessProbeTimeout }}
-        resources:
-{{ toYaml .Values.alertmanager.resources | indent 10 }}
         volumeMounts:
         - mountPath: /etc/alertmanager
           name: prometheus-alertmanager-config
@@ -113,9 +111,6 @@ spec:
       - name: nginx
         image: "{{ .Values.global.monitoring_registry }}/nginx:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: IfNotPresent
-        resources:
-          requests:
-            memory: 50Mi
         volumeMounts:
         - mountPath: /etc/nginx/conf.d
           name: nginx-config

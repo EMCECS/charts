@@ -30,6 +30,8 @@ image:
 resources:
   requests:
     memory: 300Mi
+  limits:
+    memory: 300Mi
 
 ## Customize livenessProbe and readinessProbe
 ##

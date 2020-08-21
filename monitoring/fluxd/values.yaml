@@ -29,6 +29,7 @@ image:
 ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
 resources:
   requests: {}
+  limits: {}
 
 ## Customize livenessProbe and readinessProbe
 ##

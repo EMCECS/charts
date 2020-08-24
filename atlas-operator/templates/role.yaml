@@ -36,12 +36,15 @@ rules:
   - apps
   resources:
   - statefulsets
+  - deployments
+  - deployments/finalizers
   verbs:
   - '*'
 - apiGroups:
   - atlas.dellemc.com
   resources:
   - atlasclusters
+  - atlasclusters/finalizers
   verbs:
   - create
   - delete

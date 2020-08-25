@@ -44,6 +44,8 @@ alertmanager:
   resources:
     requests:
       memory: 32Mi
+    limits:
+      memory: 32Mi
   readinessProbeInitialDelay: 30
   readinessProbeTimeout: 30
 

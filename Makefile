@@ -133,11 +133,6 @@ create-manager-manifest: create-temp-package
 	--set image.tag=${OPERATOR_VERSION} \
 	--set logReceiver.create=true --set logReceiver.type=Syslog \
 	--set logReceiver.persistence.storageClassName=${STORAGECLASSNAME} \
-	--set global.monitoring_registry=asdrepo.isus.emc.com:9042 \
-	--set ecs-monitoring.influxdb.persistence.storageClassName=dellemc-objectscale-highly-available \
-	--set global.monitoring.enabled=true \
-	--set features.enableAdvancedStatistics=false \
-	--set global.monitoring_tag=green \
 	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
 
 create-kahm-manifest: create-temp-package

@@ -41,3 +41,14 @@ Create the name of the service account to use
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+TODO: should be improved
+*/}}
+{{- define "influxdbhosts" -}}
+{{- $influxdb := dict "hosts" (list) -}}
+{{- range int . | until -}}
+{{- $noop := printf "127.0.0.1%d:8%d86" . . | append $influxdb.hosts | set $influxdb "hosts" -}}
+{{- end -}}
+{{- join "," $influxdb.hosts -}}
+{{- end -}}

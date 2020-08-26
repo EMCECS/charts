@@ -122,7 +122,7 @@ spec:
         image: "{{ .Values.global.monitoring_registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         resources:
-{{ include "common-lib.resources" (dict "top" . "micro" "300Mi" "small" "300Mi" "medium" "1Gi" "large" "2Gi") | indent 10}}
+{{ include "common-lib.resources" (dict "top" . "micro" "410Mi" "small" "410Mi" "medium" "1134Mi" "large" "2154Mi") | indent 10}}
         ports:
         - name: api
           containerPort: {{ .Values.config.http.bind_address }}

@@ -23,11 +23,12 @@ prometheus:
   image:
     repository: prometheus
     pullPolicy: IfNotPresent
+  # requests: 100(prometheus) + 50(nginx) + 32(alertmanager); limits 100(prometheus) + 32(alertmanager)
   resources:
     requests:
-      memory: 100Mi
+      memory: 182Mi
     limits:
-      memory: 100Mi
+      memory: 132Mi
   readinessProbeInitialDelay: 30
   readinessProbeTimeout: 30
   readinessProbeFailureThreshold: 3

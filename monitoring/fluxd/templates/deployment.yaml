@@ -102,7 +102,7 @@ spec:
         command: ["fluxd"]
         args: ["--disable-lb", "--cf-disabled", "--disable-zk", "--node-id", "$(NODE_ID)", "--storage-hosts", "$(STORAGE_HOSTS)", "--store-namespace", "{{ .Release.Namespace }}", "--port", "{{ .Values.config.http.bind_address }}", "--logger-config", "/non_existing"]
         resources:
-{{ include "common-lib.resources" (dict "top" . "micro" "150Mi" "small" "300Mi" "medium" "300Mi" "large" "300Mi") | indent 10}}
+{{ include "common-lib.resources" (dict "top" . "micro" "200Mi" "small" "350Mi" "medium" "350Mi" "large" "350Mi") | indent 10}}
         ports:
         - name: api
           containerPort: {{ .Values.config.http.bind_address }}

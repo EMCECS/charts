@@ -65,7 +65,7 @@ spec:
         command: ["telegraf"]
         args: ["--config", "/etc/telegraf/telegraf.conf", "--config-directory", "/etc/telegraf/telegraf.d/"]
         resources:
-{{ include "common-lib.resources" (dict "top" . "micro" "50Mi" "small" "150Mi" "medium" "256Mi" "large" "256Mi") | indent 10}}
+{{ include "common-lib.resources" (dict "top" . "micro" "100Mi" "small" "200Mi" "medium" "306Mi" "large" "306Mi") | indent 10}}
         env:
         - name: COLLECTION_INTERVAL
           value: {{ .Values.config.collection_interval }}

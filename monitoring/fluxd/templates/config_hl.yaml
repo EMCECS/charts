@@ -8,6 +8,9 @@ metadata:
     chart: "{{ template "fluxd.chart" . }}"
     release: {{ .Release.Name }}
 data:
+  {{- $replicas := include "common-lib.influxdb_replicas" . }}
+  {{- $replicas_per_partition := .Values.global.influxdb_replicas_per_partition | default 3 }}
+  {{- $partitions_count := int (ceil (div $replicas $replicas_per_partition)) }}
   hl.json: |+
     {
       "range-selection-enabled": true,
@@ -24,5 +27,7 @@ data:
       "startup-ranges-fill-timeout": "3m",
       "startup-ping-timeout": "20s",
       "online-ping-interval": "30s",
-      "online-ping-retries": 3
+      "online-ping-retries": 3,
+      "scale-partitions-count": {{ $partitions_count }},
+      "scale-replicas-per-partition": {{ $replicas_per_partition }}
     }

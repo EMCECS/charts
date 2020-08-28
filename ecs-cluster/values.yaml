@@ -387,6 +387,20 @@ spaceReclaimer:
     # tag: stable
     # pullPolicy: IfNotPresent
 
+# The ECS geo service configuration specification
+geoservice:
+
+  # Override the default ECS Cluster replicas to set the number of nodes in the
+  # ons cluster separately. This value should not be set when using
+  # FabricProxy as the service discovery mechanism
+  # replicas: 1
+
+  # Docker repository to be used for ons instances
+  image:
+    repository: geoservice
+    tag: latest
+    # pullPolicy: IfNotPresent
+
 # The ECS geo receiver configuration specification
 geoReceiver:
 

@@ -127,6 +127,7 @@ spec:
             scheme: {{ $scheme }}
           initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds | default 5 }}
           timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds | default 1 }}
+      {{- if .Values.global.rsyslog_enabled }}
       - name: rsyslog
         image: "{{ .Values.global.monitoring_registry }}/rsyslog:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
@@ -140,6 +141,7 @@ spec:
         {{- end }}
         - name: varlog
           mountPath: /var/log
+      {{- end }}
       - name: logrotate
         image: "{{ .Values.global.monitoring_registry }}/rsyslog:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}

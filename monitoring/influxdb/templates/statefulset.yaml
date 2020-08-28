@@ -214,6 +214,7 @@ spec:
           failureThreshold: {{ .Values.startupProbe.failureThreshold | default 6 }}
           periodSeconds: {{ .Values.startupProbe.periodSeconds | default 5 }}
         {{- end }}
+      {{- if .Values.global.rsyslog_enabled }}
       - name: rsyslog
         image: "{{ .Values.global.monitoring_registry }}/rsyslog:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
@@ -227,6 +228,7 @@ spec:
         - name: rsyslog-socket
           mountPath: {{ .Values.global.rsyslog_uds_dir }}
         {{- end }}
+      {{- end }}
       {{ if not .Values.disable_recovery }}
       - name: cron
         image: "{{ .Values.global.monitoring_registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"

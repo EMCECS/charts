@@ -21,7 +21,7 @@ tests:
       - equal:
           path: spec.template.spec.containers[0].resources.requests
           value:
-            memory: 150Mi
+            memory: 200Mi
   - it: Small
     set:
       global.performanceProfile: "Small"
@@ -29,7 +29,7 @@ tests:
       - equal:
           path: spec.template.spec.containers[0].resources.requests
           value:
-            memory: 150Mi
+            memory: 200Mi
   - it: Medium
     set:
       global.performanceProfile: "Medium"
@@ -37,7 +37,7 @@ tests:
       - equal:
           path: spec.template.spec.containers[0].resources.requests
           value:
-            memory: 300Mi
+            memory: 350Mi
   - it: Large
     set:
       global.performanceProfile: "Large"
@@ -45,4 +45,4 @@ tests:
       - equal:
           path: spec.template.spec.containers[0].resources.requests
           value:
-            memory: 300Mi
+            memory: 350Mi

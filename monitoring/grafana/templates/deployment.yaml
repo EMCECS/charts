@@ -132,13 +132,11 @@ spec:
         image: "{{ .Values.global.monitoring_registry }}/rsyslog:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         volumeMounts:
-        {{- if .Values.global.rsyslog_enabled }}
         - mountPath: /etc/rsyslog.conf
           name: rsyslog-config
           subPath: rsyslog.conf
         - name: rsyslog-socket
           mountPath: {{ .Values.global.rsyslog_uds_dir }}
-        {{- end }}
         - name: varlog
           mountPath: /var/log
       {{- end }}

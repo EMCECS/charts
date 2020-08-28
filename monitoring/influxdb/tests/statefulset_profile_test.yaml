@@ -21,7 +21,7 @@ tests:
       - equal:
           path: spec.template.spec.containers[0].resources.requests
           value:
-            memory: 300Mi
+            memory: 410Mi
       - equal:
           path: spec.template.spec.initContainers[0].resources.requests
           value:
@@ -33,7 +33,7 @@ tests:
       - equal:
           path: spec.template.spec.containers[0].resources.requests
           value:
-            memory: 300Mi
+            memory: 410Mi
       - equal:
           path: spec.template.spec.initContainers[0].resources.requests
           value:
@@ -45,7 +45,7 @@ tests:
       - equal:
           path: spec.template.spec.containers[0].resources.requests
           value:
-            memory: 1Gi
+            memory: 1134Mi
       - equal:
           path: spec.template.spec.initContainers[0].resources.requests
           value:
@@ -57,7 +57,7 @@ tests:
       - equal:
           path: spec.template.spec.containers[0].resources.requests
           value:
-            memory: 2Gi
+            memory: 2154Mi
       - equal:
           path: spec.template.spec.initContainers[0].resources.requests
           value:

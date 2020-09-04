@@ -45,6 +45,7 @@ $(awk '{printf "%4s%s\n", "", $0}' temp_package/$1/yaml/decks.yaml)
         comprehensive S3 support, flexible erasure-coding, data-at-rest encryption, compression,
         and scales capacity and performance linearly.
       versions: ["${objs_ver}"]
+      enableHostLocalStorage: true
       enabled: false
       eula: |+
         $(sed "s/^/        /" ./dellemc_eula.txt)

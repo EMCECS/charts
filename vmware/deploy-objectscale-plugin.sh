@@ -60,6 +60,7 @@ add_vsphere7_clusterrole_rules () {
   - batch
   resources:
   - cronjobs
+  - jobs
   verbs:
   - get
   - list

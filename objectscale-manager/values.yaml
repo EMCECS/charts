@@ -242,3 +242,9 @@ fluentbitAgent:
     repository: fluent-bit
     tag: 0.28.0
     # pullPolicy: IfNotPresent
+
+# hook for VMWare platform
+hooks:
+  registry: "lachlanevenson"
+  repository: "k8s-kubectl"
+  tag: "v1.13.4"

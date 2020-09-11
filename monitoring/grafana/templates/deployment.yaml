@@ -79,6 +79,30 @@ spec:
         env:
         - name: K8S_FLUXD
           value: "127.0.0.10"
+        {{- range $i, $user := .Values.config.users }}
+        - name: GF_VIEW_ALL_USER{{ $i }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ $.Release.Name }}-grafana-view-all-user{{ $i }}
+              key: username
+        - name: GF_VIEW_ALL_USER_PASSWORD{{ $i }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ $.Release.Name }}-grafana-view-all-user{{ $i }}
+              key: password
+        {{- end }}
+        {{- range $i, $user := .Values.config.limitedUsers }}
+        - name: GF_VIEW_USER{{ $i }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ $.Release.Name }}-grafana-view-user{{ $i }}
+              key: username
+        - name: GF_VIEW_USER_PASSWORD{{ $i }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ $.Release.Name }}-grafana-view-user{{ $i }}
+              key: password
+        {{- end }}
         {{- if .Values.config.oauth.enabled }}
         envFrom:
           - secretRef:
@@ -97,6 +121,7 @@ spec:
           subPath: grafana.ini
         - name: varlog
           mountPath: /var/log
+      {{- if .Values.global.tls_enabled }}
       - name: nginx
         image: "{{ .Values.global.monitoring_registry }}/nginx:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
@@ -106,12 +131,12 @@ spec:
         volumeMounts:
         - mountPath: /etc/nginx/conf.d
           name: nginx-config
-        {{- if .Values.global.tls_enabled }}
         {{- if not .Values.global.use_vault_for_ssl }}
         - mountPath: /etc/nginx/cert
           name: cert
         {{- end }}
-        {{- end }}
+      # In case tls is disabled - liveness & readiness probes will go to main container
+      {{- end }}
         # nginx logs to stdout, no need to mount varlog
         livenessProbe:
           httpGet:
@@ -164,10 +189,10 @@ spec:
 {{ toYaml .Values.imagePullSecrets | indent 8 }}
       {{- end }}
       volumes:
+      {{- if .Values.global.tls_enabled }}
       - name: nginx-config
         configMap:
           name: {{ template "grafana.fullname" . }}-nginx
-      {{- if .Values.global.tls_enabled }}
       {{- if not .Values.global.use_vault_for_ssl }}
       - name: cert
         configMap:

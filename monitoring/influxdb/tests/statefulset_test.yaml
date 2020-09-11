@@ -57,13 +57,13 @@ tests:
             configMap:
               name: RELEASE-NAME-cert
       - equal:
-          path: spec.template.spec.containers[1].livenessProbe.httpGet
+          path: spec.template.spec.containers[0].livenessProbe.httpGet
           value:
             path: /ping
             port: api
             scheme: HTTP
       - equal:
-          path: spec.template.spec.containers[1].readinessProbe.httpGet
+          path: spec.template.spec.containers[0].readinessProbe.httpGet
           value:
             path: /ping
             port: api

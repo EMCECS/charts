@@ -127,6 +127,7 @@ spec:
         - mountPath: /etc/alerter
           name: alerter
         {{- end }}
+      {{- if .Values.global.tls_enabled }}
       - name: nginx
         image: "{{ .Values.global.monitoring_registry }}/nginx:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: IfNotPresent
@@ -136,11 +137,11 @@ spec:
         volumeMounts:
         - mountPath: /etc/nginx/conf.d
           name: nginx-config
-        {{- if .Values.global.tls_enabled }}
         {{- if not .Values.global.use_vault_for_ssl }}
         - mountPath: /etc/nginx/cert
           name: cert
         {{- end }}
+        # In case tls is disabled - liveness & readiness probes will go to main container
         {{- end }}
         livenessProbe:
           httpGet:
@@ -161,10 +162,10 @@ spec:
 {{ toYaml .Values.imagePullSecrets | indent 8 }}
       {{- end }}
       volumes:
+      {{- if .Values.global.tls_enabled }}
       - name: nginx-config
         configMap:
           name: {{ template "throttler.fullname" . }}-nginx
-      {{- if .Values.global.tls_enabled }}
       {{- if not .Values.global.use_vault_for_ssl }}
       - name: cert
         configMap:

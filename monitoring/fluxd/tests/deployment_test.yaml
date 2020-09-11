@@ -58,18 +58,13 @@ tests:
       global.tls_enabled: false
     asserts:
       - notContains:
-          path: spec.template.spec.containers[1].volumeMounts
-          content:
-            mountPath: /etc/nginx/cert
-            name: cert
-      - notContains:
           path: spec.template.spec.volumes
           content:
             name: cert
             configMap:
               name: RELEASE-NAME-cert
       - equal:
-          path: spec.template.spec.containers[1].livenessProbe
+          path: spec.template.spec.containers[0].livenessProbe
           value:
             httpGet:
               path: /metrics
@@ -78,7 +73,7 @@ tests:
             initialDelaySeconds: 30
             timeoutSeconds: 5
       - equal:
-          path: spec.template.spec.containers[1].readinessProbe
+          path: spec.template.spec.containers[0].readinessProbe
           value:
             httpGet:
               path: /metrics

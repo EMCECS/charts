@@ -35,11 +35,6 @@ tests:
       global.tls_enabled: false
     asserts:
       - notContains:
-          path: spec.template.spec.containers[1].volumeMounts
-          content:
-            mountPath: /etc/nginx/cert
-            name: cert
-      - notContains:
           path: spec.template.spec.volumes
           content:
             name: cert

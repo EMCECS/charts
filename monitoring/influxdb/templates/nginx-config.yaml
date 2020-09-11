@@ -9,7 +9,7 @@
 # it is provided by or on behalf of Dell Inc. or its subsidiaries.
 #
 #
-
+{{- if .Values.global.tls_enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -60,3 +60,4 @@ data:
 
       include /etc/nginx/conf.d/stream.conf;
     }
+{{- end }}

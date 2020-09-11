@@ -33,7 +33,11 @@ grafana:
   config:
     dashboards_dir: "dashboards/platform"
     home_dashboard: "Process Health - Overview"
+  service:
+    bind_address: 3001
 throttler:
+  service:
+    bind_address: 18094
   config:
     cq_dir: "cq/platform"
     alerter:
@@ -71,6 +75,8 @@ telegraf:
           - list
           - watch
   config:
+    http:
+      bind_address: 11102
     outputs:
       - influxdb:
           insecure_skip_verify: true
@@ -257,3 +263,6 @@ telegraf-ds:
           fieldpass: ["memory_vms"]
           tags:
             tag: "system"
+fluxd:
+  config:
+    bind_address: 18093

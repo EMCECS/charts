@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
+## official namespace
+namespace="dellemc-objectscale-system"
+
 ## if its not the official namespace just bail, no plugin required.
-if [ $1 != "dellemc-objectscale-system" ]
+if [ $1 != ${namespace} ]
 then 
     exit 0
 fi
@@ -18,7 +21,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: objectscale
-  namespace: kube-system
+  namespace: vmware-system-appplatform-operator-system
   labels:
     appplatform.vmware.com/kind: supervisorservice
 data:
@@ -51,8 +54,11 @@ $(awk '{printf "%4s%s\n", "", $0}' temp_package/$1/yaml/decks.yaml)
         $(sed "s/^/        /" ./dellemc_eula.txt)
 EOT
 
-# Remove trailing whitespaace
+## Remove trailing whitespaace
 sed -i 's/[[:space:]]*$//' temp_package/$1/yaml/${vsphere7_plugin_file}
+
+## Template the namespace value
+sed -i "s/$namespace/{{ .service.namespace }}/g" temp_package/$1/yaml/${vsphere7_plugin_file}
 
 cp -p ./vmware/deploy-objectscale-plugin.sh temp_package/$1/scripts 
 cat temp_package/$1/yaml/${vsphere7_plugin_file} >> temp_package/$1/scripts/deploy-objectscale-plugin.sh 

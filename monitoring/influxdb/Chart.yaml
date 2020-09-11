@@ -13,11 +13,11 @@
 
 apiVersion: v2
 name: influxdb
-appVersion: "1.7.6"
+appVersion: 0.33.0
 description: Influxdb Time Series Database
-version: 0.0.1
+version: 0.33.0
 
 dependencies:
 - name: common-lib
-  version: 0.1.0
+  version: 0.33.0
   repository: file://../common-lib

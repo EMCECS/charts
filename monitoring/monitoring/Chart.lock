@@ -1,33 +1,33 @@
 dependencies:
 - name: cert
   repository: file://../cert
-  version: 0.0.1
+  version: 0.33.0
 - name: influxdb
   repository: file://../influxdb
-  version: 0.0.1
+  version: 0.33.0
 - name: telegraf
   repository: file://../telegraf
-  version: 0.0.1
+  version: 0.33.0
 - name: telegraf-ds
   repository: file://../telegraf-ds
-  version: 0.0.1
+  version: 0.33.0
 - name: fluxd
   repository: file://../fluxd
-  version: 0.0.1
+  version: 0.33.0
 - name: grafana
   repository: file://../grafana
-  version: 0.0.1
+  version: 0.33.0
 - name: throttler
   repository: file://../throttler
-  version: 0.0.1
+  version: 0.33.0
 - name: rsyslog
   repository: file://../rsyslog
-  version: 0.0.1
+  version: 0.33.0
 - name: rsyslog-client
   repository: file://../rsyslog-client
-  version: 0.0.1
+  version: 0.33.0
 - name: prometheus-alerts
   repository: file://../prometheus-alerts
-  version: 0.0.1
-digest: sha256:8ef8ebf935245fd7fdfdd5ae6c182ddea65535f5d4478627339f0fe69a5bb857
-generated: "2020-07-29T10:44:12.991097829Z"
+  version: 0.33.0
+digest: sha256:6e237226041e0f46ca51e508eb5baa0b12338c3eab67bbfd5d45ef6a41cc9902
+generated: "2020-09-11T08:54:19.342024941Z"

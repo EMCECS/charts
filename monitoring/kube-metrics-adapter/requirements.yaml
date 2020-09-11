@@ -13,5 +13,5 @@
 dependencies:
   - name: cert
     repository: "file://../cert"
-    version: 0.0.1
+    version: 0.33.0
     condition: cert.enabled, global.cert.enabled

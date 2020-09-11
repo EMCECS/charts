@@ -15,10 +15,9 @@ GIT_COMMIT_ID=$(shell git rev-parse HEAD)
 GIT_COMMIT_SHORT_ID=$(shell git rev-parse --short HEAD)
 GIT_BRANCH_ID=$(shell git rev-parse --abbrev-ref HEAD)
 
-PACKAGE_VERSION=3.7.0
+PACKAGE_VERSION=0.33.0
 SERVICE_PACK=0
-NILE_OBJECT_VERSION=$(PACKAGE_VERSION).$(SERVICE_PACK)
-ECS_MONITORING_VERSION=$(NILE_OBJECT_VERSION)-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)
+ECS_MONITORING_VERSION=$(PACKAGE_VERSION)
 
 CHARTS_VERSION=$(PACKAGE_VERSION)-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)
 
@@ -26,6 +25,7 @@ MAKEFILE_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 # include ${MAKEFILE_DIR}/../../common.mk
 
 CHARTS := fluxd grafana influxdb telegraf telegraf-ds throttler monitoring ecs-monitoring rsyslog rsyslog-client kube-metrics-adapter external-ecs-monitoring telegraf-external-config objectscale-monitoring prometheus-alerts
+CHARTS_TO_VER := ${CHARTS} common-lib cert
 
 CHARTS_DIR ?= ./build/charts/
 
@@ -37,6 +37,7 @@ all: clean test package
 .PHONY: dep
 dep:
 	for CHART in ${CHARTS}; do \
+	    echo "Updating dependency for $$CHART"; \
 		helm dependency update $$CHART || exit 1 ; \
 	done
 
@@ -71,3 +72,11 @@ clean:
 	rm -rf ./external-ecs-monitoring/charts
 	rm -rf ./telegraf-external-config/charts
 	rm -rf ./objectscale-monitoring/charts
+
+.PHONY: ver
+ver:
+	for CHART in ${CHARTS_TO_VER}; do  \
+		echo "Setting version ${ECS_MONITORING_VERSION} in $$CHART" ;\
+		sed -i -e "s/version:.*/version: ${ECS_MONITORING_VERSION}/g"  $$CHART/Chart.yaml; \
+		sed -i -e "s/appVersion:.*/appVersion: ${ECS_MONITORING_VERSION}/g"  $$CHART/Chart.yaml; \
+	done ;

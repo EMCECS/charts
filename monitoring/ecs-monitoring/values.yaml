@@ -32,6 +32,21 @@ grafana:
   config:
     dashboards_dir: "dashboards/ecs"
     home_dashboard: "Data Access Performance - Overview"
+    reverse_proxy:
+      enabled: true
+      protocol: "http"
+      domain: "localhost"
+      subpath: "grafana/{{ .Release.Namespace }}/{{ .Release.Name }}"
+    # accesses to all customer dashboards
+    users:
+      - username: emcmonitor
+        password: ChangeMe
+      - username: emcservice
+        password: ChangeMe
+    # no accesses to all dashboards
+    limitedUsers:
+      - username: root
+        password: ChangeMe
 throttler:
   config:
     cq_dir: "cq/ecs"

@@ -5,11 +5,11 @@ dependencies:
 - name: atlas-operator
   repository: file://../atlas-operator
   version: 0.26.0
-- name: fio-test
-  repository: file://../fio-test
-  version: 0.28.2
 - name: sonobuoy
   repository: file://../sonobuoy
   version: 0.16.6
-digest: sha256:1f669c7883714aecefb4c0eb0997b5faabdc46e73f424001513cc4f07c1535c9
-generated: "2020-06-25T15:33:22.104588113-04:00"
+- name: objectscale-monitoring
+  repository: file://../monitoring/objectscale-monitoring
+  version: 0.0.1
+digest: sha256:e7d5696ab5a55fe1f38ed005e3440212c950bf4a77481d40f0158670df83ac84
+generated: "2020-09-11T13:34:18.953659549Z"

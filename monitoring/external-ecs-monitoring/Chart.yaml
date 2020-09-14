@@ -45,3 +45,6 @@ dependencies:
   - name: rsyslog-client
     repository: "file://../rsyslog-client"
     version: 0.33.0
+  - name: prometheus
+    repository: https://asdrepo.isus.emc.com/artifactory/atlantic-helm-build/
+    version: "11.1.2" #no_auto_change

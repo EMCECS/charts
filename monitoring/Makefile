@@ -77,6 +77,6 @@ clean:
 ver:
 	for CHART in ${CHARTS_TO_VER}; do  \
 		echo "Setting version ${ECS_MONITORING_VERSION} in $$CHART" ;\
-		sed -i -e "s/version:.*/version: ${ECS_MONITORING_VERSION}/g"  $$CHART/Chart.yaml; \
-		sed -i -e "s/appVersion:.*/appVersion: ${ECS_MONITORING_VERSION}/g"  $$CHART/Chart.yaml; \
+		sed -i -e "/no_auto_change/!s/version:.*/version: ${ECS_MONITORING_VERSION}/g"  $$CHART/Chart.yaml; \
+		sed -i -e "/no_auto_change/!s/appVersion:.*/appVersion: ${ECS_MONITORING_VERSION}/g"  $$CHART/Chart.yaml; \
 	done ;

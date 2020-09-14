@@ -1,6 +1,30 @@
 dependencies:
+- name: cert
+  repository: file://../cert
+  version: 0.33.0
+- name: influxdb
+  repository: file://../influxdb
+  version: 0.33.0
+- name: telegraf
+  repository: file://../telegraf
+  version: 0.33.0
+- name: telegraf
+  repository: file://../telegraf
+  version: 0.33.0
+- name: fluxd
+  repository: file://../fluxd
+  version: 0.33.0
+- name: grafana
+  repository: file://../grafana
+  version: 0.33.0
+- name: throttler
+  repository: file://../throttler
+  version: 0.33.0
+- name: rsyslog-client
+  repository: file://../rsyslog-client
+  version: 0.33.0
 - name: prometheus
   repository: https://asdrepo.isus.emc.com/artifactory/atlantic-helm-build/
   version: 11.1.2
-digest: sha256:a53b9625094f4d89d3cf94e899b8c8075d41482b5e0366d5bb8d068030566f10
-generated: "2020-09-11T08:54:19.827911365Z"
+digest: sha256:826dd253b3fc90b15d31f8e4a3bd3e75378f410653e50d85238dd8219102d61e
+generated: "2020-09-14T12:52:32.517493495Z"

@@ -1,11 +1,25 @@
 {{- if eq .Values.global.platform "VMware" }}
+---
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: "{{.Release.Namespace}}-pre-install"
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+---
+
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
-  name: "{{.Release.Name}}-pre-install"
+  name: "{{.Release.Namespace}}-pre-install"
   annotations:
     "helm.sh/hook": pre-install
     "helm.sh/hook-weight": "-4"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 rules:
   - apiGroups:
       - "appplatform.wcp.vmware.com"
@@ -19,48 +33,39 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
-  name: "{{.Release.Name}}-pre-install"
+  name: "{{.Release.Namespace}}-pre-install"
   annotations:
     "helm.sh/hook": pre-install
     "helm.sh/hook-weight": "-3"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 subjects:
   - kind: ServiceAccount
-    name: "{{.Release.Name}}-pre-install"
+    name: "{{.Release.Namespace}}-pre-install"
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: "{{.Release.Name}}-pre-install"
+  name: "{{.Release.Namespace}}-pre-install"
   apiGroup: rbac.authorization.k8s.io
-
----
-
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: "{{.Release.Name}}-pre-install"
-  namespace: {{ .Release.Namespace }}
-  annotations:
-    "helm.sh/hook": pre-install
-    "helm.sh/hook-weight": "-5"
 
 ---
 
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: "{{.Release.Name}}-wcp-sp-patch"
+  name: "{{.Release.Namespace}}-wcp-sp-patch"
   namespace: {{.Release.Namespace}}
   annotations:
     "helm.sh/hook": pre-install
     "helm.sh/hook-weight": "-1"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 spec:
   backoffLimit: 1
   activeDeadlineSeconds: 20
   template:
     metadata:
-      name: "{{.Release.Name}}-wcp-sp-patch"
+      name: "{{.Release.Namespace}}-wcp-sp-patch"
     spec:
-      serviceAccountName: "{{.Release.Name}}-pre-install"
+      serviceAccountName: "{{.Release.Namespace}}-pre-install"
       restartPolicy: Never
       containers:
         - name: pre-install-job

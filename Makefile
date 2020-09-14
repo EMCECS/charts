@@ -15,6 +15,7 @@ DECKS_MANIFEST   := decks.yaml
 PACKAGE_NAME     := objectscale-charts-package.tgz
 NAMESPACE         = dellemc-objectscale-system
 TEMP_PACKAGE     := temp_package/${NAMESPACE}
+SERVICE_ID        = objectscale
 REGISTRY          = objectscale
 DECKS_REGISTRY    = objectscale
 KAHM_REGISTRY     = objectscale
@@ -121,7 +122,7 @@ combine-crds:
 	rm -rf ${TEMP_PACKAGE}/crds
 
 create-vmware-package:
-	./vmware/vmware_pack.sh ${NAMESPACE}
+	./vmware/vmware_pack.sh ${NAMESPACE} ${SERVICE_ID}
 
 create-manifests: create-vsphere-install create-kahm-manifest create-decks-manifest create-manager-app create-deploy-script
 

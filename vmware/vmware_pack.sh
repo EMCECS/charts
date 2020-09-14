@@ -3,45 +3,49 @@
 ## official namespace
 namespace="dellemc-objectscale-system"
 
-## if its not the official namespace just bail, no plugin required.
-if [ $1 != ${namespace} ]
-then 
-    exit 0
-fi
-
+## supervisor service name
+label="Dell EMC ObjectScale"
 
 ## extract the version from objectscale-manager 
 objs_ver=$(grep appVersion: objectscale-manager/Chart.yaml | sed -e "s/.*: //g")
 
 vsphere7_plugin_file="objectscale-${objs_ver}-vmware-config-map.yaml"
 
+service_id=$2
+if [ ${service_id} != "objectscale" ]
+then
+     label="${label}-${service_id}"
+     sed -i "s/SERVICE_ID/-${service_id}/g" temp_package/$1/yaml/objectscale-manager.yaml
+else sed -i "s/SERVICE_ID//g" temp_package/$1/yaml/objectscale-manager.yaml
+fi
+
 cat <<EOT >> temp_package/$1/yaml/${vsphere7_plugin_file}
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: objectscale
+  name: ${service_id}
   namespace: vmware-system-appplatform-operator-system
   labels:
     appplatform.vmware.com/kind: supervisorservice
 data:
-  objectscale-crd.yaml: |-
+  ${service_id}-crd.yaml: |-
 $(awk '{printf "%4s%s\n", "", $0}' temp_package/$1/yaml/objectscale-crd.yaml)
-  objectscale-operator.yaml: |-
+  ${service_id}-operator.yaml: |-
 $(awk '{printf "%4s%s\n", "", $0}' temp_package/$1/yaml/objectscale-manager.yaml)
 $(awk '{printf "%4s%s\n", "", $0}' temp_package/$1/yaml/kahm.yaml)
 $(awk '{printf "%4s%s\n", "", $0}' temp_package/$1/yaml/decks.yaml)
-  objectscale.yaml: |-
+  ${service_id}.yaml: |-
     apiVersion: appplatform.wcp.vmware.com/v1alpha1
     kind: SupervisorService
     metadata:
       labels:
         controller-tools.k8s.io: "1.0"
-      name: objectscale
+      name: ${service_id}
       namespace: "kube-system"
     spec:
-      serviceId: dellemc-objectscale
-      label: "Dell EMC ObjectScale"
+      serviceId: dellemc-${service_id}
+      label: ${label}
       description: |
         Dell EMC ObjectScale is a dynamically scalable, secure, and multi-tenant object storage platform
         for on-premises and cloud use cases.  It supports advanced storage functionality including

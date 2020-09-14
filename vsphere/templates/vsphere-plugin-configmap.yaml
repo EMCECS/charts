@@ -1,4 +1,3 @@
-{{- $useUniqueNames := (ne .Release.Namespace "dellemc-objectscale-system") -}}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -158,70 +157,29 @@ data:
                 ],
                 "definitions": {
                     "plugin.name": {
-                    {{- if and (eq $useUniqueNames true) (eq .Values.global.platform "VMware") }}
-                        "en-US": "ObjectScale-{{ .Release.Namespace }}",
-                        "de-DE": "ObjectScale-{{ .Release.Namespace }}",
-                        "fr-FR": "ObjectScale-{{ .Release.Namespace }}"
-                    {{- else }}
-                        "en-US": "ObjectScale",
-                        "de-DE": "ObjectScale",
-                        "fr-FR": "ObjectScale"
-                    {{- end}}
+                        "en-US": "ObjectScaleSERVICE_ID",
+                        "de-DE": "ObjectScaleSERVICE_ID",
+                        "fr-FR": "ObjectScaleSERVICE_ID"
                     },
                     "cluster.monitor.list.events": {
-                    {{- if and (eq $useUniqueNames true) (eq .Values.global.platform "VMware") }}
-                        "en-US": "Events-{{ .Release.Namespace }}",
-                        "de-DE": "Events-{{ .Release.Namespace }}",
-                        "fr-FR": "Events-{{ .Release.Namespace }}"
-                    {{- else }}
-                        "en-US": "Events",
-                        "de-DE": "Events",
-                        "fr-FR": "Events"
-                    {{- end}}
+                        "en-US": "EventsSERVICE_ID",
+                        "de-DE": "EventsSERVICE_ID",
+                        "fr-FR": "EventsSERVICE_ID"
                     },
                     "cluster.monitor.list.health": {
-                    {{- if and (eq $useUniqueNames true) (eq .Values.global.platform "VMware") }}
-                        "en-US": "Health-{{ .Release.Namespace }}",
-                        "de-DE": "Gesundheit-{{ .Release.Namespace }}",
-                        "fr-FR": "santé-{{ .Release.Namespace }}"
-                    {{- else }}
-                        "en-US": "Health",
-                        "de-DE": "Gesundheit",
-                        "fr-FR": "santé"
-                    {{- end}}
+                        "en-US": "HealthSERVICE_ID",
+                        "de-DE": "GesundheitSERVICE_ID",
+                        "fr-FR": "santéSERVICE_ID"
                     },
                     "cluster.configure.list.objectstores": {
-                    {{- if and (eq $useUniqueNames true) (eq .Values.global.platform "VMware") }}
-                        "en-US": "Object Stores-{{ .Release.Namespace }}",
-                        "de-DE": "Object Stores-{{ .Release.Namespace }}",
-                        "fr-FR": "Object Stores-{{ .Release.Namespace }}"
-                    {{- else }}
-                        "en-US": "Object Stores",
-                        "de-DE": "Object Stores",
-                        "fr-FR": "Object Stores"
-                    {{- end}}
+                        "en-US": "Object StoresSERVICE_ID",
+                        "de-DE": "Object StoresSERVICE_ID",
+                        "fr-FR": "Object StoresSERVICE_ID"
                     },
                     "cluster.configure.list.settings": {
-                    {{- if and (eq $useUniqueNames true) (eq .Values.global.platform "VMware") }}
-                        "en-US": "Settings-{{ .Release.Namespace }}",
-                        "de-DE": "Settings-{{ .Release.Namespace }}",
-                        "fr-FR": "Settings-{{ .Release.Namespace }}"
-                    {{- else }}
-                        "en-US": "Settings",
-                        "de-DE": "Settings",
-                        "fr-FR": "Settings"
-                    {{- end}}
-                    },
-                    "cluster.action.deploy.label": {
-                    {{- if and (eq $useUniqueNames true) (eq .Values.global.platform "VMware") }}
-                        "en-US": "Deploy ECS-{{ .Release.Namespace }}",
-                        "de-DE": "Deploy ECS-{{ .Release.Namespace }}",
-                        "fr-FR": "Deploy ECS-{{ .Release.Namespace }}"
-                    {{- else }}
-                        "en-US": "Deploy ECS",
-                        "de-DE": "Deploy ECS",
-                        "fr-FR": "Deploy ECS"
-                    {{- end}}
+                        "en-US": "SettingsSERVICE_ID",
+                        "de-DE": "SettingsSERVICE_ID",
+                        "fr-FR": "SettingsSERVICE_ID"
                     }
                 }
             }

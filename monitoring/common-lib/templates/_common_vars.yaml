@@ -26,6 +26,22 @@
 {{- end -}}
 
 #
+# Influxdb hosts list
+#
+{{- define "common-lib.influxdb_hosts" -}}
+{{- $top := . -}}
+{{- $replicas := include "common-lib.influxdb_replicas" . -}}
+{{- range $i, $e := until (int $replicas) -}}
+{{- if $i}},{{end -}}
+{{- if $top.Values.global.tls_enabled -}}
+127.0.0.1{{$i}}:8{{$i}}86
+{{- else -}}
+{{- $top.Release.Name }}-influxdb-{{$i}}.{{ $top.Release.Name }}-influxdb.{{ $top.Release.Namespace }}.svc.cluster.local:8086
+{{- end -}}
+{{- end -}}
+{{- end -}}
+
+#
 # Memory limit
 #
 {{- define "common-lib.memory" -}}

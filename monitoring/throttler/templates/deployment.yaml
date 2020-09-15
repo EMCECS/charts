@@ -117,6 +117,9 @@ spec:
         args: ["--logger-config", "/non_existing"]
         resources:
 {{ include "common-lib.resources" (dict "top" . "micro" "200Mi" "small" "200Mi" "medium" "350Mi" "large" "350Mi") | indent 10}}
+        ports:
+          - name: api
+            containerPort: {{ .Values.config.http.bind_address }}
         volumeMounts:
         - mountPath: /etc/throttler/throttler.conf
           name: throttler-config

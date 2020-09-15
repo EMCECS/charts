@@ -57,7 +57,7 @@ data:
     ###
     [influx]
       # List of InfluxDB endpoints in this format: host:port, separated by comma.
-      endpoints = ["127.0.0.10:8086,127.0.0.11:8186,127.0.0.12:8286"]
+      endpoints = ["{{- include "common-lib.influxdb_hosts" . -}}"]
 
     ###
     ### [cf]
@@ -99,15 +99,33 @@ data:
     ###
     [cq]
       # Timeout for the outgoing http requests.
-      fluxd-url = "http://127.0.0.20:8093/api/v3/query"
+      fluxd-url = "http://
+        {{- if .Values.global.tls_enabled -}}
+        127.0.0.20
+        {{- else -}}
+        {{ .Release.Name }}-fluxd.{{ .Release.Namespace }}.svc.cluster.local
+        {{- end -}}
+        :8093/api/v3/query"
       # Telegraf URL is sent to Fluxd with http.to() function
       # and should be handled on Fluxd side
-      telegraf-url = "http://127.0.0.30:11002/write"
+      telegraf-url = "http://
+         {{- if .Values.global.tls_enabled -}}
+         127.0.0.30
+         {{- else -}}
+         {{ .Release.Name }}-telegraf.{{ .Release.Namespace }}.svc.cluster.local
+         {{- end -}}
+         :11002/write"
       interval = "5m"
       template-folder = "/etc/cq_flex"
 
     [alerter]
-      fluxd-url = "http://127.0.0.20:8093/api/v3/query"
+      fluxd-url = "http://
+        {{- if .Values.global.tls_enabled -}}
+        127.0.0.20
+        {{- else -}}
+        {{ .Release.Name }}-fluxd.{{ .Release.Namespace }}.svc.cluster.local
+        {{- end -}}
+        :8093/api/v3/query"
       interval = {{ .Values.config.alerter.interval | quote }}
       alerts-folder = "/etc/alerter/"
       alerts-conf-path = "/etc/alerter/alerts.yaml"

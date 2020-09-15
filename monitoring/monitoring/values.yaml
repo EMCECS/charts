@@ -263,6 +263,13 @@ telegraf-ds:
           fieldpass: ["memory_vms"]
           tags:
             tag: "system"
+influxdb:
+  config:
+    http:
+      bind_address: 18086
+    rpc:
+      bind_address: 18088
 fluxd:
   config:
-    bind_address: 18093
+    http:
+      bind_address: 18093

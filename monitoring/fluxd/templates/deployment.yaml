@@ -113,8 +113,7 @@ spec:
               # use pod name as node id
               fieldPath: metadata.name
         - name: STORAGE_HOSTS
-          {{- $replicas := include "common-lib.influxdb_replicas" . }}
-          value: "{{ include "influxdbhosts" $replicas }}"
+          value: "{{ include "common-lib.influxdb_hosts" . }}"
         - name: POD_NAMESPACE
           valueFrom:
             fieldRef:

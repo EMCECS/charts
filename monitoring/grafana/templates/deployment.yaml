@@ -78,7 +78,11 @@ spec:
           containerPort: {{ .Values.config.http.bind_address }}
         env:
         - name: K8S_FLUXD
+          {{- if .Values.global.tls_enabled }}
           value: "127.0.0.10"
+          {{- else }}
+          value: "{{ .Release.Name }}-fluxd.{{ .Release.Namespace }}.svc.cluster.local"
+          {{- end }}
         {{- range $i, $user := .Values.config.users }}
         - name: GF_VIEW_ALL_USER{{ $i }}
           valueFrom:

@@ -258,7 +258,7 @@ telegraf-prom:
       - prometheus:
           interval: "$COLLECTION_INTERVAL"
           kubernetes_services:
-            - "{{ .Values.global.communication_scheme }}://{{ .Release.Name }}-throttler.{{ .Release.Namespace }}.svc.cluster.local:18094/metrics"
+            - "{{ .Values.global.communication_scheme }}://{{ .Release.Name }}-throttler.{{ .Release.Namespace }}.svc.cluster.local:8094/metrics"
           monitor_kubernetes_pods: false
           insecure_skip_verify: true
           tags:

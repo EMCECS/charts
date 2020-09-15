@@ -36,12 +36,12 @@ grafana:
   service:
     bind_address: 3001
 throttler:
-  service:
-    bind_address: 18094
   config:
     cq_dir: "cq/platform"
     alerter:
       enabled: false
+    http:
+      bind_address: 18094
 prometheus-alerts:
   config:
     dir: "alerts/platform"
@@ -141,7 +141,7 @@ telegraf:
       - prometheus:
           interval: "$COLLECTION_INTERVAL"
           kubernetes_services:
-            - "{{ .Values.global.communication_scheme }}://{{ .Release.Name }}-throttler.{{ .Release.Namespace }}.svc.cluster.local:18094/metrics"
+            - "{{ .Values.global.communication_scheme }}://{{ .Release.Name }}-throttler.{{ .Release.Namespace }}.svc.cluster.local:8094/metrics"
           monitor_kubernetes_pods: false
           insecure_skip_verify: true
           tags:

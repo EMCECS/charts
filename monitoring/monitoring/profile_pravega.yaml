@@ -23,6 +23,9 @@ global:
   prometheus_alerts_enabled: false
 
 fluxd:
+  config:
+    http:
+      bind_address: 8093
   replicaCount: 1
   resources:
     requests:
@@ -36,6 +39,11 @@ grafana:
     limits:
       memory: 300Mi
 influxdb:
+  config:
+    http:
+      bind_address: 8086
+    rpc:
+      bind_address: 8088
   persistence:
     storageClassName: "standard"
   resources:
@@ -45,11 +53,19 @@ influxdb:
       memory: 2Gi
   disable_recovery: true
 telegraf:
+  config:
+    http:
+      bind_address: 11002
   resources:
     requests:
       memory: 256Mi
     limits:
       memory: 256Mi
+    inputs:
+      # Influx HTTP write listener
+      - influxdb_listener:
+          ## Address and port to host HTTP listener on
+          service_address: ":11002"
 telegraf-ds:
   resources:
     requests:
@@ -57,6 +73,9 @@ telegraf-ds:
     limits:
       memory: 256Mi
 throttler:
+  config:
+    http:
+      bind_address: 8094
   resources:
     requests:
       memory: 300Mi

@@ -4,6 +4,7 @@ from(bucket: "monitoring_main")
 |> range(start:{{ .Start }},stop:{{ .Stop }})
 |> keep(columns:["_time", "_field", "_value", "host"])
 |> difference(nonNegative: true)
+|> fill(column: "_value", value: 0)
 // see MONITORING-194 for details about next 2 lines
 |> window(every:5m)
 |> drop(columns:["host"])

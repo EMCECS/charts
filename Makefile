@@ -14,7 +14,7 @@ KAHM_MANIFEST    := kahm.yaml
 DECKS_MANIFEST   := decks.yaml
 PACKAGE_NAME     := objectscale-charts-package.tgz
 NAMESPACE         = dellemc-objectscale-system
-TEMP_PACKAGE     := temp_package/${NAMESPACE}
+TEMP_PACKAGE     := temp_package
 SERVICE_ID        = objectscale
 REGISTRY          = objectscale
 DECKS_REGISTRY    = objectscale
@@ -122,9 +122,9 @@ combine-crds:
 	rm -rf ${TEMP_PACKAGE}/crds
 
 create-vmware-package:
-	./vmware/vmware_pack.sh ${NAMESPACE} ${SERVICE_ID}
+	./vmware/vmware_pack.sh ${SERVICE_ID}
 
-create-manifests: create-vsphere-install create-kahm-manifest create-decks-manifest create-manager-app create-deploy-script
+create-manifests: create-vsphere-install create-kahm-manifest create-decks-manifest create-manager-app
 
 create-vsphere-install: create-vsphere-templates
 
@@ -161,11 +161,6 @@ create-decks-manifest: create-temp-package
 	helm template decks ./decks -n ${NAMESPACE} --set global.platform=VMware \
 	--set global.watchAllNamespaces=false --set global.registry=${DECKS_REGISTRY} \
 	--set storageClassName=${STORAGECLASSNAME} -f decks/values.yaml >> ${TEMP_PACKAGE}/yaml/${DECKS_MANIFEST}
-
-create-deploy-script: create-temp-package
-	cp ./vmware/deploy-ns.sh ${TEMP_PACKAGE}/scripts/deploy-ns-${NAMESPACE}.sh
-	chmod 700 ${TEMP_PACKAGE}/scripts/deploy-ns-${NAMESPACE}.sh
-
 
 archive-package:
 	tar -zcvf ${PACKAGE_NAME} ${TEMP_PACKAGE}/*

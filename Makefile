@@ -132,6 +132,7 @@ create-manager-app: create-temp-package
 	# cd in makefiles spawns a subshell, so continue the command with ;
 	cd objectscale-manager; \
 	helm template --show-only templates/objectscale-manager-app.yaml objectscale-manager ../objectscale-manager  -n ${NAMESPACE} \
+	--set global.platform=VMware \
 	--set sonobuoy.enabled=false \
 	--set global.watchAllNamespaces=false \
 	--set global.registry=${REGISTRY} \
@@ -146,7 +147,7 @@ create-vsphere-templates: create-temp-package
 	helm template vsphere-plugin ./objectscale-vsphere -n ${NAMESPACE} \
 	--set global.platform=VMware \
 	--set global.watchAllNamespaces=false \
-        --set graphql.enabled=true \
+    --set graphql.enabled=true \
 	--set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
 	--set image.tag=${OPERATOR_VERSION} \

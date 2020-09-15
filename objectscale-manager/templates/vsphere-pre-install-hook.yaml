@@ -24,8 +24,10 @@ rules:
   - apiGroups:
       - "appplatform.wcp.vmware.com"
     resources:
-      - wcpnamespace
+      - wcpnamespaces
     verbs:
+      - get
+      - list
       - patch
 
 ---
@@ -57,10 +59,10 @@ metadata:
   annotations:
     "helm.sh/hook": pre-install
     "helm.sh/hook-weight": "-1"
-    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+    "helm.sh/hook-delete-policy": before-hook-creation
 spec:
   backoffLimit: 3
-  activeDeadlineSeconds: 20
+  activeDeadlineSeconds: 300
   template:
     metadata:
       name: "{{.Release.Namespace}}-wcp-sp-patch"

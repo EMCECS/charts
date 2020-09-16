@@ -11,9 +11,15 @@
 #
 #
 
-apiVersion: v1
+apiVersion: v2
 name: kube-metrics-adapter
-version: 0.0.1
-appVersion: "0.1.2"
+version: 0.50.0
+appVersion: 0.50.0
 description: kube-metrics-adapter
 engine: gotpl
+
+dependencies:
+  - name: cert
+    repository: "file://../cert"
+    version: 0.50.0
+    condition: cert.enabled, global.cert.enabled

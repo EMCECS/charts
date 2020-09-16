@@ -1,0 +1,13 @@
+Thank you for installing {{ .Chart.Name }}. This release is capable of
+deploying and upgrading Dell SupportAssist (ESE)
+
+Your release is named {{ .Release.Name }}.
+
+Use the helm install command below to deploy dell-ese
+
+  $ helm install sa-objs <repository name>/supportassist
+
+For more information on the deployment options, Refer to:
+README.md at          https://github.com/EMCECS/charts/tree/master/supportassist 
+`values.yaml` file at https://github.com/EMCECS/charts/blob/master/supportassist/values.yaml
+

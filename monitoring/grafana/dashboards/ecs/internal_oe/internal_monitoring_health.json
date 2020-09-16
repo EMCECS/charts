@@ -3849,7 +3849,7 @@
               ],
               "measurement": "disk",
               "policy": "default",
-              "query": "from(bucket: \"monitoring_op\")\n\r|> filter(fn: (r) => r._measurement == \"tsdb_fluxd_host_selected\" and r._field == \"counter\")\r\n\r|> range($range)\n\r|> keep(columns: [\"_time\", \"_value\", \"address\", \"hostport\"])\r\n\r|> difference(nonNegative: true)\r\n\r|> drop(columns: [\"hostport\"])\r\n|> window(every:5m)\n|> sum()\r\n|> rename(columns: {_start: \"_time\"})\r\n|> group(columns: [\"address\"])\n\r\r|> set(key: \"_field\", value: \"Successful\")\n\n",
+              "query": "from(bucket: \"monitoring_op\")\n\r|> filter(fn: (r) => r._measurement == \"tsdb_fluxd_host_selected\" and r._field == \"counter\")\r\n\r|> range($range)\n\r|> keep(columns: [\"_time\", \"_value\", \"address\", \"hostport\"])\r\n\r|> difference(nonNegative: true)\r\n\r|> fill(column: \"_value\", value: 0)\r\n\r|> drop(columns: [\"hostport\"])\r\n|> window(every:5m)\n|> sum()\r\n|> rename(columns: {_start: \"_time\"})\r\n|> group(columns: [\"address\"])\n\r\r|> set(key: \"_field\", value: \"Successful\")\n\n",
               "refId": "B",
               "resultFormat": "time_series",
               "select": [
@@ -3875,7 +3875,7 @@
               ]
             },
             {
-              "query": "from(bucket: \"monitoring_op\")\n\r|> filter(fn: (r) => r._measurement == \"tsdb_fluxd_hl_expired_detected\" and r._field == \"counter\" and r.host =~ /${host:pipe}/)\r\n\r|> range($range)\n\r|> keep(columns: [\"_time\", \"_value\", \"address\"])\r\n\r|> difference(nonNegative: true)\r\n\r\r|> set(key: \"_field\", value: \"Failed due to expired data\")\n",
+              "query": "from(bucket: \"monitoring_op\")\n\r|> filter(fn: (r) => r._measurement == \"tsdb_fluxd_hl_expired_detected\" and r._field == \"counter\" and r.host =~ /${host:pipe}/)\r\n\r|> range($range)\n\r|> keep(columns: [\"_time\", \"_value\", \"address\"])\r\n\r|> difference(nonNegative: true)\r\n\r|> fill(column: \"_value\", value: 0)\r\n\r|> set(key: \"_field\", value: \"Failed due to expired data\")\n",
               "refId": "A"
             }
           ],

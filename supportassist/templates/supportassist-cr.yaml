@@ -1,0 +1,30 @@
+---
+apiVersion: decks.ecs.dellemc.com/v1beta1
+kind: SupportAssist
+metadata:
+  name: supportassist-{{required "product must be specified" .Values.product}}
+  namespace: {{.Release.namespace}}
+  labels:
+{{ include "supportassist.labels" . | indent 4 }}
+spec:
+  productName: {{.Values.product}}
+  productType: dell.enterprise.storage.{{.Values.product}}
+  productVersion: {{required "productVersion must be specified" .Values.productVersion}}
+  supportAssist:
+    enabled: {{default true .Values.enabled}}
+    siteID: {{required "siteID must be specified" .Values.siteID}}
+    systemMode: normal
+    eventMuted: false
+    testDialHome: {{default true .Values.testDialHome}}
+    remoteAccessEnabled: {{default false .Values.remoteAccessEnabled}}
+    {{- if .Values.gateways }}
+    gateways:
+    {{toYaml .Values.gateways | indent 4 | trim}}
+    {{- end }}
+  CloudIQ:
+    enabled: false
+    inventory: 60
+    performance: 5
+    capacity: 5
+    health: 5
+    usageintelligence: 3600

@@ -50,6 +50,7 @@ spec:
   descriptor:
     type: objectscale-manager
     description: Cluster-level management of Dell EMC ObjecScale Object Stores
+    version: {{.Values.tag}}
     keywords:
       - deos
       - objectscale

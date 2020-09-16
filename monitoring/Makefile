@@ -24,8 +24,7 @@ CHARTS_VERSION=$(PACKAGE_VERSION)-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)
 MAKEFILE_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 # include ${MAKEFILE_DIR}/../../common.mk
 
-CHARTS := fluxd grafana influxdb telegraf telegraf-ds throttler monitoring ecs-monitoring rsyslog rsyslog-client kube-metrics-adapter external-ecs-monitoring telegraf-external-config objectscale-monitoring prometheus-alerts
-CHARTS_TO_VER := ${CHARTS} common-lib cert
+CHARTS := cert common-lib fluxd grafana influxdb telegraf telegraf-ds throttler monitoring ecs-monitoring rsyslog rsyslog-client kube-metrics-adapter external-ecs-monitoring telegraf-external-config objectscale-monitoring prometheus-alerts
 
 CHARTS_DIR ?= ./build/charts/
 
@@ -75,7 +74,7 @@ clean:
 
 .PHONY: ver
 ver:
-	for CHART in ${CHARTS_TO_VER}; do  \
+	for CHART in ${CHARTS}; do  \
 		echo "Setting version ${ECS_MONITORING_VERSION} in $$CHART" ;\
 		sed -i -e "/no_auto_change/!s/version:.*/version: ${ECS_MONITORING_VERSION}/g"  $$CHART/Chart.yaml; \
 		sed -i -e "/no_auto_change/!s/appVersion:.*/appVersion: ${ECS_MONITORING_VERSION}/g"  $$CHART/Chart.yaml; \

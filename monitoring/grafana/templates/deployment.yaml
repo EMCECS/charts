@@ -83,30 +83,6 @@ spec:
           {{- else }}
           value: "{{ .Release.Name }}-fluxd.{{ .Release.Namespace }}.svc.cluster.local"
           {{- end }}
-        {{- range $i, $user := .Values.config.users }}
-        - name: GF_VIEW_ALL_USER{{ $i }}
-          valueFrom:
-            secretKeyRef:
-              name: {{ $.Release.Name }}-grafana-view-all-user{{ $i }}
-              key: username
-        - name: GF_VIEW_ALL_USER_PASSWORD{{ $i }}
-          valueFrom:
-            secretKeyRef:
-              name: {{ $.Release.Name }}-grafana-view-all-user{{ $i }}
-              key: password
-        {{- end }}
-        {{- range $i, $user := .Values.config.limitedUsers }}
-        - name: GF_VIEW_USER{{ $i }}
-          valueFrom:
-            secretKeyRef:
-              name: {{ $.Release.Name }}-grafana-view-user{{ $i }}
-              key: username
-        - name: GF_VIEW_USER_PASSWORD{{ $i }}
-          valueFrom:
-            secretKeyRef:
-              name: {{ $.Release.Name }}-grafana-view-user{{ $i }}
-              key: password
-        {{- end }}
         {{- if .Values.config.oauth.enabled }}
         envFrom:
           - secretRef:

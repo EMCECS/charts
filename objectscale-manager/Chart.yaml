@@ -26,10 +26,3 @@ dependencies:
     version: x.x
     condition: global.monitoring.enabled
     repository: file://../monitoring/objectscale-monitoring
-  - name: pravega-operator
-    version: 0.5.1
-    condition: pravega-operator.enabled
-  - name: bookkeeper-operator
-    version: 0.1.2
-    condition: bookkeeper-operator.enabled
-  

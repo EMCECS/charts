@@ -46,12 +46,12 @@ data:
             location /wcp/login {
                 proxy_pass_request_headers on;
                 proxy_pass_request_body on;
-                proxy_pass https://kube-apiserver-authproxy-svc.kube-system.svc.cluster.local:443/wcp/login;
+                proxy_pass https://kube-apiserver-authproxy-svc.kube-system.svc.cluster.local:8443/wcp/login;
             }
             location /rest/saml-hook {
                 proxy_pass_request_headers on;
                 proxy_pass_request_body on;
-                proxy_pass https://kube-apiserver-authproxy-svc.kube-system.svc.cluster.local:443/wcp/vsphere-ui-saml-hook;
+                proxy_pass https://kube-apiserver-authproxy-svc.kube-system.svc.cluster.local:8443/wcp/vsphere-ui-saml-hook;
             }
             {{- end }}
             location /graphql {

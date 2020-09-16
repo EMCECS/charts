@@ -20,7 +20,7 @@ REGISTRY          = objectscale
 DECKS_REGISTRY    = objectscale
 KAHM_REGISTRY     = objectscale
 STORAGECLASSNAME  = dellemc-objectscale-highly-available
-OPERATOR_VERSION  = 0.33.0
+OPERATOR_VERSION  = 0.50.0
 
 clean: clean-package
 
@@ -81,7 +81,9 @@ flexver:
 		sed -i -e "0,/^tag.*/s//tag: $${FLEXVER}/"  $$CHART/values.yaml; \
 	done ;
 
-build: monitoring-dep
+build-all: monitoring-dep build
+
+build:
 	@echo "looking for yq command"
 	which yq
 	@echo "Ensure no helm repo accessible"
@@ -140,10 +142,6 @@ create-manager-app: create-temp-package
 	--set image.tag=${OPERATOR_VERSION} \
 	--set logReceiver.create=true --set logReceiver.type=Syslog \
 	--set logReceiver.persistence.storageClassName=${STORAGECLASSNAME} \
-	--set global.monitoring_registry=${REGISTRY} \
-	--set ecs-monitoring.influxdb.persistence.storageClassName=dellemc-objectscale-local \
-	--set global.monitoring.enabled=true \
-	--set global.monitoring_tag=green \
 	-f values.yaml > ../${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml;
 	sed -i 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
 	sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml

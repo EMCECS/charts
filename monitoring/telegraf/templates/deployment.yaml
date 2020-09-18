@@ -107,10 +107,10 @@ spec:
         configMap:
           name: {{ .Release.Name }}-cert
       {{- end }}
-      {{- end }}
       - name: nginx-config
         configMap:
           name: {{ template "telegraf.fullname" . }}-nginx
+      {{- end }}
 {{- if .Values.extra_files.enabled }}
       - name: extra-files
         configMap:

@@ -53,6 +53,12 @@ tests:
             prometheus.io/port: "8093"
             prometheus.io/scheme: HTTPS
             prometheus.io/scrape: "true"
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: nginx-config
+            configMap:
+              name: RELEASE-NAME-fluxd-nginx
   - it: tls disabled
     set:
       global.tls_enabled: false
@@ -87,3 +93,9 @@ tests:
             prometheus.io/port: "8093"
             prometheus.io/scheme: HTTP
             prometheus.io/scrape: "true"
+      - notContains:
+          path: spec.template.spec.volumes
+          content:
+            name: nginx-config
+            configMap:
+              name: RELEASE-NAME-fluxd-nginx

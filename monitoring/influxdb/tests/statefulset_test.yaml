@@ -41,6 +41,12 @@ tests:
             path: /ping
             port: api
             scheme: HTTPS
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: nginx-config
+            configMap:
+              name: RELEASE-NAME-influxdb-nginx
   - it: tls disabled
     set:
       global.tls_enabled: false
@@ -68,6 +74,12 @@ tests:
             path: /ping
             port: api
             scheme: HTTP
+      - notContains:
+          path: spec.template.spec.volumes
+          content:
+            name: nginx-config
+            configMap:
+              name: RELEASE-NAME-influxdb-nginx
   - it: recovery enabled
     set:
       disable_recovery: false

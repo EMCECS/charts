@@ -47,6 +47,12 @@ tests:
               scheme: HTTPS
             initialDelaySeconds: 5
             timeoutSeconds: 1
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: nginx-config
+            configMap:
+              name: RELEASE-NAME-grafana-nginx
   - it: tls disabled
     set:
       global.tls_enabled: false
@@ -80,6 +86,12 @@ tests:
               scheme: HTTP
             initialDelaySeconds: 5
             timeoutSeconds: 1
+      - notContains:
+          path: spec.template.spec.volumes
+          content:
+            name: nginx-config
+            configMap:
+              name: RELEASE-NAME-grafana-nginx
   - it: oauth enabled
     set:
       config.oauth.enabled: true

@@ -177,32 +177,28 @@ spec:
             path: {{ .Values.livenessProbe.probePath }}
             port: api
             scheme: {{ $scheme }}
+          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds | default 30 }}
+          periodSeconds: {{ .Values.livenessProbe.periodSeconds | default 60 }}
           {{- if .Values.disable_recovery }}
-          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds | default 5 }}
-          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds | default 1 }}
-          failureThreshold: {{ .Values.livenessProbe.failureThreshold | default 120 }}
-          periodSeconds: {{ .Values.livenessProbe.periodSeconds | default 30 }}
+          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds | default 30 }}
+          failureThreshold: {{ .Values.livenessProbe.failureThreshold | default 60 }}
           {{- else }}
           initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds | default 180 }}
-          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds | default 1 }}
-          failureThreshold: {{ .Values.livenessProbe.failureThreshold | default 720 }}
-          periodSeconds: {{ .Values.livenessProbe.periodSeconds | default 30 }}
+          failureThreshold: {{ .Values.livenessProbe.failureThreshold | default 360 }}
         {{- end }}
         readinessProbe:
           httpGet:
             path: {{ .Values.readinessProbe.probePath }}
             port: api
             scheme: {{ $scheme }}
+          periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 60 }}
+          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds | default 30 }}
           {{- if .Values.disable_recovery }}
           initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds | default 5 }}
-          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds | default 1 }}
-          failureThreshold: {{ .Values.readinessProbe.failureThreshold | default 120 }}
-          periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 30 }}
+          failureThreshold: {{ .Values.readinessProbe.failureThreshold | default 60 }}
           {{- else }}
           initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds | default 120 }}
-          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds | default 1 }}
-          failureThreshold: {{ .Values.readinessProbe.failureThreshold | default 720 }}
-          periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 30 }}
+          failureThreshold: {{ .Values.readinessProbe.failureThreshold | default 360 }}
           {{- end }}
         {{- if .Values.startupProbe.enabled }}
         startupProbe:

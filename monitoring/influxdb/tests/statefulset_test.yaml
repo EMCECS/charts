@@ -76,54 +76,44 @@ tests:
           path: spec.template.spec.containers[1].livenessProbe.initialDelaySeconds
           value: 180
       - equal:
-          path: spec.template.spec.containers[1].livenessProbe.timeoutSeconds
-          value: 1
-      - equal:
           path: spec.template.spec.containers[1].livenessProbe.failureThreshold
-          value: 720
-      - equal:
-          path: spec.template.spec.containers[1].livenessProbe.periodSeconds
-          value: 30
+          value: 360
       - equal:
           path: spec.template.spec.containers[1].readinessProbe.initialDelaySeconds
           value: 120
       - equal:
-          path: spec.template.spec.containers[1].readinessProbe.timeoutSeconds
-          value: 1
-      - equal:
           path: spec.template.spec.containers[1].readinessProbe.failureThreshold
-          value: 720
-      - equal:
-          path: spec.template.spec.containers[1].readinessProbe.periodSeconds
-          value: 30
+          value: 360
   - it: recovery disabled
     set:
       disable_recovery: true
     asserts:
       - equal:
           path: spec.template.spec.containers[1].livenessProbe.initialDelaySeconds
-          value: 5
-      - equal:
-          path: spec.template.spec.containers[1].livenessProbe.timeoutSeconds
-          value: 1
+          value: 30
       - equal:
           path: spec.template.spec.containers[1].livenessProbe.failureThreshold
-          value: 120
-      - equal:
-          path: spec.template.spec.containers[1].livenessProbe.periodSeconds
-          value: 30
+          value: 60
       - equal:
           path: spec.template.spec.containers[1].readinessProbe.initialDelaySeconds
           value: 5
       - equal:
-          path: spec.template.spec.containers[1].readinessProbe.timeoutSeconds
-          value: 1
-      - equal:
           path: spec.template.spec.containers[1].readinessProbe.failureThreshold
-          value: 120
+          value: 60
+  - it: readiness liveness probe
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[1].readinessProbe.timeoutSeconds
+          value: 30
       - equal:
           path: spec.template.spec.containers[1].readinessProbe.periodSeconds
+          value: 60
+      - equal:
+          path: spec.template.spec.containers[1].livenessProbe.timeoutSeconds
           value: 30
+      - equal:
+          path: spec.template.spec.containers[1].livenessProbe.periodSeconds
+          value: 60
   - it: storage class
     set:
       persistence.storageClassName: "myclass"

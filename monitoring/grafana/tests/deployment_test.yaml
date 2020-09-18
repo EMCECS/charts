@@ -37,7 +37,9 @@ tests:
               port: api
               scheme: HTTPS
             initialDelaySeconds: 30
-            timeoutSeconds: 5
+            periodSeconds: 60
+            timeoutSeconds: 30
+            failureThreshold: 3
       - equal:
           path: spec.template.spec.containers[1].readinessProbe
           value:
@@ -46,7 +48,9 @@ tests:
               port: api
               scheme: HTTPS
             initialDelaySeconds: 5
-            timeoutSeconds: 1
+            periodSeconds: 60
+            timeoutSeconds: 30
+            failureThreshold: 3
   - it: tls disabled
     set:
       global.tls_enabled: false
@@ -70,7 +74,9 @@ tests:
               port: api
               scheme: HTTP
             initialDelaySeconds: 30
-            timeoutSeconds: 5
+            periodSeconds: 60
+            timeoutSeconds: 30
+            failureThreshold: 3
       - equal:
           path: spec.template.spec.containers[1].readinessProbe
           value:
@@ -79,7 +85,9 @@ tests:
               port: api
               scheme: HTTP
             initialDelaySeconds: 5
-            timeoutSeconds: 1
+            periodSeconds: 60
+            timeoutSeconds: 30
+            failureThreshold: 3
   - it: oauth enabled
     set:
       config.oauth.enabled: true

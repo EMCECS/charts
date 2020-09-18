@@ -144,14 +144,18 @@ spec:
             port: api
             scheme: {{ $scheme }}
           initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds | default 30 }}
-          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds | default 5 }}
+          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds | default 30 }}
+          periodSeconds: {{ .Values.livenessProbe.periodSeconds | default 60 }}
+          failureThreshold: {{ .Values.livenessProbe.failureThreshold | default 3 }}
         readinessProbe:
           httpGet:
             path: {{ .Values.readinessProbe.probePath }}
             port: api
             scheme: {{ $scheme }}
           initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds | default 5 }}
-          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds | default 1 }}
+          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds | default 30 }}
+          periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 60 }}
+          failureThreshold: {{ .Values.readinessProbe.failureThreshold | default 3 }}
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
 {{ toYaml .Values.imagePullSecrets | indent 8 }}

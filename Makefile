@@ -3,9 +3,9 @@ HELM_URL     := https://get.helm.sh
 HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
 YQ_VERSION   := 2.4.1
 YAMLLINT_VERSION := 1.20.0
-CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm srs-gateway dks-testapp fio-test sonobuoy dellemc-license service-pod
+CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm srs-gateway dks-testapp fio-test sonobuoy dellemc-license service-pod objectscale-graphql helm-controller objectscale-vsphere
 DECKSCHARTS := decks kahm srs-gateway dks-testapp dellemc-license service-pod
-FLEXCHARTS := ecs-cluster objectscale-manager
+FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller
 MONITORING_DIR := monitoring
 
 # packaging
@@ -14,12 +14,13 @@ KAHM_MANIFEST    := kahm.yaml
 DECKS_MANIFEST   := decks.yaml
 PACKAGE_NAME     := objectscale-charts-package.tgz
 NAMESPACE         = dellemc-objectscale-system
-TEMP_PACKAGE     := temp_package/${NAMESPACE}
+TEMP_PACKAGE     := temp_package
+SERVICE_ID        = objectscale
 REGISTRY          = objectscale
 DECKS_REGISTRY    = objectscale
 KAHM_REGISTRY     = objectscale
 STORAGECLASSNAME  = dellemc-objectscale-highly-available
-OPERATOR_VERSION  = 0.33.0
+OPERATOR_VERSION  = 0.50.0
 
 clean: clean-package
 
@@ -80,10 +81,12 @@ flexver:
 		sed -i -e "0,/^tag.*/s//tag: $${FLEXVER}/"  $$CHART/values.yaml; \
 	done ;
 
-build: monitoring-dep
+build-all: monitoring-dep build
+
+build:
 	@echo "looking for yq command"
 	which yq
-	@echo "Ensure no helm repo accessible" 
+	@echo "Ensure no helm repo accessible"
 	helm repo list | grep .; \
         if [ $${?} -eq 0 ]; then exit 1; fi
 	REINDEX=0; \
@@ -121,23 +124,38 @@ combine-crds:
 	rm -rf ${TEMP_PACKAGE}/crds
 
 create-vmware-package:
-	./vmware/vmware_pack.sh ${NAMESPACE}
+	./vmware/vmware_pack.sh ${SERVICE_ID}
 
-create-manifests: create-manager-manifest create-kahm-manifest create-decks-manifest create-deploy-script
+create-manifests: create-vsphere-install create-kahm-manifest create-decks-manifest create-manager-app
 
-create-manager-manifest: create-temp-package
-	helm template objectscale-manager ./objectscale-manager -n ${NAMESPACE} \
-	--set global.platform=VMware --set global.watchAllNamespaces=false \
-	--set sonobuoy.enabled=false --set global.registry=${REGISTRY} \
+create-vsphere-install: create-vsphere-templates
+
+create-manager-app: create-temp-package
+	# cd in makefiles spawns a subshell, so continue the command with ;
+	cd objectscale-manager; \
+	helm template --show-only templates/objectscale-manager-app.yaml objectscale-manager ../objectscale-manager  -n ${NAMESPACE} \
+	--set global.platform=VMware \
+	--set sonobuoy.enabled=false \
+	--set global.watchAllNamespaces=false \
+	--set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
 	--set image.tag=${OPERATOR_VERSION} \
 	--set logReceiver.create=true --set logReceiver.type=Syslog \
 	--set logReceiver.persistence.storageClassName=${STORAGECLASSNAME} \
-	--set global.monitoring_registry=${REGISTRY} \
-	--set ecs-monitoring.influxdb.persistence.storageClassName=dellemc-objectscale-local \
-	--set global.monitoring.enabled=true \
-	--set global.monitoring_tag=green \
-	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
+	-f values.yaml > ../${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml;
+	sed -i 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
+	sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
+	cat ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
+
+create-vsphere-templates: create-temp-package
+	helm template vsphere-plugin ./objectscale-vsphere -n ${NAMESPACE} \
+	--set global.platform=VMware \
+	--set global.watchAllNamespaces=false \
+    --set graphql.enabled=true \
+	--set global.registry=${REGISTRY} \
+	--set global.storageClassName=${STORAGECLASSNAME} \
+	--set image.tag=${OPERATOR_VERSION} \
+	-f objectscale-vsphere/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
 
 create-kahm-manifest: create-temp-package
 	helm template kahm ./kahm -n ${NAMESPACE} --set global.platform=VMware \
@@ -148,11 +166,6 @@ create-decks-manifest: create-temp-package
 	helm template decks ./decks -n ${NAMESPACE} --set global.platform=VMware \
 	--set global.watchAllNamespaces=false --set global.registry=${DECKS_REGISTRY} \
 	--set storageClassName=${STORAGECLASSNAME} -f decks/values.yaml >> ${TEMP_PACKAGE}/yaml/${DECKS_MANIFEST}
-
-create-deploy-script: create-temp-package
-	cp ./vmware/deploy-ns.sh ${TEMP_PACKAGE}/scripts/deploy-ns-${NAMESPACE}.sh
-	chmod 700 ${TEMP_PACKAGE}/scripts/deploy-ns-${NAMESPACE}.sh
-
 
 archive-package:
 	tar -zcvf ${PACKAGE_NAME} ${TEMP_PACKAGE}/*

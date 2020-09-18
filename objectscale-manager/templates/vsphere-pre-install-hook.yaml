@@ -1,0 +1,76 @@
+{{- if eq .Values.global.platform "VMware" }}
+---
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: "objectscale-manager-pre-install"
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+---
+
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: "{{.Release.Namespace}}-pre-install"
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-4"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+rules:
+  - apiGroups:
+      - "appplatform.wcp.vmware.com"
+    resources:
+      - wcpnamespaces
+    verbs:
+      - get
+      - list
+      - patch
+
+---
+
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: "{{.Release.Namespace}}-pre-install"
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-3"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+subjects:
+  - kind: ServiceAccount
+    name: "objectscale-manager-pre-install"
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: "{{.Release.Namespace}}-pre-install"
+  apiGroup: rbac.authorization.k8s.io
+
+---
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{.Release.Namespace}}-wcp-sp-patch"
+  namespace: {{.Release.Namespace}}
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-1"
+    "helm.sh/hook-delete-policy": before-hook-creation
+spec:
+  backoffLimit: 3
+  activeDeadlineSeconds: 300
+  template:
+    metadata:
+      name: "{{.Release.Namespace}}-wcp-sp-patch"
+    spec:
+      serviceAccountName: "objectscale-manager-pre-install"
+      restartPolicy: Never
+      containers:
+        - name: pre-install-job
+          image: "{{ .Values.hooks.registry }}/{{.Values.hooks.repository }}:{{ .Values.hooks.tag }}"
+          command: ["kubectl", "-n", "{{ .Release.Namespace }}", "patch", "wcpnamespace", "{{ .Release.Namespace }}", "--type=json", "-p", '[{"op":"add", "path":"/spec/spbmPolicies/-", "value":"dellemc-objectscale-highly-available"}]']
+{{- end }}

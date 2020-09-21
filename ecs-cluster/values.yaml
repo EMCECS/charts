@@ -54,6 +54,11 @@ features:
   # Deploying of Monitoring components (Telegraf, Grafana, Throttler, Fluxd)
   enableAdvancedStatistics: true
 
+  # Object type defines which service will be used: Blob service or Object service.
+  # Values: blobSVC or objectSVC
+  # NOTE: If CRR is enabled then Object service will be used forcibly
+  objectType: blobSVC
+
 #
 # ECS Service Configuration
 #
@@ -167,7 +172,7 @@ objectsvc:
   # Docker repository to be used for objectsvc instances
   image:
     repository: object-service
-    tag: 3.6.0.0-177.664c010
+    tag: latest
     # pullPolicy: IfNotPresent
 
 # The ECS Object Notification Service configuration specification

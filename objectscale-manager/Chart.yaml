@@ -26,6 +26,8 @@ dependencies:
     version: x.x
     condition: global.monitoring.enabled
     repository: file://../monitoring/objectscale-monitoring
+###
+### OBSDEF-2983 needs to address incorporating into subcharts
 #  - name: pravega-operator
 #    version: 0.5.1
 #    condition: pravega-operator.enabled

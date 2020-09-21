@@ -152,6 +152,7 @@ spec:
           mountPath: /data/influxdb/conf/
         - name: varlog
           mountPath: /var/log
+      {{- if .Values.global.tls_enabled }}
       - name: nginx
         image: "{{ .Values.global.monitoring_registry }}/nginx:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
@@ -166,43 +167,39 @@ spec:
           subPath: nginx.conf
         - mountPath: /etc/nginx/conf.d
           name: nginx-config-context
-        {{- if .Values.global.tls_enabled }}
         {{- if not .Values.global.use_vault_for_ssl }}
         - mountPath: /etc/nginx/cert
           name: cert
         {{- end }}
-        {{- end }}
+      # In case tls is disabled - liveness & readiness probes will go to main container
+      {{- end }}
         livenessProbe:
           httpGet:
             path: {{ .Values.livenessProbe.probePath }}
             port: api
             scheme: {{ $scheme }}
+          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds | default 30 }}
+          periodSeconds: {{ .Values.livenessProbe.periodSeconds | default 60 }}
           {{- if .Values.disable_recovery }}
-          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds | default 5 }}
-          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds | default 1 }}
-          failureThreshold: {{ .Values.livenessProbe.failureThreshold | default 120 }}
-          periodSeconds: {{ .Values.livenessProbe.periodSeconds | default 30 }}
+          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds | default 30 }}
+          failureThreshold: {{ .Values.livenessProbe.failureThreshold | default 60 }}
           {{- else }}
           initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds | default 180 }}
-          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds | default 1 }}
-          failureThreshold: {{ .Values.livenessProbe.failureThreshold | default 720 }}
-          periodSeconds: {{ .Values.livenessProbe.periodSeconds | default 30 }}
+          failureThreshold: {{ .Values.livenessProbe.failureThreshold | default 360 }}
         {{- end }}
         readinessProbe:
           httpGet:
             path: {{ .Values.readinessProbe.probePath }}
             port: api
             scheme: {{ $scheme }}
+          periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 60 }}
+          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds | default 30 }}
           {{- if .Values.disable_recovery }}
           initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds | default 5 }}
-          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds | default 1 }}
-          failureThreshold: {{ .Values.readinessProbe.failureThreshold | default 120 }}
-          periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 30 }}
+          failureThreshold: {{ .Values.readinessProbe.failureThreshold | default 60 }}
           {{- else }}
           initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds | default 120 }}
-          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds | default 1 }}
-          failureThreshold: {{ .Values.readinessProbe.failureThreshold | default 720 }}
-          periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 30 }}
+          failureThreshold: {{ .Values.readinessProbe.failureThreshold | default 360 }}
           {{- end }}
         {{- if .Values.startupProbe.enabled }}
         startupProbe:
@@ -272,13 +269,13 @@ spec:
           name: cleanup-script
           subPath: cleanup_logs
       volumes:
+      {{- if .Values.global.tls_enabled }}
       - name: nginx-config
         configMap:
           name: {{ template "influxdb.fullname" . }}-nginx
       - name: nginx-config-context
         configMap:
           name: {{ template "influxdb.fullname" . }}-nginx-context
-      {{- if .Values.global.tls_enabled }}
       {{- if not .Values.global.use_vault_for_ssl }}
       - name: cert
         configMap:

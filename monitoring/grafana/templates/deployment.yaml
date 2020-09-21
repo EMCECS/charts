@@ -78,7 +78,11 @@ spec:
           containerPort: {{ .Values.config.http.bind_address }}
         env:
         - name: K8S_FLUXD
+          {{- if .Values.global.tls_enabled }}
           value: "127.0.0.10"
+          {{- else }}
+          value: "{{ .Release.Name }}-fluxd.{{ .Release.Namespace }}.svc.cluster.local"
+          {{- end }}
         {{- if .Values.config.oauth.enabled }}
         envFrom:
           - secretRef:
@@ -97,6 +101,7 @@ spec:
           subPath: grafana.ini
         - name: varlog
           mountPath: /var/log
+      {{- if .Values.global.tls_enabled }}
       - name: nginx
         image: "{{ .Values.global.monitoring_registry }}/nginx:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
@@ -106,12 +111,12 @@ spec:
         volumeMounts:
         - mountPath: /etc/nginx/conf.d
           name: nginx-config
-        {{- if .Values.global.tls_enabled }}
         {{- if not .Values.global.use_vault_for_ssl }}
         - mountPath: /etc/nginx/cert
           name: cert
         {{- end }}
-        {{- end }}
+      # In case tls is disabled - liveness & readiness probes will go to main container
+      {{- end }}
         # nginx logs to stdout, no need to mount varlog
         livenessProbe:
           httpGet:
@@ -119,14 +124,18 @@ spec:
             port: api
             scheme: {{ $scheme }}
           initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds | default 30 }}
-          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds | default 5 }}
+          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds | default 30 }}
+          periodSeconds: {{ .Values.livenessProbe.periodSeconds | default 60 }}
+          failureThreshold: {{ .Values.livenessProbe.failureThreshold | default 3 }}
         readinessProbe:
           httpGet:
             path: {{ .Values.readinessProbe.probePath }}
             port: api
             scheme: {{ $scheme }}
           initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds | default 5 }}
-          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds | default 1 }}
+          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds | default 30 }}
+          periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 60 }}
+          failureThreshold: {{ .Values.readinessProbe.failureThreshold | default 3 }}
       {{- if .Values.global.rsyslog_enabled }}
       - name: rsyslog
         image: "{{ .Values.global.monitoring_registry }}/rsyslog:{{ .Values.global.monitoring_tag }}"
@@ -164,10 +173,10 @@ spec:
 {{ toYaml .Values.imagePullSecrets | indent 8 }}
       {{- end }}
       volumes:
+      {{- if .Values.global.tls_enabled }}
       - name: nginx-config
         configMap:
           name: {{ template "grafana.fullname" . }}-nginx
-      {{- if .Values.global.tls_enabled }}
       {{- if not .Values.global.use_vault_for_ssl }}
       - name: cert
         configMap:

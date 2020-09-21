@@ -15,7 +15,7 @@
 
 global:
   monitoring_registry: emccorp
-  tls_enabled: true
+  tls_enabled: false
   telegraf_tls_enabled: true
   internal_dns: kube-dns.kube-system.svc.cluster.local
   performanceProfile: "Small"
@@ -50,12 +50,12 @@ startupProbe:
 tolerations: []
 
 service:
-  bind_address: 18094
+  bind_address: 8094
 
-## TODO: add ability to specify port for throttler to listen on (should be set 18094)
 ## TODO: add ability to specify ip address for throttler to listen on (should be set 127.0.0.1)
 config:
   http:
+    # change to 18094 if tls is enabled
     bind_address: 8094
   cq_dir: "cq"
   alerter:

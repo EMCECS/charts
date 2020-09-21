@@ -103,7 +103,8 @@ telegraf:
       # Influx HTTP write listener
       - influxdb_listener:
           ## Address and port to host HTTP listener on
-          service_address: ":11102"
+          # redefine to 11102 when tls is enabled
+          service_address: ":11002"
           ## maximum duration before timing out read of the request
           read_timeout: "30s"
           ## maximum duration before timing out write of the response
@@ -129,7 +130,7 @@ telegraf:
       - prometheus:
           interval: "$COLLECTION_INTERVAL"
           kubernetes_services:
-            - "{{ .Values.global.communication_scheme }}://{{ .Release.Name }}-throttler.{{ .Release.Namespace }}.svc.cluster.local:18094/metrics"
+            - "{{ .Values.global.communication_scheme }}://{{ .Release.Name }}-throttler.{{ .Release.Namespace }}.svc.cluster.local:8094/metrics"
           monitor_kubernetes_pods: false
           insecure_skip_verify: true
           tags:

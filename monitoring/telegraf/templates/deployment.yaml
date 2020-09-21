@@ -78,6 +78,7 @@ spec:
         - name: extra-files
           mountPath: {{ .Values.extra_files.mount_path }}
 {{- end }}
+      {{- if and .Values.global.tls_enabled .Values.global.telegraf_tls_enabled }}
       - name: nginx
         image: "{{ .Values.global.monitoring_registry }}/nginx:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
@@ -87,12 +88,11 @@ spec:
         volumeMounts:
         - mountPath: /etc/nginx/conf.d
           name: nginx-config
-        {{- if and .Values.global.tls_enabled .Values.global.telegraf_tls_enabled }}
         {{- if not .Values.global.use_vault_for_ssl }}
         - mountPath: /etc/nginx/cert
           name: cert
         {{- end }}
-        {{- end }}
+      {{- end }}
       volumes:
       - name: config
         configMap:
@@ -107,10 +107,10 @@ spec:
         configMap:
           name: {{ .Release.Name }}-cert
       {{- end }}
-      {{- end }}
       - name: nginx-config
         configMap:
           name: {{ template "telegraf.fullname" . }}-nginx
+      {{- end }}
 {{- if .Values.extra_files.enabled }}
       - name: extra-files
         configMap:

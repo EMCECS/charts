@@ -18,6 +18,7 @@ tests:
   - it: tls enabled
     set:
       global.tls_enabled: true
+      global.telegraf_tls_enabled: true
     asserts:
       - contains:
           path: spec.template.spec.containers[1].volumeMounts
@@ -30,18 +31,25 @@ tests:
             name: cert
             configMap:
               name: RELEASE-NAME-cert
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: nginx-config
+            configMap:
+              name: RELEASE-NAME-telegraf-nginx
   - it: tls disabled
     set:
       global.tls_enabled: false
     asserts:
       - notContains:
-          path: spec.template.spec.containers[1].volumeMounts
-          content:
-            mountPath: /etc/nginx/cert
-            name: cert
-      - notContains:
           path: spec.template.spec.volumes
           content:
             name: cert
             configMap:
               name: RELEASE-NAME-cert
+      - notContains:
+          path: spec.template.spec.volumes
+          content:
+            name: nginx-config
+            configMap:
+              name: RELEASE-NAME-telegraf-nginx

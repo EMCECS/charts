@@ -31,5 +31,12 @@ data:
             - targets: ['localhost:9093']
 
     fluxd:
-      url: "http://127.0.0.10:8093/api/v3/query"
+      url: "http://
+        {{- if .Values.global.tls_enabled -}}
+        127.0.0.10
+        {{- else -}}
+        {{ .Release.Name }}-fluxd.{{ .Release.Namespace }}.svc.cluster.local
+        {{- end -}}
+        :8093/api/v3/query"
+
       process_template: "/etc/alerts/process.tmpl"

@@ -33,11 +33,15 @@ grafana:
   config:
     dashboards_dir: "dashboards/platform"
     home_dashboard: "Process Health - Overview"
+  service:
+    bind_address: 3001
 throttler:
   config:
     cq_dir: "cq/platform"
     alerter:
       enabled: false
+    http:
+      bind_address: 18094
 prometheus-alerts:
   config:
     dir: "alerts/platform"
@@ -71,6 +75,8 @@ telegraf:
           - list
           - watch
   config:
+    http:
+      bind_address: 11102
     outputs:
       - influxdb:
           insecure_skip_verify: true
@@ -135,7 +141,7 @@ telegraf:
       - prometheus:
           interval: "$COLLECTION_INTERVAL"
           kubernetes_services:
-            - "{{ .Values.global.communication_scheme }}://{{ .Release.Name }}-throttler.{{ .Release.Namespace }}.svc.cluster.local:18094/metrics"
+            - "{{ .Values.global.communication_scheme }}://{{ .Release.Name }}-throttler.{{ .Release.Namespace }}.svc.cluster.local:8094/metrics"
           monitor_kubernetes_pods: false
           insecure_skip_verify: true
           tags:
@@ -257,3 +263,13 @@ telegraf-ds:
           fieldpass: ["memory_vms"]
           tags:
             tag: "system"
+influxdb:
+  config:
+    http:
+      bind_address: 18086
+    rpc:
+      bind_address: 18088
+fluxd:
+  config:
+    http:
+      bind_address: 18093

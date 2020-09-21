@@ -152,6 +152,7 @@ spec:
           mountPath: /data/influxdb/conf/
         - name: varlog
           mountPath: /var/log
+      {{- if .Values.global.tls_enabled }}
       - name: nginx
         image: "{{ .Values.global.monitoring_registry }}/nginx:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
@@ -166,12 +167,12 @@ spec:
           subPath: nginx.conf
         - mountPath: /etc/nginx/conf.d
           name: nginx-config-context
-        {{- if .Values.global.tls_enabled }}
         {{- if not .Values.global.use_vault_for_ssl }}
         - mountPath: /etc/nginx/cert
           name: cert
         {{- end }}
-        {{- end }}
+      # In case tls is disabled - liveness & readiness probes will go to main container
+      {{- end }}
         livenessProbe:
           httpGet:
             path: {{ .Values.livenessProbe.probePath }}
@@ -268,13 +269,13 @@ spec:
           name: cleanup-script
           subPath: cleanup_logs
       volumes:
+      {{- if .Values.global.tls_enabled }}
       - name: nginx-config
         configMap:
           name: {{ template "influxdb.fullname" . }}-nginx
       - name: nginx-config-context
         configMap:
           name: {{ template "influxdb.fullname" . }}-nginx-context
-      {{- if .Values.global.tls_enabled }}
       {{- if not .Values.global.use_vault_for_ssl }}
       - name: cert
         configMap:

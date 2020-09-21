@@ -1,3 +1,4 @@
+{{- if .Values.global.tls_enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -139,3 +140,4 @@ data:
           add_header Cache-Control private;
       }
     }
+{{- end }}

@@ -22,14 +22,6 @@ tests:
       - matchRegex:
           path: data.nginx\.conf
           pattern: listen 11002 ssl;
-  - it: tls disabled
-    set:
-      global.tls_enabled: false
-      global.telegraf_tls_enabled: true
-    asserts:
-      - matchRegex:
-          path: data.nginx\.conf
-          pattern: listen 11002;
   - it: tls enabled telegraf tls disabled
     set:
       global.tls_enabled: true

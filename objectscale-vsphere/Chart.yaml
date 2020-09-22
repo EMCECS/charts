@@ -1,0 +1,15 @@
+---
+apiVersion: v2
+name: objectscale-vsphere
+version: 0.50.0
+appVersion: 0.50.0
+description: |
+  vsphere PSP necessary setup resources
+maintainers:
+  - name: Dell EMC
+    url: https://dellemc.com
+dependencies:
+  - name: objectscale-graphql
+    version: 0.50.0
+    repository: file://../objectscale-graphql
+    condition: graphql.enabled

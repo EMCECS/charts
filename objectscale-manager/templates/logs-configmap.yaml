@@ -1,4 +1,3 @@
-{{- if ne .Values.global.platform "VMware"}}
 {{- if .Values.logReceiver.type }}
 apiVersion: v1
 kind: ConfigMap
@@ -88,5 +87,4 @@ data:
         Format      json
         Time_Key    time
         Time_Format %Y-%m-%dT%H:%M:%S %z
-{{- end }}
 {{- end }}

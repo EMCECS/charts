@@ -125,3 +125,11 @@ tests:
             name: alerter
             configMap:
               name: RELEASE-NAME-throttler-alerter
+  - it: logger config
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            mountPath: /etc/throttler/logger.json
+            name: logger-config
+            subPath: logger.json

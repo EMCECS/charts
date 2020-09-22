@@ -42,7 +42,7 @@ throttler:
       enabled: false
 influxdb:
   persistence:
-    storageClassName: "dellemc-objectscale-local"
+    storageClassName: "dellemc-objectscale-highly-available"
 telegraf:
   config:
     influxdb_inputs_enabled: false

@@ -3,10 +3,14 @@ templates:
   - ecs-cluster.yaml
 tests:
   - it: should create a custom resource
+    set:
+      global.monitoring.enabled: false
     asserts:
       - isKind:
           of: ECSCluster
   - it: should have a default log agent image
+    set:
+      global.monitoring.enabled: false
     asserts:
     - equal:
         path: spec.syslogAgent.image.repository
@@ -16,6 +20,7 @@ tests:
         value: IfNotPresent
   - it: should customize the log agent
     set:
+      global.monitoring.enabled: false
       global.registry: my-registry
       syslogAgent.image.repository: my-log-agent
       syslogAgent.image.tag: latest
@@ -32,6 +37,7 @@ tests:
           value: IfNotPresent
   - it: should customize the storage storage
     set:
+      global.monitoring.enabled: false
       global.registry: my-registry
       storageServer.image.repository: my-ss
       storageServer.image.tag: latest
@@ -49,6 +55,7 @@ tests:
   # when we have global SC settin
   - it: should monitoring components not be deployed when advanced metrics is off
     set:
+      global.monitoring.enabled: false
       features.enableAdvancedStatistics: false
     asserts:
     - equal:
@@ -56,6 +63,7 @@ tests:
         value: false
   - it: should monitoring components be deployed when advanced metrics is on
     set:
+      global.monitoring.enabled: false
       features.enableAdvancedStatistics: true
     asserts:
     - equal:
@@ -63,6 +71,7 @@ tests:
         value: true
   - it: should customize SC for all persistance fields
     set:
+      global.monitoring.enabled: false
       storageClassName: my-sc
     asserts:
     - equal:
@@ -77,6 +86,7 @@ tests:
   # when we have separate SC for a service
   - it: should customize SC for SS persistance field
     set:
+      global.monitoring.enabled: false
       storageServer.persistence.storageClassName: my-sc
     asserts:
     - equal:
@@ -84,6 +94,7 @@ tests:
         value: my-sc
   - it: should customize SC for Atlas persistance field
     set:
+      global.monitoring.enabled: false
       atlas.persistence.storageClassName: my-sc
     asserts:
     - equal:
@@ -91,6 +102,7 @@ tests:
         value: my-sc
   - it: should customize SC for Zookeeper persistance field
     set:
+      global.monitoring.enabled: false
       zookeeper.persistence.storageClassName: my-sc
     asserts:
     - equal:
@@ -100,6 +112,7 @@ tests:
   # when we have global SC and separate for a service
   - it: should customize separate SC for SS with global SC
     set:
+      global.monitoring.enabled: false
       storageClassName: my-sc
       storageServer.persistence.storageClassName: my-ss-sc
     asserts:
@@ -114,6 +127,7 @@ tests:
         value: my-sc
   - it: should customize separate SC for Atlas with global SC
     set:
+      global.monitoring.enabled: false
       storageClassName: my-sc
       atlas.persistence.storageClassName: my-atlas-sc
     asserts:
@@ -128,6 +142,7 @@ tests:
         value: my-sc
   - it: should customize separate SC for Zookeeper with global SC
     set:
+      global.monitoring.enabled: false
       storageClassName: my-sc
       zookeeper.persistence.storageClassName: my-zookeeper-sc
     asserts:
@@ -141,6 +156,8 @@ tests:
         path: spec.zookeeper.persistence.spec.storageClassName
         value: my-zookeeper-sc
   - it: should have a default deos-events image
+    set:
+      global.monitoring.enabled: false
     asserts:
     - equal:
         path: spec.deosEvents.image.repository
@@ -153,6 +170,7 @@ tests:
         value: 30
   - it: should have deos-events pullFreq changes
     set:
+      global.monitoring.enabled: false
       deosEvents.pullFreq: 1
     asserts:
     - equal:
@@ -160,6 +178,7 @@ tests:
         value: 1
   - it: should have default deos-events pullFreq
     set:
+      global.monitoring.enabled: false
       deosEvents.pullFreq: null
     asserts:
     - equal:
@@ -167,6 +186,7 @@ tests:
         value: 30
   - it: should create a single node atlas cluster
     set:
+      global.monitoring.enabled: false
       performanceProfile: small
     asserts:
     - equal:
@@ -174,6 +194,7 @@ tests:
         value: 1
   - it: should create a three node atlas cluster
     set:
+      global.monitoring.enabled: false
       performanceProfile: large
     asserts:
     - equal:
@@ -181,6 +202,7 @@ tests:
         value: 3
   - it: should create a custom sized atlas cluster
     set:
+      global.monitoring.enabled: false
       performanceProfile: large
       atlas:
         replicas: 5
@@ -189,18 +211,21 @@ tests:
         path: spec.atlas.replicas
         value: 5
   - it: s3 should have a default SelfSigned certifcate
+    set:
+      global.monitoring.enabled: false
     asserts:
     - equal:
         path: spec.s3.tls.certificateType
-        value: SelfSigned 
+        value: SelfSigned
     - equal:
         path: spec.s3.tls.certificate
         value: {}
   - it: s3 should have a KubernetesSigned certifcate
     set:
-      s3.tls.certificateType: KubernetesSigned 
-      s3.tls.signingRequest.commonName: commonName 
-      s3.tls.signingRequest.email: email 
+      global.monitoring.enabled: false
+      s3.tls.certificateType: KubernetesSigned
+      s3.tls.signingRequest.commonName: commonName
+      s3.tls.signingRequest.email: email
       s3.tls.signingRequest.keyAlgorithm: RSA
       s3.tls.signingRequest.keySize: 2048
       s3.tls.signingRequest.names.country: country
@@ -211,45 +236,46 @@ tests:
     asserts:
     - equal:
         path: spec.s3.tls.certificateType
-        value: KubernetesSigned 
+        value: KubernetesSigned
     - equal:
         path: spec.s3.tls.signingRequest.commonName
-        value: "commonName" 
+        value: "commonName"
     - equal:
         path: spec.s3.tls.signingRequest.email
-        value: "email" 
+        value: "email"
     - equal:
         path: spec.s3.tls.signingRequest.keyAlgorithm
-        value: "RSA" 
+        value: "RSA"
     - equal:
         path: spec.s3.tls.signingRequest.keySize
         value: 2048
     - equal:
         path: spec.s3.tls.signingRequest.names.country
-        value: "country" 
+        value: "country"
     - equal:
-        path: spec.s3.tls.signingRequest.names.locality 
-        value: "locality" 
+        path: spec.s3.tls.signingRequest.names.locality
+        value: "locality"
     - equal:
-        path: spec.s3.tls.signingRequest.names.organization 
-        value: "organization" 
+        path: spec.s3.tls.signingRequest.names.organization
+        value: "organization"
     - equal:
         path: spec.s3.tls.signingRequest.names.organizationalUnit
-        value: "organizationalUnit" 
+        value: "organizationalUnit"
     - equal:
         path: spec.s3.tls.signingRequest.names.state
         value: "state"
   - it: s3 should have a ExternallySigned certifcate
     set:
-      s3.tls.certificateType: ExternallySigned 
-      s3.tls.certificate.publicKey: publicKey 
-      s3.tls.certificate.privateKey: privateKey 
+      global.monitoring.enabled: false
+      s3.tls.certificateType: ExternallySigned
+      s3.tls.certificate.publicKey: publicKey
+      s3.tls.certificate.privateKey: privateKey
       s3.tls.certificate.password: password
       s3.tls.certificate.authority: authority
     asserts:
     - equal:
         path: spec.s3.tls.certificateType
-        value: ExternallySigned 
+        value: ExternallySigned
     - equal:
         path: spec.s3.tls.certificate.publicKey
         value: "publicKey"
@@ -263,19 +289,22 @@ tests:
         path: spec.s3.tls.certificate.authority
         value: "authority"
   - it: management-gateway should have a default SelfSigned certifcate
+    set:
+      global.monitoring.enabled: false
     asserts:
     - equal:
         path: spec.s3.tls.certificateType
-        value: SelfSigned 
+        value: SelfSigned
     - equal:
         path: spec.s3.tls.certificate
         value: {}
 
   - it: managementGateway should have a KubernetesSigned certifcate
     set:
-      managementGateway.tls.certificateType: KubernetesSigned 
-      managementGateway.tls.signingRequest.commonName: commonName 
-      managementGateway.tls.signingRequest.email: email 
+      global.monitoring.enabled: false
+      managementGateway.tls.certificateType: KubernetesSigned
+      managementGateway.tls.signingRequest.commonName: commonName
+      managementGateway.tls.signingRequest.email: email
       managementGateway.tls.signingRequest.keyAlgorithm: RSA
       managementGateway.tls.signingRequest.keySize: 2048
       managementGateway.tls.signingRequest.names.country: country
@@ -286,45 +315,46 @@ tests:
     asserts:
     - equal:
         path: spec.managementGateway.tls.certificateType
-        value: KubernetesSigned 
+        value: KubernetesSigned
     - equal:
         path: spec.managementGateway.tls.signingRequest.commonName
-        value: "commonName" 
+        value: "commonName"
     - equal:
         path: spec.managementGateway.tls.signingRequest.email
-        value: "email" 
+        value: "email"
     - equal:
         path: spec.managementGateway.tls.signingRequest.keyAlgorithm
-        value: "RSA" 
+        value: "RSA"
     - equal:
         path: spec.managementGateway.tls.signingRequest.keySize
         value: 2048
     - equal:
         path: spec.managementGateway.tls.signingRequest.names.country
-        value: "country" 
+        value: "country"
     - equal:
-        path: spec.managementGateway.tls.signingRequest.names.locality 
-        value: "locality" 
+        path: spec.managementGateway.tls.signingRequest.names.locality
+        value: "locality"
     - equal:
-        path: spec.managementGateway.tls.signingRequest.names.organization 
-        value: "organization" 
+        path: spec.managementGateway.tls.signingRequest.names.organization
+        value: "organization"
     - equal:
         path: spec.managementGateway.tls.signingRequest.names.organizationalUnit
-        value: "organizationalUnit" 
+        value: "organizationalUnit"
     - equal:
         path: spec.managementGateway.tls.signingRequest.names.state
         value: "state"
   - it: managementGateway should have a ExternallySigned certifcate
     set:
-      managementGateway.tls.certificateType: ExternallySigned 
-      managementGateway.tls.certificate.publicKey: publicKey 
-      managementGateway.tls.certificate.privateKey: privateKey 
+      global.monitoring.enabled: false
+      managementGateway.tls.certificateType: ExternallySigned
+      managementGateway.tls.certificate.publicKey: publicKey
+      managementGateway.tls.certificate.privateKey: privateKey
       managementGateway.tls.certificate.password: password
       managementGateway.tls.certificate.authority: authority
     asserts:
     - equal:
         path: spec.managementGateway.tls.certificateType
-        value: ExternallySigned 
+        value: ExternallySigned
     - equal:
         path: spec.managementGateway.tls.certificate.publicKey
         value: "publicKey"
@@ -338,10 +368,12 @@ tests:
         path: spec.managementGateway.tls.certificate.authority
         value: "authority"
   - it: management-gateway should have a default SelfSigned certifcate
+    set:
+      global.monitoring.enabled: false
     asserts:
     - equal:
         path: spec.managementGateway.tls.certificateType
-        value: SelfSigned 
+        value: SelfSigned
     - equal:
         path: spec.managementGateway.tls.certificate
         value: {}

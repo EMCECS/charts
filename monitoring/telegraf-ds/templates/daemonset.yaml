@@ -34,7 +34,7 @@ spec:
       serviceAccountName: {{ template "telegraf.serviceAccountName" . }}
       containers:
       - name: telegraf
-        image: "{{ .Values.global.monitoring_registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
+        image: "{{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         command: ["telegraf"]
         args: ["--config", "/etc/telegraf/telegraf.conf", "--config-directory", "/etc/telegraf/telegraf.d/"]

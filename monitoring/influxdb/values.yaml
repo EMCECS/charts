@@ -22,7 +22,7 @@ global:
 
   # The private docker registry hosting containers for ECS Flex
   # registry: harbor.lss.emc.com/ecs
-  monitoring_registry: emccorp
+  registry: emccorp
 
   # Default: "" == Watch ALL namespaces
   watchNamespace: ""

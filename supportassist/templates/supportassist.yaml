@@ -124,7 +124,7 @@ spec:
         - name: ESE_USER
           value: "eseservice"
         - name: REGISTRY_SECRET
-          value: dockerhub-registry-secret
+          value: {{.Values.global.registrySecret}}
       securityContext:
         runAsUser: 999
         runAsGroup: 999

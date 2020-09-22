@@ -114,7 +114,7 @@ spec:
         image: "{{ .Values.global.monitoring_registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         command: ["throttler"]
-        args: ["--logger-config", "/non_existing", "--port", "{{ .Values.config.http.bind_address }}"]
+        args: ["--port", "{{ .Values.config.http.bind_address }}"]
         resources:
 {{ include "common-lib.resources" (dict "top" . "micro" "200Mi" "small" "200Mi" "medium" "350Mi" "large" "350Mi") | indent 10}}
         ports:

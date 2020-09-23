@@ -691,10 +691,11 @@ spec:
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
-{{- end }}
 
   enableCRR: {{ .Values.features.enableCRR }}
 
   enableAdvancedStatistics: {{ .Values.features.enableAdvancedStatistics }}
 
   objectType: {{ .Values.features.objectType }}
+
+{{- end }}

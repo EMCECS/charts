@@ -84,7 +84,7 @@ metadata:
     product: objectscale
 subjects:
 - kind: ServiceAccount
-  name: objectscale-telemetry 
+  name: objectscale-telemetry
   namespace: {{ .Release.Namespace }}
 roleRef:
 {{- if eq .Values.global.watchAllNamespaces true }}

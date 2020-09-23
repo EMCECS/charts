@@ -37,9 +37,10 @@ This Helm chart deploys:
     ```
 
 3. Install the Dell EMC Embedded support enables (ESE) for the product: 
-    - for **objectscale** 
+    - for example  **objectscale** these are the **required** parameters:
+    - **Note:** for internal testing **only**!! 
     ```
-    $ helm install sa-objs objscharts/supportassist --set product=objectscale
+    $ helm install objs-sa objectscale/supportassist --set product=objectscale,productVersion=0.51.0,siteID=45454545,accessKey=4F56ADB8,pin=5555,gateways[0].hostname="10.11.12.13",gateways[0].port=9443,gateways[0].priority=20
     ```
 
 4. Verify the pod and service is available:
@@ -53,5 +54,4 @@ This Helm chart deploys:
     service/supportassist-objectscale            LoadBalancer   10.96.1.89   10.240.124.9   9447:31526/TCP,8080:32740/TCP   15h
     service/supportassist-objectscale-headless   ClusterIP      None         <none>         9447/TCP,8080/TCP               15h
     ```
-
-
+5. For internal testing Use Postman to test SupportAssist ESE RESTAPIs

@@ -1,0 +1,34 @@
+---
+# Default values for ecs-flex.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# These global settings relate to both the ECS Flex operator as well as the
+# Zookeeper Operator subchart
+global:
+  # Name of the target platform
+  # By setting this value all necessary resources for ecs-flex will be created and configured accordingly.
+  # Valid values are
+  # "VMware" - VMWare Persistent Services Platform
+  # "Vmware-PKS" - PKS platform with vSphere UI integration
+  # "Atlantic" - Project Atlantic Bare-Metal Kubernetes platform
+  # "Default" - All others
+  platform: Default
+
+  # Name of a Kubernetes secret with Docker credentials for the private registry
+  # registrySecret: ecs-flex-registry
+
+  # The private docker registry hosting containers for ECS Flex
+  registry: objectscale
+
+  # Default: true == Watch ALL namespaces
+  watchAllNamespaces: true
+
+# The default docker tag and pull policy for helm-controller services
+tag: 0.50.0
+pullPolicy: IfNotPresent
+
+image:
+  repository: install-controller
+  # tag: stable
+  # pullPolicy: IfNotPresent

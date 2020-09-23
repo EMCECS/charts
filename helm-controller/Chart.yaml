@@ -1,0 +1,11 @@
+---
+apiVersion: v2
+name: helm-controller
+version: 0.50.0
+appVersion: 0.50.0
+description: |
+  helm-controller runs inside the cluster and acts as a helm broker to perform
+  helm actions for packages, i.e install, update, delete
+maintainers:
+  - name: Dell EMC
+    url: https://dellemc.com

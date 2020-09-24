@@ -15,7 +15,7 @@
 ## This is a YAML-formatted file.
 
 global:
-  monitoring_registry: emccorp
+  registry: emccorp
   tls_enabled: false
   telegraf_tls_enabled: true
   internal_dns: "kube-dns.kube-system.svc.cluster.local"

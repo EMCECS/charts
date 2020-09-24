@@ -90,7 +90,7 @@ spec:
       {{- end }}
       initContainers:
       - name: {{ .Chart.Name }}-init
-        image: "{{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
+        image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         resources:
 {{ include "common-lib.resources" (dict "top" . "micro" "300Mi" "small" "300Mi" "medium" "1Gi" "large" "2Gi") | indent 10}}
@@ -119,7 +119,7 @@ spec:
           mountPath: /var/log
       containers:
       - name: {{ .Chart.Name }}
-        image: "{{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
+        image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         resources:
 {{ include "common-lib.resources" (dict "top" . "micro" "410Mi" "small" "410Mi" "medium" "1134Mi" "large" "2154Mi") | indent 10}}
@@ -154,7 +154,7 @@ spec:
           mountPath: /var/log
       {{- if .Values.global.tls_enabled }}
       - name: nginx
-        image: "{{ .Values.global.registry }}/nginx:{{ .Values.global.monitoring_tag }}"
+        image: "{{ include "common-lib.monitoring_registry" . }}/nginx:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         ports:
         - name: api
@@ -213,7 +213,7 @@ spec:
         {{- end }}
       {{- if .Values.global.rsyslog_enabled }}
       - name: rsyslog
-        image: "{{ .Values.global.registry }}/rsyslog:{{ .Values.global.monitoring_tag }}"
+        image: "{{ include "common-lib.monitoring_registry" . }}/rsyslog:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         volumeMounts:
         - name: varlog
@@ -226,7 +226,7 @@ spec:
       {{ end }}
       {{ if not .Values.disable_recovery }}
       - name: cron
-        image: "{{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
+        image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         command: ["/bin/bash"]
         args:
@@ -250,7 +250,7 @@ spec:
           mountPath: /etc/cron.d
       {{- end }}
       - name: logrotate
-        image: "{{ .Values.global.registry }}/rsyslog:{{ .Values.global.monitoring_tag }}"
+        image: "{{ include "common-lib.monitoring_registry" . }}/rsyslog:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         command: ["cron"]
         args: ["-n"]

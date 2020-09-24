@@ -142,7 +142,6 @@ create-manager-app: create-temp-package
 	--set image.tag=${OPERATOR_VERSION} \
 	--set logReceiver.create=true --set logReceiver.type=Syslog \
 	--set logReceiver.persistence.storageClassName=${STORAGECLASSNAME} \
-	--set global.monitoring_registry=${REGISTRY} \
 	--set ecs-monitoring.influxdb.persistence.storageClassName=${STORAGECLASSNAME} \
 	--set global.monitoring.enabled=false \
 	--set global.monitoring.tag=${OPERATOR_VERSION} \

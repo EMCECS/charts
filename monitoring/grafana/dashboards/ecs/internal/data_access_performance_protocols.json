@@ -14,7 +14,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "5.3.3"
+      "version": "6.2.5"
     },
     {
       "type": "datasource",
@@ -26,13 +26,13 @@
       "type": "panel",
       "id": "graph",
       "name": "Graph",
-      "version": "5.0.0"
+      "version": ""
     },
     {
       "type": "panel",
       "id": "table",
       "name": "Table",
-      "version": "5.0.0"
+      "version": ""
     }
   ],
   "annotations": {
@@ -52,7 +52,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1564513651152,
+  "iteration": 1575567178557,
   "links": [
     {
       "asDropdown": true,
@@ -78,6 +78,7 @@
       },
       "id": 157,
       "links": [],
+      "options": {},
       "pageSize": null,
       "scroll": false,
       "showHeader": true,
@@ -221,7 +222,7 @@
       ],
       "targets": [
         {
-          "query": "// need this 'default' table to substitute possibly missing sys_errors table if errors were not registered by ECS service\nimport \"csv\"\ndefault_sys_errors = csv.from(csv:\"#datatype,string,long,string,long\n#group,false,false,true,false\n#default,_result,,,\n,result,table,_field,_value\n,,100,succeed_request_counter_i,0\n,,101,system_errors_i,0\n,,102,user_errors_i,0\")\n\ntotals = from(bucket: \"monitoring_vdc\")\n|> filter(fn: (r) => r._measurement == \"cq_performance_transaction_head_delta\" and r.head =~ /^${head:pipe}$/)\n|> range($range)\n|> keep(columns:[\"_time\", \"_field\", \"_value\"])\n|> sum()\n|> fill(column: \"_value\", value: 0)\n\nsys_errors = from(bucket: \"monitoring_vdc\")\n|> filter(fn: (r) => r._measurement == \"cq_performance_error_head_delta\" and r.head =~ /^${head:pipe}$/)\n|> range($range)\n|> keep(columns:[\"_time\", \"_field\", \"_value\"])\n|> sum()\n|> fill(column: \"_value\", value: 0)\n\nunion(tables: [default_sys_errors, totals, sys_errors])\n|> pivot(rowKey:[], columnKey: [\"_field\"], valueColumn: \"_value\")\n// map does not save non-group columns\n|> map(fn:(r) => ({\na_succeed_request_counter: r.succeed_request_counter_i,\nb_system_errors: r.system_errors_i,\nc_user_errors: r.user_errors_i,\nd_error_rate: float(v:r.system_errors_i+r.user_errors_i)/\nfloat(v:r.system_errors_i+r.user_errors_i+r.succeed_request_counter_i\n// this trick is needed because failed+succeed can be 0, avoid printing NaN in this case\n+int(v:bool(v:(r.system_errors_i+r.user_errors_i+r.succeed_request_counter_i)==0)))}))\n\n",
+          "query": "// need this 'default' table to substitute possibly missing sys_errors table if errors were not registered by ECS service\nimport \"csv\"\nimport \"ecs\"\ndefault_sys_errors = csv.from(csv:\"#datatype,string,long,string,long\n#group,false,false,true,false\n#default,_result,,,\n,result,table,_field,_value\n,,100,succeed_request_counter_i,0\n,,101,system_errors_i,0\n,,102,user_errors_i,0\")\n\nwi = ecs.get_dyn_downsample_info(start: $__range_from_s, stop: $__range_to_s, max: 200, start_offset: 0, stop_offset: 0, measurement: \"cq_performance_transaction_head_delta\")\ntr_head_mn = wi.measurement\ner_head_mn = if wi.in_downsample == 1 then \"cq_performance_error_head_delta_downsampled\" else \"cq_performance_error_head_delta\"\n\ntotals = from(bucket: \"monitoring_vdc\")\n|> filter(fn: (r) => r._measurement == tr_head_mn and r.head =~ /^${head:pipe}$/)\n|> range(start: wi.start, stop: wi.stop)\n// following 2 lines are to fix MONITORING-568\n|> rename(columns: {_value: \"_value\"})\n|> range(start: wi.start, stop: wi.stop)\n|> keep(columns:[\"_time\", \"_field\", \"_value\"])\n|> sum()\n|> fill(column: \"_value\", value: 0)\n\nsys_errors = from(bucket: \"monitoring_vdc\")\n|> filter(fn: (r) => r._measurement == er_head_mn and r.head =~ /^${head:pipe}$/)\n|> range(start: wi.start, stop: wi.stop)\n// following 2 lines are to fix MONITORING-568\n|> rename(columns: {_value: \"_value\"})\n|> range(start: wi.start, stop: wi.stop)\n|> keep(columns:[\"_time\", \"_field\", \"_value\"])\n|> sum()\n|> fill(column: \"_value\", value: 0)\n\nunion(tables: [default_sys_errors, totals, sys_errors])\n|> pivot(rowKey:[], columnKey: [\"_field\"], valueColumn: \"_value\")\n// map does not save non-group columns\n|> map(fn:(r) => ({\na_succeed_request_counter: r.succeed_request_counter_i,\nb_system_errors: r.system_errors_i,\nc_user_errors: r.user_errors_i,\nd_error_rate: float(v:r.system_errors_i+r.user_errors_i)/\nfloat(v:r.system_errors_i+r.user_errors_i+r.succeed_request_counter_i\n// this trick is needed because failed+succeed can be 0, avoid printing NaN in this case\n+int(v:bool(v:(r.system_errors_i+r.user_errors_i+r.succeed_request_counter_i)==0)))}))\n\n",
           "refId": "A",
           "resultFormat": "table"
         }
@@ -262,6 +263,7 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {},
       "percentage": false,
       "pointradius": 2,
       "points": true,
@@ -272,12 +274,13 @@
       "steppedLine": false,
       "targets": [
         {
-          "query": "time_int = int(v:$__range_to_s) - int(v:$__range_from_s)\nmin_window = 300\nmax_windows = 200\nsec_in_ns = 1000000000\nwindow_len = time_int / max_windows / min_window * min_window\nis_min_window = window_len < min_window\nwindow_len = (int(v:(is_min_window)) * min_window) + (int(v:(not is_min_window)) * window_len)\nwl_dur = duration(v:window_len * sec_in_ns)\nstart_dt = time(v:((int(v:$__range_from_s)/window_len) - 2) * window_len * sec_in_ns)\nend_dt = time(v:((int(v:$__range_to_s)/window_len) + 1) * window_len * sec_in_ns)\n\nfrom(bucket: \"monitoring_vdc\") |> filter(fn: (r) => r._measurement == \"cq_performance_transaction_head\" and r.head =~ /^${head:pipe}$/)\n  |> range(start: start_dt, stop: end_dt)  \n  |> keep(columns:[\"_time\", \"_field\", \"_value\"])  \n  |> window(every:wl_dur)\n  |> sum()\n  |> group(columns:[\"_field\"]) \n  |> rename(columns: {_start: \"_time\"})\n",
+          "query": "import \"ecs\"\n\nwi = ecs.get_dyn_downsample_info(start: $__range_from_s, stop: $__range_to_s, max: 200\n                                 measurement: \"cq_performance_transaction_head\")\nmn = wi.measurement\n\nfrom(bucket: \"monitoring_vdc\") |> filter(fn: (r) => r._measurement == mn and r.head =~ /^${head:pipe}$/)\n  |> range(start: wi.start, stop: wi.stop)  \n  |> keep(columns:[\"_time\", \"_field\", \"_value\"])  \n  |> window(every: wi.duration)\n  |> mean()\n  |> group(columns:[\"_field\"]) \n  |> rename(columns: {_start: \"_time\"})\n",
           "refId": "A"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "TPS (success/failure)",
       "tooltip": {
@@ -285,7 +288,6 @@
         "sort": 0,
         "value_type": "individual"
       },
-      "transparent": false,
       "type": "graph",
       "xaxis": {
         "buckets": null,
@@ -353,6 +355,7 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {},
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -363,12 +366,13 @@
       "steppedLine": false,
       "targets": [
         {
-          "query": "time_int = int(v:$__range_to_s) - int(v:$__range_from_s)\nmin_window = 300\nmax_windows = 200\nsec_in_ns = 1000000000\nwindow_len = time_int / max_windows / min_window * min_window\nis_min_window = window_len < min_window\nwindow_len = (int(v:(is_min_window)) * min_window) + (int(v:(not is_min_window)) * window_len)\nwl_dur = duration(v:window_len * sec_in_ns)\nstart_dt = time(v:((int(v:$__range_from_s)/window_len) - 2) * window_len * sec_in_ns)\nend_dt = time(v:((int(v:$__range_to_s)/window_len) + 1) * window_len * sec_in_ns)\n\nfrom(bucket: \"monitoring_vdc\") |> filter(fn: (r) => r._measurement == \"cq_performance_throughput_head\" and r.head =~ /^${head:pipe}$/)\n|> range(start: start_dt, stop: end_dt) \n|> keep(columns:[\"_time\", \"_field\", \"_value\"]) \n|> window(every:wl_dur)\n|> sum()\n|> group(columns:[\"_field\"])\n|> rename(columns: {_start: \"_time\"})\n\n",
+          "query": "import \"ecs\"\n\nwi = ecs.get_dyn_downsample_info(start: $__range_from_s, stop: $__range_to_s, max: 200\n                                 measurement: \"cq_performance_throughput_head\")\nmn = wi.measurement\n\nfrom(bucket: \"monitoring_vdc\") |> filter(fn: (r) => r._measurement == mn and r.head =~ /^${head:pipe}$/)\n|> range(start: wi.start, stop: wi.stop) \n|> keep(columns:[\"_time\", \"_field\", \"_value\"]) \n|> window(every: wi.duration)\n|> mean()\n|> group(columns:[\"_field\"])\n|> rename(columns: {_start: \"_time\"})\n\n",
           "refId": "A"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Bandwidth (read/write)",
       "tooltip": {
@@ -376,7 +380,6 @@
         "sort": 0,
         "value_type": "individual"
       },
-      "transparent": false,
       "type": "graph",
       "xaxis": {
         "buckets": null,
@@ -443,6 +446,7 @@
       "linewidth": 0,
       "links": [],
       "nullPointMode": "null",
+      "options": {},
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -453,12 +457,13 @@
       "steppedLine": true,
       "targets": [
         {
-          "query": "time_int = int(v:$__range_to_s) - int(v:$__range_from_s)\nmin_window = 300\nmax_windows = 200\nsec_in_ns = 1000000000\nwindow_len = time_int / max_windows / min_window * min_window\nis_min_window = window_len < min_window\nwindow_len = (int(v:(is_min_window)) * min_window) + (int(v:(not is_min_window)) * window_len)\nwl_dur = duration(v:window_len * sec_in_ns)\nstart_dt = time(v:((int(v:$__range_from_s)/window_len) - 2) * window_len * sec_in_ns)\nend_dt = time(v:((int(v:$__range_to_s)/window_len) + 1) * window_len * sec_in_ns)\n\n\nfrom(bucket: \"monitoring_vdc\") |> filter(fn: (r) => r._measurement == \"cq_performance_error_head\" and r.head =~ /^${head:pipe}$/)\n|> range(start: start_dt, stop: end_dt) \n|> keep(columns:[\"_time\", \"_field\", \"_value\"]) \n|> window(every:wl_dur)\n|> sum()\n|> group(columns:[\"_field\"]) \n|> rename(columns: {_start: \"_time\"})\n",
+          "query": "import \"ecs\"\n\nwi = ecs.get_dyn_downsample_info(start: $__range_from_s, stop: $__range_to_s, max: 200\n                                 measurement: \"cq_performance_error_head\")\nmn = wi.measurement\n\nfrom(bucket: \"monitoring_vdc\") |> filter(fn: (r) => r._measurement == mn and r.head =~ /^${head:pipe}$/)\n|> range(start: wi.start, stop: wi.stop) \n|> keep(columns:[\"_time\", \"_field\", \"_value\"]) \n|> window(every: wi.duration)\n|> mean()\n|> group(columns:[\"_field\"]) \n|> rename(columns: {_start: \"_time\"})\n",
           "refId": "A"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Failed Requests/s by error type (user/system)",
       "tooltip": {
@@ -529,6 +534,7 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {},
       "percentage": false,
       "pointradius": 0.5,
       "points": true,
@@ -539,12 +545,13 @@
       "steppedLine": false,
       "targets": [
         {
-          "query": "time_int = int(v:$__range_to_s) - int(v:$__range_from_s)\nmin_window = 300\nmax_windows = 200\nsec_in_ns = 1000000000\nwindow_len = time_int / max_windows / min_window * min_window\nis_min_window = window_len < min_window\nwindow_len = (int(v:(is_min_window)) * min_window) + (int(v:(not is_min_window)) * window_len)\nwl_dur = duration(v:window_len * sec_in_ns)\nstart_dt = time(v:((int(v:$__range_from_s)/window_len) - 2) * window_len * sec_in_ns)\nend_dt = time(v:((int(v:$__range_to_s)/window_len) + 1) * window_len * sec_in_ns)\n\n\nall = from(bucket: \"monitoring_vdc\") \n    |> filter(fn: (r) => r._measurement =~ /^cq_performance_latency_head_*/ and r.head =~ /^${head:pipe}$/)  \n    |> range(start: start_dt, stop: end_dt)\n    |> window(every:wl_dur)\n    |> mean()\n    |> drop(columns:[\"head\"])    \n// TODO this is not exactly correct way of handling percentiles\n// However if only one protocol is selected, this \"mean\" won't change anything\n// In a better option, value should be recalculated from raw data if multiple protocols are selected\n    |> mean()\n    |> group(columns:[\"_field\",\"id\"])\n\n// can't simple rename ttfb_read to Read, ti... and similarly for ttlb_write\n// when they are in same stream\n// TODO think about possible optimizations:\n// 1. use function? didn't work at first approach, flux can't see it\n// 2. use join with another table created from CSV\n\nreads = all |> filter(fn: (r) => r.id == \"ttfb_read\" )\n    |> set(key: \"id\", value: \"Read, time to first byte\")\n\nwrites = all |> filter(fn: (r) => r.id == \"ttlb_write\" )\n    |> set(key: \"id\", value: \"Write, time to last byte\")\n\nunion(tables: [reads, writes])|> map(fn:(r) => ({_time: r._start, _value: r._value, _field: r.id + \", \" + r._field })) |>drop(columns:[\"id\"])\n\n\n    \n\n\n",
+          "query": "import \"ecs\"\n\nwi = ecs.get_dyn_downsample_info(start: $__range_from_s, stop: $__range_to_s, max: 200\n                                 measurement: \"^cq_performance_latency_head_*\")\nmr = if wi.in_downsample == 1 then /^cq_performance_latency_head_downsampled$/ else /^cq_performance_latency_head_[A-Z]/\n\nall = from(bucket: \"monitoring_vdc\") \n    |> filter(fn: (r) => r._measurement =~ mr and r.head =~ /^${head:pipe}$/)  \n    |> range(start: wi.start, stop: wi.stop)\n    |> window(every: wi.duration)\n    |> mean()\n    |> drop(columns:[\"head\"])    \n// TODO this is not exactly correct way of handling percentiles\n// However if only one protocol is selected, this \"mean\" won't change anything\n// In a better option, value should be recalculated from raw data if multiple protocols are selected\n    |> mean()\n    |> group(columns:[\"_field\",\"id\"])\n\n// can't simple rename ttfb_read to Read, ti... and similarly for ttlb_write\n// when they are in same stream\n// TODO think about possible optimizations:\n// 1. use function? didn't work at first approach, flux can't see it\n// 2. use join with another table created from CSV\n\nreads = all |> filter(fn: (r) => r.id == \"ttfb_read\" )\n    |> set(key: \"id\", value: \"Read, time to first byte\")\n\nwrites = all |> filter(fn: (r) => r.id == \"ttlb_write\" )\n    |> set(key: \"id\", value: \"Write, time to last byte\")\n\nunion(tables: [reads, writes])|> map(fn:(r) => ({_time: r._start, _value: r._value, _field: r.id + \", \" + r._field })) |>drop(columns:[\"id\"])\n\n\n    \n\n\n",
           "refId": "A"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Latency",
       "tooltip": {
@@ -552,7 +559,6 @@
         "sort": 0,
         "value_type": "individual"
       },
-      "transparent": false,
       "type": "graph",
       "xaxis": {
         "buckets": null,
@@ -627,6 +633,7 @@
           "linewidth": 1,
           "links": [],
           "nullPointMode": "null",
+          "options": {},
           "percentage": false,
           "pointradius": 2,
           "points": false,
@@ -637,12 +644,13 @@
           "steppedLine": false,
           "targets": [
             {
-              "query": "time_int = int(v:$__range_to_s) - int(v:$__range_from_s)\nmin_window = 300\nmax_windows = 200\nsec_in_ns = 1000000000\nwindow_len = time_int / max_windows / min_window * min_window\nis_min_window = window_len < min_window\nwindow_len = (int(v:(is_min_window)) * min_window) + (int(v:(not is_min_window)) * window_len)\nwl_dur = duration(v:window_len * sec_in_ns)\nstart_dt = time(v:((int(v:$__range_from_s)/window_len) - 2) * window_len * sec_in_ns)\nend_dt = time(v:((int(v:$__range_to_s)/window_len) + 1) * window_len * sec_in_ns)\n\n\nfrom(bucket: \"monitoring_main\") |> filter(fn: (r) => r._measurement == \"statDataHead_performance_internal_transactions_head\" and r._field == \"succeed_request_counter\" and r.head =~ /^${head:pipe}$/ )\n\n|> range(start: start_dt, stop: end_dt) \n|> keep(columns:[\"_time\", \"_value\", \"host\", \"head\"]) \n|> derivative(nonNegative: true)\n// see MONITORING-194 for details about next 2 lines\n|> window(every:wl_dur)\n|> mean()\n|> drop(columns:[\"head\"])\n|> sum()\n|> group(columns:[\"_field\", \"host\"]) \n|> rename(columns: {_start: \"_time\", host: \"node\"})\n\n",
+              "query": "import \"ecs\"\n\nwi = ecs.get_dynamic_window_info(int_start: $__range_from_s, int_stop: $__range_to_s, max: 200)\n\nfrom(bucket: \"monitoring_main\") |> filter(fn: (r) => r._measurement == \"statDataHead_performance_internal_transactions_head\" and r._field == \"succeed_request_counter\" and r.head =~ /^${head:pipe}$/ )\n\n|> range(start: wi.start, stop: wi.stop) \n|> keep(columns:[\"_time\", \"_value\", \"host\", \"head\"]) \n|> derivative(nonNegative: true)\n// see MONITORING-194 for details about next 2 lines\n|> window(every: wi.duration)\n|> mean()\n|> drop(columns:[\"head\"])\n|> sum()\n|> group(columns:[\"_field\", \"host\"]) \n|> rename(columns: {_start: \"_time\", host: \"node\"})\n\n",
               "refId": "A"
             }
           ],
           "thresholds": [],
           "timeFrom": null,
+          "timeRegions": [],
           "timeShift": null,
           "title": "Successful Requests/s by Node",
           "tooltip": {
@@ -715,6 +723,7 @@
           "linewidth": 0,
           "links": [],
           "nullPointMode": "null",
+          "options": {},
           "percentage": false,
           "pointradius": 2,
           "points": false,
@@ -725,12 +734,13 @@
           "steppedLine": true,
           "targets": [
             {
-              "query": "time_int = int(v:$__range_to_s) - int(v:$__range_from_s)\nmin_window = 300\nmax_windows = 200\nsec_in_ns = 1000000000\nwindow_len = time_int / max_windows / min_window * min_window\nis_min_window = window_len < min_window\nwindow_len = (int(v:(is_min_window)) * min_window) + (int(v:(not is_min_window)) * window_len)\nwl_dur = duration(v:window_len * sec_in_ns)\nstart_dt = time(v:((int(v:$__range_from_s)/window_len) - 2) * window_len * sec_in_ns)\nend_dt = time(v:((int(v:$__range_to_s)/window_len) + 1) * window_len * sec_in_ns)\n\n\nfrom(bucket: \"monitoring_main\") |> filter(fn: (r) => r._measurement == \"statDataHead_performance_internal_transactions_head\" and r._field == \"failed_request_counter\" and r.head =~ /^${head:pipe}$/ )\n\n|> range(start: start_dt, stop: end_dt) \n|> keep(columns:[\"_time\", \"_value\", \"host\", \"head\"]) \n|> derivative(nonNegative: true)\n// see MONITORING-194 for details about next 2 lines\n|> window(every:wl_dur)\n|> mean()\n|> drop(columns:[\"head\"])\n|> sum()\n|> group(columns:[\"_field\", \"host\"]) \n|> rename(columns: {_start: \"_time\", host: \"node\"})",
+              "query": "import \"ecs\"\n\nwi = ecs.get_dynamic_window_info(int_start: $__range_from_s, int_stop: $__range_to_s, max: 200)\n\nfrom(bucket: \"monitoring_main\") |> filter(fn: (r) => r._measurement == \"statDataHead_performance_internal_transactions_head\" and r._field == \"failed_request_counter\" and r.head =~ /^${head:pipe}$/ )\n\n|> range(start: wi.start, stop: wi.stop) \n|> keep(columns:[\"_time\", \"_value\", \"host\", \"head\"]) \n|> derivative(nonNegative: true)\n// see MONITORING-194 for details about next 2 lines\n|> window(every: wi.duration)\n|> mean()\n|> drop(columns:[\"head\"])\n|> sum()\n|> group(columns:[\"_field\", \"host\"]) \n|> rename(columns: {_start: \"_time\", host: \"node\"})",
               "refId": "A"
             }
           ],
           "thresholds": [],
           "timeFrom": null,
+          "timeRegions": [],
           "timeShift": null,
           "title": "Failed Requests/s by Node",
           "tooltip": {
@@ -790,7 +800,7 @@
           "dashes": false,
           "datasource": "${DS_FLUX}",
           "decimals": null,
-          "description": "Select multiple protocols and compare rates of successful requests per second",
+          "description": "Select different protocols and compare rates of successful requests per second",
           "fill": 1,
           "gridPos": {
             "h": 9,
@@ -815,6 +825,7 @@
           "linewidth": 2,
           "links": [],
           "nullPointMode": "null",
+          "options": {},
           "percentage": false,
           "pointradius": 2,
           "points": true,
@@ -825,12 +836,13 @@
           "steppedLine": false,
           "targets": [
             {
-              "query": "time_int = int(v:$__range_to_s) - int(v:$__range_from_s)\nmin_window = 300\nmax_windows = 200\nsec_in_ns = 1000000000\nwindow_len = time_int / max_windows / min_window * min_window\nis_min_window = window_len < min_window\nwindow_len = (int(v:(is_min_window)) * min_window) + (int(v:(not is_min_window)) * window_len)\nwl_dur = duration(v:window_len * sec_in_ns)\nstart_dt = time(v:((int(v:$__range_from_s)/window_len) - 2) * window_len * sec_in_ns)\nend_dt = time(v:((int(v:$__range_to_s)/window_len) + 1) * window_len * sec_in_ns)\n\n \n  \n  from(bucket: \"monitoring_vdc\") |> filter(fn: (r) => r._measurement == \"cq_performance_transaction_head\" and r._field == \"succeed_request_counter\" and r.head =~ /^${head:pipe}$/)\n  |> range(start: start_dt, stop: end_dt)  \n  |> keep(columns:[\"_time\", \"_value\", \"head\"])  \n  |> window(every:wl_dur)\n  |> sum()\n  |> group(columns:[\"_field\",\"head\"]) \n  |> rename(columns: {_start: \"_time\", head: \"protocol\"})\n",
+              "query": "import \"ecs\"\n\nwi = ecs.get_dyn_downsample_info(start: $__range_from_s, stop: $__range_to_s, max: 200\n                                 measurement: \"cq_performance_transaction_head\")\nmn = wi.measurement\n\n \n  \n  from(bucket: \"monitoring_vdc\") |> filter(fn: (r) => r._measurement == mn and r._field == \"succeed_request_counter\" and (r.head == \"$head\" or r.head == \"$ct_head\"))\n  |> range(start: wi.start, stop: wi.stop)  \n  |> keep(columns:[\"_time\", \"_value\", \"head\"])  \n  |> window(every: wi.duration)\n  |> mean()\n  |> group(columns:[\"_field\",\"head\"]) \n  |> rename(columns: {_start: \"_time\", head: \"protocol\"})\n",
               "refId": "A"
             }
           ],
           "thresholds": [],
           "timeFrom": null,
+          "timeRegions": [],
           "timeShift": null,
           "title": "Compare TPS of successful requests",
           "tooltip": {
@@ -838,7 +850,6 @@
             "sort": 0,
             "value_type": "individual"
           },
-          "transparent": false,
           "type": "graph",
           "xaxis": {
             "buckets": null,
@@ -878,7 +889,7 @@
           "dashes": false,
           "datasource": "${DS_FLUX}",
           "decimals": null,
-          "description": "Select multiple protocols and compare rates of failed requests per second, split by error type (user/system)",
+          "description": "Select different protocols and compare rates of failed requests per second, split by error type (user/system)",
           "fill": 1,
           "gridPos": {
             "h": 9,
@@ -905,6 +916,7 @@
           "linewidth": 2,
           "links": [],
           "nullPointMode": "null",
+          "options": {},
           "percentage": false,
           "pointradius": 0.5,
           "points": true,
@@ -915,12 +927,13 @@
           "steppedLine": false,
           "targets": [
             {
-              "query": "time_int = int(v:$__range_to_s) - int(v:$__range_from_s)\nmin_window = 300\nmax_windows = 200\nsec_in_ns = 1000000000\nwindow_len = time_int / max_windows / min_window * min_window\nis_min_window = window_len < min_window\nwindow_len = (int(v:(is_min_window)) * min_window) + (int(v:(not is_min_window)) * window_len)\nwl_dur = duration(v:window_len * sec_in_ns)\nstart_dt = time(v:((int(v:$__range_from_s)/window_len) - 2) * window_len * sec_in_ns)\nend_dt = time(v:((int(v:$__range_to_s)/window_len) + 1) * window_len * sec_in_ns)\n\n  \nfrom(bucket: \"monitoring_vdc\") |> filter(fn: (r) => r._measurement == \"cq_performance_error_head\" and r.head =~ /^${head:pipe}$/)\n  |> range(start: start_dt, stop: end_dt)  \n  |> keep(columns:[\"_time\", \"_field\", \"_value\", \"head\"])  \n  |> window(every:wl_dur)\n  |> sum()\n  |> group(columns:[\"_field\",\"head\"]) \n  |> rename(columns: {_start: \"_time\", head: \"protocol\"})",
+              "query": "import \"ecs\"\n\nwi = ecs.get_dyn_downsample_info(start: $__range_from_s, stop: $__range_to_s, max: 200\n                                 measurement: \"cq_performance_error_head\")\nmn = wi.measurement\n\n  \nfrom(bucket: \"monitoring_vdc\") |> filter(fn: (r) => r._measurement == mn and (r.head == \"$head\" or r.head == \"$ct_head\"))\n  |> range(start: wi.start, stop: wi.stop)  \n  |> keep(columns:[\"_time\", \"_field\", \"_value\", \"head\"])  \n  |> window(every: wi.duration)\n  |> mean()\n  |> group(columns:[\"_field\",\"head\"]) \n  |> rename(columns: {_start: \"_time\", head: \"protocol\"})",
               "refId": "A"
             }
           ],
           "thresholds": [],
           "timeFrom": null,
+          "timeRegions": [],
           "timeShift": null,
           "title": "Compare rate of failed requests/s",
           "tooltip": {
@@ -966,7 +979,7 @@
           "dashes": false,
           "datasource": "${DS_FLUX}",
           "decimals": null,
-          "description": "Select multiple protocols and compare data access bandwidth of successful requests per second",
+          "description": "Select different protocols and compare data access bandwidth of successful requests per second",
           "fill": 1,
           "gridPos": {
             "h": 9,
@@ -991,6 +1004,7 @@
           "linewidth": 2,
           "links": [],
           "nullPointMode": "null",
+          "options": {},
           "percentage": false,
           "pointradius": 2,
           "points": true,
@@ -1001,12 +1015,13 @@
           "steppedLine": false,
           "targets": [
             {
-              "query": "time_int = int(v:$__range_to_s) - int(v:$__range_from_s)\nmin_window = 300\nmax_windows = 200\nsec_in_ns = 1000000000\nwindow_len = time_int / max_windows / min_window * min_window\nis_min_window = window_len < min_window\nwindow_len = (int(v:(is_min_window)) * min_window) + (int(v:(not is_min_window)) * window_len)\nwl_dur = duration(v:window_len * sec_in_ns)\nstart_dt = time(v:((int(v:$__range_from_s)/window_len) - 2) * window_len * sec_in_ns)\nend_dt = time(v:((int(v:$__range_to_s)/window_len) + 1) * window_len * sec_in_ns)\n\n  \n  from(bucket: \"monitoring_vdc\") |> filter(fn: (r) => r._measurement == \"cq_performance_throughput_head\" and r._field == \"total_read_requests_size\" and r.head =~ /^${head:pipe}$/)\n  |> range(start: start_dt, stop: end_dt)  \n  |> keep(columns:[\"_time\", \"_field\", \"_value\", \"head\"])  \n  |> window(every:wl_dur)\n  |> sum()\n  |> group(columns:[\"_field\",\"head\"]) \n  |> rename(columns: {_start: \"_time\", head: \"protocol\"})",
+              "query": "import \"ecs\"\n\nwi = ecs.get_dyn_downsample_info(start: $__range_from_s, stop: $__range_to_s, max: 200\n                                 measurement: \"cq_performance_throughput_head\")\nmn = wi.measurement\n\n  \n  from(bucket: \"monitoring_vdc\") |> filter(fn: (r) => r._measurement == mn and r._field == \"total_read_requests_size\" and (r.head == \"$head\" or r.head == \"$ct_head\"))\n  |> range(start: wi.start, stop: wi.stop)  \n  |> keep(columns:[\"_time\", \"_field\", \"_value\", \"head\"])  \n  |> window(every: wi.duration)\n  |> mean()\n  |> group(columns:[\"_field\",\"head\"]) \n  |> rename(columns: {_start: \"_time\", head: \"protocol\"})",
               "refId": "A"
             }
           ],
           "thresholds": [],
           "timeFrom": null,
+          "timeRegions": [],
           "timeShift": null,
           "title": "Compare read bandwidth",
           "tooltip": {
@@ -1014,7 +1029,6 @@
             "sort": 0,
             "value_type": "individual"
           },
-          "transparent": false,
           "type": "graph",
           "xaxis": {
             "buckets": null,
@@ -1054,7 +1068,7 @@
           "dashes": false,
           "datasource": "${DS_FLUX}",
           "decimals": null,
-          "description": "Select multiple protocols and compare data access bandwidth of successful requests per second",
+          "description": "Select different protocols and compare data access bandwidth of successful requests per second",
           "fill": 1,
           "gridPos": {
             "h": 9,
@@ -1079,6 +1093,7 @@
           "linewidth": 2,
           "links": [],
           "nullPointMode": "null",
+          "options": {},
           "percentage": false,
           "pointradius": 2,
           "points": true,
@@ -1089,12 +1104,13 @@
           "steppedLine": false,
           "targets": [
             {
-              "query": "time_int = int(v:$__range_to_s) - int(v:$__range_from_s)\nmin_window = 300\nmax_windows = 200\nsec_in_ns = 1000000000\nwindow_len = time_int / max_windows / min_window * min_window\nis_min_window = window_len < min_window\nwindow_len = (int(v:(is_min_window)) * min_window) + (int(v:(not is_min_window)) * window_len)\nwl_dur = duration(v:window_len * sec_in_ns)\nstart_dt = time(v:((int(v:$__range_from_s)/window_len) - 2) * window_len * sec_in_ns)\nend_dt = time(v:((int(v:$__range_to_s)/window_len) + 1) * window_len * sec_in_ns)\n\n  \n  from(bucket: \"monitoring_vdc\") |> filter(fn: (r) => r._measurement == \"cq_performance_throughput_head\" and r._field == \"total_write_requests_size\" and r.head =~ /^${head:pipe}$/)\n  |> range(start: start_dt, stop: end_dt)  \n  |> keep(columns:[\"_time\", \"_field\", \"_value\", \"head\"])  \n  |> window(every:wl_dur)\n  |> sum()\n  |> group(columns:[\"_field\",\"head\"]) \n  |> rename(columns: {_start: \"_time\", head: \"protocol\"})",
+              "query": "import \"ecs\"\n\nwi = ecs.get_dyn_downsample_info(start: $__range_from_s, stop: $__range_to_s, max: 200\n                                 measurement: \"cq_performance_throughput_head\")\nmn = wi.measurement\n\n  \n  from(bucket: \"monitoring_vdc\") |> filter(fn: (r) => r._measurement == mn and r._field == \"total_write_requests_size\" and (r.head == \"$head\" or r.head == \"$ct_head\"))\n  |> range(start: wi.start, stop: wi.stop)  \n  |> keep(columns:[\"_time\", \"_field\", \"_value\", \"head\"])  \n  |> window(every: wi.duration)\n  |> mean()\n  |> group(columns:[\"_field\",\"head\"]) \n  |> rename(columns: {_start: \"_time\", head: \"protocol\"})",
               "refId": "A"
             }
           ],
           "thresholds": [],
           "timeFrom": null,
+          "timeRegions": [],
           "timeShift": null,
           "title": "Compare write bandwidth",
           "tooltip": {
@@ -1102,7 +1118,6 @@
             "sort": 0,
             "value_type": "individual"
           },
-          "transparent": false,
           "type": "graph",
           "xaxis": {
             "buckets": null,
@@ -1142,7 +1157,7 @@
           "dashes": false,
           "datasource": "${DS_FLUX}",
           "decimals": null,
-          "description": "Select multiple protocols and compare latency of read requests",
+          "description": "Select different protocols and compare latency of read requests",
           "fill": 1,
           "gridPos": {
             "h": 9,
@@ -1167,6 +1182,7 @@
           "linewidth": 2,
           "links": [],
           "nullPointMode": "null",
+          "options": {},
           "percentage": false,
           "pointradius": 0.5,
           "points": true,
@@ -1177,12 +1193,13 @@
           "steppedLine": false,
           "targets": [
             {
-              "query": "time_int = int(v:$__range_to_s) - int(v:$__range_from_s)\nmin_window = 300\nmax_windows = 200\nsec_in_ns = 1000000000\nwindow_len = time_int / max_windows / min_window * min_window\nis_min_window = window_len < min_window\nwindow_len = (int(v:(is_min_window)) * min_window) + (int(v:(not is_min_window)) * window_len)\nwl_dur = duration(v:window_len * sec_in_ns)\nstart_dt = time(v:((int(v:$__range_from_s)/window_len) - 2) * window_len * sec_in_ns)\nend_dt = time(v:((int(v:$__range_to_s)/window_len) + 1) * window_len * sec_in_ns)\n\n\nall = from(bucket: \"monitoring_vdc\") \n    |> filter(fn: (r) => r._measurement =~ /^cq_performance_latency_head_*/ and r.id == \"ttfb_read\" and r.head =~ /^${head:pipe}$/)  \n    |> range(start: start_dt, stop: end_dt)\n    |> window(every:wl_dur)\n    |> mean()\n    |> group(columns:[\"_field\",\"id\",\"head\"])\n\n// can't simple rename ttfb_read to Read, ti... and similarly for ttlb_write\n// when they are in same stream\n// TODO think about possible optimizations:\n// 1. use function? didn't work at first approach, flux can't see it\n// 2. use join with another table created from CSV\n\nreads = all |> filter(fn: (r) => r.id == \"ttfb_read\" )\n    |> set(key: \"id\", value: \"Read, time to first byte\")\n\nwrites = all |> filter(fn: (r) => r.id == \"ttlb_write\" )\n    |> set(key: \"id\", value: \"Write, time to last byte\")\n\nunion(tables: [reads, writes])|> map(fn:(r) => ({_time: r._start, _value: r._value, _field: r.id + \", \" + r._field })) |>drop(columns:[\"id\"])\n",
+              "query": "import \"ecs\"\n\nwi = ecs.get_dyn_downsample_info(start: $__range_from_s, stop: $__range_to_s, max: 200\n                                 measurement: \"^cq_performance_latency_head_*\")\nmr = if wi.in_downsample == 1 then /^cq_performance_latency_head_downsampled$/ else /^cq_performance_latency_head_[A-Z]/\n\nall = from(bucket: \"monitoring_vdc\") \n    |> filter(fn: (r) => r._measurement =~ mr and r.id == \"ttfb_read\" and (r.head == \"$head\" or r.head == \"$ct_head\"))  \n    |> range(start: wi.start, stop: wi.stop)\n    |> window(every: wi.duration)\n    |> mean()\n    |> group(columns:[\"_field\",\"id\",\"head\"])\n\n// can't simple rename ttfb_read to Read, ti... and similarly for ttlb_write\n// when they are in same stream\n// TODO think about possible optimizations:\n// 1. use function? didn't work at first approach, flux can't see it\n// 2. use join with another table created from CSV\n\nreads = all |> filter(fn: (r) => r.id == \"ttfb_read\" )\n    |> set(key: \"id\", value: \"Read, time to first byte\")\n\nwrites = all |> filter(fn: (r) => r.id == \"ttlb_write\" )\n    |> set(key: \"id\", value: \"Write, time to last byte\")\n\nunion(tables: [reads, writes])|> map(fn:(r) => ({_time: r._start, _value: r._value, _field: r.id + \", \" + r._field })) |>drop(columns:[\"id\"])\n",
               "refId": "A"
             }
           ],
           "thresholds": [],
           "timeFrom": null,
+          "timeRegions": [],
           "timeShift": null,
           "title": "Compare read latency",
           "tooltip": {
@@ -1190,7 +1207,6 @@
             "sort": 0,
             "value_type": "individual"
           },
-          "transparent": false,
           "type": "graph",
           "xaxis": {
             "buckets": null,
@@ -1230,7 +1246,7 @@
           "dashes": false,
           "datasource": "${DS_FLUX}",
           "decimals": null,
-          "description": "Select multiple protocols and compare latency of write requests",
+          "description": "Select different protocols and compare latency of write requests",
           "fill": 1,
           "gridPos": {
             "h": 9,
@@ -1255,6 +1271,7 @@
           "linewidth": 2,
           "links": [],
           "nullPointMode": "null",
+          "options": {},
           "percentage": false,
           "pointradius": 0.5,
           "points": true,
@@ -1265,20 +1282,20 @@
           "steppedLine": false,
           "targets": [
             {
-              "query": "time_int = int(v:$__range_to_s) - int(v:$__range_from_s)\nmin_window = 300\nmax_windows = 200\nsec_in_ns = 1000000000\nwindow_len = time_int / max_windows / min_window * min_window\nis_min_window = window_len < min_window\nwindow_len = (int(v:(is_min_window)) * min_window) + (int(v:(not is_min_window)) * window_len)\nwl_dur = duration(v:window_len * sec_in_ns)\nstart_dt = time(v:((int(v:$__range_from_s)/window_len) - 2) * window_len * sec_in_ns)\nend_dt = time(v:((int(v:$__range_to_s)/window_len) + 1) * window_len * sec_in_ns)\n\n\nall = from(bucket: \"monitoring_vdc\") \n    |> filter(fn: (r) => r._measurement =~ /^cq_performance_latency_head_*/ and r.id == \"ttlb_write\" and r.head =~ /^${head:pipe}$/)  \n    |> range(start: start_dt, stop: end_dt)\n    |> window(every:wl_dur)\n    |> mean()\n    |> group(columns:[\"_field\",\"id\",\"head\"])\n\n// can't simple rename ttfb_read to Read, ti... and similarly for ttlb_write\n// when they are in same stream\n// TODO think about possible optimizations:\n// 1. use function? didn't work at first approach, flux can't see it\n// 2. use join with another table created from CSV\n\nreads = all |> filter(fn: (r) => r.id == \"ttfb_read\" )\n    |> set(key: \"id\", value: \"Read, time to first byte\")\n\nwrites = all |> filter(fn: (r) => r.id == \"ttlb_write\" )\n    |> set(key: \"id\", value: \"Write, time to last byte\")\n\nunion(tables: [reads, writes])|> map(fn:(r) => ({_time: r._start, _value: r._value, _field: r.id + \", \" + r._field })) |>drop(columns:[\"id\"])\n",
+              "query": "import \"ecs\"\n\nwi = ecs.get_dyn_downsample_info(start: $__range_from_s, stop: $__range_to_s, max: 200\n                                 measurement: \"^cq_performance_latency_head_*\")\nmr = if wi.in_downsample == 1 then /^cq_performance_latency_head_downsampled$/ else /^cq_performance_latency_head_[A-Z]/\n\nall = from(bucket: \"monitoring_vdc\") \n    |> filter(fn: (r) => r._measurement =~ mr and r.id == \"ttlb_write\" and (r.head == \"$head\" or r.head == \"$ct_head\"))  \n    |> range(start: wi.start, stop: wi.stop)\n    |> window(every: wi.duration)\n    |> mean()\n    |> group(columns:[\"_field\",\"id\",\"head\"])\n\n// can't simple rename ttfb_read to Read, ti... and similarly for ttlb_write\n// when they are in same stream\n// TODO think about possible optimizations:\n// 1. use function? didn't work at first approach, flux can't see it\n// 2. use join with another table created from CSV\n\nreads = all |> filter(fn: (r) => r.id == \"ttfb_read\" )\n    |> set(key: \"id\", value: \"Read, time to first byte\")\n\nwrites = all |> filter(fn: (r) => r.id == \"ttlb_write\" )\n    |> set(key: \"id\", value: \"Write, time to last byte\")\n\nunion(tables: [reads, writes])|> map(fn:(r) => ({_time: r._start, _value: r._value, _field: r.id + \", \" + r._field })) |>drop(columns:[\"id\"])\n",
               "refId": "A"
             }
           ],
           "thresholds": [],
           "timeFrom": null,
+          "timeRegions": [],
           "timeShift": null,
-          "title": "Compare wrtie latency",
+          "title": "Compare write latency",
           "tooltip": {
             "shared": true,
             "sort": 0,
             "value_type": "individual"
           },
-          "transparent": false,
           "type": "graph",
           "xaxis": {
             "buckets": null,
@@ -1312,12 +1329,12 @@
           }
         }
       ],
-      "title": "Compare: select multiple protocols",
+      "title": "Compare to another protocol",
       "type": "row"
     }
   ],
   "refresh": false,
-  "schemaVersion": 16,
+  "schemaVersion": 18,
   "style": "dark",
   "tags": [
     "Data Access Performance"
@@ -1327,17 +1344,14 @@
       {
         "allValue": null,
         "current": {
-          "selected": true,
           "tags": [],
           "text": "S3",
-          "value": [
-            "S3"
-          ]
+          "value": "S3"
         },
         "hide": 0,
         "includeAll": false,
         "label": "Protocol",
-        "multi": true,
+        "multi": false,
         "name": "head",
         "options": [
           {
@@ -1374,6 +1388,54 @@
         "query": "ATMOS,CAS,HDFS,NFS,S3,SWIFT",
         "skipUrlSync": false,
         "type": "custom"
+      },
+      {
+        "allValue": null,
+        "current": {
+          "tags": [],
+          "text": "ATMOS",
+          "value": "ATMOS"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Compare to",
+        "multi": false,
+        "name": "ct_head",
+        "options": [
+          {
+            "selected": true,
+            "text": "ATMOS",
+            "value": "ATMOS"
+          },
+          {
+            "selected": false,
+            "text": "CAS",
+            "value": "CAS"
+          },
+          {
+            "selected": false,
+            "text": "HDFS",
+            "value": "HDFS"
+          },
+          {
+            "selected": false,
+            "text": "NFS",
+            "value": "NFS"
+          },
+          {
+            "selected": false,
+            "text": "S3",
+            "value": "S3"
+          },
+          {
+            "selected": false,
+            "text": "SWIFT",
+            "value": "SWIFT"
+          }
+        ],
+        "query": "ATMOS,CAS,HDFS,NFS,S3,SWIFT",
+        "skipUrlSync": false,
+        "type": "custom"
       }
     ]
   },
@@ -1383,11 +1445,6 @@
   },
   "timepicker": {
     "refresh_intervals": [
-      "5s",
-      "10s",
-      "30s",
-      "1m",
-      "5m",
       "15m",
       "30m",
       "1h",
@@ -1395,7 +1452,6 @@
       "1d"
     ],
     "time_options": [
-      "5m",
       "15m",
       "1h",
       "6h",
@@ -1409,5 +1465,5 @@
   "timezone": "",
   "title": "Data Access Performance - by Protocols",
   "uid": "IN0CmT6iz",
-  "version": 4
+  "version": 7
 }

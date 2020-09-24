@@ -1,5 +1,5 @@
 ---
-  {{- if .Values.customercontactfile}}
+{{- if .Values.customercontactfile}}
 apiVersion: decks.ecs.dellemc.com/v1beta1
 kind: CustomerContact
 metadata:

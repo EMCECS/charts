@@ -1,17 +1,17 @@
 ---
-{{- if .Values.customercontactfile}}
+{{- if or .Values.customercontactfile .Values.contacts }}
 apiVersion: decks.ecs.dellemc.com/v1beta1
 kind: CustomerContact
 metadata:
-  name: dellemc-{{required "product must be specified" .Values.product}}-customercontacts
+  name: customercontact-{{required "product must be specified" .Values.product}}
+  namespace: {{.Release.namespace}}
   labels:
-    app.kubernetes.io/name: dellemc-{{.Values.product}}-customercontact
-    app.kubernetes.io/version: {{.Values.tag}}
-    app.kubernetes.io/instance: {{.Release.Name}}
-    app.kubernetes.io/managed-by: {{.Release.Service}}
-    helm.sh/chart: {{.Chart.Name}}-{{.Chart.Version | replace "+" "_"}}
-    product: {{.Values.product}}
-    release: {{.Release.Name}}
-    com.dellemc.deckscustomercontacts.subscribed: "true"
-{{required "customercontact file must be specified" .Values.customercontactfile }}
-{{- end}}
+{{ include "supportassist.labels" . | indent 4 }}
+spec:
+{{- if .Values.customercontactfile }}
+  {{ .Values.customercontactfile }}
+{{- else if .Values.contacts }}
+  contacts:
+  {{toYaml .Values.contacts | indent 2 | trim}}
+{{- end }}
+{{- end }}

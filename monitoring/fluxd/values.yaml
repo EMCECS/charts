@@ -15,8 +15,8 @@
 ## This is a YAML-formatted file.
 
 global:
-  monitoring_registry: emccorp
-  tls_enabled: true
+  registry: emccorp
+  tls_enabled: false
   telegraf_tls_enabled: true
   internal_dns: "kube-dns.kube-system.svc.cluster.local"
   performanceProfile: "Small"
@@ -54,7 +54,8 @@ service:
 ## TODO: add ability to specify ip address for fluxd to listen on (should be set 127.0.0.1)
 config:
   http:
-    bind_address: 18093
+    # redefine to 18093 if tls is enabled
+    bind_address: 8093
 
 serviceAccount:
   create: true

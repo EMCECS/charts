@@ -90,7 +90,7 @@ spec:
       {{- end }}
       initContainers:
       - name: {{ .Chart.Name }}-init
-        image: "{{ .Values.global.monitoring_registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
+        image: "{{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         resources:
 {{ include "common-lib.resources" (dict "top" . "micro" "300Mi" "small" "300Mi" "medium" "1Gi" "large" "2Gi") | indent 10}}
@@ -119,7 +119,7 @@ spec:
           mountPath: /var/log
       containers:
       - name: {{ .Chart.Name }}
-        image: "{{ .Values.global.monitoring_registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
+        image: "{{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         resources:
 {{ include "common-lib.resources" (dict "top" . "micro" "410Mi" "small" "410Mi" "medium" "1134Mi" "large" "2154Mi") | indent 10}}
@@ -152,8 +152,9 @@ spec:
           mountPath: /data/influxdb/conf/
         - name: varlog
           mountPath: /var/log
+      {{- if .Values.global.tls_enabled }}
       - name: nginx
-        image: "{{ .Values.global.monitoring_registry }}/nginx:{{ .Values.global.monitoring_tag }}"
+        image: "{{ .Values.global.registry }}/nginx:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         ports:
         - name: api
@@ -166,43 +167,39 @@ spec:
           subPath: nginx.conf
         - mountPath: /etc/nginx/conf.d
           name: nginx-config-context
-        {{- if .Values.global.tls_enabled }}
         {{- if not .Values.global.use_vault_for_ssl }}
         - mountPath: /etc/nginx/cert
           name: cert
         {{- end }}
-        {{- end }}
+      # In case tls is disabled - liveness & readiness probes will go to main container
+      {{- end }}
         livenessProbe:
           httpGet:
             path: {{ .Values.livenessProbe.probePath }}
             port: api
             scheme: {{ $scheme }}
+          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds | default 30 }}
+          periodSeconds: {{ .Values.livenessProbe.periodSeconds | default 60 }}
           {{- if .Values.disable_recovery }}
-          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds | default 5 }}
-          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds | default 1 }}
-          failureThreshold: {{ .Values.livenessProbe.failureThreshold | default 120 }}
-          periodSeconds: {{ .Values.livenessProbe.periodSeconds | default 30 }}
+          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds | default 30 }}
+          failureThreshold: {{ .Values.livenessProbe.failureThreshold | default 60 }}
           {{- else }}
           initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds | default 180 }}
-          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds | default 1 }}
-          failureThreshold: {{ .Values.livenessProbe.failureThreshold | default 720 }}
-          periodSeconds: {{ .Values.livenessProbe.periodSeconds | default 30 }}
+          failureThreshold: {{ .Values.livenessProbe.failureThreshold | default 360 }}
         {{- end }}
         readinessProbe:
           httpGet:
             path: {{ .Values.readinessProbe.probePath }}
             port: api
             scheme: {{ $scheme }}
+          periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 60 }}
+          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds | default 30 }}
           {{- if .Values.disable_recovery }}
           initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds | default 5 }}
-          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds | default 1 }}
-          failureThreshold: {{ .Values.readinessProbe.failureThreshold | default 120 }}
-          periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 30 }}
+          failureThreshold: {{ .Values.readinessProbe.failureThreshold | default 60 }}
           {{- else }}
           initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds | default 120 }}
-          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds | default 1 }}
-          failureThreshold: {{ .Values.readinessProbe.failureThreshold | default 720 }}
-          periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 30 }}
+          failureThreshold: {{ .Values.readinessProbe.failureThreshold | default 360 }}
           {{- end }}
         {{- if .Values.startupProbe.enabled }}
         startupProbe:
@@ -216,7 +213,7 @@ spec:
         {{- end }}
       {{- if .Values.global.rsyslog_enabled }}
       - name: rsyslog
-        image: "{{ .Values.global.monitoring_registry }}/rsyslog:{{ .Values.global.monitoring_tag }}"
+        image: "{{ .Values.global.registry }}/rsyslog:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         volumeMounts:
         - name: varlog
@@ -229,7 +226,7 @@ spec:
       {{ end }}
       {{ if not .Values.disable_recovery }}
       - name: cron
-        image: "{{ .Values.global.monitoring_registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
+        image: "{{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         command: ["/bin/bash"]
         args:
@@ -253,7 +250,7 @@ spec:
           mountPath: /etc/cron.d
       {{- end }}
       - name: logrotate
-        image: "{{ .Values.global.monitoring_registry }}/rsyslog:{{ .Values.global.monitoring_tag }}"
+        image: "{{ .Values.global.registry }}/rsyslog:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         command: ["cron"]
         args: ["-n"]
@@ -272,13 +269,13 @@ spec:
           name: cleanup-script
           subPath: cleanup_logs
       volumes:
+      {{- if .Values.global.tls_enabled }}
       - name: nginx-config
         configMap:
           name: {{ template "influxdb.fullname" . }}-nginx
       - name: nginx-config-context
         configMap:
           name: {{ template "influxdb.fullname" . }}-nginx-context
-      {{- if .Values.global.tls_enabled }}
       {{- if not .Values.global.use_vault_for_ssl }}
       - name: cert
         configMap:

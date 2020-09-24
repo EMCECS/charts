@@ -1,0 +1,18 @@
+---
+apiVersion: appplatform.wcp.vmware.com/v1beta1
+kind: VCUIPlugin
+metadata:
+  labels:
+    controller-tools.k8s.io: "1.0"
+  name: objectscale-ui-{{ .Release.Namespace }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  name: ObjectScale-{{ .Release.Namespace }}
+  {{- if (eq .Release.Namespace "dellemc-objectscale-system") }}
+  uiBackendSecret: objectscale-plugin-secret
+  {{- else }}
+  uiBackendSecret: objectscale-plugin-secret-{{ .Release.Namespace }}
+  {{- end }}
+  uiBackendService: objectscale-vsphere-plugin
+  vSphereUiPluginUrl: /plugin.json
+  vSphereExtensionKey: com.dellemc.vsphere.plugin.{{ .Release.Namespace }}

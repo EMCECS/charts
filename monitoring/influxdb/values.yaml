@@ -22,7 +22,7 @@ global:
 
   # The private docker registry hosting containers for ECS Flex
   # registry: harbor.lss.emc.com/ecs
-  monitoring_registry: emccorp
+  registry: emccorp
 
   # Default: "" == Watch ALL namespaces
   watchNamespace: ""
@@ -89,7 +89,8 @@ config:
   storage_directory: /data/influxdb
   rpc:
     enabled: true
-    bind_address: 18088
+    # redefine to 18088 when tls is enabled
+    bind_address: 8088
   meta:
     retention_autocreate: true
     logging_enabled: true
@@ -136,7 +137,8 @@ config:
     write_buffer_size: 1000
   http:
     enabled: true
-    bind_address: 18086
+    # redefine to 18086 when tls is enabled
+    bind_address: 8086
     auth_enabled: false
     flux_enabled: true
     log_enabled: true

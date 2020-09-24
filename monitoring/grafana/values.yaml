@@ -15,8 +15,8 @@
 ## This is a YAML-formatted file.
 
 global:
-  monitoring_registry: emccorp
-  tls_enabled: true
+  registry: emccorp
+  tls_enabled: false
   internal_dns: kube-dns.kube-system.svc.cluster.local
 
 replicaCount: 1
@@ -47,7 +47,8 @@ readinessProbe:
 tolerations: []
 
 service:
-  bind_address: 3001
+  # redefine to 3001 if tls_enabled=true
+  bind_address: 3000
   type: ClusterIP
 
 ## TODO: make grafana listen on 127.0.0.1:13000

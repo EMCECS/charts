@@ -14,8 +14,8 @@
 ## This is a YAML-formatted file.
 
 global:
-  monitoring_registry: emccorp
-  tls_enabled: true
+  registry: emccorp
+  tls_enabled: false
 
 replicaCount: 1
 

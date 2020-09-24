@@ -19,7 +19,7 @@ global:
 
   # Flex 1.0 ObjectStore monitoring stack
   monitoring:
-    enabled: false
+    enabled: true
 
 # The default docker tag and pull policy for the ECS Cluster
 tag: 0.33.0
@@ -52,7 +52,12 @@ features:
 
   # Enable collection of objectstore stats via InfluxDB time-series database.
   # Deploying of Monitoring components (Telegraf, Grafana, Throttler, Fluxd)
-  enableAdvancedStatistics: true
+  enableAdvancedStatistics: false
+
+  # Object type defines which service will be used: Blob service or Object service.
+  # Values: blobSVC or objectSVC
+  # NOTE: If CRR is enabled then Object service will be used forcibly
+  objectType: blobSVC
 
 #
 # ECS Service Configuration
@@ -167,7 +172,7 @@ objectsvc:
   # Docker repository to be used for objectsvc instances
   image:
     repository: object-service
-    tag: 3.6.0.0-177.664c010
+    tag: latest
     # pullPolicy: IfNotPresent
 
 # The ECS Object Notification Service configuration specification

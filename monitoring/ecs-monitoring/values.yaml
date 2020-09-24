@@ -22,6 +22,9 @@ global:
   # communication_scheme defined separately from tls_enabled as found no way to make conditional set in values.yaml
   communication_scheme: http
   internal_dns: kube-dns.kube-system.svc.cluster.local
+  rsyslog_enabled: false
+  performanceProfile: Small
+  monitoring_tag: 3.7.0.0-967.ed517a57
 
 objectscale_release_name: "objectscale"
 objectscale_namespace: "objectscale"
@@ -52,6 +55,9 @@ throttler:
     cq_dir: "cq/ecs"
     alerter:
       enabled: false
+influxdb:
+  persistence:
+    storageClassName: "dellemc-objectscale-highly-available"
 telegraf:
   config:
     influxdb_inputs_enabled: false
@@ -156,7 +162,8 @@ telegraf:
       # Influx HTTP write listener
       - influxdb_listener:
           ## Address and port to host HTTP listener on
-          service_address: ":11102"
+          # redefine to 11102 when tls is enabled
+          service_address: ":11002"
           ## maximum duration before timing out read of the request
           read_timeout: "30s"
           ## maximum duration before timing out write of the response
@@ -272,7 +279,7 @@ telegraf-prom:
       - prometheus:
           interval: "$COLLECTION_INTERVAL"
           kubernetes_services:
-            - "{{ .Values.global.communication_scheme }}://{{ .Release.Name }}-throttler.{{ .Release.Namespace }}.svc.cluster.local:18094/metrics"
+            - "{{ .Values.global.communication_scheme }}://{{ .Release.Name }}-throttler.{{ .Release.Namespace }}.svc.cluster.local:8094/metrics"
           monitor_kubernetes_pods: false
           insecure_skip_verify: true
           tags:

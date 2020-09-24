@@ -696,3 +696,5 @@ spec:
   enableCRR: {{ .Values.features.enableCRR }}
 
   enableAdvancedStatistics: {{ .Values.features.enableAdvancedStatistics }}
+
+  objectType: {{ .Values.features.objectType }}

@@ -21,7 +21,7 @@ spec:
       serviceAccountName: {{ template "kube-metrics-adapter.fullname" . }}
       containers:
       - name: {{ .Chart.Name }}
-        image: "{{ .Values.global.monitoring_registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
+        image: "{{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         args:
           - --influxdb-address=http://127.0.0.10:8093/
@@ -31,7 +31,7 @@ spec:
         resources:
 {{ toYaml .Values.resources | indent 10 }}
       - name: nginx
-        image: "{{ .Values.global.monitoring_registry }}/nginx:{{ .Values.global.monitoring_tag }}"
+        image: "{{ .Values.global.registry }}/nginx:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: IfNotPresent
         resources:
           requests:

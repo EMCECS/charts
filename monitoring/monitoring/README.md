@@ -20,7 +20,7 @@ Download latest stable monitoring Helm charts [monitoring-0.0.1.tgz](http://asdr
 Install system monitoring for the cluster:
 ```
 helm install monitoring monitoring-0.0.1.tgz \
---set global.monitoring_registry=harbor.lss.emc.com/atlantic \
+--set global.registry=harbor.lss.emc.com/atlantic \
 --set global.tls_enabled=false \
 --set global.communication_scheme=http \
 --set global.influxdb_replicas=1 \

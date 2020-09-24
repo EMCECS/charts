@@ -16,8 +16,8 @@
 ## ref: https://hub.docker.com/r/library/telegraf/tags/
 
 global:
-  monitoring_registry: emccorp
-  tls_enabled: true
+  registry: emccorp
+  tls_enabled: false
   telegraf_tls_enabled: true
   performanceProfile: "Small"
   monitoring:
@@ -60,7 +60,8 @@ config:
     logfile: ""
     omit_hostname: true
   http:
-    bind_address: 11102
+    # redefine to 11102 when tls is enabled
+    bind_address: 11002
 
 service:
   type: ClusterIP

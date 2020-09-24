@@ -1,0 +1,139 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: supportassist-{{required "product must be specified" .Values.product}}-default-properties
+  namespace: {{.Release.namespace}}
+  labels:
+{{ include "supportassist.labels" . | indent 4 }}
+# yamllint disable-rule:colons
+data:
+  DefaultProperties.json: |
+    # ESE Static configuration. It is simple JSON, but
+    # may contain comments prefixed by '#'
+    # For property information, visit: https://confluence.gtie.dell.com/display/LCOM/ESE+Configuration
+    {
+        "ipAddress": "0.0.0.0",
+        "port": "8080",
+        "sslPort": "9443",
+        "useSSL": false,
+        "defaultBackendType": "srs",
+        "remoteAccessEnabled": false,
+        "srsPrefix": "/esrs/{version}/devices",
+        "proxyUri": "",
+        "proxyUser": "",
+        "proxyPassword": "",
+        "useProxy": false,
+        "connectionState": "enabled",
+        "useGateways": true,
+        "productIdBlock": {},
+        "enableDataItemApi": true,
+        "usingBuiltinConfig": false,
+        "remoteConfig": {},
+        "gatewayEndpoints": [],
+        "productFrontendUri": "http://supportassist-{{.Values.product}}.{{.Release.Namespace}}.svc.cluster.local:8087",
+        # Could also be HTTPS: "productFrontendUri": "https://supportassist-{{.Values.product}}.{{.Release.Namespace}}.svc.cluster.local:8447",
+        "productFrontendPrefix": "{{.Values.product}}",
+        "productFrontendType": "webrest",
+        "contractVersion": "1.0",
+        "eventMuted": false,
+        "systemMode": "Debug",
+        "srsTransferType": "{{.Values.product | upper}}"
+    }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: supportassist-{{.Values.product}}
+  namespace: {{.Release.namespace}}
+  labels:
+{{ include "supportassist.labels" . | indent 4 }}
+spec:
+  type: LoadBalancer
+  ports:
+  - name: secure
+    port: 9447
+    targetPort: secure
+    protocol: TCP
+  - name: insecure
+    port: 8080
+    targetPort: insecure
+    protocol: TCP
+  selector:
+    name: supportassist-{{.Values.product}}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: supportassist-{{.Values.product}}-persistentdata
+  namespace: {{.Release.namespace}}
+  labels:
+{{ include "supportassist.labels" . | indent 4 }}
+spec:
+  {{- if .Values.global.storageClassName}}
+  storageClassName: {{.Values.global.storageClassName}}
+  {{- end }}
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+status: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: supportassist-{{.Values.product}}
+  namespace: {{.Release.namespace}}
+  labels:
+{{ include "supportassist.labels" . | indent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: supportassist-{{.Values.product}}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      name: supportassist-{{.Values.product}}
+      namespace: {{.Release.namespace}}
+      labels:
+{{ include "supportassist.labels" . | indent 8 }}
+    spec:
+      containers:
+      - name: supportassist-{{.Values.product}}
+        # image: <docker_registry>/dell-supportassist-ese:2.0.3
+        image: {{.Values.global.registry}}/{{.Values.image.repository}}:{{default .Values.tag .Values.image.tag}}
+        imagePullPolicy: {{default .Values.image.pullPolicy .Values.pullPolicy}}
+        command: ["/opt/ese/bin/entrypoint.sh"]
+        ports:
+        - containerPort: 9447
+          name: secure
+          protocol: TCP
+        - containerPort: 8080
+          name: insecure
+          protocol: TCP
+        volumeMounts:
+          - mountPath: /opt/ese/var
+            name: supportassist-{{.Values.product}}-persistentdata
+          - name: supportassist-{{.Values.product}}-default-properties
+            mountPath: /opt/ese/etc/DefaultProperties.json
+            subPath: DefaultProperties.json
+        env:
+        - name: ESE_USER
+          value: "eseservice"
+        - name: REGISTRY_SECRET
+          value: {{.Values.global.registrySecret}}
+      securityContext:
+        runAsUser: 999
+        runAsGroup: 999
+        fsGroup: 999
+      restartPolicy: Always
+      volumes:
+      - name: supportassist-{{.Values.product}}-persistentdata
+        persistentVolumeClaim:
+          claimName: supportassist-{{.Values.product}}-persistentdata
+      - name: supportassist-{{.Values.product}}-default-properties
+        configMap:
+          name: supportassist-{{.Values.product}}-default-properties

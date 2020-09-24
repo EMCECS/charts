@@ -9,7 +9,7 @@
 # it is provided by or on behalf of Dell Inc. or its subsidiaries.
 #
 #
-
+{{- if .Values.global.tls_enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -169,3 +169,4 @@ data:
       proxy_pass $remote_ip_addr;
     }
     {{- end }}
+{{- end }}

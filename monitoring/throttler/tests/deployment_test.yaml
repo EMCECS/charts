@@ -37,7 +37,9 @@ tests:
               port: api
               scheme: HTTPS
             initialDelaySeconds: 30
-            timeoutSeconds: 5
+            periodSeconds: 60
+            timeoutSeconds: 30
+            failureThreshold: 3
       - equal:
           path: spec.template.spec.containers[1].readinessProbe
           value:
@@ -46,16 +48,19 @@ tests:
               port: api
               scheme: HTTPS
             initialDelaySeconds: 5
-            timeoutSeconds: 1
+            periodSeconds: 60
+            timeoutSeconds: 30
+            failureThreshold: 3
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: nginx-config
+            configMap:
+              name: RELEASE-NAME-throttler-nginx
   - it: tls disabled
     set:
       global.tls_enabled: false
     asserts:
-      - notContains:
-          path: spec.template.spec.containers[1].volumeMounts
-          content:
-            mountPath: /etc/nginx/cert
-            name: cert
       - notContains:
           path: spec.template.spec.volumes
           content:
@@ -63,23 +68,33 @@ tests:
             configMap:
               name: RELEASE-NAME-cert
       - equal:
-          path: spec.template.spec.containers[1].livenessProbe
+          path: spec.template.spec.containers[0].livenessProbe
           value:
             httpGet:
               path: /metrics
               port: api
               scheme: HTTP
             initialDelaySeconds: 30
-            timeoutSeconds: 5
+            periodSeconds: 60
+            timeoutSeconds: 30
+            failureThreshold: 3
       - equal:
-          path: spec.template.spec.containers[1].readinessProbe
+          path: spec.template.spec.containers[0].readinessProbe
           value:
             httpGet:
               path: /metrics
               port: api
               scheme: HTTP
             initialDelaySeconds: 5
-            timeoutSeconds: 1
+            periodSeconds: 60
+            timeoutSeconds: 30
+            failureThreshold: 3
+      - notContains:
+          path: spec.template.spec.volumes
+          content:
+            name: nginx-config
+            configMap:
+              name: RELEASE-NAME-throttler-nginx
   - it: alerter disabled
     set:
       config.alerter.enabled: false
@@ -110,3 +125,11 @@ tests:
             name: alerter
             configMap:
               name: RELEASE-NAME-throttler-alerter
+  - it: logger config
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            mountPath: /etc/throttler/logger.json
+            name: logger-config
+            subPath: logger.json

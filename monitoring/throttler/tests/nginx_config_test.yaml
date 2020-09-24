@@ -22,14 +22,6 @@ tests:
       - matchRegex:
           path: data.nginx\.conf
           pattern: proxy_pass https://\$upstream_telegraf:11002
-  - it: tls disabled
-    set:
-      global.tls_enabled: false
-      global.telegraf_tls_enabled: true
-    asserts:
-      - matchRegex:
-          path: data.nginx\.conf
-          pattern: proxy_pass http://\$upstream_telegraf:11002
   - it: tls enabled telegraf tls disabled
     set:
       global.tls_enabled: true
@@ -39,6 +31,8 @@ tests:
           path: data.nginx\.conf
           pattern: proxy_pass http://\$upstream_telegraf:11002
   - it: internal_dns  original
+    set:
+      global.tls_enabled: true
     asserts:
       - matchRegex:
           path: data.nginx\.conf
@@ -46,6 +40,7 @@ tests:
   - it: internal_dns  custom
     set:
       global.internal_dns: coredns.kube-system.svc.cluster.local
+      global.tls_enabled: true
     asserts:
       - matchRegex:
           path: data.nginx\.conf

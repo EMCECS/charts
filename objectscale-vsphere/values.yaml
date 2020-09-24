@@ -1,0 +1,67 @@
+---
+# Default values for objectscale-vsphere.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# These global settings relate to both objectscale-vsphere and objectscale-graphql
+global:
+  # Name of the target platform
+  # By setting this value all necessary resources for ecs-flex will be created and configured accordingly.
+  # Valid values are
+  # "VMware" - VMWare Persistent Services Platform
+  # "Vmware-PKS" - PKS platform with vSphere UI integration
+  # "Atlantic" - Project Atlantic Bare-Metal Kubernetes platform
+  # "Default" - All others
+  platform: Default
+
+  # Name of a Kubernetes secret with Docker credentials for the private registry
+  # registrySecret: ecs-flex-registry
+
+  # The private docker registry hosting containers for ECS Flex
+  registry: emccorp
+
+  # Default: true == Watch ALL namespaces
+  watchAllNamespaces: true
+
+# The default docker tag and pull policy for objectscale-vsphere and other containers
+tag: 0.50.0
+pullPolicy: IfNotPresent
+
+
+# This package gets values from objectscale-manager/values.yaml
+
+# The service name and port that decks-support-store is listening on for download requests
+decks:
+  supportStore:
+    service:
+      name: decks-support-store
+      port: 7443
+graphql:
+  enabled: true
+  port: 8080
+  serviceName: objectscale-graphql
+
+enabled: false
+image:
+  repository: ecs-flex-vsphere-plugin
+  # tag: stable
+  # pullPolicy: IfNotPresent
+service:
+  # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
+  type: LoadBalancer
+
+  # Specify the service port configuration for the vSpherePlugin service
+  ports:
+    - name: http
+      port: 4443
+      targetPort: 4443
+      # nodePort:           # select specific node port for the connection
+
+  # loadBalancerIP:     # select specific load balancer IP of the connection
+  # externalHostnames:
+  #   - objectscale-vsp.example.com
+  # externalIPAddresses:
+  #   - 203.0.113.10
+  #   - 203.0.113.30
+  # externalIPv6Addresses:
+  #   - 2001:0db8:0000:0000:0000:0000:0000:0001

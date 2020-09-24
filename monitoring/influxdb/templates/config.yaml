@@ -106,9 +106,16 @@ data:
       {{- $j := add $i 1 }}
       {
         "id": "{{ $top.Release.Name }}-influxdb-{{$i}}",
+        {{- if $top.Values.global.tls_enabled }}
         "ip": "127.0.0.1{{$j}}",
         "http_port": "8{{$j}}86",
         "rpc_port": "8{{$j}}88"
+        {{- else }}
+        "ip": "{{ $top.Release.Name }}-influxdb-{{$i}}.{{ $top.Release.Name }}-influxdb.{{ $top.Release.Namespace }}.svc.cluster.local",
+        "http_port": "8086",
+        "rpc_port": "8088"
+        {{- end }}
+
       }{{- if (ne (int $j) (int $replicas)) }},{{end -}}
       {{- end }}
     ]

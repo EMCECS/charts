@@ -221,7 +221,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "query": "extended_range_start = int(v:$__range_from_s) - 7200\nsafe_range_start = int(v:$__range_from_s) - 3600\nfrom(bucket: \"monitoring_vdc\")\n|> filter(fn: (r) => r._measurement == \"cq_gc_data\" and r._field == \"user_gc_reclaimed\")\n|> range(start: extended_range_start,stop:int(v:$__range_to_s)\r)\n|> difference(nonNegative: true)\n|> range(start: safe_range_start,stop:int(v:$__range_to_s)\r)",
+              "query": "extended_range_start = int(v:$__range_from_s) - 7200\nsafe_range_start = int(v:$__range_from_s) - 3600\nfrom(bucket: \"monitoring_vdc\")\n|> filter(fn: (r) => r._measurement == \"cq_gc_data\" and r._field == \"user_gc_reclaimed\")\n|> range(start: extended_range_start,stop:int(v:$__range_to_s)\r)\n|> difference(nonNegative: true)\n|> fill(column: \"_value\", value: 0)\n|> range(start: safe_range_start,stop:int(v:$__range_to_s)\r)",
               "refId": "A"
             }
           ],
@@ -305,7 +305,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "query": "extended_range_start = int(v:$__range_from_s) - 7200\nsafe_range_start = int(v:$__range_from_s) - 3600\nfrom(bucket: \"monitoring_vdc\")\n|> filter(fn: (r) => r._measurement == \"cq_gc_data\" and r._field == \"system_gc_reclaimed\")\n|> range(start: extended_range_start,stop:int(v:$__range_to_s)\r)\n|> difference(nonNegative: true)\n|> range(start: safe_range_start,stop:int(v:$__range_to_s)\r)\n",
+              "query": "extended_range_start = int(v:$__range_from_s) - 7200\nsafe_range_start = int(v:$__range_from_s) - 3600\nfrom(bucket: \"monitoring_vdc\")\n|> filter(fn: (r) => r._measurement == \"cq_gc_data\" and r._field == \"system_gc_reclaimed\")\n|> range(start: extended_range_start,stop:int(v:$__range_to_s)\r)\n|> difference(nonNegative: true)\n|> fill(column: \"_value\", value: 0)\n|> range(start: safe_range_start,stop:int(v:$__range_to_s)\r)\n",
               "refId": "A"
             }
           ],

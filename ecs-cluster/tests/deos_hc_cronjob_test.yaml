@@ -1,25 +1,31 @@
-suite: test deos-hc cronjob 
+suite: test deos-hc cronjob
 templates:
   - deos-hc-cronjob.yaml
 tests:
-  - it: should create a cronjob 
+  - it: should create a cronjob
     set:
       global.enableHealthcheck: true
+      global.monitoring.enabled: false
     asserts:
     - isKind:
-        of: CronJob 
+        of: CronJob
   - it: should have a default image
+    set:
+      global.monitoring.enabled: false
     asserts:
     - matchRegex:
         path: spec.jobTemplate.spec.template.spec.containers[0].image
         pattern: emccorp/deos-hc:.*
   - it: should have a default pullPolicy
+    set:
+      global.monitoring.enabled: false
     asserts:
     - equal:
         path: spec.jobTemplate.spec.template.spec.containers[0].imagePullPolicy
         value: IfNotPresent
-  - it: should not create a cronjob 
+  - it: should not create a cronjob
     set:
-      global.enableHealthcheck: false 
+      global.monitoring.enabled: false
+      global.enableHealthcheck: false
     assert:
      - nil

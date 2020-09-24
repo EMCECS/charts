@@ -1,13 +1,13 @@
 suite: test api role
 templates:
-  - objectscale-api-role.yaml
+  - api-binding.yaml
 tests:
   - it: should not create this role, when in PSP
     set:
-      global.platform: "VMware"
+      global.watchAllNamespaces: true
     asserts:
       - hasDocuments:
-          count: 0
+          count: 3
   - it: should create a role, when not in PSP
     asserts:
       - isKind:

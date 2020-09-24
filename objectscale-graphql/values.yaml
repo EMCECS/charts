@@ -29,6 +29,7 @@ objectStoreAvailableVersions:
 
 # The default docker tag and pull policy for objectscale-graphql services
 tag: 0.50.0
+pullPolicy: IfNotPresent
 
 image:
   repository: ecs-flex-graphql

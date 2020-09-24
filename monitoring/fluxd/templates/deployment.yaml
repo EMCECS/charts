@@ -97,7 +97,7 @@ spec:
       serviceAccountName: {{ template "fluxd.serviceAccountName" . }}
       containers:
       - name: {{ .Chart.Name }}
-        image: "{{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
+        image: "{{ .Values.global.monitoring_registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         command: ["fluxd"]
         args: ["--disable-lb", "--cf-disabled", "--disable-zk", "--node-id", "$(NODE_ID)", "--storage-hosts", "$(STORAGE_HOSTS)", "--store-namespace", "{{ .Release.Namespace }}", "--port", "{{ .Values.config.http.bind_address }}", "--logger-config", "/non_existing"]
@@ -124,7 +124,7 @@ spec:
           subPath: hl.json
       {{- if .Values.global.tls_enabled }}
       - name: nginx
-        image: "{{ .Values.global.registry }}/nginx:{{ .Values.global.monitoring_tag }}"
+        image: "{{ .Values.global.monitoring_registry }}/nginx:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         ports:
         - name: api

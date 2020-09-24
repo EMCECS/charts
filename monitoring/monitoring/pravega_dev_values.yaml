@@ -16,7 +16,7 @@ global:
   communication_scheme: http
   influxdb_replicas: 1
   rsyslog_enabled: true
-  registry: ecs-monitoring
+  monitoring_registry: ecs-monitoring
 
 fluxd:
   resources:

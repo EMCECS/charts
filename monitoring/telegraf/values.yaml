@@ -16,7 +16,7 @@
 ## ref: https://hub.docker.com/r/library/telegraf/tags/
 
 global:
-  registry: emccorp
+  monitoring_registry: emccorp
   tls_enabled: false
   telegraf_tls_enabled: true
   performanceProfile: "Small"

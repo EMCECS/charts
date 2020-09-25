@@ -59,8 +59,8 @@ This Helm chart deploys:
 
 ## Configuration
 
-Customer contacts information is supported to pass in by providing a file or an array  
-###  customercontactfile
+Customer contact information can be supplied thru an array or via a file using the following examples:
+###  customercontactsfile
 it is a location of the product customer contact yaml file. The file must be in yaml format and follow the template below.If the file is in your current directory, you can simply provide the name of the yaml file. If the file is in another location, you need to provide the pathname of the file.
 #### Customer contacts file template:
 ```yaml
@@ -86,11 +86,11 @@ contacts:
 ```
 Example helm install command line setting:
 ```
---set-file customercontactfile=objectscale-customercontact.yaml
---set-file customercontactfile=/home/xxx/objectscale-customercontact.yaml
---set-file customercontactfile=../../../xxx/objectscale-customercontact.yaml
+--set-file customercontactsfile=objectscale-customercontact.yaml
+--set-file customercontactsfile=/home/xxx/objectscale-customercontact.yaml
+--set-file customercontactsfile=../../../xxx/objectscale-customercontact.yaml
 ```
 ###  contacts
-    ```
-    $ helm install objs-sa objectscale/supportassist --set product=contacts[0].contactorder=1,contacts[0].firstname=XXX,contacts[0].lastname=XXX,contacts[1].contactorder=2,contacts[1].lastname=XXX,contacts[1].firstname=XXX
-    ```
+```    
+$ helm install objs-sa objectscale/supportassist --set product=contacts[0].contactorder=1,contacts[0].firstname=XXX,contacts[0].lastname=XXX,contacts[1].contactorder=2,contacts[1].lastname=XXX,contacts[1].firstname=XXX
+```

@@ -1,15 +1,15 @@
 ---
-{{- if or .Values.customercontactfile .Values.contacts }}
+{{- if or .Values.customercontactsfile .Values.contacts }}
 apiVersion: decks.ecs.dellemc.com/v1beta1
 kind: CustomerContact
 metadata:
-  name: customercontact-{{required "product must be specified" .Values.product}}
+  name: supportassist-customercontacts-{{required "product must be specified" .Values.product}}
   namespace: {{.Release.namespace}}
   labels:
 {{ include "supportassist.labels" . | indent 4 }}
 spec:
-{{- if .Values.customercontactfile }}
-  {{ .Values.customercontactfile }}
+{{- if .Values.customercontactsfile }}
+  {{ .Values.customercontactsfile }}
 {{- else if .Values.contacts }}
   contacts:
   {{toYaml .Values.contacts | indent 2 | trim}}

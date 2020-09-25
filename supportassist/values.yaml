@@ -24,8 +24,7 @@ image:
 # Create app resource thru helm
 createSupportAssistAppResource: true
 
-# DO NOT UNCOMMENT IT. the customer contact file must be supplied as a command line.
-# customercontactfile: "/home/john/customercontactfile.yaml"
+# customercontactsfile: "/home/john/customercontactsfile.yaml"
 
 # We usually recommend not to specify default resources and to leave this as a
 # conscious choice for the user. This also increases chances charts run on

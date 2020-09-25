@@ -111,7 +111,7 @@ spec:
     spec:
       containers:
       - name: {{ .Chart.Name }}
-        image: "{{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
+        image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         command: ["throttler"]
         args: ["--logger-config", "/etc/throttler/logger.json", "--port", "{{ .Values.config.http.bind_address }}"]
@@ -135,7 +135,7 @@ spec:
         {{- end }}
       {{- if .Values.global.tls_enabled }}
       - name: nginx
-        image: "{{ .Values.global.registry }}/nginx:{{ .Values.global.monitoring_tag }}"
+        image: "{{ include "common-lib.monitoring_registry" . }}/nginx:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: IfNotPresent
         ports:
         - name: api

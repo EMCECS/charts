@@ -88,3 +88,11 @@ limits:
 {{- end -}}
 {{- end -}}
 {{- end -}}
+
+{{- define "common-lib.monitoring_registry" -}}
+{{- if .Values.global.monitoring_registry -}}
+{{- .Values.global.monitoring_registry -}}
+{{- else -}}
+{{- .Values.global.registry -}}
+{{- end -}}
+{{- end -}}

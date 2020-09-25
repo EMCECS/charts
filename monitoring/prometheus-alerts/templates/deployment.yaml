@@ -59,7 +59,7 @@ spec:
       serviceAccountName: {{ template "prometheus.serviceAccountName" . }}
       containers:
       - name: prometheus
-        image: "{{ .Values.global.registry }}/{{ .Values.prometheus.image.repository }}:{{ .Values.prometheus.image.tag | default .Values.global.monitoring_tag }}"
+        image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.prometheus.image.repository }}:{{ .Values.prometheus.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.prometheus.image.pullPolicy | quote }}
         args:
           - --storage.tsdb.path=/data
@@ -91,7 +91,7 @@ spec:
         - mountPath: /data
           name: prometheus-storage-volume
       - name: alertmanager
-        image: "{{ .Values.global.registry }}/{{ .Values.alertmanager.image.repository }}:{{ .Values.alertmanager.image.tag | default .Values.global.monitoring_tag }}"
+        image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.alertmanager.image.repository }}:{{ .Values.alertmanager.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.alertmanager.image.pullPolicy | quote }}
         args:
           - --storage.path=/data
@@ -110,7 +110,7 @@ spec:
           name: alertmanager-storage-volume
       {{- if .Values.global.tls_enabled }}
       - name: nginx
-        image: "{{ .Values.global.registry }}/nginx:{{ .Values.global.monitoring_tag }}"
+        image: "{{ include "common-lib.monitoring_registry" . }}/nginx:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: IfNotPresent
         volumeMounts:
         - mountPath: /etc/nginx/conf.d

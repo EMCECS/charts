@@ -1,6 +1,6 @@
 suite: test api rbac
 templates:
-  - api-sa.yaml
+  - api-binding.yaml
 tests:
   - it: should create a service account
     asserts:

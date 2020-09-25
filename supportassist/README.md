@@ -79,7 +79,7 @@ contacts:
     lastname: XXX
     phonenumber: "+1 (312) 555-7748"
     emailaddress: test@dell.com
-    timezoneoffset: -06:00vim
+    timezoneoffset: -06:00
     prefcontact: email
     prefcontacttime: 1:00PM - 3:00AM
     preflanguage: En

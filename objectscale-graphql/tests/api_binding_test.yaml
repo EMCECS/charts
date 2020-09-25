@@ -1,0 +1,14 @@
+suite: test api binding
+templates:
+  - api-binding.yaml
+tests:
+  - it: should create a ServiceAccount
+    asserts:
+      - isKind:
+          of: ServiceAccount
+  - it: should have a name objectscale-api
+    asserts:
+      - equal:
+          path: metadata.name
+          value: objectscale-api
+

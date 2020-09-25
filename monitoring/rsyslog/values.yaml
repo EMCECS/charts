@@ -12,7 +12,7 @@
 #
 
 global:
-  registry: ecs-monitoring
+  monitoring_registry: ecs-monitoring
   rsyslog_uds_dir: "/var/run/rsyslog"
   rsyslog_uds_filename: "rsyslog.socket"
   cluster_name: "unknown"

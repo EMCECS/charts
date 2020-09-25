@@ -12,7 +12,7 @@
 ---
 # Dev values for robot tests in kind k8s
 global:
-  registry: ecs-monitoring
+  monitoring_registry: ecs-monitoring
   use_vault_for_ssl: false
 
 cert:

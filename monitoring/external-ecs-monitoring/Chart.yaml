@@ -13,38 +13,38 @@
 
 apiVersion: v2
 name: external-ecs-monitoring
-version: 0.50.0
-appVersion: 0.50.0
+version: 0.51.0
+appVersion: 0.51.0
 description: External ECS Monitoring Framework
 engine: gotpl
 
 dependencies:
   - name: cert
     repository: "file://../cert"
-    version: 0.50.0
+    version: 0.51.0
     condition: cert.enabled, global.cert.enabled
   - name: influxdb
     repository: "file://../influxdb"
-    version: 0.50.0
+    version: 0.51.0
   - name: telegraf
     repository: "file://../telegraf"
-    version: 0.50.0
+    version: 0.51.0
   - name: telegraf
     repository: "file://../telegraf"
-    version: 0.50.0
+    version: 0.51.0
     alias: telegraf-prom
   - name: fluxd
     repository: "file://../fluxd"
-    version: 0.50.0
+    version: 0.51.0
   - name: grafana
     repository: "file://../grafana"
-    version: 0.50.0
+    version: 0.51.0
   - name: throttler
     repository: "file://../throttler"
-    version: 0.50.0
+    version: 0.51.0
   - name: rsyslog-client
     repository: "file://../rsyslog-client"
-    version: 0.50.0
+    version: 0.51.0
   - name: prometheus
     repository: https://asdrepo.isus.emc.com/artifactory/atlantic-helm-build/
     version: "11.1.2" # no_auto_change

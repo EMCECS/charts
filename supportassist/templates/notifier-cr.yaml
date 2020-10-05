@@ -8,7 +8,7 @@ metadata:
     kahm-notifier: {{required "product must be specified" .Values.product}}-ese
 {{ include "supportassist.labels" . | indent 4 }}
 spec:
-  hostname: supportassist-{{required "product must be specified" .Values.product}} 
+  hostname: supportassist-{{required "product must be specified" .Values.product}}-notifier
   port: {{.Values.notifier.servicePort}}
   grpcConnTimeout: {{.Values.notifier.grpcConnTimeout}}
   grpcRetries: {{.Values.notifier.grpcRetries}}

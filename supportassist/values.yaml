@@ -37,7 +37,7 @@ remoteAccessEnabled: false
 #    port: xxxx
 #    priority: 20
 
-#contacts if the customercontactsfile is not set using --set-file 
+#contacts if the customercontactsfile is not set using --set-file
 contacts:
   - contactorder: 1
     firstname: XXX
@@ -61,13 +61,11 @@ contacts:
 notifier:
   image:
     repository: "ese-notifier"
-    tag: vinodtest 
+    tag: vinodtest
     #pullPolicy: "Always"
   servicePort: 50051
   grpcConnTimeout: 5
   grpcRetries: 3
-
-
 
 # customercontactsfile: "/home/john/customercontactsfile.yaml"
 

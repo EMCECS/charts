@@ -61,7 +61,7 @@ contacts:
 notifier:
   image:
     repository: "ese-notifier"
-    tag: vinodtest
+    #tag: stable 
     #pullPolicy: "Always"
   servicePort: 50051
   grpcConnTimeout: 5

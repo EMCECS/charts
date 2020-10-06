@@ -56,10 +56,8 @@ spec:
         env:
         - name: PRODUCT_NAME
           value:  {{ .Values.product }}
-        - name: PRODUCT_VERSION
-          value:  {{ .Values.productVersion }}
         - name: POD_NAMESPACE
-          value:  {{ .Release.namespace }}
+          value:  {{ .Release.Namespace }}
         - name: MY_POD_IP
           valueFrom:
            fieldRef:

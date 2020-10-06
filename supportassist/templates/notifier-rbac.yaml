@@ -32,6 +32,7 @@ rules:
   - extensions
   resources:
   - secrets
+  - events
   verbs:
   - "*"
 ---

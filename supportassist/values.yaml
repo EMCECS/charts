@@ -27,47 +27,58 @@ createSupportAssistAppResource: true
 #productName: objectscale - required field to pass using --set
 #productVersion: 0.51.0 - required field to pass using --set
 #siteID: 123456 - required field to pass using --set
+
+#enbaled - true will enable the support assist and false will disbale it
 enabled: true
+
+
 systemMode: normal
+
 eventMuted: false
+
+#testDialHome to perform the test dial home
 testDialHome: true
+
+#remoteAccessEnabled will enable the remote access
 remoteAccessEnabled: false
+
 #gateways: - required field to pass using --set
 #  - hostname: 10.11.12.13
 #    port: xxxx
 #    priority: 20
 
 #contacts if the customercontactsfile is not set using --set-file
-contacts:
-  - contactorder: 1
-    firstname: XXX
-    lastname: XXX
-    phonenumber: "+1 (555) 555-7746"
-    emailaddress: test@dell.com
-    timezoneoffset: -06:00
-    prefcontact: phone
-    prefcontacttime: 11:00AM - 1:00AM
-    preflanguage: En
-  - contactorder: 2
-    firstname: XXX
-    lastname: XXX
-    phonenumber: "+1 (312) 555-7748"
-    emailaddress: test@dell.com
-    timezoneoffset: -06:00
-    prefcontact: email
-    prefcontacttime: 1:00PM - 3:00AM
-    preflanguage: En
+#contacts:
+#  - contactorder: 1
+#    firstname: XXX
+#    lastname: XXX
+#    phonenumber: "+1 (555) 555-7746"
+#    emailaddress: test@dell.com
+#    timezoneoffset: -06:00
+#    prefcontact: phone
+#    prefcontacttime: 11:00AM - 1:00AM
+#    preflanguage: En
+#  - contactorder: 2
+#    firstname: XXX
+#    lastname: XXX
+#    phonenumber: "+1 (312) 555-7748"
+#    emailaddress: test@dell.com
+#    timezoneoffset: -06:00
+#    prefcontact: email
+#    prefcontacttime: 1:00PM - 3:00AM
+#    preflanguage: En
 
+# customercontactsfile: "/home/john/customercontactsfile.yaml"
+
+# notifier will have all the setting needed to start notifier deployment
 notifier:
   image:
-    repository: "ese-notifier"
+    repository: "supportassist-ese-notifier"
     #tag: stable 
     #pullPolicy: "Always"
   servicePort: 50051
   grpcConnTimeout: 5
   grpcRetries: 3
-
-# customercontactsfile: "/home/john/customercontactsfile.yaml"
 
 # We usually recommend not to specify default resources and to leave this as a
 # conscious choice for the user. This also increases chances charts run on

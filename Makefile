@@ -9,23 +9,25 @@ FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-gr
 MONITORING_DIR := monitoring
 
 # packaging
-MANAGER_MANIFEST := objectscale-manager.yaml
-KAHM_MANIFEST    := kahm.yaml
-DECKS_MANIFEST   := decks.yaml
-PACKAGE_NAME     := objectscale-charts-package.tgz
-NAMESPACE         = dellemc-objectscale-system
-TEMP_PACKAGE     := temp_package
-SERVICE_ID        = objectscale
-REGISTRY          = objectscale
-DECKS_REGISTRY    = objectscale
-KAHM_REGISTRY     = objectscale
-STORAGECLASSNAME  = dellemc-objectscale-highly-available
-DEFAULT_VERSION   = 0.51.0
-OPERATOR_TAG      = ${DEFAULT_VERSION}
-MONITORING_TAG    = ${DEFAULT_VERSION}
-UI_TAG            = ${DEFAULT_VERSION}
-GRAPHQL_TAG       = ${DEFAULT_VERSION}
-INSTALLER_TAG     = ${DEFAULT_VERSION}
+MANAGER_MANIFEST    := objectscale-manager.yaml
+KAHM_MANIFEST       := kahm.yaml
+DECKS_MANIFEST      := decks.yaml
+PACKAGE_NAME        := objectscale-charts-package.tgz
+NAMESPACE            = dellemc-objectscale-system
+TEMP_PACKAGE        := temp_package
+SERVICE_ID           = objectscale
+REGISTRY             = objectscale
+DECKS_REGISTRY       = objectscale
+KAHM_REGISTRY        = objectscale
+STORAGECLASSNAME     = dellemc-objectscale-highly-available
+#HELM_OPERATOR_ARGS  := ${HELM_OPERATOR_ARGS} ${HEML_MONITORING_ARGS}
+#HELM_UI_ARGS        := ${HELM_UI_ARGS} ${HELM_GRAPHQL_ARGS} ${HELM_INSTALLER_ARGS}
+
+HELM_OPERATOR_ARGS   = # --set image.tag={YOUR_VERSION_HERE}
+HELM_MONITORING_ARGS = # --set global.monitoring.tag=${YOUR_VERSION_HERE}
+HELM_UI_ARGS         = # --set image.tag=${YOUR_VERSION_HERE}
+HELM_GRAPHQL_ARGS    = # --set objectscale-graphql.tag=${YOUR_VERSION_HERE}
+HELM_INSTALLER_ARGS  = # --set objectscale-graphql.helm-controller.tag=${YOUR_VERSION_HERE}
 
 clean: clean-package
 
@@ -139,14 +141,12 @@ create-manager-app: create-temp-package
 	--set global.watchAllNamespaces=false \
 	--set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
-	--set image.tag=${OPERATOR_TAG} \
 	--set logReceiver.create=true --set logReceiver.type=Syslog \
 	--set logReceiver.persistence.storageClassName=${STORAGECLASSNAME} \
 	--set global.monitoring_registry=${REGISTRY} \
 	--set ecs-monitoring.influxdb.persistence.storageClassName=${STORAGECLASSNAME} \
 	--set global.monitoring.enabled=false \
-	--set iam.enabled=false \
-	--set global.monitoring.tag=${MONITORING_TAG} \
+	--set iam.enabled=false ${HELM_OPERATOR_ARGS} ${HELM_MONITORING_ARGS} \
 	-f values.yaml > ../${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml;
 	sed -i 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
 	sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
@@ -158,10 +158,7 @@ create-vsphere-templates: create-temp-package
 	--set global.watchAllNamespaces=false \
     --set graphql.enabled=true \
 	--set global.registry=${REGISTRY} \
-	--set global.storageClassName=${STORAGECLASSNAME} \
-	--set image.tag=${UI_TAG} \
-	--set objectscale-graphql.tag=${GRAPHQL_TAG} \
-	--set objectscale-graphql.helm-controller.tag=${INSTALLER_TAG} \
+	--set global.storageClassName=${STORAGECLASSNAME} ${HELM_UI_ARGS} ${HELM_GRAPHQL_ARGS} ${HELM_INSTALLER_ARGS} \
 	-f objectscale-vsphere/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
 
 create-kahm-manifest: create-temp-package

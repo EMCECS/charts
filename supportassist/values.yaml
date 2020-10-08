@@ -24,53 +24,57 @@ image:
 # Create app resource thru helm
 createSupportAssistAppResource: true
 
-#productName: objectscale - required field to pass using --set
-#productVersion: 0.51.0 - required field to pass using --set
-#siteID: 123456 - required field to pass using --set
+#productName: objectscale - required field to pass in using --set
+#productVersion: 0.51.0 - required field to pass in using --set
+#siteID: 123456 - required field to pass in using --set
 
-#enbaled - true will enable the support assist and false will disbale it
+#enabled - true - enable SupportAssist false - disable it
 enabled: true
 
-
+#systemMode: sets the state of the product for this SupportAssist config
 systemMode: normal
 
+#eventMuted: If true don't open SRs when sending alerts/events
 eventMuted: false
 
-#testDialHome to perform the test dial home
+#testDialHome perform test connectivity back to Dell
 testDialHome: true
 
-#remoteAccessEnabled will enable the remote access
+#remoteAccessEnabled if true enable remote access for services, requires service-pod running
 remoteAccessEnabled: false
+
+#useGateways - if true SupportAssist ESE will use gateways to communicate back to dell
+useGateways: true
 
 #gateways: - required field to pass using --set
 #  - hostname: 10.11.12.13
-#    port: xxxx
+#    port: 9443
 #    priority: 20
 
-#contacts if the customercontactsfile is not set using --set-file
+#contacts - when specifying SupportAssist Customer Contacts directly during deployment
 #contacts:
-#  - contactorder: 1
-#    firstname: XXX
-#    lastname: XXX
-#    phonenumber: "+1 (555) 555-7746"
-#    emailaddress: test@dell.com
-#    timezoneoffset: -06:00
-#    prefcontact: phone
-#    prefcontacttime: 11:00AM - 1:00AM
-#    preflanguage: En
-#  - contactorder: 2
-#    firstname: XXX
-#    lastname: XXX
-#    phonenumber: "+1 (312) 555-7748"
-#    emailaddress: test@dell.com
-#    timezoneoffset: -06:00
-#    prefcontact: email
-#    prefcontacttime: 1:00PM - 3:00AM
-#    preflanguage: En
+#  - contactOrder: 1
+#    firstName: John
+#    lastName: Smith
+#    phoneNumber: "+1 (555) 555-7746"
+#    emailAddress: support@dell.com
+#    timeZoneOffset: -06:00
+#    prefContact: phone
+#    prefContactTime: 11:00AM - 1:00AM
+#    prefLanguage: En
+#  - contactOrder: 2
+#    firstName: XXX
+#    lastName: XXX
+#    phoneNumber: "+1 (312) 555-7748"
+#    emailAddress: test@dell.com
+#    timeZoneOffset: -06:00
+#    prefContact: email
+#    prefContactTime: 1:00PM - 3:00AM
+#    prefLanguage: En
 
 # customercontactsfile: "/home/john/customercontactsfile.yaml"
 
-# notifier will have all the setting needed to start notifier deployment
+# notifier - required settings to start a notifier deployment
 notifier:
   image:
     repository: "supportassist-ese-notifier"

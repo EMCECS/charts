@@ -20,8 +20,6 @@ REGISTRY             = objectscale
 DECKS_REGISTRY       = objectscale
 KAHM_REGISTRY        = objectscale
 STORAGECLASSNAME     = dellemc-objectscale-highly-available
-#HELM_OPERATOR_ARGS  := ${HELM_OPERATOR_ARGS} ${HEML_MONITORING_ARGS}
-#HELM_UI_ARGS        := ${HELM_UI_ARGS} ${HELM_GRAPHQL_ARGS} ${HELM_INSTALLER_ARGS}
 
 HELM_OPERATOR_ARGS   = # --set image.tag={YOUR_VERSION_HERE}
 HELM_MONITORING_ARGS = # --set global.monitoring.tag=${YOUR_VERSION_HERE}

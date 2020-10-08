@@ -20,7 +20,12 @@ REGISTRY          = objectscale
 DECKS_REGISTRY    = objectscale
 KAHM_REGISTRY     = objectscale
 STORAGECLASSNAME  = dellemc-objectscale-highly-available
-OPERATOR_VERSION  = 0.51.0
+DEFAULT_VERSION   = 0.51.0
+OPERATOR_TAG      = ${DEFAULT_VERSION}
+MONITORING_TAG    = ${DEFAULT_VERSION}
+UI_TAG            = ${DEFAULT_VERSION}
+GRAPHQL_TAG       = ${DEFAULT_VERSION}
+INSTALLER_TAG     = ${DEFAULT_VERSION}
 
 clean: clean-package
 
@@ -134,14 +139,14 @@ create-manager-app: create-temp-package
 	--set global.watchAllNamespaces=false \
 	--set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
-	--set image.tag=${OPERATOR_VERSION} \
+	--set image.tag=${OPERATOR_TAG} \
 	--set logReceiver.create=true --set logReceiver.type=Syslog \
 	--set logReceiver.persistence.storageClassName=${STORAGECLASSNAME} \
 	--set global.monitoring_registry=${REGISTRY} \
 	--set ecs-monitoring.influxdb.persistence.storageClassName=${STORAGECLASSNAME} \
 	--set global.monitoring.enabled=false \
 	--set iam.enabled=false \
-	--set global.monitoring.tag=${OPERATOR_VERSION} \
+	--set global.monitoring.tag=${MONITORING_TAG} \
 	-f values.yaml > ../${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml;
 	sed -i 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
 	sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
@@ -154,7 +159,9 @@ create-vsphere-templates: create-temp-package
     --set graphql.enabled=true \
 	--set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
-	--set image.tag=${OPERATOR_VERSION} \
+	--set image.tag=${UI_TAG} \
+	--set objectscale-graphql.tag=${GRAPHQL_TAG} \
+	--set objectscale-graphql.helm-controller.tag=${INSTALLER_TAG} \
 	-f objectscale-vsphere/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
 
 create-kahm-manifest: create-temp-package

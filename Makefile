@@ -21,7 +21,7 @@ DECKS_REGISTRY       = objectscale
 KAHM_REGISTRY        = objectscale
 STORAGECLASSNAME     = dellemc-objectscale-highly-available
 
-HELM_OPERATOR_ARGS   = # --set image.tag={YOUR_VERSION_HERE}
+HELM_MANAGER_ARGS    = # --set image.tag={YOUR_VERSION_HERE}
 HELM_MONITORING_ARGS = # --set global.monitoring.tag=${YOUR_VERSION_HERE}
 HELM_UI_ARGS         = # --set image.tag=${YOUR_VERSION_HERE}
 HELM_GRAPHQL_ARGS    = # --set objectscale-graphql.tag=${YOUR_VERSION_HERE}
@@ -146,7 +146,7 @@ create-manager-app: create-temp-package
 	--set global.monitoring_registry=${REGISTRY} \
 	--set ecs-monitoring.influxdb.persistence.storageClassName=${STORAGECLASSNAME} \
 	--set global.monitoring.enabled=false \
-	--set iam.enabled=false ${HELM_OPERATOR_ARGS} ${HELM_MONITORING_ARGS} \
+	--set iam.enabled=false ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
 	-f values.yaml > ../${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml;
 	sed -i 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
 	sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml

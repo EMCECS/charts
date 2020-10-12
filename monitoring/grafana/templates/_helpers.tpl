@@ -35,7 +35,8 @@ Create chart name and version as used by the chart label.
 Create Grafana external URL using reverse proxy settings
 */}}
 {{- define "grafana.url" -}}
+{{ $subpath_val := tpl .Values.config.reverse_proxy.subpath . }}
 {{- with .Values.config.reverse_proxy -}}
-{{- printf "%s://%s/%s" .protocol .domain .subpath -}}
+{{- printf "%s://%s/%s" .protocol .domain $subpath_val -}}
 {{- end -}}
 {{- end -}}

@@ -81,6 +81,38 @@ atlas:
     # Name of the storage class that storage should be provisioned from
     # storageClassName:
 
+pravega:
+  # labels:
+  image:
+    repository: pravega
+#    tag: ...
+  controller:
+    replicas: 1
+    service:
+      type: ClusterIP
+  segmentStore:
+    replicas: 1
+    service:
+      type: ClusterIP
+
+
+bookkeeper:
+#  replicas: 3
+  # labels:
+  image:
+    repository: bookkeeper
+#    tag:
+  storage:
+    ledger:
+      # storageClassName:
+      volumeSize: 10Gi
+    journal:
+      # storageClassName:
+      volumeSize: 10Gi
+    index:
+      # storageClassName:
+      volumeSize: 10Gi
+
 zookeeper:
   # Override the number of nodes in the zookeeper cluster
   # replicas: 3

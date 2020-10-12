@@ -16,6 +16,13 @@ metadata:
     product: objectscale
 rules:
   - apiGroups:
+      - cns.vmware.com
+    resources:
+      - storagepools
+    verbs:
+      - get
+      - list
+  - apiGroups:
       - storage.k8s.io
     resources:
       - storageclasses

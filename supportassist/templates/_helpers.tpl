@@ -35,13 +35,12 @@ Create chart name and version as used by the chart label.
 Common labels
 */}}
 {{- define "supportassist.labels" -}}
-  app.kubernetes.io/name: {{ include "supportassist.name" . }}
+app.kubernetes.io/name: "supportassist-{{.Values.product}}"
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+app.kubernetes.io/part-of: {{ .Release.Name }}
 helm.sh/chart: {{ include "supportassist.chart" . }}
-app: supportassist-{{.Values.product}}
-name: supportassist-{{.Values.product}}
 product: {{.Values.product}}
 release: {{.Release.Name}}
 {{- range $key, $value := .Values.global.labels }}

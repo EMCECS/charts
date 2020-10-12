@@ -71,6 +71,7 @@ rules:
   - daemonsets
   - deployments
   - replicasets
+  - secrets/finalizers
   verbs:
   - "*"
 - apiGroups:

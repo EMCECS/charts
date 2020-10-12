@@ -5,6 +5,7 @@ metadata:
   name: supportassist-{{required "product must be specified" .Values.product}}-default-properties
   namespace: {{.Release.namespace}}
   labels:
+    app.kubernetes.io/component: supportassist-{{.Values.product}}-ese
 {{ include "supportassist.labels" . | indent 4 }}
 # yamllint disable-rule:colons
 data:
@@ -47,6 +48,7 @@ metadata:
   name: supportassist-{{.Values.product}}
   namespace: {{.Release.namespace}}
   labels:
+    app.kubernetes.io/component: supportassist-{{.Values.product}}-ese
 {{ include "supportassist.labels" . | indent 4 }}
 spec:
   type: LoadBalancer
@@ -60,7 +62,8 @@ spec:
     targetPort: insecure
     protocol: TCP
   selector:
-    name: supportassist-{{.Values.product}}
+    app.kubernetes.io/name: supportassist-{{.Values.product}}
+    app.kubernetes.io/component: supportassist-{{.Values.product}}-ese
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -68,6 +71,7 @@ metadata:
   name: supportassist-{{.Values.product}}-persistentdata
   namespace: {{.Release.namespace}}
   labels:
+    app.kubernetes.io/component: supportassist-{{.Values.product}}-ese
 {{ include "supportassist.labels" . | indent 4 }}
 spec:
   {{- if .Values.global.storageClassName}}
@@ -86,12 +90,14 @@ metadata:
   name: supportassist-{{.Values.product}}
   namespace: {{.Release.namespace}}
   labels:
+    app.kubernetes.io/component: supportassist-{{.Values.product}}-ese
 {{ include "supportassist.labels" . | indent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: supportassist-{{.Values.product}}
+      app.kubernetes.io/component: supportassist-{{.Values.product}}-ese
+      app.kubernetes.io/name: supportassist-{{.Values.product}}
   strategy:
     type: Recreate
   template:
@@ -99,6 +105,8 @@ spec:
       name: supportassist-{{.Values.product}}
       namespace: {{.Release.namespace}}
       labels:
+        app.kubernetes.io/component: supportassist-{{.Values.product}}-ese
+        app.kubernetes.io/name: supportassist-{{.Values.product}}
 {{ include "supportassist.labels" . | indent 8 }}
     spec:
       containers:

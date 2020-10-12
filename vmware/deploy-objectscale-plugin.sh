@@ -8,6 +8,7 @@
 ## terms and conditions of the License Agreement under which it is provided by or
 ## on behalf of Dell Inc. or its subsidiaries.
 
+service_id="SERVICE_ID"
 
 echomsg () {
 
@@ -101,12 +102,26 @@ fi
 kctlVers=$(cat /tmp/kubectl_version.txt)
 echomsg "$kctlVers"
 
-kubectl -n kube-system get cm objectscale 2>/dev/null
+kubectl -n vmware-system-appplatform-operator-system get cm ${service_id} 2>/dev/null
 if [ $? -eq 0 ]
 then
-    echomsg "ObjectScale Plugin has already been deployed"
+    echomsg "ObjectScale Plugin \"${service_id}\" has already been deployed"
     echomsg "It must be disabled and removed before a new one can be applied"
     exit 1
+fi
+
+service_port=`kubectl -n kube-system get svc kube-apiserver-authproxy-svc -o jsonpath='{.spec.ports[0].targetPort}'`
+if [ ${service_port} -ne 443 ]
+then
+    echomsg "The kube-apiserver-authproxy-svc is configured with incorrect port \"${service_port}\" and will be updated now"
+    kubectl -n kube-system patch svc kube-apiserver-authproxy-svc --type=json -p '[{"op":"replace", "path":"/spec/ports/0/targetPort", "value":443}]'
+    if [ $? -eq 0 ]
+    then
+        echomsg "Successfully updated the kube-apiserver-authproxy-svc targetPort to 443"
+    else
+        echomsg "Unable to update the targetPort of kube-apiserver-authproxy-svc to 443"
+        exit 1
+    fi
 fi
 
 ## Now check if the api groups have been added for VMware vSphere7 app platform:

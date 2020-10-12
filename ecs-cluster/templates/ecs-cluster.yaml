@@ -698,4 +698,6 @@ spec:
 
   objectType: {{ .Values.features.objectType }}
 
+  deploymentDeadlineSeconds: {{ .Values.deploymentDeadlineSeconds }}
+
 {{- end }}

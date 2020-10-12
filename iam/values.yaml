@@ -1,0 +1,26 @@
+---
+# Default values for iam.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+global:
+    # The private docker registry and organization hosting containers for Flex
+    registry: emccorp
+
+# The default docker tag and pull policy for iam.
+tag: 0.1.0
+pullPolicy: IfNotPresent
+# product for which the service pod is required
+# product: objectscale
+atlas:
+    registry: emccorp
+    replicaCount: 3
+    affinity: false
+    image:
+        repository: atlas
+        tag: v1.1.1
+        pullPolicy: IfNotPresent
+    persistence:
+        # Size of each volume to be provisioned
+        size: 10Gi
+        # Name of the storage class that storage should be provisioned from
+        # storageClassName:

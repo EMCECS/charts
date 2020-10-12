@@ -1,0 +1,14 @@
+---
+apiVersion: kahm.emcecs.github.com/v1beta1
+kind: Notifier
+metadata:
+  name: supportassist-{{required "product must be specified" .Values.product}}
+  namespace: {{.Release.namespace}}
+  labels:
+    kahm-notifier: {{required "product must be specified" .Values.product}}-supportassist-ese
+{{ include "supportassist.labels" . | indent 4 }}
+spec:
+  hostname: supportassist-{{required "product must be specified" .Values.product}}-notifier
+  port: {{.Values.notifier.servicePort}}
+  grpcConnTimeout: {{.Values.notifier.grpcConnTimeout}}
+  grpcRetries: {{.Values.notifier.grpcRetries}}

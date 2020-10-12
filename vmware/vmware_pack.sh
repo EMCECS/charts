@@ -65,6 +65,10 @@ sed -i 's/[[:space:]]*$//' temp_package/yaml/${vsphere7_plugin_file}
 sed -i "s/$namespace/{{ .service.namespace }}/g" temp_package/yaml/${vsphere7_plugin_file}
 
 cp -p ./vmware/deploy-objectscale-plugin.sh temp_package/scripts 
+
+## Template the service_id value
+sed -i "s/SERVICE_ID/${service_id}/" temp_package/scripts/deploy-objectscale-plugin.sh
+
 cat temp_package/yaml/${vsphere7_plugin_file} >> temp_package/scripts/deploy-objectscale-plugin.sh 
 echo "EOF" >> temp_package/scripts/deploy-objectscale-plugin.sh
 

@@ -22,7 +22,7 @@ global:
     enabled: true
 
 # The default docker tag and pull policy for the ECS Cluster
-tag: 0.51.0
+tag: 0.52.0
 pullPolicy: IfNotPresent
 
 # Override the default number of replicas which taken according to performance profile for each service
@@ -175,7 +175,7 @@ objectsvc:
   # Docker repository to be used for objectsvc instances
   image:
     repository: object-service
-    tag: latest
+    # tag: stable
     # pullPolicy: IfNotPresent
 
 # The ECS Object Notification Service configuration specification

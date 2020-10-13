@@ -7,7 +7,7 @@ kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: {{ .Release.Namespace }}-object-store-monitor
-  {{- if or (ne .Values.global.platform "VMware") (eq .Values.global.watchAllNamespaces false) }}
+  {{- if or (eq .Values.global.platform "VMware") (eq .Values.global.watchAllNamespaces false) }}
   namespace: {{ .Release.Namespace }}
   {{- end }}
   labels:

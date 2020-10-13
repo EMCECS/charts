@@ -22,31 +22,31 @@ data:
             - label: SymptomID
               value: DECKS-LIC-1004
           notifiers:
-            - {{.Values.product}}-srs
+            - {{.Values.product}}-supportassist-ese
         - description: "dellemc license expired event"
           matchon:
             - label: SymptomID
               value: DECKS-LIC-1005
           notifiers:
-            - {{.Values.product}}-srs
+            - {{.Values.product}}-supportassist-ese
         - description: "dellemc license warning event about to expire"
           matchon:
             - label: SymptomID
               value: DECKS-LIC-1006
           notifiers:
-            - {{.Values.product}}-srs
+            - {{.Values.product}}-supportassist-ese
         - description: "dellemc invalid license event"
           matchon:
             - label: SymptomID
               value: DECKS-LIC-1008
           notifiers:
-            - {{.Values.product}}-srs
+            - {{.Values.product}}-supportassist-ese
         - description: "dellemc license no longer tracking features"
           matchon:
             - label: SymptomID
               value: DECKS-LIC-1011
           notifiers:
-            - {{.Values.product}}-srs
+            - {{.Values.product}}-supportassist-ese
     eventRemedies: |-
       symptoms:
         - symptomid: DECKS-LIC-1005

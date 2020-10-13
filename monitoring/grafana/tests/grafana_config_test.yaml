@@ -116,3 +116,13 @@ tests:
       - matchRegex:
           path: data.grafana\.ini
           pattern: "root_url = %\\(protocol\\)s://%\\(domain\\)s"
+  - it: grafana url reverse proxy
+    set:
+      config.reverse_proxy.enabled: true
+      config.reverse_proxy.protocol: "http"
+      config.reverse_proxy.domain: "localhost"
+      config.reverse_proxy.subpath: "grafana/{{ .Release.Namespace }}/{{ .Release.Name }}"
+    asserts:
+      - matchRegex:
+          path: data.grafana\.ini
+          pattern: "root_url = http://localhost/grafana/NAMESPACE/RELEASE-NAME"

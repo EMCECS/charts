@@ -53,6 +53,11 @@ spec:
           name: metrics
         command:
         - objectscale-operator
+        resources:
+          limits:
+            memory: {{ .Values.resources.operator.limits.memory }}
+          requests:
+            memory: {{ .Values.resources.operator.requests.memory }}
         env:
         - name: POD_NAME
           valueFrom:
@@ -130,6 +135,11 @@ spec:
       - name: fluentbit-agent
         image: {{ .Values.global.registry }}/{{ .Values.fluentbitAgent.image.repository }}:{{ default .Values.tag .Values.fluentbitAgent.image.tag }}
         imagePullPolicy: {{ default .Values.pullPolicy .Values.fluentbitAgent.image.pullPolicy }}
+        resources:
+          limits:
+            memory: {{ .Values.resources.fluentbitAgent.limits.memory }}
+          requests:
+            memory: {{ .Values.resources.fluentbitAgent.requests.memory }}
         env:
           - name: POD
             valueFrom:

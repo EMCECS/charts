@@ -62,6 +62,11 @@ spec:
         livenessProbe:
           tcpSocket:
             port: 514
+        resources:
+          limits:
+            memory: {{ .Values.resources.rsyslog.limits.memory }}
+          requests:
+            memory: {{ .Values.resources.rsyslog.requests.memory }}
         env:
         - name: MODE
           value: SERVER

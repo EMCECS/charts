@@ -15,7 +15,7 @@ GIT_COMMIT_ID=$(shell git rev-parse HEAD)
 GIT_COMMIT_SHORT_ID=$(shell git rev-parse --short HEAD)
 GIT_BRANCH_ID=$(shell git rev-parse --abbrev-ref HEAD)
 
-PACKAGE_VERSION=0.51.0
+PACKAGE_VERSION=0.52.0
 SERVICE_PACK=0
 ECS_MONITORING_VERSION=$(PACKAGE_VERSION)
 

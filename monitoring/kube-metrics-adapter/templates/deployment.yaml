@@ -17,6 +17,7 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "kube-metrics-adapter.fullname" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
+        release: {{ .Release.Name }}
     spec:
       serviceAccountName: {{ template "kube-metrics-adapter.fullname" . }}
       containers:

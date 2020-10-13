@@ -30,6 +30,7 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "fluxd.fullname" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
+        release: {{ .Release.Name }}
       annotations:
         prometheus.io/scrape: 'true'
         prometheus.io/scheme: {{ $scheme }}

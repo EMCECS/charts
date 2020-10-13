@@ -34,7 +34,7 @@ cert:
 grafana:
   config:
     dashboards_dir: "dashboards/ecs"
-    home_dashboard: "Data Access Performance - Overview"
+    home_dashboard: "ObjectStore Overview"
     reverse_proxy:
       enabled: true
       protocol: "http"

@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     helm.sh/chart: {{ include "kube-metrics-adapter.chart" . }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ include "common-lib.replicaCount" (dict "top" . "micro" 1 "small" 1 "medium" 1 "large" 1)}}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "kube-metrics-adapter.fullname" . }}

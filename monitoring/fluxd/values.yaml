@@ -20,6 +20,7 @@ global:
   telegraf_tls_enabled: true
   internal_dns: "kube-dns.kube-system.svc.cluster.local"
   performanceProfile: "Small"
+  started: true
 
 image:
   repository: fluxd

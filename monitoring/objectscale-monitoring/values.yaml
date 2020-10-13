@@ -25,6 +25,7 @@ global:
   internal_dns: kube-dns.kube-system.svc.cluster.local
   rsyslog_enabled: false
   performanceProfile: Small
+  started: true
 
 cert:
   enabled: false

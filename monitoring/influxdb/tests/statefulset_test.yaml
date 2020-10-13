@@ -133,3 +133,20 @@ tests:
       - equal:
           path: spec.volumeClaimTemplates[0].spec.storageClassName
           value: "myclass"
+
+suite: test replicas
+templates:
+  - statefulset.yaml
+tests:
+  - it: Started
+    asserts:
+      - equal:
+          path: spec.replicas
+          value: 3
+  - it: Stopped
+    set:
+      global.started: false
+    asserts:
+      - equal:
+          path: spec.replicas
+          value: 0

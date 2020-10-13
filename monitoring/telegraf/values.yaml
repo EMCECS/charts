@@ -22,6 +22,7 @@ global:
   performanceProfile: "Small"
   monitoring:
     enabled: true
+  started: true
 
 image:
   repository: telegraf

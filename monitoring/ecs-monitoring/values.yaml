@@ -24,7 +24,7 @@ global:
   internal_dns: kube-dns.kube-system.svc.cluster.local
   rsyslog_enabled: false
   performanceProfile: Small
-  monitoring_tag: 3.7.0.0-967.ed517a57
+  monitoring_tag: 3.7.0.0-969.de6276b2
 
 objectscale_release_name: "objectscale"
 objectscale_namespace: "objectscale"

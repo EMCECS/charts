@@ -328,24 +328,6 @@
     "start-offset": "0s",
     "keep-offset": "0s",
     "max-age": "1440h",
-    "target":"cq_performance_transaction_head_downsampled",
-    "value-columns":["failed_request_counter","succeed_request_counter"],
-    "tag-columns":["head"],
-    "depend-on": ["cq_performance_transaction_head"],
-    "params":{
-      "measurement":"cq_performance_transaction_head",
-      "aggregation":"mean"
-    },
-    "max-retry": 3
-  },
-  {
-    "template":"downsample.tmpl",
-    "type": "downsampling",
-    "min-depth":"24h",
-    "max-depth":"24h",
-    "start-offset": "0s",
-    "keep-offset": "0s",
-    "max-age": "1440h",
     "target":"cq_performance_transaction_delta_downsampled",
     "value-columns":["failed_request_counter_i","succeed_request_counter_i"],
     "tag-columns":null,
@@ -382,66 +364,12 @@
     "start-offset": "0s",
     "keep-offset": "0s",
     "max-age": "1440h",
-    "target":"cq_performance_transaction_head_delta_downsampled",
-    "value-columns":["failed_request_counter_i","succeed_request_counter_i"],
-    "tag-columns":["head"],
-    "depend-on": ["cq_performance_transaction_head_delta"],
-    "params":{
-      "measurement":"cq_performance_transaction_head_delta",
-      "aggregation":"sum"
-    },
-    "max-retry": 3
-  },
-  {
-    "template":"downsample.tmpl",
-    "type": "downsampling",
-    "min-depth":"24h",
-    "max-depth":"24h",
-    "start-offset": "0s",
-    "keep-offset": "0s",
-    "max-age": "1440h",
-    "target":"cq_performance_error_head_delta_downsampled",
-    "value-columns":["user_errors_i","system_errors_i"],
-    "tag-columns":["head"],
-    "depend-on": ["cq_performance_error_head_delta"],
-    "params":{
-      "measurement":"cq_performance_error_head_delta",
-      "aggregation":"sum"
-    },
-    "max-retry": 3
-  },
-  {
-    "template":"downsample.tmpl",
-    "type": "downsampling",
-    "min-depth":"24h",
-    "max-depth":"24h",
-    "start-offset": "0s",
-    "keep-offset": "0s",
-    "max-age": "1440h",
     "target":"cq_performance_throughput_downsampled",
     "value-columns":["total_read_requests_size","total_write_requests_size"],
     "tag-columns":null,
     "depend-on": ["cq_performance_throughput"],
     "params":{
       "measurement":"cq_performance_throughput",
-      "aggregation":"mean"
-    },
-    "max-retry": 3
-  },
-  {
-    "template":"downsample.tmpl",
-    "type": "downsampling",
-    "min-depth":"24h",
-    "max-depth":"24h",
-    "start-offset": "0s",
-    "keep-offset": "0s",
-    "max-age": "1440h",
-    "target":"cq_performance_throughput_head_downsampled",
-    "value-columns":["total_read_requests_size","total_write_requests_size"],
-    "tag-columns":["head"],
-    "depend-on": ["cq_performance_throughput_head"],
-    "params":{
-      "measurement":"cq_performance_throughput_head",
       "aggregation":"mean"
     },
     "max-retry": 3
@@ -472,84 +400,12 @@
     "start-offset": "0s",
     "keep-offset": "0s",
     "max-age": "1440h",
-    "target":"cq_performance_error_head_downsampled",
-    "value-columns":["user_errors","system_errors"],
-    "tag-columns":["head"],
-    "depend-on": ["cq_performance_error_head"],
-    "params":{
-      "measurement":"cq_performance_error_head",
-      "aggregation":"mean"
-    },
-    "max-retry": 3
-  },
-  {
-    "template":"downsample.tmpl",
-    "type": "downsampling",
-    "min-depth":"24h",
-    "max-depth":"24h",
-    "start-offset": "0s",
-    "keep-offset": "0s",
-    "max-age": "1440h",
     "target":"cq_performance_latency_downsampled",
     "value-columns":["p50","p99"],
     "tag-columns":["id"],
     "depend-on": ["cq_performance_latency"],
     "params":{
       "measurement":"cq_performance_latency",
-      "aggregation":"mean"
-    },
-    "max-retry": 3
-  },
-  {
-    "template":"downsample.tmpl",
-    "type": "downsampling",
-    "min-depth":"24h",
-    "max-depth":"24h",
-    "start-offset": "0s",
-    "keep-offset": "0s",
-    "max-age": "1440h",
-    "target":"cq_performance_latency_head_downsampled",
-    "value-columns":["p50","p99"],
-    "tag-columns":["head","id"],
-    "depend-on": ["cq_performance_latency_head_S3"],
-    "params":{
-      "measurement":"cq_performance_latency_head_S3",
-      "aggregation":"mean"
-    },
-    "max-retry": 3
-  },
-  {
-    "template":"downsample.tmpl",
-    "type": "downsampling",
-    "min-depth":"24h",
-    "max-depth":"24h",
-    "start-offset": "0s",
-    "keep-offset": "0s",
-    "max-age": "1440h",
-    "target":"cq_performance_error_code_downsampled",
-    "value-columns":["error_counter"],
-    "tag-columns":["code"],
-    "depend-on": ["cq_performance_error_code"],
-    "params":{
-      "measurement":"cq_performance_error_code",
-      "aggregation":"mean"
-    },
-    "max-retry": 3
-  },
-  {
-    "template":"downsample.tmpl",
-    "type": "downsampling",
-    "min-depth":"24h",
-    "max-depth":"24h",
-    "start-offset": "0s",
-    "keep-offset": "0s",
-    "max-age": "1440h",
-    "target":"cq_performance_transaction_method_downsampled",
-    "value-columns":["succeed_request_counter", "failed_request_counter"],
-    "tag-columns":["method"],
-    "depend-on": ["cq_performance_transaction_method"],
-    "params":{
-      "measurement":"cq_performance_transaction_method",
       "aggregation":"mean"
     },
     "max-retry": 3

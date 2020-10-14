@@ -7,20 +7,21 @@ metadata:
   labels:
 {{ include "supportassist.labels" . | indent 4 }}
 spec:
-  productName: {{.Values.product}}
+  productName: "{{.Values.product | upper}}"
+  productModel: "{{.Values.product | upper}}"
   productType: dell.enterprise.storage.{{.Values.product}}
   productVersion: {{required "productVersion must be specified" .Values.productVersion}}
-  supportAssist:
-    enabled: {{default true .Values.enabled}}
-    siteID: {{required "siteID must be specified" .Values.siteID}}
-    systemMode: normal
-    eventMuted: false
-    testDialHome: {{default true .Values.testDialHome}}
-    remoteAccessEnabled: {{default false .Values.remoteAccessEnabled}}
-    {{- if .Values.gateways }}
-    gateways:
-    {{toYaml .Values.gateways | indent 4 | trim}}
-    {{- end }}
+  enabled: {{default true .Values.enabled}}
+  siteID: {{required "siteID must be specified" .Values.siteID}}
+  systemMode: {{ default "normal" .Values.systemMode }}
+  eventMuted: {{ default false .Values.eventMuted }}
+  testDialHome: {{ default true .Values.testDialHome }}
+  remoteAccessEnabled: {{ default false .Values.remoteAccessEnabled }}
+  useGateways: {{ default true .Values.useGateways }}
+  {{- if .Values.gateways }}
+  gateways:
+  {{toYaml .Values.gateways | indent 2 | trim}}
+  {{- end }}
   CloudIQ:
     enabled: false
     inventory: 60

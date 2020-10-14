@@ -1,3 +1,4 @@
+---
 suite: test api role
 templates:
   - object-store-admin-role.yaml
@@ -27,7 +28,6 @@ tests:
       - equal:
           path: metadata.namespace
           value: NAMESPACE
-  - it: should create a role when not watching all namespaces
   - it: should create a role when not watching all namespaces
     set:
       "global.watchAllNamespaces": false

@@ -1,9 +1,15 @@
 ---
+{{- if and (ne .Values.global.platform "VMware") (eq .Values.global.watchAllNamespaces true) }}
+kind: ClusterRole
+{{- else }}
 kind: Role
+{{- end }}
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Release.Namespace }}-objectscale-admin
+  name: {{ .Release.Namespace }}-object-store-admin
+  {{- if or (eq .Values.global.platform "VMware") (eq .Values.global.watchAllNamespaces false) }}
   namespace: {{ .Release.Namespace }}
+  {{- end }}
   labels:
     app.kubernetes.io/name: objectscale-manager
     app.kubernetes.io/instance: {{ .Release.Name }}
@@ -15,40 +21,34 @@ metadata:
     release: {{ .Release.Name}}
     operator: objectscale-operator
     product: objectscale
+    {{- if eq .Values.global.platform "VMware" }}
+    rbac.authorization.k8s.io/aggregate-to-edit: "true"
+    {{- end }}
 rules:
 - apiGroups:
-  - ""
+  - ecs.dellemc.com
   resources:
-  - secrets
+  - ecsclusters
   verbs:
-    - "*"
+  - "*"
 - apiGroups:
-    - decks.ecs.dellemc.com
+  - app.k8s.io
   resources:
-    - "*"
+  - "*"
   verbs:
-    - "*"
+  - "*"
 - apiGroups:
-    - ecs.dellemc.com
+  - influxdata.com
   resources:
-    - "*"
+  - influxdbs
   verbs:
-    - "*"
-- apiGroups:
-    - kahm.emcecs.github.com
-  resources:
-    - "*"
-  verbs:
-    - "*"
+  - "*"
 - apiGroups:
     - ""
   resources:
     - pods
-    - services
-    - endpoints
     - persistentvolumeclaims
-    - persistentvolumes
-    - events
+    - secrets
     - configmaps
   verbs:
     - "*"
@@ -59,34 +59,3 @@ rules:
     - cronjobs
   verbs:
     - "*"
-- apiGroups:
-    - policy
-  resources:
-    - poddisruptionbudgets
-  verbs:
-    - get
-    - list
-    - watch
-- apiGroups:
-    - apps
-  resources:
-    - deployments
-    - daemonsets
-    - replicasets
-    - statefulsets
-  verbs:
-    - "*"
-- apiGroups:
-    - app.k8s.io
-  resources:
-    - "*"
-  verbs:
-    - "*"
-- apiGroups:
-    - metrics.k8s.io
-  resources:
-    - "*"
-  verbs:
-    - get
-    - watch
-    - list

@@ -1,0 +1,40 @@
+---
+suite: test api role
+templates:
+  - object-store-monitor-role.yaml
+tests:
+  - it: should create a cluster role by default
+    asserts:
+      - isKind:
+          of: ClusterRole
+      - equal:
+          path: metadata.namespace
+          value: null
+  - it: should create a role in VMware
+    set:
+      "global.platform": VMware
+    asserts:
+      - isKind:
+          of: Role
+      - equal:
+          path: metadata.namespace
+          value: NAMESPACE
+  - it: should have a name object-store-monitor
+    asserts:
+      - equal:
+          path: metadata.name
+          value: NAMESPACE-object-store-monitor
+  - it: should add the aggregate-to-edit label in VMware
+    set:
+      "global.platform": VMware
+    asserts:
+      - equal:
+          path: metadata.labels.rbac\.authorization\.k8s\.io/aggregate-to-edit
+          value: "true"
+  - it: should add the aggregate-to-view label in VMware
+    set:
+      "global.platform": VMware
+    asserts:
+      - equal:
+          path: metadata.labels.rbac\.authorization\.k8s\.io/aggregate-to-view
+          value: "true"

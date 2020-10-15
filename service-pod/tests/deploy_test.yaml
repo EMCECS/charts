@@ -14,7 +14,7 @@ tests:
     asserts:
       - matchRegex:
           path: spec.template.spec.containers[0].image
-          pattern: emccorp/my-product-service-tools:2.0.52
+          pattern: emccorp/my-product-service-tools:.*
       - equal:
           path: spec.template.spec.containers[0].imagePullPolicy
           value: IfNotPresent

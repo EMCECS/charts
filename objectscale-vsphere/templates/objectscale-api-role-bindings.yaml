@@ -45,5 +45,5 @@ subjects:
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: Role
-  name: {{ .Release.Namespace }}-objectscale-api
+  name: {{ .Release.Namespace }}-objectscale-admin
   apiGroup: rbac.authorization.k8s.io

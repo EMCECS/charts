@@ -13,16 +13,16 @@
 
 apiVersion: v2
 name: kube-metrics-adapter
-version: 0.51.0
-appVersion: 0.51.0
+version: 0.52.0
+appVersion: 0.52.0
 description: kube-metrics-adapter
 engine: gotpl
 
 dependencies:
   - name: cert
     repository: "file://../cert"
-    version: 0.51.0
+    version: 0.52.0
     condition: cert.enabled, global.cert.enabled
   - name: common-lib
-    version: 0.51.0
+    version: 0.52.0
     repository: file://../common-lib

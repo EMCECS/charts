@@ -29,9 +29,9 @@ spec:
       containers:
       - name: service-pod
 {{- if .Values.image.tag }}
-        image: {{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+        image: {{ .Values.global.registry }}/{{ .Values.image.repository | replace "base" .Values.product }}:{{ .Values.image.tag }}
 {{- else }}
-        image: {{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ .Values.tag }}
+        image: {{ .Values.global.registry }}/{{ .Values.image.repository | replace "base" .Values.product }}:{{ .Values.tag }}
 {{- end }}
 {{- if .Values.image.pullPolicy }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}

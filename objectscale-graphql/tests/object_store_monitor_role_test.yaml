@@ -10,15 +10,12 @@ tests:
       - equal:
           path: metadata.namespace
           value: null
-  - it: should create a role in VMware
+  - it: should create a clusterrole in VMware
     set:
       "global.platform": VMware
     asserts:
       - isKind:
-          of: Role
-      - equal:
-          path: metadata.namespace
-          value: NAMESPACE
+          of: ClusterRole
   - it: should have a name object-store-monitor
     asserts:
       - equal:

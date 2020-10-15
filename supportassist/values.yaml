@@ -78,8 +78,8 @@ useGateways: true
 notifier:
   image:
     repository: "supportassist-ese-notifier"
-    #tag: stable 
-    #pullPolicy: "Always"
+#   tag: stable
+#   pullPolicy: "Always"
   servicePort: 50051
   grpcConnTimeout: 5
   grpcRetries: 3

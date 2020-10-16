@@ -40,6 +40,11 @@ spec:
       imagePullSecrets:
         - name: {{ .Values.global.registrySecret }}
 {{- end }}
+      tolerations:
+        - key: "node.vmware.com/drain"
+          operator: "Equal"
+          value: "planned-downtime"
+          effect: "NoExecute"
       containers:
       - name: operator
         image: {{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ default .Values.tag .Values.image.tag }}

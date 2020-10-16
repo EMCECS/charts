@@ -41,10 +41,12 @@ spec:
         - name: {{ .Values.global.registrySecret }}
 {{- end }}
       tolerations:
+{{- if eq .Values.global.platform "VMware" }}
         - key: "node.vmware.com/drain"
           operator: "Equal"
           value: "planned-downtime"
           effect: "NoExecute"
+{{- end }}
       containers:
       - name: operator
         image: {{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ default .Values.tag .Values.image.tag }}

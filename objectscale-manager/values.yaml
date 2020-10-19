@@ -45,6 +45,12 @@ sonobuoy:
 iam:
   enabled: false
 
+pravega-operator:
+  enabled: false
+
+bookkeeper-operator:
+  enabled: false
+
 # Create an application resource for management  using Dell EMC common installer or other application-resource
 # controllers
 createApplicationResource: true

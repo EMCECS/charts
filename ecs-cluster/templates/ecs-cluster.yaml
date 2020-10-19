@@ -166,8 +166,8 @@ spec:
       pullPolicy: {{ .Values.pullPolicy }}
     {{- end }}
     storage:
-    ledgerVolumeClaimTemplate:
-      accessModes: [ "ReadWriteOnce" ]
+      ledgerVolumeClaimTemplate:
+        accessModes: [ "ReadWriteOnce" ]
       {{- if .Values.bookkeeper.storage.ledger.storageClassName }}
       storageClassName: {{ .Values.bookkeeper.storage.ledger.storageClassName }}
       {{- end }}

@@ -32,9 +32,9 @@ dependencies:
     condition: iam.enabled
   - name: pravega-operator
     version: 0.5.1
-    repository: file://pravega-operator
+    repository: file://../pravega-operator
     condition: pravega.enabled
   - name: bookkeeper-operator
     version: 0.1.2
-    repository: file://bookkeeper-operator
+    repository: file://../bookkeeper-operator
     condition: bookkeeper.enabled

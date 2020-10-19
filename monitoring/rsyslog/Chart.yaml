@@ -22,3 +22,6 @@ dependencies:
   - name: common-lib
     version: 0.52.0
     repository: file://../common-lib
+  - name: rsyslog-client
+    repository: "file://../rsyslog-client"
+    version: 0.52.0

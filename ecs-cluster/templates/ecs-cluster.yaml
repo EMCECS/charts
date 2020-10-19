@@ -168,28 +168,28 @@ spec:
     storage:
       ledgerVolumeClaimTemplate:
         accessModes: [ "ReadWriteOnce" ]
-      {{- if .Values.bookkeeper.storage.ledger.storageClassName }}
-      storageClassName: {{ .Values.bookkeeper.storage.ledger.storageClassName }}
-      {{- end }}
-      resources:
-        requests:
-          storage: {{ .Values.bookkeeper.storage.ledger.volumeSize }}
-    journalVolumeClaimTemplate:
-      accessModes: [ "ReadWriteOnce" ]
-      {{- if .Values.bookkeeper.storage.journal.storageClassName }}
-      storageClassName: {{ .Values.bookkeeper.storage.journal.storageClassName }}
-      {{- end }}
-      resources:
-        requests:
-          storage: {{ .Values.bookkeeper.storage.journal.volumeSize }}
-    indexVolumeClaimTemplate:
-      accessModes: [ "ReadWriteOnce" ]
-      {{- if .Values.bookkeeper.storage.index.storageClassName }}
-      storageClassName: {{ .Values.bookkeeper.storage.index.storageClassName }}
-      {{- end }}
-      resources:
-        requests:
-          storage: {{ .Values.bookkeeper.storage.index.volumeSize }}
+        {{- if .Values.bookkeeper.storage.ledger.storageClassName }}
+        storageClassName: {{ .Values.bookkeeper.storage.ledger.storageClassName }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.bookkeeper.storage.ledger.volumeSize }}
+      journalVolumeClaimTemplate:
+        accessModes: [ "ReadWriteOnce" ]
+        {{- if .Values.bookkeeper.storage.journal.storageClassName }}
+        storageClassName: {{ .Values.bookkeeper.storage.journal.storageClassName }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.bookkeeper.storage.journal.volumeSize }}
+      indexVolumeClaimTemplate:
+        accessModes: [ "ReadWriteOnce" ]
+        {{- if .Values.bookkeeper.storage.index.storageClassName }}
+        storageClassName: {{ .Values.bookkeeper.storage.index.storageClassName }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.bookkeeper.storage.index.volumeSize }}
 
   pravega:
     {{- if .Values.pravega.controller.service.type }}

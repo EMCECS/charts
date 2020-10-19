@@ -17,6 +17,11 @@ global:
   rsyslog_uds_filename: "rsyslog.socket"
   cluster_name: "unknown"
 
+# Use huge number of replicas here to be sure that statefulset pods will be deployed on k8s nodes.
+# The behaviour will be changed when logging-operator will be introduced which will be responsible
+# for deployment necessary number of statefulset pods depends on the number of the k8s nodes in cluster.
+replicas: 999
+
 logReceiver:
   enable: false
   type: Logstash
@@ -37,7 +42,9 @@ resources:
 
 persistence:
   enabled: true
-  hostPath: "/var/log/platform_logs"
+  accessMode: ReadWriteOnce
+  storageClassName: "baremetal-csi-sc-ssdlvg"
+  size: 1Gi
 
 ## Tolerations for pod assignment
 ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
@@ -50,3 +57,5 @@ config:
   logs_size_high_watermark: 18432000
   # low water mark: 16 Gb
   logs_size_low_watermark: 16384000
+  tcp_port: 10514
+  udp_port: 10514

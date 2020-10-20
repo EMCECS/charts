@@ -4,10 +4,10 @@ kind: StoragePolicy
 metadata:
     labels:
       controller-tools.k8s.io: "1.0"
-    name: dellemc-objectscale-highly-available
+    name: {{ .Values.global.storageClassName }} 
     namespace: {{ .Release.Namespace }}
 spec:
-    name: dellemc-objectscale-highly-available
+    name: {{ .Values.global.storageClassName }}
     rules:
       VSAN.hostFailuresToTolerate: "1"
       VSAN.stripeWidth: "1"

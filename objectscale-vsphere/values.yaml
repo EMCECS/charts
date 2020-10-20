@@ -56,6 +56,7 @@ service:
       port: 4443
       targetPort: 4443
       # nodePort:           # select specific node port for the connection
+  storagePolicyHA: dellemc-objectscale-highly-available
 
   # loadBalancerIP:     # select specific load balancer IP of the connection
   # externalHostnames:

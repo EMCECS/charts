@@ -117,6 +117,18 @@ rules:
   verbs:
   - "*"
 - apiGroups:
+  - bookkeeper.pravega.io
+  resources:
+  - "*"
+  verbs:
+  - "*"
+- apiGroups:
+  - pravega.pravega.io
+  resources:
+  - "*"
+  verbs:
+  - "*"
+- apiGroups:
   - influxdata.com
   resources:
   - influxdbs

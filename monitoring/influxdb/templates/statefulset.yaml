@@ -340,6 +340,8 @@ spec:
         {{- range $key, $value := .Values.persistence.annotations }}
           {{ $key }}: "{{ $value }}"
         {{- end }}
+        labels:
+          release: {{ .Release.Name }}
       spec:
         accessModes:
           - {{ .Values.persistence.accessMode | quote}}

@@ -3,6 +3,9 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# Default Product
+product: objectscale
+
 # These global settings relate to both the ECS Flex operator as well as the
 # Zookeeper Operator subchart
 global:

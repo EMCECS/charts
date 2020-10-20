@@ -30,6 +30,10 @@ dependencies:
     version: 0.1.0
     repository: file://../iam
     condition: iam.enabled
+  - name: service-pod
+    version: 2.0.52
+    repository: file://../service-pod
+    condition: iam.enabled
 ###
 ### OBSDEF-2983 needs to address incorporating into subcharts
 #  - name: pravega-operator

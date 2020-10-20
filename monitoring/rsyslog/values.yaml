@@ -12,15 +12,13 @@
 #
 
 global:
-  monitoring_registry: ecs-monitoring
+  monitoring_registry: asdrepo.isus.emc.com:8099
   rsyslog_uds_dir: "/var/run/rsyslog"
   rsyslog_uds_filename: "rsyslog.socket"
   cluster_name: "unknown"
+  monitoring_tag: 3.7.0.0-969.de6276b2
 
-# Use huge number of replicas here to be sure that statefulset pods will be deployed on k8s nodes.
-# The behaviour will be changed when logging-operator will be introduced which will be responsible
-# for deployment necessary number of statefulset pods depends on the number of the k8s nodes in cluster.
-replicas: 999
+replicas: 1
 
 logReceiver:
   enable: false

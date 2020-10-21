@@ -15,7 +15,7 @@ templates:
 tests:
   - it: headless service
     set:
-      config.tcp_port: 9999
+      service.bind_address: 9999
     release:
       name: rsyslog
     asserts:

@@ -47,3 +47,6 @@ dependencies:
   - name: prometheus-alerts
     repository: "file://../prometheus-alerts"
     version: 0.52.0
+  - name: rsyslog
+    version: 0.52.0
+    repository: "file://../rsyslog"

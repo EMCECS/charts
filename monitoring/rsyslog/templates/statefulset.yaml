@@ -18,19 +18,16 @@ metadata:
     app.kubernetes.io/name: {{ include "rsyslog.fullname" . }}
     helm.sh/chart: {{ include "rsyslog.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
-    type: statefuldaemonset
 spec:
   serviceName: {{ template "rsyslog.fullname" . }}
   replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ template "rsyslog.fullname" . }}
-      type: statefuldaemonset
   template:
     metadata:
       labels:
         app.kubernetes.io/name: {{ template "rsyslog.fullname" . }}
-        type: statefuldaemonset
       annotations:
         # Include a hash of the configmap in the pod template
         # This means that if the configmap changes, the deployment will be rolled
@@ -43,17 +40,17 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
           - labelSelector:
               matchExpressions:
-              - key: "type"
+              - key: "app.kubernetes.io/name"
                 operator: In
                 values:
-                - statefuldaemonset
+                - {{ template "rsyslog.fullname" . }}
             topologyKey: "kubernetes.io/hostname"
       containers:
       - name: {{ .Chart.Name }}
         image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         ports:
-        - containerPort: {{ .Values.config.tcp_port }}
+        - containerPort: {{ .Values.service.bind_address }}
           name: rsyslog
         resources:
 {{ toYaml .Values.resources | indent 10 }}

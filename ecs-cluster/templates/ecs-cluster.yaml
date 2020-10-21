@@ -1,5 +1,5 @@
 ---
-  {{- if .Values.started }}
+{{- if .Values.started }}
 apiVersion: "ecs.dellemc.com/v1beta1"
 kind: "ECSCluster"
 metadata:
@@ -15,16 +15,16 @@ metadata:
     operator: objectscale-operator
     product: objectscale
     release: {{ .Release.Name }}
-    {{- if .Values.group }}
+{{- if .Values.group }}
     group: {{ .Values.group }}
-  {{- end }}
+{{- end }}
 spec:
-  {{- if .Values.global.registrySecret }}
+{{- if .Values.global.registrySecret }}
   registrySecret: {{ .Values.global.registrySecret }}
-  {{- end }}
-  {{- if .Values.replicas }}
+{{- end }}
+{{- if .Values.replicas }}
   replicas: {{ .Values.replicas }}
-  {{- end }}
+{{- end }}
   performanceProfile: {{ .Values.performanceProfile }}
 
   atlas:
@@ -41,94 +41,94 @@ spec:
             storage: {{ required "atlas.persistence.size is required" .Values.atlas.persistence.size }}
 
   chunkManager:
-    {{- if .Values.chunkManager.replicas }}
+{{- if .Values.chunkManager.replicas }}
     replicas: {{ .Values.chunkManager.replicas }}
-    {{- end }}
+{{- end }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.chunkManager.image.repository }}
-      {{- if .Values.chunkManager.image.tag }}
+{{- if .Values.chunkManager.image.tag }}
       tag: {{ .Values.chunkManager.image.tag }}
-      {{- else }}
+{{- else }}
       tag: {{ .Values.tag }}
-      {{- end }}
-      {{- if .Values.chunkManager.image.pullPolicy }}
+{{- end }}
+{{- if .Values.chunkManager.image.pullPolicy }}
       pullPolicy: {{ .Values.chunkManager.image.pullPolicy }}
-      {{- else }}
+{{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
-  {{- end }}
+{{- end }}
 
   blob:
-    {{- if .Values.blob.replicas }}
+{{- if .Values.blob.replicas }}
     replicas: {{ .Values.blob.replicas }}
-    {{- end }}
+{{- end }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.blob.image.repository }}
-      {{- if .Values.blob.image.tag }}
+{{- if .Values.blob.image.tag }}
       tag: {{ .Values.blob.image.tag }}
-      {{- else }}
+{{- else }}
       tag: {{ .Values.tag }}
-      {{- end }}
-      {{- if .Values.blob.image.pullPolicy }}
+{{- end }}
+{{- if .Values.blob.image.pullPolicy }}
       pullPolicy: {{ .Values.blob.image.pullPolicy }}
-      {{- else }}
+{{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
-  {{- end }}
+{{- end }}
 
   objectsvc:
-    {{- if .Values.objectsvc.replicas }}
+{{- if .Values.objectsvc.replicas }}
     replicas: {{ .Values.objectsvc.replicas }}
-    {{- end }}
+{{- end }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.objectsvc.image.repository }}
-      {{- if .Values.objectsvc.image.tag }}
+{{- if .Values.objectsvc.image.tag }}
       tag: {{ .Values.objectsvc.image.tag }}
-      {{- else }}
+{{- else }}
       tag: {{ .Values.tag }}
-      {{- end }}
-      {{- if .Values.objectsvc.image.pullPolicy }}
+{{- end }}
+{{- if .Values.objectsvc.image.pullPolicy }}
       pullPolicy: {{ .Values.objectsvc.image.pullPolicy }}
-      {{- else }}
+{{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
-  {{- end }}
+{{- end }}
 
   ons:
-    {{- if .Values.ons.replicas }}
+{{- if .Values.ons.replicas }}
     replicas: {{ .Values.ons.replicas }}
-    {{- end }}
+{{- end }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.ons.image.repository }}
-      {{- if .Values.ons.image.tag }}
+{{- if .Values.ons.image.tag }}
       tag: {{ .Values.ons.image.tag }}
-      {{- else }}
+{{- else }}
       tag: {{ .Values.tag }}
-      {{- end }}
-      {{- if .Values.ons.image.pullPolicy }}
+{{- end }}
+{{- if .Values.ons.image.pullPolicy }}
       pullPolicy: {{ .Values.ons.image.pullPolicy }}
-      {{- else }}
+{{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
-  {{- end }}
+{{- end }}
 
   rep:
-    {{- if .Values.rep.replicas }}
+{{- if .Values.rep.replicas }}
     replicas: {{ .Values.rep.replicas }}
-    {{- end }}
+{{- end }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.rep.image.repository }}
-      {{- if .Values.rep.image.tag }}
+{{- if .Values.rep.image.tag }}
       tag: {{ .Values.rep.image.tag }}
-      {{- else }}
+{{- else }}
       tag: {{ .Values.tag }}
-      {{- end }}
-      {{- if .Values.rep.image.pullPolicy }}
+{{- end }}
+{{- if .Values.rep.image.pullPolicy }}
       pullPolicy: {{ .Values.rep.image.pullPolicy }}
-      {{- else }}
+{{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
-  {{- end }}
+{{- end }}
 
   zookeeper:
-    {{- if .Values.zookeeper.replicas }}
+{{- if .Values.zookeeper.replicas }}
     replicas: {{ .Values.zookeeper.replicas }}
-    {{- end }}
+{{- end }}
     labels:
       app: zookeeper
       component: zk
@@ -136,232 +136,232 @@ spec:
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.zookeeper.image.repository }}
       tag: {{ .Values.zookeeper.image.tag }}
-      {{- if .Values.zookeeper.image.pullPolicy }}
+{{- if .Values.zookeeper.image.pullPolicy }}
       pullPolicy: {{ .Values.zookeeper.image.pullPolicy }}
-      {{- else }}
+{{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
-    {{- end }}
+{{- end }}
     persistence:
-      {{- if .Values.zookeeper.persistence.storageClassName }}
+{{- if .Values.zookeeper.persistence.storageClassName }}
       spec:
         storageClassName: {{ .Values.zookeeper.persistence.storageClassName }}
-      {{- else if .Values.storageClassName }}
+{{- else if .Values.storageClassName }}
       spec:
         storageClassName: {{ .Values.storageClassName }}
-      {{- end }}
+{{- end }}
       resources:
         requests:
           storage: {{ .Values.zookeeper.persistence.size }}
 
   storageServer:
-    {{- if .Values.storageServer.replicas }}
+{{- if .Values.storageServer.replicas }}
     replicas: {{ .Values.storageServer.replicas }}
-    {{- end }}
+{{- end }}
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.storageServer.image.repository }}
-      {{- if .Values.storageServer.image.tag }}
+{{- if .Values.storageServer.image.tag }}
       tag: {{ .Values.storageServer.image.tag }}
-      {{- else }}
+{{- else }}
       tag: {{ .Values.tag }}
-      {{- end }}
-      {{- if .Values.storageServer.image.pullPolicy }}
+{{- end }}
+{{- if .Values.storageServer.image.pullPolicy }}
       pullPolicy: {{ .Values.storageServer.image.pullPolicy }}
-      {{- else }}
+{{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
-    {{- end }}
+{{- end }}
 
     volumes:
-      {{- if .Values.storageServer.persistence.protected }}
+{{- if .Values.storageServer.persistence.protected }}
       protected: {{ .Values.storageServer.persistence.protected }}
-      {{- end }}
-      {{- if .Values.storageServer.persistence.erasureCoding }}
+{{- end }}
+{{- if .Values.storageServer.persistence.erasureCoding }}
       erasureCoding:
-        {{- if .Values.storageServer.persistence.erasureCoding.dataBlocks }}
+{{- if .Values.storageServer.persistence.erasureCoding.dataBlocks }}
         dataBlocks: {{ .Values.storageServer.persistence.erasureCoding.dataBlocks }}
-        {{- end }}
-        {{- if .Values.storageServer.persistence.erasureCoding.codeBlocks }}
+{{- end }}
+{{- if .Values.storageServer.persistence.erasureCoding.codeBlocks }}
         codeBlocks: {{ .Values.storageServer.persistence.erasureCoding.codeBlocks }}
-      {{- end }}
-      {{- end }}
+{{- end }}
+{{- end }}
       volumesCount: {{ .Values.storageServer.persistence.volumesCount }}
-      {{- if .Values.storageServer.persistence.storageClassName }}
+{{- if .Values.storageServer.persistence.storageClassName }}
       storageClassName: {{ .Values.storageServer.persistence.storageClassName }}
-      {{- else if .Values.storageClassName }}
+{{- else if .Values.storageClassName }}
       storageClassName: {{ .Values.storageClassName }}
-      {{- end }}
+{{- end }}
       resources:
         requests:
           storage: {{ .Values.storageServer.persistence.size }}
 
   storageServerManager:
-    {{- if .Values.storageServerManager.replicas }}
+{{- if .Values.storageServerManager.replicas }}
     replicas: {{ .Values.storageServerManager.replicas }}
-    {{- end }}
+{{- end }}
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.storageServerManager.image.repository }}
-      {{- if .Values.storageServerManager.image.tag }}
+{{- if .Values.storageServerManager.image.tag }}
       tag: {{ .Values.storageServerManager.image.tag }}
-      {{- else }}
+{{- else }}
       tag: {{ .Values.tag }}
-      {{- end }}
-      {{- if .Values.storageServerManager.image.pullPolicy }}
+{{- end }}
+{{- if .Values.storageServerManager.image.pullPolicy }}
       pullPolicy: {{ .Values.storageServerManager.image.pullPolicy }}
-      {{- else }}
+{{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
-  {{- end }}
+{{- end }}
 
   recordManager:
-    {{- if .Values.recordManager.replicas }}
+{{- if .Values.recordManager.replicas }}
     replicas: {{ .Values.recordManager.replicas }}
-    {{- end }}
+{{- end }}
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.recordManager.image.repository }}
-      {{- if .Values.recordManager.image.tag }}
+{{- if .Values.recordManager.image.tag }}
       tag: {{ .Values.recordManager.image.tag }}
-      {{- else }}
+{{- else }}
       tag: {{ .Values.tag }}
-      {{- end }}
-      {{- if .Values.recordManager.image.pullPolicy }}
+{{- end }}
+{{- if .Values.recordManager.image.pullPolicy }}
       pullPolicy: {{ .Values.recordManager.image.pullPolicy }}
-      {{- else }}
+{{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
-  {{- end }}
+{{- end }}
 
   storageManagement:
-    {{- if .Values.storageManagement.replicas }}
+{{- if .Values.storageManagement.replicas }}
     replicas: {{ .Values.storageManagement.replicas }}
-    {{- end }}
+{{- end }}
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.storageManagement.image.repository }}
-      {{- if .Values.storageManagement.image.tag }}
+{{- if .Values.storageManagement.image.tag }}
       tag: {{ .Values.storageManagement.image.tag }}
-      {{- else }}
+{{- else }}
       tag: {{ .Values.tag }}
-      {{- end }}
-      {{- if .Values.storageManagement.image.pullPolicy }}
+{{- end }}
+{{- if .Values.storageManagement.image.pullPolicy }}
       pullPolicy: {{ .Values.storageManagement.image.pullPolicy }}
-      {{- else }}
+{{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
-  {{- end }}
+{{- end }}
 
   metering:
-    {{- if .Values.metering.replicas }}
+{{- if .Values.metering.replicas }}
     replicas: {{ .Values.metering.replicas }}
-    {{- end }}
+{{- end }}
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.metering.image.repository }}
-      {{- if .Values.metering.image.tag }}
+{{- if .Values.metering.image.tag }}
       tag: {{ .Values.metering.image.tag }}
-      {{- else }}
+{{- else }}
       tag: {{ .Values.tag }}
-      {{- end }}
-      {{- if .Values.metering.image.pullPolicy }}
+{{- end }}
+{{- if .Values.metering.image.pullPolicy }}
       pullPolicy: {{ .Values.metering.image.pullPolicy }}
-      {{- else }}
+{{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
-  {{- end }}
+{{- end }}
 
   event:
-    {{- if .Values.event.replicas }}
+{{- if .Values.event.replicas }}
     replicas: {{ .Values.event.replicas }}
-    {{- end }}
+  {{- end }}
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.event.image.repository }}
-      {{- if .Values.event.image.tag }}
+{{- if .Values.event.image.tag }}
       tag: {{ .Values.event.image.tag }}
-      {{- else }}
+{{- else }}
       tag: {{ .Values.tag }}
-      {{- end }}
-      {{- if .Values.event.image.pullPolicy }}
+  {{- end }}
+{{- if .Values.event.image.pullPolicy }}
       pullPolicy: {{ .Values.event.image.pullPolicy }}
-      {{- else }}
+{{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
   {{- end }}
 
   deosEvents:
-    {{- if .Values.deosEvents.pullFreq }}
+{{- if .Values.deosEvents.pullFreq }}
     pullFreq: {{ .Values.deosEvents.pullFreq }}
-    {{- else }}
+{{- else }}
     pullFreq: 30
-    {{- end }}
+{{- end }}
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.deosEvents.image.repository }}
-      {{- if .Values.deosEvents.image.tag }}
+{{- if .Values.deosEvents.image.tag }}
       tag: {{ .Values.deosEvents.image.tag }}
-      {{- else }}
+{{- else }}
       tag: {{ .Values.tag }}
-      {{- end }}
-      {{- if .Values.deosEvents.image.pullPolicy }}
+{{- end }}
+{{- if .Values.deosEvents.image.pullPolicy }}
       pullPolicy: {{ .Values.deosEvents.image.pullPolicy }}
-      {{- else }}
+{{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
-  {{- end }}
+{{- end }}
 
   resource:
-    {{- if .Values.resource.replicas }}
+{{- if .Values.resource.replicas }}
     replicas: {{ .Values.resource.replicas }}
-    {{- end }}
+{{- end }}
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.resource.image.repository }}
-      {{- if .Values.resource.image.tag }}
+{{- if .Values.resource.image.tag }}
       tag: {{ .Values.resource.image.tag }}
-      {{- else }}
+{{- else }}
       tag: {{ .Values.tag }}
-      {{- end }}
-      {{- if .Values.resource.image.pullPolicy }}
+{{- end }}
+{{- if .Values.resource.image.pullPolicy }}
       pullPolicy: {{ .Values.resource.image.pullPolicy }}
-      {{- else }}
+{{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
-  {{- end }}
+{{- end }}
 
 
   controlPlane:
-    {{- if .Values.controlPlane.replicas }}
+{{- if .Values.controlPlane.replicas }}
     replicas: {{ .Values.controlPlane.replicas }}
-    {{- end }}
+{{- end }}
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.controlPlane.image.repository }}
-      {{- if .Values.controlPlane.image.tag }}
+{{- if .Values.controlPlane.image.tag }}
       tag: {{ .Values.controlPlane.image.tag }}
-      {{- else }}
+{{- else }}
       tag: {{ .Values.tag }}
-      {{- end }}
-      {{- if .Values.controlPlane.image.pullPolicy }}
+{{- end }}
+{{- if .Values.controlPlane.image.pullPolicy }}
       pullPolicy: {{ .Values.controlPlane.image.pullPolicy }}
-      {{- else }}
+{{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
-  {{- end }}
+{{- end }}
 
   diagnostic:
-    {{- if .Values.diagnostic.replicas }}
+{{- if .Values.diagnostic.replicas }}
     replicas: {{ .Values.diagnostic.replicas }}
-    {{- end }}
+{{- end }}
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.diagnostic.image.repository }}
-      {{- if .Values.diagnostic.image.tag }}
+{{- if .Values.diagnostic.image.tag }}
       tag: {{ .Values.diagnostic.image.tag }}
-      {{- else }}
+{{- else }}
       tag: {{ .Values.tag }}
-      {{- end }}
-      {{- if .Values.diagnostic.image.pullPolicy }}
+{{- end }}
+{{- if .Values.diagnostic.image.pullPolicy }}
       pullPolicy: {{ .Values.diagnostic.image.pullPolicy }}
-      {{- else }}
+{{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
-    {{- end }}
-    {{- if .Values.diagnostic.service }}
+{{- end }}
+{{- if .Values.diagnostic.service }}
     service:
-  {{ toYaml .Values.diagnostic.service | nindent 6 | trim }}
-  {{- end }}
+      {{ toYaml .Values.diagnostic.service | nindent 6 | trim }}
+{{- end }}
 
   geoService:
     {{- if .Values.geoService.replicas }}
@@ -381,44 +381,44 @@ spec:
   {{- end }}
 
   geoReceiver:
-    {{- if .Values.geoReceiver.replicas }}
+{{- if .Values.geoReceiver.replicas }}
     replicas: {{ .Values.geoReceiver.replicas }}
-    {{- end }}
+{{- end }}
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.geoReceiver.image.repository }}
-      {{- if .Values.geoReceiver.image.tag }}
+{{- if .Values.geoReceiver.image.tag }}
       tag: {{ .Values.geoReceiver.image.tag }}
-      {{- else }}
+{{- else }}
       tag: {{ .Values.tag }}
-      {{- end }}
-      {{- if .Values.geoReceiver.image.pullPolicy }}
+{{- end }}
+{{- if .Values.geoReceiver.image.pullPolicy }}
       pullPolicy: {{ .Values.geoReceiver.image.pullPolicy }}
-      {{- else }}
+{{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
-    {{- end }}
-    {{- if .Values.geoReceiver.service }}
+{{- end }}
+{{- if .Values.geoReceiver.service }}
     service:
-  {{ toYaml .Values.geoReceiver.service | nindent 6 | trim }}
-  {{- end }}
+      {{ toYaml .Values.geoReceiver.service | nindent 6 | trim }}
+{{- end }}
 
   spaceReclaimer:
-    {{- if .Values.spaceReclaimer.replicas }}
+{{- if .Values.spaceReclaimer.replicas }}
     replicas: {{ .Values.spaceReclaimer.replicas }}
-    {{- end }}
+{{- end }}
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.spaceReclaimer.image.repository }}
-      {{- if .Values.spaceReclaimer.image.tag }}
+{{- if .Values.spaceReclaimer.image.tag }}
       tag: {{ .Values.spaceReclaimer.image.tag }}
-      {{- else }}
+{{- else }}
       tag: {{ .Values.tag }}
-      {{- end }}
-      {{- if .Values.spaceReclaimer.image.pullPolicy }}
+{{- end }}
+{{- if .Values.spaceReclaimer.image.pullPolicy }}
       pullPolicy: {{ .Values.spaceReclaimer.image.pullPolicy }}
-      {{- else }}
+{{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
-  {{- end }}
+{{- end }}
 
   telegraf:
     replicas: {{ default 1 .Values.telegraf.replicas }}
@@ -492,7 +492,7 @@ spec:
       tag: {{ default .Values.tag .Values.grafana.image.tag }}
       pullPolicy: {{ default .Values.pullPolicy .Values.grafana.pullPolicy }}
     service:
-    {{ toYaml .Values.grafana.service | nindent 6 | trim }}
+      {{ toYaml .Values.grafana.service | nindent 6 | trim }}
     pod:
       env:
         - name: K8S_INFLUXDB
@@ -526,25 +526,25 @@ spec:
             secretKeyRef:
               name: {{ $.Release.Name }}-grafana-view-user{{ $i }}
               key: password
-  {{- end }}
+        {{- end }}
 
   control:
-    {{- if .Values.control.replicas }}
+{{- if .Values.control.replicas }}
     replicas: {{ .Values.control.replicas }}
-    {{- end }}
+{{- end }}
 
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.control.image.repository }}
-      {{- if .Values.control.image.tag }}
+{{- if .Values.control.image.tag }}
       tag: {{ .Values.control.image.tag }}
-      {{- else }}
+{{- else }}
       tag: {{ .Values.tag }}
-      {{- end }}
-      {{- if .Values.control.image.pullPolicy }}
+{{- end }}
+{{- if .Values.control.image.pullPolicy }}
       pullPolicy: {{ .Values.control.image.pullPolicy }}
-      {{- else }}
+{{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
-  {{- end }}
+{{- end }}
 
   s3:
     replicas: {{ default .Values.s3.replicas }}
@@ -554,69 +554,69 @@ spec:
       tag: {{ default .Values.tag .Values.s3.image.tag }}
       pullPolicy: {{ default .Values.s3.image.pullPolicy .Values.pullPolicy }}
 
-    {{- if .Values.s3.service }}
+{{- if .Values.s3.service }}
     service:
-    {{ toYaml .Values.s3.service | nindent 6 | trim }}
-    {{- end }}
-    {{- if .Values.s3.tls }}
+      {{ toYaml .Values.s3.service | nindent 6 | trim }}
+{{- end }}
+{{- if .Values.s3.tls }}
     tls:
-  {{ toYaml .Values.s3.tls | nindent 6 | trim }}
-  {{- end }}
+      {{ toYaml .Values.s3.tls | nindent 6 | trim }}
+{{- end }}
 
 
   managementGateway:
-    {{- if .Values.managementGateway.replicas }}
+{{- if .Values.managementGateway.replicas }}
     replicas: {{ .Values.managementGateway.replicas }}
-    {{- end }}
+{{- end }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.managementGateway.image.repository }}
-      {{- if .Values.managementGateway.image.tag }}
+{{- if .Values.managementGateway.image.tag }}
       tag: {{ .Values.managementGateway.image.tag }}
-      {{- else }}
+{{- else }}
       tag: {{ .Values.tag }}
-      {{- end }}
-      {{- if .Values.managementGateway.image.pullPolicy }}
+{{- end }}
+{{- if .Values.managementGateway.image.pullPolicy }}
       pullPolicy: {{ .Values.managementGateway.image.pullPolicy }}
-      {{- else }}
+{{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
-    {{- end }}
-    {{- if .Values.managementGateway.service }}
+{{- end }}
+{{- if .Values.managementGateway.service }}
     service:
-    {{ toYaml .Values.managementGateway.service | nindent 6 | trim }}
-    {{- end }}
-    {{- if .Values.managementGateway.tls }}
+      {{ toYaml .Values.managementGateway.service | nindent 6 | trim }}
+{{- end }}
+{{- if .Values.managementGateway.tls }}
     tls:
-  {{ toYaml .Values.managementGateway.tls | nindent 6 | trim }}
-  {{- end }}
+      {{ toYaml .Values.managementGateway.tls | nindent 6 | trim }}
+{{- end }}
 
   provision:
     enabled: {{.Values.provision.enabled }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.provision.image.repository }}
-      {{- if .Values.provision.image.tag }}
+{{- if .Values.provision.image.tag }}
       tag: {{ .Values.provision.image.tag }}
-      {{- else }}
+{{- else }}
       tag: {{ .Values.tag }}
-      {{- end }}
-      {{- if .Values.provision.image.pullPolicy }}
+{{- end }}
+{{- if .Values.provision.image.pullPolicy }}
       pullPolicy: {{ .Values.provision.image.pullPolicy }}
-      {{- else }}
+{{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
-  {{- end }}
+{{- end }}
 
   expandsp:
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.expandsp.image.repository }}
-      {{- if .Values.expandsp.image.tag }}
+{{- if .Values.expandsp.image.tag }}
       tag: {{ .Values.expandsp.image.tag }}
-      {{- else }}
+{{- else }}
       tag: {{ .Values.tag }}
-      {{- end }}
-      {{- if .Values.expandsp.image.pullPolicy }}
+{{- end }}
+{{- if .Values.expandsp.image.pullPolicy }}
       pullPolicy: {{ .Values.expandsp.image.pullPolicy }}
-      {{- else }}
+{{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
-  {{- end }}
+{{- end }}
 
   cmfswitch:
     image:
@@ -635,48 +635,48 @@ spec:
   syslogAgent:
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.syslogAgent.image.repository }}
-      {{- if .Values.syslogAgent.image.tag }}
+{{- if .Values.syslogAgent.image.tag }}
       tag: {{ .Values.syslogAgent.image.tag }}
-      {{- else }}
+{{- else }}
       tag: {{ .Values.tag }}
-      {{- end }}
-      {{- if .Values.syslogAgent.image.pullPolicy }}
+{{- end }}
+{{- if .Values.syslogAgent.image.pullPolicy }}
       pullPolicy: {{ .Values.syslogAgent.image.pullPolicy }}
-      {{- else }}
+{{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
-  {{- end }}
+{{- end }}
 
   fluentbitAgent:
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.fluentbitAgent.image.repository }}
-      {{- if .Values.fluentbitAgent.image.tag }}
+{{- if .Values.fluentbitAgent.image.tag }}
       tag: {{ .Values.fluentbitAgent.image.tag }}
-      {{- else }}
+{{- else }}
       tag: {{ .Values.tag }}
-      {{- end }}
-      {{- if .Values.fluentbitAgent.image.pullPolicy }}
+{{- end }}
+{{- if .Values.fluentbitAgent.image.pullPolicy }}
       pullPolicy: {{ .Values.fluentbitAgent.image.pullPolicy }}
-      {{- else }}
+{{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
-  {{- end }}
+{{- end }}
 
   fabricProxy:
     interface: {{ .Values.fabricProxy.interface }}
-    {{- if .Values.fabricProxy.replicas }}
+{{- if .Values.fabricProxy.replicas }}
     replicas: {{ .Values.fabricProxy.replicas }}
-    {{- end }}
+{{- end }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.fabricProxy.image.repository }}
-      {{- if .Values.fabricProxy.image.tag }}
+{{- if .Values.fabricProxy.image.tag }}
       tag: {{ .Values.fabricProxy.image.tag }}
-      {{- else }}
+{{- else }}
       tag: {{ .Values.tag }}
-      {{- end }}
-      {{- if .Values.fabricProxy.image.pullPolicy }}
+{{- end }}
+{{- if .Values.fabricProxy.image.pullPolicy }}
       pullPolicy: {{ .Values.fabricProxy.image.pullPolicy }}
-      {{- else }}
+{{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
-  {{- end }}
+{{- end }}
 
   enableCRR: {{ .Values.features.enableCRR }}
 
@@ -686,4 +686,4 @@ spec:
 
   deploymentDeadlineSeconds: {{ .Values.deploymentDeadlineSeconds }}
 
-  {{- end }}
+{{- end }}

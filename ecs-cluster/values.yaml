@@ -361,7 +361,7 @@ s3:
       # password: # cert password (optional)
       # authority: |-  # (optional)
       #   rootCA: xxxx
-    #   intermediateCA:      # provide the intermediate CA here (optional)
+      #   intermediateCA:      # provide the intermediate CA here (optional)
 
     signingRequest:
       # commonName:        # override common Name for this CSR.  Defaults to cluster.local FQDN.

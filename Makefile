@@ -138,7 +138,6 @@ create-manager-app: create-temp-package
 	cd objectscale-manager; \
 	helm template --show-only templates/objectscale-manager-app.yaml objectscale-manager ../objectscale-manager  -n ${NAMESPACE} \
 	--set global.platform=VMware \
-	--set sonobuoy.enabled=false \
 	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} \
 	--set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
@@ -187,7 +186,7 @@ combine-crd-manager-ci: create-temp-package
 create-manager-manifest-ci: create-temp-package
 	helm template objectscale-manager ./objectscale-manager -n ${NAMESPACE} \
 	--set global.platform=Default --set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} \
-	--set sonobuoy.enabled=false --set global.registry=${REGISTRY} \
+	--set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
 	--set logReceiver.create=false \
 	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}

@@ -22,12 +22,12 @@ global:
   # communication_scheme defined separately from tls_enabled as found no way to make conditional set in values.yaml
   communication_scheme: http
   internal_dns: kube-dns.kube-system.svc.cluster.local
-  rsyslog_enabled: false
+  rsyslog_enabled: true
   performanceProfile: Small
   monitoring_tag: 3.7.0.0-969.de6276b2
 
-objectscale_release_name: "objectscale"
-objectscale_namespace: "objectscale"
+  objectscale_release_name: "objectscale"
+  objectscale_namespace: "objectscale"
 
 cert:
   enabled: false
@@ -64,7 +64,7 @@ telegraf:
     # Send cq results from objectstore to region level objectscale monitoring
     ext_outputs:
       - influxdb:
-          urls: ["https://{{ .Values.objectscale_release_name }}-telegraf.{{ .Values.objectscale_namespace }}.svc.cluster.local:11002"]
+          urls: ["https://{{ .Values.global.objectscale_release_name }}-telegraf.{{ .Values.global.objectscale_namespace }}.svc.cluster.local:11002"]
           insecure_skip_verify: true
           skip_database_creation: true
           timeout: "30s"

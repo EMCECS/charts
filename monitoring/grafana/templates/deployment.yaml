@@ -137,19 +137,7 @@ spec:
           timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds | default 30 }}
           periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 60 }}
           failureThreshold: {{ .Values.readinessProbe.failureThreshold | default 3 }}
-      {{- if .Values.global.rsyslog_enabled }}
-      - name: rsyslog
-        image: "{{ include "common-lib.monitoring_registry" . }}/rsyslog:{{ .Values.global.monitoring_tag }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-        volumeMounts:
-        - mountPath: /etc/rsyslog.conf
-          name: rsyslog-config
-          subPath: rsyslog.conf
-        - name: rsyslog-socket
-          mountPath: {{ .Values.global.rsyslog_uds_dir }}
-        - name: varlog
-          mountPath: /var/log
-      {{- end }}
+{{ include "common-lib.rsyslog_client_sidecar" . | indent 6 }}
       - name: logrotate
         image: "{{ include "common-lib.monitoring_registry" . }}/rsyslog:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
@@ -196,14 +184,7 @@ spec:
       - name: config-grafana-ini
         configMap:
           name: {{ include "grafana.fullname" . }}-grafana-ini
-      {{- if .Values.global.rsyslog_enabled }}
-      - name: rsyslog-config
-        configMap:
-          name: {{ .Release.Name }}-rsyslog-client-config
-      - name: rsyslog-socket
-        hostPath:
-          path: {{ .Values.global.rsyslog_uds_dir }}
-      {{- end }}
+{{ include "common-lib.rsyslog_client_volumes" . | indent 6 }}
       - name: varlog
         emptyDir: {}
       - name: logrotate-config

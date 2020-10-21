@@ -211,19 +211,7 @@ spec:
           failureThreshold: {{ .Values.startupProbe.failureThreshold | default 6 }}
           periodSeconds: {{ .Values.startupProbe.periodSeconds | default 5 }}
         {{- end }}
-      {{- if .Values.global.rsyslog_enabled }}
-      - name: rsyslog
-        image: "{{ include "common-lib.monitoring_registry" . }}/rsyslog:{{ .Values.global.monitoring_tag }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-        volumeMounts:
-        - name: varlog
-          mountPath: /var/log
-        - name: rsyslog-config
-          mountPath: /etc/rsyslog.conf
-          subPath: rsyslog.conf
-        - name: rsyslog-socket
-          mountPath: {{ .Values.global.rsyslog_uds_dir }}
-      {{ end }}
+{{ include "common-lib.rsyslog_client_sidecar" . | indent 6 }}
       {{ if not .Values.disable_recovery }}
       - name: cron
         image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
@@ -294,14 +282,7 @@ spec:
       - name: {{ template "influxdb.fullname" . }}-data
         emptyDir: {}
       {{- end }}
-      {{- if .Values.global.rsyslog_enabled }}
-      - name: rsyslog-config
-        configMap:
-          name: {{ .Release.Name }}-rsyslog-client-config
-      - name: rsyslog-socket
-        hostPath:
-          path: {{ .Values.global.rsyslog_uds_dir }}
-      {{- end }}
+{{ include "common-lib.rsyslog_client_volumes" . | indent 6 }}
       - name: varlog
         emptyDir: {}
       - name: restore-ranges-cron-config

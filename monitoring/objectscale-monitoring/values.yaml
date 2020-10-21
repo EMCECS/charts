@@ -143,6 +143,12 @@ telegraf:
           namepass:
             - "tsdb_influxdb_httpd"
           tagexclude: ["node_id", "ip"]
+influxdb:
+  persistence:
+    enabled: true
+    storageClassName: "dellemc-objectscale-highly-available"
+    accessMode: ReadWriteOnce
+    size: 20Gi
 rsyslog:
   persistence:
     enabled: true

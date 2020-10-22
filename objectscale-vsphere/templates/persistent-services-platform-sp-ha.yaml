@@ -4,7 +4,7 @@ kind: StoragePolicy
 metadata:
     labels:
       controller-tools.k8s.io: "1.0"
-    name: {{ .Values.global.storageClassName }} 
+    name: {{ .Values.global.storageClassName }}
     namespace: {{ .Release.Namespace }}
 spec:
     name: {{ .Values.global.storageClassName }}

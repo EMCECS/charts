@@ -12,10 +12,12 @@
 #
 
 global:
-  monitoring_registry: ecs-monitoring
+  registry: emccorp
   rsyslog_uds_dir: "/var/run/rsyslog"
   rsyslog_uds_filename: "rsyslog.socket"
   cluster_name: "unknown"
+
+replicas: 1
 
 logReceiver:
   enable: false
@@ -35,28 +37,19 @@ resources:
   limits:
     memory: 256Mi
 
+persistence:
+  enabled: false
+  # accessMode: ReadWriteOnce
+  # storageClassName: "baremetal-csi-sc-ssdlvg"
+  # size: 1Gi
+
 ## Tolerations for pod assignment
 ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
 ##
 tolerations: []
 
-## Specify a service type
-## NodePort is default
-## ref: http://kubernetes.io/docs/user-guide/services/
-##
 service:
-  ## Add annotations to service
-  # annotations: {}
-  type: ClusterIP
-  clusterIP: None
   bind_address: 10514
-
-persistence:
-  enabled: false
-#  enabled: true
-#  storageClassName: "dellemc-objectscale-highly-available"
-#  accessMode: ReadWriteOnce
-#  size: 20Gi
 
 config:
   storage_directory: /var/log

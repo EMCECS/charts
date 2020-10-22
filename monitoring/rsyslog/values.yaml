@@ -16,7 +16,6 @@ global:
   rsyslog_uds_dir: "/var/run/rsyslog"
   rsyslog_uds_filename: "rsyslog.socket"
   cluster_name: "unknown"
-  monitoring_tag: 3.7.0.0-969.de6276b2
 
 replicas: 1
 

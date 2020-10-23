@@ -273,3 +273,9 @@ fluxd:
   config:
     http:
       bind_address: 18093
+rsyslog:
+  persistence:
+    enabled: true
+    storageClassName: "baremetal-csi-sc-ssdlvg"
+    accessMode: ReadWriteOnce
+    size: 20Gi

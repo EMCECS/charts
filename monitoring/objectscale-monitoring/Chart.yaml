@@ -47,3 +47,7 @@ dependencies:
   - name: prometheus-alerts
     repository: "file://../prometheus-alerts"
     version: 0.52.0
+  - name: rsyslog
+    repository: "file://../rsyslog"
+    version: 0.52.0
+    condition: global.rsyslog_enabled

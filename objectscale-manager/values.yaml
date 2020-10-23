@@ -120,10 +120,10 @@ resources:
   operator:
     limits:
       #cpu:
-      memory: 70Mi
+      memory: 500Mi
     requests:
       #cpu:
-      memory: 35Mi
+      memory: 300Mi
   fluentbitAgent:
     limits:
       #cpu:

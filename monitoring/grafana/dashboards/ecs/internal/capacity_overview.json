@@ -1,26 +1,11 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_FLUX",
-      "label": "Flux",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "grafana-influxdb-flux-datasource",
-      "pluginName": "Flux (InfluxDB) [BETA]"
-    }
-  ],
+  "__inputs": [],
   "__requires": [
     {
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "6.2.5"
-    },
-    {
-      "type": "datasource",
-      "id": "grafana-influxdb-flux-datasource",
-      "name": "Flux (InfluxDB) [BETA]",
-      "version": "5.2.11"
+      "version": "6.2.5ecs"
     },
     {
       "type": "panel",
@@ -52,7 +37,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1569431712707,
+  "iteration": 1603410929283,
   "links": [
     {
       "asDropdown": true,
@@ -67,12 +52,208 @@
   "panels": [
     {
       "columns": [],
+      "description": "The forecast table provides an estimated number of days when the capacity is expected to reach 50% and 80% based on the last 1, 7, and 30 days trend.",
       "fontSize": "100%",
       "gridPos": {
         "h": 3,
         "w": 24,
         "x": 0,
         "y": 0
+      },
+      "id": 23,
+      "links": [],
+      "options": {},
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Time",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Measurement",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Value",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Field",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "Per 1 Day Trend 50%",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss.SSS",
+          "decimals": 1,
+          "mappingType": 1,
+          "pattern": "T1_D1T50",
+          "thresholds": [],
+          "type": "number",
+          "unit": "dtdurations"
+        },
+        {
+          "alias": "Per 7 Day Trend 50%",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 1,
+          "mappingType": 1,
+          "pattern": "T2_D7T50",
+          "thresholds": [],
+          "type": "number",
+          "unit": "dtdurations"
+        },
+        {
+          "alias": "Per 30 Day Trend 50%",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 1,
+          "mappingType": 1,
+          "pattern": "T3_D30T50",
+          "thresholds": [],
+          "type": "number",
+          "unit": "dtdurations"
+        },
+        {
+          "alias": "Per 1 Day Trend 80%",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 1,
+          "mappingType": 1,
+          "pattern": "T4_D1T80",
+          "thresholds": [],
+          "type": "number",
+          "unit": "dtdurations"
+        },
+        {
+          "alias": "Per 7 Day Trend 80%",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 1,
+          "mappingType": 1,
+          "pattern": "T5_D7T80",
+          "thresholds": [],
+          "type": "number",
+          "unit": "dtdurations"
+        },
+        {
+          "alias": "Per 30 Day Trend 80%",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 1,
+          "mappingType": 1,
+          "pattern": "T6_D30T80",
+          "thresholds": [],
+          "type": "number",
+          "unit": "dtdurations"
+        }
+      ],
+      "targets": [
+        {
+          "query": "sec_in_ns = 1000000000\nalign_time = 15 * 60\nstop_time_aligned = $__range_to_s / align_time * align_time\nstop_dt = time(v:stop_time_aligned * sec_in_ns)\n\ntotal = from(bucket: \"monitoring_vdc\")\n|> filter(fn: (r) => r._measurement == \"cq_capacity_vdc\" and r._field == \"total_i\")\n|> range(start: -24h)\n|> last()\n|> toFloat()\n|> keep(columns: [\"_value\"])\n\ntarget50 = total\n|> map(fn: (r) => ({_value: int(v: r._value * 0.5) }))\n\ntarget80 = total\n|> map(fn: (r) => ({_value: int(v: r._value * 0.8) }))\n\nused30Days = from(bucket: \"monitoring_vdc\")\n|> filter(fn: (r) => r._measurement == \"cq_capacity_vdc\" and r._field == \"used\")\n|> range(start: -30d)\n|> keep(columns: [\"_time\", \"_value\"]) \n\nused7Days = used30Days \n|> range(start: -7d) \n\nused1Day = used7Days \n|> range(start: -1d) \n\ndays30Target50 = join(tables: {t: target50, u: used30Days}, on: [\"\"])\n|> map(fn: (r) => ({_time: r._time, _value: r._value_u - r._value_t}))\n|> predictLinear(wantedValue: 0.0)\n|> map(fn: (r) => ({T3_D30T50: if r._time > now() then string(v: (int(v: r._time) - int(v:stop_dt)) / sec_in_ns) else \"N/A\"}))\n|> yield(name: \"T3_D30T50\")\n\ndays30Target80 = join(tables: {t: target80, u: used30Days}, on: [\"\"])\n|> map(fn: (r) => ({_time: r._time, _value: r._value_u - r._value_t}))\n|> predictLinear(wantedValue: 0.0)\n|> map(fn: (r) => ({T6_D30T80: if r._time > now() then string(v: (int(v: r._time) - int(v:stop_dt)) / sec_in_ns) else \"N/A\"}))\n|> yield(name: \"T6_D30T80\")\n\ndays7Target50 = join(tables: {t: target50, u: used7Days}, on: [\"\"])\n|> map(fn: (r) => ({_time: r._time, _value: r._value_u - r._value_t}))\n|> predictLinear(wantedValue: 0.0)\n|> map(fn: (r) => ({T2_D7T50: if r._time > now() then string(v: (int(v: r._time) - int(v:stop_dt)) / sec_in_ns) else \"N/A\"}))\n|> yield(name: \"T2_D7T50\")\n\ndays7Target80 = join(tables: {t: target80, u: used7Days}, on: [\"\"])\n|> map(fn: (r) => ({_time: r._time, _value: r._value_u - r._value_t}))\n|> predictLinear(wantedValue: 0.0)\n|> map(fn: (r) => ({T5_D7T80: if r._time > now() then string(v: (int(v: r._time) - int(v:stop_dt)) / sec_in_ns) else \"N/A\"}))\n|> yield(name: \"T5_D7T80\")\n\ndays1Target50 = join(tables: {t: target50, u: used1Day}, on: [\"\"])\n|> map(fn: (r) => ({_time: r._time, _value: r._value_u - r._value_t}))\n|> predictLinear(wantedValue: 0.0)\n|> map(fn: (r) => ({T1_D1T50: if r._time > now() then string(v: (int(v: r._time) - int(v:stop_dt)) / sec_in_ns) else \"N/A\"}))\n|> yield(name: \"T1_D1T50\")\n\ndays1Target80 = join(tables: {t: target80, u: used1Day}, on: [\"\"])\n|> map(fn: (r) => ({_time: r._time, _value: r._value_u - r._value_t}))\n|> predictLinear(wantedValue: 0.0)\n|> map(fn: (r) => ({T4_D1T80: if r._time > now() then string(v: (int(v: r._time) - int(v:stop_dt)) / sec_in_ns) else \"N/A\"}))\n|> yield(name: \"T4_D1T80\")\n",
+          "refId": "A",
+          "resultFormat": "table"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Trends",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "columns": [],
+      "description": "Monitor the total, used, and available capacity at the ObjectStore level.\nReserved capacity is the 10 percent of the total capacity that is reserved for failure handling and performing erasure encoding/XOR operations.",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 3,
+        "w": 24,
+        "x": 0,
+        "y": 3
       },
       "id": 17,
       "links": [],
@@ -189,7 +370,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 3
+        "y": 6
       },
       "id": 19,
       "panels": [
@@ -198,12 +379,13 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
+          "description": "History of the total ObjectStore capacity.",
           "fill": 1,
           "gridPos": {
             "h": 8,
             "w": 8,
             "x": 0,
-            "y": 4
+            "y": 7
           },
           "id": 11,
           "legend": {
@@ -281,12 +463,13 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
+          "description": "History of the used ObjectStore capacity.",
           "fill": 1,
           "gridPos": {
             "h": 8,
             "w": 8,
             "x": 8,
-            "y": 4
+            "y": 7
           },
           "id": 12,
           "legend": {
@@ -364,12 +547,13 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
+          "description": "History of the available ObjectStore capacity.",
           "fill": 1,
           "gridPos": {
             "h": 8,
             "w": 8,
             "x": 16,
-            "y": 4
+            "y": 7
           },
           "id": 13,
           "legend": {
@@ -445,432 +629,6 @@
       ],
       "title": "Capacity History",
       "type": "row"
-    },
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 4
-      },
-      "id": 21,
-      "panels": [],
-      "title": "Nodes",
-      "type": "row"
-    },
-    {
-      "columns": [],
-      "fontSize": "100%",
-      "gridPos": {
-        "h": 7,
-        "w": 24,
-        "x": 0,
-        "y": 5
-      },
-      "id": 15,
-      "links": [],
-      "options": {},
-      "pageSize": 8,
-      "scroll": true,
-      "showHeader": true,
-      "sort": {
-        "col": 3,
-        "desc": false
-      },
-      "styles": [
-        {
-          "alias": "Time",
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "pattern": "Time",
-          "type": "hidden"
-        },
-        {
-          "alias": "$1",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "/vl[1-5]_(.*)/",
-          "thresholds": [],
-          "type": "number",
-          "unit": "bytes"
-        },
-        {
-          "alias": "",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "Time",
-          "thresholds": [],
-          "type": "hidden",
-          "unit": "short"
-        },
-        {
-          "alias": "",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "Measurement",
-          "thresholds": [],
-          "type": "hidden",
-          "unit": "short"
-        },
-        {
-          "alias": "",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "Field",
-          "thresholds": [],
-          "type": "hidden",
-          "unit": "short"
-        },
-        {
-          "alias": "Node",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "vl0_Node",
-          "thresholds": [],
-          "type": "string",
-          "unit": "short"
-        },
-        {
-          "alias": "",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "Value",
-          "thresholds": [],
-          "type": "hidden",
-          "unit": "short"
-        },
-        {
-          "alias": "",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "decimals": 2,
-          "pattern": "/.*/",
-          "thresholds": [],
-          "type": "number",
-          "unit": "short"
-        }
-      ],
-      "targets": [
-        {
-          "query": "from(bucket: \"monitoring_vdc\")\n  |> filter(fn: (r) => r._measurement == \"cq_capacity_nodes\"\n                       and (r._field == \"total_i\" or r._field == \"used\"\n                            or r._field == \"available\" or r._field == \"reserved\"\n                            or r._field == \"offline\" or r._field == \"used\"))\n  |> range(start: -1h)\n  |> last()\n  |> keep(columns: [\"_time\", \"_field\", \"_value\", \"_host_id\"])\n  |> pivot(rowKey:[\"_time\"],columnKey: [\"_field\"],valueColumn: \"_value\")\n  |> map(fn: (r) => ({\"vl0_Node\": r._host_id, \"vl1_Total\": r.total_i, \"vl2_Used\": r.used, \"vl3_Available\": r.available, \"vl4_Reserved\": r.reserved, \"vl5_Offline\":  r.offline}))\n",
-          "refId": "A",
-          "resultFormat": "table"
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "",
-      "transform": "table",
-      "type": "table"
-    },
-    {
-      "collapsed": true,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 12
-      },
-      "id": 10,
-      "panels": [
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "fill": 1,
-          "gridPos": {
-            "h": 8,
-            "w": 8,
-            "x": 0,
-            "y": 21
-          },
-          "id": 6,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null",
-          "options": {},
-          "percentage": false,
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "query": "from(bucket: \"monitoring_vdc\")\n|> filter(fn: (r) => r._measurement == \"cq_capacity_nodes\"\nand r._host_id == \"$node_id\"\nand r._field == \"total_i\")\n|> range($range)\n|> keep(columns: [\"_time\", \"_value\", \"_field\", \"_host_id\"])\n|> set(key: \"_field\", value: \"Total\")",
-              "refId": "A"
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeRegions": [],
-          "timeShift": null,
-          "title": "Total",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "decimals": 2,
-              "format": "bytes",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": "0",
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ],
-          "yaxis": {
-            "align": false,
-            "alignLevel": null
-          }
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "fill": 1,
-          "gridPos": {
-            "h": 8,
-            "w": 8,
-            "x": 8,
-            "y": 21
-          },
-          "id": 7,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null",
-          "options": {},
-          "percentage": false,
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "query": "from(bucket: \"monitoring_vdc\")\n|> filter(fn: (r) => r._measurement == \"cq_capacity_nodes\"\nand r._host_id == \"$node_id\"\nand r._field == \"used\")\n|> range($range)\n|> keep(columns: [\"_time\", \"_value\", \"_field\", \"_host_id\"])\n|> set(key: \"_field\", value: \"Used\")\n",
-              "refId": "A"
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeRegions": [],
-          "timeShift": null,
-          "title": "Used",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "decimals": 2,
-              "format": "bytes",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": "0",
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ],
-          "yaxis": {
-            "align": false,
-            "alignLevel": null
-          }
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "fill": 1,
-          "gridPos": {
-            "h": 8,
-            "w": 8,
-            "x": 16,
-            "y": 21
-          },
-          "id": 8,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null",
-          "options": {},
-          "percentage": false,
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "query": "from(bucket: \"monitoring_vdc\")\n|> filter(fn: (r) => r._measurement == \"cq_capacity_nodes\"\nand r._host_id == \"$node_id\"\nand r._field == \"available\")\n|> range($range)\n|> keep(columns: [\"_time\", \"_value\", \"_field\", \"_host_id\"])\n|> set(key: \"_field\", value: \"Available\")\n",
-              "refId": "A"
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeRegions": [],
-          "timeShift": null,
-          "title": "Available",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "decimals": 2,
-              "format": "bytes",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": "0",
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ],
-          "yaxis": {
-            "align": false,
-            "alignLevel": null
-          }
-        }
-      ],
-      "title": "Capacity History by Node ($node_id)",
-      "type": "row"
     }
   ],
   "refresh": false,
@@ -879,32 +637,6 @@
   "tags": [
     "Capacity"
   ],
-  "templating": {
-    "list": [
-      {
-        "allValue": null,
-        "current": {},
-        "datasource": "${DS_FLUX}",
-        "definition": "from(bucket:\"monitoring_main\")|> range(start: -12h)|> filter(fn:(r) => r._measurement == \"ssm_sstable_SSTable_SS\" and r._field != \"state\")|> drop(columns: [\"_value\"])|> group(columns:[\"SS\"])|> distinct(column:\"SS\")",
-        "hide": 0,
-        "includeAll": false,
-        "label": "",
-        "multi": false,
-        "name": "node_id",
-        "options": [],
-        "query": "from(bucket:\"monitoring_main\")|> range(start: -12h)|> filter(fn:(r) => r._measurement == \"ssm_sstable_SSTable_SS\" and r._field != \"state\")|> drop(columns: [\"_value\"])|> group(columns:[\"SS\"])|> distinct(column:\"SS\")",
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      }
-    ]
-  },
   "time": {
     "from": "now-24h",
     "to": "now"
@@ -937,5 +669,5 @@
   "timezone": "",
   "title": "Capacity - Overview",
   "uid": "6e2ZkHtWk",
-  "version": 2
+  "version": 1
 }

@@ -4,7 +4,7 @@ HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
 YQ_VERSION   := 2.4.1
 YAMLLINT_VERSION := 1.20.0
 CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm srs-gateway dks-testapp fio-test sonobuoy dellemc-license service-pod objectscale-graphql helm-controller objectscale-vsphere iam
-DECKSCHARTS := decks kahm supportassist
+DECKSCHARTS := decks kahm supportassist service-pod dellemc-license
 FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller
 MONITORING_DIR := monitoring
 
@@ -21,6 +21,7 @@ DECKS_REGISTRY       = objectscale
 KAHM_REGISTRY        = objectscale
 STORAGECLASSNAME     = dellemc-objectscale-highly-available
 
+WATCH_ALL_NAMESPACES = false # --set global.watchAllNamespaces={true | false}
 HELM_MANAGER_ARGS    = # --set image.tag={YOUR_VERSION_HERE}
 HELM_MONITORING_ARGS = # --set global.monitoring.tag=${YOUR_VERSION_HERE}
 HELM_UI_ARGS         = # --set image.tag=${YOUR_VERSION_HERE}
@@ -138,7 +139,7 @@ create-manager-app: create-temp-package
 	helm template --show-only templates/objectscale-manager-app.yaml objectscale-manager ../objectscale-manager  -n ${NAMESPACE} \
 	--set global.platform=VMware \
 	--set sonobuoy.enabled=false \
-	--set global.watchAllNamespaces=false \
+	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} \
 	--set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
 	--set logReceiver.create=true --set logReceiver.type=Syslog \
@@ -155,7 +156,7 @@ create-manager-app: create-temp-package
 create-vsphere-templates: create-temp-package
 	helm template vsphere-plugin ./objectscale-vsphere -n ${NAMESPACE} \
 	--set global.platform=VMware \
-	--set global.watchAllNamespaces=false \
+	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} \
     --set graphql.enabled=true \
 	--set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} ${HELM_UI_ARGS} ${HELM_GRAPHQL_ARGS} ${HELM_INSTALLER_ARGS} \
@@ -163,12 +164,11 @@ create-vsphere-templates: create-temp-package
 
 create-kahm-manifest: create-temp-package
 	helm template kahm ./kahm -n ${NAMESPACE} --set global.platform=VMware \
-	--set global.watchAllNamespaces=false --set global.registry=${KAHM_REGISTRY} ${HELM_KAHM_ARGS} \
+	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} --set global.registry=${KAHM_REGISTRY} ${HELM_KAHM_ARGS} \
 	--set storageClassName=${STORAGECLASSNAME} -f kahm/values.yaml >> ${TEMP_PACKAGE}/yaml/${KAHM_MANIFEST}
-
 create-decks-manifest: create-temp-package
 	helm template decks ./decks -n ${NAMESPACE} --set global.platform=VMware \
-	--set global.watchAllNamespaces=false --set global.registry=${DECKS_REGISTRY} ${HELM_DECKS_ARGS} \
+	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} --set global.registry=${DECKS_REGISTRY} ${HELM_DECKS_ARGS} \
 	--set storageClassName=${STORAGECLASSNAME} -f decks/values.yaml >> ${TEMP_PACKAGE}/yaml/${DECKS_MANIFEST}
 
 archive-package:
@@ -186,7 +186,7 @@ combine-crd-manager-ci: create-temp-package
 
 create-manager-manifest-ci: create-temp-package
 	helm template objectscale-manager ./objectscale-manager -n ${NAMESPACE} \
-	--set global.platform=Default --set global.watchAllNamespaces=false \
+	--set global.platform=Default --set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} \
 	--set sonobuoy.enabled=false --set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
 	--set logReceiver.create=false \

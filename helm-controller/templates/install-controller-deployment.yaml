@@ -38,6 +38,11 @@ spec:
       serviceAccountName: install-controller
       containers:
         - name: objectscale-install-controller
+          resources:
+            limits:
+              memory: 500M
+            requests:
+              memory: 250M
           image: {{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ default .Values.tag .Values.image.tag }}
           env:
             - name: OPERATOR_NAME

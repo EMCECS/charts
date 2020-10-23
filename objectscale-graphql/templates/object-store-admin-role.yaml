@@ -1,0 +1,61 @@
+---
+{{- if or (eq .Values.global.platform "VMware") (eq .Values.global.watchAllNamespaces true) }}
+kind: ClusterRole
+{{- else }}
+kind: Role
+{{- end }}
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ .Release.Namespace }}-object-store-admin
+  {{- if and (ne .Values.global.platform "VMware") (eq .Values.global.watchAllNamespaces false) }}
+  namespace: {{ .Release.Namespace }}
+  {{- end }}
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: objectscale-graphql
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name}}
+    operator: objectscale-operator
+    product: objectscale
+    {{- if eq .Values.global.platform "VMware" }}
+    rbac.authorization.k8s.io/aggregate-to-edit: "true"
+    {{- end }}
+rules:
+- apiGroups:
+  - ecs.dellemc.com
+  resources:
+  - ecsclusters
+  verbs:
+  - "*"
+- apiGroups:
+  - app.k8s.io
+  resources:
+  - "*"
+  verbs:
+  - "*"
+- apiGroups:
+  - influxdata.com
+  resources:
+  - influxdbs
+  verbs:
+  - "*"
+- apiGroups:
+    - ""
+  resources:
+    - pods
+    - persistentvolumeclaims
+    - secrets
+    - configmaps
+  verbs:
+    - "*"
+- apiGroups:
+    - batch
+  resources:
+    - jobs
+    - cronjobs
+  verbs:
+    - "*"

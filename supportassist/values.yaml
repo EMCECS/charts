@@ -12,7 +12,7 @@ global:
   registry: emccorp
 
 # The default docker tag and pull policy for dell-supportassist-ese
-tag: 2.0.51
+tag: 2.0.52
 pullPolicy: Always
 
 # The image configured for dell-ese
@@ -78,8 +78,8 @@ useGateways: true
 notifier:
   image:
     repository: "supportassist-ese-notifier"
-    #tag: stable 
-    #pullPolicy: "Always"
+#   tag: stable
+#   pullPolicy: "Always"
   servicePort: 50051
   grpcConnTimeout: 5
   grpcRetries: 3

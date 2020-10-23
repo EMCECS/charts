@@ -22,7 +22,7 @@ global:
     enabled: true
 
 # The default docker tag and pull policy for the ECS Cluster
-tag: 0.51.0
+tag: 0.52.0
 pullPolicy: IfNotPresent
 
 # Override the default number of replicas which taken according to performance profile for each service
@@ -175,7 +175,7 @@ objectsvc:
   # Docker repository to be used for objectsvc instances
   image:
     repository: object-service
-    tag: latest
+    # tag: stable
     # pullPolicy: IfNotPresent
 
 # The ECS Object Notification Service configuration specification
@@ -298,11 +298,6 @@ diagnostic:
   # Number of resource service replicas to run with the the deployment
   # replicas: 1
 
-  # Docker repository to be used for dthealth service instances
-  dtHealthImage:
-    repository: dthealth
-    # tag: stable
-    # pullPolicy: IfNotPresent
   # Docker repository to be used for diagnostic service instances
   image:
     repository: diagnostic-service
@@ -314,9 +309,6 @@ diagnostic:
 
     # Specify the service port configuration for the diagnostic service
     ports:
-      - name: dthealth
-        port: 8080
-        targetPort: 8080
       - name: diag
         port: 9100
         targetPort: 9100

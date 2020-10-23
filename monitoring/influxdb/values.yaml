@@ -160,7 +160,7 @@ config:
     supress_logo: false
 
 initScripts:
-  enabled: false
+  enabled: true
   scripts:
     init.iql: |+
       CREATE DATABASE "monitoring_main" WITH DURATION 60d SHARD DURATION 10d NAME "default"
@@ -168,3 +168,4 @@ initScripts:
       CREATE DATABASE "monitoring_last" WITH DURATION 1d SHARD DURATION 1d NAME "default"
       CREATE DATABASE "monitoring_vdc" WITH DURATION 60d SHARD DURATION 10d NAME "default"
       CREATE DATABASE "monitoring_meta" WITH DURATION 60d SHARD DURATION 10d NAME "default"
+      CREATE DATABASE "monitoring_rt" WITH DURATION 1h SHARD DURATION 1h NAME "default"

@@ -65,24 +65,24 @@ it is a location of the product customer contact yaml file. The file must be in 
 #### Customer contacts file template:
 ```yaml
 contacts:
-  - contactorder: 1
-    firstname: XXX
-    lastname: XXX
-    phonenumber: "+1 (555) 555-7746"
-    emailaddress: test@dell.com
-    timezoneoffset: -06:00
-    prefcontact: phone
-    prefcontacttime: 11:00AM - 1:00AM
-    preflanguage: En
-  - contactorder: 2
-    firstname: XXX
-    lastname: XXX
-    phonenumber: "+1 (312) 555-7748"
-    emailaddress: test@dell.com
-    timezoneoffset: -06:00
-    prefcontact: email
-    prefcontacttime: 1:00PM - 3:00AM
-    preflanguage: En
+  - contactOrder: 1
+    firstName: XXX
+    lastName: XXX
+    phoneNumber: "+1 (555) 555-7746"
+    emailAddress: test@dell.com
+    timeZoneOffset: -06:00
+    prefContact: phone
+    prefContactTime: 11:00AM - 1:00AM
+    prefLanguage: En
+  - contactOrder: 2
+    firstName: XXX
+    lastName: XXX
+    phoneNumber: "+1 (312) 555-7748"
+    emailAddress: test@dell.com
+    timeZoneOffset: -06:00
+    prefContact: email
+    prefContactTime: 1:00PM - 3:00AM
+    prefLanguage: En
 ```
 Example helm install command line setting:
 ```
@@ -92,5 +92,5 @@ Example helm install command line setting:
 ```
 ###  contacts
 ```    
-$ helm install objs-sa objectscale/supportassist --set product=contacts[0].contactorder=1,contacts[0].firstname=XXX,contacts[0].lastname=XXX,contacts[1].contactorder=2,contacts[1].lastname=XXX,contacts[1].firstname=XXX
+$ helm install objs-sa objectscale/supportassist --set product=contacts[0].contactOrder=1,contacts[0].firstName=XXX,contacts[0].lastName=XXX,contacts[1].contactOrder=2,contacts[1].lastName=XXX,contacts[1].firstName=XXX
 ```

@@ -1,0 +1,27 @@
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+suite: test service
+templates:
+  - service.yaml
+tests:
+  - it: headless service
+    set:
+      service.bind_address: 9999
+    release:
+      name: rsyslog
+    asserts:
+      - equal:
+          path: metadata.name
+          value: rsyslog
+      - equal:
+          path: spec.ports[0].port
+          value: 9999

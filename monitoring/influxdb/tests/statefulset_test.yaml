@@ -133,6 +133,34 @@ tests:
       - equal:
           path: spec.volumeClaimTemplates[0].spec.storageClassName
           value: "myclass"
+  - it: rsyslog client sidecar
+    set:
+      global.rsyslog_enabled: true
+      global.tls_enabled: true
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[2].name
+          value: rsyslog
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: rsyslog-config
+            configMap:
+              name: RELEASE-NAME-rsyslog-client-config
+  - it: rsyslog client sidecar when disabled
+    set:
+      global.rsyslog_enabled: false
+      global.tls_enabled: true
+    asserts:
+      - notEqual:
+          path: spec.template.spec.containers[2].name
+          value: rsyslog
+      - notContains:
+          path: spec.template.spec.volumes
+          content:
+            name: rsyslog-config
+            configMap:
+              name: RELEASE-NAME-rsyslog-client-config
 
 suite: test replicas
 templates:

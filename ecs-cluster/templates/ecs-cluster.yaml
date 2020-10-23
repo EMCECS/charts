@@ -346,20 +346,6 @@ spec:
     replicas: {{ .Values.diagnostic.replicas }}
 {{- end }}
 
-    dtHealthImage:
-      repository: {{ .Values.global.registry }}/{{ .Values.diagnostic.dtHealthImage.repository }}
-{{- if .Values.diagnostic.dtHealthImage.tag }}
-      tag: {{ .Values.diagnostic.dtHealthImage.tag }}
-{{- else }}
-      tag: {{ .Values.tag }}
-{{- end }}
-{{- if .Values.diagnostic.dtHealthImage.pullPolicy }}
-      pullPolicy: {{ .Values.diagnostic.dtHealthImage.pullPolicy }}
-{{- else }}
-      pullPolicy: {{ .Values.pullPolicy }}
-{{- end }}
-
-
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.diagnostic.image.repository }}
 {{- if .Values.diagnostic.image.tag }}

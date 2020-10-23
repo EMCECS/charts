@@ -1,8 +1,8 @@
 suite: test api role
 templates:
-  - objectscale-admin-role.yaml
+  - objectscale-admin-cluster-role.yaml
 tests:
-  - it: should create a cluster role
+  - it: should create a role
     asserts:
       - isKind:
           of: ClusterRole

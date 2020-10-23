@@ -14,7 +14,15 @@
 global: {}
 
 config:
+  output:
+    port: 10514
+    resumeRetryCount: 100
+    queue:
+      type: "linkedList"
+      size: 10000
   # high water mark: 200 mb
   logs_size_high_watermark: 204800
   # low water mark: 150 mb
   logs_size_low_watermark: 153600
+  # max age for logs in days
+  maxage: 30

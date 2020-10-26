@@ -81,3 +81,6 @@ fluentbitAgent:
 
 helmController:
   enabled: true
+
+# Release name of objectscale-manager (configuration parameter for objectstore).
+managerReleaseName:

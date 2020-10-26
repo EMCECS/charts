@@ -1,6 +1,11 @@
 ## Default values for bookkeeper-operator.
 ## This is a YAML-formatted file.
 ## Declare variables to be passed into your templates.
+global:
+  # Specifies which namespace the Operator should watch for new ClusterResource
+  # resources
+  # Default: true == Watch ALL namespaces
+  watchAllNamespaces: true
 
 image:
   repository: pravega/bookkeeper-operator
@@ -15,10 +20,6 @@ rbac:
 serviceAccount:
   create: true
   name: bookkeeper-operator
-
-## Whether to create the CRD.
-crd:
-  create: true
 
 testmode:
   enabled: false

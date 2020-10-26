@@ -1,6 +1,11 @@
 ## Default values for pravega-operator.
 ## This is a YAML-formatted file.
 ## Declare variables to be passed into your templates.
+global:
+  # Specifies which namespace the Operator should watch for new ClusterResource
+  # resources
+  # Default: true == Watch ALL namespaces
+  watchAllNamespaces: true
 
 image:
   repository: pravega/pravega-operator
@@ -15,10 +20,6 @@ rbac:
 serviceAccount:
   create: true
   name: pravega-operator
-
-## Whether to create the CRD.
-crd:
-  create: true
 
 testmode:
   ## Whether to enable test mode.

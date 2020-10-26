@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -31,7 +32,13 @@ spec:
         {{- end }}
         env:
         - name: WATCH_NAMESPACE
-          value: {{ .Values.watchNamespace }}
+{{- if eq .Values.global.watchAllNamespaces true}}
+          value: ""
+{{- else }}
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+{{- end }}
         - name: POD_NAME
           valueFrom:
             fieldRef:

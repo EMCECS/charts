@@ -9,20 +9,19 @@
 # it is provided by or on behalf of Dell Inc. or its subsidiaries.
 #
 #
-
----
-global: {}
-
-config:
-  output:
-    port: 10514
-    resumeRetryCount: 100
-    queue:
-      type: "linkedList"
-      size: 10000
-  # high water mark: 200 mb
-  logs_size_high_watermark: 204800
-  # low water mark: 150 mb
-  logs_size_low_watermark: 153600
-  # max age for logs in days
-  maxage: 30
+suite: test service
+templates:
+  - service.yaml
+tests:
+  - it: headless service
+    set:
+      service.bind_address: 9999
+    release:
+      name: rsyslog
+    asserts:
+      - equal:
+          path: metadata.name
+          value: rsyslog
+      - equal:
+          path: spec.ports[0].port
+          value: 9999

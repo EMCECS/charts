@@ -14,13 +14,13 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "6.2.5"
+      "version": "6.2.5ecs"
     },
     {
       "type": "datasource",
       "id": "grafana-influxdb-flux-datasource",
       "name": "Flux (InfluxDB) [BETA]",
-      "version": "5.2.11"
+      "version": "5.2.12"
     },
     {
       "type": "panel",
@@ -52,7 +52,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1582193027590,
+  "iteration": 1603410703217,
   "links": [
     {
       "asDropdown": true,
@@ -464,7 +464,7 @@
         "definition": "from(bucket:\"monitoring_main\")|> range(start: -12h)|> filter(fn:(r) => r._measurement == \"ssm_sstable_SSTable_SS\" and r._field != \"state\")|> drop(columns: [\"_value\"])|> group(columns:[\"SS\"])|> distinct(column:\"SS\")",
         "hide": 0,
         "includeAll": false,
-        "label": null,
+        "label": "Node",
         "multi": false,
         "name": "node_id",
         "options": [],
@@ -533,7 +533,7 @@
     ]
   },
   "timezone": "",
-  "title": "Capacity - by Nodes",
+  "title": "Capacity - Overview by Disks",
   "uid": "VF6cjStWk",
-  "version": 2
+  "version": 1
 }

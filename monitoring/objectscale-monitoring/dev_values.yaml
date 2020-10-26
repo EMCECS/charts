@@ -39,3 +39,6 @@ throttler:
   resources:
     requests:
       memory: 50Mi
+rsyslog:
+  persistence:
+    enabled: false

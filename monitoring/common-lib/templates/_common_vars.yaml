@@ -14,14 +14,14 @@
 # Influxdb replicas
 #
 {{- define "common-lib.influxdb_replicas" -}}
-{{- if .Values.global.influxdb_replicas -}}
+{{- if not .Values.global.started -}}
+0
+{{- else if .Values.global.influxdb_replicas -}}
 {{- .Values.global.influxdb_replicas -}}
-{{- else -}}
-{{- if eq (".Values.global.performanceProfile" | upper) "MICRO" -}}
+{{- else if eq (".Values.global.performanceProfile" | upper) "MICRO" -}}
 1
 {{- else -}}
 3
-{{- end -}}
 {{- end -}}
 {{- end -}}
 
@@ -74,10 +74,11 @@ limits:
 # Application replica count
 #
 {{- define "common-lib.replicaCount" -}}
-{{- if .top.Values.replicaCount -}}
+{{- if not .top.Values.global.started -}}
+0
+{{- else if .top.Values.replicaCount -}}
 {{- .top.Values.replicaCount -}}
-{{- else -}}
-{{- if eq (.top.Values.global.performanceProfile | upper) "MICRO" -}}
+{{- else if eq (.top.Values.global.performanceProfile | upper) "MICRO" -}}
 {{- .micro -}}
 {{- else if eq (.top.Values.global.performanceProfile | upper) "SMALL" -}}
 {{- .small -}}
@@ -85,7 +86,6 @@ limits:
 {{- .medium -}}
 {{- else -}}
 {{- .large -}}
-{{- end -}}
 {{- end -}}
 {{- end -}}
 
@@ -96,3 +96,30 @@ limits:
 {{- .Values.global.registry -}}
 {{- end -}}
 {{- end -}}
+
+{{ define "common-lib.rsyslog_client_sidecar" -}}
+{{- if .Values.global.rsyslog_enabled }}
+- name: rsyslog
+  image: "{{ include "common-lib.monitoring_registry" . }}/rsyslog:{{ .Values.global.monitoring_tag }}"
+  imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+  env:
+    - name: POD_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: metadata.name
+  volumeMounts:
+    - mountPath: /etc/rsyslog.conf
+      name: rsyslog-config
+      subPath: rsyslog.conf
+    - name: varlog
+      mountPath: /var/log
+{{- end }}
+{{- end }}
+
+{{ define "common-lib.rsyslog_client_volumes" -}}
+{{- if .Values.global.rsyslog_enabled }}
+- name: rsyslog-config
+  configMap:
+    name: {{ .Release.Name }}-rsyslog-client-config
+{{- end }}
+{{- end }}

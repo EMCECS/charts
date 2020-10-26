@@ -19,7 +19,7 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 data:
   svc: |+
-    /var/log/*.log
+    /var/log/*.log /var/log/*/*/*.log
     {
       missingok
       copytruncate
@@ -31,6 +31,11 @@ data:
       endscript
       postrotate
       endscript
+    }
+  remove_old: |+
+    /var/log/*.log* /var/log/*/*/*.log*
+    {
+      maxage {{ .Values.config.output.resumeRetryCount }}
     }
   logrotate.conf: |+
     # see "man logrotate" for details

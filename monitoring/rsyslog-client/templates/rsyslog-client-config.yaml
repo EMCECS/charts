@@ -21,40 +21,40 @@ data:
   rsyslog.conf: |+
     #### MODULES ####
 
-  {{- if .Values.global.rsyslog_enabled }}
-    # output module: unix socket
-    module(load="omuxsock")
-  {{- else }}
-    # output module: stdout
-    module(load="omstdout")
-  {{- end }}
-
     # input module: file
     module(load="imfile")
 
     #### GLOBAL DIRECTIVES ####
-
-    # output unix socket path
-    $OMUxSockSocket {{ .Values.global.rsyslog_uds_dir }}/{{ .Values.global.rsyslog_uds_filename }}
 
     #### RULES ####
 
     # input log files
     input(type="imfile"
           File="/var/log/*.log"
-          Tag="{{ .Release.Name }}:"
+          Tag="{{ .Release.Name }}"
           addMetadata="on"
+          Ruleset="handle_multiple_logs"
     )
+
+    ruleset(name="handle_multiple_logs") {
+      # http://www.rsyslog.com/doc/v8-stable/rainerscript/functions.html
+      # re_extract(expr, re, match, submatch, no-found)
+      set $.suffix=re_extract($!metadata!filename, "(.*)/([^/]*)", 0, 2, "all.log");
+      set $.pod_name=getenv("POD_NAME");
+      call sendToLogserver
+    }
 
     # output template
     template(name="FileFormat" type="string"
-    string= "<%PRI%>%TIMESTAMP% %HOSTNAME% %syslogtag%%$!metadata!filename%%msg:::sp-if-no-1st-sp%%msg:::drop-last-lf%\n"
+    string= "<%PRI%>%TIMESTAMP% %HOSTNAME% %syslogtag%__%$.pod_name%__%$.suffix%%msg:::sp-if-no-1st-sp%%msg:::drop-last-lf%\n"
             )
 
-  {{- if .Values.global.rsyslog_enabled }}
-    # send all to unix socket
-    *.* :omuxsock:;FileFormat
-  {{- else }}
-    # send all to stdout
-    *.* :omstdout:;FileFormat
-  {{- end }}
+    ruleset(name="sendToLogserver") {
+      action(type="omfwd"
+          Target="{{ .Values.global.objectscale_release_name }}-rsyslog-0.{{ .Values.global.objectscale_release_name }}-rsyslog.{{ .Values.global.objectscale_namespace }}.svc.cluster.local"
+          Port="{{ .Values.config.output.port }}"
+          Protocol="tcp"
+          Template="FileFormat" )
+    #    action.resumeRetryCount={{ .Values.config.output.resumeRetryCount }}
+    #    queue.type={{ .Values.config.output.queue.type }} queue.size={{ .Values.config.output.queue.size }})
+    }

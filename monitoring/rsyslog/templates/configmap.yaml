@@ -23,10 +23,7 @@ data:
     #### MODULES ####
 
     # input module: unix socket
-    module(load="imuxsock")
-
-    # input module: file
-    module(load="imfile" PollingInterval="10")
+    module(load="imtcp")
 
     #### RULES ####
 
@@ -34,8 +31,7 @@ data:
          string="{\"cluster\":\"{{ .Values.global.cluster_name }}\",\"host\":\"%$.my_hostname%\",\"message\":\"%rawmsg:::json%\"}\n")
 
     # input unix socket
-    input(type="imuxsock" Socket="{{ .Values.global.rsyslog_uds_dir }}/{{ .Values.global.rsyslog_uds_filename }}"
-          CreatePath="on" ruleset="RemoteLogProcess")
+    input(type="imtcp" port="{{ .Values.service.bind_address }}" ruleset="RemoteLogProcess")
 
     # output template
     template(name="OnlyMsg" type="string" string="%msg:::drop-last-lf%\n")
@@ -45,7 +41,6 @@ data:
         constant(value="{{ .Values.config.storage_directory }}")
         constant(value="/")
         property(name="$.logpath" )
-        constant(value=".log")
     }
 
     # output ruleset
@@ -74,48 +69,6 @@ data:
             action(type="omfile" dynaFileCacheSize="1024" dynaFile="RemoteLogSavePath" template="RSYSLOG_FileFormat"
             flushOnTXEnd="off" asyncWriting="on" flushInterval="1" ioBufferSize="64k")
         }
-
-        {{- if .Values.logReceiver.enable }}
-        set $.my_hostname=getenv("HOSTNAME");
-        # Send to logstash
-        action(
-            type="omfwd"
-            Target="{{ .Values.logReceiver.host }}"
-            Port="{{ .Values.logReceiver.port }}"
-            Protocol="tcp"
-            template="jsonLogForwardFormat"
-        )
-        {{- end }}
-    }
-
-    # input log files
-    input(type="imfile"
-          File="/var/log/containers/*.log"
-          Tag="{{ .Release.Name }}:"
-          addMetadata="on"
-          ruleset="LocalLogProcess"
-          reopenOnTruncate="on"
-    )
-
-    # output template
-    template(name="FileFormat" type="string"
-    string= "<%PRI%>%TIMESTAMP% %HOSTNAME% %syslogtag%%$!metadata!filename%%msg:::sp-if-no-1st-sp%%msg:::drop-last-lf%\n"
-            )
-
-    template(name="LocalLogSavePath" type="list") {
-        constant(value="{{ .Values.config.storage_directory }}")
-        constant(value="/")
-        property(name="$!metadata!filename" regex.type="ERE"
-                     regex.nomatchmode="FIELD"
-                     regex.expression="([a-zA-Z0-9_-]*)-"
-                     regex.submatch="1")
-        constant(value=".log")
-    }
-
-     ruleset(name="LocalLogProcess") {
-        set $.logpath = replace($programname, "__", "/");
-        action(type="omfile" dynaFileCacheSize="1024" dynaFile="LocalLogSavePath" template="FileFormat"
-        flushOnTXEnd="off" asyncWriting="on" flushInterval="1" ioBufferSize="64k")
 
         {{- if .Values.logReceiver.enable }}
         set $.my_hostname=getenv("HOSTNAME");

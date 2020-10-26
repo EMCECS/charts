@@ -72,5 +72,5 @@ spec:
       containers:
         - name: pre-install-job
           image: "{{ .Values.hooks.registry }}/{{.Values.hooks.repository }}:{{ .Values.hooks.tag }}"
-          command: ["kubectl", "-n", "{{ .Release.Namespace }}", "patch", "wcpnamespace", "{{ .Release.Namespace }}", "--type=json", "-p", '[{"op":"add", "path":"/spec/spbmPolicies/-", "value":"dellemc-objectscale-highly-available"}]']
+          command: ["kubectl", "-n", "{{ .Release.Namespace }}", "patch", "wcpnamespace", "{{ .Release.Namespace }}", "--type=json", "-p", '[{"op":"add", "path":"/spec/spbmPolicies/-", "value":"{{ .Values.global.storageClassName }}"}]']
 {{- end }}

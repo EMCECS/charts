@@ -78,3 +78,21 @@ tests:
       - equal:
           path: spec.template.spec.containers[1].image
           value: ecs_registry/nginx:1.1
+
+suite: test replicas
+templates:
+  - deployment.yaml
+  - configmap.yaml
+tests:
+  - it: Started
+    asserts:
+      - equal:
+          path: spec.replicas
+          value: 1
+  - it: Stopped
+    set:
+      global.started: false
+    asserts:
+      - equal:
+          path: spec.replicas
+          value: 0

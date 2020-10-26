@@ -9,9 +9,9 @@
 # it is provided by or on behalf of Dell Inc. or its subsidiaries.
 #
 #
-
+---
 apiVersion: apps/v1
-kind: DaemonSet
+kind: StatefulSet
 metadata:
   name: {{ template "rsyslog.fullname" . }}
   labels:
@@ -19,6 +19,8 @@ metadata:
     helm.sh/chart: {{ include "rsyslog.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
+  serviceName: {{ template "rsyslog.fullname" . }}
+  replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ template "rsyslog.fullname" . }}
@@ -31,10 +33,25 @@ spec:
         # This means that if the configmap changes, the deployment will be rolled
         checksum/config: {{ include (print .Template.BasePath "/configmap.yaml") . | sha256sum }}
     spec:
+      affinity:
+        # Use pod anti-affinity rules to deploy statefulset pods one-per-node.
+        # (like DaemonSet pods)
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: "app.kubernetes.io/name"
+                operator: In
+                values:
+                - {{ template "rsyslog.fullname" . }}
+            topologyKey: "kubernetes.io/hostname"
       containers:
       - name: {{ .Chart.Name }}
         image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+        ports:
+        - containerPort: {{ .Values.service.bind_address }}
+          name: rsyslog
         resources:
 {{ toYaml .Values.resources | indent 10 }}
         volumeMounts:
@@ -43,14 +60,6 @@ spec:
         - mountPath: /etc/rsyslog.conf
           name: config
           subPath: rsyslog.conf
-        - name: rsyslog
-          mountPath: {{ .Values.global.rsyslog_uds_dir }}
-        - name: var-log-containers
-          mountPath: /var/log/containers
-        - name: var-log-pods
-          mountPath: /var/log/pods
-        - name: var-lib-docker-containers
-          mountPath: /var/lib/docker/containers
         env:
           # This pulls HOSTNAME from the node, not the pod.
           - name: HOSTNAME
@@ -62,9 +71,6 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         command: ["cron"]
         args: ["-n"]
-        resources:
-          requests:
-            memory: 50Mi
         env:
           - name: LOGS_SIZE_HIGH_WATERMARK
             value: "{{ .Values.config.logs_size_high_watermark }}"
@@ -78,6 +84,9 @@ spec:
         - mountPath: /etc/logrotate.d/svc
           name: logrotate-config
           subPath: svc
+        - mountPath: /etc/logrotate.d/remove_old
+          name: logrotate-config
+          subPath: remove_old
         - mountPath: /etc/logrotate.conf
           name: logrotate-config
           subPath: logrotate.conf
@@ -92,18 +101,6 @@ spec:
       - name: config
         configMap:
           name: {{ template "rsyslog.fullname" . }}
-      - name: rsyslog
-        hostPath:
-          path: {{ .Values.global.rsyslog_uds_dir }}
-      - name: var-log-containers
-        hostPath:
-          path: /var/log/containers
-      - name: var-log-pods
-        hostPath:
-          path: /var/log/pods
-      - name: var-lib-docker-containers
-        hostPath:
-          path: /var/lib/docker/containers
       - name: logrotate-config
         configMap:
           name: {{ .Release.Name }}-rsyslog-client-logrotate-config
@@ -119,7 +116,23 @@ spec:
         emptyDir: {}
       {{- end }}
 {{- if .Values.persistence.enabled }}
-      - name: {{ template "rsyslog.fullname" . }}-data
-        hostPath:
-          path: {{ .Values.persistence.hostPath }}
+  volumeClaimTemplates:
+  - metadata:
+      name: {{ template "rsyslog.fullname" . }}-data
+      annotations:
+      {{- range $key, $value := .Values.persistence.annotations }}
+        {{ $key }}: "{{ $value }}"
+      {{- end}}
+      labels:
+        release: {{ .Release.Name }}
+    spec:
+      accessModes:
+        - {{ .Values.persistence.accessMode | quote }}
+      storageClassName: "{{ .Values.persistence.storageClassName }}"
+      resources:
+        requests:
+          storage: {{ .Values.persistence.size | quote }}
 {{- end }}
+
+
+

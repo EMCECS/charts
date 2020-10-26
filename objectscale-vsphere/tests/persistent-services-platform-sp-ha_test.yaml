@@ -11,6 +11,7 @@ tests:
   - it: should have the correct name
     set:
       global.platform: "VMware"
+      global.storageClassName: "dellemc-objectscale-highly-available"
     asserts:
       - equal:
           path: metadata.name

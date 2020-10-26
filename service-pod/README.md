@@ -59,13 +59,13 @@ Note that for external access, the ConfigMap that is used to configure Minikube 
 2. Setup the [EMCECS Helm Repository](https://github.com/EMCECS/charts).
 
 ```bash
-$ helm repo add ecs https://emcecs.github.io/charts
+$ helm repo add objectscale https://emcecs.github.io/charts
 $ helm repo update
 ```
 
 3. Install the service-pod. This allows you to create a service-pod for debugging the issues, collect logs and to provide remote-access. It is mandatory to provide a product name as a commond line option. 
 ```bash
-$ helm install --name objectscale-service-pod ecs/service-pod --set product=objectscale
+$ helm install --name objectscale-service-pod objectscale/service-pod --set global.product=objectscale
 NAME:  objectscale-service-pod
 ...
 ```
@@ -97,5 +97,5 @@ $ kubectl create secret docker-registry service-pod-registry \
 helm install \
     --set global.registry=<REGISTRY ADDRESS> \
     --set global.registrySecret=<SECRET_NAME> \
-    ecs/service-pod
+    objectscale/service-pod
 ```

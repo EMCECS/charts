@@ -33,7 +33,7 @@ HELM_KAHM_ARGS       = # --set image.tag=${YOUR_VERSION_HERE}
 clean: clean-package
 
 test: monitoring-test
-	helm lint ${CHARTS} --set product=objectscale
+	helm lint ${CHARTS} --set product=objectscale --set global.product=objectscale
 	yamllint -c .yamllint.yml */Chart.yaml */values.yaml
 	yamllint -c .yamllint.yml -s .yamllint.yml .travis.yml
 	helm unittest ${CHARTS}

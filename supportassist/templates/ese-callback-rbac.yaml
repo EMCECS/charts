@@ -1,0 +1,53 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: supportassist-{{required "product must be specified" .Values.product}}-ese-callback
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/component: supportassist-{{required "product must be specified" .Values.product}}-ese-callback
+{{ include "supportassist.labels" . | indent 4 }}
+{{- if .Values.global.registrySecret }}
+imagePullSecrets:
+  - name: {{ .Values.global.registrySecret }}
+{{- end }}
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: supportassist-{{required "product must be specified" .Values.product}}-ese-callback
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/component: supportassist-{{required "product must be specified" .Values.product}}-ese-callback
+{{ include "supportassist.labels" . | indent 4 }}
+rules:
+- apiGroups:
+  - decks.ecs.dellemc.com
+  resources:
+  - supportassists
+  verbs:
+  - "*"
+- apiGroups:
+  - ""
+  - extensions
+  resources:
+  - secrets
+  verbs:
+  - "*"
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: supportassist-{{required "product must be specified" .Values.product}}-ese-callback
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/component: supportassist-{{required "product must be specified" .Values.product}}-ese-callback
+{{ include "supportassist.labels" . | indent 4 }}
+subjects:
+- kind: ServiceAccount
+  name: supportassist-{{required "product must be specified" .Values.product}}-ese-callback
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  name: supportassist-{{required "product must be specified" .Values.product}}-ese-callback
+  kind: Role
+  apiGroup: rbac.authorization.k8s.io

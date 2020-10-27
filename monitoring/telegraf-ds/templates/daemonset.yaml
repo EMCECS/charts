@@ -36,8 +36,8 @@ spec:
       - name: telegraf
         image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-        command: ["telegraf"]
-        args: ["--config", "/etc/telegraf/telegraf.conf", "--config-directory", "/etc/telegraf/telegraf.d/"]
+        command: ["bash"]
+        args: ["-c", "{{ include "common-lib.command" . }} telegraf --config /etc/telegraf/telegraf.conf --config-directory /etc/telegraf/telegraf.d/"]
         resources:
 {{ toYaml .Values.resources | indent 10 }}
         env:
@@ -78,6 +78,8 @@ spec:
           mountPath: /etc/telegraf
         - name: additional-configs
           mountPath: /etc/telegraf/telegraf.d
+        - mountPath: /crash-dump
+          name: crash-dump
     {{- with .Values.tolerations }}
       tolerations:
 {{ toYaml . | indent 8 }}
@@ -102,3 +104,5 @@ spec:
         configMap:
           name: telegraf-external-monitoring-endpoint
           optional: true
+      - name: crash-dump
+        emptyDir: {}

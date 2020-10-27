@@ -6,7 +6,7 @@ Your release is named {{ .Release.Name }}.
 
 To install service-pod by using Helm chart, use the helm install command below:
 
-  $ helm install <repository name>/service-pod
+  $ helm install <repository name>/service-pod --set global.product=<product_name>
 
 For more information on the installation and configuration options, see the
 README at https://github.com/EMCECS/charts/tree/master/service-pod and the

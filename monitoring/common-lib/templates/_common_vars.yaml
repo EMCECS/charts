@@ -100,7 +100,7 @@ limits:
 {{ define "common-lib.rsyslog_client_sidecar" -}}
 {{- if .Values.global.rsyslog_enabled }}
 - name: rsyslog
-  image: "{{ include "common-lib.monitoring_registry" . }}/rsyslog:{{ .Values.global.monitoring_tag }}"
+  image: "{{ include "common-lib.monitoring_registry" . }}/rsyslog:3.7.0.0-981.452ee4af"
   imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
   env:
     - name: POD_NAME

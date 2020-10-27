@@ -47,7 +47,7 @@ spec:
             topologyKey: "kubernetes.io/hostname"
       containers:
       - name: {{ .Chart.Name }}
-        image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
+        image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:3.7.0.0-981.452ee4af"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         ports:
         - containerPort: {{ .Values.service.bind_address }}
@@ -67,7 +67,7 @@ spec:
               fieldRef:
                 fieldPath: spec.nodeName
       - name: logrotate
-        image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
+        image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:3.7.0.0-981.452ee4af"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         command: ["cron"]
         args: ["-n"]

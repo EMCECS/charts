@@ -167,3 +167,20 @@ tests:
             name: rsyslog-config
             configMap:
               name: RELEASE-NAME-rsyslog-client-config
+
+suite: test replicas
+templates:
+  - deployment.yaml
+tests:
+  - it: Started
+    asserts:
+      - equal:
+          path: spec.replicas
+          value: 1
+  - it: Stopped
+    set:
+      global.started: false
+    asserts:
+      - equal:
+          path: spec.replicas
+          value: 0

@@ -50,3 +50,20 @@ tests:
       - equal:
           path: spec.template.spec.containers[1].args[2]
           value: --data.retention=24h
+
+suite: test replicas
+templates:
+  - deployment.yaml
+tests:
+  - it: Started
+    asserts:
+      - equal:
+          path: spec.replicas
+          value: 1
+  - it: Stopped
+    set:
+      global.started: false
+    asserts:
+      - equal:
+          path: spec.replicas
+          value: 0

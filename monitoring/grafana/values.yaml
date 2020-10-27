@@ -18,6 +18,7 @@ global:
   registry: emccorp
   tls_enabled: false
   internal_dns: kube-dns.kube-system.svc.cluster.local
+  started: true
 
 replicaCount: 1
 

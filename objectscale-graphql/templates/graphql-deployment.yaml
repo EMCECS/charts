@@ -63,6 +63,8 @@ spec:
           value: {{ default "1.1.0" .Values.decks.srsGatewayChartVersion }}
         - name: OPERATOR_NAME
           value: objectscale-operator
+        - name: MANAGER_RELEASE_NAME
+          value: {{ .Values.managerReleaseName }}
         - name: LOG_DIRECTION
 {{- if .Values.logReceiver.type }}
           value: file

@@ -24,6 +24,7 @@ global:
   rsyslog_enabled: true
   internal_dns: kube-dns.kube-system.svc.cluster.local
   prometheus_alerts_enabled: true
+  started: true
 
 tls:
   enabled: true

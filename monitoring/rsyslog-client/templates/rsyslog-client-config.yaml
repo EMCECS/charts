@@ -51,7 +51,11 @@ data:
 
     ruleset(name="sendToLogserver") {
       action(type="omfwd"
-          Target="{{ .Values.global.objectscale_release_name }}-rsyslog-0.{{ .Values.global.objectscale_release_name }}-rsyslog.{{ .Values.global.objectscale_namespace }}.svc.cluster.local"
+{{- if .Values.global.use_objectscale_rsyslog }}
+          Target="_RSYSLOG_POD_NAME_.{{ .Values.global.objectscale_release_name }}-rsyslog.{{ .Values.global.objectscale_namespace }}.svc.cluster.local"
+{{- else }}
+          Target="_RSYSLOG_POD_NAME_.{{ .Release.Name }}-rsyslog.{{ .Release.Namespace }}.svc.cluster.local"
+{{- end }}
           Port="{{ .Values.config.output.port }}"
           Protocol="tcp"
           Template="FileFormat" )

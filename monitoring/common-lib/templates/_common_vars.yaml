@@ -107,8 +107,26 @@ limits:
       valueFrom:
         fieldRef:
           fieldPath: metadata.name
+    - name: NODE_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.nodeName
+    - name: RSYSLOG_CLIENT
+      value: "true"
+    - name: RSYSLOG_SVC_APP_NAME
+{{- if .Values.global.use_objectscale_rsyslog }}
+      value: {{ .Values.global.objectscale_release_name }}-rsyslog
+{{- else }}
+      value: {{ .Release.Name }}-rsyslog
+{{- end }}
+    - name: RSYSLOG_SVC_NAMESPACE
+{{- if .Values.global.use_objectscale_rsyslog }}
+      value: {{ .Values.global.objectscale_namespace }}
+{{- else }}
+      value: {{ .Release.Namespace }}
+{{- end }}
   volumeMounts:
-    - mountPath: /etc/rsyslog.conf
+    - mountPath: /etc/rsyslog.conf.template
       name: rsyslog-config
       subPath: rsyslog.conf
     - name: varlog

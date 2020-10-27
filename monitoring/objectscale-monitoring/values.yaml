@@ -27,6 +27,7 @@ global:
   performanceProfile: Small
   monitoring_tag: 3.7.0.0-969.de6276b2
   started: true
+  use_objectscale_rsyslog: true
 
 cert:
   enabled: false

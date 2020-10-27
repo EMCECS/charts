@@ -312,11 +312,7 @@ spec:
                 format: int32
                 type: integer
   - name: v1alpha1
-    {{- if .Release.IsUpgrade }}
-    served: true
-    {{- else }}
     served: false
-    {{- end }}
     storage: false
     schema:
       openAPIV3Schema:

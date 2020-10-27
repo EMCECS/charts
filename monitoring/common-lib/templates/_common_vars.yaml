@@ -97,10 +97,26 @@ limits:
 {{- end -}}
 {{- end -}}
 
+{{- define "common-lib.rsyslog_svc_name" -}}
+{{- if .Values.global.use_objectscale_rsyslog -}}
+{{ .Values.global.objectscale_release_name }}-rsyslog
+{{- else -}}
+{{ .Release.Name }}-rsyslog
+{{- end -}}
+{{- end -}}
+
+{{- define "common-lib.rsyslog_svc_namespace" -}}
+{{- if .Values.global.use_objectscale_rsyslog -}}
+{{ .Values.global.objectscale_namespace }}
+{{- else -}}
+{{ .Release.Namespace }}
+{{- end -}}
+{{- end -}}
+
 {{ define "common-lib.rsyslog_client_sidecar" -}}
 {{- if .Values.global.rsyslog_enabled }}
 - name: rsyslog
-  image: "{{ include "common-lib.monitoring_registry" . }}/rsyslog:3.7.0.0-981.452ee4af"
+  image: "{{ include "common-lib.monitoring_registry" . }}/rsyslog:{{ .Values.global.monitoring_tag }}"
   imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
   env:
     - name: POD_NAME
@@ -114,17 +130,9 @@ limits:
     - name: RSYSLOG_CLIENT
       value: "true"
     - name: RSYSLOG_SVC_APP_NAME
-{{- if .Values.global.use_objectscale_rsyslog }}
-      value: {{ .Values.global.objectscale_release_name }}-rsyslog
-{{- else }}
-      value: {{ .Release.Name }}-rsyslog
-{{- end }}
+      value: {{ include "common-lib.rsyslog_svc_name" . }}
     - name: RSYSLOG_SVC_NAMESPACE
-{{- if .Values.global.use_objectscale_rsyslog }}
-      value: {{ .Values.global.objectscale_namespace }}
-{{- else }}
-      value: {{ .Release.Namespace }}
-{{- end }}
+      value: {{ include "common-lib.rsyslog_svc_namespace" . }}
   volumeMounts:
     - mountPath: /etc/rsyslog.conf.template
       name: rsyslog-config

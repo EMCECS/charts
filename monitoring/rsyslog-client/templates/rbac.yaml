@@ -18,8 +18,4 @@ roleRef:
   kind: Role
 {{- end }}
   apiGroup: rbac.authorization.k8s.io
-{{- if .Values.global.use_objectscale_rsyslog }}
-  name: {{ .Values.global.objectscale_release_name }}-rsyslog-client
-{{- else }}
-  name: {{ .Release.Name }}-rsyslog-client
-{{- end -}}
+  name: "{{ include "common-lib.rsyslog_svc_name" . }}-client"

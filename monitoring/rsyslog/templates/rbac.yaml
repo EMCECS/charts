@@ -1,8 +1,8 @@
 {{- if eq .Values.global.watchAllNamespaces true }}
 kind: ClusterRole
-  {{- else }}
+{{- else }}
 kind: Role
-  {{- end }}
+{{- end }}
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
   name: {{ .Release.Name }}-rsyslog-client

@@ -153,6 +153,61 @@ spec:
         requests:
           storage: {{ .Values.zookeeper.persistence.size }}
 
+  bookkeeper:
+    {{- if .Values.bookkeeper.replicas }}
+    replicas: {{ .Values.bookkeeper.replicas }}
+    {{- end }}
+    image:
+      repository: {{ .Values.global.registry }}/{{ .Values.bookkeeper.image.repository }}
+      tag: {{ .Values.bookkeeper.image.tag }}
+      {{- if .Values.bookkeeper.image.pullPolicy }}
+      pullPolicy: {{ .Values.bookkeeper.image.pullPolicy }}
+      {{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+    {{- end }}
+    storage:
+      ledgerVolumeClaimTemplate:
+        accessModes: [ "ReadWriteOnce" ]
+        {{- if .Values.bookkeeper.storage.ledger.storageClassName }}
+        storageClassName: {{ .Values.bookkeeper.storage.ledger.storageClassName }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.bookkeeper.storage.ledger.volumeSize }}
+      journalVolumeClaimTemplate:
+        accessModes: [ "ReadWriteOnce" ]
+        {{- if .Values.bookkeeper.storage.journal.storageClassName }}
+        storageClassName: {{ .Values.bookkeeper.storage.journal.storageClassName }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.bookkeeper.storage.journal.volumeSize }}
+      indexVolumeClaimTemplate:
+        accessModes: [ "ReadWriteOnce" ]
+        {{- if .Values.bookkeeper.storage.index.storageClassName }}
+        storageClassName: {{ .Values.bookkeeper.storage.index.storageClassName }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.bookkeeper.storage.index.volumeSize }}
+
+  pravega:
+    {{- if .Values.pravega.controller.service.type }}
+    controllerExtServiceType: {{ .Values.pravega.controller.service.type }}
+    {{- end }}
+    {{- if .Values.pravega.segmentStore.service.type }}
+    segmentStoreExtServiceType: {{ .Values.pravega.segmentStore.service.type }}
+    {{- end }}
+    image:
+      repository: {{ .Values.global.registry }}/{{ .Values.pravega.image.repository }}
+      {{- if .Values.pravega.image.pullPolicy }}
+      pullPolicy: {{ .Values.pravega.image.pullPolicy }}
+      {{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+    {{- end }}
+    controllerReplicas: {{ .Values.pravega.controller.replicas }}
+    segmentStoreReplicas: {{ .Values.pravega.segmentStore.replicas }}
+
   storageServer:
 {{- if .Values.storageServer.replicas }}
     replicas: {{ .Values.storageServer.replicas }}

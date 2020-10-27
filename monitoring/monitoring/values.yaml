@@ -24,6 +24,7 @@ global:
   rsyslog_enabled: true
   internal_dns: kube-dns.kube-system.svc.cluster.local
   prometheus_alerts_enabled: true
+  started: true
 
 tls:
   enabled: true
@@ -276,6 +277,6 @@ fluxd:
 rsyslog:
   persistence:
     enabled: true
-    storageClassName: "baremetal-csi-sc-ssdlvg"
+    storageClassName: "baremetal-csi-sc-syslvg"
     accessMode: ReadWriteOnce
     size: 20Gi

@@ -79,3 +79,10 @@ tests:
       - equal:
           path: spec.replicas
           value: 5
+  - it: Stopped
+    set:
+      global.started: false
+    asserts:
+      - equal:
+          path: spec.replicas
+          value: 0

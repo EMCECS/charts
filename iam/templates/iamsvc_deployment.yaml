@@ -1,0 +1,60 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iamsvc
+  labels:
+    {{- include "iamsvc.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.iamsvc.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "iamsvc.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "iamsvc.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      containers:
+      - name: iamsvc 
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "atlas,flex,dns"
+        - name: ATLAS_SERVICE_HOSTNAME
+          value: "{{ .Release.Name }}-atlas-client"
+        - name: MY_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: MY_POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: MY_POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: {{ default  .Values.global.registry .Values.iamsvc.image.registry }}/{{ .Values.iamsvc.image.repository }}:{{ .Values.iamsvc.image.tag }}
+        imagePullPolicy: {{ .Values.iamsvc.image.pullPolicy }}
+        ports:
+          - name: http
+            containerPort: 9401 
+            protocol: TCP
+        livenessProbe:
+            httpGet:
+                path: {{ .Values.iamsvc.livenessProbe.probePath }}
+                port: http
+            failureThreshold: {{ .Values.iamsvc.livenessProbe.failureThreshold | default 3 }}
+            periodSeconds: {{ .Values.iamsvc.livenessProbe.periodSeconds | default 60 }}
+        readinessProbe:
+            httpGet:
+                path: {{ .Values.iamsvc.readinessProbe.probePath }}
+                port: http
+            failureThreshold: {{ .Values.iamsvc.readinessProbe.failureThreshold | default 3 }}
+            periodSeconds: {{ .Values.iamsvc.readinessProbe.periodSeconds | default 60 }}
+
+

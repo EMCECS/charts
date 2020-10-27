@@ -44,3 +44,20 @@ tests:
             name: cert
             configMap:
               name: RELEASE-NAME-cert
+
+suite: test replicas
+templates:
+  - deployment.yaml
+tests:
+  - it: Started
+    asserts:
+      - equal:
+          path: spec.replicas
+          value: 1
+  - it: Stopped
+    set:
+      global.started: false
+    asserts:
+      - equal:
+          path: spec.replicas
+          value: 0

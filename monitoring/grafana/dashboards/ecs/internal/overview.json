@@ -1,14 +1,5 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_FLUX",
-      "label": "Flux",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "grafana-influxdb-flux-datasource",
-      "pluginName": "Flux (InfluxDB) [BETA]"
-    }
-  ],
+  "__inputs": [],
   "__requires": [
     {
       "type": "grafana",
@@ -863,27 +854,27 @@
       ],
       "targets": [
         {
-          "query": "from(bucket: \"monitoring_vdc\")\r\n|> filter(fn: (r) => r._measurement == \"cq_capacity_ec\"\r and r._field == \"total_coding_data\")\r\n|> range($range)\r\n|> last()\r\n|> pivot(rowKey:[\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n",
+          "query": "from(bucket: \"monitoring_vdc\")\r\n|> filter(fn: (r) => r._measurement == \"cq_capacity_ec\"\r and r._field == \"total_coding_data\")\r\n|> range($range)\r\n|> last()\r\n|> pivot(rowKey:[\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n|> keep(columns: [\"total_coding_data\"])\n",
           "refId": "B",
           "resultFormat": "table"
         },
         {
-          "query": "from(bucket: \"monitoring_vdc\")\r\n|> filter(fn: (r) => r._measurement == \"cq_capacity_ec\"\r and r._field == \"total_coded_data\")\r\n|> range($range)\r\n|> last()\r\n|> pivot(rowKey:[\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")",
+          "query": "from(bucket: \"monitoring_vdc\")\r\n|> filter(fn: (r) => r._measurement == \"cq_capacity_ec\"\r and r._field == \"total_coded_data\")\r\n|> range($range)\r\n|> last()\r\n|> pivot(rowKey:[\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n|> keep(columns: [\"total_coded_data\"])",
           "refId": "A",
           "resultFormat": "table"
         },
         {
-          "query": "from(bucket: \"monitoring_vdc\")\r\n|> filter(fn: (r) => r._measurement == \"cq_capacity_ec\"\r and (r._field == \"total_coding_data\" or r._field == \"total_coded_data\"))\r\n|> range($range)\r\n|> last()\r\n|> pivot(rowKey:[\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n|> map(fn: (r) => ({coded_ratio: r.total_coded_data / r.total_coding_data}))\n",
+          "query": "from(bucket: \"monitoring_vdc\")\r\n|> filter(fn: (r) => r._measurement == \"cq_capacity_ec\"\r and (r._field == \"total_coding_data\" or r._field == \"total_coded_data\"))\r\n|> range($range)\r\n|> last()\r\n|> pivot(rowKey:[\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n|> map(fn: (r) => ({coded_ratio: r.total_coded_data / r.total_coding_data}))\n|> keep(columns: [\"coded_ratio\"])\n",
           "refId": "D",
           "resultFormat": "table"
         },
         {
-          "query": "from(bucket: \"monitoring_vdc\")\r\n|> filter(fn: (r) => r._measurement == \"cq_capacity_ec\"\r and r._field == \"coding_rate\")\r\n|> range($range)\r\n|> last()\r\n|> pivot(rowKey:[\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n",
+          "query": "from(bucket: \"monitoring_vdc\")\r\n|> filter(fn: (r) => r._measurement == \"cq_capacity_ec_rate\"\r and r._field == \"coding_rate\")\r\n|> range($range)\r\n|> last()\r\n|> pivot(rowKey:[\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n|> keep(columns: [\"coding_rate\"])\n",
           "refId": "C",
           "resultFormat": "table"
         },
         {
-          "query": "from(bucket: \"monitoring_vdc\")\r\n|> filter(fn: (r) => r._measurement == \"cq_capacity_ec\"\r and (r._field == \"total_coding_data\" or r._field == \"total_coded_data\" or r._field == \"coding_rate\"))\r\n|> range($range)\r\n|> last()\r\n|> pivot(rowKey:[\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n|> map(fn: (r) => ({est_time: (r.total_coding_data - r.total_coded_data) / (r.coding_rate)}))",
+          "query": "cap = from(bucket: \"monitoring_vdc\")\n|> filter(fn: (r) => r._measurement == \"cq_capacity_ec\" and (r._field == \"total_coding_data\" or r._field == \"total_coded_data\"))\n|> range($range)\n|> last()\n|> drop(columns: [\"_start\", \"_stop\"])\n|> pivot(rowKey:[\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n\n\nrate = from(bucket: \"monitoring_vdc\")\n|> filter(fn: (r) => r._measurement == \"cq_capacity_ec_rate\" and r._field == \"coding_rate\")\n|> range($range)\n|> last()\n|> drop(columns: [\"_start\", \"_stop\"])\n|> pivot(rowKey:[\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n\njoin(tables: {cap: cap, rate: rate}, on:[\"\"])\n|> drop(columns: [\"_measurement_cap\",\"_measurement_rate\"])\n|> map(fn: (r) => ({est_time: \n                    if r._time_cap == r._time_rate \n                    then string(v: ((r.total_coding_data - r.total_coded_data) / (r.coding_rate)))\n                    else \"N/A\" }))\n|> keep(columns: [\"est_time\"])",
           "refId": "E",
           "resultFormat": "table"
         }

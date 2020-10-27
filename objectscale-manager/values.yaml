@@ -147,20 +147,6 @@ installObjectStoreCRD: true
 # installApplicationCRD will install crd for application resources
 installApplicationCRD: true
 
-# installInfluxCRD will install crd for influx
-installInfluxCRD: true
-
-influx:
-  # metricsPort is the port that will be used by metrics in influx
-  metricsPort: 6000
-  image:
-    repository: influxdb-operator
-    # registry: ecs
-    # tag: v1
-    # pullPolicy: IfNotPresent
-  replicas: 1
-
-
 telemetry:
   image:
     repository: telemetry-upload

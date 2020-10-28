@@ -49,10 +49,10 @@ servicePod:
 iam:
   enabled: false
 
-pravega-operator:
+pravega:
   enabled: false
 
-bookkeeper-operator:
+bookkeeper:
   enabled: false
 
 # Create an application resource for management  using Dell EMC common installer or other application-resource

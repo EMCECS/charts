@@ -101,7 +101,7 @@ limits:
 # Rsyslog service name
 #
 {{- define "common-lib.rsyslog_svc_name" -}}
-{{- if .Values.global.use_objectscale_rsyslog -}}
+{{- if .Values.global.objectscale_release_name -}}
 {{ .Values.global.objectscale_release_name }}-rsyslog
 {{- else -}}
 {{ .Release.Name }}-rsyslog
@@ -112,7 +112,7 @@ limits:
 # Rsyslog service namespace
 #
 {{- define "common-lib.rsyslog_svc_namespace" -}}
-{{- if .Values.global.use_objectscale_rsyslog -}}
+{{- if .Values.global.objectscale_namespace -}}
 {{ .Values.global.objectscale_namespace }}
 {{- else -}}
 {{ .Release.Namespace }}

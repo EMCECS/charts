@@ -145,7 +145,6 @@ tests:
       global.tls_enabled: true
       global.objectscale_release_name: objectscale-release
       global.objectscale_namespace: objectscale-ns
-      global.use_objectscale_rsyslog: true
     asserts:
       - equal:
           path: spec.template.spec.containers[2].name
@@ -175,7 +174,6 @@ tests:
     set:
       global.rsyslog_enabled: true
       global.tls_enabled: true
-      global.use_objectscale_rsyslog: false
     asserts:
       - equal:
           path: spec.template.spec.containers[2].name

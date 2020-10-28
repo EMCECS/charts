@@ -16,7 +16,6 @@ templates:
 tests:
   - it: use objectscale rsyslog
     set:
-      global.use_objectscale_rsyslog: true
       global.objectscale_release_name: objectscale-release
       global.objectscale_namespace: objectscale-ns
     asserts:
@@ -24,8 +23,6 @@ tests:
           path: data.rsyslog\.conf
           pattern: Target="_RSYSLOG_POD_NAME_.objectscale-release-rsyslog.objectscale-ns.svc.cluster.local"
   - it: use local rsyslog
-    set:
-      global.use_objectscale_rsyslog: false
     asserts:
       - matchRegex:
           path: data.rsyslog\.conf

@@ -12,7 +12,7 @@
 
 suite: test rbac
 templates:
-  - rbac.yaml
+  - rbac_role.yaml
 tests:
   - it: watchAllNamespaces
     set:
@@ -43,5 +43,5 @@ tests:
           path: metadata.name
           value: objectscale-rsyslog-client
       - equal:
-          path: namespace
+          path: metadata.namespace
           value: ns

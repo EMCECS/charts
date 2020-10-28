@@ -30,11 +30,4 @@ dependencies:
     version: 2.0.52
     condition: servicePod.enabled
     repository: file://../service-pod
-###
-### OBSDEF-2983 needs to address incorporating into subcharts
-#  - name: pravega-operator
-#    version: 0.5.1
-#    condition: pravega-operator.enabled
-#  - name: bookkeeper-operator
-#    version: 0.1.2
-#    condition: bookkeeper-operator.enabled
+

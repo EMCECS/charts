@@ -139,7 +139,7 @@ spec:
           failureThreshold: {{ .Values.readinessProbe.failureThreshold | default 3 }}
 {{ include "common-lib.rsyslog_client_sidecar" . | indent 6 }}
       - name: logrotate
-        image: "{{ include "common-lib.monitoring_registry" . }}/rsyslog:{{ .Values.global.monitoring_tag }}"
+        image: "{{ include "common-lib.monitoring_registry" . }}/rsyslog:3.7.0.0-985.61b2c760"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         command: ["cron"]
         args: ["-n"]

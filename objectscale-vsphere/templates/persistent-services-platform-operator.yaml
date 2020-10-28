@@ -7,7 +7,7 @@ metadata:
   name: objectscale-ui-{{ .Release.Namespace }}
   namespace: {{ .Release.Namespace }}
 spec:
-  name: ObjectScale-{{ .Release.Namespace }}
+  name: objectscale-{{ .Release.Namespace }}
   {{- if (eq .Release.Namespace "dellemc-objectscale-system") }}
   uiBackendSecret: objectscale-plugin-secret
   {{- else }}

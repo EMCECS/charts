@@ -60,6 +60,8 @@ spec:
         - mountPath: /etc/rsyslog.conf
           name: config
           subPath: rsyslog.conf
+        - mountPath: /crash-dump
+          name: crash-dump
         env:
           # This pulls HOSTNAME from the node, not the pod.
           - name: HOSTNAME
@@ -69,8 +71,8 @@ spec:
       - name: logrotate
         image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-        command: ["cron"]
-        args: ["-n"]
+        command: ["bash"]
+        args: ["-c", "{{ include "common-lib.command" . }} cron -n"]
         env:
           - name: LOGS_SIZE_HIGH_WATERMARK
             value: "{{ .Values.config.logs_size_high_watermark }}"
@@ -93,6 +95,8 @@ spec:
         - mountPath: /etc/cleanup_logs
           name: cleanup-script
           subPath: cleanup_logs
+        - mountPath: /crash-dump
+          name: crash-dump
     {{- with .Values.tolerations }}
       tolerations:
 {{ toYaml . | indent 8 }}
@@ -111,6 +115,8 @@ spec:
         configMap:
           name: {{ .Release.Name }}-rsyslog-client-cleanup-logs-script
           defaultMode: 0755
+      - name: crash-dump
+        emptyDir: {}
       {{- if (not .Values.persistence.enabled ) }}
       - name: {{ template "rsyslog.fullname" . }}-data
         emptyDir: {}

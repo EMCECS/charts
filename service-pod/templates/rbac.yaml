@@ -6,16 +6,15 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     release: {{ .Release.Name }}
-    product: {{ required "product (e.g. objectscale) is required" .Values.product }}
+    product: {{ required "product (e.g. objectscale) is required" .Values.global.product }}
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Release.Name }}-service-pod-cr
-  namespace: {{ .Release.Namespace }}
+  name: {{.Release.Namespace}}-{{.Release.Name}}-{{.Values.global.product}}-service-pod-cr
   labels:
     release: {{ .Release.Name }}
-    product: {{ required "product (e.g. objectscale) is required" .Values.product }} 
+    product: {{ required "product (e.g. objectscale) is required" .Values.global.product }} 
 rules:
 - apiGroups:
   - ecs.dellemc.com
@@ -105,16 +104,15 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
-  name: {{ .Release.Name }}-service-pod-crb
-  namespace: {{ .Release.Namespace }}
+  name: {{.Release.Namespace}}-{{.Release.Name}}-{{.Values.global.product}}-service-pod-crb
   labels:
     release: {{ .Release.Name }}
-    product: {{ required "product (e.g. objectscale) is required" .Values.product }} 
+    product: {{ required "product (e.g. objectscale) is required" .Values.global.product }} 
 subjects:
 - kind: ServiceAccount
   name: {{ .Release.Name }}-service-pod-sa
   namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: {{ .Release.Name }}-service-pod-cr
+  name: {{.Release.Namespace}}-{{.Release.Name}}-{{.Values.global.product}}-service-pod-cr
   apiGroup: rbac.authorization.k8s.io

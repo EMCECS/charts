@@ -27,7 +27,6 @@ global:
 tag: 0.52.0
 pullPolicy: IfNotPresent
 
-
 # This package gets values from objectscale-manager/values.yaml
 
 # The service name and port that decks-support-store is listening on for download requests
@@ -48,11 +47,11 @@ image:
   # pullPolicy: IfNotPresent
 service:
   # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
-  type: LoadBalancer
+  type: ClusterIP
 
   # Specify the service port configuration for the vSpherePlugin service
   ports:
-    - name: http
+    - name: https
       port: 4443
       targetPort: 4443
       # nodePort:           # select specific node port for the connection
@@ -65,3 +64,6 @@ service:
   #   - 203.0.113.30
   # externalIPv6Addresses:
   #   - 2001:0db8:0000:0000:0000:0000:0000:0001
+
+objectscale-graphql:
+  managerReleaseName: objectscale-manager

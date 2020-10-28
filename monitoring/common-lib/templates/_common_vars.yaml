@@ -11,6 +11,13 @@
 #
 
 #
+# Entrypoint extention
+#
+{{- define "common-lib.command" -}}
+echo /crash-dump/core-%e > /proc/sys/kernel/core_pattern; ulimit -c unlimited; GOTRACEBACK=crash
+{{- end -}}
+
+#
 # Influxdb replicas
 #
 {{- define "common-lib.influxdb_replicas" -}}
@@ -64,11 +71,24 @@
 # Resources section
 #
 {{- define "common-lib.resources" -}}
+  {{- $size := include "common-lib.memory" (dict "top" .top "micro" .micro "small" .small "medium" .medium "large" .large) }}
+  {{- $size_units := trim (regexFind "[a-zA-Z]+" $size) -}}
+  {{- $size_value := mul 2 (regexFind "[0-9]+" $size) }}
+  {{- $storage_ext := 250 }}
+  {{- $is_ki := ternary (add $size_value (mul $storage_ext 1024)) 0 (eq $size_units "Ki") }}
+  {{- $is_mi := ternary (add $size_value $storage_ext) 0 (or (eq $is_ki 0) (eq $size_units "Mi") ) }}
+  {{- $is_gi := ternary (add $storage_ext (mul $size_value 1024)) 0 (eq $size_units "Gi") }}
+  {{- $kimi := ternary $is_ki $is_mi (ge $is_ki $is_mi) }}
+  {{- $final_size_units := ternary "Mi" $size_units (eq $size_units "Gi") }}
+  {{- $storage_size := print (ternary $kimi $is_gi (ge $kimi $is_gi)) $final_size_units -}}
 requests:
-  memory: {{ template "common-lib.memory" (dict "top" .top "micro" .micro "small" .small "medium" .medium "large" .large) }}
+  memory: {{ $size }}
+  ephemeral-storage: {{ $storage_size }}
 limits:
-  memory: {{ template "common-lib.memory" . }}
-{{- end }}
+  memory: {{ $size }}
+  ephemeral-storage: {{ $storage_size }}
+{{- end -}}
+
 
 #
 # Application replica count

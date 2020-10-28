@@ -18,10 +18,6 @@ dependencies:
     version: 0.26.0
     repository: file://../atlas-operator
     condition: atlas.enabled
-  - name: sonobuoy
-    version: 0.16.6
-    repository: file://../sonobuoy
-    condition: sonobuoy.enabled
   - name: objectscale-monitoring
     version: x.x
     condition: global.monitoring.enabled
@@ -30,11 +26,15 @@ dependencies:
     version: 0.2.0
     repository: file://../iam
     condition: iam.enabled
-  - name: pravega-operator
-    version: 0.5.1
-    repository: file://../pravega-operator
-    condition: pravega-operator.enabled
-  - name: bookkeeper-operator
-    version: 0.1.2
-    repository: file://../bookkeeper-operator
-    condition: bookkeeper-operator.enabled
+  - name: service-pod
+    version: 2.0.52
+    condition: servicePod.enabled
+    repository: file://../service-pod
+###
+### OBSDEF-2983 needs to address incorporating into subcharts
+#  - name: pravega-operator
+#    version: 0.5.1
+#    condition: pravega-operator.enabled
+#  - name: bookkeeper-operator
+#    version: 0.1.2
+#    condition: bookkeeper-operator.enabled

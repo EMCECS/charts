@@ -117,10 +117,14 @@ spec:
         {{- end }}
         - name: varlog
           mountPath: /var/log
+        - mountPath: /crash-dump
+          name: crash-dump
       containers:
       - name: {{ .Chart.Name }}
         image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+        command: ["bash"]
+        args: ["-c", "{{ include "common-lib.command" . }} /entrypoint.sh influxd"]
         resources:
 {{ include "common-lib.resources" (dict "top" . "micro" "410Mi" "small" "410Mi" "medium" "1134Mi" "large" "2154Mi") | indent 10}}
         ports:
@@ -152,6 +156,8 @@ spec:
           mountPath: /data/influxdb/conf/
         - name: varlog
           mountPath: /var/log
+        - mountPath: /crash-dump
+          name: crash-dump
       {{- if .Values.global.tls_enabled }}
       - name: nginx
         image: "{{ include "common-lib.monitoring_registry" . }}/nginx:{{ .Values.global.monitoring_tag }}"
@@ -171,6 +177,8 @@ spec:
         - mountPath: /etc/nginx/cert
           name: cert
         {{- end }}
+        - mountPath: /crash-dump
+          name: crash-dump
       # In case tls is disabled - liveness & readiness probes will go to main container
       {{- end }}
         livenessProbe:
@@ -216,10 +224,8 @@ spec:
       - name: cron
         image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-        command: ["/bin/bash"]
-        args:
-          - -c
-          - env >> /etc/environment; cron -n
+        command: ["bash"]
+        args: ["-c", "{{ include "common-lib.command" . }} env >> /etc/environment; cron -n "]
         env:
         {{- if .Values.env }}
         {{- range .Values.env }}
@@ -236,12 +242,14 @@ spec:
           mountPath: /var/log
         - name: restore-ranges-cron-config
           mountPath: /etc/cron.d
+        - mountPath: /crash-dump
+          name: crash-dump
       {{- end }}
       - name: logrotate
         image: "{{ include "common-lib.monitoring_registry" . }}/rsyslog:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-        command: ["cron"]
-        args: ["-n"]
+        command: ["bash"]
+        args: ["-c", "{{ include "common-lib.command" . }} cron -n"]
         volumeMounts:
         - name: varlog
           mountPath: /var/log
@@ -298,7 +306,9 @@ spec:
         configMap:
           name: {{ .Release.Name }}-rsyslog-client-cleanup-logs-script
           defaultMode: 0755
-    {{- if .Values.schedulerName }}
+      - name: crash-dump
+        emptyDir: {}
+      {{- if .Values.schedulerName }}
       schedulerName: "{{ .Values.schedulerName }}"
     {{- end }}
     {{- if .Values.nodeSelector }}

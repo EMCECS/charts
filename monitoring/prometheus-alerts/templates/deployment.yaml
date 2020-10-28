@@ -91,6 +91,8 @@ spec:
           name: prometheus-alerts-config
         - mountPath: /data
           name: prometheus-storage-volume
+        - mountPath: /crash-dump
+          name: crash-dump
       - name: alertmanager
         image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.alertmanager.image.repository }}:{{ .Values.alertmanager.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.alertmanager.image.pullPolicy | quote }}
@@ -109,6 +111,8 @@ spec:
           name: prometheus-alertmanager-config
         - mountPath: /data
           name: alertmanager-storage-volume
+        - mountPath: /crash-dump
+          name: crash-dump
       {{- if .Values.global.tls_enabled }}
       - name: nginx
         image: "{{ include "common-lib.monitoring_registry" . }}/nginx:{{ .Values.global.monitoring_tag }}"
@@ -148,4 +152,6 @@ spec:
       - name: prometheus-storage-volume
         emptyDir: {}
       - name: alertmanager-storage-volume
+        emptyDir: {}
+      - name: crash-dump
         emptyDir: {}

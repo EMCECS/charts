@@ -4,11 +4,11 @@ metadata:
   labels:
     app: {{ .Release.Name }}-service-pod 
     release: {{ .Release.Name }}
-    product: {{ required "product (e.g. objectscale) is required" .Values.product }} 
+    product: {{ required "product (e.g. objectscale) is required" .Values.global.product }} 
   name: {{ .Release.Name }}-service-pod 
   namespace: {{ .Release.Namespace }}
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
   - port: 22
     name: ssh

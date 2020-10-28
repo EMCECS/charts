@@ -21,6 +21,10 @@ serviceAccount:
   create: true
   name: pravega-operator
 
+## Whether to create the CRD.
+crd:
+  create: true
+
 testmode:
   ## Whether to enable test mode.
   enabled: false

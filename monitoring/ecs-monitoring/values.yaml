@@ -28,6 +28,8 @@ global:
 
   objectscale_release_name: "objectscale"
   objectscale_namespace: "objectscale"
+
+  # rsyslog client is connected to objectscale rsyslog service
   use_objectscale_rsyslog: true
 
 cert:

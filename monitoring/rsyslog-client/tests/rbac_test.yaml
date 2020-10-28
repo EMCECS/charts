@@ -1,0 +1,65 @@
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+
+suite: test rbac
+templates:
+  - rbac.yaml
+tests:
+  - it: watchAllNamespaces
+    set:
+      global.watchAllNamespaces: true
+    asserts:
+      - equal:
+          path: kind
+          value: ClusterRoleBinding
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-default-cr-rsyslog-client
+      - equal:
+          path: roleRef.kind
+          value: ClusterRole
+  - it: singleNamespace objectscale rsyslog
+    set:
+      global.watchAllNamespaces: false
+      global.use_objectscale_rsyslog: true
+      global.objectscale_release_name: objectscale-release
+      global.objectscale_namespace: objectscale-ns
+    asserts:
+      - equal:
+          path: kind
+          value: RoleBinding
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-default-cr-rsyslog-client
+      - equal:
+          path: roleRef.kind
+          value: Role
+      - equal:
+          path: roleRef.name
+          value: objectscale-release-rsyslog-client
+  - it: singleNamespace local rsyslog
+    set:
+      global.watchAllNamespaces: false
+      global.use_objectscale_rsyslog: false
+    asserts:
+      - equal:
+          path: kind
+          value: RoleBinding
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-default-cr-rsyslog-client
+      - equal:
+          path: roleRef.kind
+          value: Role
+      - equal:
+          path: roleRef.name
+          value: RELEASE-NAME-rsyslog-client

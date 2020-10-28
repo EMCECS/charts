@@ -97,6 +97,9 @@ limits:
 {{- end -}}
 {{- end -}}
 
+#
+# Rsyslog service name
+#
 {{- define "common-lib.rsyslog_svc_name" -}}
 {{- if .Values.global.use_objectscale_rsyslog -}}
 {{ .Values.global.objectscale_release_name }}-rsyslog
@@ -105,6 +108,9 @@ limits:
 {{- end -}}
 {{- end -}}
 
+#
+# Rsyslog service namespace
+#
 {{- define "common-lib.rsyslog_svc_namespace" -}}
 {{- if .Values.global.use_objectscale_rsyslog -}}
 {{ .Values.global.objectscale_namespace }}
@@ -129,7 +135,7 @@ limits:
           fieldPath: spec.nodeName
     - name: RSYSLOG_CLIENT
       value: "true"
-    - name: RSYSLOG_SVC_APP_NAME
+    - name: RSYSLOG_SVC_NAME
       value: {{ include "common-lib.rsyslog_svc_name" . }}
     - name: RSYSLOG_SVC_NAMESPACE
       value: {{ include "common-lib.rsyslog_svc_namespace" . }}

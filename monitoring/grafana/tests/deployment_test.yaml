@@ -139,10 +139,13 @@ tests:
       - equal:
           path: spec.template.spec.containers[1].image
           value: ecs_registry/nginx:1.1
-  - it: rsyslog client sidecar
+  - it: rsyslog client sidecar with objectscale rsyslog
     set:
       global.rsyslog_enabled: true
       global.tls_enabled: true
+      global.objectscale_release_name: objectscale-release
+      global.objectscale_namespace: objectscale-ns
+      global.use_objectscale_rsyslog: true
     asserts:
       - equal:
           path: spec.template.spec.containers[2].name
@@ -153,6 +156,51 @@ tests:
             name: rsyslog-config
             configMap:
               name: RELEASE-NAME-rsyslog-client-config
+      - contains:
+          path: spec.template.spec.containers[2].env
+          content:
+              name: RSYSLOG_CLIENT
+              value: "true"
+      - contains:
+          path: spec.template.spec.containers[2].env
+          content:
+            name: RSYSLOG_SVC_NAME
+            value: objectscale-release-rsyslog
+      - contains:
+          path: spec.template.spec.containers[2].env
+          content:
+            name: RSYSLOG_SVC_NAMESPACE
+            value: objectscale-ns
+  - it: rsyslog client sidecar with local rsyslog
+    set:
+      global.rsyslog_enabled: true
+      global.tls_enabled: true
+      global.use_objectscale_rsyslog: false
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[2].name
+          value: rsyslog
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: rsyslog-config
+            configMap:
+              name: RELEASE-NAME-rsyslog-client-config
+      - contains:
+          path: spec.template.spec.containers[2].env
+          content:
+            name: RSYSLOG_CLIENT
+            value: "true"
+      - contains:
+          path: spec.template.spec.containers[2].env
+          content:
+            name: RSYSLOG_SVC_NAME
+            value: RELEASE-NAME-rsyslog
+      - contains:
+          path: spec.template.spec.containers[2].env
+          content:
+            name: RSYSLOG_SVC_NAMESPACE
+            value: NAMESPACE
   - it: rsyslog client sidecar when disabled
     set:
       global.rsyslog_enabled: false
@@ -167,7 +215,7 @@ tests:
             name: rsyslog-config
             configMap:
               name: RELEASE-NAME-rsyslog-client-config
-
+---
 suite: test replicas
 templates:
   - deployment.yaml

@@ -1,3 +1,19 @@
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+
+{{- /*
+  Create ClusterRole if objectscale manages all namespaces;
+  Namespaced Role is created if single namespace is managed.
+*/ -}}
 {{- if eq .Values.global.watchAllNamespaces true }}
 kind: ClusterRole
 {{- else }}
@@ -6,9 +22,9 @@ kind: Role
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
   name: {{ .Release.Name }}-rsyslog-client
-  {{- if ne .Values.global.watchAllNamespaces true }}
+{{- if ne .Values.global.watchAllNamespaces true }}
 namespace: {{ .Release.Namespace }}
-  {{- end }}
+{{- end }}
 rules:
   - apiGroups:
       - ""

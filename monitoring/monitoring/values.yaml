@@ -25,6 +25,7 @@ global:
   internal_dns: kube-dns.kube-system.svc.cluster.local
   prometheus_alerts_enabled: true
   started: true
+  # rsyslog client in platform monitoring pods is connected to platform monitoring rsyslog service
   use_objectscale_rsyslog: false
 
 tls:

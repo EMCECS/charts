@@ -12,6 +12,7 @@
 
 ---
 global:
+  # watchAllNamespaces = true creates ClusterRole for rsyslog-client to list pods in objectscale namespace
   watchAllNamespaces: true
 
 config:

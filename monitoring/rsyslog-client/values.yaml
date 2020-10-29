@@ -11,7 +11,8 @@
 #
 
 ---
-global: {}
+global:
+  watchAllNamespaces: true
 
 config:
   output:

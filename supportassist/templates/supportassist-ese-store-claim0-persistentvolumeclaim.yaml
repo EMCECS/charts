@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: supportassist-{{.Values.product}}-store-claim0
+  namespace: {{.Release.Namespace}}
+  labels:
+    io.kompose.service: ese-store-claim
+spec:
+  {{- if .Values.global.storageClassName }}
+  storageClassName: {{.Values.global.storageClassName}}
+  {{- end }}
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.eseStore.persistentVolume.size }}
+status: {}

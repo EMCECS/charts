@@ -32,7 +32,7 @@ data:
         "usingBuiltinConfig": false,
         "remoteConfig": {},
         "gatewayEndpoints": [],
-        "productFrontendUri": "http://supportassist-{{.Values.product}}.{{.Release.Namespace}}.svc.cluster.local:8087",
+        "productFrontendUri": "http://supportassist-{{.Values.product}}-ese-callback.{{.Release.Namespace}}.svc.cluster.local:9447",
         # Could also be HTTPS: "productFrontendUri": "https://supportassist-{{.Values.product}}.{{.Release.Namespace}}.svc.cluster.local:8447",
         "productFrontendPrefix": "{{.Values.product}}",
         "productFrontendType": "webrest",
@@ -98,6 +98,7 @@ spec:
     matchLabels:
       app.kubernetes.io/component: supportassist-{{.Values.product}}-ese
       app.kubernetes.io/name: supportassist-{{.Values.product}}
+      io.kompose.service: ese-store
   strategy:
     type: Recreate
   template:
@@ -107,6 +108,7 @@ spec:
       labels:
         app.kubernetes.io/component: supportassist-{{.Values.product}}-ese
         app.kubernetes.io/name: supportassist-{{.Values.product}}
+        io.kompose.service: ese-store
 {{ include "supportassist.labels" . | indent 8 }}
     spec:
       containers:
@@ -123,20 +125,50 @@ spec:
           name: insecure
           protocol: TCP
         volumeMounts:
-          - mountPath: /opt/ese/var
-            name: supportassist-{{.Values.product}}-persistentdata
+          - name: supportassist-{{.Values.product}}-persistentdata
+            mountPath: /opt/ese/var
           - name: supportassist-{{.Values.product}}-default-properties
             mountPath: /opt/ese/etc/DefaultProperties.json
             subPath: DefaultProperties.json
+          - name: supportassist-{{.Values.product}}-store-claim0
+            mountPath: /opt/ese/data
+        securityContext:
+          runAsUser: 999
         env:
         - name: ESE_USER
           value: "eseservice"
         - name: REGISTRY_SECRET
           value: {{.Values.global.registrySecret}}
-      securityContext:
-        runAsUser: 999
-        runAsGroup: 999
-        fsGroup: 999
+      - name: ese-store
+        image: {{ .Values.global.registry }}/{{.Values.eseStore.image.repository }}:{{default .Values.tag .Values.eseStore.image.tag }}
+        imagePullPolicy: {{ default .Values.pullPolicy .Values.eseStore.image.pullPolicy }}
+        command: ["/usr/local/bin/run-nginx.sh"]
+        securityContext:
+          runAsUser: 0
+        ports:
+        - containerPort: {{.Values.eseStore.containerPort}}
+        resources: {}
+        volumeMounts:
+        - mountPath: /opt/secure/data
+          name: supportassist-{{.Values.product}}-store-claim0
+        env:
+        - name: REGISTRY_SECRET
+          value: {{.Values.global.registrySecret}}
+        - name: USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: supportassist-{{.Values.product}}-store-secret
+              key: username
+        - name: PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: supportassist-{{.Values.product}}-store-secret
+              key: password
+        - name: SALT
+          valueFrom:
+            secretKeyRef:
+              name: supportassist-{{.Values.product}}-store-secret
+              key: salt
       restartPolicy: Always
       volumes:
       - name: supportassist-{{.Values.product}}-persistentdata
@@ -145,3 +177,10 @@ spec:
       - name: supportassist-{{.Values.product}}-default-properties
         configMap:
           name: supportassist-{{.Values.product}}-default-properties
+      - name: supportassist-{{.Values.product}}-store-claim0
+        persistentVolumeClaim:
+          claimName: supportassist-{{.Values.product}}-store-claim0
+{{- if .Values.global.registrySecret }}
+      imagePullSecrets:
+      - name: {{ .Values.global.registrySecret }}
+{{- end }}

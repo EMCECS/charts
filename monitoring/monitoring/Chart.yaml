@@ -13,42 +13,42 @@
 
 apiVersion: v2
 name: monitoring
-version: 0.52.0
-appVersion: 0.52.0
+version: 0.53.0
+appVersion: 0.53.0
 description: Monitoring Framework
 engine: gotpl
 
 dependencies:
   - name: cert
     repository: "file://../cert"
-    version: 0.52.0
+    version: 0.53.0
     condition: cert.enabled, global.cert.enabled, global.tls_enabled
   - name: influxdb
     repository: "file://../influxdb"
-    version: 0.52.0
+    version: 0.53.0
   - name: telegraf
     repository: "file://../telegraf"
-    version: 0.52.0
+    version: 0.53.0
   - name: telegraf-ds
     repository: "file://../telegraf-ds"
-    version: 0.52.0
+    version: 0.53.0
   - name: fluxd
     repository: "file://../fluxd"
-    version: 0.52.0
+    version: 0.53.0
   - name: grafana
     repository: "file://../grafana"
-    version: 0.52.0
+    version: 0.53.0
   - name: throttler
     repository: "file://../throttler"
-    version: 0.52.0
+    version: 0.53.0
   - name: rsyslog
     repository: "file://../rsyslog"
-    version: 0.52.0
+    version: 0.53.0
     condition: global.rsyslog_enabled
   - name: rsyslog-client
     repository: "file://../rsyslog-client"
-    version: 0.52.0
+    version: 0.53.0
   - name: prometheus-alerts
     repository: "file://../prometheus-alerts"
-    version: 0.52.0
+    version: 0.53.0
     condition: global.prometheus_alerts_enabled

@@ -22,6 +22,7 @@ tests:
           path: spec.template.spec.containers[0].resources.requests
           value:
             memory: 200Mi
+            ephemeral-storage: 650Mi
   - it: Small
     set:
       global.performanceProfile: "Small"
@@ -30,6 +31,7 @@ tests:
           path: spec.template.spec.containers[0].resources.requests
           value:
             memory: 200Mi
+            ephemeral-storage: 650Mi
   - it: Medium
     set:
       global.performanceProfile: "Medium"
@@ -38,6 +40,7 @@ tests:
           path: spec.template.spec.containers[0].resources.requests
           value:
             memory: 350Mi
+            ephemeral-storage: 950Mi
   - it: Large
     set:
       global.performanceProfile: "Large"
@@ -46,3 +49,4 @@ tests:
           path: spec.template.spec.containers[0].resources.requests
           value:
             memory: 350Mi
+            ephemeral-storage: 950Mi

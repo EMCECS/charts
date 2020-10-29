@@ -46,16 +46,13 @@ spec:
             secretKeyRef:
               name: decks-support-store-secret
               key: salt
-        image: {{ .Values.global.registry }}/{{- if .Values.supportStore }}{{- default .Values.supportStore.image.repository "decks-support-store" -}}:{{- default .Values.supportStore.image.version "1.0.0" -}}{{- else }}decks-support-store:1.0.0{{- end}}
+        image: {{ .Values.global.registry }}/{{.Values.supportStore.image.repository}}:{{default .Values.tag .Values.supportStore.image.tag}}
         {{- if .Values.supportStore }}
         imagePullPolicy: {{ default .Values.pullPolicy .Values.supportStore.image.pullPolicy }}
         {{- else }}
         imagePullPolicy: IfNotPresent
         {{- end}}
-        command: ["/bin/sh", "-c"]
-        args: ["chmod +x /usr/local/bin/*.sh;
-                sh /usr/local/bin/run-nginx.sh;
-                nginx -g 'daemon off;'"]
+        command: ["/usr/local/bin/run-nginx.sh"]
         ports:
         {{- if .Values.supportStore }}
         - containerPort: {{ .Values.supportStore.containerPort }}

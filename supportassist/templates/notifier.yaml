@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/component: supportassist-{{.Values.product}}-notifier
 {{ include "supportassist.labels" . | indent 4 }}
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
   - name: grpc 
     port: {{.Values.notifier.servicePort}} 

@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: supportassist-{{.Values.product}}-store-svc
+  namespace: {{.Release.Namespace}}
+  labels:
+    io.kompose.service: ese-store
+spec:
+  type: {{ .Values.eseStore.service.type }}
+  ports:
+    - name: http
+      port: {{ .Values.eseStore.service.port }}
+      targetPort: {{ .Values.eseStore.service.targetPort }}
+  selector:
+    app.kubernetes.io/component: supportassist-{{.Values.product}}-ese
+    io.kompose.service: ese-store

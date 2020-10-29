@@ -112,11 +112,6 @@ data:
                 "monitor": {
                     "views": [
                         {
-                            "navigationId": "deos.monitor.events",
-                            "labelKey": "cluster.monitor.list.events",
-                            "uri": "index.html?view=events"
-                        },
-                        {
                             "navigationId": "deos.monitor.health",
                             "labelKey": "cluster.monitor.list.health",
                             "uri": "index.html?view=health"
@@ -125,6 +120,11 @@ data:
                 },
                 "configure": {
                     "views": [
+                        {
+                            "navigationId": "deos.configure.dashboard",
+                            "labelKey": "cluster.configure.list.dashboard",
+                            "uri": "index.html?view=dashboard"
+                        },
                         {
                             "navigationId": "deos.configure.objectstores",
                             "labelKey": "cluster.configure.list.objectstores",
@@ -161,15 +161,15 @@ data:
                         "de-DE": "ObjectScaleSERVICE_ID",
                         "fr-FR": "ObjectScaleSERVICE_ID"
                     },
-                    "cluster.monitor.list.events": {
-                        "en-US": "EventsSERVICE_ID",
-                        "de-DE": "EventsSERVICE_ID",
-                        "fr-FR": "EventsSERVICE_ID"
-                    },
                     "cluster.monitor.list.health": {
                         "en-US": "HealthSERVICE_ID",
                         "de-DE": "GesundheitSERVICE_ID",
                         "fr-FR": "santéSERVICE_ID"
+                    },
+                    "cluster.configure.list.dashboard": {
+                        "en-US": "DashboardSERVICE_ID",
+                        "de-DE": "DashboardSERVICE_ID",
+                        "fr-FR": "DashboardSERVICE_ID"
                     },
                     "cluster.configure.list.objectstores": {
                         "en-US": "Object StoresSERVICE_ID",

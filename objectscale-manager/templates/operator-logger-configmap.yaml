@@ -1,0 +1,67 @@
+{{- if eq .Values.loggerConfig.enabled true }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: logger-config
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: objectscale-operator
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    operator: objectscale-operator
+    product: objectscale
+    release: {{ .Release.Name }}
+data:
+  logger-config.yaml: |-
+    development: {{ .Values.loggerConfig.development }}
+    disableCaller: {{ .Values.loggerConfig.disableCaller }}
+    disableStacktrace: {{ .Values.loggerConfig.disableStacktrace }}
+    level: {{ .Values.loggerConfig.level }}
+    outputPaths:
+    {{- range .Values.loggerConfig.outputPaths }}
+    - {{ . }}
+    {{- end }}
+    errorOutputPaths:
+    {{- range .Values.loggerConfig.errorOutputPaths }}
+    - {{ . }}
+    {{- end }}
+    encoding: {{ .Values.loggerConfig.encoding }}
+    encoderConfig:
+      {{- if .Values.loggerConfig.encoderConfig.messageKey }}
+      messageKey: {{ .Values.loggerConfig.encoderConfig.messageKey }}
+      {{- end }}
+      {{- if .Values.loggerConfig.encoderConfig.levelKey }}
+      levelKey: {{ .Values.loggerConfig.encoderConfig.levelKey }}
+      {{- end }}
+      {{- if .Values.loggerConfig.encoderConfig.timeKey }}
+      timeKey: {{ .Values.loggerConfig.encoderConfig.timeKey }}
+      {{- end }}
+      {{- if .Values.loggerConfig.encoderConfig.nameKey }}
+      nameKey: {{ .Values.loggerConfig.encoderConfig.nameKey }}
+      {{- end }}
+      {{- if .Values.loggerConfig.encoderConfig.callerKey }}
+      callerKey: {{ .Values.loggerConfig.encoderConfig.callerKey }}
+      {{- end }}
+      {{- if .Values.loggerConfig.encoderConfig.stacktraceKey }}
+      stacktraceKey: {{ .Values.loggerConfig.encoderConfig.stacktraceKey }}
+      {{- end }}
+      {{- if .Values.loggerConfig.encoderConfig.lineEnding }}
+      lineEnding: {{ .Values.loggerConfig.encoderConfig.lineEnding }}
+      {{- end }}
+      {{- if .Values.loggerConfig.encoderConfig.levelEncoder }}
+      levelEncoder: {{ .Values.loggerConfig.encoderConfig.levelEncoder }}
+      {{- end }}
+      {{- if .Values.loggerConfig.encoderConfig.timeEncoder }}
+      timeEncoder: {{ .Values.loggerConfig.encoderConfig.timeEncoder }}
+      {{- end }}
+      {{- if .Values.loggerConfig.encoderConfig.durationEncoder }}
+      durationEncoder: {{ .Values.loggerConfig.encoderConfig.durationEncoder }}
+      {{- end }}
+      {{- if .Values.loggerConfig.encoderConfig.callerEncoder }}
+      callerEncoder: {{ .Values.loggerConfig.encoderConfig.callerEncoder }}
+      {{- end }}
+{{- end }}

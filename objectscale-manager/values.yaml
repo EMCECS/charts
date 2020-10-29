@@ -49,6 +49,12 @@ servicePod:
 iam:
   enabled: false
 
+pravega:
+  enabled: false
+
+bookkeeper:
+  enabled: false
+
 # Create an application resource for management  using Dell EMC common installer or other application-resource
 # controllers
 createApplicationResource: true
@@ -171,3 +177,44 @@ hooks:
   registry: "lachlanevenson"
   repository: "k8s-kubectl"
   tag: "v1.13.4"
+
+loggerConfig:
+  enabled: true
+
+  # development puts the logger in development mode, which takes stacktraces more liberally
+  development: true
+  # disableCaller stops annotating logs with the calling function's file name and line number.
+  disableCaller: false
+  # disableStacktrace completely disables automatic stacktrace capturing for Warn/Error level
+  disableStacktrace: false
+  # log level. could be: "debug", "info", "warn", "error", "dpanic", "panic", and "fatal"
+  level: "info"
+  # outputPaths is a list of URLs or file paths to write logging output to.
+  outputPaths:
+    - "stdout"
+    # - /opt/manager/operator.log NOTE: THIS PATH IS RECOMMENDED IF YOU WANT WRITE TO A FILE
+  # errorOutputPaths is a list of URLs to write internal logger errors to.
+  errorOutputPaths:
+    - "stderr"
+  # use "console" for human readable  logs and "json" for json-style logs
+  encoding: "console"
+  # An encoderConfig allows users to configure the concrete encoders such as key names for data, timestamp format, etc.
+  # Missing fields from this config will be filled with default values in Operator
+  encoderConfig:
+    # Keys for additional logs data. If any key is empty, that portion of the entry is omitted.
+    messageKey: "M"
+    levelKey: "L"
+    timeKey: "T"
+    nameKey: "N"
+    callerKey: "C"
+    stacktraceKey: "S"
+    lineEnding: "\n"
+    # Encoders for different additional data
+    # "capital" prints level in uppercase (e.g. INFO), "lower" prints level in lowercase (e.g. info)
+    levelEncoder: "capital"
+    # Allowed time formats: rfc3339nano, rfc3339, iso8601, millis, nanos, epoch
+    timeEncoder: "iso8601"
+    # How to encode time.Duration. Supports: string, nanos, ms, seconds
+    durationEncoder: "string"
+    # "full" or "short" caller info
+    callerEncoder: "short"

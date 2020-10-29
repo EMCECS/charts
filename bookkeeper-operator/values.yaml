@@ -1,0 +1,39 @@
+## Default values for bookkeeper-operator.
+## This is a YAML-formatted file.
+## Declare variables to be passed into your templates.
+global:
+  # Specifies which namespace the Operator should watch for new ClusterResource
+  # resources
+  # Default: true == Watch ALL namespaces
+  watchAllNamespaces: true
+
+image:
+  repository: pravega/bookkeeper-operator
+  tag: 0.1.2
+  pullPolicy: IfNotPresent
+
+## Install RBAC roles and bindings.
+rbac:
+  create: true
+
+## Service account name and whether to create it.
+serviceAccount:
+  create: true
+  name: bookkeeper-operator
+
+testmode:
+  enabled: false
+  ## version of pravega that you wish to deploy
+  ## mention the major version number
+  ## eg. enter 0.8.0 if u wish to deploy version 0.8.0-2500.efe501a
+  version: ""
+
+## Specifies which namespace the Operator should watch over.
+## An empty string means all namespaces.
+watchNamespace: ""
+
+hooks:
+  backoffLimit: 10
+  image:
+    repository: lachlanevenson/k8s-kubectl
+    tag: v1.16.10

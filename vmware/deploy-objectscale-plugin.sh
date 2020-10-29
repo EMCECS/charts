@@ -51,9 +51,9 @@ echomsg () {
 ## Add rules needed to apply our plugin
 add_vsphere7_clusterrole_rules () {
   vsphere7AppRoles="kubectl get -n vmware-system-appplatform-operator-system clusterrole vmware-system-appplatform-operator-manager-role  -o yaml"
-  numRoles=$(eval ${vsphere7AppRoles} | egrep -c -e "- batch|- app.k8s.io")
+  numRoles=$(eval ${vsphere7AppRoles} | egrep -c -e "- batch|- app.k8s.io|- policy")
 
-  if [ ${numRoles} -le 1 ] 
+  if [ ${numRoles} -le 3 ] 
   then
       echomsg "Adding roles to app platform"
       cat <<'EOT' > /tmp/newrules.yaml
@@ -75,6 +75,14 @@ add_vsphere7_clusterrole_rules () {
   - applications
   verbs:
   - '*'
+- apiGroups:
+  - policy
+  resourceNames:
+  - wcp-privileged-psp
+  resources:
+  - podsecuritypolicies
+  verbs:
+  - use
 EOT
       eval ${vsphere7AppRoles} > /tmp/currrules.yaml
       kubectl apply -f <(cat <(cat /tmp/currrules.yaml) /tmp/newrules.yaml)
@@ -108,20 +116,6 @@ then
     echomsg "ObjectScale Plugin \"${service_id}\" has already been deployed"
     echomsg "It must be disabled and removed before a new one can be applied"
     exit 1
-fi
-
-service_port=`kubectl -n kube-system get svc kube-apiserver-authproxy-svc -o jsonpath='{.spec.ports[0].targetPort}'`
-if [ ${service_port} -ne 443 ]
-then
-    echomsg "The kube-apiserver-authproxy-svc is configured with incorrect port \"${service_port}\" and will be updated now"
-    kubectl -n kube-system patch svc kube-apiserver-authproxy-svc --type=json -p '[{"op":"replace", "path":"/spec/ports/0/targetPort", "value":443}]'
-    if [ $? -eq 0 ]
-    then
-        echomsg "Successfully updated the kube-apiserver-authproxy-svc targetPort to 443"
-    else
-        echomsg "Unable to update the targetPort of kube-apiserver-authproxy-svc to 443"
-        exit 1
-    fi
 fi
 
 ## Now check if the api groups have been added for VMware vSphere7 app platform:

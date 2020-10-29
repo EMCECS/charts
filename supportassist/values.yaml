@@ -84,6 +84,29 @@ notifier:
   grpcConnTimeout: 5
   grpcRetries: 3
 
+# esecallback - required settings to start a callback deployment
+esecallback:
+  image:
+    repository: "ese-callback"
+#   tag: stable
+#   pullPolicy: "Always"
+  servicePort: 9447
+
+
+# Config for sidecar container in ese pod
+eseStore:
+  image:
+    repository: decks-support-store
+    #tag: stable
+    pullPolicy: Always
+  persistentVolume:
+    size: 50Gi
+  containerPort: 7443
+  service:
+    port: 7443
+    targetPort: 7443
+    type: ClusterIP
+
 # We usually recommend not to specify default resources and to leave this as a
 # conscious choice for the user. This also increases chances charts run on
 # environments with little resources, such as Minikube. If you do want to

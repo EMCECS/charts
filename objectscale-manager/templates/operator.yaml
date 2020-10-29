@@ -58,6 +58,11 @@ spec:
             memory: {{ .Values.resources.operator.limits.memory }}
           requests:
             memory: {{ .Values.resources.operator.requests.memory }}
+{{- if eq .Values.loggerConfig.enabled true }}
+        volumeMounts:
+        - name: logger-config
+          mountPath: /etc/config
+{{- end }}
         env:
         - name: POD_NAME
           valueFrom:
@@ -161,12 +166,23 @@ spec:
             mountPath: /var/log
           - name: config
             mountPath: /fluent-bit/etc
+      {{- end }}
+{{- end }}
 
+# Because volumes config was created if platform is not VMware and logReceiver is active it's needed to add this
+# checking here to save previous logic
+{{- if or (eq .Values.loggerConfig.enabled true) (and (ne .Values.global.platform "VMware") (or .Values.logReceiver.type .Values.logReceiver.create)) }}
       volumes:
+        {{- if and (ne .Values.global.platform "VMware") (or .Values.logReceiver.type .Values.logReceiver.create) }}
         - name: log
           emptyDir: {}
         - name: config
           configMap:
             name: {{ .Release.Name }}-manager-logs-config
-      {{- end }}
+        {{- end }}
+        {{- if eq .Values.loggerConfig.enabled true }}
+        - name: logger-config
+          configMap:
+            name: logger-config
+        {{- end }}
 {{- end }}

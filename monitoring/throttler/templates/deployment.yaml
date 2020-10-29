@@ -114,8 +114,8 @@ spec:
       - name: {{ .Chart.Name }}
         image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-        command: ["throttler"]
-        args: ["--logger-config", "/etc/throttler/logger.json", "--port", "{{ .Values.config.http.bind_address }}"]
+        command: ["bash"]
+        args: ["-c", "{{ include "common-lib.command" . }} throttler --logger-config /etc/throttler/logger.json --port {{ .Values.config.http.bind_address }}"]
         resources:
 {{ include "common-lib.resources" (dict "top" . "micro" "200Mi" "small" "200Mi" "medium" "350Mi" "large" "350Mi") | indent 10}}
         ports:
@@ -134,6 +134,8 @@ spec:
         - mountPath: /etc/alerter
           name: alerter
         {{- end }}
+        - mountPath: /crash-dump
+          name: crash-dump
       {{- if .Values.global.tls_enabled }}
       - name: nginx
         image: "{{ include "common-lib.monitoring_registry" . }}/nginx:{{ .Values.global.monitoring_tag }}"
@@ -148,6 +150,8 @@ spec:
         - mountPath: /etc/nginx/cert
           name: cert
         {{- end }}
+        - mountPath: /crash-dump
+          name: crash-dump
         # In case tls is disabled - liveness & readiness probes will go to main container
         {{- end }}
         livenessProbe:
@@ -197,3 +201,5 @@ spec:
         configMap:
           name: {{ template "throttler.fullname" . }}-alerter
       {{- end }}
+      - name: crash-dump
+        emptyDir: {}

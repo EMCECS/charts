@@ -1,0 +1,58 @@
+suite: test decks
+templates:
+  - decks.yaml
+tests:
+  - it: should create a deployment
+    asserts:
+    - isKind:
+        of: Deployment
+  - it: should have a default image
+    asserts:
+    - matchRegex:
+        path: spec.template.spec.containers[0].image
+        pattern: emccorp/decks:.*
+    - equal:
+        path: spec.template.spec.containers[0].imagePullPolicy
+        value: IfNotPresent
+  - it: should have name ending with decks
+    asserts:
+    - matchRegex:
+        path: metadata.name
+        pattern: ^decks$
+  - it: should have a selector
+    asserts:
+    - matchRegex:
+        path: spec.selector.matchLabels.name
+        pattern: ^decks$
+  - it: should have a name label
+    asserts:
+    - matchRegex:
+        path: spec.template.metadata.labels.name
+        pattern: ^decks$
+  - it: should configure the image
+    set:
+      global.registry: REGISTRY
+      image.repository: REPO
+      image.tag: TAG
+      image.pullPolicy: IfNotPresent
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: REGISTRY/REPO:TAG
+      - equal:
+          path: spec.template.spec.containers[0].imagePullPolicy
+          value: IfNotPresent
+  - it: should have the following env variables
+    asserts:
+    - contains:
+        path: spec.template.spec.containers[0].env
+        content:
+          name: POD_NAME
+          value: "decks"
+          name: POD_NAMESPACE
+          value: ""
+          name: WATCH_NAMESPACE
+          value: ""
+          name: CONTROLLER_NAME
+          value: "decks"
+

@@ -129,7 +129,7 @@ combine-crds:
 create-vmware-package:
 	./vmware/vmware_pack.sh ${SERVICE_ID}
 
-create-manifests: create-vsphere-install create-kahm-manifest create-decks-manifest create-manager-app
+create-manifests: create-vsphere-install create-kahm-manifest create-decks-app create-manager-app
 
 create-vsphere-install: create-vsphere-templates
 

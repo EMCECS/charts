@@ -1,0 +1,36 @@
+suite: test support store
+templates:
+  - support-store-stateful-set.yaml
+tests:
+  - it: should create a stateful set
+    asserts:
+      - isKind:
+          of: StatefulSet
+  - it: should have a default image
+    set:
+      image.pullPolicy: IfNotPresent
+    asserts:
+      - matchRegex:
+          path: spec.template.spec.containers[0].image
+          pattern: ^emccorp/decks-support-store:.*
+      - equal:
+          path: spec.template.spec.containers[0].imagePullPolicy
+          value: IfNotPresent
+  - it: should have name ending with decks
+    asserts:
+      - matchRegex:
+          path: metadata.name
+          pattern: ^decks-support-store$
+  - it: should have a name label
+    asserts:
+      - equal:
+          path: spec.template.metadata.labels.name
+          pattern: ^decks-support-store$
+  - it: should configure a nginx container with port
+    set:
+      supportStore.containerPort: 7443
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].ports
+          content:
+            containerPort: 7443

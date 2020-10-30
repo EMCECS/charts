@@ -1,0 +1,143 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: decks
+  namespace: {{.Release.Namespace}}
+  labels:
+    app.kubernetes.io/name: "decks"
+    app.kubernetes.io/version: {{.Values.tag}}
+    app.kubernetes.io/instance: {{.Release.Name}}
+    app.kubernetes.io/managed-by: nautilus
+    helm.sh/chart: {{.Chart.Name}}-{{.Chart.Version | replace "+" "_"}}
+    release: {{.Release.Name}}
+{{- if .Values.global.registrySecret }}
+imagePullSecrets:
+  - name: {{ .Values.global.registrySecret }}
+{{- end }}
+---
+{{- if eq .Values.global.watchAllNamespaces true }}
+kind: ClusterRole
+{{- else }}
+kind: Role
+{{- end }}
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: decks
+{{- if ne .Values.global.watchAllNamespaces true }}
+  namespace: {{.Release.Namespace}}
+{{- end }}
+  labels:
+    app.kubernetes.io/name: "decks"
+    app.kubernetes.io/version: {{.Values.tag}}
+    app.kubernetes.io/instance: {{.Release.Name}}
+    app.kubernetes.io/managed-by: nautilus
+    helm.sh/chart: {{.Chart.Name}}-{{.Chart.Version | replace "+" "_"}}
+    release: {{ .Release.Name }}
+rules:
+- apiGroups:
+  - decks.ecs.dellemc.com
+  resources:
+  - "*"
+  verbs:
+  - "*"
+- apiGroups:
+  - kahm.emcecs.github.com
+  resources:
+  - notifiers
+  verbs:
+  - "*"
+- apiGroups:
+  - app.k8s.io
+  resources:
+  - "*"
+  verbs:
+  - "*"
+- apiGroups:
+  - ""
+  - extensions
+  resources:
+  - pods
+  - services
+  - endpoints
+  - persistentvolumeclaims
+  - events
+  - configmaps
+  - secrets
+  - applications
+  - nodes
+  - namespaces
+  - replicationcontrollers
+  - daemonsets
+  - deployments
+  - replicasets
+  - secrets/finalizers
+  verbs:
+  - "*"
+- apiGroups:
+  - batch
+  resources:
+  - jobs
+  - cronjobs
+  verbs:
+  - "*"
+- apiGroups:
+  - policy
+  resources:
+  - poddisruptionbudgets
+  verbs:
+  - "*"
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  - daemonsets
+  - replicasets
+  - statefulsets
+  verbs:
+  - "*"
+- apiGroups:
+  - zookeeper.pravega.io
+  resources:
+  - "*"
+  verbs:
+  - "*"
+- apiGroups:
+  - storage.k8s.io
+  resources:
+  - storageclasses
+  - storageclasslists
+  verbs:
+  - get
+  - list
+---
+{{- if eq .Values.global.watchAllNamespaces true }}
+kind: ClusterRoleBinding
+{{- else }}
+kind: RoleBinding
+{{- end }}
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: service-account-decks
+{{- if ne .Values.global.watchAllNamespaces true }}
+  namespace: {{.Release.Namespace}}
+{{- end }}
+  labels:
+    app.kubernetes.io/name: "decks"
+    app.kubernetes.io/version: {{.Values.tag}}
+    app.kubernetes.io/instance: {{.Release.Name}}
+    app.kubernetes.io/managed-by: nautilus
+    helm.sh/chart: {{.Chart.Name}}-{{.Chart.Version | replace "+" "_"}}
+    release: {{ .Release.Name }}
+subjects:
+- kind: ServiceAccount
+  name: decks
+  namespace: {{ .Release.Namespace }}
+roleRef:
+{{- if eq .Values.global.watchAllNamespaces true }}
+  kind: ClusterRole
+{{- else }}
+  kind: Role
+{{- end }}
+  name: decks
+  apiGroup: rbac.authorization.k8s.io

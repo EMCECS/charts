@@ -20,6 +20,7 @@ REGISTRY             = objectscale
 DECKS_REGISTRY       = objectscale
 KAHM_REGISTRY        = objectscale
 STORAGECLASSNAME     = dellemc-objectscale-highly-available
+STORAGECLASSNAME_VSAN_SNA     = dellemc-objectscale-vsan-sna-thick
 
 WATCH_ALL_NAMESPACES = false # --set global.watchAllNamespaces={true | false}
 HELM_MANAGER_ARGS    = # --set image.tag={YOUR_VERSION_HERE}
@@ -145,7 +146,9 @@ create-manager-app: create-temp-package
 	--set logReceiver.persistence.storageClassName=${STORAGECLASSNAME} \
 	--set global.monitoring_registry=${REGISTRY} \
 	--set ecs-monitoring.influxdb.persistence.storageClassName=${STORAGECLASSNAME} \
-	--set global.monitoring.enabled=false \
+	--set global.monitoring.enabled=true \
+	--set objectscale-monitoring.influxdb.persistence.storageClassName=${STORAGECLASSNAME_VSAN_SNA} \
+	--set objectscale-monitoring.rsyslog.persistence.storageClassName=${STORAGECLASSNAME_VSAN_SNA} \
 	--set iam.enabled=false ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
 	-f values.yaml > ../${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml;
 	sed -i 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \

@@ -10,29 +10,17 @@
 #
 #
 
-{{- /*
-  Create ClusterRoleBinding if objectscale watches all namespaces; create RoleBinding otherwise.
-*/ -}}
-{{- if eq .Values.global.watchAllNamespaces true }}
-kind: ClusterRoleBinding
-{{- else }}
+#  RoleBinding for rsyslog-client to find instance of rsyslog service
 kind: RoleBinding
-{{- end }}
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
-  name: {{ .Release.Name }}-default-rsyslog-client
-{{- if ne .Values.global.watchAllNamespaces true }}
-  namespace: {{ .Release.Namespace }}
-{{- end }}
+  name: "{{ .Release.Name }}-default-rsyslog-client"
+  namespace: "{{ include "common-lib.rsyslog_svc_namespace" . }}"
 subjects:
 - kind: ServiceAccount
   name: default
-  namespace: {{ .Release.Namespace }}
+  namespace: "{{ .Release.Namespace }}"
 roleRef:
-{{- if eq .Values.global.watchAllNamespaces true }}
-  kind: ClusterRole
-{{- else }}
   kind: Role
-{{- end }}
   apiGroup: rbac.authorization.k8s.io
   name: "{{ include "common-lib.rsyslog_svc_name" . }}-client"

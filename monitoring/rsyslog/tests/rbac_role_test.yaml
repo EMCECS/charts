@@ -14,24 +14,7 @@ suite: test rbac
 templates:
   - rbac_role.yaml
 tests:
-  - it: watchAllNamespaces
-    set:
-      global.watchAllNamespaces: true
-    release:
-      name: objectscale
-      namespace: ns
-    asserts:
-      - equal:
-          path: kind
-          value: ClusterRole
-      - equal:
-          path: metadata.name
-          value: objectscale-rsyslog-client
-      - isNull:
-          path: namespace
-  - it: single namespace
-    set:
-      global.watchAllNamespaces: false
+  - it:  role test
     release:
       name: objectscale
       namespace: ns

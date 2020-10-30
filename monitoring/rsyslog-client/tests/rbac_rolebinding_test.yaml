@@ -14,50 +14,30 @@ suite: test rbac
 templates:
   - rbac_rolebinding.yaml
 tests:
-  - it: watchAllNamespaces
+  - it: single namespace objectscale namespace defined
     set:
-      global.watchAllNamespaces: true
       global.objectscale_release_name: objectscale-release
-      global.objectscale_namespace: objectscale-ns
-    asserts:
-      - equal:
-          path: kind
-          value: ClusterRoleBinding
-      - equal:
-          path: metadata.name
-          value: RELEASE-NAME-default-rsyslog-client
-      - isNull:
-          path: metadata.namespace
-      - equal:
-          path: roleRef.kind
-          value: ClusterRole
-      - equal:
-          path: roleRef.name
-          value: objectscale-release-rsyslog-client
-  - it: single namespace
-    set:
-      global.watchAllNamespaces: false
-      global.objectscale_release_name: objectscale-release
-      global.objectscale_namespace: objectscale-ns
+      global.objectscale_namespace: objectscale-namespace
+    release:
+      name: client-release
+      namespace: client-namespace
     asserts:
       - equal:
           path: kind
           value: RoleBinding
       - equal:
           path: metadata.name
-          value: RELEASE-NAME-default-rsyslog-client
+          value: client-release-default-rsyslog-client
       - equal:
           path: metadata.namespace
-          value: NAMESPACE
+          value: objectscale-namespace
       - equal:
           path: roleRef.kind
           value: Role
       - equal:
           path: roleRef.name
           value: objectscale-release-rsyslog-client
-  - it: single namespace local rsyslog
-    set:
-      global.watchAllNamespaces: false
+  - it: objectscale release and namespace undefined
     asserts:
       - equal:
           path: kind

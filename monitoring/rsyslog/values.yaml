@@ -16,8 +16,6 @@ global:
   rsyslog_uds_dir: "/var/run/rsyslog"
   rsyslog_uds_filename: "rsyslog.socket"
   cluster_name: "unknown"
-  # watchAllNamespaces = true creates ClusterRole for rsyslog-client to list pods in objectscale namespace
-  watchAllNamespaces: true
 
 replicas: 1
 

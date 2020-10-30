@@ -165,11 +165,19 @@ create-kahm-manifest: create-temp-package
 	helm template kahm ./kahm -n ${NAMESPACE} --set global.platform=VMware \
 	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} --set global.registry=${KAHM_REGISTRY} ${HELM_KAHM_ARGS} \
 	--set storageClassName=${STORAGECLASSNAME} -f kahm/values.yaml >> ${TEMP_PACKAGE}/yaml/${KAHM_MANIFEST}
-create-decks-manifest: create-temp-package
-	helm template decks ./decks -n ${NAMESPACE} --set global.platform=VMware \
-	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} --set global.registry=${DECKS_REGISTRY} ${HELM_DECKS_ARGS} \
-	--set storageClassName=${STORAGECLASSNAME} -f decks/values.yaml >> ${TEMP_PACKAGE}/yaml/${DECKS_MANIFEST}
 
+create-decks-app: create-temp-package
+	# cd in makefiles spawns a subshell, so continue the command with ;
+	cd decks; \
+	helm template --show-only templates/decks-app.yaml decks ../decks  -n ${NAMESPACE} \
+	--set global.platform=VMware \
+	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} \
+	--set global.registry=${REGISTRY} \
+	--set storageClassName=${STORAGECLASSNAME} \
+	-f values.yaml > ../${TEMP_PACKAGE}/yaml/decks-app.yaml;
+	sed -i 's/createdecksappResource\\":true/createdecksappResource\\":false/g' ${TEMP_PACKAGE}/yaml/decks-app.yaml && \
+	sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/decks-app.yaml
+	cat ${TEMP_PACKAGE}/yaml/decks-app.yaml >> ${TEMP_PACKAGE}/yaml/${DECKS_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/decks-app.yaml
 archive-package:
 	tar -zcvf ${PACKAGE_NAME} ${TEMP_PACKAGE}/*
 

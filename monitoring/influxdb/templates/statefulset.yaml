@@ -10,6 +10,8 @@
 #
 #
 {{- $scheme := ternary "HTTPS" "HTTP" .Values.global.tls_enabled }}
+{{- $influxdb_data_dir := print (include "influxdb.fullname" .) "-data" }}
+{{- $telegraf_custom_config := print (include "influxdb.fullname" .) "-telegraf-sidecar-custom-config" }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -82,6 +84,7 @@ spec:
         {{- end }}
       {{- end }}
     spec:
+{{ include "common-lib.telegraf_sidecar_spec_options" . | indent 6 }}
       {{- if .Values.image.pullSecrets }}
       imagePullSecrets:
       {{- range .Values.image.pullSecrets }}
@@ -107,7 +110,7 @@ spec:
         - name: INIT_CTNR
           value: "1"
         volumeMounts:
-        - name: {{ template "influxdb.fullname" . }}-data
+        - name: {{ $influxdb_data_dir }}
           mountPath: {{ .Values.config.storage_directory }}
         - name: config
           mountPath: /data/influxdb/conf/
@@ -126,7 +129,7 @@ spec:
         command: ["bash"]
         args: ["-c", "{{ include "common-lib.command" . }} /entrypoint.sh influxd"]
         resources:
-{{ include "common-lib.resources" (dict "top" . "micro" "410Mi" "small" "410Mi" "medium" "1134Mi" "large" "2154Mi") | indent 10}}
+{{ include "common-lib.resources" (dict "top" . "micro" "460Mi" "small" "460Mi" "medium" "1184Mi" "large" "2204Mi") | indent 10}}
         ports:
         - name: api
           containerPort: {{ .Values.config.http.bind_address }}
@@ -150,7 +153,7 @@ spec:
             fieldRef:
               fieldPath: metadata.name
         volumeMounts:
-        - name: {{ template "influxdb.fullname" . }}-data
+        - name: {{ $influxdb_data_dir }}
           mountPath: {{ .Values.config.storage_directory }}
         - name: config
           mountPath: /data/influxdb/conf/
@@ -220,6 +223,7 @@ spec:
           periodSeconds: {{ .Values.startupProbe.periodSeconds | default 5 }}
         {{- end }}
 {{ include "common-lib.rsyslog_client_sidecar" . | indent 6 }}
+{{ include "common-lib.telegraf_sidecar" (dict "top" . "volumeName" $influxdb_data_dir "customConfig" true) | indent 6 }}
       {{ if not .Values.disable_recovery }}
       - name: cron
         image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
@@ -234,7 +238,7 @@ spec:
         {{- end }}
         {{- end }}
         volumeMounts:
-        - name: {{ template "influxdb.fullname" . }}-data
+        - name: {{ $influxdb_data_dir }}
           mountPath: {{ .Values.config.storage_directory }}
         - name: config
           mountPath: /data/influxdb/conf/
@@ -287,10 +291,11 @@ spec:
           name: {{ template "influxdb.fullname" . }}-init
       {{- end }}
       {{- if (not .Values.persistence.enabled ) }}
-      - name: {{ template "influxdb.fullname" . }}-data
+      - name: {{ $influxdb_data_dir }}
         emptyDir: {}
       {{- end }}
 {{ include "common-lib.rsyslog_client_volumes" . | indent 6 }}
+{{ include "common-lib.telegraf_sidecar_volume" (dict "top" . "customConfig" $telegraf_custom_config ) | indent 6 }}
       - name: varlog
         emptyDir: {}
       - name: restore-ranges-cron-config
@@ -326,7 +331,7 @@ spec:
 {{- if .Values.persistence.enabled }}
   volumeClaimTemplates:
     - metadata:
-        name: {{ template "influxdb.fullname" . }}-data
+        name: {{ $influxdb_data_dir }}
         annotations:
         {{- range $key, $value := .Values.persistence.annotations }}
           {{ $key }}: "{{ $value }}"

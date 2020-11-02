@@ -178,3 +178,40 @@ tests:
       - equal:
           path: spec.replicas
           value: 0
+
+suite: test telegraf sidecar
+templates:
+  - statefulset.yaml
+tests:
+  - it: Sidecar defined
+    set:
+      global.rsyslog_enabled: false
+      global.tls_enabled: true
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[2].name
+          value: telegraf
+      - equal:
+          path: spec.template.spec.containers[2].volumeMounts[0].name
+          value: RELEASE-NAME-influxdb-data
+      - equal:
+          path: spec.template.spec.containers[2].volumeMounts[0].mountPath
+          value: /pv
+      - equal:
+          path: spec.template.spec.containers[2].volumeMounts[1].name
+          value: telegraf-sidecar-config
+      - equal:
+          path: spec.template.spec.containers[2].volumeMounts[1].mountPath
+          value: /etc/telegraf
+      - equal:
+          path: spec.template.spec.containers[2].volumeMounts[2].name
+          value: additional-configs
+      - equal:
+          path: spec.template.spec.containers[2].volumeMounts[2].mountPath
+          value: /etc/telegraf/telegraf.d
+      - equal:
+          path: spec.template.spec.volumes[5].name
+          value: telegraf-sidecar-config
+      - equal:
+          path: spec.template.spec.volumes[6].name
+          value: additional-configs

@@ -52,3 +52,6 @@ dependencies:
     repository: "file://../prometheus-alerts"
     version: 0.53.0
     condition: global.prometheus_alerts_enabled
+  - name: telegraf-sidecar
+    version: 0.53.0
+    repository: file://../telegraf-sidecar

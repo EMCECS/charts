@@ -21,8 +21,8 @@ tests:
       - equal:
           path: spec.template.spec.containers[0].resources.requests
           value:
-            memory: 410Mi
-            ephemeral-storage: 1070Mi
+            memory: 460Mi
+            ephemeral-storage: 1170Mi
       - equal:
           path: spec.template.spec.initContainers[0].resources.requests
           value:
@@ -35,8 +35,8 @@ tests:
       - equal:
           path: spec.template.spec.containers[0].resources.requests
           value:
-            memory: 410Mi
-            ephemeral-storage: 1070Mi
+            memory: 460Mi
+            ephemeral-storage: 1170Mi
       - equal:
           path: spec.template.spec.initContainers[0].resources.requests
           value:
@@ -49,8 +49,8 @@ tests:
       - equal:
           path: spec.template.spec.containers[0].resources.requests
           value:
-            memory: 1134Mi
-            ephemeral-storage: 2518Mi
+            memory: 1184Mi
+            ephemeral-storage: 2618Mi
       - equal:
           path: spec.template.spec.initContainers[0].resources.requests
           value:
@@ -63,8 +63,8 @@ tests:
       - equal:
           path: spec.template.spec.containers[0].resources.requests
           value:
-            memory: 2154Mi
-            ephemeral-storage: 4558Mi
+            memory: 2204Mi
+            ephemeral-storage: 4658Mi
       - equal:
           path: spec.template.spec.initContainers[0].resources.requests
           value:

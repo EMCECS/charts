@@ -94,6 +94,8 @@ telegraf:
             - "tsdb_telegraf_internal_gather"
             - "tsdb_telegraf_internal_write"
             - "cquerier_*"
+            - "disk"
+            - "procstat"
       - influxdb:
           insecure_skip_verify: true
           skip_database_creation: true

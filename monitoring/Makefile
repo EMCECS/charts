@@ -24,7 +24,7 @@ CHARTS_VERSION=$(PACKAGE_VERSION)-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)
 MAKEFILE_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 # include ${MAKEFILE_DIR}/../../common.mk
 
-CHARTS := cert common-lib fluxd grafana influxdb telegraf telegraf-ds throttler monitoring ecs-monitoring rsyslog rsyslog-client kube-metrics-adapter external-ecs-monitoring telegraf-external-config objectscale-monitoring prometheus-alerts
+CHARTS := cert common-lib telegraf-sidecar fluxd grafana influxdb telegraf telegraf-ds throttler monitoring ecs-monitoring rsyslog rsyslog-client kube-metrics-adapter external-ecs-monitoring telegraf-external-config objectscale-monitoring prometheus-alerts
 
 CHARTS_DIR ?= ./build/charts/
 

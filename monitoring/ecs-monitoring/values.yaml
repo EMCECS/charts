@@ -130,6 +130,8 @@ telegraf:
             - "sr_ObjectGC_CAS_RG"
             - "tsdb_telegraf_internal_gather"
             - "tsdb_telegraf_internal_write"
+            - "disk"
+            - "procstat"
       - influxdb:
           insecure_skip_verify: true
           skip_database_creation: true

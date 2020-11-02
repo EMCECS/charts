@@ -24,7 +24,7 @@ global:
   watchAllNamespaces: true
 
 # The default docker tag and pull policy for objectscale-vsphere and other containers
-tag: 0.52.0
+tag: 0.53.0
 pullPolicy: IfNotPresent
 
 # This package gets values from objectscale-manager/values.yaml

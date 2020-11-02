@@ -4,20 +4,20 @@ templates:
 tests:
   - it: should create a service
     set:
-      product: my-product
+      global.product: my-product
     asserts:
       - isKind:
           of: Service
   - it: should have a selector
     set:
-      product: my-product
+      global.product: my-product
     asserts:
       - equal:
           path: spec.selector.app
           value: RELEASE-NAME-service-pod
   - it: should configure the ssh port
     set:
-      product: my-product
+      global.product: my-product
     asserts:
       - contains:
           path: spec.ports

@@ -4,13 +4,13 @@ templates:
 tests:
   - it: should create a deployment
     set:
-      product: my-product
+      global.product: my-product
     asserts:
       - isKind:
           of: Deployment
   - it: should have a default image
     set:
-      product: my-product
+      global.product: my-product
     asserts:
       - matchRegex:
           path: spec.template.spec.containers[0].image
@@ -20,21 +20,21 @@ tests:
           value: IfNotPresent
   - it: should have name
     set:
-      product: my-product
+      global.product: my-product
     asserts:
       - equal:
           path: metadata.name
           value: RELEASE-NAME-service-pod
   - it: should have a selector
     set:
-      product: my-product
+      global.product: my-product
     asserts:
       - equal:
           path: spec.selector.matchLabels.app
           value: RELEASE-NAME-service-pod
   - it: should have a labels
     set:
-      product: my-product
+      global.product: my-product
     asserts:
       - equal:
           path: metadata.labels.release
@@ -47,7 +47,7 @@ tests:
           value: RELEASE-NAME-service-pod
   - it: should configure the image
     set:
-      product: my-product
+      global.product: my-product
       global.registry: REGISTRY
       image.repository: REPO
       image.tag: TAG
@@ -61,7 +61,7 @@ tests:
           value: IfNotPresent
   - it: should configure the resources limits and requests
     set:
-      product: my-product
+      global.product: my-product
     asserts:
       - equal:
           path: spec.template.spec.containers[0].resources.requests.ephemeral-storage
@@ -71,7 +71,7 @@ tests:
           value: 20Gi 
   - it: should update the resources limits and requests
     set:
-      product: my-product
+      global.product: my-product
       resources.requests.storage: 5Gi
       resources.limits.storage: 10Gi
     asserts:
@@ -83,7 +83,7 @@ tests:
           value: 10Gi 
   - it: should configure the product name
     set:
-      product: my-product
+      global.product: my-product
     asserts:
       - contains:
           path: spec.template.spec.containers[0].env

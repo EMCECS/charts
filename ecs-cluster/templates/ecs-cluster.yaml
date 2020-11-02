@@ -475,114 +475,6 @@ spec:
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
 
-  telegraf:
-    replicas: {{ default 1 .Values.telegraf.replicas }}
-    volumes:
-      - name: data
-        emptyDir: {}
-      - name: host-data
-        emptyDir: {}
-      - name: logs
-        emptyDir: {}
-    image:
-      repository: {{ .Values.global.registry }}/{{ .Values.telegraf.image.repository }}
-      tag: {{ default .Values.tag .Values.telegraf.image.tag }}
-      pullPolicy: {{ default .Values.pullPolicy .Values.telegraf.image.pullPolicy }}
-      # TODO: sleep is added to wait for fabric-proxy initialization,
-      # entrypoint.sh should wait files in /data and /host/data to appear
-    pod:
-      env:
-        - name: K8S_INFLUXDB
-          value: {{ .Release.Name }}-influxdb-svc
-
-  fluxd:
-    replicas: {{ default 1 .Values.fluxd.replicas }}
-    volumes:
-      - name: data
-        emptyDir: {}
-      - name: host-data
-        emptyDir: {}
-      - name: logs
-        emptyDir: {}
-    image:
-      repository: {{ .Values.global.registry }}/{{ .Values.fluxd.image.repository }}
-      tag: {{ default .Values.tag .Values.fluxd.image.tag }}
-      pullPolicy: {{ default .Values.pullPolicy .Values.fluxd.image.pullPolicy }}
-    args: ["-no-wait", "-disable-lb", "-cf-disabled"]
-    pod:
-      env:
-        - name: K8S_INFLUXDB
-          value: {{ .Release.Name }}-influxdb-svc
-
-  throttler:
-    replicas: {{ default 1 .Values.throttler.replicas }}
-    volumes:
-      - name: data
-        emptyDir: {}
-      - name: host-data
-        emptyDir: {}
-      - name: logs
-        emptyDir: {}
-    image:
-      repository: {{ .Values.global.registry }}/{{ .Values.throttler.image.repository }}
-      tag: {{ default .Values.tag .Values.throttler.image.tag }}
-      pullPolicy: {{ default .Values.pullPolicy .Values.throttler.pullPolicy }}
-    args: ["-no-wait"]
-    pod:
-      env:
-        - name: K8S_INFLUXDB
-          value: {{ .Release.Name }}-influxdb-svc
-
-  grafana:
-    replicas: {{ default 1 .Values.grafana.replicas }}
-    volumes:
-      - name: data
-        emptyDir: {}
-      - name: host-data
-        emptyDir: {}
-      - name: logs
-        emptyDir: {}
-    image:
-      repository: {{ .Values.global.registry }}/{{ .Values.grafana.image.repository }}
-      tag: {{ default .Values.tag .Values.grafana.image.tag }}
-      pullPolicy: {{ default .Values.pullPolicy .Values.grafana.pullPolicy }}
-    service:
-      {{ toYaml .Values.grafana.service | nindent 6 | trim }}
-    pod:
-      env:
-        - name: K8S_INFLUXDB
-          value: {{ .Release.Name }}-influxdb-svc
-        - name: NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
-        - name: OBJECT_STORE_NAME
-          value: {{.Release.Name}}
-        {{- range $i, $user := .Values.grafana.users }}
-        - name: GF_VIEW_ALL_USER{{ $i }}
-          valueFrom:
-            secretKeyRef:
-              name: {{ $.Release.Name }}-grafana-view-all-user{{ $i }}
-              key: username
-        - name: GF_VIEW_ALL_USER_PASSWORD{{ $i }}
-          valueFrom:
-            secretKeyRef:
-              name: {{ $.Release.Name }}-grafana-view-all-user{{ $i }}
-              key: password
-        {{- end }}
-        {{- range $i, $user := .Values.grafana.limitedUsers }}
-        - name: GF_VIEW_USER{{ $i }}
-          valueFrom:
-            secretKeyRef:
-              name: {{ $.Release.Name }}-grafana-view-user{{ $i }}
-              key: username
-        - name: GF_VIEW_USER_PASSWORD{{ $i }}
-          valueFrom:
-            secretKeyRef:
-              name: {{ $.Release.Name }}-grafana-view-user{{ $i }}
-              key: password
-        {{- end }}
-
   control:
 {{- if .Values.control.replicas }}
     replicas: {{ .Values.control.replicas }}
@@ -734,8 +626,6 @@ spec:
 {{- end }}
 
   enableCRR: {{ .Values.features.enableCRR }}
-
-  enableAdvancedStatistics: {{ .Values.features.enableAdvancedStatistics }}
 
   objectType: {{ .Values.features.objectType }}
 

@@ -52,23 +52,6 @@ tests:
     - equal:
         path: spec.storageServer.image.pullPolicy
         value: IfNotPresent
-  # when we have global SC settin
-  - it: should monitoring components not be deployed when advanced metrics is off
-    set:
-      global.monitoring.enabled: false
-      features.enableAdvancedStatistics: false
-    asserts:
-    - equal:
-        path: spec.enableAdvancedStatistics
-        value: false
-  - it: should monitoring components be deployed when advanced metrics is on
-    set:
-      global.monitoring.enabled: false
-      features.enableAdvancedStatistics: true
-    asserts:
-    - equal:
-        path: spec.enableAdvancedStatistics
-        value: true
   - it: should customize SC for all persistance fields
     set:
       global.monitoring.enabled: false

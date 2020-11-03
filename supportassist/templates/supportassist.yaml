@@ -111,6 +111,11 @@ spec:
         io.kompose.service: ese-store
 {{ include "supportassist.labels" . | indent 8 }}
     spec:
+      # to allow mounts and ownership as eseservice uid (999)
+      # https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#configure-volume-permission-and-ownership-change-policy-for-pods
+      securityContext:
+        fsGroup: 999
+        fsGroupChangePolicy: "OnRootMistmatch"
       containers:
       - name: supportassist-{{.Values.product}}
         # image: <docker_registry>/dell-supportassist-ese:2.0.3

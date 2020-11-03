@@ -136,10 +136,10 @@ create-vsphere-install: create-vsphere-templates
 
 create-manager-app: create-temp-package
 	# cd in makefiles spawns a subshell, so continue the command with ;
-    #
+	#
 	# Run helm template with monitoring.enabled=false to not pollute
-    # nautilus.dellemc.com/chart-values of objectscale-manager with tons of default values
-    # from child charts. After that replace this value by sed.
+	# nautilus.dellemc.com/chart-values of objectscale-manager with tons of default values
+	# from child charts. After that replace this value by sed.
 	cd objectscale-manager; \
 	helm template --show-only templates/objectscale-manager-app.yaml objectscale-manager ../objectscale-manager  -n ${NAMESPACE} \
 	--set global.platform=VMware \

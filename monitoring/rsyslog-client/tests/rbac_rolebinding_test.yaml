@@ -1,0 +1,56 @@
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+
+suite: test rbac
+templates:
+  - rbac_rolebinding.yaml
+tests:
+  - it: single namespace objectscale namespace defined
+    set:
+      global.objectscale_release_name: objectscale-release
+      global.objectscale_namespace: objectscale-namespace
+    release:
+      name: client-release
+      namespace: client-namespace
+    asserts:
+      - equal:
+          path: kind
+          value: RoleBinding
+      - equal:
+          path: metadata.name
+          value: client-release-default-rsyslog-client
+      - equal:
+          path: metadata.namespace
+          value: objectscale-namespace
+      - equal:
+          path: roleRef.kind
+          value: Role
+      - equal:
+          path: roleRef.name
+          value: objectscale-release-rsyslog-client
+  - it: objectscale release and namespace undefined
+    asserts:
+      - equal:
+          path: kind
+          value: RoleBinding
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-default-rsyslog-client
+      - equal:
+          path: metadata.namespace
+          value: NAMESPACE
+      - equal:
+          path: roleRef.kind
+          value: Role
+      - equal:
+          path: roleRef.name
+          value: RELEASE-NAME-rsyslog-client

@@ -29,7 +29,7 @@ data:
         include /etc/nginx/mime.types;
         include /conf/upstream.conf;
         map $request_method $decksname {
-         default {{ .Values.decks.supportStore.service.name }};
+         default {{ .Values.decks.supportStore.service.name }}.{{.Release.Namespace }}.svc.cluster.local;
         }
         map $request_method $decksport {
          default {{ .Values.decks.supportStore.service.port }};

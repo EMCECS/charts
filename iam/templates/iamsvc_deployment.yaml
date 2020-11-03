@@ -25,7 +25,7 @@ spec:
         - name: SPRING_PROFILES_ACTIVE
           value: "atlas,flex,dns"
         - name: ATLAS_SERVICE_HOSTNAME
-          value: "{{ .Release.Name }}-atlas-client"
+          value: "{{ .Release.Name }}-iam-atlas-client"
         - name: MY_POD_NAME
           valueFrom:
             fieldRef:
@@ -38,7 +38,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
-        image: {{ default  .Values.global.registry .Values.iamsvc.image.registry }}/{{ .Values.iamsvc.image.repository }}:{{ .Values.iamsvc.image.tag }}
+        image: {{ default  .Values.global.registry .Values.iamsvc.image.registry }}/{{ .Values.iamsvc.image.repository }}:{{ default .Values.tag .Values.iamsvc.image.tag }}
         imagePullPolicy: {{ .Values.iamsvc.image.pullPolicy }}
         ports:
           - name: http

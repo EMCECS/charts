@@ -1,4 +1,5 @@
 ---
+tag: 0.53.0
 global:
   registry: emccorp
 atlas:
@@ -14,12 +15,12 @@ iamsvc:
   image:
     pullPolicy: IfNotPresent
     repository: iamsvc
-    tag: 0.52.0
+    #tag: 0.53.0
   livenessProbe:
     probePath: /iam/local?Action=ListUsers
   readinessProbe:
     probePath: /iamhealthcheck
-  replicaCount: 1
+  replicaCount: 3
   service:
     port: 9400
     type: ClusterIP

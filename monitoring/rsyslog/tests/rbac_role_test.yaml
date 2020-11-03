@@ -1,4 +1,3 @@
----
 #
 # Copyright © [2020] Dell Inc. or its subsidiaries.
 # All Rights Reserved.
@@ -11,14 +10,21 @@
 #
 #
 
-apiVersion: v2
-name: rsyslog-client
-version: 0.53.0
-appVersion: 0.53.0
-description: Rsyslog client config
-engine: gotpl
-
-dependencies:
-  - name: common-lib
-    version: 0.53.0
-    repository: file://../common-lib
+suite: test rbac
+templates:
+  - rbac_role.yaml
+tests:
+  - it:  role test
+    release:
+      name: objectscale
+      namespace: ns
+    asserts:
+      - equal:
+          path: kind
+          value: Role
+      - equal:
+          path: metadata.name
+          value: objectscale-rsyslog-client
+      - equal:
+          path: metadata.namespace
+          value: ns

@@ -20,6 +20,7 @@ REGISTRY             = objectscale
 DECKS_REGISTRY       = objectscale
 KAHM_REGISTRY        = objectscale
 STORAGECLASSNAME     = dellemc-objectscale-highly-available
+STORAGECLASSNAME_VSAN_SNA     = dellemc-objectscale-vsan-sna-thick
 
 WATCH_ALL_NAMESPACES = false # --set global.watchAllNamespaces={true | false}
 HELM_MANAGER_ARGS    = # --set image.tag={YOUR_VERSION_HERE}
@@ -135,6 +136,10 @@ create-vsphere-install: create-vsphere-templates
 
 create-manager-app: create-temp-package
 	# cd in makefiles spawns a subshell, so continue the command with ;
+	#
+	# Run helm template with monitoring.enabled=false to not pollute
+	# nautilus.dellemc.com/chart-values of objectscale-manager with tons of default values
+	# from child charts. After that replace this value by sed.
 	cd objectscale-manager; \
 	helm template --show-only templates/objectscale-manager-app.yaml objectscale-manager ../objectscale-manager  -n ${NAMESPACE} \
 	--set global.platform=VMware \
@@ -146,9 +151,12 @@ create-manager-app: create-temp-package
 	--set global.monitoring_registry=${REGISTRY} \
 	--set ecs-monitoring.influxdb.persistence.storageClassName=${STORAGECLASSNAME} \
 	--set global.monitoring.enabled=false \
+	--set objectscale-monitoring.influxdb.persistence.storageClassName=${STORAGECLASSNAME_VSAN_SNA} \
+	--set objectscale-monitoring.rsyslog.persistence.storageClassName=${STORAGECLASSNAME_VSAN_SNA} \
 	--set iam.enabled=false ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
 	-f values.yaml > ../${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml;
 	sed -i 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
+	sed -i 's/\\"monitoring\\":{\\"enabled\\":false}/\\"monitoring\\":{\\"enabled\\":true}/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
 	sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
 	cat ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
 

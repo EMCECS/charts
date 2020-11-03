@@ -51,6 +51,7 @@ test: dep
 package: clean dep
 	helm package ./monitoring --dependency-update --destination ${CHARTS_DIR} $(PLATFORM_PKG_ARGS) --version ${CHARTS_VERSION}
 	helm package ./monitoring --dependency-update --destination ${CHARTS_DIR} $(PLATFORM_PKG_ARGS) --values ./monitoring/profile_pravega.yaml --version ${CHARTS_VERSION}.pravega
+	mv ${CHARTS_DIR}/monitoring-${CHARTS_VERSION}.pravega.tgz ${CHARTS_DIR}/pravega-monitoring-${CHARTS_VERSION}.tgz
 	helm package ./ecs-monitoring --dependency-update --destination ${CHARTS_DIR} --version ${CHARTS_VERSION}
 	helm package ./external-ecs-monitoring --dependency-update --destination ${CHARTS_DIR} --values ./external-ecs-monitoring/alerting_rules.yaml --version ${CHARTS_VERSION}
 	helm package ./telegraf-external-config --dependency-update --destination ${CHARTS_DIR} --version ${CHARTS_VERSION}

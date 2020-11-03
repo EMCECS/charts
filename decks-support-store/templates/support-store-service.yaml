@@ -7,18 +7,10 @@ metadata:
   labels:
     io.kompose.service: decks-support-store
 spec:
-{{- if .Values.supportStore }}
-  type: {{ .Values.supportStore.service.type }}
+  type: {{ .Values.service.type }}
   ports:
   - name: http
-    port: {{ .Values.supportStore.service.port }}
-    targetPort: {{ .Values.supportStore.service.targetPort }}
-{{- else }}
-  type: ClusterIP
-  ports:
-    - name: http
-      port: 7443
-      targetPort: 7443
-{{- end }}
+    port: {{ .Values.service.port }}
+    targetPort: {{ .Values.service.targetPort }}
   selector:
     io.kompose.service: decks-support-store

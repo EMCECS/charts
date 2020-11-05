@@ -16,6 +16,83 @@ metadata:
         com.dellemc.kahm.subscribed: "true"
 data:
     eventRules: |-
+      issueRules:
+        - description: "No data is pushed to the monitoring framework for the last 30 minutes"
+          name: "MonitoringHealth"
+          defaultAutoClearTimeOut: 60
+          issueCategory: Auto
+          matchOnList:
+            - matchon:
+                - label: SymptomID
+                  value: 4016
+            - matchon:
+                - label: SymptomID
+                  value: 4017
+            - matchon:
+                - label: SymptomID
+                  value: 4018
+            - matchon:
+                - label: SymptomID
+                  value: 4019
+          notifiers:
+            - objectscale-srs
+        - description: "Hard quota exceeded for this bucket"
+          name: "BucketHardQuota"
+          defaultAutoClearTimeOut: 60
+          issueCategory: Auto
+          matchOnList:
+            - matchon:
+                - label: SymptomID
+                  value: 1381
+            - matchon:
+                - label: SymptomID
+                  value: 1382
+            - matchon:
+                - label: SymptomID
+                  value: 1383
+            - matchon:
+                - label: SymptomID
+                  value: 1384
+          notifiers:
+            - objectscale-srs
+        - description: "Memory table size for blob process is less than specified threshold"
+          name: "ProcessMemoryTableFreeSpacePercent"
+          defaultAutoClearTimeOut: 60
+          issueCategory: Auto
+          matchOnList:
+            - matchon:
+                - label: SymptomID
+                  value: 1352
+            - matchon:
+                - label: SymptomID
+                  value: 1353
+            - matchon:
+                - label: SymptomID
+                  value: 1354
+            - matchon:
+                - label: SymptomID
+                  value: 1355
+          notifiers:
+            - objectscale-srs
+        - description: "SSD read cache auto clean up failed when capacity full and fall back to memory cache"
+          name: "SSDReadCacheCapacityFailure"
+          defaultAutoClearTimeOut: 60
+          issueCategory: Auto
+          matchOnList:
+            - matchon:
+                - label: SymptomID
+                  value: 1390
+            - matchon:
+                - label: SymptomID
+                  value: 1391
+            - matchon:
+                - label: SymptomID
+                  value: 1392
+            - matchon:
+                - label: SymptomID
+                  value: 1393
+          notifiers:
+            - objectscale-srs
       rules:
         - description: "Hard quota exceeded for this bucket"
           matchon:

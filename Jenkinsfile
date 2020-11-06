@@ -37,7 +37,6 @@ pipeline {
                             make all
                        ''')
                     }
-//                    archiveArtifacts artifacts: 'build/_output/bin/statefuldaemonset-operator-linux-amd64'
                 }
             }
         }
@@ -48,32 +47,6 @@ pipeline {
                         artifactory : 'infra/artifactory',
                         common: 'common',
                         ])
-
-//                     if (env.BRANCH_NAME == 'master' ||
-//                         env.BRANCH_NAME.startsWith('release') ||
-//                         env.BRANCH_NAME.contains('DELIVERY')) {
-//
-//                         String imageName = "0.1.0ecs-${env.BUILD_NUMBER}.${git_operations.getTagCommit('HEAD').substring(0,8)}"
-//                         println(imageName)
-//
-//                         sh("mv build/_output/bin/statefuldaemonset-operator-linux-amd64 ${imageName}")
-//                         String artifactName = imageName
-//                         String repoName = Repos.ECS_BUILD_REPO_NAME
-//                         String repoPath = 'com/emc/asd/vipr/statefuldaemonset-operator-test'
-//
-//                         artifactory.upload(new Artifact(
-//                             localPathname: artifactName,
-//                             repo: repoName ,
-//                             remotePath: repoPath,
-//                         ))
-//
-//                         currentBuild.description = common.getHtmlLink(
-//                                 Repos.getUrlForArtifact("${repoPath}/${artifactName}", repoName),
-//                                 artifactName
-//                         )
-//                     } else {
-//                         println("Nothing to publishing on this branch.")
-//                     }
 
                     success = true
                 }

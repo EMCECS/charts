@@ -340,6 +340,12 @@ spec:
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
   {{- end }}
+    pod:
+      env:
+        - name: "EVENTSVC_APP_NAME"
+          value: "{{ .Release.Name }}"
+        - name: "NAMESPACE"
+          value: "{{ .Release.Namespace }}"
 
   deosEvents:
 {{- if .Values.deosEvents.pullFreq }}

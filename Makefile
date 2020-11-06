@@ -5,7 +5,7 @@ YQ_VERSION   := 2.4.1
 YAMLLINT_VERSION := 1.20.0
 CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod objectscale-graphql helm-controller objectscale-vsphere iam pravega-operator bookkeeper-operator supportassist
 DECKSCHARTS := decks kahm supportassist service-pod dellemc-license
-FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller
+FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller iam
 MONITORING_DIR := monitoring
 
 # packaging
@@ -32,6 +32,8 @@ HELM_DECKS_ARGS      = # --set image.tag=${YOUR_VERSION_HERE}
 HELM_KAHM_ARGS       = # --set image.tag=${YOUR_VERSION_HERE}
 
 clean: clean-package
+
+all: test package
 
 test: monitoring-test
 	helm lint ${CHARTS} --set product=objectscale --set global.product=objectscale

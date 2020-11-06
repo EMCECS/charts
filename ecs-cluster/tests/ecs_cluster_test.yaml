@@ -360,3 +360,19 @@ tests:
     - equal:
         path: spec.managementGateway.tls.certificate
         value: {}
+  - it: eventsvc should have EVENTSVC_APP_NAME env variable
+    set:
+      global.monitoring.enabled: false
+    asserts:
+    - equal:
+        path: spec.event.pod.env[0].name
+        value: EVENTSVC_APP_NAME
+    - equal:
+        path: spec.event.pod.env[0].value
+        value: RELEASE-NAME
+    - equal:
+        path: spec.event.pod.env[1].name
+        value: NAMESPACE
+    - equal:
+        path: spec.event.pod.env[1].value
+        value: NAMESPACE

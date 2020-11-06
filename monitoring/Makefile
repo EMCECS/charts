@@ -17,9 +17,8 @@ GIT_BRANCH_ID=$(shell git rev-parse --abbrev-ref HEAD)
 
 PACKAGE_VERSION=0.53.0
 SERVICE_PACK=0
-ECS_MONITORING_VERSION=$(PACKAGE_VERSION)
 
-CHARTS_VERSION=$(PACKAGE_VERSION)-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)
+CHARTS_VERSION=$(PACKAGE_VERSION)+$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)
 
 MAKEFILE_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 # include ${MAKEFILE_DIR}/../../common.mk
@@ -51,17 +50,12 @@ test: dep
 .PHONY: package
 package: clean dep
 	helm package ./monitoring --dependency-update --destination ${CHARTS_DIR} $(PLATFORM_PKG_ARGS) --version ${CHARTS_VERSION}
-	mv ${CHARTS_DIR}/monitoring-${CHARTS_VERSION}.tgz ${CHARTS_DIR}/monitoring-${ECS_MONITORING_VERSION}.tgz
 	helm package ./monitoring --dependency-update --destination ${CHARTS_DIR} $(PLATFORM_PKG_ARGS) --values ./monitoring/profile_pravega.yaml --version ${CHARTS_VERSION}.pravega
-	mv ${CHARTS_DIR}/monitoring-${CHARTS_VERSION}.pravega.tgz ${CHARTS_DIR}/pravega-monitoring-${ECS_MONITORING_VERSION}.tgz
+	mv ${CHARTS_DIR}/monitoring-${CHARTS_VERSION}.pravega.tgz ${CHARTS_DIR}/pravega-monitoring-${CHARTS_VERSION}.tgz
 	helm package ./ecs-monitoring --dependency-update --destination ${CHARTS_DIR} --version ${CHARTS_VERSION}
-	mv ${CHARTS_DIR}/ecs-monitoring-${CHARTS_VERSION}.tgz ${CHARTS_DIR}/ecs-monitoring-${ECS_MONITORING_VERSION}.tgz
 	helm package ./external-ecs-monitoring --dependency-update --destination ${CHARTS_DIR} --values ./external-ecs-monitoring/alerting_rules.yaml --version ${CHARTS_VERSION}
-	mv ${CHARTS_DIR}/external-ecs-monitoring-${CHARTS_VERSION}.tgz ${CHARTS_DIR}/external-ecs-monitoring-${ECS_MONITORING_VERSION}.tgz
 	helm package ./telegraf-external-config --dependency-update --destination ${CHARTS_DIR} --version ${CHARTS_VERSION}
-	mv ${CHARTS_DIR}/telegraf-external-config-${CHARTS_VERSION}.tgz ${CHARTS_DIR}/telegraf-external-config-${ECS_MONITORING_VERSION}.tgz
 	helm package ./objectscale-monitoring --dependency-update --destination ${CHARTS_DIR} --version ${CHARTS_VERSION}
-	mv ${CHARTS_DIR}/objectscale-monitoring-${CHARTS_VERSION}.tgz ${CHARTS_DIR}/objectscale-monitoring-${ECS_MONITORING_VERSION}.tgz
 
 .PHONY: clean
 clean:
@@ -75,7 +69,7 @@ clean:
 .PHONY: ver
 ver:
 	for CHART in ${CHARTS}; do  \
-		echo "Setting version ${ECS_MONITORING_VERSION} in $$CHART" ;\
-		sed -i -e "/no_auto_change/!s/version:.*/version: ${ECS_MONITORING_VERSION}/g"  $$CHART/Chart.yaml; \
-		sed -i -e "/no_auto_change/!s/appVersion:.*/appVersion: ${ECS_MONITORING_VERSION}/g"  $$CHART/Chart.yaml; \
+		echo "Setting version ${PACKAGE_VERSION} in $$CHART" ;\
+		sed -i -e "/no_auto_change/!s/version:.*/version: ${PACKAGE_VERSION}/g"  $$CHART/Chart.yaml; \
+		sed -i -e "/no_auto_change/!s/appVersion:.*/appVersion: ${PACKAGE_VERSION}/g"  $$CHART/Chart.yaml; \
 	done ;

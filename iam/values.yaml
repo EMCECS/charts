@@ -15,7 +15,7 @@ iamsvc:
   image:
     pullPolicy: IfNotPresent
     repository: iamsvc
-    #tag: 0.53.0
+    #tag: stable
   livenessProbe:
     probePath: /iam/local?Action=ListUsers
   readinessProbe:
@@ -23,4 +23,4 @@ iamsvc:
   replicaCount: 3
   service:
     port: 9400
-    type: ClusterIP
+    type: LoadBalancer

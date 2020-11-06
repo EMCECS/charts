@@ -34,7 +34,7 @@ pipeline {
                 withDockerContainer(image: DOCKER_IMAGE, args: DOCKER_ARGS) {
                     sshagent([GH_CREDS]) {
                        sh('''
-                            make test
+                            make all
                        ''')
                     }
 //                    archiveArtifacts artifacts: 'build/_output/bin/statefuldaemonset-operator-linux-amd64'

@@ -2,26 +2,36 @@ suite: test telemetry cronjob
 templates:
   - telemetry-cronjob.yaml
 tests:
-  - it: should create a cronjob 
+  - it: should create a cronjob
+    set:
+      global.monitoring.enabled: false
     asserts:
     - isKind:
         of: CronJob 
   - it: should have a default image
+    set:
+      global.monitoring.enabled: false
     asserts:
     - matchRegex:
         path: spec.jobTemplate.spec.template.spec.containers[0].image
         pattern: emccorp/telemetry-upload:.*
   - it: should have a default pullPolicy
+    set:
+      global.monitoring.enabled: false
     asserts:
     - equal:
         path: spec.jobTemplate.spec.template.spec.containers[0].imagePullPolicy
         value: IfNotPresent
   - it: should have name objectscale-telemetry
+    set:
+      global.monitoring.enabled: false
     asserts:
     - equal:
         path: metadata.name
         value: objectscale-telemetry 
   - it: should have a name label
+    set:
+      global.monitoring.enabled: false
     asserts:
     - equal:
         path: spec.jobTemplate.spec.template.metadata.labels.app\.kubernetes\.io/component
@@ -29,6 +39,8 @@ tests:
         path: spec.jobTemplate.spec.template.metadata.labels.app\.kubernetes\.io/name
         value: objectscale-manager
   - it: should configure the image
+    set:
+      global.monitoring.enabled: false
     set:
       global.registry: REGISTRY
       telemetry.image.repository: REPO

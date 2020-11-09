@@ -35,6 +35,9 @@ image:
 ## Allow callers to bypass creating app resource
 createdecksappResource: true
 
+# Name of the storage class that PVCs should be provisioned from
+# storageClassName:
+
 #  username: admin
 #  password: ChangeMe
 
@@ -73,4 +76,14 @@ affinity: {}
 
 ### new for decks 1.1 - replace webdav with nginx based supportStore
 supportStore:
-  enabled: true
+  image:
+    repository: decks-support-store
+    version: 2.0.0
+    pullPolicy: IfNotPresent
+  persistentVolume:
+    size: 200Gi
+  containerPort: 7443
+  service:
+    type: ClusterIP
+    port: 7443
+    targetPort: 7443

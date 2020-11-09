@@ -3,8 +3,8 @@ HELM_URL     := https://get.helm.sh
 HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
 YQ_VERSION   := 2.4.1
 YAMLLINT_VERSION := 1.20.0
-CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod objectscale-graphql helm-controller objectscale-vsphere iam pravega-operator bookkeeper-operator supportassist decks-support-store
-DECKSCHARTS := decks kahm supportassist service-pod dellemc-license decks-support-store
+CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod objectscale-graphql helm-controller objectscale-vsphere iam pravega-operator bookkeeper-operator supportassist
+DECKSCHARTS := decks kahm supportassist service-pod dellemc-license
 FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller iam
 MONITORING_DIR := monitoring
 
@@ -30,7 +30,6 @@ HELM_GRAPHQL_ARGS    = # --set objectscale-graphql.tag=${YOUR_VERSION_HERE}
 HELM_INSTALLER_ARGS  = # --set objectscale-graphql.helm-controller.tag=${YOUR_VERSION_HERE}
 HELM_DECKS_ARGS      = # --set image.tag=${YOUR_VERSION_HERE}
 HELM_KAHM_ARGS       = # --set image.tag=${YOUR_VERSION_HERE}
-HELM_DECKS_SUPPORT_STORE_ARGS      = # --set decks-support-store.image.tag=${YOUR_VERSION_HERE}
 
 clean: clean-package
 
@@ -133,7 +132,7 @@ combine-crds:
 create-vmware-package:
 	./vmware/vmware_pack.sh ${SERVICE_ID}
 
-create-manifests: create-vsphere-install create-kahm-manifest create-decks-app create-manager-app
+create-manifests: create-vsphere-install create-kahm-manifest create-decks-manifest create-manager-app
 
 create-vsphere-install: create-vsphere-templates
 
@@ -176,20 +175,11 @@ create-kahm-manifest: create-temp-package
 	helm template kahm ./kahm -n ${NAMESPACE} --set global.platform=VMware \
 	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} --set global.registry=${KAHM_REGISTRY} ${HELM_KAHM_ARGS} \
 	--set storageClassName=${STORAGECLASSNAME} -f kahm/values.yaml >> ${TEMP_PACKAGE}/yaml/${KAHM_MANIFEST}
+create-decks-manifest: create-temp-package
+	helm template decks ./decks -n ${NAMESPACE} --set global.platform=VMware \
+	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} --set global.registry=${DECKS_REGISTRY} ${HELM_DECKS_ARGS} \
+	--set storageClassName=${STORAGECLASSNAME} -f decks/values.yaml >> ${TEMP_PACKAGE}/yaml/${DECKS_MANIFEST}
 
-create-decks-app: create-temp-package
-	# cd in makefiles spawns a subshell, so continue the command with ;
-	cd decks; \
-	helm template --show-only templates/decks-app.yaml decks ../decks  -n ${NAMESPACE} \
-	--set global.platform=VMware \
-	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} \
-	--set global.registry=${REGISTRY} \
-	--set decks-support-store.persistentVolume.storageClassName=${STORAGECLASSNAME} \
-        ${HELM_DECKS_ARGS} ${HELM_DECKS_SUPPORT_STORE_ARGS} \
-	-f values.yaml > ../${TEMP_PACKAGE}/yaml/decks-app.yaml;
-	sed -i 's/createdecksappResource\\":true/createdecksappResource\\":false/g' ${TEMP_PACKAGE}/yaml/decks-app.yaml && \
-	sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/decks-app.yaml
-	cat ${TEMP_PACKAGE}/yaml/decks-app.yaml >> ${TEMP_PACKAGE}/yaml/${DECKS_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/decks-app.yaml
 archive-package:
 	tar -zcvf ${PACKAGE_NAME} ${TEMP_PACKAGE}/*
 

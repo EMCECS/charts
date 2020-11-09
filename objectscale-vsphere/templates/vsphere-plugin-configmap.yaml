@@ -20,20 +20,16 @@ data:
     upstream graphql {
         server {{ .Values.graphql.serviceName }}:{{ .Values.graphql.port }};
     }
+    upstream decks {
+        server {{ .Values.decks.supportStore.service.name }}:{{ .Values.decks.supportStore.service.port }};
+    }
   nginx.conf: |
     events {
         worker_connections  4096;  ## Default: 1024
     }
-
     http {
         include /etc/nginx/mime.types;
         include /conf/upstream.conf;
-        map $request_method $decksname {
-         default {{ .Values.decks.supportStore.service.name }}.{{.Release.Namespace }}.svc.cluster.local;
-        }
-        map $request_method $decksport {
-         default {{ .Values.decks.supportStore.service.port }};
-        }
         server {
             resolver kube-dns.kube-system.svc.cluster.local;
             listen       4443;
@@ -62,7 +58,7 @@ data:
                 proxy_pass http://graphql;
             }
             location /data {
-                proxy_pass https://$decksname:$decksport;
+                proxy_pass https://decks;
             }
             location ~* ^/grafana/[a-z0-9]([-a-z0-9]*[a-z0-9])?/[a-z0-9]([-a-z0-9]*[a-z0-9])? {
                 rewrite ^/grafana/([a-z0-9-]+)/([a-z0-9-]+)/(.*) /$3 break;

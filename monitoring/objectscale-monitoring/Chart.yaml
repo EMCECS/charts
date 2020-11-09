@@ -51,3 +51,6 @@ dependencies:
     repository: "file://../rsyslog"
     version: 0.53.0
     condition: global.rsyslog_enabled
+  - name: telegraf-sidecar
+    version: 0.53.0
+    repository: file://../telegraf-sidecar

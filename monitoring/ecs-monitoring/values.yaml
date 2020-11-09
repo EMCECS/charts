@@ -26,8 +26,10 @@ global:
   performanceProfile: Small
   monitoring_tag: 3.7.0.0-981.d3bbcdd1
 
-  objectscale_release_name: "objectscale"
-  objectscale_namespace: "objectscale"
+#  objectscale_ variables are used to find objectscale services from ecs-cluster charts
+#
+#  objectscale_release_name: "objectscale"
+#  objectscale_namespace: "objectscale"
 
 cert:
   enabled: false
@@ -130,6 +132,8 @@ telegraf:
             - "sr_ObjectGC_CAS_RG"
             - "tsdb_telegraf_internal_gather"
             - "tsdb_telegraf_internal_write"
+            - "disk"
+            - "procstat"
       - influxdb:
           insecure_skip_verify: true
           skip_database_creation: true

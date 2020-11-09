@@ -2,8 +2,22 @@ apiVersion: v1
 entries:
   atlas-operator:
   - apiVersion: v1
+    appVersion: "0.9"
+    created: "2020-11-09T09:26:49.636881524-05:00"
+    description: |
+      Atlas operator deploys a custom resource for an Atlas cluster and a
+      pod to provision Atlas clusters.
+    digest: e5e893cc68eecdcc82491492fac5d46c44cbe50c4538fb365c11f61d823396be
+    maintainers:
+    - name: Dell EMC
+      url: https://dellemc.com
+    name: atlas-operator
+    urls:
+    - atlas-operator-0.27.0.tgz
+    version: 0.27.0
+  - apiVersion: v1
     appVersion: "0.8"
-    created: "2020-11-03T14:30:18.854326571-05:00"
+    created: "2020-11-09T09:26:49.634968549-05:00"
     description: |
       Atlas operator deploys a custom resource for an Atlas cluster and a
       pod to provision Atlas clusters.
@@ -18,7 +32,7 @@ entries:
   bookkeeper-operator:
   - apiVersion: v2
     appVersion: 0.1.2
-    created: "2020-11-03T14:30:18.855140197-05:00"
+    created: "2020-11-09T09:26:49.637867605-05:00"
     description: Bookkeeper Operator Helm chart for Kubernetes
     digest: b2d808e09a87f0c5123f0052fb36d49a65631e2d1052a78f60c392bc798ae0a6
     home: https://github.com/pravega/bookkeeper-operator
@@ -31,11 +45,16 @@ entries:
     - bookkeeper-operator-0.1.2.tgz
     version: 0.1.2
   decks:
-  - apiVersion: v1
+  - apiVersion: v2
     appVersion: 2.0.53
-    created: "2020-11-03T14:30:18.85828519-05:00"
+    created: "2020-11-09T09:26:49.639889286-05:00"
+    dependencies:
+    - condition: supportStore.enabled
+      name: decks-support-store
+      repository: file://../decks-support-store
+      version: 2.0.53
     description: A Helm chart for Dell EMC Common Kubernetes Services
-    digest: c0ce66fbbbc7781a85902d6e119368f347dc26d71a2fdce7fc33be1a0e8455b0
+    digest: 93502e3d9a8cbf47c50d00a4d3f9620ccb010003d9008f32cf516e0dd403222c
     icon: https://avatars0.githubusercontent.com/u/12926680
     maintainers:
     - name: Dell EMC
@@ -47,7 +66,7 @@ entries:
   decks-support-store:
   - apiVersion: v1
     appVersion: 2.0.53
-    created: "2020-11-03T14:30:18.859623664-05:00"
+    created: "2020-11-09T09:26:49.640865963-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services Support Store
     digest: 1915ca337396f2502a3f06a389bbefe7117661bd7b217f7131d9e8af21765afb
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -61,10 +80,10 @@ entries:
   dellemc-license:
   - apiVersion: v1
     appVersion: 2.0.53
-    created: "2020-11-03T14:30:18.861044138-05:00"
+    created: "2020-11-09T09:26:49.642543819-05:00"
     description: A Helm chart for applying a Dell EMC License for a product in the
       k8s cluster
-    digest: b090846503ad4ce253752aebda2d1952d9cdc44bff42f4ff7eaa02460e928cb2
+    digest: 7ad1f8b7373326991d4bbcbb273a26f275be68a463956cb9f6939d9a37ebe13f
     name: dellemc-license
     urls:
     - dellemc-license-2.0.53.tgz
@@ -72,7 +91,7 @@ entries:
   dks-testapp:
   - apiVersion: v1
     appVersion: 1.2.0
-    created: "2020-11-03T14:30:18.862035677-05:00"
+    created: "2020-11-09T09:26:49.644057132-05:00"
     description: A Helm chart for DKS (DECKS, KAHM, and SRSGateway) test application
     digest: bbeea26331122bc68dab252a62f346c300c125995cb05a3bcaf9bd7137b266fc
     name: dks-testapp
@@ -82,7 +101,7 @@ entries:
   ecs-cluster:
   - apiVersion: v1
     appVersion: 0.53.0
-    created: "2020-11-03T14:30:18.899501921-05:00"
+    created: "2020-11-09T09:26:49.699280937-05:00"
     dependencies:
     - condition: global.monitoring.enabled
       name: ecs-monitoring
@@ -90,7 +109,7 @@ entries:
       version: x.x
     description: |
       Dell EMC ObjectScale is highly scalable, and high performance S3 compatible object storage platform.
-    digest: f15b014469d7c61bd07fdfea759c3a7050d5e5f3cc98ebe9e6db161987ababa4
+    digest: d3abd306940489ce0e4894cfecfaebb39d8f25be9d8f5fd848503e1acb24d2b9
     icon: https://avatars0.githubusercontent.com/u/12926680
     maintainers:
     - name: Dell EMC
@@ -102,7 +121,7 @@ entries:
   fio-test:
   - apiVersion: v1
     appVersion: 3.14.1
-    created: "2020-11-03T14:30:18.900923422-05:00"
+    created: "2020-11-09T09:26:49.700214614-05:00"
     description: A Helm chart for Kubernetes Applications Health Check Tools using
       FIO for persistent volume tests
     digest: 683e8db637d66fa4938d75443f6864514078bb8a38c62a0659fd9c1a22b24f8b
@@ -117,7 +136,7 @@ entries:
   helm-controller:
   - apiVersion: v2
     appVersion: 0.53.0
-    created: "2020-11-03T14:30:18.901669089-05:00"
+    created: "2020-11-09T09:26:49.70080167-05:00"
     description: |
       helm-controller runs inside the cluster and acts as a helm broker to perform
       helm actions for packages, i.e install, update, delete
@@ -132,7 +151,20 @@ entries:
   iam:
   - apiVersion: v1
     appVersion: 0.1.0
-    created: "2020-11-03T14:30:18.902863475-05:00"
+    created: "2020-11-09T09:26:49.705547727-05:00"
+    description: A Helm chart for Dell EMC IAM
+    digest: 7fdb5deaa30a807ab95272018d54ec433bb1df79b1b40797002b7eabfbbb26b1
+    icon: https://avatars0.githubusercontent.com/u/12926680
+    maintainers:
+    - name: Dell EMC
+      url: http://dellemc.com
+    name: iam
+    urls:
+    - iam-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v1
+    appVersion: 0.1.0
+    created: "2020-11-09T09:26:49.704625992-05:00"
     description: A Helm chart for Dell EMC IAM
     digest: d1d7d1504c4d1d98b5e005efcd0e0cf60e524cb842f64cd26df26f452305e890
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -146,7 +178,7 @@ entries:
   kahm:
   - apiVersion: v1
     appVersion: 2.0.53
-    created: "2020-11-03T14:30:18.904203571-05:00"
+    created: "2020-11-09T09:26:49.706630067-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: 5e4b35c03cda9f4f460438bd695c149a54ec67f00347acef516619e207d40c3f
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -160,7 +192,7 @@ entries:
   mongoose:
   - apiVersion: v1
     appVersion: 4.1.1
-    created: "2020-11-03T14:30:18.90509677-05:00"
+    created: "2020-11-09T09:26:49.707543912-05:00"
     description: |
       Mongoose is a horizontally scalable and configurable S3 performance testing utility
     digest: ad8c954064c70d6119cca745ee7e9a86fc77126721138bf3ee02f149cf4f63ff
@@ -175,14 +207,14 @@ entries:
   objectscale-graphql:
   - apiVersion: v2
     appVersion: 0.53.0
-    created: "2020-11-03T14:30:18.907339917-05:00"
+    created: "2020-11-09T09:26:49.710761252-05:00"
     dependencies:
     - condition: helmController.enabled
       name: helm-controller
       repository: file://../helm-controller
       version: 0.53.0
     description: A Helm chart for Kubernetes
-    digest: 23c4e79d62f76d959cdceedd7dec0178b83b6c4caafdc883651dad153261256d
+    digest: f649ef13a99ee67ee82cc5331b6764d8698263c056f11c97859b2c6eb8190135
     name: objectscale-graphql
     type: application
     urls:
@@ -191,7 +223,7 @@ entries:
   objectscale-manager:
   - apiVersion: v2
     appVersion: 0.53.0
-    created: "2020-11-03T14:30:18.974055338-05:00"
+    created: "2020-11-09T09:26:49.794458341-05:00"
     dependencies:
     - condition: zookeeper.enabled
       name: zookeeper-operator
@@ -200,7 +232,7 @@ entries:
     - condition: atlas.enabled
       name: atlas-operator
       repository: file://../atlas-operator
-      version: 0.26.0
+      version: 0.27.0
     - condition: global.monitoring.enabled
       name: objectscale-monitoring
       repository: file://../monitoring/objectscale-monitoring
@@ -208,7 +240,7 @@ entries:
     - condition: iam.enabled
       name: iam
       repository: file://../iam
-      version: 0.2.0
+      version: 0.3.0
     - condition: servicePod.enabled
       name: service-pod
       repository: file://../service-pod
@@ -223,7 +255,7 @@ entries:
       version: 0.1.2
     description: |
       Dell EMC ObjectScale is highly scalable, and high performance S3 compatible object storage platform.
-    digest: c2860b669b91635af45a82cb7fa2b4d8b414d14bfb283ad4b2d8f02c2ae33b4a
+    digest: 9749eb0e44e1678011d1cca046ec9b1a7bc6ebbfa4d9381ffb6870d682e76529
     icon: https://avatars0.githubusercontent.com/u/12926680
     maintainers:
     - name: Dell EMC
@@ -235,7 +267,7 @@ entries:
   objectscale-vsphere:
   - apiVersion: v2
     appVersion: 0.53.0
-    created: "2020-11-03T14:30:18.975981784-05:00"
+    created: "2020-11-09T09:26:49.799008152-05:00"
     dependencies:
     - condition: graphql.enabled
       name: objectscale-graphql
@@ -243,7 +275,7 @@ entries:
       version: 0.53.0
     description: |
       vsphere PSP necessary setup resources
-    digest: 9aec19aaffb81e9ab38331d02ce516735ebc25765bcebc613adab180ce94f7dc
+    digest: 49377b3ae6cbf4fd6df2d6692773627e215388035376a8f025c2b556deed2112
     maintainers:
     - name: Dell EMC
       url: https://dellemc.com
@@ -254,9 +286,9 @@ entries:
   pravega-operator:
   - apiVersion: v2
     appVersion: 0.5.1
-    created: "2020-11-03T14:30:18.976791838-05:00"
+    created: "2020-11-09T09:26:49.800447129-05:00"
     description: Pravega Operator Helm chart for Kubernetes
-    digest: 3ea0050f29bffb9ae8a0cb05d590dad498f44738c5a8b6f895a0781ee0c9a81a
+    digest: d7fbc9cb48486c2689656beeafb41cd6fdc445ad5a58bfe0065071765b03db9a
     home: https://github.com/pravega/pravega-operator
     icon: https://avatars3.githubusercontent.com/u/25698199
     keywords:
@@ -269,7 +301,7 @@ entries:
   service-pod:
   - apiVersion: v1
     appVersion: 2.0.53
-    created: "2020-11-03T14:30:18.977407193-05:00"
+    created: "2020-11-09T09:26:49.801449518-05:00"
     description: A Helm chart for Dell EMC Service Pod
     digest: b1d86fcc306944e635703242b00af3e394346208ce628bf81599582bc44cc4aa
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -283,7 +315,7 @@ entries:
   sonobuoy:
   - apiVersion: v1
     appVersion: 0.16.6
-    created: "2020-11-03T14:30:18.978092843-05:00"
+    created: "2020-11-09T09:26:49.80262672-05:00"
     description: A Helm chart for sonobuoy
     digest: c865184fa24ebef148d01e619099eb2934f58ae376db2391c3f0c33d13c256b7
     icon: https://avatars2.githubusercontent.com/u/22035492
@@ -297,9 +329,9 @@ entries:
   supportassist:
   - apiVersion: v1
     appVersion: 2.0.53
-    created: "2020-11-03T14:30:18.979023918-05:00"
+    created: "2020-11-09T09:26:49.804514503-05:00"
     description: Helm chart for Dell SupportAssist ESE
-    digest: ee67374b4586405c0eaa460661e97c454f71f345a632aef62f9da3ae1bdfde49
+    digest: 5a734db1a385abd044116b9afe367e5e05a26313e6ce1ba83deac917d9b26568
     icon: https://avatars0.githubusercontent.com/u/12926680
     maintainers:
     - name: Dell EMC
@@ -311,7 +343,7 @@ entries:
   zookeeper-operator:
   - apiVersion: v1
     appVersion: 0.2.7
-    created: "2020-11-03T14:30:18.979546792-05:00"
+    created: "2020-11-09T09:26:49.805373781-05:00"
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -329,4 +361,4 @@ entries:
     urls:
     - zookeeper-operator-0.2.7.tgz
     version: 0.2.7
-generated: "2020-11-03T14:30:18.851576181-05:00"
+generated: "2020-11-09T09:26:49.628904175-05:00"

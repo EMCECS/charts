@@ -1,11 +1,26 @@
 {
-  "__inputs": [],
+  "__inputs": [
+    {
+      "name": "DS_FLUX",
+      "label": "Flux",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "grafana-influxdb-flux-datasource",
+      "pluginName": "Flux (InfluxDB) [BETA]"
+    }
+  ],
   "__requires": [
     {
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
       "version": "6.2.5ecs"
+    },
+    {
+      "type": "datasource",
+      "id": "grafana-influxdb-flux-datasource",
+      "name": "Flux (InfluxDB) [BETA]",
+      "version": "5.2.12"
     },
     {
       "type": "panel",
@@ -542,7 +557,7 @@
               ],
               "measurement": "disk",
               "policy": "default",
-              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"tsdb_telegraf_internal_gather\" and r.input == \"influxdb_listener\" and r._field == \"metrics_gathered\")\n  |> range($range)\n  |> derivative(nonNegative: true, unit:5m)\n  |> keep(columns: [\"_time\", \"_value\", \"host\", \"input\"])",
+              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"tsdb_telegraf_internal_gather\" and r.input == \"influxdb_listener\" and r._field == \"metrics_gathered\")\n  |> range($range)\n  |> derivative(nonNegative: true, unit:5m)\n  |> keep(columns: [\"_time\", \"tag\", \"_value\", \"host\", \"input\"])",
               "refId": "B",
               "resultFormat": "time_series",
               "select": [
@@ -681,7 +696,7 @@
               ],
               "measurement": "disk",
               "policy": "default",
-              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"tsdb_telegraf_internal_write\" and r.output == \"influxdb\" and r._field == \"metrics_written\" and r.output == \"influxdb\")\n  |> range($range)\n  |> derivative(nonNegative: true, unit:5m)\n  |> keep(columns: [\"_time\", \"_value\", \"host\"])",
+              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"tsdb_telegraf_internal_write\" and r.output == \"influxdb\" and r._field == \"metrics_written\" and r.output == \"influxdb\")\n  |> range($range)\n  |> derivative(nonNegative: true, unit:5m)\n  |> keep(columns: [\"_time\", \"tag\", \"_value\", \"host\"])",
               "refId": "B",
               "resultFormat": "time_series",
               "select": [
@@ -820,7 +835,7 @@
               ],
               "measurement": "disk",
               "policy": "default",
-              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"tsdb_telegraf_internal_write\" and r.output == \"influxdb\" and r._field == \"metrics_dropped\" and r.output == \"influxdb\")\n  |> range($range)\n  |> derivative(nonNegative: true, unit:5m)\n  |> keep(columns: [\"_time\", \"_value\", \"host\"])",
+              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"tsdb_telegraf_internal_write\" and r.output == \"influxdb\" and r._field == \"metrics_dropped\" and r.output == \"influxdb\")\n  |> range($range)\n  |> derivative(nonNegative: true, unit:5m)\n  |> keep(columns: [\"_time\", \"tag\", \"_value\", \"host\"])",
               "refId": "B",
               "resultFormat": "time_series",
               "select": [
@@ -961,7 +976,7 @@
               ],
               "measurement": "disk",
               "policy": "default",
-              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"tsdb_telegraf_internal_gather\" and r.input == \"influxdb\" and r._field == \"gather_time_ns\")\n  |> range($range)\n  |> derivative(nonNegative: true, unit:5m)\n  |> keep(columns: [\"_time\", \"_value\", \"host\", \"input\"])",
+              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"tsdb_telegraf_internal_gather\" and r.input == \"influxdb\" and r._field == \"gather_time_ns\")\n  |> range($range)\n  |> derivative(nonNegative: true, unit:5m)\n  |> keep(columns: [\"_time\", \"tag\", \"_value\", \"host\", \"input\"])",
               "refId": "B",
               "resultFormat": "time_series",
               "select": [
@@ -1103,7 +1118,7 @@
               ],
               "measurement": "disk",
               "policy": "default",
-              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"tsdb_telegraf_internal_write\" and r.output == \"influxdb\" and r._field == \"write_time_ns\")\n  |> range($range)\n  |> derivative(nonNegative: true, unit:5m)\n  |> keep(columns: [\"_time\", \"_value\", \"host\"])",
+              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"tsdb_telegraf_internal_write\" and r.output == \"influxdb\" and r._field == \"write_time_ns\")\n  |> range($range)\n  |> derivative(nonNegative: true, unit:5m)\n  |> keep(columns: [\"_time\", \"tag\", \"_value\", \"host\", \"output\"])",
               "refId": "B",
               "resultFormat": "time_series",
               "select": [
@@ -1245,7 +1260,7 @@
               ],
               "measurement": "disk",
               "policy": "default",
-              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"tsdb_telegraf_internal_write\" and r._field == \"buffer_size\" and r.output == \"influxdb\")\n  |> range($range)\n  |> keep(columns: [\"_time\", \"_value\", \"host\"])",
+              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"tsdb_telegraf_internal_write\" and r._field == \"buffer_size\" and r.output == \"influxdb\")\n  |> range($range)\n  |> keep(columns: [\"_time\", \"tag\", \"_value\", \"host\"])",
               "refId": "B",
               "resultFormat": "time_series",
               "select": [
@@ -1342,7 +1357,7 @@
             "h": 9,
             "w": 8,
             "x": 0,
-            "y": 2
+            "y": 12
           },
           "id": 34,
           "legend": {
@@ -1400,7 +1415,7 @@
               ],
               "measurement": "disk",
               "policy": "default",
-              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"procstat\" and r.host =~ /${host:pipe}/ and r._field == \"memory_rss\" and r.process_name == \"influxd\")\n  |> range($range)\n  |> keep(columns: [\"_time\", \"_value\", \"host\"])",
+              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"procstat\" and r._field == \"memory_rss\" and r.process_name == \"influxd\")\n  |> range($range)\n  |> keep(columns: [\"_time\", \"_value\", \"host\"])",
               "refId": "B",
               "resultFormat": "time_series",
               "select": [
@@ -1484,7 +1499,7 @@
             "h": 9,
             "w": 8,
             "x": 8,
-            "y": 2
+            "y": 12
           },
           "id": 35,
           "legend": {
@@ -1542,7 +1557,7 @@
               ],
               "measurement": "disk",
               "policy": "default",
-              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"procstat\" and r.host =~ /${host:pipe}/ and r._field == \"cpu_usage\" and r.process_name == \"influxd\")\n  |> range($range)\n  |> keep(columns: [\"_time\", \"_value\", \"host\"])",
+              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"procstat\" and r._field == \"cpu_usage\" and r.process_name == \"influxd\")\n  |> range($range)\n  |> keep(columns: [\"_time\", \"_value\", \"host\"])",
               "refId": "B",
               "resultFormat": "time_series",
               "select": [
@@ -1626,7 +1641,7 @@
             "h": 9,
             "w": 8,
             "x": 16,
-            "y": 2
+            "y": 12
           },
           "id": 36,
           "legend": {
@@ -1684,7 +1699,7 @@
               ],
               "measurement": "disk",
               "policy": "default",
-              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"procstat\" and r.host =~ /${host:pipe}/ and r._field == \"num_fds\" and r.process_name == \"influxd\")\n  |> range($range)\n  |> keep(columns: [\"_time\", \"_value\", \"host\"])",
+              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"procstat\" and r._field == \"num_fds\" and r.process_name == \"influxd\")\n  |> range($range)\n  |> keep(columns: [\"_time\", \"_value\", \"host\"])",
               "refId": "B",
               "resultFormat": "time_series",
               "select": [
@@ -1768,7 +1783,7 @@
             "h": 10,
             "w": 8,
             "x": 0,
-            "y": 11
+            "y": 21
           },
           "id": 24,
           "legend": {
@@ -1910,7 +1925,7 @@
             "h": 10,
             "w": 8,
             "x": 8,
-            "y": 11
+            "y": 21
           },
           "id": 25,
           "legend": {
@@ -2053,7 +2068,7 @@
             "h": 10,
             "w": 8,
             "x": 16,
-            "y": 11
+            "y": 21
           },
           "id": 26,
           "legend": {
@@ -2067,7 +2082,7 @@
             "rightSide": false,
             "show": true,
             "sort": "current",
-            "sortDesc": true,
+            "sortDesc": false,
             "total": false,
             "values": true
           },
@@ -2111,7 +2126,7 @@
               ],
               "measurement": "disk",
               "policy": "default",
-              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"ecs_fabric_agent_dirstat_size_bytes\" and r.host =~ /${host:pipe}/ and r.path == \"/opt/emc/caspian/fabric/agent/services/object/data/influxdb/\")\n  |> range($range)\n  |> keep(columns: [\"_start\", \"_stop\", \"_time\", \"_value\", \"host\"])",
+              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"disk\" and (r._field == \"used\" or r._field == \"free\") and r.host =~ /influxdb/ and r.path == \"/pv\")\n  |> range($range)\n  |> keep(columns: [\"_start\", \"_stop\", \"_time\", \"_value\", \"host\", \"_field\"])",
               "refId": "B",
               "resultFormat": "time_series",
               "select": [
@@ -2195,7 +2210,7 @@
             "h": 10,
             "w": 8,
             "x": 0,
-            "y": 21
+            "y": 31
           },
           "id": 27,
           "legend": {
@@ -2337,7 +2352,7 @@
             "h": 10,
             "w": 8,
             "x": 8,
-            "y": 21
+            "y": 31
           },
           "id": 40,
           "legend": {
@@ -2483,7 +2498,7 @@
             "h": 10,
             "w": 8,
             "x": 16,
-            "y": 21
+            "y": 31
           },
           "id": 28,
           "legend": {
@@ -2625,7 +2640,7 @@
             "h": 9,
             "w": 8,
             "x": 0,
-            "y": 31
+            "y": 41
           },
           "id": 50,
           "legend": {
@@ -4305,7 +4320,7 @@
             "h": 10,
             "w": 8,
             "x": 0,
-            "y": 4
+            "y": 44
           },
           "id": 55,
           "legend": {
@@ -4447,7 +4462,7 @@
             "h": 10,
             "w": 8,
             "x": 8,
-            "y": 4
+            "y": 44
           },
           "id": 57,
           "legend": {
@@ -4589,7 +4604,7 @@
             "h": 10,
             "w": 8,
             "x": 16,
-            "y": 4
+            "y": 44
           },
           "id": 59,
           "legend": {
@@ -4731,7 +4746,7 @@
             "h": 10,
             "w": 8,
             "x": 0,
-            "y": 14
+            "y": 54
           },
           "id": 76,
           "legend": {
@@ -4873,7 +4888,7 @@
             "h": 10,
             "w": 8,
             "x": 8,
-            "y": 14
+            "y": 54
           },
           "id": 78,
           "legend": {
@@ -5015,7 +5030,7 @@
             "h": 10,
             "w": 8,
             "x": 16,
-            "y": 14
+            "y": 54
           },
           "id": 80,
           "legend": {
@@ -5157,7 +5172,7 @@
             "h": 10,
             "w": 8,
             "x": 0,
-            "y": 24
+            "y": 64
           },
           "id": 82,
           "legend": {
@@ -5299,7 +5314,7 @@
             "h": 10,
             "w": 8,
             "x": 8,
-            "y": 24
+            "y": 64
           },
           "id": 84,
           "legend": {
@@ -5441,7 +5456,7 @@
             "h": 10,
             "w": 8,
             "x": 16,
-            "y": 24
+            "y": 64
           },
           "id": 74,
           "legend": {
@@ -5583,7 +5598,7 @@
             "h": 10,
             "w": 8,
             "x": 0,
-            "y": 34
+            "y": 74
           },
           "id": 69,
           "legend": {
@@ -5725,7 +5740,7 @@
             "h": 10,
             "w": 8,
             "x": 8,
-            "y": 34
+            "y": 74
           },
           "id": 70,
           "legend": {
@@ -5867,7 +5882,7 @@
             "h": 10,
             "w": 8,
             "x": 16,
-            "y": 34
+            "y": 74
           },
           "id": 85,
           "legend": {
@@ -5997,6 +6012,1313 @@
       ],
       "title": "Throttler and Grafana instances",
       "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 4
+      },
+      "id": 61,
+      "panels": [
+        {
+          "aliasColors": {
+            "undefined": "#1F78C1"
+          },
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "${DS_FLUX}",
+          "decimals": null,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 15
+          },
+          "id": 62,
+          "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": true,
+            "hideEmpty": false,
+            "hideZero": false,
+            "max": false,
+            "min": false,
+            "rightSide": false,
+            "show": true,
+            "sort": "current",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "maxPerRow": 6,
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 2,
+          "points": true,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "space: free, $tag_path",
+              "dsType": "influxdb",
+              "groupBy": [
+                {
+                  "params": [
+                    "$interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "path"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "disk",
+              "policy": "default",
+              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement =~ /_stat_client_performance$/ and r._field == \"primitives_count\" and r.host =~ /${host:pipe}/)\n  |> range($range)\n  |> drop(columns: [\"_measurement\", \"_field\", \"node_id\", \"tag\", \"host\", \"_start\", \"_stop\"])\n\n",
+              "refId": "B",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "free"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/^$host$/"
+                }
+              ]
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Number of Primitives per Service",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "decimals": null,
+              "format": "short",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": false
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        },
+        {
+          "aliasColors": {
+            "undefined": "#1F78C1"
+          },
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "${DS_FLUX}",
+          "decimals": null,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 15
+          },
+          "id": 63,
+          "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": true,
+            "hideEmpty": false,
+            "hideZero": false,
+            "max": false,
+            "min": false,
+            "rightSide": false,
+            "show": true,
+            "sort": "current",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "maxPerRow": 6,
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 2,
+          "points": true,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "space: free, $tag_path",
+              "dsType": "influxdb",
+              "groupBy": [
+                {
+                  "params": [
+                    "$interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "path"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "disk",
+              "policy": "default",
+              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement =~ /_stat_client_performance$/ and r._field == \"exported_points\" and r.host =~ /${host:pipe}/)\n  |> range($range)\n  |> drop(columns: [\"_measurement\", \"_field\", \"node_id\", \"tag\", \"host\", \"_start\", \"_stop\"])\n  |> derivative(nonNegative: true)\n",
+              "refId": "B",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "free"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/^$host$/"
+                }
+              ]
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Exported Points (lines) per second",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "decimals": null,
+              "format": "wps",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": false
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        },
+        {
+          "aliasColors": {
+            "undefined": "#1F78C1"
+          },
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "${DS_FLUX}",
+          "decimals": null,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 23
+          },
+          "id": 64,
+          "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": false,
+            "hideEmpty": true,
+            "hideZero": true,
+            "max": false,
+            "min": false,
+            "rightSide": false,
+            "show": true,
+            "sort": "current",
+            "sortDesc": true,
+            "total": true,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "maxPerRow": 6,
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 2,
+          "points": true,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": true,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "space: free, $tag_path",
+              "dsType": "influxdb",
+              "groupBy": [
+                {
+                  "params": [
+                    "$interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "path"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "disk",
+              "policy": "default",
+              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement =~ /_stat_client_performance$/ and r._field == \"influxdb_buffer_loss\" and r.host =~ /${host:pipe}/)\n  |> range($range)\n  |> drop(columns: [\"_measurement\", \"_field\", \"node_id\", \"tag\", \"host\", \"_start\", \"_stop\"])\n  |> difference(nonNegative:true)\n\n",
+              "refId": "B",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "free"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/^$host$/"
+                }
+              ]
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Events of InfluxDB buffer loss",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "decimals": null,
+              "format": "short",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": false
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        },
+        {
+          "aliasColors": {
+            "undefined": "#1F78C1"
+          },
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "${DS_FLUX}",
+          "decimals": null,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 23
+          },
+          "id": 65,
+          "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": true,
+            "hideEmpty": false,
+            "hideZero": false,
+            "max": false,
+            "min": false,
+            "rightSide": false,
+            "show": true,
+            "sort": "current",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "maxPerRow": 6,
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 2,
+          "points": true,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "space: free, $tag_path",
+              "dsType": "influxdb",
+              "groupBy": [
+                {
+                  "params": [
+                    "$interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "path"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "disk",
+              "policy": "default",
+              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement =~ /_stat_client_performance$/ and r._field == \"push_interval_sec\" and r.host =~ /${host:pipe}/)\n  |> range($range)\n  |> keep(columns: [\"_time\", \"_value\", \"process\"])\n",
+              "refId": "B",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "free"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/^$host$/"
+                }
+              ]
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Maximum Push Interval in seconds",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "decimals": null,
+              "format": "short",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": false
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        }
+      ],
+      "title": "Statclient meta-monitoring",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 5
+      },
+      "id": 93,
+      "panels": [
+        {
+          "aliasColors": {
+            "undefined": "#1F78C1"
+          },
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "decimals": null,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "gridPos": {
+            "h": 9,
+            "w": 8,
+            "x": 0,
+            "y": 6
+          },
+          "id": 94,
+          "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": true,
+            "hideEmpty": false,
+            "hideZero": false,
+            "max": false,
+            "min": false,
+            "rightSide": false,
+            "show": true,
+            "sort": "current",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "maxPerRow": 6,
+          "nullPointMode": "null",
+          "options": {},
+          "percentage": false,
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "space: free, $tag_path",
+              "dsType": "influxdb",
+              "groupBy": [
+                {
+                  "params": [
+                    "$interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "path"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "disk",
+              "policy": "default",
+              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"procstat\" and r._field == \"memory_rss\" and r.process_name == \"rsyslogd\")\n  |> range($range)\n  |> keep(columns: [\"_time\", \"_value\", \"host\"])",
+              "refId": "B",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "free"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/^$host$/"
+                }
+              ]
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "RSS Memory, OS View",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "decimals": null,
+              "format": "bytes",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": false
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        },
+        {
+          "aliasColors": {
+            "undefined": "#1F78C1"
+          },
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "decimals": null,
+          "editable": true,
+          "error": false,
+          "fill": 0,
+          "gridPos": {
+            "h": 9,
+            "w": 8,
+            "x": 8,
+            "y": 6
+          },
+          "id": 95,
+          "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": true,
+            "hideEmpty": false,
+            "hideZero": false,
+            "max": false,
+            "min": false,
+            "rightSide": false,
+            "show": true,
+            "sort": "current",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "maxPerRow": 6,
+          "nullPointMode": "null",
+          "options": {},
+          "percentage": false,
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "space: free, $tag_path",
+              "dsType": "influxdb",
+              "groupBy": [
+                {
+                  "params": [
+                    "$interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "path"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "disk",
+              "policy": "default",
+              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"procstat\" and r._field == \"cpu_usage\" and r.process_name == \"rsyslogd\")\n  |> range($range)\n  |> keep(columns: [\"_time\", \"_value\", \"host\"])",
+              "refId": "B",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "free"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/^$host$/"
+                }
+              ]
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "CPU Usage",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "decimals": 1,
+              "format": "percent",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": false
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        },
+        {
+          "aliasColors": {
+            "undefined": "#1F78C1"
+          },
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "decimals": null,
+          "editable": true,
+          "error": false,
+          "fill": 0,
+          "gridPos": {
+            "h": 9,
+            "w": 8,
+            "x": 16,
+            "y": 6
+          },
+          "id": 96,
+          "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": true,
+            "hideEmpty": false,
+            "hideZero": false,
+            "max": false,
+            "min": false,
+            "rightSide": false,
+            "show": true,
+            "sort": "current",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "maxPerRow": 6,
+          "nullPointMode": "null",
+          "options": {},
+          "percentage": false,
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "space: free, $tag_path",
+              "dsType": "influxdb",
+              "groupBy": [
+                {
+                  "params": [
+                    "$interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "path"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "disk",
+              "policy": "default",
+              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"procstat\" and r._field == \"num_fds\" and r.process_name == \"rsyslogd\")\n  |> range($range)\n  |> keep(columns: [\"_time\", \"_value\", \"host\"])",
+              "refId": "B",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "free"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/^$host$/"
+                }
+              ]
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "Number of File Handles",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "decimals": 0,
+              "format": "short",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": false
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        },
+        {
+          "aliasColors": {
+            "undefined": "#1F78C1"
+          },
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "decimals": null,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "gridPos": {
+            "h": 10,
+            "w": 8,
+            "x": 0,
+            "y": 15
+          },
+          "id": 97,
+          "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": true,
+            "hideEmpty": false,
+            "hideZero": false,
+            "max": false,
+            "min": false,
+            "rightSide": false,
+            "show": true,
+            "sort": "current",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "maxPerRow": 6,
+          "nullPointMode": "connected",
+          "options": {},
+          "percentage": false,
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "space: free, $tag_path",
+              "dsType": "influxdb",
+              "groupBy": [
+                {
+                  "params": [
+                    "$interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "path"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "disk",
+              "policy": "default",
+              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"procstat\" and r._field == \"read_bytes\" and r.process_name == \"rsyslogd\")\n  |> range($range)\n  |> derivative(nonNegative: true, unit:1s)\n  |> keep(columns: [\"_time\", \"_value\", \"host\", \"_field\"])\n  \n",
+              "refId": "B",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "free"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/^$host$/"
+                }
+              ]
+            },
+            {
+              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"procstat\" and r._field == \"write_bytes\" and r.process_name == \"rsyslogd\")\n  |> range($range)\n  |> derivative(nonNegative: true, unit:1s)\n  |> keep(columns: [\"_time\", \"_value\", \"host\", \"_field\"])\n",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "Disk IO rate (bytes per second)",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "decimals": 0,
+              "format": "Bps",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": false
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        },
+        {
+          "aliasColors": {
+            "undefined": "#1F78C1"
+          },
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "decimals": null,
+          "description": "Size of /opt/emc/caspian/fabric/agent/services/object/data/influxdb/",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "gridPos": {
+            "h": 10,
+            "w": 8,
+            "x": 8,
+            "y": 15
+          },
+          "id": 92,
+          "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": true,
+            "hideEmpty": false,
+            "hideZero": false,
+            "max": false,
+            "min": false,
+            "rightSide": false,
+            "show": true,
+            "sort": "current",
+            "sortDesc": false,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "maxPerRow": 6,
+          "nullPointMode": "connected",
+          "options": {},
+          "percentage": false,
+          "pointradius": 2,
+          "points": true,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "space: free, $tag_path",
+              "dsType": "influxdb",
+              "groupBy": [
+                {
+                  "params": [
+                    "$interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "path"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "disk",
+              "policy": "default",
+              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"disk\" and (r._field == \"used\" or r._field == \"free\") and r.host =~ /rsyslog/ and r.path == \"/pv\")\n  |> range($range)\n  |> keep(columns: [\"_start\", \"_stop\", \"_time\", \"_value\", \"host\", \"_field\"])",
+              "refId": "B",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "free"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/^$host$/"
+                }
+              ]
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "Storage Disk Space",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "decimals": null,
+              "format": "bytes",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": false
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        }
+      ],
+      "title": "Rsyslog",
+      "type": "row"
     }
   ],
   "refresh": false,
@@ -6038,5 +7360,5 @@
   "timezone": "",
   "title": "(OE) Internal Monitoring Health",
   "uid": "o5ijgcIWz",
-  "version": 2
+  "version": 1
 }

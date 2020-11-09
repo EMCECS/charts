@@ -16,19 +16,69 @@ metadata:
         com.dellemc.kahm.subscribed: "true"
 data:
     eventRules: |-
-      rules:
+      issueRules:
+        - description: "No data is pushed to the monitoring framework for the last 30 minutes"
+          name: "MonitoringHealth"
+          defaultAutoClearTimeOut: 60
+          issueCategory: Auto
+          matchOnList:
+            - matchon:
+                - label: SymptomID
+                  value: 4019
+                - field: type
+                  value: Critical
+          notifiers:
+            - objectscale-srs
         - description: "Hard quota exceeded for this bucket"
-          matchon:
-            - label: SymptomID
-              value: DEOS-1006
+          name: "BucketHardQuota"
+          defaultAutoClearTimeOut: 60
+          issueCategory: Auto
+          matchOnList:
+            - matchon:
+                - label: SymptomID
+                  value: 1006
+                - field: type
+                  value: Error
+          notifiers:
+            - objectscale-srs
+        - description: "Memory table size for process is less than specified threshold"
+          name: "ProcessMemoryTableFreeSpacePercent"
+          defaultAutoClearTimeOut: 60
+          issueCategory: Auto
+          matchOnList:
+            - matchon:
+                - label: SymptomID
+                  value: 1354
+                - field: type
+                  value: Error
+          notifiers:
+            - objectscale-srs
+        - description: "SSD read cache auto clean up failed when capacity full and fall back to memory cache"
+          name: "SSDReadCacheCapacityFailure"
+          defaultAutoClearTimeOut: 60
+          issueCategory: Auto
+          matchOnList:
+            - matchon:
+                - label: SymptomID
+                  value: 1392
+                - field: type
+                  value: Error
           notifiers:
             - objectscale-srs
     eventRemedies: |-
       symptoms:
-        - symptomid: DEOS-1006
+        - symptomid: 1006
           description: Hard quota exceeded for this bucket
           remedies:
             - Free up space in the bucket
+        - symptomid: 4019
+          description: No data is pushed to the monitoring framework for the last 30 minutes
+          remedies:
+            - KB https://support.emc.com/kb/536249
+        - symptomid: 1354
+          description: Memory table size for process is less than specified threshold
+          remedies:
+            - KB https://support.emc.com/kb/530081
     health: |-
       spec:
         healthchecks:

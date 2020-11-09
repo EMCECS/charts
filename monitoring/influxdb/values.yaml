@@ -33,6 +33,8 @@ global:
 
   performanceProfile: "Small"
   started: true
+  monitoring:
+    enabled: true
 
 
 disable_recovery: false

@@ -2,7 +2,7 @@
 apiVersion: atlas.dellemc.com/v1beta1
 kind: AtlasCluster
 metadata:
-  name: iamsvc-atlas
+  name: "{{ .Release.Name }}-iam-atlas"
 spec:
   replicas: {{ .Values.atlas.replicaCount }}
   image:

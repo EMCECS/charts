@@ -52,23 +52,6 @@ tests:
     - equal:
         path: spec.storageServer.image.pullPolicy
         value: IfNotPresent
-  # when we have global SC settin
-  - it: should monitoring components not be deployed when advanced metrics is off
-    set:
-      global.monitoring.enabled: false
-      features.enableAdvancedStatistics: false
-    asserts:
-    - equal:
-        path: spec.enableAdvancedStatistics
-        value: false
-  - it: should monitoring components be deployed when advanced metrics is on
-    set:
-      global.monitoring.enabled: false
-      features.enableAdvancedStatistics: true
-    asserts:
-    - equal:
-        path: spec.enableAdvancedStatistics
-        value: true
   - it: should customize SC for all persistance fields
     set:
       global.monitoring.enabled: false
@@ -377,3 +360,19 @@ tests:
     - equal:
         path: spec.managementGateway.tls.certificate
         value: {}
+  - it: eventsvc should have EVENTSVC_APP_NAME env variable
+    set:
+      global.monitoring.enabled: false
+    asserts:
+    - equal:
+        path: spec.event.pod.env[0].name
+        value: EVENTSVC_APP_NAME
+    - equal:
+        path: spec.event.pod.env[0].value
+        value: RELEASE-NAME
+    - equal:
+        path: spec.event.pod.env[1].name
+        value: NAMESPACE
+    - equal:
+        path: spec.event.pod.env[1].value
+        value: NAMESPACE

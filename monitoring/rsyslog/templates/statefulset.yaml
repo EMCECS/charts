@@ -9,6 +9,8 @@
 # it is provided by or on behalf of Dell Inc. or its subsidiaries.
 #
 #
+{{- $rsyslog_data_dir := print (include "rsyslog.fullname" .) "-data" }}
+{{- $telegraf_custom_config := print (include "rsyslog.fullname" .) "-telegraf-sidecar-custom-config" }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -45,6 +47,7 @@ spec:
                 values:
                 - {{ template "rsyslog.fullname" . }}
             topologyKey: "kubernetes.io/hostname"
+{{ include "common-lib.telegraf_sidecar_spec_options" . | indent 6 }}
       containers:
       - name: {{ .Chart.Name }}
         image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
@@ -55,7 +58,7 @@ spec:
         resources:
 {{ toYaml .Values.resources | indent 10 }}
         volumeMounts:
-        - name: {{ template "rsyslog.fullname" . }}-data
+        - name: {{ $rsyslog_data_dir }}
           mountPath: {{ .Values.config.storage_directory }}
         - mountPath: /etc/rsyslog.conf
           name: config
@@ -79,7 +82,7 @@ spec:
           - name: LOGS_SIZE_LOW_WATERMARK
             value: "{{ .Values.config.logs_size_low_watermark }}"
         volumeMounts:
-        - name: {{ template "rsyslog.fullname" . }}-data
+        - name: {{ $rsyslog_data_dir }}
           mountPath: {{ .Values.config.storage_directory }}
         - mountPath: /etc/cron.d
           name: cron-config
@@ -97,6 +100,7 @@ spec:
           subPath: cleanup_logs
         - mountPath: /crash-dump
           name: crash-dump
+{{ include "common-lib.telegraf_sidecar" (dict "top" . "volumeName" $rsyslog_data_dir "customConfig" true) | indent 6 }}
     {{- with .Values.tolerations }}
       tolerations:
 {{ toYaml . | indent 8 }}
@@ -118,13 +122,14 @@ spec:
       - name: crash-dump
         emptyDir: {}
       {{- if (not .Values.persistence.enabled ) }}
-      - name: {{ template "rsyslog.fullname" . }}-data
+      - name: {{ $rsyslog_data_dir }}
         emptyDir: {}
       {{- end }}
+{{ include "common-lib.telegraf_sidecar_volume" (dict "top" . "customConfig" $telegraf_custom_config ) | indent 6 }}
 {{- if .Values.persistence.enabled }}
   volumeClaimTemplates:
   - metadata:
-      name: {{ template "rsyslog.fullname" . }}-data
+      name: {{ $rsyslog_data_dir }}
       annotations:
       {{- range $key, $value := .Values.persistence.annotations }}
         {{ $key }}: "{{ $value }}"

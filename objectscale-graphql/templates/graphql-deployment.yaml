@@ -38,8 +38,21 @@ spec:
       serviceAccountName: objectscale-api
       containers:
       - name: objectscale-graphql
+{{- if .Values.debug}}
+        image: {{ .Values.global.registry }}/{{ .Values.image.repository }}-debug:{{ default .Values.tag .Values.image.tag }}
+{{- else }}
         image: {{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ default .Values.tag .Values.image.tag }}
+{{- end }}
         imagePullPolicy: {{ default .Values.pullPolicy .Values.image.pullPolicy }}
+{{- if .Values.debug}}
+        ports:
+        - containerPort: 40000
+          name: debug
+          protocol: TCP 
+        securityContext:
+          capabilities:
+            add: ["SYS_PTRACE"]
+{{- end }}
         env:
         - name: OBJSTORE_AVAILABLE_VERSIONS
           value: {{ .Values.objectStoreAvailableVersions | toJson | quote }}

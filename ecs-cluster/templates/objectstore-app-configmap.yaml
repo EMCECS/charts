@@ -81,33 +81,7 @@ data:
             - KB https://support.emc.com/kb/530081
     health: |-
       spec:
-        healthchecks:
-          fieldcolumns:
-            - name: deos-hc
-              fields:
-              - name: name
-                type: string
-              - name: description
-                type: string
-              - name: enabled
-                type: boolean
-              - name: schedule
-                type: string
-              - name: latestSuccess
-                type: date
-              - name: latestFailure
-                type: date
-              - name: message
-                type: string
-          name: objectstore-healthchecks
-        healthcheckstatus:
-          deos-hc:
-            overview: none
-            rows:
-            - name:
-              description:
-              enabled: true
-              schedule: Every 6 hours
-              latestSuccess:
-              latestFailure:
-              message:
+        - name: objectstore-healthcheck
+          container: objectscale/deos-hc:0.53.0
+          schedule: "0 */6 * * *"
+          timelimit: "5m"

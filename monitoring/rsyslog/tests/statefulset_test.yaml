@@ -11,7 +11,7 @@
 #
 suite: test statefulset
 templates:
-  - statefuldaemonset.yaml
+  - statefulset.yaml
   - configmap.yaml
 tests:
   - it: telegraf sidecar container

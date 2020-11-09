@@ -12,8 +12,8 @@
 {{- $rsyslog_data_dir := print (include "rsyslog.fullname" .) "-data" }}
 {{- $telegraf_custom_config := print (include "rsyslog.fullname" .) "-telegraf-sidecar-custom-config" }}
 ---
-apiVersion: stateful.ecs.dellemc.com/v1alpha1
-kind: StatefulDaemonSet
+apiVersion: apps/v1
+kind: StatefulSet
 metadata:
   name: {{ template "rsyslog.fullname" . }}
   labels:
@@ -22,7 +22,6 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
   serviceName: {{ template "rsyslog.fullname" . }}
-  servicePort: {{ .Values.service.bind_address }}
   replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
@@ -36,6 +35,18 @@ spec:
         # This means that if the configmap changes, the deployment will be rolled
         checksum/config: {{ include (print .Template.BasePath "/configmap.yaml") . | sha256sum }}
     spec:
+      affinity:
+        # Use pod anti-affinity rules to deploy statefulset pods one-per-node.
+        # (like DaemonSet pods)
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: "app.kubernetes.io/name"
+                operator: In
+                values:
+                - {{ template "rsyslog.fullname" . }}
+            topologyKey: "kubernetes.io/hostname"
 {{ include "common-lib.telegraf_sidecar_spec_options" . | indent 6 }}
       containers:
       - name: {{ .Chart.Name }}

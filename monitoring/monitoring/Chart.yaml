@@ -41,9 +41,6 @@ dependencies:
   - name: throttler
     repository: "file://../throttler"
     version: 0.53.0
-  - name: statefuldaemonset-operator
-    repository: "file://../../statefuldaemonset-operator"
-    version: 0.53.0
   - name: rsyslog
     repository: "file://../rsyslog"
     version: 0.53.0

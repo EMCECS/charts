@@ -67,8 +67,13 @@ decksver:
 		echo "Setting version $$DECKSVER in $$CHART" ;\
 		yq w -i $$CHART/Chart.yaml appVersion $${DECKSVER} ; \
 		yq w -i $$CHART/Chart.yaml version $${DECKSVER} ; \
-		echo "---\n`cat $$CHART/Chart.yaml`" > $$CHART/Chart.yaml ; \
+		echo -e "---\n`cat $$CHART/Chart.yaml`" > $$CHART/Chart.yaml ; \
 		sed -i -e "0,/^tag.*/s//tag: $${DECKSVER}/"  $$CHART/values.yaml; \
+	done ;
+
+	for CHART in ${FLEXCHARTS}; do  \
+		echo "Setting decs dep version $$FLEXVER in $$CHART" ;\
+		sed -i -e "/no_auto_change__decks_auto_change/s/version:.*/version: ${DECKSVER} # no_auto_change__decks_auto_change/g"  $$CHART/Chart.yaml; \
 	done ;
 
 flexver:
@@ -82,8 +87,8 @@ flexver:
 	for CHART in ${FLEXCHARTS}; do  \
 		echo "Setting version $$FLEXVER in $$CHART" ;\
 		yq w -i $$CHART/Chart.yaml appVersion $${FLEXVER} ; \
-		yq w -i $$CHART/Chart.yaml version $${FLEXVER} ; \
-		echo "---\n`cat $$CHART/Chart.yaml`" > $$CHART/Chart.yaml ; \
+		sed -i -e "/no_auto_change/!s/version:.*/version: ${FLEXVER}/g"  $$CHART/Chart.yaml; \
+		echo -e "---\n`cat $$CHART/Chart.yaml`" > $$CHART/Chart.yaml ; \
 		sed -i -e "0,/^tag.*/s//tag: $${FLEXVER}/"  $$CHART/values.yaml; \
 	done ;
 

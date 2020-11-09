@@ -11,11 +11,11 @@ maintainers:
     url: http://dellemc.com
 dependencies:
   - name: zookeeper-operator
-    version: 0.2.7
+    version: 0.2.7 # no_auto_change
     repository: file://../zookeeper-operator
     condition: zookeeper.enabled
   - name: atlas-operator
-    version: 0.27.0
+    version: 0.27.0 # no_auto_change
     repository: file://../atlas-operator
     condition: atlas.enabled
   - name: objectscale-monitoring
@@ -27,14 +27,14 @@ dependencies:
     repository: file://../iam
     condition: iam.enabled
   - name: service-pod
-    version: 2.0.53
+    version: 2.0.54 # no_auto_change__decks_auto_change
     condition: servicePod.enabled
     repository: file://../service-pod
   - name: pravega-operator
-    version: 0.5.1
+    version: 0.5.1 # no_auto_change
     repository: file://../pravega-operator
     condition: pravega.enabled
   - name: bookkeeper-operator
-    version: 0.1.2
+    version: 0.1.2 # no_auto_change
     repository: file://../bookkeeper-operator
     condition: bookkeeper.enabled

@@ -13,45 +13,29 @@ global:
   # registry: harbor.lss.emc.com/ecs
   registry: emccorp
 
-  # Default: true == Watch ALL namespaces
-  watchAllNamespaces: true
-
   # Platform:
   platform: Default
+
 
 # The default docker tag and pull policy for the DECKS
 tag: 2.0.53
 pullPolicy: IfNotPresent
 
+image:
+  repository: decks-support-store
+  version: 2.0.0
+  pullPolicy: IfNotPresent
+persistentVolume:
+# storageClassName for PVC
+  size: 200Gi
+containerPort: 7443
+service:
+  type: ClusterIP
+  port: 7443
+  targetPort: 7443
+
 # The number of replicas for the DECKS deployment
 replicaCount: 1
-
-# The image configured for the DECKS
-image:
-  repository: decks
-  # tag: stable
-  # pullPolicy: IfNotPresent
-
-## Allow callers to bypass creating app resource
-createdecksappResource: true
-
-#  username: admin
-#  password: ChangeMe
-
-# decks helm test configuration
-# this image is the test image for DECKS. It will run as "helm test" to verify the DECKS functionality as a black box
-helmTestConfig:
-  testImage:
-    repository: decks-testapp
-    # tag: stable
-    # pullPolicy: IfNotPresent
-  srsGateway:
-    # The login setting configures the user/password credentials
-    # for registering a product with the test SRS gateway
-    # login: "testuser123@example.com:MyFavePassword"
-    # The gateway hostname can be an IP address or an FQDN
-    # hostname: "10.11.12.13"
-    port: 9443
 
 # We usually recommend not to specify default resources and to leave this as a conscious
 # choice for the user. This also increases chances charts run on environments with little
@@ -70,7 +54,3 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-
-### new for decks 1.1 - replace webdav with nginx based supportStore
-supportStore:
-  enabled: true

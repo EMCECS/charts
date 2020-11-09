@@ -55,3 +55,6 @@ dependencies:
   - name: telegraf-sidecar
     version: 0.53.0
     repository: file://../telegraf-sidecar
+  - name: statefuldaemonset-operator
+    repository: "file://../../statefuldaemonset-operator"
+    version: 0.53.0

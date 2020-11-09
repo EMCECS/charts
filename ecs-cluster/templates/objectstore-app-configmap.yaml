@@ -25,6 +25,8 @@ data:
             - matchon:
                 - label: SymptomID
                   value: 4019
+                - field: type
+                  value: Critical
           notifiers:
             - objectscale-supportassist-ese
         - description: "Hard quota exceeded for this bucket"
@@ -35,6 +37,8 @@ data:
             - matchon:
                 - label: SymptomID
                   value: 1006
+                - field: type
+                  value: Error
           notifiers:
             - objectscale-supportassist-ese
         - description: "Memory table size for process is less than the specified threshold"
@@ -45,6 +49,8 @@ data:
             - matchon:
                 - label: SymptomID
                   value: 1354
+                - field: type
+                  value: Error
           notifiers:
             - objectscale-srs
         - description: "SSD read cache auto clean up failed when capacity full and fall back to memory cache"
@@ -55,6 +61,8 @@ data:
             - matchon:
                 - label: SymptomID
                   value: 1392
+                - field: type
+                  value: Error
           notifiers:
             - objectscale-supportassist-ese
     eventRemedies: |-

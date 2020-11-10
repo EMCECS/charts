@@ -1,0 +1,20 @@
+{{- range $i, $svc := list "blob" "cm" "control" "diag" "event" "geo" "metering" "resource" "rm" "s3" "sr" "ssm" }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{$.Release.Name}}-{{$svc}}-log4j2
+  namespace: {{$.Release.namespace}}
+  labels:
+    app.kubernetes.io/name: {{$.Release.Name}}
+    app.kubernetes.io/version: {{$.Values.tag}}
+    app.kubernetes.io/instance: {{$.Release.Name}}
+    app.kubernetes.io/managed-by: {{$.Release.Service}}
+    helm.sh/chart: {{$.Chart.Name}}-{{$.Chart.Version | replace "+" "_"}}
+    product: objectscale
+    release: {{$.Release.Name}}
+  annotations:
+    com.dellemc.kahm.subscribed: "true"
+data:
+{{ ($.Files.Glob (print "svc-configs/" $svc "/*")).AsConfig | indent 2 }}
+{{- end }}

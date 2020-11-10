@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration monitorInterval="60" shutdownHook="disable">
+    <CustomLevels>
+        <CustomLevel name="DEBUG_TREE" intLevel="520"/>
+        <CustomLevel name="DEBUG_SYNC" intLevel="540"/>
+        <CustomLevel name="DEBUG_PAGE" intLevel="560"/>
+        <CustomLevel name="DEBUG_ALL" intLevel="580"/>
+    </CustomLevels>
+    <Appenders>
+        <RollingFile name="R" fileName="${sys:product.home}/logs/controlsvc.log"
+                     filePattern="${sys:product.home}/logs/controlsvc.log.%d{yyyyMMdd-HHmmss}.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="P" fileName="${sys:product.home}/logs/controlsvc-perf-counter.log"
+                     filePattern="${sys:product.home}/logs/controlsvc-perf-counter.log.%d{yyyyMMdd-HHmmss}.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="E" fileName="${sys:product.home}/logs/controlsvc-error.log"
+                     filePattern="${sys:product.home}/logs/controlsvc-error.log.%d{yyyyMMdd-HHmmss}.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="M" fileName="${sys:product.home}/logs/controlsvc-stats.log"
+                     filePattern="${sys:product.home}/logs/controlsvc-stats.log.%d{yyyyMMdd-HHmmss}.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="O" fileName="${sys:product.home}/logs/controlsvc-ownership.log"
+                     filePattern="${sys:product.home}/logs/controlsvc-ownership.log.%d{yyyyMMdd-HHmmss}.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="N" fileName="${sys:product.home}/logs/controlsvc-georeplayer.log"
+                     filePattern="${sys:product.home}/logs/controlsvc-georeplayer.log.%d{yyyyMMdd-HHmmss}.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="G" fileName="${sys:product.home}/logs/controlsvc-chunk-reclaim.log"
+                     filePattern="${sys:product.home}/logs/controlsvc-chunk-reclaim.log.%d{yyyyMMdd-HHmmss}.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="B" fileName="${sys:product.home}/logs/controlsvc-zk.log"
+                     filePattern="${sys:product.home}/logs/controlsvc-zk.log.%d{yyyyMMdd-HHmmss}.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="L" fileName="${sys:product.home}/logs/controlsvc-chunk-lifecycle.log"
+                     filePattern="${sys:product.home}/logs/controlsvc-chunk-lifecycle.log.%d{yyyyMMdd-HHmmss}.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="ObjectGC" fileName="${sys:product.home}/logs/controlsvc-object-gc.log"
+                     filePattern="${sys:product.home}/logs/controlsvc-object-gc.log.%d{yyyyMMdd-HHmmss}.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="ObjectGCIDs" fileName="${sys:product.home}/logs/controlsvc-objectgc-ids.log"
+                     filePattern="${sys:product.home}/logs/controlsvc-objectgc-ids.log.%d{yyyyMMdd-HHmmss}.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="D" fileName="${sys:product.home}/logs/controlsvc-btree-dump.log"
+                     filePattern="${sys:product.home}/logs/controlsvc-btree-dump.log.%d{yyyyMMdd-HHmmss}.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <Syslog name="alertsLogger" host="localhost" port="514" protocol="UDP" facility="LOCAL7"/>
+
+        <Async name="asyncR" includeLocation="true">
+            <AppenderRef ref="R"/>
+        </Async>
+        <Async name="asyncE" includeLocation="true">
+            <AppenderRef ref="E"/>
+        </Async>
+        <Async name="asyncP" includeLocation="true">
+            <AppenderRef ref="P"/>
+        </Async>
+        <Async name="asyncM" includeLocation="true">
+            <AppenderRef ref="M"/>
+        </Async>
+        <Async name="asyncO" includeLocation="true">
+            <AppenderRef ref="O"/>
+        </Async>
+        <Async name="asyncG" includeLocation="true">
+            <AppenderRef ref="G"/>
+        </Async>
+        <Async name="asyncN" includeLocation="true">
+            <AppenderRef ref="N"/>
+        </Async>
+        <Async name="asyncB" includeLocation="true">
+            <AppenderRef ref="B"/>
+        </Async>
+        <Async name="asyncL" includeLocation="true">
+            <AppenderRef ref="L"/>
+        </Async>
+        <Async name="asyncD" includeLocation="true">
+            <AppenderRef ref="D"/>
+        </Async>
+
+        <Async name="asyncObjectGC" includeLocation="true">
+            <AppenderRef ref="ObjectGC"/>
+        </Async>
+        <Async name="asyncObjectGCIDs" includeLocation="true">
+            <AppenderRef ref="ObjectGCIDs"/>
+        </Async>
+
+    </Appenders>
+
+    <Loggers>
+        <Logger name="org.apache.zookeeper" level="INFO"/>
+        <Logger name="org.perf4j.TimingLogger" level="ERROR"/>
+
+        <Logger name="com.emc.storageos.data.object.StorageStats.MeteringCollector" level="DEBUG"/>
+
+        <Logger name="com.emc.storageos.data.object.stats.BandwidthStatsAggregator" level="DEBUG"/>
+        <Logger name="com.emc.storageos.data.object.directoryService.impl.PaxosClient" level="DEBUG"/>
+        <Logger name="com.emc.storageos.data.object.directoryService.impl.PaxosOperations" level="DEBUG"/>
+
+        <Logger name="org.apache.http.impl.conn.PoolingHttpClientConnectionManager" level="DEBUG" additivity="false">
+            <AppenderRef ref="asyncR"/>
+        </Logger>
+
+        <Logger name="com.emc.storageos.objcontrol.service.impl.resource.bucket.BucketService" level="DEBUG"/>
+
+        <Logger name="com.emc.storageos.data.object.impl.objectgc" level="INFO"/>
+
+        <Logger name="com.emc.storageos.data.stat.service.impl.cm.stress" level="DEBUG"/>
+
+        <Logger name="com.emc.storageos.objcontrol.object.shared.PerformanceCounter" level="DEBUG" additivity="false">
+            <AppenderRef ref="asyncP"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.monitoring.MonitoringWorker" level="INFO">
+            <AppenderRef ref="asyncM"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.zkstore" level="INFO">
+            <AppenderRef ref="asyncB"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.zkbtree" level="INFO">
+            <AppenderRef ref="asyncB"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.ownership.impl" level="INFO" additivity="false">
+            <AppenderRef ref="asyncO"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.gc" level="DEBUG" additivity="false">
+            <AppenderRef ref="asyncG"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.gc.reference" level="INFO" additivity="false">
+            <AppenderRef ref="asyncG"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.gc.RepositoryReferenceTable" level="INFO" additivity="false">
+            <AppenderRef ref="asyncG"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.metering.journalparser" level="INFO" additivity="false">
+            <AppenderRef ref="asyncG"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.gc.journalparser" level="INFO" additivity="false">
+            <AppenderRef ref="asyncG"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.spacereclamation.rrtable.bgOps.partialgc" level="DEBUG">
+            <AppenderRef ref="asyncG"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.spacereclamation.rrtable.RRTable" level="INFO">
+            <AppenderRef ref="asyncG"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.metering.mttable" level="INFO" additivity="false">
+            <AppenderRef ref="asyncR"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.bplustree.gc" level="INFO" additivity="false">
+            <AppenderRef ref="asyncG"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.geo" level="DEBUG" additivity="false">
+            <AppenderRef ref="asyncN"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.services.util.AlertsLogger" level="WARN" additivity="false">
+            <AppenderRef ref="alertsLogger"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.gc.ChunkLifecycleLogger" level="INFO" additivity="false">
+            <AppenderRef ref="asyncL"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="LoggerObjectGCIDs" level="INFO" additivity="false">
+            <AppenderRef ref="asyncObjectGCIDs"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.objectgc" level="INFO" additivity="false">
+            <AppenderRef ref="asyncObjectGC"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+
+        <Logger name="com.emc.storageos.data.object.bplustree" level="INFO" additivity="false">
+            <AppenderRef ref="asyncD"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+
+        <Logger name="com.emc.storageos.data.object.impl.file.directoryTable" level="INFO" additivity="false">
+            <AppenderRef ref="asyncD"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+
+        <Logger name="org.apache.http" level="WARN" additivity="false">
+            <AppenderRef ref="asyncR" level="WARN"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+
+        <Root level="info">
+            <AppenderRef ref="asyncR"/>
+            <AppenderRef ref="asyncE" level="error"/>
+        </Root>
+    </Loggers>
+
+</Configuration>

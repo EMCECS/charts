@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration monitorInterval="60" shutdownHook="disable">
+    <CustomLevels>
+        <CustomLevel name="DEBUG_TREE" intLevel="520"/>
+        <CustomLevel name="DEBUG_SYNC" intLevel="540"/>
+        <CustomLevel name="DEBUG_PAGE" intLevel="560"/>
+        <CustomLevel name="DEBUG_ALL" intLevel="580"/>
+    </CustomLevels>
+    <Appenders>
+        <RollingFile name="R" fileName="${sys:product.home}/logs/blobsvc.log"
+                     filePattern="${sys:product.home}/logs/blobsvc.log.%d{yyyyMMdd-HHmmss}.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="P" fileName="${sys:product.home}/logs/blobsvc-perf-counter.log"
+                     filePattern="${sys:product.home}/logs/blobsvc-perf-counter.log.%d{yyyyMMdd-HHmmss}.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="E" fileName="${sys:product.home}/logs/blobsvc-error.log"
+                     filePattern="${sys:product.home}/logs/blobsvc-error.log.%d{yyyyMMdd-HHmmss}.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="M" fileName="${sys:product.home}/logs/blobsvc-stats.log"
+                     filePattern="${sys:product.home}/logs/blobsvc-stats.log.%d{yyyyMMdd-HHmmss}.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="O" fileName="${sys:product.home}/logs/blobsvc-ownership.log"
+                     filePattern="${sys:product.home}/logs/blobsvc-ownership.log.%d{yyyyMMdd-HHmmss}.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="Z" fileName="${sys:product.home}/logs/blobsvc-logbasedmetering.log"
+                     filePattern="${sys:product.home}/logs/blobsvc-logbasedmetering.log.%d{yyyyMMdd-HHmmss}.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="N" fileName="${sys:product.home}/logs/blobsvc-georeplayer.log"
+                     filePattern="${sys:product.home}/logs/blobsvc-georeplayer.log.%d{yyyyMMdd-HHmmss}.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="G" fileName="${sys:product.home}/logs/blobsvc-chunk-reclaim.log"
+                     filePattern="${sys:product.home}/logs/blobsvc-chunk-reclaim.log.%d{yyyyMMdd-HHmmss}.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="T" fileName="${sys:product.home}/logs/blobsvc-monitor.log"
+                     filePattern="${sys:product.home}/logs/blobsvc-monitor.log.%d{yyyyMMdd-HHmmss}.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="L" fileName="${sys:product.home}/logs/blobsvc-chunk-lifecycle.log"
+                     filePattern="${sys:product.home}/logs/blobsvc-chunk-lifecycle.log.%d{yyyyMMdd-HHmmss}.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="D" fileName="${sys:product.home}/logs/blobsvc-btree-dump.log"
+                     filePattern="${sys:product.home}/logs/blobsvc-btree-dump.log.%d{yyyyMMdd-HHmmss}.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="C" fileName="${sys:product.home}/logs/blobsvc-metering-reconstruction.log"
+                     filePattern="${sys:product.home}/logs/blobsvc-metering-reconstruction.log.%d{yyyyMMdd-HHmmss}.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="S" fileName="${sys:product.home}/logs/blobsvc-btree-ssd-cache.log"
+                     filePattern="${sys:product.home}/logs/blobsvc-btree-ssd-cache.log.%d{yyyyMMdd-HHmmss}.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="AKKA_BFW" fileName="${sys:product.home}/logs/blobsvc-akkabfw.log"
+                     filePattern="${sys:product.home}/logs/blobsvc-akkabfw.log.%d{yyyyMMdd-HHmmss}.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %X{akkaSource} %5p %c{1} %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB" />
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="RCC" fileName="${sys:product.home}/logs/blobsvc-refresh-chunk-cache.log"
+                     filePattern="${sys:product.home}/logs/blobsvc-refresh-chunk-cache.log.%d{yyyyMMdd-HHmmss}.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <Syslog name="alertsLogger" host="localhost" port="514" protocol="UDP" facility="LOCAL7"/>
+
+        <Async name="asyncR" includeLocation="true">
+            <AppenderRef ref="R"/>
+        </Async>
+        <Async name="asyncE" includeLocation="true">
+            <AppenderRef ref="E"/>
+        </Async>
+        <Async name="asyncP" includeLocation="true">
+            <AppenderRef ref="P"/>
+        </Async>
+        <Async name="asyncM" includeLocation="true">
+            <AppenderRef ref="M"/>
+        </Async>
+        <Async name="asyncO" includeLocation="true">
+            <AppenderRef ref="O"/>
+        </Async>
+        <Async name="asyncG" includeLocation="true">
+            <AppenderRef ref="G"/>
+        </Async>
+        <Async name="asyncT" includeLocation="true">
+            <AppenderRef ref="T"/>
+        </Async>
+        <Async name="asyncN" includeLocation="true">
+            <AppenderRef ref="N"/>
+        </Async>
+        <Async name="asyncL" includeLocation="true">
+            <AppenderRef ref="L"/>
+        </Async>
+        <Async name="asyncD" includeLocation="true">
+            <AppenderRef ref="D"/>
+        </Async>
+        <Async name="asyncC" includeLocation="true">
+            <AppenderRef ref="C"/>
+        </Async>
+        <Async name="asyncS" includeLocation="true">
+            <AppenderRef ref="S"/>
+        </Async>
+        <Async name="asyncAkkaBfw" includeLocation="true">
+            <AppenderRef ref="AKKA_BFW"/>
+        </Async>
+        <Async name="asyncRCC" includeLocation="true">
+            <AppenderRef ref="RCC"/>
+        </Async>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="org.apache.zookeeper" level="INFO"/>
+        <Logger name="org.perf4j.TimingLogger" level="ERROR"/>
+        <Logger name="com.emc.storageos.data.object.ipc" level="DEBUG"/>
+        <Logger name="com.emc.storageos.data.object.directoryService.impl.PaxosClient" level="INFO"/>
+        <Logger name="com.emc.storageos.data.object.directoryService.impl.PaxosOperations" level="INFO"/>
+        <Logger name="com.emc.storageos.data.object.bplustree.BPlusTreeSSDCache" level="INFO">
+            <AppenderRef ref="asyncS"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.bplustree.BPlusTreeReadCache" level="INFO">
+            <AppenderRef ref="asyncS"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.bplustree.BPlusTreeCache" level="INFO">
+            <AppenderRef ref="asyncS"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.bplustree.rocksdb.ColumnFamilies" level="INFO">
+            <AppenderRef ref="asyncS"/>
+        </Logger>
+
+        <Logger name="com.emc.storageos.services.util.AlertsLogger" level="WARN" additivity="false">
+            <AppenderRef ref="alertsLogger"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+
+        <Logger name="com.emc.storageos.data.object.impl.TaskScheduler" level="INFO" additivity="false">
+            <AppenderRef ref="asyncT"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.utils.ProcessMonitor" level="INFO" additivity="false">
+            <AppenderRef ref="asyncT"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.communicator.nioimpl.NioCollectThreadStats" level="INFO" additivity="false">
+            <AppenderRef ref="asyncT"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+
+        <Logger name="com.emc.storageos.objcontrol.object.shared.PerformanceCounter" level="DEBUG" additivity="false">
+            <AppenderRef ref="asyncP"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+
+        <Logger name="com.emc.storageos.objcontrol.object.shared.SensitivePerformanceCounter" level="DEBUG" additivity="false">
+            <AppenderRef ref="asyncP"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+
+        <Logger name="com.emc.storageos.data.monitoring.MonitoringWorker" level="INFO">
+            <AppenderRef ref="asyncM"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.buffer" level="INFO">
+            <AppenderRef ref="asyncM"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.ownership.impl" level="INFO" additivity="false">
+            <AppenderRef ref="asyncO"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.LogBasedMetering" level="INFO" additivity="false">
+            <AppenderRef ref="Z"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.StorageStats.reconstruction.OBMeteringCollectorTaskScanner" level="DEBUG" additivity="false">
+            <AppenderRef ref="asyncC"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.geo" level="INFO" additivity="false">
+            <AppenderRef ref="asyncN"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.gc" level="DEBUG" additivity="false">
+            <AppenderRef ref="asyncG"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+
+        <Logger name="com.emc.storageos.data.object.impl.gc.reference" level="INFO" additivity="false">
+            <AppenderRef ref="asyncG"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.gc.RepositoryReferenceTable" level="INFO" additivity="false">
+            <AppenderRef ref="asyncG"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.bplustree.gc" level="INFO" additivity="false">
+            <AppenderRef ref="asyncG"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.gc.ChunkLifecycleLogger" level="INFO" additivity="false">
+            <AppenderRef ref="asyncL"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+
+        <Logger name="org.apache.http" level="WARN" additivity="false">
+            <AppenderRef ref="asyncR" level="WARN"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+
+        <Logger name="org.apache.http.impl.conn.PoolingHttpClientConnectionManager" level="DEBUG" additivity="false">
+            <AppenderRef ref="asyncR"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+
+
+
+
+        <!-- BTree dump section -->
+        <Logger name="com.emc.storageos.data.object.bplustree" level="INFO" additivity="false">
+            <AppenderRef ref="asyncD"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.file.directoryTable.cleanup" level="INFO" additivity="false">
+            <AppenderRef ref="asyncD"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.file.directoryTable.BPlusTreeIndexStore" level="INFO" additivity="false">
+            <AppenderRef ref="asyncD"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.file.directoryTable.DirectoryTable" level="INFO" additivity="false">
+            <AppenderRef ref="asyncD"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.file.directoryTable.DirectoryTableRecordManager" level="INFO" additivity="false">
+            <AppenderRef ref="asyncD"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.file.directoryTable.DirectoryTableRecordManagerImpl" level="INFO" additivity="false">
+            <AppenderRef ref="asyncD"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.file.directoryTable.DTChunkRotationCallback" level="INFO" additivity="false">
+            <AppenderRef ref="asyncD"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.file.directoryTable.IndexStore" level="INFO" additivity="false">
+            <AppenderRef ref="asyncD"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.file.directoryTable.IndexStorePeriodicalSealer" level="INFO" additivity="false">
+            <AppenderRef ref="asyncD"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.file.directoryTable.JournalIterator" level="INFO" additivity="false">
+            <AppenderRef ref="asyncD"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.file.directoryTable.JournalReplayer" level="INFO" additivity="false">
+            <AppenderRef ref="asyncD"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.file.directoryTable.MemoryTable" level="INFO" additivity="false">
+            <AppenderRef ref="asyncD"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.file.directoryTable.MemoryTable" level="INFO" additivity="false">
+            <AppenderRef ref="asyncD"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <!-- End of BTree dump section -->
+
+        <Logger name="akka.actor" level="warning" additivity="false">
+            <AppenderRef ref="AKKA"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.akkaimpl" level="INFO"  additivity="false">
+            <AppenderRef ref="asyncAkkaBfw"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+
+        <Logger name="com.emc.storageos.data.object.client.ReportBlockErrorTask.refreshChunkInfo" level="WARN" additivity="false">
+            <AppenderRef ref="asyncRCC"/>
+        </Logger>
+
+        <Root level="info">
+            <AppenderRef ref="asyncR"/>
+            <AppenderRef ref="asyncE" level="error"/>
+        </Root>
+    </Loggers>
+
+</Configuration>

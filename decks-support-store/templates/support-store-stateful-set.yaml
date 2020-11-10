@@ -46,19 +46,11 @@ spec:
             secretKeyRef:
               name: decks-support-store-secret
               key: salt
-        image: {{ .Values.global.registry }}/{{.Values.supportStore.image.repository}}:{{default .Values.tag .Values.supportStore.image.tag}}
-        {{- if .Values.supportStore }}
-        imagePullPolicy: {{ default .Values.pullPolicy .Values.supportStore.image.pullPolicy }}
-        {{- else }}
-        imagePullPolicy: IfNotPresent
-        {{- end}}
+        image: {{ .Values.global.registry }}/{{.Values.image.repository}}:{{default .Values.tag .Values.image.tag}}
+        imagePullPolicy: {{ default .Values.pullPolicy .Values.image.pullPolicy }}
         command: ["/usr/local/bin/run-nginx.sh"]
         ports:
-        {{- if .Values.supportStore }}
-        - containerPort: {{ .Values.supportStore.containerPort }}
-        {{- else }}
-        - containerPort: 7443
-        {{- end }}
+        - containerPort: {{ .Values.containerPort }}
         resources: {}
         volumeMounts:
         - mountPath: /opt/secure/data
@@ -70,13 +62,18 @@ spec:
           app: decks-support-store
           release: decks
         name: decks-support-store-claim0
+        namespace: {{ .Release.Namespace }}
       spec:
         accessModes:
         - ReadWriteOnce
-        {{- if .Values.storageClassName}}
-        storageClassName: {{.Values.storageClassName}}
+        {{- if .Values.persistentVolume.storageClassName}}
+        storageClassName: {{.Values.persistentVolume.storageClassName}}
         {{- end}}
         dataSource: null
         resources:
           requests:
+        {{- if .Values.persistentVolume.size}}
+            storage: {{ .Values.persistentVolume.size }} 
+        {{ else }}
             storage: 200Gi
+        {{- end}}

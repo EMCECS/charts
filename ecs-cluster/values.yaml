@@ -22,7 +22,7 @@ global:
     enabled: true
 
 # The default docker tag and pull policy for the ECS Cluster
-tag: 0.53.0
+tag: 0.54.0
 pullPolicy: IfNotPresent
 
 # Override the default number of replicas which taken according to performance profile for each service

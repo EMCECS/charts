@@ -250,21 +250,22 @@ monitoringver:
 	make -C ${MONITORING_DIR} ver PACKAGE_VERSION=${FULL_PACKAGE_VERSION}
 
 build-installer:
+	echo "Copy charts to container and build image"
+	docker pull asdrepo.isus.emc.com:8099/install-controller:green
+	docker create --name installer-container asdrepo.isus.emc.com:8099/install-controller:green
+	docker cp ./docs installer-container:/
+	docker commit installer-container asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)
+	docker push asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)
+
 	if [ "${GIT_BRANCH_ID}" == "master" ] ; then \
-		echo "Copy charts to container and build image" ; \
-		docker pull asdrepo.isus.emc.com:8099/install-controller:green ; \
-		docker create --name installer-container asdrepo.isus.emc.com:8099/install-controller:green ; \
-		docker cp ./docs installer-container:/docs ; \
-		docker commit installer-container asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID) ; \
-		docker push asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID) ; \
 		docker tag asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID) asdrepo.isus.emc.com:8099/install-controller:latest ; \
 		docker push asdrepo.isus.emc.com:8099/install-controller:latest ; \
-		docker rm installer-container ; \
-		docker rmi asdrepo.isus.emc.com:8099/install-controller:green ; \
 	else  \
 		echo "Do not build installer on non-master branch" ; \
  	fi
 
+	docker rm installer-container
+	docker rmi asdrepo.isus.emc.com:8099/install-controller:green
 
 tag-push-installer:
 	docker tag asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID) asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}

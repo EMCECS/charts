@@ -183,7 +183,7 @@ create-decks-app: create-temp-package
 	helm template --show-only templates/decks-app.yaml decks ../decks  -n ${NAMESPACE} \
 	--set global.platform=VMware \
 	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} \
-	--set global.registry=${REGISTRY} \
+	--set global.registry=${DECKS_REGISTRY} \
 	--set decks-support-store.persistentVolume.storageClassName=${STORAGECLASSNAME} \
         ${HELM_DECKS_ARGS} ${HELM_DECKS_SUPPORT_STORE_ARGS} \
 	-f values.yaml > ../${TEMP_PACKAGE}/yaml/decks-app.yaml;

@@ -12,13 +12,12 @@ metadata:
     app.kubernetes.io/managed-by: {{.Release.Service}}
     helm.sh/chart: {{.Chart.Name}}-{{.Chart.Version | replace "+" "_"}}
     release: {{.Release.Name}}
-
   annotations:
-    nautilus.dellemc.com/run-level: "5"
+    com.dellemc.kahm.subscribed: "true"
+    nautilus.dellemc.com/run-level: "15"
     nautilus.dellemc.com/chart-name: {{.Chart.Name}}
     nautilus.dellemc.com/chart-version: {{ .Chart.Version }}
     nautilus.dellemc.com/chart-values: {{ .Values | toJson | quote }}
-
 spec:
   selector:
     matchLabels:

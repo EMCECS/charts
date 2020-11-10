@@ -1,0 +1,61 @@
+suite: test leader role binding
+templates:
+  - leader_election_role_binding.yaml
+tests:
+  - it: should create a ClusterRoleBinding resource
+    asserts:
+      - isKind:
+          of: RoleBinding
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-statefuldaemonset-operator-leader-election-role-binding
+  - it: should create a RoleBinding resource in a namespace
+    set:
+      global.watchAllNamespaces: false
+    asserts:
+      - isKind:
+          of: RoleBinding
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-statefuldaemonset-operator-leader-election-role-binding
+  - it: should have labels
+    asserts:
+      - equal:
+          path: metadata.labels.app\.kubernetes\.io/name
+          value: RELEASE-NAME-statefuldaemonset-operator
+      - matchRegex:
+          path: metadata.labels.helm\.sh/chart
+          pattern: ^statefuldaemonset-operator-
+      - equal:
+          path: metadata.labels.app\.kubernetes\.io/instance
+          value: RELEASE-NAME
+  - it: should bind the ClusterRole to the default account
+    asserts:
+      - equal:
+          path: roleRef.kind
+          value: Role
+      - equal:
+          path: roleRef.name
+          value: RELEASE-NAME-statefuldaemonset-operator-leader-election-role
+      - equal:
+          path: subjects[0].kind
+          value: ServiceAccount
+      - equal:
+          path: subjects[0].name
+          value: statefuldaemonset-operator
+  - it: should bind the Role to the default account
+    set:
+      global.watchAllNamespaces: false
+    asserts:
+      - equal:
+          path: roleRef.kind
+          value: Role
+      - equal:
+          path: roleRef.name
+          value: RELEASE-NAME-statefuldaemonset-operator-leader-election-role
+      - equal:
+          path: subjects[0].kind
+          value: ServiceAccount
+      - equal:
+          path: subjects[0].name
+          value: statefuldaemonset-operator

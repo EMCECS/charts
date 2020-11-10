@@ -33,13 +33,14 @@ rules:
   verbs:
   - '*'
 - apiGroups:
-  - app.k8s.io 
+  - app.k8s.io
   resources:
   - "*"
   verbs:
   - "*"
 - apiGroups:
   - ""
+  - batch
   - extensions
   resources:
   - pods
@@ -52,6 +53,8 @@ rules:
   - secrets
   - applications
   - deployments
+  - jobs
+  - cronjobs
   verbs:
   - "*"
 - apiGroups:

@@ -14,6 +14,11 @@ FULL_PACKAGE_VERSION=${PACKAGE_VERSION}.0
 FLEXVER=${FULL_PACKAGE_VERSION}
 DECKSVER=2.${PACKAGE_VERSION}
 
+GIT_COMMIT_COUNT=$(shell git rev-list HEAD | wc -l)
+GIT_COMMIT_ID=$(shell git rev-parse HEAD)
+GIT_COMMIT_SHORT_ID=$(shell git rev-parse --short HEAD)
+GIT_BRANCH_ID=$(shell git rev-parse --abbrev-ref HEAD)
+
 # packaging
 MANAGER_MANIFEST    := objectscale-manager.yaml
 KAHM_MANIFEST       := kahm.yaml
@@ -243,3 +248,17 @@ monitoring-dep:
 
 monitoringver:
 	make -C ${MONITORING_DIR} ver PACKAGE_VERSION=${FULL_PACKAGE_VERSION}
+
+build-installer:
+	echo "Copy charts to container and build image"
+	docker pull asdrepo.isus.emc.com:8099/install-controller:green
+	docker create --name installer-container asdrepo.isus.emc.com:8099/install-controller:green
+	docker cp ./docs installer-container:/docs
+	docker commit installer-container asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)
+	docker push asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)
+	docker rm installer-container
+	docker rmi asdrepo.isus.emc.com:8099/install-controller:green
+
+tag-push-installer:
+	docker tag asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID) asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}
+	docker push asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}

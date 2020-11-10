@@ -80,7 +80,7 @@ decksver:
 		sed -i -e "0,/^tag.*/s//tag: ${DECKSVER}/"  $$CHART/values.yaml; \
 	done ;
 
-	for CHART in ${FLEXCHARTS}; do  \
+	for CHART in ${FLEXCHARTS} ${DECKSCHARTS}; do  \
 		echo "Setting decs dep version ${DECKSVER} in $$CHART" ;\
 		sed -i -e "/no_auto_change__decks_auto_change/s/version:.*/version: ${DECKSVER} # no_auto_change__decks_auto_change/g"  $$CHART/Chart.yaml; \
 	done ;

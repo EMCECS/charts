@@ -13,8 +13,7 @@ metadata:
     helm.sh/chart: {{$.Chart.Name}}-{{$.Chart.Version | replace "+" "_"}}
     product: objectscale
     release: {{$.Release.Name}}
-  annotations:
-    com.dellemc.kahm.subscribed: "true"
+
 data:
 {{ ($.Files.Glob (print "svc-configs/" $svc "/*")).AsConfig | indent 2 }}
 {{- end }}

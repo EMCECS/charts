@@ -187,7 +187,6 @@ create-manager-app: create-temp-package
 	--set iam.enabled=false ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
 	-f values.yaml > ../${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml;
 	sed -i 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
-	sed -i 's/\\"monitoring\\":{\\"enabled\\":false}/\\"monitoring\\":{\\"enabled\\":true}/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
 	sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
 	cat ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
 

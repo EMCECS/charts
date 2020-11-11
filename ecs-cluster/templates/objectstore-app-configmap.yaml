@@ -82,6 +82,6 @@ data:
     health: |-
       spec:
         - name: objectstore-healthcheck
-          container: objectscale/objectstore-connectivity:0.54.0
+          container: {{.Values.global.registry}}/objectstore-connectivity:{{.Values.tag}}
           schedule: "0 */6 * * *"
           timelimit: "5m"

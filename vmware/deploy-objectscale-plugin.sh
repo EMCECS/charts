@@ -125,4 +125,4 @@ echomsg dl
 echomsg "Adding the ObjectScale plugin for vSphere7"
 
 ## rest of the code below is built with vmware/vmware_pack.sh
-cat <<'EOF' | kubectl apply -f - 2>/dev/null
+cat <<'EOF' | kubectl apply -f -

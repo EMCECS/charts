@@ -49,20 +49,16 @@ deploymentDeadlineSeconds: 1200
 
 # Configuration parameters for topology spread and fault domain selection
 topology:
-  # The key of node labels. If two Nodes are labelled with this key and have
-  # identical values for that label, the scheduler treats both Nodes as being
-  # in the same topology. The scheduler tries to place a balanced number of
-  # Pods into each topology domain.
-  # toplogyKey: zone
-
-  # faultDomains:
-  #   faultDomainKey: zone
-  #   exclude:
+  # The node label key for topology spread and fault domains
+  # faultDomainKey: rack
+  # Fault domains to be excluded from resource scheduling
+  # excludedFaultDomains:
   #   - zone1
   #   - zone3
-  #   include:
-  #   - zone2
-  #   - zone4
+  # The nodes to be targed for resource scheduling
+  # nodeSelector:
+  #   key: row
+  #   value: 3
 
 # Different features of ECSCluster that can be enabled or disabled
 features:

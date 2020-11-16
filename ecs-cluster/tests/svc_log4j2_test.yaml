@@ -19,7 +19,7 @@ tests:
       global.monitoring.enabled: false
     asserts:
       - hasDocuments:
-          count: 14
+          count: 15
 
       - equal:
           path: metadata.name
@@ -146,3 +146,12 @@ tests:
           path: data.ssm-log4j2\.xml
           pattern: "ssm.log"
         documentIndex: 13
+
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-objectsvc-log4j2
+        documentIndex: 14
+      - matchRegex:
+          path: data.objectsvc-log4j2\.xml
+          pattern: "objectsvc.log"
+        documentIndex: 14

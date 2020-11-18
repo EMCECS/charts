@@ -30,7 +30,7 @@ SERVICE_ID           = objectscale
 REGISTRY             = objectscale
 DECKS_REGISTRY       = objectscale
 KAHM_REGISTRY        = objectscale
-STORAGECLASSNAME     = dellemc-objectscale-highly-available
+STORAGECLASSNAME     = dellemc-${SERVICE_ID}-highly-available
 STORAGECLASSNAME_VSAN_SNA     = dellemc-${SERVICE_ID}-vsan-sna-thick
 
 WATCH_ALL_NAMESPACES = false # --set global.watchAllNamespaces={true | false}

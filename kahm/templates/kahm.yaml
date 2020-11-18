@@ -68,15 +68,9 @@ spec:
           value: {{ .Values.global.registrySecret }}
 {{- end }}
         - name: KAHM_DB_TYPE
-          valueFrom:
-            configMapKeyRef:
-             name: kahm-db-config
-             key: dbType 
+          value: {{ .Values.db.dbType }}
         - name: KAHM_DB_EVENT_TTL
-          valueFrom:
-            configMapKeyRef:
-             name: kahm-db-config
-             key: eventTTL
+          value: "{{ .Values.db.eventTTL }}"
   volumeClaimTemplates:
   - metadata:
       labels:

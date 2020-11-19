@@ -18,7 +18,7 @@ spec:
 {{ include "statefuldaemonset-operator.labels" . | indent 8}}
     spec:
       {{- if .Values.serviceAccount.create }}
-      serviceAccountName: {{ .Values.serviceAccount.name }}
+      serviceAccountName: {{ template "statefuldaemonset-operator.serviceAccountName" . }}
       {{- end }}
       {{- if .Values.global.registrySecret }}
       imagePullSecrets:

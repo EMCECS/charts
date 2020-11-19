@@ -20,3 +20,9 @@ pod:
 - name: "LOG_DIRECTION"
   value: "file"
 {{- end }}
+
+{{ define "datasvc-lib.common-labels" -}}
+labels:
+  app.kubernetes.io/namespace: {{ .Release.Namespace }}
+  objectscale.dellemc.com/logging-inject: "true"
+{{- end }}

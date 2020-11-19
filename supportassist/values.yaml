@@ -78,8 +78,8 @@ useGateways: true
 notifier:
   image:
     repository: "supportassist-ese-notifier"
-#   tag: stable
-#   pullPolicy: "Always"
+    # tag: stable
+    # pullPolicy: "Always"
   servicePort: 50051
   grpcConnTimeout: 5
   grpcRetries: 3
@@ -88,8 +88,8 @@ notifier:
 esecallback:
   image:
     repository: "ese-callback"
-#   tag: stable
-#   pullPolicy: "Always"
+    # tag: stable
+    # pullPolicy: "Always"
   servicePort: 9447
 
 
@@ -97,7 +97,7 @@ esecallback:
 eseStore:
   image:
     repository: decks-support-store
-    #tag: stable
+    # tag: stable
     pullPolicy: Always
   persistentVolume:
     size: 50Gi

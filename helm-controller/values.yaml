@@ -45,8 +45,8 @@ service:
   targetPort: 8080
 
 rest: {}
-  # Username for the REST API basic auth service. Default is randomly generated
-  # username: rest-user
+# Username for the REST API basic auth service. Default is randomly generated
+# username: rest-user
 
-  # Password for the REST API basic auth service. Default is randomly generated
-  # password: rest-pass
+# Password for the REST API basic auth service. Default is randomly generated
+# password: rest-pass

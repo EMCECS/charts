@@ -142,6 +142,7 @@ tests:
   - it: rsyslog client sidecar with objectscale rsyslog
     set:
       global.rsyslog_enabled: true
+      global.logging_injection_enabled: false
       global.tls_enabled: true
       global.objectscale_release_name: objectscale-release
       global.objectscale_namespace: objectscale-ns
@@ -170,9 +171,14 @@ tests:
           content:
             name: RSYSLOG_SVC_NAMESPACE
             value: objectscale-ns
+      - isNull:
+          path: spec.template.metadata.labels.objectscale\.dellemc\.com/logging-inject
+      - isNull:
+          path: spec.template.metadata.annotations
   - it: rsyslog client sidecar with local rsyslog
     set:
       global.rsyslog_enabled: true
+      global.logging_injection_enabled: false
       global.tls_enabled: true
     asserts:
       - equal:
@@ -199,11 +205,43 @@ tests:
           content:
             name: RSYSLOG_SVC_NAMESPACE
             value: NAMESPACE
+      - isNull:
+          path: spec.template.metadata.labels.objectscale\.dellemc\.com/logging-inject
+      - isNull:
+          path: spec.template.metadata.annotations
   - it: rsyslog client sidecar when disabled
     set:
       global.rsyslog_enabled: false
       global.tls_enabled: true
     asserts:
+      - notEqual:
+          path: spec.template.spec.containers[2].name
+          value: rsyslog
+      - notContains:
+          path: spec.template.spec.volumes
+          content:
+            name: rsyslog-config
+            configMap:
+              name: RELEASE-NAME-rsyslog-client-config
+      - isNull:
+          path: spec.template.metadata.labels.objectscale\.dellemc\.com/logging-inject
+      - isNull:
+          path: spec.template.metadata.annotations
+  - it: logging injection enabled
+    set:
+      global.rsyslog_enabled: true
+      global.logging_injection_enabled: true
+      global.tls_enabled: true  # create 3 containers
+    asserts:
+      - equal:
+          path: spec.template.metadata.labels.objectscale\.dellemc\.com/logging-inject
+          value: "true"
+      - equal:
+          path: spec.template.metadata.labels.app\.kubernetes\.io/namespace
+          value: "NAMESPACE"
+      - equal:
+          path: spec.template.metadata.annotations.objectscale\.dellemc\.com/logging-release-name
+          value: "RELEASE-NAME"
       - notEqual:
           path: spec.template.spec.containers[2].name
           value: rsyslog

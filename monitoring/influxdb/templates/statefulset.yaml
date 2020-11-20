@@ -34,7 +34,9 @@ spec:
       labels:
         app.kubernetes.io/name: {{ template "influxdb.fullname" . }}
         release: "{{ .Release.Name }}"
+{{ include "common-lib.logging-inject-labels" . | indent 8 }}
       annotations:
+{{ include "common-lib.logging-inject-annotations" . | indent 8 }}
       {{- if .Values.global.tls_enabled }}
         {{- if .Values.global.use_vault_for_ssl }}
         vault.hashicorp.com/agent-inject: "true"
@@ -118,7 +120,7 @@ spec:
         - name: init
           mountPath: /docker-entrypoint-initdb.d
         {{- end }}
-        - name: varlog
+        - name: log
           mountPath: /var/log
         - mountPath: /crash-dump
           name: crash-dump
@@ -157,7 +159,7 @@ spec:
           mountPath: {{ .Values.config.storage_directory }}
         - name: config
           mountPath: /data/influxdb/conf/
-        - name: varlog
+        - name: log
           mountPath: /var/log
         - mountPath: /crash-dump
           name: crash-dump
@@ -242,7 +244,7 @@ spec:
           mountPath: {{ .Values.config.storage_directory }}
         - name: config
           mountPath: /data/influxdb/conf/
-        - name: varlog
+        - name: log
           mountPath: /var/log
         - name: restore-ranges-cron-config
           mountPath: /etc/cron.d
@@ -255,7 +257,7 @@ spec:
         command: ["bash"]
         args: ["-c", "{{ include "common-lib.command" . }} cron -n"]
         volumeMounts:
-        - name: varlog
+        - name: log
           mountPath: /var/log
         - mountPath: /etc/cron.d
           name: cron-config
@@ -296,7 +298,7 @@ spec:
       {{- end }}
 {{ include "common-lib.rsyslog_client_volumes" . | indent 6 }}
 {{ include "common-lib.telegraf_sidecar_volume" (dict "top" . "customConfig" $telegraf_custom_config ) | indent 6 }}
-      - name: varlog
+      - name: log
         emptyDir: {}
       - name: restore-ranges-cron-config
         configMap:

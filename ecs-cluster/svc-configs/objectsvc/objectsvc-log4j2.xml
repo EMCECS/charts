@@ -13,9 +13,9 @@
             <PatternLayout pattern="%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex"/>
 
             <Policies>
-                <SizeBasedTriggeringPolicy size="50 MB"/>
+                <SizeBasedTriggeringPolicy size="25 MB"/>
             </Policies>
-            <DefaultRolloverStrategy max="14"/> <!-- approx 50MB+(14*5MB) MB -->
+            <DefaultRolloverStrategy max="8"/> <!-- approx 25MB+(8*2.5MB) MB -->
         </RollingFile>
 
         <RollingFile name="P" fileName="${sys:product.home}/logs/objectsvc-perf-counter.log"
@@ -35,7 +35,7 @@
             <Policies>
                 <SizeBasedTriggeringPolicy size="10 MB" />
             </Policies>
-            <DefaultRolloverStrategy max="4"/> <!-- approx 10MB+(4*1.5MB) MB -->
+            <DefaultRolloverStrategy max="1"/> <!-- approx 10MB+(1*1.5MB) MB -->
         </RollingFile>
 
         <RollingFile name="DT" fileName="${sys:product.home}/logs/objectsvc-dt.log"
@@ -43,9 +43,9 @@
             <PatternLayout pattern="%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex"/>
 
             <Policies>
-                <SizeBasedTriggeringPolicy size="50 MB"/>
+                <SizeBasedTriggeringPolicy size="25 MB"/>
             </Policies>
-            <DefaultRolloverStrategy max="8"/> <!-- approx 50MB+(9*2.3MB) MB -->
+            <DefaultRolloverStrategy max="7"/> <!-- approx 25MB+(7*1.2MB) MB -->
         </RollingFile>
 
         <Syslog name="alertsLogger" host="localhost" port="514" protocol="UDP" facility="LOCAL7"/>

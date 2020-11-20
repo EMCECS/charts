@@ -157,6 +157,12 @@ rules:
     verbs:
     - list
     - get
+  - apiGroups:
+      - stateful.ecs.dellemc.com
+    resources:
+      - "*"
+    verbs:
+      - "*"
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1

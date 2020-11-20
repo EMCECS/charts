@@ -15,9 +15,9 @@ iamsvc:
   image:
     pullPolicy: IfNotPresent
     repository: iamsvc
-    #tag: stable
+    # tag: stable
   livenessProbe:
-    probePath: /iam/local?Action=ListUsers
+    probePath: /iamhealthcheck
   readinessProbe:
     probePath: /iamhealthcheck
   replicaCount: 3

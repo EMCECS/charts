@@ -16,30 +16,12 @@ data:
     {
         "ipAddress": "0.0.0.0",
         "port": "8080",
-        "sslPort": "9443",
         "useSSL": false,
-        "defaultBackendType": "srs",
-        "remoteAccessEnabled": false,
-        "srsPrefix": "/esrs/{version}/devices",
-        "proxyUri": "",
-        "proxyUser": "",
-        "proxyPassword": "",
-        "useProxy": false,
-        "connectionState": "enabled",
-        "useGateways": true,
-        "productIdBlock": {},
-        "enableDataItemApi": true,
-        "usingBuiltinConfig": false,
-        "remoteConfig": {},
-        "gatewayEndpoints": [],
         "productFrontendUri": "http://supportassist-{{.Values.product}}-ese-callback.{{.Release.Namespace}}.svc.cluster.local:9447",
         # Could also be HTTPS: "productFrontendUri": "https://supportassist-{{.Values.product}}.{{.Release.Namespace}}.svc.cluster.local:8447",
         "productFrontendPrefix": "{{.Values.product}}",
         "productFrontendType": "webrest",
-        "contractVersion": "1.0",
-        "eventMuted": false,
-        "systemMode": "Debug",
-        "srsTransferType": "{{.Values.product | upper}}"
+        "srsTransferType": {{required "product value is required" .Values.product | upper | quote}}
     }
 ---
 apiVersion: v1

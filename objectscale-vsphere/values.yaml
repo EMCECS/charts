@@ -56,7 +56,7 @@ service:
       targetPort: 4443
       # nodePort:           # select specific node port for the connection
 
-  # loadBalancerIP:     # select specific load balancer IP of the connection
+  loadBalancerIP: {}
   # externalHostnames:
   #   - objectscale-vsp.example.com
   # externalIPAddresses:

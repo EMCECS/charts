@@ -140,7 +140,7 @@ limits:
 {{- end -}}
 
 {{ define "common-lib.rsyslog_client_sidecar" -}}
-{{- if .Values.global.rsyslog_enabled }}
+{{- if and (.Values.global.rsyslog_enabled) (not (.Values.global.logging_injection_enabled)) }}
 - name: rsyslog
   image: "{{ include "common-lib.monitoring_registry" . }}/rsyslog:{{ .Values.global.monitoring_tag }}"
   imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
@@ -163,15 +163,28 @@ limits:
     - mountPath: /etc/rsyslog.conf.template
       name: rsyslog-config
       subPath: rsyslog.conf
-    - name: varlog
+    - name: log
       mountPath: /var/log
 {{- end }}
 {{- end }}
 
 {{ define "common-lib.rsyslog_client_volumes" -}}
-{{- if .Values.global.rsyslog_enabled }}
+{{- if and (.Values.global.rsyslog_enabled) (not (.Values.global.logging_injection_enabled)) }}
 - name: rsyslog-config
   configMap:
     name: {{ .Release.Name }}-rsyslog-client-config
+{{- end }}
+{{- end }}
+
+{{ define "common-lib.logging-inject-annotations" -}}
+{{- if and (.Values.global.rsyslog_enabled) (.Values.global.logging_injection_enabled) }}
+objectscale.dellemc.com/logging-release-name: "{{ .Release.Name }}"
+{{- end }}
+{{- end }}
+
+{{ define "common-lib.logging-inject-labels" -}}
+{{- if and (.Values.global.rsyslog_enabled) (.Values.global.logging_injection_enabled) }}
+objectscale.dellemc.com/logging-inject: "true"
+app.kubernetes.io/namespace: "{{ .Release.Namespace }}"
 {{- end }}
 {{- end }}

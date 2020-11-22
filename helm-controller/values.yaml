@@ -25,10 +25,28 @@ global:
   watchAllNamespaces: true
 
 # The default docker tag and pull policy for helm-controller services
-tag: 0.54.0-770.7f51fe1
+tag: 0.54.0-771.17b50e4
 pullPolicy: IfNotPresent
 
 image:
   repository: install-controller
   # tag: stable
   # pullPolicy: IfNotPresent
+
+service:
+
+  # Type of Kubernetes service: ClusterIP, LoadBalancer, or NodePort
+  type: ClusterIP
+
+  # TCP Port for the service
+  port: 80
+
+  # TCP Port for the REST API server to listen on
+  targetPort: 8080
+
+rest: {}
+# Username for the REST API basic auth service. Default is randomly generated
+# username: rest-user
+
+# Password for the REST API basic auth service. Default is randomly generated
+# password: rest-pass

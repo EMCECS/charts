@@ -1,3 +1,4 @@
+---
 #
 # Copyright © [2020] Dell Inc. or its subsidiaries.
 # All Rights Reserved.
@@ -10,15 +11,19 @@
 #
 #
 
-#  Role for rsyslog-client to find instance of rsyslog service
-kind: Role
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: "{{ .Release.Name }}-rsyslog-client"
-  namespace: "{{ .Release.Namespace }}"
-rules:
-  - apiGroups:
-      - ""
-    resources:
-      - pods
-    verbs: ["list"]
+{{ define "datasvc-lib.common-pod-spec" -}}
+pod:
+  env:
+{{ include "datasvc-lib.common-env" . | indent 4 }}
+{{- end }}
+
+{{ define "datasvc-lib.common-env" -}}
+- name: "LOG_DIRECTION"
+  value: "file"
+{{- end }}
+
+{{ define "datasvc-lib.common-labels" -}}
+labels:
+  app.kubernetes.io/namespace: {{ .Release.Namespace }}
+  objectscale.dellemc.com/logging-inject: "true"
+{{- end }}

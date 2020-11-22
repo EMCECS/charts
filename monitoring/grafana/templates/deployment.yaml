@@ -31,7 +31,9 @@ spec:
         app.kubernetes.io/name: {{ include "grafana.fullname" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
         release: {{ .Release.Name }}
+{{ include "common-lib.logging-inject-labels" . | indent 8 }}
       annotations:
+{{ include "common-lib.logging-inject-annotations" . | indent 8 }}
         {{- if .Values.global.use_vault_for_ssl }}
         vault.hashicorp.com/agent-inject: "true"
         vault.hashicorp.com/agent-inject-status: "update"
@@ -102,7 +104,7 @@ spec:
         - mountPath: /etc/grafana/grafana_flex.ini
           name: config-grafana-ini
           subPath: grafana.ini
-        - name: varlog
+        - name: log
           mountPath: /var/log
         - mountPath: /crash-dump
           name: crash-dump
@@ -124,7 +126,7 @@ spec:
           name: crash-dump
       # In case tls is disabled - liveness & readiness probes will go to main container
       {{- end }}
-        # nginx logs to stdout, no need to mount varlog
+        # nginx logs to stdout, no need to mount log
         livenessProbe:
           httpGet:
             path: {{ .Values.livenessProbe.probePath }}
@@ -150,7 +152,7 @@ spec:
         command: ["bash"]
         args: ["-c", "{{ include "common-lib.command" . }} cron -n"]
         volumeMounts:
-        - name: varlog
+        - name: log
           mountPath: /var/log
         - mountPath: /etc/cron.d
           name: cron-config
@@ -193,7 +195,7 @@ spec:
         configMap:
           name: {{ include "grafana.fullname" . }}-grafana-ini
 {{ include "common-lib.rsyslog_client_volumes" . | indent 6 }}
-      - name: varlog
+      - name: log
         emptyDir: {}
       - name: logrotate-config
         configMap:

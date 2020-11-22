@@ -1,3 +1,4 @@
+---
 #
 # Copyright © [2020] Dell Inc. or its subsidiaries.
 # All Rights Reserved.
@@ -10,15 +11,14 @@
 #
 #
 
-#  Role for rsyslog-client to find instance of rsyslog service
-kind: Role
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: "{{ .Release.Name }}-rsyslog-client"
-  namespace: "{{ .Release.Namespace }}"
-rules:
-  - apiGroups:
-      - ""
-    resources:
-      - pods
-    verbs: ["list"]
+apiVersion: v2
+name: logging-injector
+version: 0.54.0
+appVersion: 0.54.0
+description: Rsyslog client sidecar injector
+engine: gotpl
+
+dependencies:
+- name: common-lib
+  version: 0.54.0
+  repository: file://../common-lib

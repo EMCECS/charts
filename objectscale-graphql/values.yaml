@@ -22,6 +22,9 @@ global:
 
   # Default: true == Watch ALL namespaces
   watchAllNamespaces: true
+
+  # storageClassName  - set default storageClassName for objectscale-manager/graphql
+
 # This is the list of available objectstore versions to graphql for UI to configure the store.
 objectStoreAvailableVersions:
   - 0.54.0

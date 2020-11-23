@@ -67,7 +67,7 @@ telegraf:
     # Send cq results from objectstore to region level objectscale monitoring
     ext_outputs:
       - influxdb:
-          urls: ['http://{{ .Values.global.objectscale_release_name }}-telegraf.{{ include "common-lib.rsyslog_svc_namespace" . }}.svc.cluster.local:11002']
+          urls: ['http://{{ .Values.global.objectscale_release_name }}-telegraf.{{ include "common-lib.rsyslog_svc_namespace" . }}.svc.cluster.local:11002']  # yamllint disable-line rule:line-length
           insecure_skip_verify: true
           skip_database_creation: true
           timeout: "30s"

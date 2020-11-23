@@ -7,8 +7,8 @@ metadata:
   labels:
 {{ include "supportassist.labels" . | indent 4 }}
 spec:
-  productName: {{required "product value is required" .Values.product | upper | quote}}
-  productModel: {{required "product value is required" .Values.product | upper | quote}}
+  productName: "{{.Values.product | upper}}"
+  productModel: "{{.Values.product | upper}}"
   productType: dell.enterprise.storage.{{.Values.product}}
   productVersion: {{required "productVersion must be specified" .Values.productVersion}}
   enabled: {{default true .Values.enabled}}

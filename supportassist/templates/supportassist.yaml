@@ -21,7 +21,7 @@ data:
         # Could also be HTTPS: "productFrontendUri": "https://supportassist-{{.Values.product}}.{{.Release.Namespace}}.svc.cluster.local:8447",
         "productFrontendPrefix": "{{.Values.product}}",
         "productFrontendType": "webrest",
-        "srsTransferType": {{required "product value is required" .Values.product | upper | quote}}
+        "srsTransferType": "{{.Values.product | upper}}"
     }
 ---
 apiVersion: v1

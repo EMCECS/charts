@@ -15,7 +15,7 @@ iamsvc:
   image:
     pullPolicy: IfNotPresent
     repository: iamsvc
-    # tag: stable
+    #tag: stable
   livenessProbe:
     probePath: /iamhealthcheck
   readinessProbe:

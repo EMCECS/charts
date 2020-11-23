@@ -125,24 +125,24 @@ logReceiver:
 resources:
   operator:
     limits:
-      # cpu:
+      #cpu:
       memory: 500Mi
     requests:
-      # cpu:
+      #cpu:
       memory: 300Mi
   fluentbitAgent:
     limits:
-      # cpu:
+      #cpu:
       memory: 40Mi
     requests:
-      # cpu:
+      #cpu:
       memory: 20Mi
   rsyslog:
     limits:
-      # cpu:
+      #cpu:
       memory: 60Mi
     requests:
-      # cpu:
+      #cpu:
       memory: 30Mi
 
 # Will install crd for object store

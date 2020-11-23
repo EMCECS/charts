@@ -31,7 +31,7 @@ spec:
         app.kubernetes.io/version: {{ .Chart.AppVersion }}
         app.kubernetes.io/part-of: {{ .Release.Name }}
         helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-        release: {{ .Release.Name }}
+        release: {{ .Release.Name}}
         operator: objectscale-operator
         product: objectscale
     spec:
@@ -47,17 +47,6 @@ spec:
           env:
             - name: OPERATOR_NAME
               value: objectscale-operator
-            - name: MY_POD_IP
-              valueFrom:
-                fieldRef:
-                  fieldPath: status.podIP
-            - name: REST_PORT
-              value: {{ .Values.service.targetPort | default 8080 | quote}}
-            - name: REST_CREDENTIALS
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Release.Name }}-rest-credentials
-                  key: credentials
             - name: WATCH_NAMESPACE
               {{- if eq .Values.global.watchAllNamespaces true}}
               value: ""
@@ -66,7 +55,4 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
           {{- end }}
-          imagePullPolicy: {{ .Values.image.pullPolicy | default .Values.pullPolicy }}
-          ports:
-            - containerPort: {{ .Values.service.targetPort | default 8080 }}
-              name: http
+          imagePullPolicy: {{ default .Values.pullPolicy .Values.image.pullPolicy }}

@@ -2,7 +2,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: {{ .Values.global.watchAllNamespaces | ternary "ClusterRoleBinding" "RoleBinding" }}
 metadata:
-  name: {{ template "statefuldaemonset-operator.fullname" . }}-statefuldaemonset-operator-binding
+  name: {{ template "statefuldaemonset-operator.fullname" . }}-{{ .Release.Namespace }}-statefuldaemonset-operator-binding
 {{- if ne .Values.global.watchAllNamespaces true }}
   namespace: {{ .Release.Namespace }}
 {{- end }}
@@ -11,8 +11,8 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: {{ .Values.global.watchAllNamespaces | ternary "ClusterRole" "Role" }}
-  name: {{ template "statefuldaemonset-operator.fullname" . }}-statefuldaemonset-operator-role
+  name: {{ template "statefuldaemonset-operator.fullname" . }}-{{ .Release.Namespace }}-statefuldaemonset-operator-role
 subjects:
 - kind: ServiceAccount
-  name: {{ .Values.serviceAccount.create | ternary .Values.serviceAccount.name "default" }}
+  name: {{ template "statefuldaemonset-operator.serviceAccountName" . }}
   namespace: {{ .Release.Namespace }}

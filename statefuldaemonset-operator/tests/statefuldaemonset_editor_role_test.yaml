@@ -3,21 +3,21 @@ templates:
   - statefuldaemonset_editor_role.yaml
 tests:
   - it: should create a ClusterRole resource
-    asserts:
-      - isKind:
-          of: Role
-      - equal:
-          path: metadata.name
-          value: RELEASE-NAME-statefuldaemonset-operator-statefuldaemonset-editor-role
-  - it: should create a Role resource in a namespace
     set:
-      global.watchAllNamespaces: false
+      global.watchAllNamespaces: true
+    asserts:
+      - isKind:
+          of: ClusterRole
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-statefuldaemonset-operator-NAMESPACE-statefuldaemonset-editor-role
+  - it: should create a Role resource in a namespace
     asserts:
       - isKind:
           of: Role
       - equal:
           path: metadata.name
-          value: RELEASE-NAME-statefuldaemonset-operator-statefuldaemonset-editor-role
+          value: RELEASE-NAME-statefuldaemonset-operator-NAMESPACE-statefuldaemonset-editor-role
       - equal:
           path: metadata.namespace
           value: NAMESPACE

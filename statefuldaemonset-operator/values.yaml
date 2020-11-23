@@ -27,10 +27,8 @@ podSecurityContext: {}
 
 securityContext: {}
 
-## Service account name and whether to create it.
 serviceAccount:
   create: true
-  name: statefuldaemonset-operator
 
 resources:
   requests:

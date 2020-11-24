@@ -58,6 +58,12 @@ rules:
     verbs:
       - "*"
   - apiGroups:
+      - kahm.emcecs.github.com
+    resources:
+      - "*"
+    verbs:
+      - "*"
+  - apiGroups:
       - storage.k8s.io
     resources:
       - storageclasses

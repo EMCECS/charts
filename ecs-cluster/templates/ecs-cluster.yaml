@@ -64,7 +64,6 @@ spec:
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.blob.replicas }}
     replicas: {{ .Values.blob.replicas }}
-{{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- end }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.blob.image.repository }}

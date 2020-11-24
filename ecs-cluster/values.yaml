@@ -21,6 +21,10 @@ global:
   monitoring:
     enabled: true
 
+  # This flag decides if an objecstore is actually started or paused
+  # Setting started = false will cause the manager to remove the objectstore
+  started: true
+
 # The default docker tag and pull policy for the ECS Cluster
 tag: 0.54.0
 pullPolicy: IfNotPresent
@@ -47,6 +51,19 @@ createApplicationResource: true
 # progressDeadlineSeconds field for all Deployments installed in ECS cluster
 deploymentDeadlineSeconds: 1200
 
+# Configuration parameters for topology spread and fault domain selection
+topology:
+  # The node label key for topology spread and fault domains
+  # faultDomainKey: rack
+  # Fault domains to be excluded from resource scheduling
+  # excludedFaultDomains:
+  #   - zone1
+  #   - zone3
+  # The nodes to be targeted for resource scheduling
+  # nodeSelector:
+  #   key: row
+  #   value: 3
+
 # Different features of ECSCluster that can be enabled or disabled
 features:
 
@@ -56,7 +73,7 @@ features:
   # Object type defines which service will be used: Blob service or Object service.
   # Values: blobSVC or objectSVC
   # NOTE: If CRR is enabled then Object service will be used forcibly
-  objectType: blobSVC
+  objectType: objectSVC
 
 #
 # ECS Service Configuration

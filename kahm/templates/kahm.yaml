@@ -46,6 +46,9 @@ spec:
         volumeMounts:
         - mountPath: /data/db
           name: db
+        resources:
+          requests:
+            memory: {{ .Values.resources.requests.memory }} 
         env:
         - name: POD_NAME
           valueFrom:

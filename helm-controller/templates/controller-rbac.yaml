@@ -58,6 +58,12 @@ rules:
     verbs:
       - "*"
   - apiGroups:
+      - kahm.emcecs.github.com
+    resources:
+      - "*"
+    verbs:
+      - "*"
+  - apiGroups:
       - storage.k8s.io
     resources:
       - storageclasses
@@ -157,6 +163,18 @@ rules:
     verbs:
     - list
     - get
+  - apiGroups:
+      - stateful.ecs.dellemc.com
+    resources:
+      - "*"
+    verbs:
+      - "*"
+  - apiGroups:
+    - "admissionregistration.k8s.io"
+    resources:
+    - "mutatingwebhookconfigurations"
+    verbs:
+      - "*"
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1

@@ -3,9 +3,9 @@ HELM_URL     := https://get.helm.sh
 HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
 YQ_VERSION   := 2.4.1
 YAMLLINT_VERSION := 1.20.0
-CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod objectscale-graphql helm-controller objectscale-vsphere iam pravega-operator bookkeeper-operator supportassist decks-support-store
+CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod objectscale-graphql helm-controller objectscale-vsphere iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator
 DECKSCHARTS := decks kahm supportassist service-pod dellemc-license decks-support-store
-FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller iam
+FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller iam statefuldaemonset-operator
 MONITORING_DIR := monitoring
 
 # release version
@@ -30,7 +30,7 @@ SERVICE_ID           = objectscale
 REGISTRY             = objectscale
 DECKS_REGISTRY       = objectscale
 KAHM_REGISTRY        = objectscale
-STORAGECLASSNAME     = dellemc-objectscale-highly-available
+STORAGECLASSNAME     = dellemc-${SERVICE_ID}-highly-available
 STORAGECLASSNAME_VSAN_SNA     = dellemc-${SERVICE_ID}-vsan-sna-thick
 
 WATCH_ALL_NAMESPACES = false # --set global.watchAllNamespaces={true | false}
@@ -153,6 +153,7 @@ combine-crds:
 	cp -R zookeeper-operator/crds ${TEMP_PACKAGE}
 	cp -R kahm/crds ${TEMP_PACKAGE}
 	cp -R decks/crds ${TEMP_PACKAGE}
+	cp -R statefuldaemonset-operator/crds ${TEMP_PACKAGE}
 	cat ${TEMP_PACKAGE}/crds/*.yaml > ${TEMP_PACKAGE}/yaml/objectscale-crd.yaml
 	## Remove # from crd to prevent app-platform from crashing in 7.0P1
 	sed -i -e "/^#.*/d" ${TEMP_PACKAGE}/yaml/objectscale-crd.yaml
@@ -177,8 +178,6 @@ create-manager-app: create-temp-package
 	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} \
 	--set global.registry=${REGISTRY} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
-	--set logReceiver.create=true --set logReceiver.type=Syslog \
-	--set logReceiver.persistence.storageClassName=${STORAGECLASSNAME} \
 	--set global.monitoring_registry=${REGISTRY} \
 	--set ecs-monitoring.influxdb.persistence.storageClassName=${STORAGECLASSNAME} \
 	--set global.monitoring.enabled=false \
@@ -228,6 +227,7 @@ combine-crd-manager-ci: create-temp-package
 	cp -R objectscale-manager/crds ${TEMP_PACKAGE}
 	cp -R atlas-operator/crds ${TEMP_PACKAGE}
 	cp -R zookeeper-operator/crds ${TEMP_PACKAGE}
+	cp -R statefuldaemonset-operator/crds ${TEMP_PACKAGE}
 	cat ${TEMP_PACKAGE}/crds/*.yaml > ${TEMP_PACKAGE}/yaml/manager-crd.yaml
 	rm -rf ${TEMP_PACKAGE}/crds
 
@@ -251,13 +251,8 @@ monitoringver:
 
 build-installer:
 	echo "Copy charts to container and build image"
-	docker pull asdrepo.isus.emc.com:8099/install-controller:green
-	docker create --name installer-container asdrepo.isus.emc.com:8099/install-controller:green
-	docker cp ./docs installer-container:/docs
-	docker commit installer-container asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)
+	docker build -t asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID) -f ./Dockerfile .
 	docker push asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)
-	docker rm installer-container
-	docker rmi asdrepo.isus.emc.com:8099/install-controller:green
 
 tag-push-installer:
 	docker tag asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID) asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}

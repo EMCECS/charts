@@ -48,7 +48,7 @@ spec:
         ports:
         - containerPort: 40000
           name: debug
-          protocol: TCP 
+          protocol: TCP
         securityContext:
           capabilities:
             add: ["SYS_PTRACE"]
@@ -78,6 +78,10 @@ spec:
           value: objectscale-operator
         - name: MANAGER_RELEASE_NAME
           value: {{ .Values.managerReleaseName }}
+        {{- if .Values.global.storageClassName }}
+        - name: STORAGE_CLASS_NAME
+          value: {{ .Values.global.storageClassName }}
+        {{- end }}
         - name: LOG_DIRECTION
 {{- if .Values.logReceiver.type }}
           value: file

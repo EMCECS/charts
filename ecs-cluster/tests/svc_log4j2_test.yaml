@@ -1,0 +1,157 @@
+
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+
+suite: test svc logs
+templates:
+  - svc-log4j2.yaml
+tests:
+  - it: blob
+    set:
+      global.monitoring.enabled: false
+    asserts:
+      - hasDocuments:
+          count: 15
+
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-blob-log4j2
+        documentIndex: 0
+      - matchRegex:
+          path: data.blobsvc-log4j2\.xml
+          pattern: "blobsvc.log"
+        documentIndex: 0
+
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-cm-log4j2
+        documentIndex: 1
+      - matchRegex:
+          path: data.cm-log4j2\.xml
+          pattern: "cm.log"
+        documentIndex: 1
+
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-control-log4j2
+        documentIndex: 2
+      - matchRegex:
+          path: data.objcontrolsvc-log4j2\.xml
+          pattern: "objcontrolsvc.log"
+        documentIndex: 2
+
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-cp-log4j2
+        documentIndex: 3
+      - matchRegex:
+          path: data.controlsvc-log4j2\.xml
+          pattern: "controlsvc.log"
+        documentIndex: 3
+
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-diagnostic-log4j2
+        documentIndex: 4
+      - matchRegex:
+          path: data.dtquery-log4j2\.xml
+          pattern: "dtquery.log"
+        documentIndex: 4
+
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-event-log4j2
+        documentIndex: 5
+      - matchRegex:
+          path: data.eventsvc-log4j2\.xml
+          pattern: "eventsvc.log"
+        documentIndex: 5
+
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-geo-log4j2
+        documentIndex: 6
+      - matchRegex:
+          path: data.georeceiver-log4j2\.xml
+          pattern: "georeceiver.log"
+        documentIndex: 6
+
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-metering-log4j2
+        documentIndex: 7
+      - matchRegex:
+          path: data.metering-log4j2\.xml
+          pattern: "metering.log"
+        documentIndex: 7
+
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-rm-log4j2
+        documentIndex: 8
+      - matchRegex:
+          path: data.rm-log4j2\.xml
+          pattern: "rm.log"
+        documentIndex: 8
+
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-resource-log4j2
+        documentIndex: 9
+      - matchRegex:
+          path: data.resourcesvc-log4j2\.xml
+          pattern: "resourcesvc.log"
+        documentIndex: 9
+
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-s3-log4j2
+        documentIndex: 10
+      - matchRegex:
+          path: data.dataheadsvc-log4j2\.xml
+          pattern: "dataheadsvc.log"
+        documentIndex: 10
+
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-sr-log4j2
+        documentIndex: 11
+      - matchRegex:
+          path: data.sr-log4j2\.xml
+          pattern: "sr.log"
+        documentIndex: 11
+
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-sm-log4j2
+        documentIndex: 12
+      - matchRegex:
+          path: data.storagemanagementsvc-log4j2\.xml
+          pattern: "storagemanagementsvc.log"
+        documentIndex: 12
+
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-ssm-log4j2
+        documentIndex: 13
+      - matchRegex:
+          path: data.ssm-log4j2\.xml
+          pattern: "ssm.log"
+        documentIndex: 13
+
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-objectsvc-log4j2
+        documentIndex: 14
+      - matchRegex:
+          path: data.objectsvc-log4j2\.xml
+          pattern: "objectsvc.log"
+        documentIndex: 14

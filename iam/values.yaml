@@ -17,7 +17,7 @@ iamsvc:
     repository: iamsvc
     #tag: stable
   livenessProbe:
-    probePath: /iam/local?Action=ListUsers
+    probePath: /iamhealthcheck
   readinessProbe:
     probePath: /iamhealthcheck
   replicaCount: 3

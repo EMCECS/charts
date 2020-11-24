@@ -51,6 +51,13 @@ dependencies:
     repository: "file://../rsyslog"
     version: 0.54.0
     condition: global.rsyslog_enabled
+  - name: logging-injector
+    version: 0.54.0
+    repository: file://../logging-injector
+    condition: global.rsyslog_enabled
   - name: telegraf-sidecar
     version: 0.54.0
     repository: file://../telegraf-sidecar
+  - name: statefuldaemonset-operator
+    repository: "file://../../statefuldaemonset-operator"
+    version: 0.54.0

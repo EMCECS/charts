@@ -222,7 +222,6 @@ spec:
     segmentStoreReplicas: {{ .Values.pravega.segmentStore.replicas }}
 
   storageServer:
-{{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.storageServer.replicas }}
     replicas: {{ .Values.storageServer.replicas }}
 {{- end }}

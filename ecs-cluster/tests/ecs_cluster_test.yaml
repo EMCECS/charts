@@ -384,24 +384,12 @@ tests:
       global.objectscale_release_name: ecs-flex
     asserts:
       - equal:
-          path: spec.event.pod.env[2].name
-          value: LOG_DIRECTION
-      - equal:
-          path: spec.event.pod.env[2].value
-          value: file
-      - equal:
           path: spec.event.labels
           value:
             app.kubernetes.io/namespace: NAMESPACE
             objectscale.dellemc.com/logging-inject: "true"
             objectscale.dellemc.com/logging-release-name: ecs-flex
 
-      - equal:
-          path: spec.blob.pod.env[0].name
-          value: LOG_DIRECTION
-      - equal:
-          path: spec.blob.pod.env[0].value
-          value: file
       - equal:
           path: spec.blob.labels
           value:
@@ -410,24 +398,12 @@ tests:
             objectscale.dellemc.com/logging-release-name: ecs-flex
 
       - equal:
-          path: spec.chunkManager.pod.env[0].name
-          value: LOG_DIRECTION
-      - equal:
-          path: spec.chunkManager.pod.env[0].value
-          value: file
-      - equal:
           path: spec.chunkManager.labels
           value:
             app.kubernetes.io/namespace: NAMESPACE
             objectscale.dellemc.com/logging-inject: "true"
             objectscale.dellemc.com/logging-release-name: ecs-flex
 
-      - equal:
-          path: spec.control.pod.env[0].name
-          value: LOG_DIRECTION
-      - equal:
-          path: spec.control.pod.env[0].value
-          value: file
       - equal:
           path: spec.control.labels
           value:
@@ -436,24 +412,12 @@ tests:
             objectscale.dellemc.com/logging-release-name: ecs-flex
 
       - equal:
-          path: spec.controlPlane.pod.env[0].name
-          value: LOG_DIRECTION
-      - equal:
-          path: spec.controlPlane.pod.env[0].value
-          value: file
-      - equal:
           path: spec.controlPlane.labels
           value:
             app.kubernetes.io/namespace: NAMESPACE
             objectscale.dellemc.com/logging-inject: "true"
             objectscale.dellemc.com/logging-release-name: ecs-flex
 
-      - equal:
-          path: spec.diagnostic.pod.env[0].name
-          value: LOG_DIRECTION
-      - equal:
-          path: spec.diagnostic.pod.env[0].value
-          value: file
       - equal:
           path: spec.diagnostic.labels
           value:
@@ -462,24 +426,12 @@ tests:
             objectscale.dellemc.com/logging-release-name: ecs-flex
 
       - equal:
-          path: spec.geoReceiver.pod.env[0].name
-          value: LOG_DIRECTION
-      - equal:
-          path: spec.geoReceiver.pod.env[0].value
-          value: file
-      - equal:
           path: spec.geoReceiver.labels
           value:
             app.kubernetes.io/namespace: NAMESPACE
             objectscale.dellemc.com/logging-inject: "true"
             objectscale.dellemc.com/logging-release-name: ecs-flex
 
-      - equal:
-          path: spec.metering.pod.env[0].name
-          value: LOG_DIRECTION
-      - equal:
-          path: spec.metering.pod.env[0].value
-          value: file
       - equal:
           path: spec.metering.labels
           value:
@@ -488,24 +440,12 @@ tests:
             objectscale.dellemc.com/logging-release-name: ecs-flex
 
       - equal:
-          path: spec.objectsvc.pod.env[0].name
-          value: LOG_DIRECTION
-      - equal:
-          path: spec.objectsvc.pod.env[0].value
-          value: file
-      - equal:
           path: spec.objectsvc.labels
           value:
             app.kubernetes.io/namespace: NAMESPACE
             objectscale.dellemc.com/logging-inject: "true"
             objectscale.dellemc.com/logging-release-name: ecs-flex
 
-      - equal:
-          path: spec.resource.pod.env[0].name
-          value: LOG_DIRECTION
-      - equal:
-          path: spec.resource.pod.env[0].value
-          value: file
       - equal:
           path: spec.resource.labels
           value:
@@ -514,24 +454,12 @@ tests:
             objectscale.dellemc.com/logging-release-name: ecs-flex
 
       - equal:
-          path: spec.recordManager.pod.env[0].name
-          value: LOG_DIRECTION
-      - equal:
-          path: spec.recordManager.pod.env[0].value
-          value: file
-      - equal:
           path: spec.recordManager.labels
           value:
             app.kubernetes.io/namespace: NAMESPACE
             objectscale.dellemc.com/logging-inject: "true"
             objectscale.dellemc.com/logging-release-name: ecs-flex
 
-      - equal:
-          path: spec.s3.pod.env[0].name
-          value: LOG_DIRECTION
-      - equal:
-          path: spec.s3.pod.env[0].value
-          value: file
       - equal:
           path: spec.s3.labels
           value:
@@ -540,12 +468,6 @@ tests:
             objectscale.dellemc.com/logging-release-name: ecs-flex
 
       - equal:
-          path: spec.storageManagement.pod.env[0].name
-          value: LOG_DIRECTION
-      - equal:
-          path: spec.storageManagement.pod.env[0].value
-          value: file
-      - equal:
           path: spec.storageManagement.labels
           value:
             app.kubernetes.io/namespace: NAMESPACE
@@ -553,24 +475,12 @@ tests:
             objectscale.dellemc.com/logging-release-name: ecs-flex
 
       - equal:
-          path: spec.spaceReclaimer.pod.env[0].name
-          value: LOG_DIRECTION
-      - equal:
-          path: spec.spaceReclaimer.pod.env[0].value
-          value: file
-      - equal:
           path: spec.spaceReclaimer.labels
           value:
             app.kubernetes.io/namespace: NAMESPACE
             objectscale.dellemc.com/logging-inject: "true"
             objectscale.dellemc.com/logging-release-name: ecs-flex
 
-      - equal:
-          path: spec.storageServerManager.pod.env[0].name
-          value: LOG_DIRECTION
-      - equal:
-          path: spec.storageServerManager.pod.env[0].value
-          value: file
       - equal:
           path: spec.storageServerManager.labels
           value:

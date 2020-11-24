@@ -11,17 +11,6 @@
 #
 #
 
-{{ define "datasvc-lib.common-pod-spec" -}}
-pod:
-  env:
-{{ include "datasvc-lib.common-env" . | indent 4 }}
-{{- end }}
-
-{{ define "datasvc-lib.common-env" -}}
-- name: "LOG_DIRECTION"
-  value: "file"
-{{- end }}
-
 {{ define "datasvc-lib.common-labels" -}}
 labels:
   app.kubernetes.io/namespace: {{ .Release.Namespace }}

@@ -21,6 +21,10 @@ global:
   monitoring:
     enabled: true
 
+  # This flag decides if an objecstore is actually started or paused
+  # Setting started = false will cause the manager to remove the objectstore
+  started: true
+
 # The default docker tag and pull policy for the ECS Cluster
 tag: 0.54.0
 pullPolicy: IfNotPresent

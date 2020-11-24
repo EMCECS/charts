@@ -21,6 +21,9 @@ global:
   monitoring:
     enabled: true
 
+  # Set objectscale release name (needed for central logging and monitoring)
+  objectscale_release_name: objectscale-manager
+
 # The default docker tag and pull policy for the ECS Cluster
 tag: 0.54.0
 pullPolicy: IfNotPresent

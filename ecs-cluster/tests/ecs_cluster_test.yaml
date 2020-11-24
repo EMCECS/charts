@@ -381,6 +381,7 @@ tests:
   - it: labels and env for logging
     set:
       global.monitoring.enabled: false
+      global.objectscale_release_name: ecs-flex
     asserts:
       - equal:
           path: spec.event.pod.env[2].name
@@ -393,6 +394,7 @@ tests:
           value:
             app.kubernetes.io/namespace: NAMESPACE
             objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: ecs-flex
 
       - equal:
           path: spec.blob.pod.env[0].name
@@ -405,6 +407,7 @@ tests:
           value:
             app.kubernetes.io/namespace: NAMESPACE
             objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: ecs-flex
 
       - equal:
           path: spec.chunkManager.pod.env[0].name
@@ -417,6 +420,7 @@ tests:
           value:
             app.kubernetes.io/namespace: NAMESPACE
             objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: ecs-flex
 
       - equal:
           path: spec.control.pod.env[0].name
@@ -429,6 +433,7 @@ tests:
           value:
             app.kubernetes.io/namespace: NAMESPACE
             objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: ecs-flex
 
       - equal:
           path: spec.controlPlane.pod.env[0].name
@@ -441,6 +446,7 @@ tests:
           value:
             app.kubernetes.io/namespace: NAMESPACE
             objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: ecs-flex
 
       - equal:
           path: spec.diagnostic.pod.env[0].name
@@ -453,6 +459,7 @@ tests:
           value:
             app.kubernetes.io/namespace: NAMESPACE
             objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: ecs-flex
 
       - equal:
           path: spec.geoReceiver.pod.env[0].name
@@ -465,6 +472,7 @@ tests:
           value:
             app.kubernetes.io/namespace: NAMESPACE
             objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: ecs-flex
 
       - equal:
           path: spec.metering.pod.env[0].name
@@ -477,6 +485,7 @@ tests:
           value:
             app.kubernetes.io/namespace: NAMESPACE
             objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: ecs-flex
 
       - equal:
           path: spec.objectsvc.pod.env[0].name
@@ -489,6 +498,7 @@ tests:
           value:
             app.kubernetes.io/namespace: NAMESPACE
             objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: ecs-flex
 
       - equal:
           path: spec.resource.pod.env[0].name
@@ -501,6 +511,7 @@ tests:
           value:
             app.kubernetes.io/namespace: NAMESPACE
             objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: ecs-flex
 
       - equal:
           path: spec.recordManager.pod.env[0].name
@@ -513,6 +524,7 @@ tests:
           value:
             app.kubernetes.io/namespace: NAMESPACE
             objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: ecs-flex
 
       - equal:
           path: spec.s3.pod.env[0].name
@@ -525,6 +537,7 @@ tests:
           value:
             app.kubernetes.io/namespace: NAMESPACE
             objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: ecs-flex
 
       - equal:
           path: spec.storageManagement.pod.env[0].name
@@ -537,6 +550,7 @@ tests:
           value:
             app.kubernetes.io/namespace: NAMESPACE
             objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: ecs-flex
 
       - equal:
           path: spec.spaceReclaimer.pod.env[0].name
@@ -549,6 +563,7 @@ tests:
           value:
             app.kubernetes.io/namespace: NAMESPACE
             objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: ecs-flex
 
       - equal:
           path: spec.storageServerManager.pod.env[0].name
@@ -561,3 +576,4 @@ tests:
           value:
             app.kubernetes.io/namespace: NAMESPACE
             objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: ecs-flex

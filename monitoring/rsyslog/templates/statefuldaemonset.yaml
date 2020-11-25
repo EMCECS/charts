@@ -21,9 +21,21 @@ metadata:
     helm.sh/chart: {{ include "rsyslog.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
+  affinity:
+    # Use pod anti-affinity rules to deploy statefulset pods one-per-node.
+    # (like DaemonSet pods)
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+              - key: "app.kubernetes.io/name"
+                operator: In
+                values:
+                  - {{ template "rsyslog.fullname" . }}
+          topologyKey: "kubernetes.io/hostname"
   serviceName: {{ template "rsyslog.fullname" . }}
   servicePort: {{ .Values.service.bind_address }}
-  replicas: {{ .Values.replicas }}
+  replicas: 4
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ template "rsyslog.fullname" . }}

@@ -21,15 +21,17 @@ data:
   svc: |+
     /var/log/*.log /var/log/*/*/*.log
     {
+      size=5M
+      maxage 60
       missingok
-      copytruncate
-      nocreate
-      nosharedscripts
-      size=+10M
-      rotate 10
-      prerotate
-      endscript
+      notifempty
+      delaycompress
+      compress
+      dateext
+      dateformat .%Y%m%d_%s
+      sharedscripts
       postrotate
+              kill -s HUP $(pidof rsyslog)
       endscript
     }
   remove_old: |+

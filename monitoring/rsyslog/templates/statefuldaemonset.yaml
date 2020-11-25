@@ -34,7 +34,6 @@ spec:
                   - {{ template "rsyslog.fullname" . }}
           topologyKey: "kubernetes.io/hostname"
   serviceName: {{ template "rsyslog.fullname" . }}
-  servicePort: {{ .Values.service.bind_address }}
   replicas: 4
   selector:
     matchLabels:

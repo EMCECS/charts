@@ -21,18 +21,6 @@ metadata:
     helm.sh/chart: {{ include "rsyslog.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
-  affinity:
-    # Use pod anti-affinity rules to deploy statefulset pods one-per-node.
-    # (like DaemonSet pods)
-    podAntiAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        - labelSelector:
-            matchExpressions:
-              - key: "app.kubernetes.io/name"
-                operator: In
-                values:
-                  - {{ template "rsyslog.fullname" . }}
-          topologyKey: "kubernetes.io/hostname"
   serviceName: {{ template "rsyslog.fullname" . }}
   replicas: 4
   selector:
@@ -47,6 +35,18 @@ spec:
         # This means that if the configmap changes, the deployment will be rolled
         checksum/config: {{ include (print .Template.BasePath "/configmap.yaml") . | sha256sum }}
     spec:
+      affinity:
+        # Use pod anti-affinity rules to deploy statefulset pods one-per-node.
+        # (like DaemonSet pods)
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: "app.kubernetes.io/name"
+                    operator: In
+                    values:
+                      - {{ template "rsyslog.fullname" . }}
+              topologyKey: "kubernetes.io/hostname"
 {{ include "common-lib.telegraf_sidecar_spec_options" . | indent 6 }}
       containers:
       - name: {{ .Chart.Name }}

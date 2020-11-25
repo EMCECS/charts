@@ -12,8 +12,8 @@
 {{- $rsyslog_data_dir := print (include "rsyslog.fullname" .) "-data" }}
 {{- $telegraf_custom_config := print (include "rsyslog.fullname" .) "-telegraf-sidecar-custom-config" }}
 ---
-apiVersion: stateful.ecs.dellemc.com/v1alpha1
-kind: StatefulDaemonSet
+apiVersion: apps/v1
+kind: StatefulSet
 metadata:
   name: {{ template "rsyslog.fullname" . }}
   labels:

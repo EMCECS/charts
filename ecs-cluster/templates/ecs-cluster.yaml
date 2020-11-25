@@ -1,5 +1,5 @@
 ---
-{{- if .Values.started }}
+{{- if and  (.Values.started) (.Values.global.started) }}
 apiVersion: "ecs.dellemc.com/v1beta1"
 kind: "ECSCluster"
 metadata:

@@ -25,7 +25,8 @@ global:
   watchAllNamespaces: true
 
 # The default docker tag and pull policy for helm-controller services
-tag: 0.54.0
+## OBSDEF-4106 - patched to specifically pull in latest charts for UI-ESE and other integration testing
+tag: 0.54.0-784.4849fa61
 pullPolicy: IfNotPresent
 
 image:

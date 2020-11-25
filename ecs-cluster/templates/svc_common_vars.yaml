@@ -15,5 +15,5 @@
 labels:
   app.kubernetes.io/namespace: {{ .Release.Namespace }}
   objectscale.dellemc.com/logging-inject: "true"
-  objectscale.dellemc.com/logging-release-name: "{{ .Values.global.objectscale_release_name }}"
+  objectscale.dellemc.com/logging-release-name: "{{ .Release.Name }}"
 {{- end }}

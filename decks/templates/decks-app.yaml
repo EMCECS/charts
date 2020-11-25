@@ -34,7 +34,7 @@ spec:
     - group: apps
       kind: ReplicaSet
     - group: rbac.authorization.k8s.io
-      kind: ClusterRoles
+      kind: ClusterRole
     - group: rbac.authorization.k8s.io
       kind: ClusterRoleBinding
   assemblyPhase: "Pending"

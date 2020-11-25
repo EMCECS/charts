@@ -72,8 +72,16 @@ sed -i "s/SERVICE_ID/${service_id}/" temp_package/scripts/deploy-objectscale-plu
 cat temp_package/yaml/${vsphere7_plugin_file} >> temp_package/scripts/deploy-objectscale-plugin.sh 
 echo "EOF" >> temp_package/scripts/deploy-objectscale-plugin.sh
 
-echo 'echo' >> temp_package/scripts/deploy-objectscale-plugin.sh
-echo 'echomsg "In vSphere7 UI Navigate to Workload-Cluster > Supervisor Services > Services"' >> temp_package/scripts/deploy-objectscale-plugin.sh
-echo 'echomsg "Select Dell EMC ObjectScale then Enable"'  >> temp_package/scripts/deploy-objectscale-plugin.sh
+cat <<'EOF' >> temp_package/scripts/deploy-objectscale-plugin.sh
+
+if [ $? -ne 0 ]
+then
+    echomsg "ERROR unable to apply Dell EMC ObjectScale plugin"
+    exit 1
+fi 
+echo
+echomsg "In vSphere7 UI Navigate to Workload-Cluster > Supervisor Services > Services"
+echomsg "Select Dell EMC ObjectScale then Enable"
+EOF
 
 chmod 700 temp_package/scripts/deploy-objectscale-plugin.sh

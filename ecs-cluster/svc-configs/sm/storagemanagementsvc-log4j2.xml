@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration monitorInterval="60" shutdownHook="disable">
+    <CustomLevels>
+        <CustomLevel name="DEBUG_TREE" intLevel="520"/>
+        <CustomLevel name="DEBUG_SYNC" intLevel="540"/>
+        <CustomLevel name="DEBUG_PAGE" intLevel="560"/>
+        <CustomLevel name="DEBUG_ALL" intLevel="580"/>
+    </CustomLevels>
+    <Appenders>
+        <RollingFile name="R" fileName="${sys:product.home}/logs/storagemanagementsvc.log"
+                     filePattern="${sys:product.home}/logs/storagemanagementsvc.log.%i.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="P" fileName="${sys:product.home}/logs/storagemanagementsvc-perf-counter.log"
+                     filePattern="${sys:product.home}/logs/storagemanagementsvc-perf-counter.log.%i.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="E" fileName="${sys:product.home}/logs/storagemanagementsvc-error.log"
+                     filePattern="${sys:product.home}/logs/storagemanagementsvc-error.log.%i.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="M" fileName="${sys:product.home}/logs/storagemanagementsvc-stats.log"
+                     filePattern="${sys:product.home}/logs/storagemanagementsvc-stats.log.%i.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="B" fileName="${sys:product.home}/logs/storagemanagementsvc-zk.log"
+                     filePattern="${sys:product.home}/logs/storagemanagementsvc-zk.log.%i.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="O" fileName="${sys:product.home}/logs/storagemanagementsvc-ownership.log"
+                     filePattern="${sys:product.home}/logs/storagemanagementsvc-ownership.log.%i.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="G" fileName="${sys:product.home}/logs/storagemanagementsvc-chunk-reclaim.log"
+                     filePattern="${sys:product.home}/logs/storagemanagementsvc-chunk-reclaim.log.%i.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="C" fileName="${sys:product.home}/logs/storagemanagementsvc-corruption-scan.log"
+                     filePattern="${sys:product.home}/logs/storagemanagementsvc-corruption-scan.log.%i.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="L" fileName="${sys:product.home}/logs/storagemanagementsvc-chunk-lifecycle.log"
+                     filePattern="${sys:product.home}/logs/storagemanagementsvc-chunk-lifecycle.log.%i.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="D" fileName="${sys:product.home}/logs/storagemanagementsvc-typeII-EC-delete.log"
+                     filePattern="${sys:product.home}/logs/storagemanagementsvc-typeII-EC-delete.log.%i.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="T" fileName="${sys:product.home}/logs/storagemanagementsvc-remove-repair-task.log"
+                     filePattern="${sys:product.home}/logs/storagemanagementsvc-remove-repair-task.log.%i.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="L" fileName="${sys:product.home}/logs/storagemanagementsvc-chunk-lifecycle.log"
+                     filePattern="${sys:product.home}/logs/storagemanagementsvc-chunk-lifecycle.log.%i.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="W" fileName="${sys:product.home}/logs/storagemanagementsvc-statistics.log"
+                     filePattern="${sys:product.home}/logs/storagemanagementsvc-statistics.log.%i.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="TB" fileName="${sys:product.home}/logs/storagemanagementsvc-block-lifecycle.log"
+                     filePattern="${sys:product.home}/logs/storagemanagementsvc-block-lifecycle.log.%i.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="BG" fileName="${sys:product.home}/logs/storagemanagementsvc-bg.log"
+                     filePattern="${sys:product.home}/logs/storagemanagementsvc-bg.log.%i.gz">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <Syslog name="alertsLogger" host="localhost" port="514" protocol="UDP" facility="LOCAL7"/>
+
+        <Async name="asyncR" includeLocation="true">
+            <AppenderRef ref="R"/>
+        </Async>
+        <Async name="asyncE" includeLocation="true">
+            <AppenderRef ref="E"/>
+        </Async>
+        <Async name="asyncP" includeLocation="true">
+            <AppenderRef ref="P"/>
+        </Async>
+        <Async name="asyncM" includeLocation="true">
+            <AppenderRef ref="M"/>
+        </Async>
+        <Async name="asyncB" includeLocation="true">
+            <AppenderRef ref="B"/>
+        </Async>
+        <Async name="asyncO" includeLocation="true">
+            <AppenderRef ref="O"/>
+        </Async>
+        <Async name="asyncG" includeLocation="true">
+            <AppenderRef ref="G"/>
+        </Async>
+        <Async name="asyncC" includeLocation="true">
+            <AppenderRef ref="C"/>
+        </Async>
+        <Async name="asyncL" includeLocation="true">
+            <AppenderRef ref="L"/>
+        </Async>
+        <Async name="asyncD" includeLocation="true">
+            <AppenderRef ref="D"/>
+        </Async>
+        <Async name="asyncT" includeLocation="true">
+            <AppenderRef ref="T"/>
+        </Async>
+        <Async name="asyncW" includeLocation="true">
+            <AppenderRef ref="W"/>
+        </Async>
+        <Async name="asyncTB" includeLocation="true">
+            <AppenderRef ref="TB"/>
+        </Async>
+        <Async name="asyncBG" includeLocation="true">
+            <AppenderRef ref="BG"/>
+        </Async>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="org.apache.zookeeper" level="INFO"/>
+        <Logger name="org.perf4j.TimingLogger" level="ERROR"/>
+        <Logger name="com.emc.storageos.data.chunkmanager" level="DEBUG"/>
+        <Logger name="blockLifecycleLogger" level="INFO" additivity="false">
+            <AppenderRef ref="asyncTB"/>
+        </Logger>
+        <Logger name="ssmBGLogger" level="INFO" additivity="false">
+            <AppenderRef ref="asyncBG"/>
+        </Logger>
+        <Logger name="com.emc.storageos.services.util.AlertsLogger" level="WARN" additivity="false">
+            <AppenderRef ref="alertsLogger"/>
+        </Logger>
+        <Logger name="com.emc.storageos.objcontrol.object.shared.PerformanceCounter" level="DEBUG" additivity="false">
+            <AppenderRef ref="asyncP"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.monitoring.MonitoringWorker" level="INFO">
+            <AppenderRef ref="asyncM"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.zkstore" level="INFO" additivity="false">
+            <AppenderRef ref="asyncB"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.zkbtree" level="INFO" additivity="false">
+            <AppenderRef ref="asyncB"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.ownership.impl" level="INFO" additivity="false">
+            <AppenderRef ref="asyncO"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.gc" level="DEBUG" additivity="false">
+            <AppenderRef ref="asyncG"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.bplustree.gc" level="INFO" additivity="false">
+            <AppenderRef ref="asyncG"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.chunkmanager.scanner.bplustree" level="DEBUG" additivity="false">
+            <AppenderRef ref="asyncG"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.chunkmanager.scanner.BPlusTreeChunkReclaimerScanner" level="INFO" additivity="false">
+            <AppenderRef ref="asyncG"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.chunkmanager.scanner.BPlusTreeReclaimer" level="INFO" additivity="false">
+            <AppenderRef ref="asyncG"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.geoShipping" level="DEBUG">
+            <AppenderRef ref="asyncG"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.chunkmanager.scanner.ChunkCorruptionScanner" level="INFO" additivity="false">
+            <AppenderRef ref="asyncC"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.chunkmanager.operations.CorruptionChecker" level="INFO" additivity="false">
+            <AppenderRef ref="asyncC"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.gc.ChunkLifecycleLogger" level="INFO" additivity="false">
+            <AppenderRef ref="asyncL"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.EcDelete" level="WARN" additivity="false">
+            <AppenderRef ref="asyncD"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.chunkmanager.scanner.remove_repair_task" level="WARN" additivity="false">
+            <AppenderRef ref="asyncT"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.chunkmanager.CmStats" level="DEBUG">
+            <AppenderRef ref="asyncW"/>
+        </Logger>
+
+        <Logger name="org.apache.http" level="WARN" additivity="false">
+            <AppenderRef ref="asyncR" level="WARN"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+
+        <Logger name="org.apache.http.impl.conn.PoolingHttpClientConnectionManager" level="DEBUG" additivity="false">
+            <AppenderRef ref="asyncR"/>
+        </Logger>
+
+        <Logger name="com.emc.storageos.data.object.impl.gc.ChunkLifecycleLogger" level="INFO" additivity="false">
+            <AppenderRef ref="asyncL"/>
+        </Logger>
+
+        <Logger name="com.emc.storageos.data.object.bplustree" level="DEBUG" additivity="false">
+            <AppenderRef ref="asyncR"/>
+        </Logger>
+
+        <Root level="info">
+            <AppenderRef ref="asyncR"/>
+            <AppenderRef ref="asyncE" level="error"/>
+        </Root>
+    </Loggers>
+
+</Configuration>

@@ -13,8 +13,8 @@ spec:
   productVersion: {{required "productVersion must be specified" .Values.productVersion}}
   enabled: {{default true .Values.enabled}}
   siteID: {{required "siteID must be specified" .Values.siteID}}
-  systemMode: {{ default "normal" .Values.systemMode }}
-  eventMuted: {{ default false .Values.eventMuted }}
+  systemMode: {{ default "preProd" .Values.systemMode }}
+  eventMuted: {{ default true .Values.eventMuted }}
   testDialHome: {{ default true .Values.testDialHome }}
   remoteAccessEnabled: {{ default false .Values.remoteAccessEnabled }}
   useGateways: {{ default true .Values.useGateways }}

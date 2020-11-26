@@ -176,6 +176,10 @@ limits:
 {{- end }}
 {{- end }}
 
+{{ define "common-lib.rsyslog_env_file" -}}
+/etc/pod.env
+{{- end }}
+
 {{ define "common-lib.logging-inject-annotations" -}}
 {{- if and (.Values.global.rsyslog_enabled) (.Values.global.logging_injection_enabled) }}
 objectscale.dellemc.com/logging-release-name: "{{ .Release.Name }}"

@@ -75,7 +75,7 @@ spec:
         image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         command: ["bash"]
-        args: ["-c", "{{ include "common-lib.command" . }} cron -n"]
+        args: ["-c", "{{ include "common-lib.command" . }} export >> {{ include "common-lib.rsyslog_env_file" . }} && cron -n"]
         env:
           - name: LOGS_SIZE_HIGH_WATERMARK
             value: "{{ .Values.config.logs_size_high_watermark | replace "_" "" }}"
@@ -94,7 +94,7 @@ spec:
           subPath: logrotate.conf
         - mountPath: /etc/cleanup_logs.sh
           name: cleanup-script
-          subPath: cleanup_logs
+          subPath: cleanup_logs.sh
         - mountPath: /crash-dump
           name: crash-dump
 {{ include "common-lib.telegraf_sidecar" (dict "top" . "volumeName" $rsyslog_data_dir "customConfig" true) | indent 6 }}

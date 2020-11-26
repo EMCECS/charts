@@ -21,6 +21,8 @@ data:
   cleanup_logs.sh: |+
     #!/bin/bash
 
+    source {{ include "common-lib.rsyslog_env_file" . }}
+
     _log(){
         msg="$*"
         if [[ -n "$msg" ]] ; then
@@ -75,9 +77,14 @@ data:
             _log "Removed $file"
 
             # check du less frequently to speed up removal
-            i=$(((i+1)%CHECK_INTERVAL))
-            if [[ $i -eq 0 && $(du -skL "${MONITORING_LOGS}" | cut -f1) -le ${du_low_watermark} ]]; then
+            i=$(( i + 1 ))
+            if [[ $(( i % CHECK_INTERVAL)) -eq 0 ]]; then
+              usage="$(du -skL ${MONITORING_LOGS} | cut -f1)"
+              _log "Disk usage: ${usage}"
+              if [[ "${usage}" -le "${du_low_watermark}" ]]; then
+                _log "Disk usage ${usage} is below low watermark ${du_low_watermark}"
                 break
+              fi
             fi
         done < ${LOG_LIST_FILE}
 

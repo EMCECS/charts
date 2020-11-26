@@ -98,7 +98,7 @@ spec:
           name: {{ template "rsyslog.fullname" . }}
       - name: logrotate-config
         configMap:
-          name: {{ .Release.Name }}-rsyslog-client-logrotate-config
+          name: {{ template "rsyslog.fullname" . }}-logrotate-config
       - name: cron-config
         configMap:
           name: {{ .Release.Name }}-rsyslog-client-cron-config

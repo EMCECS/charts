@@ -1,3 +1,4 @@
+---
 #
 # Copyright © [2020] Dell Inc. or its subsidiaries.
 # All Rights Reserved.
@@ -15,9 +16,7 @@ kind: ConfigMap
 metadata:
   name: {{ template "rsyslog.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ template "rsyslog.fullname" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{ include "rsyslog.labels" . | indent 4}}
 data:
   rsyslog.conf: |+
     #### MODULES ####

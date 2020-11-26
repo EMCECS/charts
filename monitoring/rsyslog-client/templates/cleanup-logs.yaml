@@ -1,3 +1,4 @@
+---
 #
 # Copyright © [2020] Dell Inc. or its subsidiaries.
 # All Rights Reserved.
@@ -15,8 +16,7 @@ kind: ConfigMap
 metadata:
   name: {{ template "rsyslog-client.fullname" . }}-cleanup-logs-script
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{ include "rsyslog-client.labels" . | indent 4}}
 data:
   cleanup_logs.sh: |+
     #!/bin/bash

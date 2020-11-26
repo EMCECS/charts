@@ -15,8 +15,7 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-rsyslog-client-config
   labels:
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{ include "rsyslog-client.labels" . | indent 4}}
 data:
   rsyslog.conf: |+
     #### MODULES ####

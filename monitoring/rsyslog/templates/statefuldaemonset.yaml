@@ -1,3 +1,4 @@
+---
 #
 # Copyright © [2020] Dell Inc. or its subsidiaries.
 # All Rights Reserved.
@@ -11,15 +12,13 @@
 #
 {{- $rsyslog_data_dir := print (include "rsyslog.fullname" .) "-data" }}
 {{- $telegraf_custom_config := print (include "rsyslog.fullname" .) "-telegraf-sidecar-custom-config" }}
----
+
 apiVersion: stateful.ecs.dellemc.com/v1alpha1
 kind: StatefulDaemonSet
 metadata:
   name: {{ template "rsyslog.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "rsyslog.fullname" . }}
-    helm.sh/chart: {{ include "rsyslog.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
+{{ include "rsyslog.labels" . | indent 4}}
 spec:
   serviceName: {{ template "rsyslog.fullname" . }}
   servicePort: {{ .Values.service.bind_address }}

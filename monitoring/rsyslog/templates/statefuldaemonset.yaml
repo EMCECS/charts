@@ -78,9 +78,9 @@ spec:
         args: ["-c", "{{ include "common-lib.command" . }} cron -n"]
         env:
           - name: LOGS_SIZE_HIGH_WATERMARK
-            value: "{{ .Values.config.logs_size_high_watermark }}"
+            value: "{{ .Values.config.logs_size_high_watermark | replace "_" "" }}"
           - name: LOGS_SIZE_LOW_WATERMARK
-            value: "{{ .Values.config.logs_size_low_watermark }}"
+            value: "{{ .Values.config.logs_size_low_watermark | replace "_" "" }}"
         volumeMounts:
         - name: {{ $rsyslog_data_dir }}
           mountPath: {{ .Values.config.storage_directory }}
@@ -89,13 +89,10 @@ spec:
         - mountPath: /etc/logrotate.d/svc
           name: logrotate-config
           subPath: svc
-        - mountPath: /etc/logrotate.d/remove_old
-          name: logrotate-config
-          subPath: remove_old
         - mountPath: /etc/logrotate.conf
           name: logrotate-config
           subPath: logrotate.conf
-        - mountPath: /etc/cleanup_logs
+        - mountPath: /etc/cleanup_logs.sh
           name: cleanup-script
           subPath: cleanup_logs
         - mountPath: /crash-dump

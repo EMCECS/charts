@@ -44,8 +44,8 @@ data:
 
     CHECK_INTERVAL=10
 
-    du_high_watermark="${LOGS_SIZE_HIGH_WATERMARK:-{{ .Values.config.logs_size_high_watermark }}}"
-    du_low_watermark="${LOGS_SIZE_LOW_WATERMARK:-{{ .Values.config.logs_size_low_watermark }}}"
+    du_high_watermark="${LOGS_SIZE_HIGH_WATERMARK:-{{ .Values.config.logs_size_high_watermark | replace "_" "" }}}"
+    du_low_watermark="${LOGS_SIZE_LOW_WATERMARK:-{{ .Values.config.logs_size_low_watermark | replace "_" "" }}}"
 
     # some log files might not get compressed in error conditions,
     # compress them if not modified for a day.

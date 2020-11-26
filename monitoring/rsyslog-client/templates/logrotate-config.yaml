@@ -21,47 +21,36 @@ data:
   svc: |+
     /var/log/*.log /var/log/*/*/*.log
     {
-      size=5M
-      maxage 60
+      size=100k
+      maxage 14
+      rotate 10
       missingok
       notifempty
       delaycompress
       compress
       dateext
-      dateformat .%Y%m%d_%s
+      dateformat .%Y%m%d-%H%M%S
       sharedscripts
       postrotate
               kill -s HUP $(pidof rsyslogd)
       endscript
-    }
-  remove_old: |+
-    /var/log/*.log* /var/log/*/*/*.log*
-    {
-      maxage {{ .Values.config.output.resumeRetryCount }}
     }
   logrotate.conf: |+
     # see "man logrotate" for details
     # rotate log files daily
     daily
 
-    # keep rotated logs for 14 week max
+    # keep rotated logs for 14 dayes max
     maxage 14
 
-    # logrotate requires that the number of logs to rotate
-    # is configured.  Since 1 week should be retained and
-    # logrotate runs every 10 minutes count should be 6 * 24 * 7 = 1008 logs
-    # to make sure none are deleted early.  Rounded up to 1010 to
-    # give some leeway
-    rotate 1010
-
-    # create new (empty) log files after rotating old ones
-    create
+    # rotate 10 by default
+    rotate 10
 
     # use date as a suffix of the rotated file
     dateext
 
-    # Add a dateformat with seconds
-    dateformat -%Y%m%d-%s
+    # Add a dateformat
+    dateformat .%Y%m%d-%H%M%S
 
     # max size is 5 MB
     size 5M

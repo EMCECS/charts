@@ -31,7 +31,7 @@ data:
       dateformat .%Y%m%d_%s
       sharedscripts
       postrotate
-              kill -s HUP $(pidof rsyslog)
+              kill -s HUP $(pidof rsyslogd)
       endscript
     }
   remove_old: |+

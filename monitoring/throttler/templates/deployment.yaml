@@ -31,7 +31,6 @@ spec:
         app.kubernetes.io/name: {{ include "throttler.fullname" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
         release: {{ .Release.Name }}
-{{ include "common-lib.logging-inject-labels" . | indent 8 }}
       annotations:
         {{- if .Values.global.use_vault_for_ssl }}
         vault.hashicorp.com/agent-inject: "true"

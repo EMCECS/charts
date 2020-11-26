@@ -13,8 +13,8 @@ tests:
       global.product: my-product
     asserts:
       - equal:
-          path: spec.selector.app
-          value: RELEASE-NAME-service-pod
+          path: spec.selector.remote_access
+          value: my-product-service-pod
   - it: should configure the ssh port
     set:
       global.product: my-product

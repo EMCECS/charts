@@ -15,4 +15,4 @@ spec:
     targetPort: ssh 
     protocol: TCP
   selector:
-    app: {{ .Release.Name }}-service-pod
+    remote_access: {{.Values.global.product}}-service-pod

@@ -8,165 +8,165 @@
     </CustomLevels>
     <Appenders>
         <RollingFile name="R" fileName="${sys:product.home}/logs/blobsvc.log"
-                     filePattern="${sys:product.home}/logs/blobsvc.log.%i">
+                     filePattern="${sys:product.home}/logs/blobsvc.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="P" fileName="${sys:product.home}/logs/blobsvc-perf-counter.log"
-                     filePattern="${sys:product.home}/logs/blobsvc-perf-counter.log.%i">
+                     filePattern="${sys:product.home}/logs/blobsvc-perf-counter.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="E" fileName="${sys:product.home}/logs/blobsvc-error.log"
-                     filePattern="${sys:product.home}/logs/blobsvc-error.log.%i">
+                     filePattern="${sys:product.home}/logs/blobsvc-error.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="M" fileName="${sys:product.home}/logs/blobsvc-stats.log"
-                     filePattern="${sys:product.home}/logs/blobsvc-stats.log.%i">
+                     filePattern="${sys:product.home}/logs/blobsvc-stats.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="O" fileName="${sys:product.home}/logs/blobsvc-ownership.log"
-                     filePattern="${sys:product.home}/logs/blobsvc-ownership.log.%i">
+                     filePattern="${sys:product.home}/logs/blobsvc-ownership.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="Z" fileName="${sys:product.home}/logs/blobsvc-logbasedmetering.log"
-                     filePattern="${sys:product.home}/logs/blobsvc-logbasedmetering.log.%i">
+                     filePattern="${sys:product.home}/logs/blobsvc-logbasedmetering.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="N" fileName="${sys:product.home}/logs/blobsvc-georeplayer.log"
-                     filePattern="${sys:product.home}/logs/blobsvc-georeplayer.log.%i">
+                     filePattern="${sys:product.home}/logs/blobsvc-georeplayer.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="G" fileName="${sys:product.home}/logs/blobsvc-chunk-reclaim.log"
-                     filePattern="${sys:product.home}/logs/blobsvc-chunk-reclaim.log.%i">
+                     filePattern="${sys:product.home}/logs/blobsvc-chunk-reclaim.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="T" fileName="${sys:product.home}/logs/blobsvc-monitor.log"
-                     filePattern="${sys:product.home}/logs/blobsvc-monitor.log.%i">
+                     filePattern="${sys:product.home}/logs/blobsvc-monitor.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="L" fileName="${sys:product.home}/logs/blobsvc-chunk-lifecycle.log"
-                     filePattern="${sys:product.home}/logs/blobsvc-chunk-lifecycle.log.%i">
+                     filePattern="${sys:product.home}/logs/blobsvc-chunk-lifecycle.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="D" fileName="${sys:product.home}/logs/blobsvc-btree-dump.log"
-                     filePattern="${sys:product.home}/logs/blobsvc-btree-dump.log.%i">
+                     filePattern="${sys:product.home}/logs/blobsvc-btree-dump.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="C" fileName="${sys:product.home}/logs/blobsvc-metering-reconstruction.log"
-                     filePattern="${sys:product.home}/logs/blobsvc-metering-reconstruction.log.%i">
+                     filePattern="${sys:product.home}/logs/blobsvc-metering-reconstruction.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="S" fileName="${sys:product.home}/logs/blobsvc-btree-ssd-cache.log"
-                     filePattern="${sys:product.home}/logs/blobsvc-btree-ssd-cache.log.%i">
+                     filePattern="${sys:product.home}/logs/blobsvc-btree-ssd-cache.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="AKKA_BFW" fileName="${sys:product.home}/logs/blobsvc-akkabfw.log"
-                     filePattern="${sys:product.home}/logs/blobsvc-akkabfw.log.%i">
+                     filePattern="${sys:product.home}/logs/blobsvc-akkabfw.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %X{akkaSource} %5p %c{1} %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="50 MB" />
             </Policies>
         </RollingFile>
 
         <RollingFile name="RCC" fileName="${sys:product.home}/logs/blobsvc-refresh-chunk-cache.log"
-                     filePattern="${sys:product.home}/logs/blobsvc-refresh-chunk-cache.log.%i">
+                     filePattern="${sys:product.home}/logs/blobsvc-refresh-chunk-cache.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>

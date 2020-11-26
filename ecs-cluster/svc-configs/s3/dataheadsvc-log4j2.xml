@@ -2,91 +2,91 @@
 <Configuration monitorInterval="60" shutdownHook="disable">
     <Appenders>
         <RollingFile name="R" fileName="${sys:product.home}/logs/dataheadsvc.log"
-                     filePattern="${sys:product.home}/logs/dataheadsvc.log.%i">
+                     filePattern="${sys:product.home}/logs/dataheadsvc.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t%X{apiRequestId}%X{apiHeadType}%X{srcip}] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="P" fileName="${sys:product.home}/logs/dataheadsvc-perf-counter.log"
-                     filePattern="${sys:product.home}/logs/dataheadsvc-perf-counter.log.%i">
+                     filePattern="${sys:product.home}/logs/dataheadsvc-perf-counter.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="E" fileName="${sys:product.home}/logs/dataheadsvc-error.log"
-                     filePattern="${sys:product.home}/logs/dataheadsvc-error.log.%i">
+                     filePattern="${sys:product.home}/logs/dataheadsvc-error.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t%X{apiRequestId}%X{apiHeadType}%X{srcip}] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="M" fileName="${sys:product.home}/logs/dataheadsvc-stats.log"
-                     filePattern="${sys:product.home}/logs/dataheadsvc-stats.log.%i">
+                     filePattern="${sys:product.home}/logs/dataheadsvc-stats.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="O" fileName="${sys:product.home}/logs/dataheadsvc-ownership.log"
-                     filePattern="${sys:product.home}/logs/dataheadsvc-ownership.log.%i">
+                     filePattern="${sys:product.home}/logs/dataheadsvc-ownership.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="A" fileName="${sys:product.home}/logs/dataheadsvc-access.log"
-                     filePattern="${sys:product.home}/logs/dataheadsvc-access.log.%i">
+                     filePattern="${sys:product.home}/logs/dataheadsvc-access.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{DEFAULT} %m%n%ex</Pattern>
                 <Header>#Version: 1.0${sys:line.separator}#Fields: date time x-request-id s-ip c-ip x-user-name cs(User-Agent) cs-method x-namespace x-bucket x-object cs-uri-query cs-protocol-version sc-status time-taken cs-bytes sc-bytes x-storage-processing-time cs(Range) x-copy x-deep-copy-size $${optionalheaders:all}${sys:line.separator}</Header>
             </PatternLayout>
             <Policies>
                 <CFTriggeringPolicy />
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
             </Policies>
         </RollingFile>
 
         <RollingFile name="CA" fileName="${sys:product.home}/logs/datahead-cas-access.log"
-                     filePattern="${sys:product.home}/logs/datahead-cas-access.log.%i">
+                     filePattern="${sys:product.home}/logs/datahead-cas-access.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{DEFAULT} %m%n%ex</Pattern>
                 <Header>#Version: 1.0${sys:line.separator}#Fields: date time transaction namespace bucket object error-code response-time bytes $${optionalheaders:all}${sys:line.separator}</Header>
             </PatternLayout>
             <Policies>
                 <CFTriggeringPolicy />
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
             </Policies>
         </RollingFile>
 
         <RollingFile name="RCC" fileName="${sys:product.home}/logs/dataheadsvc-refresh-chunk-cache.log"
-                     filePattern="${sys:product.home}/logs/dataheadsvc-refresh-chunk-cache.log.%i">
+                     filePattern="${sys:product.home}/logs/dataheadsvc-refresh-chunk-cache.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>

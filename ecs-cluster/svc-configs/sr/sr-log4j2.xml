@@ -8,155 +8,155 @@
     </CustomLevels>
     <Appenders>
         <RollingFile name="R" fileName="${sys:product.home}/logs/sr.log"
-                     filePattern="${sys:product.home}/logs/sr.log.%i">
+                     filePattern="${sys:product.home}/logs/sr.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="P" fileName="${sys:product.home}/logs/sr-perf-counter.log"
-                     filePattern="${sys:product.home}/logs/sr-perf-counter.log.%i">
+                     filePattern="${sys:product.home}/logs/sr-perf-counter.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="E" fileName="${sys:product.home}/logs/sr-error.log"
-                     filePattern="${sys:product.home}/logs/sr-error.log.%i">
+                     filePattern="${sys:product.home}/logs/sr-error.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="M" fileName="${sys:product.home}/logs/sr-stats.log"
-                     filePattern="${sys:product.home}/logs/sr-stats.log.%i">
+                     filePattern="${sys:product.home}/logs/sr-stats.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="O" fileName="${sys:product.home}/logs/sr-ownership.log"
-                     filePattern="${sys:product.home}/logs/sr-ownership.log.%i">
+                     filePattern="${sys:product.home}/logs/sr-ownership.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="N" fileName="${sys:product.home}/logs/sr-georeplayer.log"
-                     filePattern="${sys:product.home}/logs/sr-georeplayer.log.%i">
+                     filePattern="${sys:product.home}/logs/sr-georeplayer.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="G" fileName="${sys:product.home}/logs/sr-chunk-reclaim.log"
-                     filePattern="${sys:product.home}/logs/sr-chunk-reclaim.log.%i">
+                     filePattern="${sys:product.home}/logs/sr-chunk-reclaim.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="B" fileName="${sys:product.home}/logs/sr-zk.log"
-                     filePattern="${sys:product.home}/logs/sr-zk.log.%i">
+                     filePattern="${sys:product.home}/logs/sr-zk.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="L" fileName="${sys:product.home}/logs/sr-chunk-lifecycle.log"
-                     filePattern="${sys:product.home}/logs/sr-chunk-lifecycle.log.%i">
+                     filePattern="${sys:product.home}/logs/sr-chunk-lifecycle.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="ObjectGC" fileName="${sys:product.home}/logs/sr-object-gc.log"
-                     filePattern="${sys:product.home}/logs/sr-object-gc.log.%i">
+                     filePattern="${sys:product.home}/logs/sr-object-gc.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="ObjectGCIDs" fileName="${sys:product.home}/logs/sr-objectgc-ids.log"
-                     filePattern="${sys:product.home}/logs/sr-objectgc-ids.log.%i">
+                     filePattern="${sys:product.home}/logs/sr-objectgc-ids.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="D" fileName="${sys:product.home}/logs/sr-btree-dump.log"
-                     filePattern="${sys:product.home}/logs/sr-btree-dump.log.%i">
+                     filePattern="${sys:product.home}/logs/sr-btree-dump.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="W" fileName="${sys:product.home}/logs/sr-statistics.log"
-                     filePattern="${sys:product.home}/logs/sr-statistics.log.%i">
+                     filePattern="${sys:product.home}/logs/sr-statistics.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="RCC" fileName="${sys:product.home}/logs/sr-refresh-chunk-cache.log"
-                     filePattern="${sys:product.home}/logs/sr-refresh-chunk-cache.log.%i">
+                     filePattern="${sys:product.home}/logs/sr-refresh-chunk-cache.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>

@@ -19,6 +19,7 @@ spec:
         app: {{ .Release.Name }}-service-pod
         name: {{ .Release.Name }}-service-pod
         release: {{ .Release.Name }}
+        remote_access: {{.Values.global.product}}-service-pod
         product: {{ required "global.product (e.g. objectscale) is required" .Values.global.product }}
     spec:
       serviceAccountName: {{ .Release.Name }}-service-pod-sa

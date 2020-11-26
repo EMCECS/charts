@@ -151,14 +151,6 @@ installObjectStoreCRD: true
 # installApplicationCRD will install crd for application resources
 installApplicationCRD: true
 
-telemetry:
-  image:
-    repository: telemetry-upload
-    # tag: stable
-    # pullPolicy: IfNotPresent
-  # this is as per cronjob schedule - every 12 hours, please follow the cronjob format to edit it
-  schedule: "0 */12 * * *"
-
 nodeSelector: {}
 
 tolerations: []

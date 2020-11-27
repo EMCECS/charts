@@ -1,3 +1,4 @@
+---
 #
 # Copyright © [2020] Dell Inc. or its subsidiaries.
 # All Rights Reserved.
@@ -11,15 +12,13 @@
 #
 {{- $rsyslog_data_dir := print (include "rsyslog.fullname" .) "-data" }}
 {{- $telegraf_custom_config := print (include "rsyslog.fullname" .) "-telegraf-sidecar-custom-config" }}
----
+
 apiVersion: stateful.ecs.dellemc.com/v1alpha1
 kind: StatefulDaemonSet
 metadata:
   name: {{ template "rsyslog.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "rsyslog.fullname" . }}
-    helm.sh/chart: {{ include "rsyslog.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
+{{ include "rsyslog.labels" . | indent 4}}
 spec:
   serviceName: {{ template "rsyslog.fullname" . }}
   servicePort: {{ .Values.service.bind_address }}
@@ -64,12 +63,12 @@ spec:
         image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         command: ["bash"]
-        args: ["-c", "{{ include "common-lib.command" . }} cron -n"]
+        args: ["-c", "{{ include "common-lib.command" . }} export >> {{ include "common-lib.rsyslog_env_file" . }} && cron -n"]
         env:
           - name: LOGS_SIZE_HIGH_WATERMARK
-            value: "{{ .Values.config.logs_size_high_watermark }}"
+            value: "{{ .Values.config.logs_size_high_watermark | replace "_" "" }}"
           - name: LOGS_SIZE_LOW_WATERMARK
-            value: "{{ .Values.config.logs_size_low_watermark }}"
+            value: "{{ .Values.config.logs_size_low_watermark | replace "_" "" }}"
         volumeMounts:
         - name: {{ $rsyslog_data_dir }}
           mountPath: {{ .Values.config.storage_directory }}
@@ -78,15 +77,12 @@ spec:
         - mountPath: /etc/logrotate.d/svc
           name: logrotate-config
           subPath: svc
-        - mountPath: /etc/logrotate.d/remove_old
-          name: logrotate-config
-          subPath: remove_old
         - mountPath: /etc/logrotate.conf
           name: logrotate-config
           subPath: logrotate.conf
-        - mountPath: /etc/cleanup_logs
+        - mountPath: /etc/cleanup_logs.sh
           name: cleanup-script
-          subPath: cleanup_logs
+          subPath: cleanup_logs.sh
         - mountPath: /crash-dump
           name: crash-dump
 {{ include "common-lib.telegraf_sidecar" (dict "top" . "volumeName" $rsyslog_data_dir "customConfig" true) | indent 6 }}
@@ -100,7 +96,7 @@ spec:
           name: {{ template "rsyslog.fullname" . }}
       - name: logrotate-config
         configMap:
-          name: {{ .Release.Name }}-rsyslog-client-logrotate-config
+          name: {{ template "rsyslog.fullname" . }}-logrotate-config
       - name: cron-config
         configMap:
           name: {{ .Release.Name }}-rsyslog-client-cron-config

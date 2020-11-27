@@ -14,25 +14,25 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "rsyslog-client.fullname" . }}-logrotate-config
+  name: {{ template "rsyslog.fullname" . }}-logrotate-config
   labels:
-{{ include "rsyslog-client.labels" . | indent 4}}
+{{ include "rsyslog.labels" . | indent 4}}
 data:
   svc: |+
-    /var/log/*.log
+    /var/log/*.log /var/log/*/*/*.log
     {
-      missingok
-      copytruncate
-      nocreate
-      nosharedscripts
-      size=10M
+      size=50M
       maxage 14
       rotate 10
+      missingok
       notifempty
+      delaycompress
       compress
       dateext
       dateformat .%Y%m%d-%H%M%S
+      sharedscripts
       postrotate
+              kill -s HUP $(pidof rsyslogd)
       endscript
     }
   logrotate.conf: |+

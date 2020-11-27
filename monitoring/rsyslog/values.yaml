@@ -54,6 +54,6 @@ service:
 config:
   storage_directory: /var/log
   # high water mark: 18 Gb
-  logs_size_high_watermark: 18432000
+  logs_size_high_watermark: _18432000
   # low water mark: 16 Gb
-  logs_size_low_watermark: 16384000
+  logs_size_low_watermark: _16384000

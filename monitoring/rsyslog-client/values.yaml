@@ -21,8 +21,8 @@ config:
       type: "linkedList"
       size: 10000
   # high water mark: 200 mb
-  logs_size_high_watermark: 204800
+  logs_size_high_watermark: _204800
   # low water mark: 150 mb
-  logs_size_low_watermark: 153600
+  logs_size_low_watermark: _153600
   # max age for logs in days
   maxage: 30

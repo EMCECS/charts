@@ -44,3 +44,19 @@ Create chart name and version as used by the chart label.
 {{- define "rsyslog.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{/*
+Common labels
+*/}}
+{{- define "rsyslog.labels" -}}
+app.kubernetes.io/name: {{ include "rsyslog.fullname" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+app.kubernetes.io/part-of: {{ .Release.Name }}
+helm.sh/chart: {{ include "rsyslog.chart" . }}
+release: {{ .Release.Name }}
+{{- range $key, $value := .Values.global.labels }}
+{{ $key }}: {{ $value | quote }}
+{{- end }}
+{{- end -}}

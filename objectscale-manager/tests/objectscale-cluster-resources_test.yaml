@@ -6,6 +6,7 @@ tests:
   - it: should create a cluster role
     set:
       global.watchAllNamespaces: true
+      global.monitoring.enabled: false
     asserts:
       - isKind:
           of: ClusterRole
@@ -13,6 +14,7 @@ tests:
     set:
       global.platform: "VMware"
       global.watchAllNamespaces: false
+      global.monitoring.enabled: false
     asserts:
       - isKind:
           of: ClusterRole
@@ -20,12 +22,14 @@ tests:
     set:
       global.platform: "VMware-PKS"
       global.watchAllNamespaces: false
+      global.monitoring.enabled: false
     asserts:
       - isKind:
           of: ClusterRole
   - it: should have the correct name
     set:
       global.platform: "VMware"
+      global.monitoring.enabled: false
     asserts:
       - equal:
           path: metadata.name

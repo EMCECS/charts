@@ -19,7 +19,7 @@ global:
   platform: Default
 
 # The default docker tag and pull policy for the KAHM
-tag: 2.0.53
+tag: 2.0.54
 pullPolicy: IfNotPresent
 
 # The number of replicas for the KAHM deployment
@@ -48,13 +48,13 @@ testImage:
 # environments with little resources, such as Minikube. If you do want to
 # specify resources, uncomment the following lines, adjust them as necessary,
 # and remove the curly braces after 'resources:'.
-resources: {}
-# limits:
-#  cpu: 100m
-#  memory: 128Mi
-# requests:
-#  cpu: 100m
-#  memory: 128Mi
+resources:
+  # limits:
+  #  cpu: 100m
+  #  memory: 2Gi
+  requests:
+    #  cpu: 100m
+    memory: 1Gi
 
 nodeSelector: {}
 

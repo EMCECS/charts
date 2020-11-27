@@ -23,13 +23,19 @@ global:
   # Default: true == Watch ALL namespaces
   watchAllNamespaces: true
 
+  # storageClassName  - set default storageClassName for objectscale-manager/graphql
+
 # This is the list of available objectstore versions to graphql for UI to configure the store.
 objectStoreAvailableVersions:
-  - 0.53.0
+  - 0.54.0
 
 # The default docker tag and pull policy for objectscale-graphql services
-tag: 0.53.0
+tag: 0.54.1
 pullPolicy: IfNotPresent
+
+# This will create the graphql container with the debug image. debug image will always be {{image.repository}}-debug
+# also, this will expose port 40000 as debug port for debugging the application remotely in the cluster itself
+debug: false
 
 image:
   repository: ecs-flex-graphql
@@ -42,7 +48,7 @@ service:
   type: ClusterIP
 
 decks:
-  licenseChartVersion: "2.0.53"
+  licenseChartVersion: "2.0.54"
   srsGatewayChartVersion: "1.2.0"
 
 logReceiver:

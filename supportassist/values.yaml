@@ -12,13 +12,13 @@ global:
   registry: emccorp
 
 # The default docker tag and pull policy for dell-supportassist-ese
-tag: 2.0.53
+tag: 2.0.54
 pullPolicy: Always
 
 # The image configured for dell-ese
 image:
   repository: dell-supportassist-ese
-  tag: 2.0.3
+  tag: 2.1.1.19
   # pullPolicy: Always
 
 # Create app resource thru helm
@@ -32,10 +32,10 @@ createSupportAssistAppResource: true
 enabled: true
 
 #systemMode: sets the state of the product for this SupportAssist config
-systemMode: normal
+systemMode: preProd
 
-#eventMuted: If true don't open SRs when sending alerts/events
-eventMuted: false
+#eventMuted: set to true for beta testing don't open SRs when sending alerts/events
+eventMuted: true
 
 #testDialHome perform test connectivity back to Dell
 testDialHome: true

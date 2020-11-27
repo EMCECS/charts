@@ -3,10 +3,14 @@ templates:
   - operator.yaml
 tests:
   - it: should create a deployment
+    set:
+      global.monitoring.enabled: false
     asserts:
     - isKind:
         of: Deployment
   - it: should have a default image
+    set:
+      global.monitoring.enabled: false
     asserts:
     - matchRegex:
         path: spec.template.spec.containers[0].image
@@ -15,21 +19,29 @@ tests:
         path: spec.template.spec.containers[0].imagePullPolicy
         value: IfNotPresent
   - it: should have name ending with operator
+    set:
+      global.monitoring.enabled: false
     asserts:
     - matchRegex:
         path: metadata.name
         pattern: ^.+-operator$
   - it: should have a selector
+    set:
+      global.monitoring.enabled: false
     asserts:
     - matchRegex:
         path: spec.selector.matchLabels.app\.kubernetes\.io/component
         pattern: ^.+-operator$
   - it: should have a name label
+    set:
+      global.monitoring.enabled: false
     asserts:
     - matchRegex:
         path: spec.template.metadata.labels.app\.kubernetes\.io/component
         pattern: ^.+-operator$
   - it: should configure the image
+    set:
+      global.monitoring.enabled: false
     set:
       global.registry: REGISTRY
       image.repository: REPO
@@ -43,6 +55,8 @@ tests:
           path: spec.template.spec.containers[0].imagePullPolicy
           value: IfNotPresent
   - it: should configure a custom syslog receiver with all params
+    set:
+      global.monitoring.enabled: false
     set:
       logReceiver.type:     Syslog
       logReceiver.host:     SYSLOG
@@ -95,6 +109,7 @@ tests:
             value: file
   - it: should enable a syslog receiver
     set:
+      global.monitoring.enabled: false
       logReceiver.create: true
     asserts:
       - contains:

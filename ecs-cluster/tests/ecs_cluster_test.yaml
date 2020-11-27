@@ -1,6 +1,8 @@
+---
 suite: test ecs-cluster resource
 templates:
   - ecs-cluster.yaml
+  - svc_common_vars.yaml
 tests:
   - it: should create a custom resource
     set:
@@ -360,3 +362,127 @@ tests:
     - equal:
         path: spec.managementGateway.tls.certificate
         value: {}
+  - it: eventsvc should have EVENTSVC_APP_NAME env variable
+    set:
+      global.monitoring.enabled: false
+    asserts:
+    - equal:
+        path: spec.event.pod.env[0].name
+        value: EVENTSVC_APP_NAME
+    - equal:
+        path: spec.event.pod.env[0].value
+        value: RELEASE-NAME
+    - equal:
+        path: spec.event.pod.env[1].name
+        value: NAMESPACE
+    - equal:
+        path: spec.event.pod.env[1].value
+        value: NAMESPACE
+  - it: labels and env for logging
+    set:
+      global.monitoring.enabled: false
+    asserts:
+      - equal:
+          path: spec.event.labels
+          value:
+            app.kubernetes.io/namespace: NAMESPACE
+            objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: RELEASE-NAME
+
+      - equal:
+          path: spec.blob.labels
+          value:
+            app.kubernetes.io/namespace: NAMESPACE
+            objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: RELEASE-NAME
+
+      - equal:
+          path: spec.chunkManager.labels
+          value:
+            app.kubernetes.io/namespace: NAMESPACE
+            objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: RELEASE-NAME
+
+      - equal:
+          path: spec.control.labels
+          value:
+            app.kubernetes.io/namespace: NAMESPACE
+            objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: RELEASE-NAME
+
+      - equal:
+          path: spec.controlPlane.labels
+          value:
+            app.kubernetes.io/namespace: NAMESPACE
+            objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: RELEASE-NAME
+
+      - equal:
+          path: spec.diagnostic.labels
+          value:
+            app.kubernetes.io/namespace: NAMESPACE
+            objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: RELEASE-NAME
+
+      - equal:
+          path: spec.geoReceiver.labels
+          value:
+            app.kubernetes.io/namespace: NAMESPACE
+            objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: RELEASE-NAME
+
+      - equal:
+          path: spec.metering.labels
+          value:
+            app.kubernetes.io/namespace: NAMESPACE
+            objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: RELEASE-NAME
+
+      - equal:
+          path: spec.objectsvc.labels
+          value:
+            app.kubernetes.io/namespace: NAMESPACE
+            objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: RELEASE-NAME
+
+      - equal:
+          path: spec.resource.labels
+          value:
+            app.kubernetes.io/namespace: NAMESPACE
+            objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: RELEASE-NAME
+
+      - equal:
+          path: spec.recordManager.labels
+          value:
+            app.kubernetes.io/namespace: NAMESPACE
+            objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: RELEASE-NAME
+
+      - equal:
+          path: spec.s3.labels
+          value:
+            app.kubernetes.io/namespace: NAMESPACE
+            objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: RELEASE-NAME
+
+      - equal:
+          path: spec.storageManagement.labels
+          value:
+            app.kubernetes.io/namespace: NAMESPACE
+            objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: RELEASE-NAME
+
+      - equal:
+          path: spec.spaceReclaimer.labels
+          value:
+            app.kubernetes.io/namespace: NAMESPACE
+            objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: RELEASE-NAME
+
+      - equal:
+          path: spec.storageServerManager.labels
+          value:
+            app.kubernetes.io/namespace: NAMESPACE
+            objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: RELEASE-NAME

@@ -1,5 +1,5 @@
 ---
-{{- if .Values.started }}
+{{- if and  (.Values.started) (.Values.global.started) }}
 apiVersion: "ecs.dellemc.com/v1beta1"
 kind: "ECSCluster"
 metadata:
@@ -43,6 +43,7 @@ spec:
             storage: {{ required "atlas.persistence.size is required" .Values.atlas.persistence.size }}
 
   chunkManager:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.chunkManager.replicas }}
     replicas: {{ .Values.chunkManager.replicas }}
 {{- end }}
@@ -60,6 +61,7 @@ spec:
 {{- end }}
 
   blob:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.blob.replicas }}
     replicas: {{ .Values.blob.replicas }}
 {{- end }}
@@ -77,6 +79,7 @@ spec:
 {{- end }}
 
   objectsvc:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.objectsvc.replicas }}
     replicas: {{ .Values.objectsvc.replicas }}
 {{- end }}
@@ -94,6 +97,7 @@ spec:
 {{- end }}
 
   ons:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.ons.replicas }}
     replicas: {{ .Values.ons.replicas }}
 {{- end }}
@@ -111,6 +115,7 @@ spec:
 {{- end }}
 
   rep:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.rep.replicas }}
     replicas: {{ .Values.rep.replicas }}
 {{- end }}
@@ -252,6 +257,7 @@ spec:
           storage: {{ .Values.storageServer.persistence.size }}
 
   storageServerManager:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.storageServerManager.replicas }}
     replicas: {{ .Values.storageServerManager.replicas }}
 {{- end }}
@@ -270,6 +276,7 @@ spec:
 {{- end }}
 
   recordManager:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.recordManager.replicas }}
     replicas: {{ .Values.recordManager.replicas }}
 {{- end }}
@@ -288,6 +295,7 @@ spec:
 {{- end }}
 
   storageManagement:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.storageManagement.replicas }}
     replicas: {{ .Values.storageManagement.replicas }}
 {{- end }}
@@ -306,6 +314,7 @@ spec:
 {{- end }}
 
   metering:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.metering.replicas }}
     replicas: {{ .Values.metering.replicas }}
 {{- end }}
@@ -324,6 +333,7 @@ spec:
 {{- end }}
 
   event:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.event.replicas }}
     replicas: {{ .Values.event.replicas }}
   {{- end }}
@@ -340,6 +350,12 @@ spec:
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
   {{- end }}
+    pod:
+      env:
+        - name: "EVENTSVC_APP_NAME"
+          value: "{{ .Release.Name }}"
+        - name: "NAMESPACE"
+          value: "{{ .Release.Namespace }}"
 
   deosEvents:
 {{- if .Values.deosEvents.pullFreq }}
@@ -362,6 +378,7 @@ spec:
 {{- end }}
 
   resource:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.resource.replicas }}
     replicas: {{ .Values.resource.replicas }}
 {{- end }}
@@ -381,6 +398,7 @@ spec:
 
 
   controlPlane:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.controlPlane.replicas }}
     replicas: {{ .Values.controlPlane.replicas }}
 {{- end }}
@@ -399,6 +417,7 @@ spec:
 {{- end }}
 
   diagnostic:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.diagnostic.replicas }}
     replicas: {{ .Values.diagnostic.replicas }}
 {{- end }}
@@ -421,6 +440,7 @@ spec:
 {{- end }}
 
   geoService:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
     {{- if .Values.geoService.replicas }}
     replicas: {{ .Values.geoService.replicas }}
     {{- end }}
@@ -438,6 +458,7 @@ spec:
   {{- end }}
 
   geoReceiver:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.geoReceiver.replicas }}
     replicas: {{ .Values.geoReceiver.replicas }}
 {{- end }}
@@ -460,6 +481,7 @@ spec:
 {{- end }}
 
   spaceReclaimer:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.spaceReclaimer.replicas }}
     replicas: {{ .Values.spaceReclaimer.replicas }}
 {{- end }}
@@ -478,6 +500,7 @@ spec:
 {{- end }}
 
   control:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.control.replicas }}
     replicas: {{ .Values.control.replicas }}
 {{- end }}
@@ -496,6 +519,7 @@ spec:
 {{- end }}
 
   s3:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
     replicas: {{ default .Values.s3.replicas }}
 
     image:
@@ -511,7 +535,6 @@ spec:
     tls:
       {{ toYaml .Values.s3.tls | nindent 6 | trim }}
 {{- end }}
-
 
   managementGateway:
 {{- if .Values.managementGateway.replicas }}

@@ -16,37 +16,32 @@ metadata:
         com.dellemc.kahm.subscribed: "true"
 data:
     eventRules: |-
-      rules:
-        - description: "dellemc license usage"
-          matchon:
-            - label: SymptomID
-              value: DECKS-LIC-1004
-          notifiers:
-            - {{.Values.product}}-supportassist-ese
-        - description: "dellemc license expired event"
-          matchon:
-            - label: SymptomID
-              value: DECKS-LIC-1005
-          notifiers:
-            - {{.Values.product}}-supportassist-ese
-        - description: "dellemc license warning event about to expire"
-          matchon:
-            - label: SymptomID
-              value: DECKS-LIC-1006
-          notifiers:
-            - {{.Values.product}}-supportassist-ese
-        - description: "dellemc invalid license event"
-          matchon:
+      issueRules:
+       - description: "license is invalid"
+         name: InvalidLicense 
+         issueCategory: Auto
+         matchOnList:
+          - matchon:
             - label: SymptomID
               value: DECKS-LIC-1008
-          notifiers:
-            - {{.Values.product}}-supportassist-ese
-        - description: "dellemc license no longer tracking features"
-          matchon:
+          - matchon:
             - label: SymptomID
-              value: DECKS-LIC-1011
-          notifiers:
-            - {{.Values.product}}-supportassist-ese
+              value: DECKS-LIC-1002
+         notifiers:
+              - {{.Values.product}}-supportassist-ese
+       - description: "license is expiring or expired"
+         name: ExpiringLicense
+         issueCategory: Auto
+         defaultAutoClearTimeOut: 720
+         matchOnList:
+          - matchon:
+            - label: SymptomID
+              value: DECKS-LIC-1005
+          - matchon:
+            - label: SymptomID
+              value: DECKS-LIC-1006
+         notifiers:
+              - {{.Values.product}}-supportassist-ese
     eventRemedies: |-
       symptoms:
         - symptomid: DECKS-LIC-1005

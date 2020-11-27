@@ -25,8 +25,9 @@ global:
   internal_dns: kube-dns.kube-system.svc.cluster.local
   rsyslog_enabled: true
   performanceProfile: Small
-  monitoring_tag: 3.7.0.0-981.d3bbcdd1
+  monitoring_tag: 3.7.0.0-987.5c52f226
   started: true
+  logging_injection_enabled: false
 
 cert:
   enabled: false
@@ -94,6 +95,8 @@ telegraf:
             - "tsdb_telegraf_internal_gather"
             - "tsdb_telegraf_internal_write"
             - "cquerier_*"
+            - "disk"
+            - "procstat"
       - influxdb:
           insecure_skip_verify: true
           skip_database_creation: true

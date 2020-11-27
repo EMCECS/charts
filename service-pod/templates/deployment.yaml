@@ -3,10 +3,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Release.Name }}-service-pod
-  namespace: {{ .Release.Namespace }} 
+  namespace: {{ .Release.Namespace }}
   labels:
     release: {{ .Release.Name }}
-    product: {{ required "product (e.g. objectscale) is required" .Values.global.product }}
+    product: {{ required "global.product (e.g. objectscale) is required" .Values.global.product }}
     app: {{ .Release.Name }}-service-pod
 spec:
   replicas: 1
@@ -19,28 +19,21 @@ spec:
         app: {{ .Release.Name }}-service-pod
         name: {{ .Release.Name }}-service-pod
         release: {{ .Release.Name }}
-        product: {{ required "product (e.g. objectscale) is required" .Values.global.product }}
+        remote_access: {{.Values.global.product}}-service-pod
+        product: {{ required "global.product (e.g. objectscale) is required" .Values.global.product }}
     spec:
-      serviceAccountName: {{ .Release.Name }}-service-pod-sa 
-{{- if .Values.global.registrySecret }}
+      serviceAccountName: {{ .Release.Name }}-service-pod-sa
+      {{- if .Values.global.registrySecret }}
       imagePullSecrets:
         - name: {{ .Values.global.registrySecret }}
-{{- end }}
+      {{- end }}
       containers:
       - name: service-pod
-{{- if .Values.image.tag }}
-        image: {{ .Values.global.registry }}/{{ .Values.image.repository | replace "base" .Values.global.product }}:{{ .Values.image.tag }}
-{{- else }}
-        image: {{ .Values.global.registry }}/{{ .Values.image.repository | replace "base" .Values.global.product }}:{{ .Values.tag }}
-{{- end }}
-{{- if .Values.image.pullPolicy }}
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-{{- else }}
-        imagePullPolicy: {{ .Values.pullPolicy }}
-{{- end }}
+        image: {{.Values.global.registry}}/{{.Values.image.repository | replace "base" .Values.global.product}}:{{default .Values.tag .Values.image.tag}}
+        imagePullPolicy: {{default .Values.pullPolicy .Values.image.pullPolicy }}
         ports:
-        - containerPort: 22 
-          name: ssh 
+        - containerPort: 22
+          name: ssh
           protocol: TCP
         env:
         - name: MY_POD_IP
@@ -52,32 +45,34 @@ spec:
             fieldRef:
               fieldPath: metadata.name
         - name: DELL_EMC_PRODUCT
-          value: {{ required "product (e.g. objectscale) is required" .Values.global.product }}
-{{- if .Values.global.registrySecret }}
+          value: {{ required "global.product (e.g. objectscale) is required" .Values.global.product }}
+        {{- if .Values.global.registrySecret }}
         - name: REGISTRY_SECRET
           value: {{ .Values.global.registrySecret }}
-{{- end }}
+        {{- end }}
         - name: RELEASE_NAME
           value: {{ .Release.Name }}
-{{- if .Values.resources }}
+        {{- if .Values.resources }}
         resources:
-{{- if .Values.resources.requests.storage }}
+          {{- if .Values.resources.requests.storage }}
           requests:
              ephemeral-storage: {{ .Values.resources.requests.storage }}
-{{- end }}
-{{- if .Values.resources.limits.storage }}
+          {{- end }}
+          {{- if .Values.resources.limits.storage }}
           limits:
              ephemeral-storage: {{ .Values.resources.limits.storage }}
-{{- end }}
-{{- end }}
+          {{- end }}
+        {{- end }}
         volumeMounts:
-        - mountPath: /host/data
+        - mountPath: /dev/shm
+          name: dshm
+        - mountPath: /tmp
           name: host-data
-        - mountPath: /etc/srs/creds
-          name: creds-secret-vol
-          readOnly: true
       dnsPolicy: ClusterFirst
       volumes:
+      - name: dshm
+        emptyDir:
+          medium: Memory
       - emptyDir: {}
         name: host-data
       - name: creds-secret-vol

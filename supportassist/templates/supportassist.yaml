@@ -16,29 +16,11 @@ data:
     {
         "ipAddress": "0.0.0.0",
         "port": "8080",
-        "sslPort": "9443",
         "useSSL": false,
-        "defaultBackendType": "srs",
-        "remoteAccessEnabled": false,
-        "srsPrefix": "/esrs/{version}/devices",
-        "proxyUri": "",
-        "proxyUser": "",
-        "proxyPassword": "",
-        "useProxy": false,
-        "connectionState": "enabled",
-        "useGateways": true,
-        "productIdBlock": {},
-        "enableDataItemApi": true,
-        "usingBuiltinConfig": false,
-        "remoteConfig": {},
-        "gatewayEndpoints": [],
         "productFrontendUri": "http://supportassist-{{.Values.product}}-ese-callback.{{.Release.Namespace}}.svc.cluster.local:9447",
         # Could also be HTTPS: "productFrontendUri": "https://supportassist-{{.Values.product}}.{{.Release.Namespace}}.svc.cluster.local:8447",
         "productFrontendPrefix": "{{.Values.product}}",
         "productFrontendType": "webrest",
-        "contractVersion": "1.0",
-        "eventMuted": false,
-        "systemMode": "Debug",
         "srsTransferType": "{{.Values.product | upper}}"
     }
 ---
@@ -111,6 +93,11 @@ spec:
         io.kompose.service: ese-store
 {{ include "supportassist.labels" . | indent 8 }}
     spec:
+      # to allow mounts and ownership as eseservice uid (999)
+      # https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#configure-volume-permission-and-ownership-change-policy-for-pods
+      securityContext:
+        fsGroup: 999
+        fsGroupChangePolicy: "OnRootMistmatch"
       containers:
       - name: supportassist-{{.Values.product}}
         # image: <docker_registry>/dell-supportassist-ese:2.0.3

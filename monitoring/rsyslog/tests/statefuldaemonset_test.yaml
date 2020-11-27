@@ -1,0 +1,45 @@
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+suite: test statefulset
+templates:
+  - statefuldaemonset.yaml
+  - configmap.yaml
+tests:
+  - it: telegraf sidecar container
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[2].name
+          value: telegraf
+      - equal:
+          path: spec.template.spec.containers[2].volumeMounts[0].name
+          value: RELEASE-NAME-rsyslog-data
+      - equal:
+          path: spec.template.spec.containers[2].volumeMounts[0].mountPath
+          value: /pv
+      - equal:
+          path: spec.template.spec.containers[2].volumeMounts[1].name
+          value: telegraf-sidecar-config
+      - equal:
+          path: spec.template.spec.containers[2].volumeMounts[1].mountPath
+          value: /etc/telegraf
+      - equal:
+          path: spec.template.spec.containers[2].volumeMounts[2].name
+          value: additional-configs
+      - equal:
+          path: spec.template.spec.containers[2].volumeMounts[2].mountPath
+          value: /etc/telegraf/telegraf.d
+      - equal:
+          path: spec.template.spec.volumes[6].name
+          value: telegraf-sidecar-config
+      - equal:
+          path: spec.template.spec.volumes[7].name
+          value: additional-configs

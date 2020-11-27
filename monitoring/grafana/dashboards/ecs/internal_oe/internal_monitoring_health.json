@@ -14,13 +14,13 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "6.2.5"
+      "version": "6.2.5ecs"
     },
     {
       "type": "datasource",
       "id": "grafana-influxdb-flux-datasource",
       "name": "Flux (InfluxDB) [BETA]",
-      "version": "5.2.11"
+      "version": "5.2.12"
     },
     {
       "type": "panel",
@@ -1357,7 +1357,7 @@
             "h": 9,
             "w": 8,
             "x": 0,
-            "y": 32
+            "y": 2
           },
           "id": 34,
           "legend": {
@@ -1415,7 +1415,7 @@
               ],
               "measurement": "disk",
               "policy": "default",
-              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"procstat\" and r.host =~ /${host:pipe}/ and r._field == \"memory_rss\" and r.process_name == \"influxd\")\n  |> range($range)\n  |> keep(columns: [\"_time\", \"_value\", \"host\"])",
+              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"procstat\" and r._field == \"memory_rss\" and r.process_name == \"influxd\")\n  |> range($range)\n  |> keep(columns: [\"_time\", \"_value\", \"host\"])",
               "refId": "B",
               "resultFormat": "time_series",
               "select": [
@@ -1499,7 +1499,7 @@
             "h": 9,
             "w": 8,
             "x": 8,
-            "y": 32
+            "y": 2
           },
           "id": 35,
           "legend": {
@@ -1557,7 +1557,7 @@
               ],
               "measurement": "disk",
               "policy": "default",
-              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"procstat\" and r.host =~ /${host:pipe}/ and r._field == \"cpu_usage\" and r.process_name == \"influxd\")\n  |> range($range)\n  |> keep(columns: [\"_time\", \"_value\", \"host\"])",
+              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"procstat\" and r._field == \"cpu_usage\" and r.process_name == \"influxd\")\n  |> range($range)\n  |> keep(columns: [\"_time\", \"_value\", \"host\"])",
               "refId": "B",
               "resultFormat": "time_series",
               "select": [
@@ -1641,7 +1641,7 @@
             "h": 9,
             "w": 8,
             "x": 16,
-            "y": 32
+            "y": 2
           },
           "id": 36,
           "legend": {
@@ -1699,7 +1699,7 @@
               ],
               "measurement": "disk",
               "policy": "default",
-              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"procstat\" and r.host =~ /${host:pipe}/ and r._field == \"num_fds\" and r.process_name == \"influxd\")\n  |> range($range)\n  |> keep(columns: [\"_time\", \"_value\", \"host\"])",
+              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"procstat\" and r._field == \"num_fds\" and r.process_name == \"influxd\")\n  |> range($range)\n  |> keep(columns: [\"_time\", \"_value\", \"host\"])",
               "refId": "B",
               "resultFormat": "time_series",
               "select": [
@@ -1783,7 +1783,7 @@
             "h": 10,
             "w": 8,
             "x": 0,
-            "y": 41
+            "y": 11
           },
           "id": 24,
           "legend": {
@@ -1925,7 +1925,7 @@
             "h": 10,
             "w": 8,
             "x": 8,
-            "y": 41
+            "y": 11
           },
           "id": 25,
           "legend": {
@@ -2068,7 +2068,7 @@
             "h": 10,
             "w": 8,
             "x": 16,
-            "y": 41
+            "y": 11
           },
           "id": 26,
           "legend": {
@@ -2082,7 +2082,7 @@
             "rightSide": false,
             "show": true,
             "sort": "current",
-            "sortDesc": true,
+            "sortDesc": false,
             "total": false,
             "values": true
           },
@@ -2126,7 +2126,7 @@
               ],
               "measurement": "disk",
               "policy": "default",
-              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"ecs_fabric_agent_dirstat_size_bytes\" and r.host =~ /${host:pipe}/ and r.path == \"/opt/emc/caspian/fabric/agent/services/object/data/influxdb/\")\n  |> range($range)\n  |> keep(columns: [\"_start\", \"_stop\", \"_time\", \"_value\", \"host\"])",
+              "query": "from(bucket: \"monitoring_op\")\r\n  |> filter(fn: (r) => r._measurement == \"disk\" and (r._field == \"used\" or r._field == \"free\") and r.host =~ /influxdb/ and r.path == \"/pv\")\n  |> range($range)\n  |> keep(columns: [\"_start\", \"_stop\", \"_time\", \"_value\", \"host\", \"_field\"])",
               "refId": "B",
               "resultFormat": "time_series",
               "select": [
@@ -2210,7 +2210,7 @@
             "h": 10,
             "w": 8,
             "x": 0,
-            "y": 51
+            "y": 21
           },
           "id": 27,
           "legend": {
@@ -2268,7 +2268,7 @@
               ],
               "measurement": "disk",
               "policy": "default",
-              "query": "from(bucket: \"monitoring_main\")\r\n  |> filter(fn: (r) => r._measurement == \"tsdb_influxdb_httpd\" and r._field == \"pointsWrittenOK\")\n  |> range($range)\n  |> derivative(nonNegative: true, unit:1s)\n  |> keep(columns: [\"_time\", \"_value\", \"url\"])  \n  \n",
+              "query": "from(bucket: \"monitoring_main\")\r\n  |> filter(fn: (r) => r._measurement == \"tsdb_influxdb_httpd\" and r._field == \"pointsWrittenOK\")\n  |> range($range)\n  |> derivative(nonNegative: true, unit:1s)\n  |> keep(columns: [\"_time\", \"_value\", \"host\"])  \n  \n",
               "refId": "B",
               "resultFormat": "time_series",
               "select": [
@@ -2352,7 +2352,7 @@
             "h": 10,
             "w": 8,
             "x": 8,
-            "y": 51
+            "y": 21
           },
           "id": 40,
           "legend": {
@@ -2498,7 +2498,7 @@
             "h": 10,
             "w": 8,
             "x": 16,
-            "y": 51
+            "y": 21
           },
           "id": 28,
           "legend": {
@@ -2640,7 +2640,7 @@
             "h": 9,
             "w": 8,
             "x": 0,
-            "y": 61
+            "y": 31
           },
           "id": 50,
           "legend": {
@@ -2698,7 +2698,7 @@
               ],
               "measurement": "disk",
               "policy": "default",
-              "query": "from(bucket: \"monitoring_main\")\r\n  |> filter(fn: (r) => r._measurement == \"tsdb_influxdb_httpd\" and r._field == \"writeReqBytes\")\n  |> range($range)\n  |> keep(columns: [\"_time\", \"_value\", \"url\"])\n\n\n  \n  \n",
+              "query": "from(bucket: \"monitoring_main\")\r\n  |> filter(fn: (r) => r._measurement == \"tsdb_influxdb_httpd\" and r._field == \"writeReqBytes\")\n  |> range($range)\n  |> keep(columns: [\"_time\", \"_value\", \"host\"])\n\n\n  \n  \n",
               "refId": "B",
               "resultFormat": "time_series",
               "select": [
@@ -3875,7 +3875,7 @@
               ]
             },
             {
-              "query": "from(bucket: \"monitoring_op\")\n\r|> filter(fn: (r) => r._measurement == \"tsdb_fluxd_hl_expired_detected\" and r._field == \"counter\" and r.host =~ /${host:pipe}/)\r\n\r|> range($range)\n\r|> keep(columns: [\"_time\", \"_value\", \"address\"])\r\n\r|> difference(nonNegative: true)\r\n\r|> fill(column: \"_value\", value: 0)\r\n\r|> set(key: \"_field\", value: \"Failed due to expired data\")\n",
+              "query": "from(bucket: \"monitoring_op\")\n\r|> filter(fn: (r) => r._measurement == \"tsdb_fluxd_hl_expired_detected\" and r._field == \"counter\" and r.host =~ /${host:pipe}/)\r\n\r|> range($range)\n\r|> keep(columns: [\"_time\", \"_value\", \"address\"])\r\n\r|> difference(nonNegative: true)\r\n\r|> fill(column: \"_value\", value: 0)\r\n\r\r|> set(key: \"_field\", value: \"Failed due to expired data\")\n",
               "refId": "A"
             }
           ],
@@ -6631,5 +6631,5 @@
   "timezone": "",
   "title": "(OE) Internal Monitoring Health",
   "uid": "o5ijgcIWz",
-  "version": 1
+  "version": 2
 }

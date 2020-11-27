@@ -42,9 +42,6 @@ dependencies:
   - name: throttler
     repository: "file://../throttler"
     version: 0.54.0
-  - name: rsyslog-client
-    repository: "file://../rsyslog-client"
-    version: 0.54.0
   - name: telegraf-sidecar
     version: 0.54.0
     repository: file://../telegraf-sidecar

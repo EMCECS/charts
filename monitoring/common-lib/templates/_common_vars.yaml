@@ -192,3 +192,9 @@ objectscale.dellemc.com/logging-inject-rsyslog: "false"
 objectscale.dellemc.com/logging-inject-logrotate: "true"
 {{- end }}
 {{- end }}
+
+{{ define "common-lib.logging-inject-annotations" -}}
+{{- if .Values.global.logging_injection_enabled }}
+objectscale.dellemc.com/logging-release-name: "{{ .Release.Name }}"
+{{- end }}
+{{- end }}

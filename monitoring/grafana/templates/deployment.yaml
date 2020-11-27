@@ -34,6 +34,7 @@ spec:
 {{ include "common-lib.logging-inject-labels" . | indent 8 }}
 {{ include "common-lib.logging-inject-logrotate-labels" . | indent 8 }}
       annotations:
+{{ include "common-lib.logging-inject-annotations" . | indent 8 }}
         {{- if .Values.global.use_vault_for_ssl }}
         vault.hashicorp.com/agent-inject: "true"
         vault.hashicorp.com/agent-inject-status: "update"

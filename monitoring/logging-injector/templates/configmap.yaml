@@ -20,32 +20,70 @@ metadata:
 {{ include "logging-injector.labels" . | indent 4}}
 data:
   sidecarconfig.yaml: |
-    container:
-      name: rsyslog-client
-      image: "{{ include "common-lib.monitoring_registry" . }}/rsyslog:{{ .Values.global.monitoring_tag }}"
-      imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-      env:
-        - name: POD_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
-        - name: NODE_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: spec.nodeName
-        - name: RSYSLOG_CLIENT
-          value: "true"
-        - name: RSYSLOG_SVC_NAME
-          value: "{{ .Release.Name }}-rsyslog"
-        - name: RSYSLOG_SVC_NAMESPACE
-          value: "{{ .Release.Namespace }}"
-      volumeMounts:
-        - mountPath: /etc/rsyslog.conf.template
-          name: rsyslog-config
-          subPath: rsyslog.conf
+    logVolumeName: "{{ .Values.config.logVolumeName }}"
+    logging:
+      container:
+        name: rsyslog-client
+        image: "{{ include "common-lib.monitoring_registry" . }}/rsyslog:{{ .Values.global.monitoring_tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+        env:
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: NODE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
+          - name: RSYSLOG_DEBUG
+            value: "DebugOnDemand NoStdOut"
+          - name: RSYSLOG_DEBUGLOG
+            value: "/var/log/rsyslog.log"
+          - name: RSYSLOG_CLIENT
+            value: "true"
+          - name: RSYSLOG_SVC_NAME
+            value: "{{ .Release.Name }}-rsyslog"
+          - name: RSYSLOG_SVC_NAMESPACE
+            value: "{{ .Release.Namespace }}"
+        volumeMounts:
+          - mountPath: /etc/rsyslog.conf.template
+            name: rsyslog-config
+            subPath: rsyslog.conf
+          - name: "{{ .Values.config.logVolumeName }}"
+            mountPath: /var/log
+      volumes:
+        - name: rsyslog-config
+          configMap:
+            name: TARGET_RELEASE_NAME-rsyslog-client-config
+    logrotate:
+      container:
+        name: logrotate
+        image: "{{ include "common-lib.monitoring_registry" . }}/rsyslog:{{ .Values.global.monitoring_tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+        command: ["cron"]
+        args: ["-n"]
+        volumeMounts:
         - name: "{{ .Values.config.logVolumeName }}"
           mountPath: /var/log
-    volume:
-      name: rsyslog-config
-      configMap:
-        name: TARGET_RELEASE_NAME-rsyslog-client-config
+        - mountPath: /etc/cron.d
+          name: cron-config
+        - mountPath: /etc/logrotate.d/svc
+          name: logrotate-config
+          subPath: svc
+        - mountPath: /etc/logrotate.conf
+          name: logrotate-config
+          subPath: logrotate.conf
+        - mountPath: /etc/cleanup_logs
+          name: cleanup-script
+          subPath: cleanup_logs
+      volumes:
+          - name: logrotate-config
+            configMap:
+              name: TARGET_RELEASE_NAME-rsyslog-client-logrotate-config
+          - name: cron-config
+            configMap:
+              name: TARGET_RELEASE_NAME-rsyslog-client-cron-config
+          - name: cleanup-script
+            configMap:
+              name: TARGET_RELEASE_NAME-rsyslog-client-cleanup-logs-script
+              defaultMode: 0755

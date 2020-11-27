@@ -3,3 +3,6 @@ dependencies:
   version: x.x
   condition: global.monitoring.enabled
   repository: file://../monitoring/ecs-monitoring
+- name: rsyslog-client
+  repository: "file://../monitoring/rsyslog-client"
+  version: x.x

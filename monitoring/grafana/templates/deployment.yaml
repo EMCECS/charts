@@ -32,6 +32,7 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
         release: {{ .Release.Name }}
 {{ include "common-lib.logging-inject-labels" . | indent 8 }}
+{{ include "common-lib.logging-inject-logrotate-labels" . | indent 8 }}
       annotations:
 {{ include "common-lib.logging-inject-annotations" . | indent 8 }}
         {{- if .Values.global.use_vault_for_ssl }}
@@ -146,6 +147,7 @@ spec:
           periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 60 }}
           failureThreshold: {{ .Values.readinessProbe.failureThreshold | default 3 }}
 {{ include "common-lib.rsyslog_client_sidecar" . | indent 6 }}
+{{- if not .Values.global.logging_injection_enabled }}
       - name: logrotate
         image: "{{ include "common-lib.monitoring_registry" . }}/rsyslog:{{ .Values.global.monitoring_tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
@@ -167,6 +169,7 @@ spec:
           subPath: cleanup_logs
         - mountPath: /crash-dump
           name: crash-dump
+{{- end }}
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
 {{ toYaml .Values.imagePullSecrets | indent 8 }}
@@ -197,6 +200,7 @@ spec:
 {{ include "common-lib.rsyslog_client_volumes" . | indent 6 }}
       - name: log
         emptyDir: {}
+{{- if not .Values.global.logging_injection_enabled }}
       - name: logrotate-config
         configMap:
           name: {{ .Release.Name }}-rsyslog-client-logrotate-config
@@ -207,5 +211,6 @@ spec:
         configMap:
           name: {{ .Release.Name }}-rsyslog-client-cleanup-logs-script
           defaultMode: 0755
+{{- end }}
       - name: crash-dump
         emptyDir: {}

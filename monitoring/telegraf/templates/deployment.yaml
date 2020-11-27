@@ -28,6 +28,7 @@ spec:
       labels:
         app.kubernetes.io/name: {{ template "telegraf.fullname" . }}
         release: {{ .Release.Name }}
+{{ include "common-lib.logging-inject-labels" . | indent 8 }}
       annotations:
         # Include a hash of the configmap in the pod template
         # This means that if the configmap changes, the deployment will be rolled

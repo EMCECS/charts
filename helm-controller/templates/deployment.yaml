@@ -36,6 +36,10 @@ spec:
         product: objectscale
     spec:
       serviceAccountName: install-controller
+      {{- if .Values.global.registrySecret }}
+      imagePullSecrets:
+        - name: {{ .Values.global.registrySecret }}
+      {{- end }}
       containers:
         - name: objectscale-install-controller
           resources:
@@ -70,3 +74,11 @@ spec:
           ports:
             - containerPort: {{ .Values.service.targetPort | default 8080 }}
               name: http
+{{- if .Values.debug }}
+            - containerPort: 40000
+              name: debug
+              protocol: TCP
+          securityContext:
+            capabilities:
+              add: ["SYS_PTRACE"]
+{{- end }}

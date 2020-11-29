@@ -34,6 +34,10 @@ image:
   # tag: stable
   # pullPolicy: IfNotPresent
 
+# This will create the graphql container with the debug image tag. debug image will always be {{image.tag}}-debug
+# also, this will expose port 40000 as debug port for debugging the application remotely in the cluster itself
+debug: false
+
 service:
 
   # Type of Kubernetes service: ClusterIP, LoadBalancer, or NodePort

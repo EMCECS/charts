@@ -103,7 +103,7 @@ rules:
   - list
 ---
 kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: {{ template "srs-gateway.configUploadServiceAccountName" . }}
   namespace: {{ .Release.Namespace }}

@@ -12,7 +12,7 @@
 
 suite: test svc logs
 templates:
-  - svc-log4j2.yaml
+  - svc-configs.yaml
 tests:
   - it: blob
     set:

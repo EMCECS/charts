@@ -6,7 +6,6 @@ YAMLLINT_VERSION := 1.20.0
 CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod objectscale-graphql helm-controller objectscale-vsphere iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator
 DECKSCHARTS := decks kahm supportassist service-pod dellemc-license decks-support-store
 FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller iam statefuldaemonset-operator
-MONITORING_DIR := monitoring
 
 # release version
 PACKAGE_VERSION=0.55
@@ -47,9 +46,9 @@ clean: clean-package
 
 all: test package
 
-release: decksver flexver monitoringver build-all add-to-git
+release: decksver flexver build-all add-to-git
 
-test: monitoring-test
+test:
 	helm lint ${CHARTS} --set product=objectscale --set global.product=objectscale
 	yamllint -c .yamllint.yml */Chart.yaml */values.yaml
 	yamllint -c .yamllint.yml -s .yamllint.yml .travis.yml
@@ -104,7 +103,7 @@ flexver:
 		sed -i -e "0,/^tag.*/s//tag: ${FLEXVER}/"  $$CHART/values.yaml; \
 	done ;
 
-build-all: monitoring-dep build
+build-all: build
 
 build:
 	@echo "looking for yq command"
@@ -236,15 +235,6 @@ create-manager-manifest-ci: create-temp-package
 	--set global.storageClassName=${STORAGECLASSNAME} \
 	--set logReceiver.create=false \
 	-f objectscale-manager/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
-
-monitoring-test:
-	make -C ${MONITORING_DIR} test
-
-monitoring-dep:
-	make -C ${MONITORING_DIR} dep
-
-monitoringver:
-	make -C ${MONITORING_DIR} ver PACKAGE_VERSION=${FULL_PACKAGE_VERSION}
 
 build-installer:
 	echo "Copy charts to container and build image"

@@ -135,7 +135,7 @@ zookeeper:
 
   image:
     repository: zookeeper
-    tag: 0.2.7
+    tag: 0.2.9
     # pullPolicy: IfNotPresent
 
   # Persistent storage options for zookeeper volume requests

@@ -1,0 +1,36 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: supportassist-{{.Values.product}}-app-config
+    namespace: {{.Release.namespace}}
+    labels:
+        app.kubernetes.io/name: supportassist-{{.Values.product}}
+        app.kubernetes.io/version: {{.Values.tag}}
+        app.kubernetes.io/instance: {{.Release.Name}}
+        app.kubernetes.io/managed-by: {{.Release.Service}}
+        helm.sh/chart: {{.Chart.Name}}-{{.Chart.Version | replace "+" "_"}}
+        release: {{.Release.Name}}
+        product: {{.Values.product}}
+    annotations:
+        com.dellemc.kahm.subscribed: "true"
+data:
+    eventRules: |-
+      issueRules:
+       - name: SupportAssistConfiguration
+         description: "SupportAssist configuration issues"
+         issueCategory: Manual
+         matchOnList:
+          - matchon:
+            - label: SymptomID
+              value: DECKS-SA-1023
+    eventRemedies: |-
+      symptoms:
+        - symptomid: DECKS-SA-1023
+          description: Dell EMC SupportAssist configuration issues
+          remedies:
+            - Verify the supportassist-{{.Values.product}} pod is Running
+            - Is SupportAssist still disabled?
+            - Verify connectivity of configured gateways.
+            - Verify a valid AccessKey and PIN were used.
+    healthChecks: |-

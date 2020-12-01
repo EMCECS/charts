@@ -125,11 +125,6 @@ data:
                 "configure": {
                     "views": [
                         {
-                            "navigationId": "deos.configure.dashboard",
-                            "labelKey": "cluster.configure.list.dashboard",
-                            "uri": "index.html?view=dashboard"
-                        },
-                        {
                             "navigationId": "deos.configure.objectstores",
                             "labelKey": "cluster.configure.list.objectstores",
                             "uri": "index.html?view=objectstores"
@@ -169,11 +164,6 @@ data:
                         "en-US": "HealthSERVICE_ID",
                         "de-DE": "GesundheitSERVICE_ID",
                         "fr-FR": "santéSERVICE_ID"
-                    },
-                    "cluster.configure.list.dashboard": {
-                        "en-US": "DashboardSERVICE_ID",
-                        "de-DE": "DashboardSERVICE_ID",
-                        "fr-FR": "DashboardSERVICE_ID"
                     },
                     "cluster.configure.list.objectstores": {
                         "en-US": "Object StoresSERVICE_ID",

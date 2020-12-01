@@ -1,5 +1,8 @@
 dependencies:
 - name: ecs-monitoring
-  version: x.x
+  version: 3.7.0+1062.8cdcf9c7
   condition: global.monitoring.enabled
-  repository: file://../monitoring/ecs-monitoring
+  repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+- name: rsyslog-client
+  repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+  version: 3.7.0+1062.8cdcf9c7

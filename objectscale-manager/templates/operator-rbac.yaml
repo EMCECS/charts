@@ -134,6 +134,12 @@ rules:
   - influxdbs
   verbs:
   - "*"
+- apiGroups:
+  - cns.vmware.com
+  resources:
+  - "*"
+  verbs:
+  - "*"
 ---
 {{- if eq .Values.global.watchAllNamespaces true }}
 kind: ClusterRoleBinding

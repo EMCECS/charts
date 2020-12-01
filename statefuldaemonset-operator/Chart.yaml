@@ -12,5 +12,5 @@ maintainers:
 
 dependencies:
 - name: common-lib
-  version: 0.54.0
-  repository: file://../monitoring/common-lib
+  repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+  version: 3.7.0+1062.8cdcf9c7

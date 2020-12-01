@@ -48,7 +48,8 @@ service:
   type: ClusterIP
 
 decks:
-  licenseChartVersion: "2.0.54"
+  licenseChartVersion: "2.0.55"
+  supportAssistChartVersion: "2.0.55"
   srsGatewayChartVersion: "1.2.0"
 
 logReceiver:

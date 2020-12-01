@@ -31,11 +31,15 @@ spec:
         app.kubernetes.io/version: {{ .Chart.AppVersion }}
         app.kubernetes.io/part-of: {{ .Release.Name }}
         helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-        release: {{ .Release.Name}}
+        release: {{ .Release.Name }}
         operator: objectscale-operator
         product: objectscale
     spec:
       serviceAccountName: install-controller
+      {{- if .Values.global.registrySecret }}
+      imagePullSecrets:
+        - name: {{ .Values.global.registrySecret }}
+      {{- end }}
       containers:
         - name: objectscale-install-controller
           resources:
@@ -47,6 +51,17 @@ spec:
           env:
             - name: OPERATOR_NAME
               value: objectscale-operator
+            - name: MY_POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: REST_PORT
+              value: {{ .Values.service.targetPort | default 8080 | quote}}
+            - name: REST_CREDENTIALS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-rest-credentials
+                  key: credentials
             - name: WATCH_NAMESPACE
               {{- if eq .Values.global.watchAllNamespaces true}}
               value: ""
@@ -55,4 +70,15 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
           {{- end }}
-          imagePullPolicy: {{ default .Values.pullPolicy .Values.image.pullPolicy }}
+          imagePullPolicy: {{ .Values.image.pullPolicy | default .Values.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.targetPort | default 8080 }}
+              name: http
+{{- if .Values.debug }}
+            - containerPort: 40000
+              name: debug
+              protocol: TCP
+          securityContext:
+            capabilities:
+              add: ["SYS_PTRACE"]
+{{- end }}

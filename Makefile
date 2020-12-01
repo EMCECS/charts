@@ -9,7 +9,7 @@ FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-gr
 MONITORING_DIR := monitoring
 
 # release version
-PACKAGE_VERSION=0.54
+PACKAGE_VERSION=0.55
 FULL_PACKAGE_VERSION=${PACKAGE_VERSION}.0
 FLEXVER=${FULL_PACKAGE_VERSION}
 DECKSVER=2.${PACKAGE_VERSION}
@@ -81,7 +81,6 @@ decksver:
 		echo "Setting version ${DECKSVER} in $$CHART" ;\
 		yq w -i $$CHART/Chart.yaml appVersion ${DECKSVER} ; \
 		yq w -i $$CHART/Chart.yaml version ${DECKSVER} ; \
-		echo -e "---\n`cat $$CHART/Chart.yaml`" > $$CHART/Chart.yaml ; \
 		sed -i -e "0,/^tag.*/s//tag: ${DECKSVER}/"  $$CHART/values.yaml; \
 	done ;
 
@@ -102,7 +101,6 @@ flexver:
 		echo "Setting version $$FLEXVER in $$CHART" ;\
 		yq w -i $$CHART/Chart.yaml appVersion ${FLEXVER} ; \
 		sed -i -e "/no_auto_change/!s/version:.*/version: ${FLEXVER}/g"  $$CHART/Chart.yaml; \
-		echo -e "---\n`cat $$CHART/Chart.yaml`" > $$CHART/Chart.yaml ; \
 		sed -i -e "0,/^tag.*/s//tag: ${FLEXVER}/"  $$CHART/values.yaml; \
 	done ;
 

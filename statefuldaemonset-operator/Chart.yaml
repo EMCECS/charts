@@ -1,16 +1,14 @@
----
 apiVersion: v2
 name: statefuldaemonset-operator
-version: 0.54.0
-appVersion: 0.54.0
+version: 0.55.0
+appVersion: 0.55.0
 description: |
   StatefulDaemonSet operator deploys operator pod which is responsible
   for creation of statefulset pods on all k8s nodes
 maintainers:
-- name: Dell EMC
-  url: https://dellemc.com
-
+  - name: Dell EMC
+    url: https://dellemc.com
 dependencies:
-- name: common-lib
-  version: 0.54.0
-  repository: file://../monitoring/common-lib
+  - name: common-lib
+    version: 0.55.0
+    repository: file://../monitoring/common-lib

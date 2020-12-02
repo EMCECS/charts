@@ -72,6 +72,8 @@ spec:
           value: {{ .Values.global.registry }}
         - name: LICENSE_CHART_VERSION
           value: {{ default "1.1.0" .Values.decks.licenseChartVersion }}
+        - name: SUPPORTASSIST_CHART_VERSION
+          value: {{ default "2.0.55" .Values.decks.supportAssistChartVersion }}
         - name: SRSGATEWAY_CHART_VERSION
           value: {{ default "1.1.0" .Values.decks.srsGatewayChartVersion }}
         - name: OPERATOR_NAME

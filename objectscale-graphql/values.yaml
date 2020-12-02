@@ -27,7 +27,7 @@ global:
 
 # This is the list of available objectstore versions to graphql for UI to configure the store.
 objectStoreAvailableVersions:
-  - 0.54.0
+  - 0.55.0
 
 # The default docker tag and pull policy for objectscale-graphql services
 tag: 0.55.0
@@ -48,7 +48,8 @@ service:
   type: ClusterIP
 
 decks:
-  licenseChartVersion: "2.0.54"
+  licenseChartVersion: "2.0.55"
+  supportAssistChartVersion: "2.0.55"
   srsGatewayChartVersion: "1.2.0"
 
 logReceiver:

@@ -123,3 +123,10 @@ rules:
     - get
     - watch
     - list
+- apiGroups:
+    - cns.vmware.com
+  resources:
+    - storagepolicies
+  verbs:
+    - get
+    - list

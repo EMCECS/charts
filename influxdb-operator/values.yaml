@@ -1,0 +1,45 @@
+---
+# Default values for influxdb operator
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# These values are overridden when the Influxdb operator is included within a subchart
+global:
+
+  # The Docker registry hosting containers for the influxdb operator
+  registry: emccorp
+
+  # Specifies if the Operator should watch all namespaces for influxdb
+  # resources or only the namespace that is is deployed in.
+  watchAllNamespaces: false
+
+  # Extra labels that will be applied to all resources created by the chart
+  labels: {}
+
+image:
+  repository: influxdb-operator
+  # tag: stable
+  pullPolicy: IfNotPresent
+
+nameOverride: ""
+
+podSecurityContext: {}
+
+securityContext: {}
+
+serviceAccount:
+  create: true
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 64Mi
+  limits:
+    cpu: 1
+    memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

@@ -1,12 +1,11 @@
-- description: "Hard quota exceeded for this bucket"
-  name: "BucketHardQuota"
+- description: "Page Table disk cache size for blobsvc exceeded threshold"
+  name: "BLOB_DISK_CACHE_SIZE"
   defaultAutoClearTimeOut: 60
   issueCategory: Auto
   matchOnList:
     - matchon:
+        # WARNING
         - label: SymptomID
-          value: 1006
-        - field: type
-          value: Error
+          value: 1378
   notifiers:
     - objectscale-supportassist-ese

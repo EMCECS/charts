@@ -1,0 +1,11 @@
+- description: "Garbage collection for user data / system metadata is disabled"
+  name: "SR_STATUS_THRESHOLD_EXCEEDED"
+  defaultAutoClearTimeOut: 60
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # WARNING
+        - label: SymptomID
+          value: 1345
+  notifiers:
+    - objectscale-supportassist-ese

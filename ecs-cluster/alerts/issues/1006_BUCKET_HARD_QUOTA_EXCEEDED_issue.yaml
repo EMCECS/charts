@@ -1,0 +1,9 @@
+- description: "Hard quota exceeded for this bucket"
+  name: "BUCKET_HARD_QUOTA_EXCEEDED"
+  issueCategory: Manual
+  matchOnList:
+    - matchon:
+        # ERROR
+        - label: SymptomID
+          value: 1006
+# Do not generate SR

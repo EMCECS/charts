@@ -1,0 +1,9 @@
+- description: "Soft quota limit exceeded for bucket"
+  name: "BUCKET_SOFT_QUOTA_EXCEEDED"
+  issueCategory: Manual
+  matchOnList:
+    - matchon:
+        # WARNING
+        - label: SymptomID
+          value: 1008
+# Do not generate SR

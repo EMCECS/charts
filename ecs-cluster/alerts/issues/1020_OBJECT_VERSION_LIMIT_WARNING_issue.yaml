@@ -1,0 +1,9 @@
+- description: "Object in bucket is approaching the per object version limit"
+  name: "OBJECT_VERSION_LIMIT_WARNING"
+  issueCategory: Manual
+  matchOnList:
+    - matchon:
+        # CRITICAL
+        - label: SymptomID
+          value: 1020
+# Do not generate SR

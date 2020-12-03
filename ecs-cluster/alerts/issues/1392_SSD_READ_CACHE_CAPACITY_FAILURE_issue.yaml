@@ -1,12 +1,11 @@
 - description: "SSD read cache auto clean up failed when capacity full and fall back to memory cache"
-  name: "SSDReadCacheCapacityFailure"
+  name: "SSD_READ_CACHE_CAPACITY_FAILURE"
   defaultAutoClearTimeOut: 60
   issueCategory: Auto
   matchOnList:
     - matchon:
+        # ERROR
         - label: SymptomID
           value: 1392
-        - field: type
-          value: Error
   notifiers:
     - objectscale-supportassist-ese

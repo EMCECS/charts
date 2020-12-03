@@ -4,9 +4,8 @@
   issueCategory: Auto
   matchOnList:
     - matchon:
+        # CRITICAL
         - label: SymptomID
           value: 4019
-        - field: type
-          value: Critical
   notifiers:
     - objectscale-supportassist-ese

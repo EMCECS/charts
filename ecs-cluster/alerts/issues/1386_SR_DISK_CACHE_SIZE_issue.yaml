@@ -1,0 +1,11 @@
+- description: "Page Table disk cache size for sr exceeded threshold"
+  name: "SR_DISK_CACHE_SIZE"
+  defaultAutoClearTimeOut: 60
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # WARNING
+        - label: SymptomID
+          value: 1386
+  notifiers:
+    - objectscale-supportassist-ese

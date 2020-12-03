@@ -17,12 +17,12 @@ metadata:
 data:
     eventRules: |-
       issueRules:
-{{ range $path, $_ :=  .Files.Glob  "alerts/*_issue.yaml" }}
+{{ range $path, $_ :=  .Files.Glob  "alerts/issues/*_issue.yaml" }}
 {{- $.Files.Get $path | indent 8 }}
 {{ end }}
     eventRemedies: |-
       symptoms:
-{{ range $path, $_ :=  .Files.Glob  "alerts/*_remedie.yaml" }}
+{{ range $path, $_ :=  .Files.Glob  "alerts/remedies/*_remedie.yaml" }}
 {{- $.Files.Get $path | indent 8 }}
 {{ end }}
     health: |-

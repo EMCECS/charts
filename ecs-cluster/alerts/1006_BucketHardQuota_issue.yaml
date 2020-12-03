@@ -1,0 +1,12 @@
+- description: "Hard quota exceeded for this bucket"
+  name: "BucketHardQuota"
+  defaultAutoClearTimeOut: 60
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        - label: SymptomID
+          value: 1006
+        - field: type
+          value: Error
+  notifiers:
+    - objectscale-supportassist-ese

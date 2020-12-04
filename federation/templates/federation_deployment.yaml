@@ -1,0 +1,56 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: federation 
+  labels:
+    {{- include "federation.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.fedsvc.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "federation.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "federation.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      containers:
+      - name: federation 
+        env:
+        - name: MY_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: MY_POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: MY_POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: {{ default  .Values.global.registry .Values.fedsvc.image.registry }}/{{ .Values.fedsvc.image.repository }}:{{ default .Values.tag .Values.fedsvc.image.tag }}
+        imagePullPolicy: {{ .Values.fedsvc.image.pullPolicy }}
+        ports:
+          - name: http
+            containerPort: 9501 
+            protocol: TCP
+        livenessProbe:
+            httpGet:
+                path: {{ .Values.fedsvc.livenessProbe.probePath }}
+                port: http
+            failureThreshold: {{ .Values.fedsvc.livenessProbe.failureThreshold | default 3 }}
+            periodSeconds: {{ .Values.fedsvc.livenessProbe.periodSeconds | default 60 }}
+        readinessProbe:
+            httpGet:
+                path: {{ .Values.fedsvc.readinessProbe.probePath }}
+                port: http
+            failureThreshold: {{ .Values.fedsvc.readinessProbe.failureThreshold | default 3 }}
+            periodSeconds: {{ .Values.fedsvc.readinessProbe.periodSeconds | default 60 }}
+
+

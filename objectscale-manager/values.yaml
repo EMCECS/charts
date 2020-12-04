@@ -46,6 +46,9 @@ atlas:
 servicePod:
   enabled: true
 
+federation:
+  enabled: false
+
 iam:
   enabled: false
 

@@ -21,6 +21,10 @@ dependencies:
     version: 3.7.0+1062.8cdcf9c7 # no_auto_change
     condition: global.monitoring.enabled
     repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+  - name: federation
+    version: 0.55.0
+    repository: file://../federation
+    condition: federation.enabled
   - name: iam
     version: 0.55.0
     repository: file://../iam

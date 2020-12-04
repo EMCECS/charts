@@ -3,8 +3,6 @@ templates:
   - role.yaml
 tests:
   - it: should create a ClusterRole resource
-    set:
-      global.watchAllNamespaces: true
     asserts:
       - isKind:
           of: ClusterRole
@@ -12,6 +10,8 @@ tests:
           path: metadata.name
           value: RELEASE-NAME-influxdb-operator-NAMESPACE-influxdb-operator-role
   - it: should create a Role resource in a namespace
+    set:
+      global.watchAllNamespaces: false
     asserts:
       - isKind:
           of: Role

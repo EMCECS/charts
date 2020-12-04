@@ -3,8 +3,6 @@ templates:
   - role_binding.yaml
 tests:
   - it: should create a ClusterRoleBinding resource
-    set:
-      global.watchAllNamespaces: true
     asserts:
       - isKind:
           of: ClusterRoleBinding
@@ -12,6 +10,8 @@ tests:
           path: metadata.name
           value: RELEASE-NAME-influxdb-operator-NAMESPACE-influxdb-operator-binding
   - it: should create a RoleBinding resource in a namespace
+    set:
+      global.watchAllNamespaces: false
     asserts:
       - isKind:
           of: RoleBinding
@@ -30,8 +30,6 @@ tests:
           path: metadata.labels.app\.kubernetes\.io/instance
           value: RELEASE-NAME
   - it: should bind the ClusterRole to the specified account
-    set:
-      global.watchAllNamespaces: true
     asserts:
       - equal:
           path: roleRef.kind
@@ -46,6 +44,8 @@ tests:
           path: subjects[0].name
           value: RELEASE-NAME-influxdb-operator
   - it: should bind the Role to the specified account
+    set:
+      global.watchAllNamespaces: false
     asserts:
       - equal:
           path: roleRef.kind
@@ -61,6 +61,7 @@ tests:
           value: RELEASE-NAME-influxdb-operator
   - it: should bind the Role to the default account
     set:
+      global.watchAllNamespaces: false
       serviceAccount.create: false
     asserts:
       - equal:

@@ -11,7 +11,7 @@ global:
 
   # Specifies if the Operator should watch all namespaces for influxdb
   # resources or only the namespace that is is deployed in.
-  watchAllNamespaces: false
+  watchAllNamespaces: true
 
   # Extra labels that will be applied to all resources created by the chart
   labels: {}

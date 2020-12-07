@@ -6,7 +6,7 @@ metadata:
   name: "kahm"
   namespace: {{.Release.Namespace}}
   labels:
-    app.kubernetes.io/name: "decks"
+    app.kubernetes.io/name: "kahm"
     app.kubernetes.io/version: {{ .Chart.AppVersion }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{.Release.Service}}

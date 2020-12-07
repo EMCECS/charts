@@ -2,10 +2,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: federation 
+  name: fedsvc
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "federation.labels" . | nindent 4 }}
+    {{- include "fedsvc.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.fedsvc.service.type }}
   ports:
@@ -14,4 +14,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "federation.selectorLabels" . | nindent 4 }}
+    {{- include "fedsvc.selectorLabels" . | nindent 4 }}

@@ -1,0 +1,11 @@
+- description: "No data has been pushed to the monitoring framework for the last 30 minutes"
+  name: "MonitoringHealth"
+  defaultAutoClearTimeOut: 60
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # CRITICAL
+        - label: SymptomID
+          value: 4019
+  notifiers:
+    - objectscale-supportassist-ese

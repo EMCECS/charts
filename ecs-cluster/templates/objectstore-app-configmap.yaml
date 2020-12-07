@@ -17,68 +17,14 @@ metadata:
 data:
     eventRules: |-
       issueRules:
-        - description: "No data has been pushed to the monitoring framework for the last 30 minutes"
-          name: "MonitoringHealth"
-          defaultAutoClearTimeOut: 60
-          issueCategory: Auto
-          matchOnList:
-            - matchon:
-                - label: SymptomID
-                  value: 4019
-                - field: type
-                  value: Critical
-          notifiers:
-            - objectscale-supportassist-ese
-        - description: "Hard quota exceeded for this bucket"
-          name: "BucketHardQuota"
-          defaultAutoClearTimeOut: 60
-          issueCategory: Auto
-          matchOnList:
-            - matchon:
-                - label: SymptomID
-                  value: 1006
-                - field: type
-                  value: Error
-          notifiers:
-            - objectscale-supportassist-ese
-        - description: "Memory table size for process is less than the specified threshold"
-          name: "ProcessMemoryTableFreeSpacePercent"
-          defaultAutoClearTimeOut: 60
-          issueCategory: Auto
-          matchOnList:
-            - matchon:
-                - label: SymptomID
-                  value: 1354
-                - field: type
-                  value: Error
-          notifiers:
-            - objectscale-srs
-        - description: "SSD read cache auto clean up failed when capacity full and fall back to memory cache"
-          name: "SSDReadCacheCapacityFailure"
-          defaultAutoClearTimeOut: 60
-          issueCategory: Auto
-          matchOnList:
-            - matchon:
-                - label: SymptomID
-                  value: 1392
-                - field: type
-                  value: Error
-          notifiers:
-            - objectscale-supportassist-ese
+{{ range $path, $_ :=  .Files.Glob  "alerts/issues/*_issue.yaml" }}
+{{- $.Files.Get $path | indent 8 }}
+{{ end }}
     eventRemedies: |-
       symptoms:
-        - symptomid: 1006
-          description: Hard quota exceeded for this bucket
-          remedies:
-            - Free up space in the bucket
-        - symptomid: 4019
-          description: No data has been pushed to the monitoring framework for the last 30 minutes
-          remedies:
-            - KB https://support.emc.com/kb/536249
-        - symptomid: 1354
-          description: Memory table size for process is less than specified threshold
-          remedies:
-            - KB https://support.emc.com/kb/530081
+{{ range $path, $_ :=  .Files.Glob  "alerts/remedies/*_remedie.yaml" }}
+{{- $.Files.Get $path | indent 8 }}
+{{ end }}
     health: |-
       spec:
         - name: objectstore-healthcheck

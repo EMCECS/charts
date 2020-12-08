@@ -28,9 +28,11 @@ sshCred:
   user: "root"
   group: "adm"
   password: "ChangeMe"
-# specify the requests and limits for the ephemeral storage for the pod
+
+# specify the requests and limits for the pod
 resources:
   requests:
+    memory: 1Gi
     storage: 10Gi
   limits:
     storage: 20Gi

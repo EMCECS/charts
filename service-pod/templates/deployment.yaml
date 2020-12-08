@@ -35,6 +35,9 @@ spec:
         - containerPort: 22
           name: ssh
           protocol: TCP
+        resources:
+          requests:
+            memory: {{ .Values.resources.requests.memory }}
         env:
         - name: MY_POD_IP
           valueFrom:

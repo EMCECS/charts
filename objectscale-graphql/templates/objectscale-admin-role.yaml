@@ -91,7 +91,7 @@ rules:
     - watch
     - list
 - apiGroups:
-    - cns.vmware.com
+    - appplatform.wcp.vmware.com
   resources:
     - storagepolicies
   verbs:

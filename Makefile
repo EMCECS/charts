@@ -3,9 +3,9 @@ HELM_URL     := https://get.helm.sh
 HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
 YQ_VERSION   := 2.4.1
 YAMLLINT_VERSION := 1.20.0
-CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod objectscale-graphql helm-controller objectscale-vsphere iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator influxdb-operator
+CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod objectscale-graphql helm-controller objectscale-vsphere iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator federation
 DECKSCHARTS := decks kahm supportassist service-pod dellemc-license decks-support-store
-FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller iam statefuldaemonset-operator influxdb-operator
+FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller iam statefuldaemonset-operator federation
 
 # release version
 PACKAGE_VERSION=0.55
@@ -162,7 +162,7 @@ combine-crds:
 create-vmware-package:
 	./vmware/vmware_pack.sh ${SERVICE_ID}
 
-create-manifests: create-vsphere-install create-kahm-manifest create-decks-app create-manager-app
+create-manifests: create-vsphere-install create-kahm-app create-decks-app create-manager-app
 
 create-vsphere-install: create-vsphere-templates
 
@@ -184,6 +184,7 @@ create-manager-app: create-temp-package
 	--set objectscale-monitoring.influxdb.persistence.storageClassName=${STORAGECLASSNAME_VSAN_SNA} \
 	--set objectscale-monitoring.rsyslog.persistence.storageClassName=${STORAGECLASSNAME_VSAN_SNA} \
 	--set iam.enabled=false ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
+	--set federation.enabled=false ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
 	-f values.yaml > ../${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml;
 	sed -i 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
 	sed -i 's/\\"monitoring\\":{\\"enabled\\":false}/\\"monitoring\\":{\\"enabled\\":true}/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
@@ -199,11 +200,6 @@ create-vsphere-templates: create-temp-package
 	--set global.storageClassName=${STORAGECLASSNAME} ${HELM_UI_ARGS} ${HELM_GRAPHQL_ARGS} ${HELM_INSTALLER_ARGS} \
 	-f objectscale-vsphere/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
 
-create-kahm-manifest: create-temp-package
-	helm template kahm ./kahm -n ${NAMESPACE} --set global.platform=VMware \
-	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} --set global.registry=${KAHM_REGISTRY} ${HELM_KAHM_ARGS} \
-	--set storageClassName=${STORAGECLASSNAME} -f kahm/values.yaml >> ${TEMP_PACKAGE}/yaml/${KAHM_MANIFEST}
-
 create-decks-app: create-temp-package
 	# cd in makefiles spawns a subshell, so continue the command with ;
 	cd decks; \
@@ -217,6 +213,20 @@ create-decks-app: create-temp-package
 	sed -i 's/createdecksappResource\\":true/createdecksappResource\\":false/g' ${TEMP_PACKAGE}/yaml/decks-app.yaml && \
 	sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/decks-app.yaml
 	cat ${TEMP_PACKAGE}/yaml/decks-app.yaml >> ${TEMP_PACKAGE}/yaml/${DECKS_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/decks-app.yaml
+
+create-kahm-app: create-temp-package
+	# cd in makefiles spawns a subshell, so continue the command with ;
+	cd kahm; \
+	helm template --show-only templates/kahm-app.yaml kahm ../kahm  -n ${NAMESPACE} \
+	--set global.platform=VMware \
+	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} \
+	--set global.registry=${KAHM_REGISTRY} \
+	--set storageClassName=${STORAGECLASSNAME} \
+        ${HELM_KAHM_ARGS} \
+	-f values.yaml > ../${TEMP_PACKAGE}/yaml/kahm-app.yaml;
+	sed -i 's/createkahmappResource\\":true/createkahmappResource\\":false/g' ${TEMP_PACKAGE}/yaml/kahm-app.yaml && \
+	sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/kahm-app.yaml
+	cat ${TEMP_PACKAGE}/yaml/kahm-app.yaml >> ${TEMP_PACKAGE}/yaml/${KAHM_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/kahm-app.yaml
 archive-package:
 	tar -zcvf ${PACKAGE_NAME} ${TEMP_PACKAGE}/*
 

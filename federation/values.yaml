@@ -1,0 +1,17 @@
+---
+tag: 0.55.0
+global:
+  registry: emccorp
+fedsvc:
+  image:
+    pullPolicy: IfNotPresent
+    repository: fedsvc
+    #tag: stable
+  livenessProbe:
+    probePath: /fedsvchealthcheck
+  readinessProbe:
+    probePath: /fedsvchealthcheck
+  replicaCount: 3
+  service:
+    port: 9500
+    type: LoadBalancer

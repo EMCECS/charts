@@ -80,7 +80,7 @@ dockersecret='{{printf "{\\"auths\\": {\\"%s\\": {\\"auth\\": \\"%s\\"}}}" .Valu
 sed -i -e "s/DOCKERSECRETPLACEHOLDER/$dockersecret/g" temp_package/yaml/*
 
 ## Template the vsphere service prefix value
-sed -i "s/VSPHERE_SERVICE_PREFIX_VALUE/{{ .service.prefix }}/g" temp_package/yaml/${vsphere7_plugin_file}
+sed "${sed_inplace[@]}" "s/VSPHERE_SERVICE_PREFIX_VALUE/{{ .service.prefix }}/g" temp_package/yaml/${vsphere7_plugin_file}
 
 cp -p ./vmware/deploy-objectscale-plugin.sh temp_package/scripts 
 

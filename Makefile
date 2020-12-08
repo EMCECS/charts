@@ -248,8 +248,8 @@ create-kahm-app: create-temp-package
 	--set storageClassName=${STORAGECLASSNAME} \
         ${HELM_KAHM_ARGS} \
 	-f values.yaml > ../${TEMP_PACKAGE}/yaml/kahm-app.yaml;
-	sed -i 's/createkahmappResource\\":true/createkahmappResource\\":false/g' ${TEMP_PACKAGE}/yaml/kahm-app.yaml && \
-	sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/kahm-app.yaml
+	sed ${SED_INPLACE} 's/createkahmappResource\\":true/createkahmappResource\\":false/g' ${TEMP_PACKAGE}/yaml/kahm-app.yaml && \
+	sed ${SED_INPLACE} 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/kahm-app.yaml
 	cat ${TEMP_PACKAGE}/yaml/kahm-app.yaml >> ${TEMP_PACKAGE}/yaml/${KAHM_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/kahm-app.yaml
 
 create-logging-injector-app: create-temp-package

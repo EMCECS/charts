@@ -26,7 +26,7 @@ global:
 
 # The default docker tag and pull policy for helm-controller services
 ## OBSDEF-4106 - patched to specifically pull in latest charts for UI-ESE and other integration testing
-tag: 0.55.0
+tag: 0.60.0
 pullPolicy: IfNotPresent
 
 image:

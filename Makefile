@@ -8,7 +8,7 @@ DECKSCHARTS := decks kahm supportassist service-pod dellemc-license decks-suppor
 FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller iam statefuldaemonset-operator federation
 
 # release version
-PACKAGE_VERSION=0.55
+PACKAGE_VERSION=0.60
 FULL_PACKAGE_VERSION=${PACKAGE_VERSION}.0
 FLEXVER=${FULL_PACKAGE_VERSION}
 DECKSVER=2.${PACKAGE_VERSION}
@@ -80,12 +80,12 @@ decksver:
 		echo "Setting version ${DECKSVER} in $$CHART" ;\
 		yq w -i $$CHART/Chart.yaml appVersion ${DECKSVER} ; \
 		yq w -i $$CHART/Chart.yaml version ${DECKSVER} ; \
-		echo -e "---\n`cat $$CHART/Chart.yaml`" > $$CHART/Chart.yaml ; \
+		sed -i '1s/^/---\n/' $$CHART/Chart.yaml ; \
 		sed -i -e "0,/^tag.*/s//tag: ${DECKSVER}/"  $$CHART/values.yaml; \
 	done ;
 
 	for CHART in ${FLEXCHARTS} ${DECKSCHARTS}; do  \
-		echo "Setting decs dep version ${DECKSVER} in $$CHART" ;\
+		echo "Setting decks dep version ${DECKSVER} in $$CHART" ;\
 		sed -i -e "/no_auto_change__decks_auto_change/s/version:.*/version: ${DECKSVER} # no_auto_change__decks_auto_change/g"  $$CHART/Chart.yaml; \
 	done ;
 
@@ -101,7 +101,7 @@ flexver:
 		echo "Setting version $$FLEXVER in $$CHART" ;\
 		yq w -i $$CHART/Chart.yaml appVersion ${FLEXVER} ; \
 		sed -i -e "/no_auto_change/!s/version:.*/version: ${FLEXVER}/g"  $$CHART/Chart.yaml; \
-		echo -e "---\n`cat $$CHART/Chart.yaml`" > $$CHART/Chart.yaml ; \
+		sed -i '1s/^/---\n/' $$CHART/Chart.yaml ; \
 		sed -i -e "0,/^tag.*/s//tag: ${FLEXVER}/"  $$CHART/values.yaml; \
 	done ;
 

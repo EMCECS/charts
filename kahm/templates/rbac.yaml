@@ -87,5 +87,5 @@ roleRef:
 {{- else }}
   kind: Role
 {{- end }}
-  name: kahm
+  name: {{ .Release.Namespace }}-kahm
   apiGroup: rbac.authorization.k8s.io

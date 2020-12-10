@@ -19,6 +19,7 @@ metadata:
     group: {{ .Values.group }}
 {{- end }}
 spec:
+  serviceAccount: {{ .Release.Name }}
 {{- if .Values.global.registrySecret }}
   registrySecret: {{ .Values.global.registrySecret }}
 {{- end }}

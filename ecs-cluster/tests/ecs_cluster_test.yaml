@@ -492,3 +492,10 @@ tests:
             app.kubernetes.io/namespace: NAMESPACE
             objectscale.dellemc.com/logging-inject: "true"
             objectscale.dellemc.com/logging-release-name: RELEASE-NAME
+  - it: should customize zookeeper persistence size
+    set:
+      zookeeper.persistence.size: 2Gi
+    asserts:
+      - equal:
+          path: spec.zookeeper.persistence.spec.resources.requests.storage
+          value: 2Gi

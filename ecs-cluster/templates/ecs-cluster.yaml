@@ -149,16 +149,15 @@ spec:
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
     persistence:
-{{- if .Values.zookeeper.persistence.storageClassName }}
       spec:
+{{- if .Values.zookeeper.persistence.storageClassName }}
         storageClassName: {{ .Values.zookeeper.persistence.storageClassName }}
 {{- else if .Values.storageClassName }}
-      spec:
         storageClassName: {{ .Values.storageClassName }}
 {{- end }}
-      resources:
-        requests:
-          storage: {{ .Values.zookeeper.persistence.size }}
+        resources:
+          requests:
+            storage: {{ .Values.zookeeper.persistence.size }}
 
   bookkeeper:
     {{- if .Values.bookkeeper.replicas }}

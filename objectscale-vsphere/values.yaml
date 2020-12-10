@@ -5,6 +5,9 @@
 
 # These global settings relate to both objectscale-vsphere and objectscale-graphql
 global:
+  # sets the name of the storage class and storage policy that should be used by default
+  storageClassName: dellemc-objectscale-highly-available
+
   # Name of the target platform
   # By setting this value all necessary resources for ecs-flex will be created and configured accordingly.
   # Valid values are

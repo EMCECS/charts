@@ -59,14 +59,14 @@ service:
       targetPort: 4443
       # nodePort:           # select specific node port for the connection
 
-  # loadBalancerIP:     # select specific load balancer IP of the connection
-  # externalHostnames:
-  #   - objectscale-vsp.example.com
-  # externalIPAddresses:
-  #   - 203.0.113.10
-  #   - 203.0.113.30
-  # externalIPv6Addresses:
-  #   - 2001:0db8:0000:0000:0000:0000:0000:0001
+      # loadBalancerIP:     # select specific load balancer IP of the connection
+      # externalHostnames:
+      #   - objectscale-vsp.example.com
+      # externalIPAddresses:
+      #   - 203.0.113.10
+      #   - 203.0.113.30
+      # externalIPv6Addresses:
+      #   - 2001:0db8:0000:0000:0000:0000:0000:0001
 
 objectscale-graphql:
   managerReleaseName: objectscale-manager

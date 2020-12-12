@@ -56,16 +56,16 @@ deploymentDeadlineSeconds: 1200
 
 # Configuration parameters for topology spread and fault domain selection
 topology:
-  # The node label key for topology spread and fault domains
-  # faultDomainKey: rack
-  # Fault domains to be excluded from resource scheduling
-  # excludedFaultDomains:
-  #   - zone1
-  #   - zone3
-  # The nodes to be targeted for resource scheduling
-  # nodeSelector:
-  #   key: row
-  #   value: 3
+# The node label key for topology spread and fault domains
+# faultDomainKey: rack
+# Fault domains to be excluded from resource scheduling
+# excludedFaultDomains:
+#   - zone1
+#   - zone3
+# The nodes to be targeted for resource scheduling
+# nodeSelector:
+#   key: row
+#   value: 3
 
 # Different features of ECSCluster that can be enabled or disabled
 features:
@@ -101,7 +101,7 @@ pravega:
   # labels:
   image:
     repository: pravega
-#    tag: ...
+  # tag: ...
   controller:
     replicas: 1
     service:
@@ -113,11 +113,11 @@ pravega:
 
 
 bookkeeper:
-#  replicas: 3
+  # replicas: 3
   # labels:
   image:
     repository: bookkeeper
-#    tag:
+  # tag:
   storage:
     ledger:
       # storageClassName:
@@ -390,26 +390,26 @@ s3:
         targetPort: 9020
         # nodePort:           # select specific node port for the connection
 
-    # loadBalancerIP:     # select specific load balancer IP of the connection
-    # externalHostnames:
-    #   - objectscale-vsp.example.com
-    # externalIPAddresses:
-    #   - 203.0.113.10
-    #   - 203.0.113.30
-    # externalIPv6Addresses:
-    #   - 2001:0db8:0000:0000:0000:0000:0000:0001
+        # loadBalancerIP:     # select specific load balancer IP of the connection
+        # externalHostnames:
+        #   - objectscale-vsp.example.com
+        # externalIPAddresses:
+        #   - 203.0.113.10
+        #   - 203.0.113.30
+        # externalIPv6Addresses:
+        #   - 2001:0db8:0000:0000:0000:0000:0000:0001
 
   tls:
     # Type of certificate signing: SelfSigned, KubernetesSigned, or ExternallySigned
     certificateType: SelfSigned
 
     certificate: {}
-      # publicKey: < server side customer certificate>
-      # privateKey: <private key for server side cert>
-      # password: # cert password (optional)
-      # authority: |-  # (optional)
-      #   rootCA: xxxx
-      #   intermediateCA:      # provide the intermediate CA here (optional)
+    # publicKey: < server side customer certificate>
+    # privateKey: <private key for server side cert>
+    # password: # cert password (optional)
+    # authority: |-  # (optional)
+    #   rootCA: xxxx
+    #   intermediateCA:      # provide the intermediate CA here (optional)
 
     signingRequest:
       # commonName:        # override common Name for this CSR.  Defaults to cluster.local FQDN.
@@ -499,14 +499,14 @@ managementGateway:
         targetPort: 4443
         # nodePort:           # select specific node port for the connection
 
-    # loadBalancerIP:     # select specific load balancer IP of the connection
-    # externalHostnames:
-    #   - objectscale-vsp.example.com
-    # externalIPAddresses:
-    #   - 203.0.113.10
-    #   - 203.0.113.30
-    # externalIPv6Addresses:
-    #   - 2001:0db8:0000:0000:0000:0000:0000:0001
+        # loadBalancerIP:     # select specific load balancer IP of the connection
+        # externalHostnames:
+        #   - objectscale-vsp.example.com
+        # externalIPAddresses:
+        #   - 203.0.113.10
+        #   - 203.0.113.30
+        # externalIPv6Addresses:
+        #   - 2001:0db8:0000:0000:0000:0000:0000:0001
 
   tls:
 
@@ -514,12 +514,12 @@ managementGateway:
     certificateType: SelfSigned
 
     certificate: {}
-      # publicKey: < server side customer certificate>
-      # privateKey: <private key for server side cert>
-      # password: # cert password (optional)
-      # authority: |-  # (optional)
-      #   rootCA: xxxx
-      #   intermediateCA:      # provide the intermediate CA here (optional)
+    # publicKey: < server side customer certificate>
+    # privateKey: <private key for server side cert>
+    # password: # cert password (optional)
+    # authority: |-  # (optional)
+    #   rootCA: xxxx
+    #   intermediateCA:      # provide the intermediate CA here (optional)
 
     signingRequest:
       # commonName:        # override common Name for this CSR.  Defaults to cluster.local FQDN.

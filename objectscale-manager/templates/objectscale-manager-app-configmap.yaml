@@ -20,45 +20,13 @@ data:
     eventRules: |-
     health: |-
       spec:
-        healthchecks:
-          fieldcolumns:
-            - name: deos-fio
-              fields:
-                - name: name
-                  type: string
-                - name: description
-                  type: string
-                - name: enabled
-                  type: boolean
-                - name: schedule
-                  type: string
-                - name: latestSuccess
-                  type: date
-                - name: latestFailure
-                  type: date
-                - name: message
-                  type: string
-            - name: sonobuoy
-              fields:
-                - name: name
-                  type: string
-                - name: description
-                  type: string
-                - name: enabled
-                  type: boolean
-                - name: schedule
-                  type: string
-                - name: latestSuccess
-                  type: date
-                - name: latestFailure
-                  type: date
-                - name: message
-                  type: string
-          name: objectscale-manager-healthchecks
-        healthcheckstatus:
+        - name: pre-update
+            container: {{.Values.global.registry}}/manager-pre-update:{{.Values.tag}}
+            schedule: "*/30 * * * *"
+            timelimit: "5m"
     eventRemedies: |-
       symptoms:
         - symptomid: DEOS-MGR-1001
-          description: Provisioing of the new objectstore failed
+          description: Provisioning of the new objectstore failed
           remedies:
             - Check the results of the provisioning job

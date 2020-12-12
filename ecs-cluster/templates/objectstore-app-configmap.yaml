@@ -22,7 +22,7 @@ data:
 {{ end }}
     eventRemedies: |-
       symptoms:
-{{ range $path, $_ :=  .Files.Glob  "alerts/remedies/*_remedie.yaml" }}
+{{ range $path, $_ :=  .Files.Glob  "alerts/remedies/*_remedies.yaml" }}
 {{- $.Files.Get $path | indent 8 }}
 {{ end }}
     health: |-
@@ -30,4 +30,9 @@ data:
         - name: objectstore-healthcheck
           container: {{.Values.global.registry}}/objectstore-connectivity:{{.Values.tag}}
           schedule: "0 */6 * * *"
+          timelimit: "5m"
+            spec:
+        - name: objectstore-pre-update
+          container: {{.Values.global.registry}}/objectstore-pre-update:{{.Values.tag}}
+          schedule: "*/30 * * * *"
           timelimit: "5m"

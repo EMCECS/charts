@@ -6,7 +6,7 @@ fedsvc:
   image:
     pullPolicy: IfNotPresent
     repository: fedsvc
-    #tag: stable
+    # tag: stable
   livenessProbe:
     probePath: /fedsvchealthcheck
   readinessProbe:

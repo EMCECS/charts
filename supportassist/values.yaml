@@ -24,35 +24,35 @@ image:
 # Create app resource thru helm
 createSupportAssistAppResource: true
 
-#productName: objectscale - required field to pass in using --set
-#productVersion: 0.51.0 - required field to pass in using --set
-#siteID: 123456 - required field to pass in using --set
+# productName: objectscale - required field to pass in using --set
+# productVersion: 0.51.0 - required field to pass in using --set
+# siteID: 123456 - required field to pass in using --set
 
-#enabled - true - enable SupportAssist false - disable it
+# enabled - true - enable SupportAssist false - disable it
 enabled: true
 
-#systemMode: sets the state of the product for this SupportAssist config
+# systemMode: sets the state of the product for this SupportAssist config
 systemMode: preProd
 
-#eventMuted: set to true for beta testing don't open SRs when sending alerts/events
+# eventMuted: set to true for beta testing don't open SRs when sending alerts/events
 eventMuted: true
 
-#testDialHome perform test connectivity back to Dell
+# testDialHome perform test connectivity back to Dell
 testDialHome: true
 
-#remoteAccessEnabled if true enable remote access for services, requires service-pod running
+# remoteAccessEnabled if true enable remote access for services, requires service-pod running
 remoteAccessEnabled: false
 
-#useGateways - if true SupportAssist ESE will use gateways to communicate back to dell
+# useGateways - if true SupportAssist ESE will use gateways to communicate back to dell
 useGateways: true
 
-#gateways: - required field to pass using --set
+# gateways: - required field to pass using --set
 #  - hostname: 10.11.12.13
 #    port: 9443
 #    priority: 20
 
-#contacts - when specifying SupportAssist Customer Contacts directly during deployment
-#contacts:
+# contacts - when specifying SupportAssist Customer Contacts directly during deployment
+# contacts:
 #  - contactOrder: 1
 #    firstName: John
 #    lastName: Smith
@@ -78,8 +78,8 @@ useGateways: true
 notifier:
   image:
     repository: "supportassist-ese-notifier"
-#   tag: stable
-#   pullPolicy: "Always"
+    # tag: stable
+    # pullPolicy: "Always"
   servicePort: 50051
   grpcConnTimeout: 5
   grpcRetries: 3
@@ -88,8 +88,8 @@ notifier:
 esecallback:
   image:
     repository: "ese-callback"
-#   tag: stable
-#   pullPolicy: "Always"
+    # tag: stable
+    # pullPolicy: "Always"
   servicePort: 9447
 
 
@@ -97,7 +97,7 @@ esecallback:
 eseStore:
   image:
     repository: decks-support-store
-    #tag: stable
+    # tag: stable
     pullPolicy: Always
   persistentVolume:
     size: 50Gi

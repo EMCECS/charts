@@ -22,7 +22,7 @@ data:
 {{ end }}
     eventRemedies: |-
       symptoms:
-{{ range $path, $_ :=  .Files.Glob  "alerts/remedies/*_remedie.yaml" }}
+{{ range $path, $_ :=  .Files.Glob  "alerts/remedies/*_remedies.yaml" }}
 {{- $.Files.Get $path | indent 8 }}
 {{ end }}
     health: |-

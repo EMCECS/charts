@@ -19,7 +19,6 @@ metadata:
     group: {{ .Values.group }}
 {{- end }}
 spec:
-  serviceAccount: {{ .Release.Name }}
 {{- if .Values.global.registrySecret }}
   registrySecret: {{ .Values.global.registrySecret }}
 {{- end }}
@@ -216,6 +215,7 @@ spec:
     segmentStoreReplicas: {{ .Values.pravega.segmentStore.replicas }}
 
   storageServer:
+    serviceAccount: {{ .Release.Name }}
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.storageServer.replicas }}
     replicas: {{ .Values.storageServer.replicas }}

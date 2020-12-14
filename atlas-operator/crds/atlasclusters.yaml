@@ -84,6 +84,10 @@ spec:
               description: Persistence is the configuration for persisting the Atlas
                 state on Volumes
               properties:
+                annotations:
+                  additionalProperties:
+                    type: string
+                  type: object
                 reclaimPolicy:
                   type: string
                 spec:
@@ -803,6 +807,11 @@ spec:
                             type: object
                           type: array
                       type: object
+                  type: object
+                annotations:
+                  additionalProperties:
+                    type: string
+                  description: Annotations to set on the pods.
                   type: object
                 env:
                   description: List of environment variables to set in the container.

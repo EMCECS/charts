@@ -31,7 +31,6 @@ data:
           container: {{.Values.global.registry}}/objectstore-connectivity:{{.Values.tag}}
           schedule: "0 */6 * * *"
           timelimit: "5m"
-            spec:
         - name: objectstore-pre-update
           container: {{.Values.global.registry}}/objectstore-pre-update:{{.Values.tag}}
           schedule: "*/30 * * * *"

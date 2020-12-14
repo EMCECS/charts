@@ -465,6 +465,9 @@ geoReceiver:
     ports:
       - name: geo
         port: 9094
+      - name: external
+        port: 12002
+        targetPort: 12002
 
 # The ECS API control service configuration specification
 control:

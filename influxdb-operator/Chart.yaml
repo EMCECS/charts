@@ -7,10 +7,9 @@ description: |
   InfluxDB Operator deploys operator pod which is
   responsible for managing Influxdb custom resources
 maintainers:
-- name: Dell EMC
-  url: https://dellemc.com
-
+  - name: Dell EMC
+    url: https://dellemc.com
 dependencies:
   - name: common-lib
     repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
-    version: 3.7.0-1078.b53c3249 # no_auto_change__monitoring_auto_change
+    version: 3.7.0+1070.59f04ce5 # no_auto_change__monitoring_auto_change

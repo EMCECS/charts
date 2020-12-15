@@ -538,6 +538,8 @@ spec:
 {{- end }}
 
   managementGateway:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
+{{ include "datasvc-lib.logging-inject-logrotate-labels" . | indent 6 }}
 {{- if .Values.managementGateway.replicas }}
     replicas: {{ .Values.managementGateway.replicas }}
 {{- end }}

@@ -17,3 +17,7 @@ labels:
   objectscale.dellemc.com/logging-inject: "true"
   objectscale.dellemc.com/logging-release-name: "{{ .Release.Name }}"
 {{- end }}
+
+{{ define "datasvc-lib.logging-inject-logrotate-labels" -}}
+objectscale.dellemc.com/logging-inject-logrotate: "true"
+{{- end }}

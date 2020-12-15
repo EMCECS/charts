@@ -16,6 +16,8 @@ global:
   # Extra labels that will be applied to all resources created by the chart
   labels: {}
 
+  performanceProfile: "Small"
+
 image:
   repository: statefuldaemonset-operator
   # tag: stable

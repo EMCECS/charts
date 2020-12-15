@@ -1,15 +1,15 @@
 ---
-# Default values for statefuldaemonset operator
+# Default values for influxdb operator
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-# These values are overridden when the Atlas operator is included within a subchart
+# These values are overridden when the Influxdb operator is included within a subchart
 global:
 
-  # The Docker registry hosting containers for the statefuldaemonset operator
+  # The Docker registry hosting containers for the influxdb operator
   registry: emccorp
 
-  # Specifies if the Operator should watch all namespaces for statefuldaemonset
+  # Specifies if the Operator should watch all namespaces for influxdb
   # resources or only the namespace that is is deployed in.
   watchAllNamespaces: true
 
@@ -17,7 +17,7 @@ global:
   labels: {}
 
 image:
-  repository: statefuldaemonset-operator
+  repository: influxdb-operator
   # tag: stable
   pullPolicy: IfNotPresent
 

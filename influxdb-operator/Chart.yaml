@@ -1,8 +1,8 @@
 ---
 apiVersion: v2
 name: influxdb-operator
-version: 0.55.0
-appVersion: 0.55.0
+version: 0.61.0
+appVersion: 0.61.0
 description: |
   InfluxDB Operator deploys operator pod which is
   responsible for managing Influxdb custom resources
@@ -11,6 +11,6 @@ maintainers:
   url: https://dellemc.com
 
 dependencies:
-- name: common-lib
-  repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
-  version: 3.7.0+1062.8cdcf9c7
+  - name: common-lib
+    repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+    version: 3.7.0-1078.b53c3249 # no_auto_change__monitoring_auto_change

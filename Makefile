@@ -8,7 +8,7 @@ DECKSCHARTS := decks kahm supportassist service-pod dellemc-license decks-suppor
 FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller iam statefuldaemonset-operator federation
 
 # release version
-PACKAGE_VERSION=0.60
+PACKAGE_VERSION=0.61
 FULL_PACKAGE_VERSION=${PACKAGE_VERSION}.0
 FLEXVER=${FULL_PACKAGE_VERSION}
 DECKSVER=2.${PACKAGE_VERSION}

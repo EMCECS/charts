@@ -19,7 +19,7 @@ data:
       issueRules:
        - name: SupportAssistConfiguration
          description: "SupportAssist configuration issues"
-         issueCategory: Manual
+         issueCategory: Auto
          matchOnList:
           - matchon:
             - label: SymptomID

@@ -30,13 +30,11 @@ securityContext: {}
 serviceAccount:
   create: true
 
+## Configure resource requests and limits
+## ref: http://kubernetes.io/docs/user-guide/compute-resources/
 resources:
-  requests:
-    cpu: 250m
-    memory: 64Mi
-  limits:
-    cpu: 1
-    memory: 128Mi
+  requests: {}
+  limits: {}
 
 nodeSelector: {}
 

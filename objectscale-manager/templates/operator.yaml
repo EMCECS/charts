@@ -15,9 +15,6 @@ metadata:
     operator: objectscale-operator
     product: objectscale
     release: {{ .Release.Name }}
-    objectscale.dellemc.com/logging-inject: "true"
-    objectscale.dellemc.com/logging-release-name: "{{ .Release.Name }}"
-    app.kubernetes.io/namespace: "{{ .Release.Namespace }}"
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -37,6 +34,9 @@ spec:
         operator: objectscale-operator
         product: objectscale
         release: {{ .Release.Name }}
+        objectscale.dellemc.com/logging-inject: "true"
+        objectscale.dellemc.com/logging-release-name: "{{ .Release.Name }}"
+        app.kubernetes.io/namespace: "{{ .Release.Namespace }}"
     spec:
       serviceAccountName: objectscale-operator
 {{- if .Values.global.registrySecret }}

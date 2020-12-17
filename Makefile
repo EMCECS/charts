@@ -38,7 +38,7 @@ HELM_MANAGER_ARGS    = # --set image.tag={YOUR_VERSION_HERE}
 HELM_MONITORING_ARGS = # --set global.monitoring.tag=${YOUR_VERSION_HERE}
 HELM_UI_ARGS         = # --set image.tag=${YOUR_VERSION_HERE}
 HELM_GRAPHQL_ARGS    = # --set objectscale-graphql.tag=${YOUR_VERSION_HERE}
-HELM_INSTALLER_ARGS  = --set objectscale-graphql.helm-controller.tag=0.61.0-856.d129f06-tst3
+HELM_INSTALLER_ARGS  = --set asdrepo.isus.emc.com:8099/install-controller:0.61.0-858.3ef3295-tst3
 HELM_DECKS_ARGS      = # --set image.tag=${YOUR_VERSION_HERE}
 HELM_KAHM_ARGS       = # --set image.tag=${YOUR_VERSION_HERE}
 HELM_DECKS_SUPPORT_STORE_ARGS      = # --set decks-support-store.image.tag=${YOUR_VERSION_HERE}

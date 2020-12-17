@@ -35,6 +35,7 @@ $(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/objectscale-crd.yaml)
 $(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/objectscale-manager.yaml)
 $(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/kahm.yaml)
 $(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/decks.yaml)
+$(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/logging-injector.yaml)
   ${service_id}.yaml: |-
     apiVersion: appplatform.wcp.vmware.com/v1alpha1
     kind: SupervisorService

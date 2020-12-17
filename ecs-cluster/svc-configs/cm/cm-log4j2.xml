@@ -169,6 +169,7 @@
             <Policies>
                 <SizeBasedTriggeringPolicy size="5 MB"/>
             </Policies>
+            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="RCC" fileName="${sys:product.home}/logs/cm-refresh-chunk-cache.log"

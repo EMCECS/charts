@@ -180,6 +180,7 @@
             <Policies>
                 <SizeBasedTriggeringPolicy size="5 MB"/>
             </Policies>
+            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <Syslog name="alertsLogger" host="localhost" port="514" protocol="UDP" facility="LOCAL7"/>

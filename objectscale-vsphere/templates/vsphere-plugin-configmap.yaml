@@ -64,9 +64,9 @@ data:
             location /data {
                 proxy_pass https://$decksname:$decksport;
             }
-            location ~* ^/grafana/[a-z0-9]([-a-z0-9]*[a-z0-9])?/[a-z0-9]([-a-z0-9]*[a-z0-9])? {
-                rewrite ^/grafana/([a-z0-9-]+)/([a-z0-9-]+)/(.*) /$3 break;
-                rewrite ^/grafana/([a-z0-9-]+)/([a-z0-9-]+) / break;
+            location ~* /grafana/[a-z0-9]([-a-z0-9]*[a-z0-9])?/[a-z0-9]([-a-z0-9]*[a-z0-9])? {
+                rewrite /grafana/([a-z0-9-]+)/([a-z0-9-]+)/(.*) /$3 break;
+                rewrite /grafana/([a-z0-9-]+)/([a-z0-9-]+) / break;
                 proxy_pass http://$2-grafana.$1.svc.cluster.local:3000;
             }
             location /platform {

@@ -258,3 +258,26 @@ build-installer:
 tag-push-installer:
 	docker tag asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID) asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}
 	docker push asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}
+
+template-all:
+	mkdir -p ${TEMP_PACKAGE}/yaml
+	echo -n > ${TEMP_PACKAGE}/yaml/all.yaml
+
+	for chart in ${FLEXCHARTS}; do  \
+		chart_file=$$chart-${FLEXVER}.tgz ; \
+		echo "Templating chart $${chart_file}" ;  \
+		helm template $$chart docs/$${chart_file} \
+			--set product=objectscale --set global.product=objectscale \
+			>>${TEMP_PACKAGE}/yaml/all.yaml ; \
+	done ;
+
+	for chart in ${DECKSCHARTS}; do  \
+		chart_file=$$chart-${DECKSVER}.tgz ; \
+		echo "Templating chart $${chart_file}" ;  \
+		helm template $$chart docs/$${chart_file} \
+			--set product=objectscale --set global.product=objectscale \
+                        --set accessKey=0 --set pin=0 \
+                        --set productVersion=0 --set siteID=0 \
+			>>${TEMP_PACKAGE}/yaml/all.yaml ; \
+	done ;
+

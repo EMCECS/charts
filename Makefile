@@ -261,6 +261,7 @@ tag-push-installer:
 
 template-all:
 	mkdir -p ${TEMP_PACKAGE}/yaml
+        # reset output file
 	echo -n > ${TEMP_PACKAGE}/yaml/all.yaml
 
 	for chart in ${FLEXCHARTS}; do  \

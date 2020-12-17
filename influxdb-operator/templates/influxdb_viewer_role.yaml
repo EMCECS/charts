@@ -1,0 +1,26 @@
+# permissions for end users to view influxdbs.
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: {{ .Values.global.watchAllNamespaces | ternary "ClusterRole" "Role" }}
+metadata:
+  name: {{ template "influxdb-operator.fullname" . }}-{{ .Release.Namespace }}-influxdb-viewer-role
+{{- if ne .Values.global.watchAllNamespaces true }}
+  namespace: {{ .Release.Namespace }}
+{{- end }}
+  labels:
+{{ include "influxdb-operator.labels" . | indent 4}}
+rules:
+- apiGroups:
+  - db.ecs.dellemc.com
+  resources:
+  - influxdbs
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - db.ecs.dellemc.com
+  resources:
+  - influxdbs/status
+  verbs:
+  - get

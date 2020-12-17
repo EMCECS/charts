@@ -1,0 +1,15 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ template "influxdb-operator.fullname" . }}-{{ .Release.Namespace }}-node-role-binding
+  labels:
+{{ include "influxdb-operator.labels" . | indent 4}}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ template "influxdb-operator.fullname" . }}-{{ .Release.Namespace }}-node-role
+subjects:
+- kind: ServiceAccount
+  name: {{ template "influxdb-operator.serviceAccountName" . }}
+  namespace: {{ .Release.Namespace }}

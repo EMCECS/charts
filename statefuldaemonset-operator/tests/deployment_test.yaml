@@ -3,15 +3,21 @@ templates:
   - deployment.yaml
 tests:
   - it: should create a deployment
+    set:
+      global.performanceProfile: "Micro"
     asserts:
       - isKind:
           of: Deployment
   - it: should have a name
+    set:
+      global.performanceProfile: "Micro"
     asserts:
       - equal:
           path: metadata.name
           value: RELEASE-NAME-statefuldaemonset-operator
   - it: should have labels
+    set:
+      global.performanceProfile: "Micro"
     asserts:
       - equal:
           path: metadata.labels.app\.kubernetes\.io/name
@@ -23,6 +29,8 @@ tests:
           path: metadata.labels.app\.kubernetes\.io/instance
           value: RELEASE-NAME
   - it: should have one replica
+    set:
+      global.performanceProfile: "Micro"
     asserts:
       - equal:
           path: spec.replicas
@@ -30,6 +38,7 @@ tests:
   - it: should have a default image
     set:
       global.monitoring_tag: v0.53
+      global.performanceProfile: "Micro"
     asserts:
       - matchRegex:
           path: spec.template.spec.containers[0].image
@@ -38,6 +47,8 @@ tests:
           path: spec.template.spec.containers[0].imagePullPolicy
           value: IfNotPresent
   - it: should have a selector
+    set:
+      global.performanceProfile: "Micro"
     asserts:
       - equal:
           path: spec.selector.matchLabels.app\.kubernetes\.io/name
@@ -48,6 +59,7 @@ tests:
   - it: should configure the image
     set:
       global.registry: REGISTRY
+      global.performanceProfile: "Micro"
       image.repository: REPO
       image.tag: TAG
       image.pullPolicy: Always

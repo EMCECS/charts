@@ -140,35 +140,6 @@ tests:
     - equal:
         path: spec.zookeeper.persistence.spec.storageClassName
         value: my-zookeeper-sc
-  - it: should have a default deos-events image
-    set:
-      global.monitoring.enabled: false
-    asserts:
-    - equal:
-        path: spec.deosEvents.image.repository
-        value: emccorp/deos-events
-    - equal:
-        path: spec.deosEvents.image.pullPolicy
-        value: IfNotPresent
-    - equal:
-        path: spec.deosEvents.pullFreq
-        value: 30
-  - it: should have deos-events pullFreq changes
-    set:
-      global.monitoring.enabled: false
-      deosEvents.pullFreq: 1
-    asserts:
-    - equal:
-        path: spec.deosEvents.pullFreq
-        value: 1
-  - it: should have default deos-events pullFreq
-    set:
-      global.monitoring.enabled: false
-      deosEvents.pullFreq: null
-    asserts:
-    - equal:
-        path: spec.deosEvents.pullFreq
-        value: 30
   - it: should create a single node atlas cluster
     set:
       global.monitoring.enabled: false

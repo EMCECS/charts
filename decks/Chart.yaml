@@ -1,15 +1,15 @@
 ---
 apiVersion: v2
-appVersion: 2.0.60
+appVersion: 2.0.61
 description: A Helm chart for Dell EMC Common Kubernetes Services
 name: decks
-version: 2.0.60 # no_auto_change__decks_auto_change
+version: 2.0.61 # no_auto_change__decks_auto_change
 icon: https://avatars0.githubusercontent.com/u/12926680
 maintainers:
   - name: Dell EMC
     url: http://dellemc.com
 dependencies:
   - name: decks-support-store
-    version: 2.0.60 # no_auto_change__decks_auto_change
+    version: 2.0.61 # no_auto_change__decks_auto_change
     repository: file://../decks-support-store
     condition: supportStore.enabled

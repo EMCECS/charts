@@ -71,6 +71,8 @@ spec:
           name: dshm
         - mountPath: /tmp
           name: host-data
+        - mountPath: /etc/svcpod/creds
+          name: creds-secret-vol
       dnsPolicy: ClusterFirst
       volumes:
       - name: dshm

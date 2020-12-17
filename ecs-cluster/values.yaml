@@ -29,7 +29,7 @@ global:
   objectscale_release_name: objectscale-manager
 
 # The default docker tag and pull policy for the ECS Cluster
-tag: 0.60.0
+tag: 0.61.0
 pullPolicy: IfNotPresent
 
 # Override the default number of replicas which taken according to performance profile for each service
@@ -597,14 +597,5 @@ deos_hc:
   # Docker repository to be used for running deos health check
   image:
     repository: deos-hc
-    # tag: stable
-    # pullPolicy: IfNotPresent
-
-# deos_events to pull the events every pullFreq (default: 30 seconds) from the object store
-# and convert them into the k8s events
-deosEvents:
-  pullFreq: 30
-  image:
-    repository: deos-events
     # tag: stable
     # pullPolicy: IfNotPresent

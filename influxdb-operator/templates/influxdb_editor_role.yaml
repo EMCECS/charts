@@ -1,0 +1,30 @@
+# permissions for end users to edit influxdbs.
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: {{ .Values.global.watchAllNamespaces | ternary "ClusterRole" "Role" }}
+metadata:
+  name: {{ template "influxdb-operator.fullname" . }}-{{ .Release.Namespace }}-influxdb-editor-role
+{{- if ne .Values.global.watchAllNamespaces true }}
+  namespace: {{ .Release.Namespace }}
+{{- end }}
+  labels:
+{{ include "influxdb-operator.labels" . | indent 4}}
+rules:
+- apiGroups:
+  - db.ecs.dellemc.com
+  resources:
+  - influxdbs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - db.ecs.dellemc.com
+  resources:
+  - influxdbs/status
+  verbs:
+  - get

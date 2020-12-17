@@ -358,26 +358,6 @@ spec:
         - name: "NAMESPACE"
           value: "{{ .Release.Namespace }}"
 
-  deosEvents:
-{{- if .Values.deosEvents.pullFreq }}
-    pullFreq: {{ .Values.deosEvents.pullFreq }}
-{{- else }}
-    pullFreq: 30
-{{- end }}
-
-    image:
-      repository: {{ .Values.global.registry }}/{{ .Values.deosEvents.image.repository }}
-{{- if .Values.deosEvents.image.tag }}
-      tag: {{ .Values.deosEvents.image.tag }}
-{{- else }}
-      tag: {{ .Values.tag }}
-{{- end }}
-{{- if .Values.deosEvents.image.pullPolicy }}
-      pullPolicy: {{ .Values.deosEvents.image.pullPolicy }}
-{{- else }}
-      pullPolicy: {{ .Values.pullPolicy }}
-{{- end }}
-
   resource:
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.resource.replicas }}
@@ -538,6 +518,8 @@ spec:
 {{- end }}
 
   managementGateway:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
+{{ include "datasvc-lib.logging-inject-logrotate-labels" . | indent 6 }}
 {{- if .Values.managementGateway.replicas }}
     replicas: {{ .Values.managementGateway.replicas }}
 {{- end }}

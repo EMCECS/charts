@@ -181,7 +181,7 @@ create-manager-app: create-temp-package
 	--set global.monitoring_registry=${REGISTRY} \
 	--set ecs-monitoring.influxdb.persistence.storageClassName=${STORAGECLASSNAME} \
 	--set global.monitoring.enabled=false \
-	--set objectscale-monitoring.influxdb.persistence.storageClassName=${STORAGECLASSNAME_VSAN_SNA} \
+	--set objectscale-monitoring.influxdb.persistence.storageClassName=${STORAGECLASSNAME} \
 	--set objectscale-monitoring.rsyslog.persistence.storageClassName=${STORAGECLASSNAME_VSAN_SNA} \
 	--set iam.enabled=false ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
 	--set federation.enabled=false ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \

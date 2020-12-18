@@ -38,7 +38,7 @@ HELM_MANAGER_ARGS    = # --set image.tag={YOUR_VERSION_HERE}
 HELM_MONITORING_ARGS = # --set global.monitoring.tag=${YOUR_VERSION_HERE}
 HELM_UI_ARGS         = # --set image.tag=${YOUR_VERSION_HERE}
 HELM_GRAPHQL_ARGS    = # --set objectscale-graphql.tag=${YOUR_VERSION_HERE}
-HELM_INSTALLER_ARGS  = --set objectscale-graphql.helm-controller.tag=0.61.0-858.3ef3295-tst3
+HELM_INSTALLER_ARGS  = # --set objectscale-graphql.helm-controller.tag=${YOUR_VERSION_HERE}
 HELM_DECKS_ARGS      = # --set image.tag=${YOUR_VERSION_HERE}
 HELM_KAHM_ARGS       = # --set image.tag=${YOUR_VERSION_HERE}
 HELM_DECKS_SUPPORT_STORE_ARGS      = # --set decks-support-store.image.tag=${YOUR_VERSION_HERE}
@@ -231,10 +231,9 @@ create-kahm-app: create-temp-package
 
 create-logging-injector-app: create-temp-package
 	# cd in makefiles spawns a subshell, so continue the command with ;
-	cd logging-injector-app; \
-	helm template --show-only templates/logging-injector-app.yaml logging-injector ../logging-injector-app -n ${NAMESPACE} \
+	cd logging-injector; \
+	helm template --show-only templates/logging-injector-app.yaml logging-injector ../logging-injector -n ${NAMESPACE} \
 	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} \
-	--set global.monitoring_registry=${REGISTRY} \
 	--set global.registry=${REGISTRY} \
 	--set global.objectscale_release_name=objectscale-manager \
 	-f values.yaml > ../${TEMP_PACKAGE}/yaml/logging-injector-app.yaml;
@@ -267,8 +266,8 @@ create-manager-manifest-ci: create-temp-package
 
 build-installer:
 	echo "Copy charts to container and build image"
-	docker build -t asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)-tst3 -f ./Dockerfile .
-	docker push asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)-tst3
+	docker build -t asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID) -f ./Dockerfile .
+	docker push asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID)
 
 tag-push-installer:
 	docker tag asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID) asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}

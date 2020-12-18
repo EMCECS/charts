@@ -40,15 +40,9 @@ spec:
       kind: Role
     - group: rbac.authorization.k8s.io
       kind: RoleBinding
-    - group: batch
-      kind: CronJob
-    - group: batch
-      kind: Job
-    - group: core
-      kind: Secret
   descriptor:
     type: logging-injector
-    description: Cluster-level management of Dell EMC ObjecScale Object Stores
+    description: Logging sidecar injector
     version: {{ .Chart.AppVersion }}
     keywords:
       - objectscale

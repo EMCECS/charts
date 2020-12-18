@@ -21,8 +21,7 @@ dependencies:
   - name: objectscale-monitoring
     version: 3.7.0-1086.35c6c892 # no_auto_change__monitoring_auto_change
     condition: global.monitoring.enabled
-#    repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
-    repository: file://../monitoring
+    repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
   - name: federation
     version: 0.61.0
     repository: file://../federation

@@ -32,7 +32,7 @@ sshCred:
 # specify the requests and limits for the pod
 resources:
   requests:
-    memory: 1Gi
-    storage: 10Gi
+    memory: 2Gi
+    ephemeral-storage: 10Gi
   limits:
-    storage: 20Gi
+    ephemeral-storage: 20Gi

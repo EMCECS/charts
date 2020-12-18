@@ -7,7 +7,7 @@ atlas:
   image:
     pullPolicy: IfNotPresent
     repository: atlas
-    tag: v1.1.1
+    tag: v1.1.2
   persistence:
     size: 10Gi
   replicaCount: 3

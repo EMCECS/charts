@@ -15,11 +15,11 @@ dependencies:
     repository: file://../zookeeper-operator
     condition: zookeeper.enabled
   - name: atlas-operator
-    version: 0.27.1 # no_auto_change
+    version: 0.28.0 # no_auto_change
     repository: file://../atlas-operator
     condition: atlas.enabled
   - name: objectscale-monitoring
-    version: 3.7.0-1084.8a187968 # no_auto_change__monitoring_auto_change
+    version: 3.7.0-1086.35c6c892 # no_auto_change__monitoring_auto_change
     condition: global.monitoring.enabled
 #    repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
     repository: file://../monitoring

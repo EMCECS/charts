@@ -72,8 +72,8 @@ tests:
   - it: should update the resources limits and requests
     set:
       global.product: my-product
-      resources.requests.storage: 5Gi
-      resources.limits.storage: 10Gi
+      resources.requests.ephemeral-storage: 5Gi
+      resources.limits.ephemeral-storage: 10Gi
     asserts:
       - equal:
           path: spec.template.spec.containers[0].resources.requests.ephemeral-storage

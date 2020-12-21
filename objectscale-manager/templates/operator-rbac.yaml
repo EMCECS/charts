@@ -20,17 +20,10 @@ imagePullSecrets:
   - name: {{ .Values.global.registrySecret }}
 {{- end }}
 ---
-{{- if eq .Values.global.watchAllNamespaces true }}
 kind: ClusterRole
-{{- else }}
-kind: Role
-{{- end }}
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: {{ .Release.Namespace }}-objectscale-operator
-{{- if ne .Values.global.watchAllNamespaces true }}
-  namespace: {{ .Release.Namespace }}
-{{- end }}
   labels:
     app.kubernetes.io/name: objectscale-manager
     app.kubernetes.io/instance: {{ .Release.Name }}
@@ -137,9 +130,10 @@ rules:
 - apiGroups:
   - cns.vmware.com
   resources:
-  - "*"
+  - storagepools
   verbs:
-  - "*"
+    - get
+    - list
 ---
 {{- if eq .Values.global.watchAllNamespaces true }}
 kind: ClusterRoleBinding

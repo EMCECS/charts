@@ -84,6 +84,17 @@
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
+        <RollingFile name="AKKA_BFW" fileName="${sys:product.home}/logs/rm-akkabfw.log"
+                     filePattern="${sys:product.home}/logs/rm-akkabfw.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %X{akkaSource} %5p %c{1} %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
         <RollingFile name="RCC" fileName="${sys:product.home}/logs/rm-refresh-chunk-cache.log"
                      filePattern="${sys:product.home}/logs/rm-refresh-chunk-cache.log.%i">
             <PatternLayout>
@@ -117,6 +128,9 @@
         </Async>
         <Async name="asyncB" includeLocation="true">
             <AppenderRef ref="B"/>
+        </Async>
+        <Async name="asyncAkkaBfw" includeLocation="true">
+            <AppenderRef ref="AKKA_BFW"/>
         </Async>
         <Async name="asyncRCC" includeLocation="true">
             <AppenderRef ref="RCC"/>
@@ -158,6 +172,14 @@
         </Logger>
         <Logger name="com.emc.storageos.data.object.client.ReportBlockErrorTask.refreshChunkInfo" level="WARN" additivity="false">
             <AppenderRef ref="asyncRCC"/>
+        </Logger>
+
+        <Logger name="akka.actor" level="warning" additivity="false">
+            <AppenderRef ref="asyncAkkaBfw"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.akkaimpl" level="INFO"  additivity="false">
+            <AppenderRef ref="asyncAkkaBfw"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
         </Logger>
 
         <Root level="info">

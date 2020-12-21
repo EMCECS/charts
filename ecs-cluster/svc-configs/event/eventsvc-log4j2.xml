@@ -73,6 +73,17 @@
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
+        <RollingFile name="AKKA_BFW" fileName="${sys:product.home}/logs/eventsvc-akkabfw.log"
+                     filePattern="${sys:product.home}/logs/eventsvc-akkabfw.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %X{akkaSource} %5p %c{1} %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
         <Syslog name="alertsLogger" host="localhost" port="514" protocol="UDP" facility="LOCAL7"/>
 
         <Async name="asyncR" includeLocation="true">
@@ -92,6 +103,9 @@
         </Async>
         <Async name="asyncG" includeLocation="true">
             <AppenderRef ref="G"/>
+        </Async>
+        <Async name="asyncAkkaBfw" includeLocation="true">
+            <AppenderRef ref="AKKA_BFW"/>
         </Async>
     </Appenders>
 
@@ -120,6 +134,14 @@
 
         <Logger name="org.apache.http" level="WARN" additivity="false">
             <AppenderRef ref="asyncR" level="WARN"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+
+        <Logger name="akka.actor" level="warning" additivity="false">
+            <AppenderRef ref="asyncAkkaBfw"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.akkaimpl" level="INFO"  additivity="false">
+            <AppenderRef ref="asyncAkkaBfw"/>
             <AppenderRef ref="asyncE" level="ERROR"/>
         </Logger>
 

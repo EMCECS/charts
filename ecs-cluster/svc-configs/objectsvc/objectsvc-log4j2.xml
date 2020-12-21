@@ -288,7 +288,7 @@
         <!-- End of BTree dump section -->
 
         <Logger name="akka.actor" level="warning" additivity="false">
-            <AppenderRef ref="AKKA_BFW"/>
+            <AppenderRef ref="asyncAkkaBfw"/>
         </Logger>
         <Logger name="com.emc.storageos.data.object.akkaimpl" level="INFO"  additivity="false">
             <AppenderRef ref="asyncAkkaBfw"/>

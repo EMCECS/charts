@@ -172,6 +172,17 @@
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
+        <RollingFile name="AKKA_BFW" fileName="${sys:product.home}/logs/storagemanagementsvc-akkabfw.log"
+                     filePattern="${sys:product.home}/logs/storagemanagementsvc-akkabfw.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %X{akkaSource} %5p %c{1} %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
         <Syslog name="alertsLogger" host="localhost" port="514" protocol="UDP" facility="LOCAL7"/>
 
         <Async name="asyncR" includeLocation="true">
@@ -215,6 +226,9 @@
         </Async>
         <Async name="asyncBG" includeLocation="true">
             <AppenderRef ref="BG"/>
+        </Async>
+        <Async name="asyncAkkaBfw" includeLocation="true">
+            <AppenderRef ref="AKKA_BFW"/>
         </Async>
     </Appenders>
 
@@ -298,6 +312,14 @@
 
         <Logger name="com.emc.storageos.data.object.bplustree" level="DEBUG" additivity="false">
             <AppenderRef ref="asyncR"/>
+        </Logger>
+
+        <Logger name="akka.actor" level="warning" additivity="false">
+            <AppenderRef ref="asyncAkkaBfw"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.akkaimpl" level="INFO"  additivity="false">
+            <AppenderRef ref="asyncAkkaBfw"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
         </Logger>
 
         <Root level="info">

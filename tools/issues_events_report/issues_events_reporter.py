@@ -4,16 +4,17 @@
 # with auto-generated alerts report
 #
 # workflow:
-# 1. run makefile template-all
+# 1. run makefile generate-issues-events-all
 # 2. python this.py path/to/template_all.yaml output.json
 # 3. public output.json
-# 4. setup wiki tables to read URL 
+# 4. setup wiki tables to read URL
 
 import sys
 import json
 import time
 import yaml
 import logging
+import argparse
 
 srec = dict()
 
@@ -67,6 +68,7 @@ def parse_rules(tx):
                     raise Exception("Unknown match label {}".format(tx))
 
 def reg_rule(sim, ir):
+    sim = str(sim)
     if not sim in srec:
         srec[sim] = dict()
 
@@ -86,16 +88,22 @@ def parse_remedies(tx):
         return
 
     for sm in dt['symptoms']:
-        sim = sm['symptomid']
+        sim = str(sm['symptomid'])
         rmd = sm['remedies']
 
         if not sim in srec:
             srec[sim] = dict()
+
+        if type(rmd) is list:
+            rmd = "\n".join(map(lambda x: "* " + x, rmd))
+
         srec[sim]['remedies'] = rmd
+
+        # not all sim are in rules, so add description if needed
         if 'description' in sm and not 'description' in srec[sim]:
             srec[sim]['description'] = sm['description']
 
-def remap_for_json():
+def remap_for_json(args):
     js = []
     for sim in sorted(srec.keys()):
         rc = { 'SymptomId': sim }
@@ -111,36 +119,45 @@ def remap_for_json():
             del rc['defaultAutoClearTimeOut']
 
         js.append(rc)
-    return {
-                'issues': js,
-                'metadata': [
-                                {'Generation Time-stamp': time.strftime('%X %x %Z')}
-                            ]
+
+    md = { 'timeStamp': time.strftime('%X %x %Z'),
+           'FlexVersion': args.flexver,
+           'DecksVersion': args.decksver,
     }
 
-if len(sys.argv[1]) < 3:
-    raise Exception("specify all-yaml output files in argument")
+    return { 'issues': js, 
+             'metadata': [ md ] }
 
-cms = get_config_maps(sys.argv[1])
+parser = argparse.ArgumentParser()
+parser.add_argument("-i", "--input", help="input all-yaml file", required=True)
+parser.add_argument("-o", "--output", help="output json file", required=True)
+parser.add_argument("-fv", "--flexver", help="flexver value", required=True)
+parser.add_argument("-dv", "--decksver", help="decksver value", required=True)
+
+args = parser.parse_args()
+
+cms = get_config_maps(args.input)
 for cm in cms:
-    #print cm['metadata']['name']
+
     if 'eventRules' in cm['data']:
         parse_rules(cm['data']['eventRules'])
+
     if 'eventRemedies' in cm['data']:
         parse_remedies(cm['data']['eventRemedies'])
-        #print cm['data']['']
 
-jdata = remap_for_json()
+jdata = remap_for_json(args)
 
 jtx = json.dumps(jdata, indent=4, sort_keys=True)
-with open(sys.argv[2], "w") as of:
+with open(args.output, "w") as of:
     of.write(jtx)
 
-confluence_page_source = """
+"""
+
+Wiki page source sample:
 
 <p class="auto-cursor-target">Generated at:</p>
 <ac:structured-macro ac:macro-id="X1" ac:name="json-table" ac:schema-version="1">
-  <ac:parameter ac:name="sortColumn">SymptomId</ac:parameter>
+  <ac:parameter ac:name="columns">flexversion,decksversion,timestamp</ac:parameter>
   <ac:parameter ac:name="paths">metadata</ac:parameter>
   <ac:parameter ac:name="url">X2</ac:parameter>
   <ac:parameter ac:name="sortIcon">true</ac:parameter>
@@ -156,4 +173,5 @@ confluence_page_source = """
 </ac:structured-macro>
 
 """
+
 

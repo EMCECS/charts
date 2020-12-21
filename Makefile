@@ -42,11 +42,14 @@ HELM_DECKS_ARGS      = # --set image.tag=${YOUR_VERSION_HERE}
 HELM_KAHM_ARGS       = # --set image.tag=${YOUR_VERSION_HERE}
 HELM_DECKS_SUPPORT_STORE_ARGS      = # --set decks-support-store.image.tag=${YOUR_VERSION_HERE}
 
+ISSUE_EVENTS_RAW     = ${TEMP_PACKAGE}/yaml/issues_events_${FLEXVER}.yaml
+ISSUE_EVENTS_REPORT  = ${TEMP_PACKAGE}/yaml/issues_events_${FLEXVER}.json
+
 clean: clean-package
 
 all: test package
 
-release: decksver flexver build-all add-to-git
+release: decksver flexver build-all generate-issues-events-all add-to-git
 
 test:
 	helm lint ${CHARTS} --set product=objectscale --set global.product=objectscale
@@ -259,17 +262,17 @@ tag-push-installer:
 	docker tag asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}-$(GIT_COMMIT_COUNT).$(GIT_COMMIT_SHORT_ID) asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}
 	docker push asdrepo.isus.emc.com:8099/install-controller:${FULL_PACKAGE_VERSION}
 
-template-all:
+generate-issues-events-all:
 	mkdir -p ${TEMP_PACKAGE}/yaml
-        # reset output file
-	echo -n > ${TEMP_PACKAGE}/yaml/all.yaml
+
+	echo -n > ${ISSUE_EVENTS_RAW}
 
 	for chart in ${FLEXCHARTS}; do  \
 		chart_file=$$chart-${FLEXVER}.tgz ; \
 		echo "Templating chart $${chart_file}" ;  \
 		helm template $$chart docs/$${chart_file} \
 			--set product=objectscale --set global.product=objectscale \
-			>>${TEMP_PACKAGE}/yaml/all.yaml ; \
+			>> ${ISSUE_EVENTS_RAW} ; \
 	done ;
 
 	for chart in ${DECKSCHARTS}; do  \
@@ -279,6 +282,8 @@ template-all:
 			--set product=objectscale --set global.product=objectscale \
                         --set accessKey=0 --set pin=0 \
                         --set productVersion=0 --set siteID=0 \
-			>>${TEMP_PACKAGE}/yaml/all.yaml ; \
+			>> ${ISSUE_EVENTS_RAW} ; \
 	done ;
 
+	python tools/issues_events_report/issues_events_reporter.py \
+		-i ${ISSUE_EVENTS_RAW} -o ${ISSUE_EVENTS_REPORT} -fv ${FLEXVER} -dv ${DECKSVER}

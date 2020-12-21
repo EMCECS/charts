@@ -163,8 +163,7 @@ combine-crds:
 create-vmware-package:
 	./vmware/vmware_pack.sh ${SERVICE_ID}
 
-# MONITORING-1021: don't create logging-injector app until new install-controller is built
-create-manifests: create-vsphere-install create-kahm-app create-decks-app create-manager-app #create-logging-injector-app
+create-manifests: create-vsphere-install create-kahm-app create-decks-app create-manager-app create-logging-injector-app
 
 create-vsphere-install: create-vsphere-templates
 

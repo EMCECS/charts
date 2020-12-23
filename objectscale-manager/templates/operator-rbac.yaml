@@ -130,10 +130,9 @@ rules:
 - apiGroups:
   - cns.vmware.com
   resources:
-  - storagepools
+    - "*"
   verbs:
-    - get
-    - list
+    - "*"
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1

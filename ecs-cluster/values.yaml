@@ -599,3 +599,8 @@ deos_hc:
     repository: deos-hc
     # tag: stable
     # pullPolicy: IfNotPresent
+
+# rsyslog-client configuration
+rsyslog-client:
+  # RBAC is created in objectscale-manager monitoring
+  createRBAC: false

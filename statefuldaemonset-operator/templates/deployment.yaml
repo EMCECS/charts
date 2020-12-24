@@ -28,14 +28,14 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
+          image: "{{ include "monitoring-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           resources:
-{{ include "common-lib.resources" (dict "top" . "micro" "100Mi" "small" "200Mi" "medium" "306Mi" "large" "306Mi") | indent 12}}
+{{ include "monitoring-lib.resources" (dict "top" . "micro" "100Mi" "small" "200Mi" "medium" "306Mi" "large" "306Mi") | indent 12}}
           command: ["bash"]
-          args: ["-c", "{{ include "common-lib.command" . }} ./manager --enable-leader-election"]
+          args: ["-c", "{{ include "monitoring-lib.command" . }} ./manager --enable-leader-election"]
           env:
             - name: WATCH_NAMESPACE
 {{- if eq .Values.global.watchAllNamespaces true }}

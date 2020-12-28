@@ -8,7 +8,7 @@ DECKSCHARTS := decks kahm supportassist service-pod dellemc-license decks-suppor
 FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller iam statefuldaemonset-operator influxdb-operator federation logging-injector
 
 # release version
-PACKAGE_VERSION=0.62
+PACKAGE_VERSION=0.63
 FULL_PACKAGE_VERSION=${PACKAGE_VERSION}.0
 FLEXVER=${FULL_PACKAGE_VERSION}
 DECKSVER=2.${PACKAGE_VERSION}
@@ -39,8 +39,8 @@ HELM_MONITORING_ARGS = # --set global.monitoring.tag=${YOUR_VERSION_HERE}
 HELM_UI_ARGS         = # --set image.tag=${YOUR_VERSION_HERE}
 HELM_GRAPHQL_ARGS    = # --set objectscale-graphql.tag=${YOUR_VERSION_HERE}
 HELM_INSTALLER_ARGS  = # --set objectscale-graphql.helm-controller.tag=${YOUR_VERSION_HERE}
-HELM_DECKS_ARGS      = # --set image.tag=${YOUR_VERSION_HERE}
-HELM_KAHM_ARGS       = # --set image.tag=${YOUR_VERSION_HERE}
+HELM_DECKS_ARGS      =  --set image.tag=${0.62}
+HELM_KAHM_ARGS       =  --set image.tag=${0.62}
 HELM_DECKS_SUPPORT_STORE_ARGS      = # --set decks-support-store.image.tag=${YOUR_VERSION_HERE}
 
 ISSUE_EVENTS_RAW     = ${TEMP_PACKAGE}/yaml/issues_events_${FLEXVER}.yaml

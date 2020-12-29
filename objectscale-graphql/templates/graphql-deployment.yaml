@@ -96,6 +96,9 @@ spec:
         args:
           - "-P"
 {{- end }}
+{{- if not .Values.logReceiver.type }}
+{{ include "common-monitoring-lib.rsyslog_client_sidecar_stdout" . | indent 6 }}
+{{- end }}
 {{- if ne .Values.global.platform "VMware"}}
     {{- if .Values.logReceiver.type}}
       - name: fluentbit-agent
@@ -129,4 +132,8 @@ spec:
           configMap:
             name: graphql-logs-config
     {{- end }}
+{{- end }}
+{{- if not .Values.logReceiver.type }}
+      volumes:
+{{ include "common-monitoring-lib.rsyslog_client_volumes" . | indent 6 }}
 {{- end }}

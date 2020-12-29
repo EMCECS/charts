@@ -54,3 +54,14 @@ tests:
       - equal:
           path: spec.template.spec.serviceAccountName
           value: objectscale-api
+  - it: should have rsyslog container and config volume
+    set:
+      global.rsyslog_enabled: true
+      global.objectscale_release_name: objectscale_manager
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[1].name
+          value: rsyslog
+      - equal:
+          path: spec.template.spec.volumes[0].name
+          value: rsyslog-config

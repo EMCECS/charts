@@ -26,6 +26,11 @@ global:
   # Default: true == Watch ALL namespaces
   watchAllNamespaces: true
 
+  # Enable log forwarding to central objectscale rsyslog
+  rsyslog_enabled: true
+  # Name of the objectscale-manager release used by rsyslog sidecars
+  objectscale_release_name: objectscale-manager
+
 # The default docker tag and pull policy for objectscale-vsphere and other containers
 tag: 0.62.0
 pullPolicy: IfNotPresent
@@ -70,3 +75,7 @@ service:
 
 objectscale-graphql:
   managerReleaseName: objectscale-manager
+
+# rsyslog-client subchart configuration
+rsyslog-client:
+  createLogrotateConfigs: false

@@ -52,7 +52,7 @@ serviceDiscovery: FabricProxySidecar
 createApplicationResource: true
 
 # progressDeadlineSeconds field for all Deployments installed in ECS cluster
-deploymentDeadlineSeconds: 1200
+deploymentDeadlineSeconds: 2400
 
 # Configuration parameters for topology spread and fault domain selection
 topology:

@@ -30,7 +30,7 @@ objectStoreAvailableVersions:
   - 0.63.0
 
 # The default docker tag and pull policy for objectscale-graphql services
-tag: 0.62.0
+tag: 0.63.0
 pullPolicy: IfNotPresent
 
 # This will create the graphql container with the debug image. debug image will always be {{image.repository}}-debug

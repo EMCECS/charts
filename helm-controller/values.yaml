@@ -26,7 +26,7 @@ global:
 
 # The default docker tag and pull policy for helm-controller services
 ## MONITORING-1021 - patched to specifically pull in latest charts which include monitoring changes
-tag: 0.62.0
+tag: 0.63.0
 pullPolicy: IfNotPresent
 
 image:

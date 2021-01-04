@@ -29,11 +29,13 @@ data:
       spec:
         - name: objectstore-healthcheck
           container: {{.Values.global.registry}}/objectstore-connectivity:{{.Values.tag}}
+          serviceaccount: "objectstore-healthchecks"
           schedule: "0 */6 * * *"
           timelimit: "5m"
           args:
             - all
         - name: objectstore-pre-update
           container: {{.Values.global.registry}}/objectstore-pre-update:{{.Values.tag}}
+          serviceaccount: "objectstore-healthchecks"
           schedule: "*/30 * * * *"
           timelimit: "5m"

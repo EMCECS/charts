@@ -63,7 +63,7 @@ bookkeeper:
 createApplicationResource: true
 
 # The default docker tag and pull policy for objectscale-manager services
-tag: 0.63.0
+tag: 0.64.0
 pullPolicy: IfNotPresent
 
 # The default number of replicas for the objectscale-manager deployment

@@ -33,7 +33,7 @@ metadata:
     app.kubernetes.io/component: supportassist-{{.Values.product}}-ese
 {{ include "supportassist.labels" . | indent 4 }}
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
   - name: secure
     port: 9447

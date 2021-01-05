@@ -81,8 +81,8 @@ decksver:
 	echo "Found it"
 	for CHART in ${DECKSCHARTS}; do  \
 		echo "Setting version ${DECKSVER} in $$CHART" ;\
-                yq e '.appVersion = "${DECKSVER}"' -i $$CHART/Chart.yaml ; \
-                yq e '.version = "${DECKSVER}"' -i $$CHART/Chart.yaml ; \
+		yq e '.appVersion = "${DECKSVER}"' -i $$CHART/Chart.yaml ; \
+		yq e '.version = "${DECKSVER}"' -i $$CHART/Chart.yaml ; \
 		sed -i '1s/^/---\n/' $$CHART/Chart.yaml ; \
 		sed -i -e "0,/^tag.*/s//tag: ${DECKSVER}/"  $$CHART/values.yaml; \
 	done ;
@@ -102,7 +102,7 @@ flexver:
 	echo "Found it"
 	for CHART in ${FLEXCHARTS}; do  \
 		echo "Setting version $$FLEXVER in $$CHART" ;\
-                yq e '.appVersion = "${FLEXVER}"' -i $$CHART/Chart.yaml ; \
+		yq e '.appVersion = "${FLEXVER}"' -i $$CHART/Chart.yaml ; \
 		sed -i -e "/no_auto_change/!s/version:.*/version: ${FLEXVER}/g"  $$CHART/Chart.yaml; \
 		sed -i '1s/^/---\n/' $$CHART/Chart.yaml ; \
 		sed -i -e "0,/^tag.*/s//tag: ${FLEXVER}/"  $$CHART/values.yaml; \

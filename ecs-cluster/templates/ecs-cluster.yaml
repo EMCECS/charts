@@ -211,7 +211,6 @@ spec:
         pullPolicy: {{ .Values.pullPolicy }}
       controllerReplicas: {{ .Values.pravega.controller.replicas }}
       segmentStoreReplicas: {{ .Values.pravega.segmentStore.replicas }}
-      {{- if .Value.pravega.options }}
       options:
         bookkeeper.write.outstanding.bytes.max: {{ .Values.pravega.options.bookkeeper.write.outstanding.bytes.max }}
         bookkeeper.write.timeout.milliseconds: {{ .Values.pravega.options.bookkeeper.write.timeout.milliseconds }}

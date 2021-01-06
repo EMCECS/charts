@@ -1,6 +1,7 @@
 HELM_VERSION := v3.0.3
 HELM_URL     := https://get.helm.sh
 HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
+YQ_VERSION := 4.2.1
 YAMLLINT_VERSION := 1.20.0
 CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod objectscale-graphql helm-controller objectscale-vsphere iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator influxdb-operator federation logging-injector
 DECKSCHARTS := decks kahm supportassist service-pod dellemc-license decks-support-store
@@ -68,17 +69,26 @@ dep:
  	fi
 	export PATH=$PATH:/tmp
 	sudo pip install yamllint=="${YAMLLINT_VERSION}"
-	sudo snap install yq
+	sudo snap install yq=="${YQ_VERSION}"
 
-decksver:
+yqcheck:
+	echo "looking for yq command"
+	which yq
+	echo "Found it"
+	yq_curversion=`yq --version|awk '{print $$3}'`; \
+	echo $${yq_curversion}; \
+	if [ "$${yq_curversion}" != "${YQ_VERSION}" ]; then \
+		echo current yq version: $${yq_curversion}; \
+		echo required yq version: ${YQ_VERSION}; \
+		exit 1 ; \
+	fi
+
+decksver: yqcheck
 	if [ -z ${DECKSVER} ] ; then \
 		echo "Missing DECKSVER= param" ; \
 		exit 1 ; \
 	fi
 
-	echo "looking for yq command"
-	which yq
-	echo "Found it"
 	for CHART in ${DECKSCHARTS}; do  \
 		echo "Setting version ${DECKSVER} in $$CHART" ;\
 		yq e '.appVersion = "${DECKSVER}"' -i $$CHART/Chart.yaml ; \
@@ -92,14 +102,11 @@ decksver:
 		sed -i -e "/no_auto_change__decks_auto_change/s/version:.*/version: ${DECKSVER} # no_auto_change__decks_auto_change/g"  $$CHART/Chart.yaml; \
 	done ;
 
-flexver:
+flexver: yqcheck
 	if [ -z ${FLEXVER} ] ; then \
 		echo "Missing FLEXVER= param" ; \
 		exit 1 ; \
 	fi
-	echo "looking for yq command"
-	which yq
-	echo "Found it"
 	for CHART in ${FLEXCHARTS}; do  \
 		echo "Setting version $$FLEXVER in $$CHART" ;\
 		yq e '.appVersion = "${FLEXVER}"' -i $$CHART/Chart.yaml ; \
@@ -109,9 +116,7 @@ flexver:
 	done ;
 
 build-all: build
-build:
-	@echo "looking for yq command"
-	which yq
+build: yqcheck
 	@echo "Ensure no helm repo accessible"
 	helm repo list | grep .; \
         if [ $${?} -eq 0 ]; then exit 1; fi

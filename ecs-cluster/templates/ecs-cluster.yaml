@@ -213,6 +213,10 @@ spec:
       options:
   {{ toYaml .Values.pravega.options | indent 6 }}
       {{- end }}
+      options.metrics.influxDB.reporter.enable: {{ .Values.global.monitoring }}
+      options.metrics.statistics.enable: {{ .Values.global.monitoring }}
+      options.controller.metrics.influxDB.reporter.enable: {{ .Values.global.monitoring }}
+      options.controller.metrics.statistics.enable: {{ .Values.global.monitoring }}
       debugLogging: {{ .Values.pravega.debugLogging }}
 
   storageServer:

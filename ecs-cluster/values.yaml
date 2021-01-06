@@ -112,7 +112,38 @@ pravega:
 #    replicas: 1
     service:
       type: ClusterIP
-
+  debugLogging: false
+  options:
+    bookkeeper.write.outstanding.bytes.max: "33554432"
+    bookkeeper.write.timeout.milliseconds: "60000"
+    bookkeeper.zk.connect.sessionTimeout.milliseconds: "15000"
+    controller.containerCount: "32"
+    controller.metrics.dynamicCache.size: "2000"
+    controller.metrics.influxDB.connect.db.name: "pravega"
+    controller.metrics.influxDB.reporter.enable: "false"
+    controller.metrics.influxDB.retention: "two_hour"
+    controller.metrics.output.frequency.seconds: "10"
+    controller.metrics.statistics.enable: "false"
+    controller.metrics.statsD.reporter.enable: "false"
+    controller.retention.bucketCount: "8"
+    controller.retention.threadCount: "4"
+    controller.service.asyncTaskPoolSize: "20"
+    log.level: "INFO"
+    metrics.dynamicCache.size: "2000"
+    metrics.influxDB.connect.db.name: "pravega"
+    metrics.influxDB.reporter.enable: "false"
+    metrics.influxDB.retention: "two_hour"
+    metrics.output.frequency.seconds: "10"
+    metrics.statistics.enable: "false"
+    metrics.statsD.reporter.enable: "false"
+    pravegaservice.cache.size.max: "1073741824"
+    pravegaservice.cache.time.seconds.max: "600"
+    pravegaservice.container.count: "32"
+    pravegaservice.storage.layout: "CHUNKED_STORAGE"
+    pravegaservice.zk.connect.sessionTimeout.milliseconds: "30000"
+    storage.appends.enable: "false"
+    writer.flush.size.bytes.max: "67108864"
+    writer.flush.threshold.bytes: "67108864"
 
 bookkeeper:
 #  replicas: 3

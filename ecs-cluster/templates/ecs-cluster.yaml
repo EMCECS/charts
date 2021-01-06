@@ -209,6 +209,11 @@ spec:
         pullPolicy: {{ .Values.pullPolicy }}
       controllerReplicas: {{ .Values.pravega.controller.replicas }}
       segmentStoreReplicas: {{ .Values.pravega.segmentStore.replicas }}
+      {{- if .Value.pravega.options }}
+      options:
+  {{ toYaml .Values.pravega.options | indent 6 }}
+      {{- end }}
+      debugLogging: {{ .Values.pravega.debugLogging }}
 
   storageServer:
 {{ include "datasvc-lib.common-labels" . | indent 4 }}

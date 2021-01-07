@@ -43,6 +43,6 @@ dependencies:
     repository: file://../bookkeeper-operator
     condition: bookkeeper.enabled
   - name: dcm
-    version: 0.54.0
+    version: 0.64.0
     repository: file://../dcm
     condition: dcm.enabled

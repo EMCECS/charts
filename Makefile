@@ -189,6 +189,7 @@ create-manager-app: create-temp-package
 	--set objectscale-monitoring.rsyslog.persistence.storageClassName=${STORAGECLASSNAME_VSAN_SNA} \
 	--set iam.enabled=false ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
 	--set federation.enabled=false ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
+	--set dcm.enabled=false ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
 	-f values.yaml > ../${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml;
 	sed -i 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
 	sed -i 's/\\"monitoring\\":{\\"enabled\\":false}/\\"monitoring\\":{\\"enabled\\":true}/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \

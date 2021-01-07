@@ -25,8 +25,7 @@ global:
   watchAllNamespaces: true
 
 # The default docker tag and pull policy for helm-controller services
-## MONITORING-1021 - patched to specifically pull in latest charts which include monitoring changes
-tag: 0.64.0
+tag: 0.64.1
 pullPolicy: IfNotPresent
 
 image:

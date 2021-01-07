@@ -1,8 +1,8 @@
 ---
 apiVersion: v2
 name: helm-controller
-version: 0.64.0
-appVersion: 0.64.0
+version: 0.64.1
+appVersion: 0.64.1
 description: |
   helm-controller runs inside the cluster and acts as a helm broker to perform
   helm actions for packages, i.e install, update, delete

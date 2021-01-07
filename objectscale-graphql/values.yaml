@@ -27,10 +27,10 @@ global:
 
 # This is the list of available objectstore versions to graphql for UI to configure the store.
 objectStoreAvailableVersions:
-  - 0.64.0
+  - 0.64.1
 
 # The default docker tag and pull policy for objectscale-graphql services
-tag: 0.64.0
+tag: 0.64.1
 pullPolicy: IfNotPresent
 
 # This will create the graphql container with the debug image. debug image will always be {{image.repository}}-debug

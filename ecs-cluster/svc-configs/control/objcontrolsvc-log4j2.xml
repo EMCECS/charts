@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration monitorInterval="60" shutdownHook="disable">
+    <Appenders>
+        <RollingFile name="R" fileName="${sys:product.home}/logs/objcontrolsvc.log"
+                     filePattern="${sys:product.home}/logs/objcontrolsvc.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="P" fileName="${sys:product.home}/logs/objcontrolsvc-perf-counter.log"
+                     filePattern="${sys:product.home}/logs/objcontrolsvc-perf-counter.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="E" fileName="${sys:product.home}/logs/objcontrolsvc-error.log"
+                     filePattern="${sys:product.home}/logs/objcontrolsvc-error.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="M" fileName="${sys:product.home}/logs/objcontrolsvc-stats.log"
+                     filePattern="${sys:product.home}/logs/objcontrolsvc-stats.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="O" fileName="${sys:product.home}/logs/objcontrolsvc-ownership.log"
+                     filePattern="${sys:product.home}/logs/objcontrolsvc-ownership.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="G" fileName="${sys:product.home}/logs/objcontrolsvc-chunk-reclaim.log"
+                     filePattern="${sys:product.home}/logs/objcontrolsvc-chunk-reclaim.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <Syslog name="alertsLogger" host="localhost" port="514" protocol="UDP" facility="LOCAL7"/>
+
+        <Async name="asyncE" includeLocation="true">
+            <AppenderRef ref="E"/>
+        </Async>
+        <Async name="asyncP" includeLocation="true">
+            <AppenderRef ref="P"/>
+        </Async>
+        <Async name="asyncM" includeLocation="true">
+            <AppenderRef ref="M"/>
+        </Async>
+        <Async name="asyncO" includeLocation="true">
+            <AppenderRef ref="O"/>
+        </Async>
+        <Async name="asyncG" includeLocation="true">
+            <AppenderRef ref="G"/>
+        </Async>
+
+    </Appenders>
+
+    <Loggers>
+        <Logger name="org.apache.zookeeper" level="WARN"/>
+        <Logger name="com.emc.storageos.objcontrol.service.impl.resource.bucket.BucketService" level="DEBUG"/>
+
+        <Logger name="com.emc.storageos.services.util.AlertsLogger" level="WARN" additivity="false">
+            <AppenderRef ref="alertsLogger"/>
+        </Logger>
+
+        <Logger name="org.perf4j.TimingLogger" level="ERROR"/>
+        <Logger name="com.emc.storageos.data.object.StorageStats.MeteringCollector" level="DEBUG"/>
+        <Logger name="com.emc.storageos.data.object.stats.BandwidthStatsAggregator" level="DEBUG"/>
+
+        <Logger name="com.emc.storageos.data.object.directoryclient.PaxosClient" level="DEBUG"/>
+        <Logger name="com.emc.storageos.data.object.directoryService.impl.PaxosOperations" level="DEBUG"/>
+        <Logger name="com.emc.storageos.objcontrol.object.shared.PerformanceCounter" level="DEBUG" additivity="false">
+            <AppenderRef ref="asyncP"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.monitoring.MonitoringWorker" level="INFO">
+            <AppenderRef ref="asyncM"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.ownership.impl" level="INFO" additivity="false">
+            <AppenderRef ref="asyncO"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.gc" level="DEBUG" additivity="false">
+            <AppenderRef ref="asyncG"/>
+        </Logger>
+
+        <Root level="info">
+            <AppenderRef ref="R"/>
+            <AppenderRef ref="asyncE" level="error"/>
+        </Root>
+    </Loggers>
+
+</Configuration>

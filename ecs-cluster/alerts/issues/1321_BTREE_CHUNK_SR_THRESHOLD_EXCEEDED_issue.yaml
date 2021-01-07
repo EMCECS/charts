@@ -1,0 +1,15 @@
+- description: "System metadata garbage collection throughput is too slow to catch up with garbage detection"
+  name: "BTREE_CHUNK_SR_THRESHOLD_EXCEEDED"
+  defaultAutoClearTimeOut: 60
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # NORMAL
+        - label: SymptomID
+          value: 1320
+    - matchon:
+        # WARNING
+        - label: SymptomID
+          value: 1321
+  notifiers:
+    - objectscale-supportassist-ese

@@ -21,8 +21,15 @@ global:
   monitoring:
     enabled: true
 
+  # This flag decides if an objecstore is actually started or paused
+  # Setting started = false will cause the manager to remove the objectstore
+  started: true
+
+  # Set objectscale release name (needed for central logging and monitoring)
+  objectscale_release_name: objectscale-manager
+
 # The default docker tag and pull policy for the ECS Cluster
-tag: 0.54.0
+tag: 0.64.0
 pullPolicy: IfNotPresent
 
 # Override the default number of replicas which taken according to performance profile for each service
@@ -45,20 +52,20 @@ serviceDiscovery: FabricProxySidecar
 createApplicationResource: true
 
 # progressDeadlineSeconds field for all Deployments installed in ECS cluster
-deploymentDeadlineSeconds: 1200
+deploymentDeadlineSeconds: 2400
 
 # Configuration parameters for topology spread and fault domain selection
 topology:
-  # The node label key for topology spread and fault domains
-  # faultDomainKey: rack
-  # Fault domains to be excluded from resource scheduling
-  # excludedFaultDomains:
-  #   - zone1
-  #   - zone3
-  # The nodes to be targeted for resource scheduling
-  # nodeSelector:
-  #   key: row
-  #   value: 3
+# The node label key for topology spread and fault domains
+# faultDomainKey: rack
+# Fault domains to be excluded from resource scheduling
+# excludedFaultDomains:
+#   - zone1
+#   - zone3
+# The nodes to be targeted for resource scheduling
+# nodeSelector:
+#   key: row
+#   value: 3
 
 # Different features of ECSCluster that can be enabled or disabled
 features:
@@ -69,7 +76,7 @@ features:
   # Object type defines which service will be used: Blob service or Object service.
   # Values: blobSVC or objectSVC
   # NOTE: If CRR is enabled then Object service will be used forcibly
-  objectType: blobSVC
+  objectType: objectSVC
 
 #
 # ECS Service Configuration
@@ -80,7 +87,7 @@ atlas:
 
   image:
     repository: atlas
-    tag: v1.1.1
+    tag: v1.1.2
     pullPolicy: IfNotPresent
 
   persistence:
@@ -94,7 +101,7 @@ pravega:
   # labels:
   image:
     repository: pravega
-#    tag: ...
+  # tag: ...
   controller:
     replicas: 1
     service:
@@ -106,11 +113,11 @@ pravega:
 
 
 bookkeeper:
-#  replicas: 3
+  # replicas: 3
   # labels:
   image:
     repository: bookkeeper
-#    tag:
+  # tag:
   storage:
     ledger:
       # storageClassName:
@@ -128,7 +135,7 @@ zookeeper:
 
   image:
     repository: zookeeper
-    tag: 0.2.7
+    tag: 0.2.9
     # pullPolicy: IfNotPresent
 
   # Persistent storage options for zookeeper volume requests
@@ -383,26 +390,26 @@ s3:
         targetPort: 9020
         # nodePort:           # select specific node port for the connection
 
-    # loadBalancerIP:     # select specific load balancer IP of the connection
-    # externalHostnames:
-    #   - objectscale-vsp.example.com
-    # externalIPAddresses:
-    #   - 203.0.113.10
-    #   - 203.0.113.30
-    # externalIPv6Addresses:
-    #   - 2001:0db8:0000:0000:0000:0000:0000:0001
+        # loadBalancerIP:     # select specific load balancer IP of the connection
+        # externalHostnames:
+        #   - objectscale-vsp.example.com
+        # externalIPAddresses:
+        #   - 203.0.113.10
+        #   - 203.0.113.30
+        # externalIPv6Addresses:
+        #   - 2001:0db8:0000:0000:0000:0000:0000:0001
 
   tls:
     # Type of certificate signing: SelfSigned, KubernetesSigned, or ExternallySigned
     certificateType: SelfSigned
 
     certificate: {}
-      # publicKey: < server side customer certificate>
-      # privateKey: <private key for server side cert>
-      # password: # cert password (optional)
-      # authority: |-  # (optional)
-      #   rootCA: xxxx
-      #   intermediateCA:      # provide the intermediate CA here (optional)
+    # publicKey: < server side customer certificate>
+    # privateKey: <private key for server side cert>
+    # password: # cert password (optional)
+    # authority: |-  # (optional)
+    #   rootCA: xxxx
+    #   intermediateCA:      # provide the intermediate CA here (optional)
 
     signingRequest:
       # commonName:        # override common Name for this CSR.  Defaults to cluster.local FQDN.
@@ -458,6 +465,9 @@ geoReceiver:
     ports:
       - name: geo
         port: 9094
+      - name: external
+        port: 12002
+        targetPort: 12002
 
 # The ECS API control service configuration specification
 control:
@@ -492,14 +502,14 @@ managementGateway:
         targetPort: 4443
         # nodePort:           # select specific node port for the connection
 
-    # loadBalancerIP:     # select specific load balancer IP of the connection
-    # externalHostnames:
-    #   - objectscale-vsp.example.com
-    # externalIPAddresses:
-    #   - 203.0.113.10
-    #   - 203.0.113.30
-    # externalIPv6Addresses:
-    #   - 2001:0db8:0000:0000:0000:0000:0000:0001
+        # loadBalancerIP:     # select specific load balancer IP of the connection
+        # externalHostnames:
+        #   - objectscale-vsp.example.com
+        # externalIPAddresses:
+        #   - 203.0.113.10
+        #   - 203.0.113.30
+        # externalIPv6Addresses:
+        #   - 2001:0db8:0000:0000:0000:0000:0000:0001
 
   tls:
 
@@ -507,12 +517,12 @@ managementGateway:
     certificateType: SelfSigned
 
     certificate: {}
-      # publicKey: < server side customer certificate>
-      # privateKey: <private key for server side cert>
-      # password: # cert password (optional)
-      # authority: |-  # (optional)
-      #   rootCA: xxxx
-      #   intermediateCA:      # provide the intermediate CA here (optional)
+    # publicKey: < server side customer certificate>
+    # privateKey: <private key for server side cert>
+    # password: # cert password (optional)
+    # authority: |-  # (optional)
+    #   rootCA: xxxx
+    #   intermediateCA:      # provide the intermediate CA here (optional)
 
     signingRequest:
       # commonName:        # override common Name for this CSR.  Defaults to cluster.local FQDN.
@@ -590,11 +600,7 @@ deos_hc:
     # tag: stable
     # pullPolicy: IfNotPresent
 
-# deos_events to pull the events every pullFreq (default: 30 seconds) from the object store
-# and convert them into the k8s events
-deosEvents:
-  pullFreq: 30
-  image:
-    repository: deos-events
-    # tag: stable
-    # pullPolicy: IfNotPresent
+# rsyslog-client configuration
+rsyslog-client:
+  # RBAC is created in objectscale-manager monitoring
+  createRBAC: false

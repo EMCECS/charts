@@ -5,10 +5,10 @@ tests:
   - it: should create a ClusterRoleBinding resource
     asserts:
       - isKind:
-          of: RoleBinding
+          of: ClusterRoleBinding
       - equal:
           path: metadata.name
-          value: RELEASE-NAME-statefuldaemonset-operator-leader-election-role-binding
+          value: RELEASE-NAME-statefuldaemonset-operator-NAMESPACE-leader-election-role-binding
   - it: should create a RoleBinding resource in a namespace
     set:
       global.watchAllNamespaces: false
@@ -17,7 +17,7 @@ tests:
           of: RoleBinding
       - equal:
           path: metadata.name
-          value: RELEASE-NAME-statefuldaemonset-operator-leader-election-role-binding
+          value: RELEASE-NAME-statefuldaemonset-operator-NAMESPACE-leader-election-role-binding
   - it: should have labels
     asserts:
       - equal:
@@ -29,21 +29,21 @@ tests:
       - equal:
           path: metadata.labels.app\.kubernetes\.io/instance
           value: RELEASE-NAME
-  - it: should bind the ClusterRole to the default account
+  - it: should bind the ClusterRole to the specified service account
     asserts:
       - equal:
           path: roleRef.kind
-          value: Role
+          value: ClusterRole
       - equal:
           path: roleRef.name
-          value: RELEASE-NAME-statefuldaemonset-operator-leader-election-role
+          value: RELEASE-NAME-statefuldaemonset-operator-NAMESPACE-leader-election-role
       - equal:
           path: subjects[0].kind
           value: ServiceAccount
       - equal:
           path: subjects[0].name
-          value: statefuldaemonset-operator
-  - it: should bind the Role to the default account
+          value: RELEASE-NAME-statefuldaemonset-operator
+  - it: should bind the Role to the specified service account
     set:
       global.watchAllNamespaces: false
     asserts:
@@ -52,10 +52,27 @@ tests:
           value: Role
       - equal:
           path: roleRef.name
-          value: RELEASE-NAME-statefuldaemonset-operator-leader-election-role
+          value: RELEASE-NAME-statefuldaemonset-operator-NAMESPACE-leader-election-role
       - equal:
           path: subjects[0].kind
           value: ServiceAccount
       - equal:
           path: subjects[0].name
-          value: statefuldaemonset-operator
+          value: RELEASE-NAME-statefuldaemonset-operator
+  - it: should bind the Role to the default service account
+    set:
+      global.watchAllNamespaces: false
+      serviceAccount.create: false
+    asserts:
+      - equal:
+          path: roleRef.kind
+          value: Role
+      - equal:
+          path: roleRef.name
+          value: RELEASE-NAME-statefuldaemonset-operator-NAMESPACE-leader-election-role
+      - equal:
+          path: subjects[0].kind
+          value: ServiceAccount
+      - equal:
+          path: subjects[0].name
+          value: default

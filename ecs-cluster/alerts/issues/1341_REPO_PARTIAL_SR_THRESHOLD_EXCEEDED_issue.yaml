@@ -1,0 +1,15 @@
+- description: "Partial GC for user garbage is too slow"
+  name: "REPO_PARTIAL_SR_THRESHOLD_EXCEEDED"
+  defaultAutoClearTimeOut: 60
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # NORMAL
+        - label: SymptomID
+          value: 1340
+    - matchon:
+        # WARNING
+        - label: SymptomID
+          value: 1341
+  notifiers:
+    - objectscale-supportassist-ese

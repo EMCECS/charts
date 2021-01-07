@@ -58,6 +58,12 @@ rules:
     verbs:
       - "*"
   - apiGroups:
+      - kahm.emcecs.github.com
+    resources:
+      - "*"
+    verbs:
+      - "*"
+  - apiGroups:
       - storage.k8s.io
     resources:
       - storageclasses
@@ -159,6 +165,18 @@ rules:
     - get
   - apiGroups:
       - stateful.ecs.dellemc.com
+    resources:
+      - "*"
+    verbs:
+      - "*"
+  - apiGroups:
+    - "admissionregistration.k8s.io"
+    resources:
+    - "mutatingwebhookconfigurations"
+    verbs:
+      - "*"
+  - apiGroups:
+      - db.ecs.dellemc.com
     resources:
       - "*"
     verbs:

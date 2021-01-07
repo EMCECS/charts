@@ -46,3 +46,14 @@ release: {{ .Release.Name }}
 {{ $key }}: {{ $value | quote }}
 {{- end }}
 {{- end -}}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "statefuldaemonset-operator.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create -}}
+    {{ default (include "statefuldaemonset-operator.fullname" .) .Values.serviceAccount.name }}
+{{- else -}}
+    {{ default "default" .Values.serviceAccount.name }}
+{{- end -}}
+{{- end -}}

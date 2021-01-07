@@ -1,0 +1,11 @@
+- description: "DT init status alert"
+  name: "DTSTATUS_RECENT_FAILURE"
+  defaultAutoClearTimeOut: 60
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # CRITICAL
+        - label: SymptomID
+          value: 3001
+  notifiers:
+    - objectscale-supportassist-ese

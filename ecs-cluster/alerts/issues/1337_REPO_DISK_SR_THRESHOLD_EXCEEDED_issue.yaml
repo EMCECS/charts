@@ -1,0 +1,15 @@
+- description: "Capacity free-up throughput is too slow to catch up with user garbage collection"
+  name: "REPO_DISK_SR_THRESHOLD_EXCEEDED"
+  defaultAutoClearTimeOut: 60
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # NORMAL
+        - label: SymptomID
+          value: 1336
+    - matchon:
+        # WARNING
+        - label: SymptomID
+          value: 1337
+  notifiers:
+    - objectscale-supportassist-ese

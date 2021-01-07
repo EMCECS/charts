@@ -20,7 +20,7 @@ global:
 
 image:
   repository: atlas-operator
-  tag: v0.9
+  tag: v0.11.0
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -39,10 +39,10 @@ securityContext: {}
 resources:
   requests:
     cpu: 250m
-    memory: 64Mi
+    memory: 300Mi
   limits:
     cpu: 1
-    memory: 128Mi
+    memory: 500Mi
 
 nodeSelector: {}
 

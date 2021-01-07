@@ -48,7 +48,7 @@ spec:
         ports:
         - containerPort: 40000
           name: debug
-          protocol: TCP 
+          protocol: TCP
         securityContext:
           capabilities:
             add: ["SYS_PTRACE"]
@@ -72,12 +72,20 @@ spec:
           value: {{ .Values.global.registry }}
         - name: LICENSE_CHART_VERSION
           value: {{ default "1.1.0" .Values.decks.licenseChartVersion }}
+        - name: SUPPORTASSIST_CHART_VERSION
+          value: {{ default "2.0.55" .Values.decks.supportAssistChartVersion }}
         - name: SRSGATEWAY_CHART_VERSION
           value: {{ default "1.1.0" .Values.decks.srsGatewayChartVersion }}
         - name: OPERATOR_NAME
           value: objectscale-operator
         - name: MANAGER_RELEASE_NAME
           value: {{ .Values.managerReleaseName }}
+        - name: VSPHERE_SERVICE_PREFIX
+          value: VSPHERE_SERVICE_PREFIX_VALUE
+        {{- if .Values.global.storageClassName }}
+        - name: STORAGE_CLASS_NAME
+          value: {{ .Values.global.storageClassName }}
+        {{- end }}
         - name: LOG_DIRECTION
 {{- if .Values.logReceiver.type }}
           value: file
@@ -87,6 +95,9 @@ spec:
 {{- if .Values.withPlayground }}
         args:
           - "-P"
+{{- end }}
+{{- if not .Values.logReceiver.type }}
+{{ include "common-monitoring-lib.rsyslog_client_sidecar_stdout" . | indent 6 }}
 {{- end }}
 {{- if ne .Values.global.platform "VMware"}}
     {{- if .Values.logReceiver.type}}
@@ -121,4 +132,8 @@ spec:
           configMap:
             name: graphql-logs-config
     {{- end }}
+{{- end }}
+{{- if not .Values.logReceiver.type }}
+      volumes:
+{{ include "common-monitoring-lib.rsyslog_client_volumes" . | indent 6 }}
 {{- end }}

@@ -1,0 +1,15 @@
+- description: "User garbage collection throughput is too slow to catch up with garbage detection"
+  name: "REPO_CHUNK_SR_THRESHOLD_EXCEEDED"
+  defaultAutoClearTimeOut: 60
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # NORMAL
+        - label: SymptomID
+          value: 1332
+    - matchon:
+        # WARNING
+        - label: SymptomID
+          value: 1333
+  notifiers:
+    - objectscale-supportassist-ese

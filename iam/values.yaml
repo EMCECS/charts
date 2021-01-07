@@ -1,5 +1,5 @@
 ---
-tag: 0.54.0
+tag: 0.64.0
 global:
   registry: emccorp
 atlas:
@@ -7,7 +7,7 @@ atlas:
   image:
     pullPolicy: IfNotPresent
     repository: atlas
-    tag: v1.1.1
+    tag: v1.1.2
   persistence:
     size: 10Gi
   replicaCount: 3
@@ -15,7 +15,7 @@ iamsvc:
   image:
     pullPolicy: IfNotPresent
     repository: iamsvc
-    #tag: stable
+    # tag: stable
   livenessProbe:
     probePath: /iamhealthcheck
   readinessProbe:

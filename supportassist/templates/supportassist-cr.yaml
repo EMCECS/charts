@@ -11,13 +11,17 @@ spec:
   productModel: "{{.Values.product | upper}}"
   productType: dell.enterprise.storage.{{.Values.product}}
   productVersion: {{required "productVersion must be specified" .Values.productVersion}}
-  enabled: {{default true .Values.enabled}}
+  enabled: {{default false .Values.enabled}}
   siteID: {{required "siteID must be specified" .Values.siteID}}
-  systemMode: {{ default "normal" .Values.systemMode }}
+  systemMode: {{ default "preProd" .Values.systemMode }}
   eventMuted: {{ default false .Values.eventMuted }}
-  testDialHome: {{ default true .Values.testDialHome }}
+  testDialHome: {{ default false .Values.testDialHome }}
+  {{- if ne .Values.enabled true }}
+  remoteAccessEnabled: false
+  {{- else }}
   remoteAccessEnabled: {{ default false .Values.remoteAccessEnabled }}
-  useGateways: {{ default true .Values.useGateways }}
+  {{- end }}
+  useGateways: {{ default false .Values.useGateways }}
   {{- if .Values.gateways }}
   gateways:
   {{toYaml .Values.gateways | indent 2 | trim}}

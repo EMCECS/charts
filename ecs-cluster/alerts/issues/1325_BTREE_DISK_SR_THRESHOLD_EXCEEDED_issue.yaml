@@ -1,0 +1,15 @@
+- description: "Capacity free-up throughput is too slow to catch up with system metadata garbage collection"
+  name: "BTREE_DISK_SR_THRESHOLD_EXCEEDED"
+  defaultAutoClearTimeOut: 60
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # NORMAL
+        - label: SymptomID
+          value: 1324
+    - matchon:
+        # WARNING
+        - label: SymptomID
+          value: 1325
+  notifiers:
+    - objectscale-supportassist-ese

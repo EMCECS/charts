@@ -25,10 +25,33 @@ global:
   watchAllNamespaces: true
 
 # The default docker tag and pull policy for helm-controller services
-tag: 0.54.0
+## MONITORING-1021 - patched to specifically pull in latest charts which include monitoring changes
+tag: 0.64.0
 pullPolicy: IfNotPresent
 
 image:
   repository: install-controller
   # tag: stable
   # pullPolicy: IfNotPresent
+
+# This will create the graphql container with the debug image tag. debug image will always be {{image.tag}}-debug
+# also, this will expose port 40000 as debug port for debugging the application remotely in the cluster itself
+debug: false
+
+service:
+
+  # Type of Kubernetes service: ClusterIP, LoadBalancer, or NodePort
+  type: ClusterIP
+
+  # TCP Port for the service
+  port: 80
+
+  # TCP Port for the REST API server to listen on
+  targetPort: 8080
+
+rest: {}
+# Username for the REST API basic auth service. Default is randomly generated
+# username: rest-user
+
+# Password for the REST API basic auth service. Default is randomly generated
+# password: rest-pass

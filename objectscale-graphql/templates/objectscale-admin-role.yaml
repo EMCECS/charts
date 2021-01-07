@@ -90,3 +90,10 @@ rules:
     - get
     - watch
     - list
+- apiGroups:
+    - appplatform.wcp.vmware.com
+  resources:
+    - storagepolicies
+  verbs:
+    - get
+    - list

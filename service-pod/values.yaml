@@ -13,7 +13,7 @@ global:
   registry: emccorp
 
 # The default docker tag and pull policy for service-pod
-tag: 2.0.54
+tag: 2.0.64
 pullPolicy: IfNotPresent
 # product for which the service pod is required
 # product: objectscale
@@ -28,9 +28,11 @@ sshCred:
   user: "root"
   group: "adm"
   password: "ChangeMe"
-# specify the requests and limits for the ephemeral storage for the pod
+
+# specify the requests and limits for the pod
 resources:
   requests:
-    storage: 10Gi
+    memory: 2Gi
+    ephemeral-storage: 10Gi
   limits:
-    storage: 20Gi
+    ephemeral-storage: 20Gi

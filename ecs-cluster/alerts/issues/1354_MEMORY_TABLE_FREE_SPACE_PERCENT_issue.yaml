@@ -1,0 +1,15 @@
+- description: "Memory table size for process is less than the specified threshold"
+  name: "MEMORY_TABLE_FREE_SPACE_PERCENT"
+  defaultAutoClearTimeOut: 60
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # NORMAL
+        - label: SymptomID
+          value: 1352
+    - matchon:
+        # ERROR
+        - label: SymptomID
+          value: 1354
+  notifiers:
+    - objectscale-supportassist-ese

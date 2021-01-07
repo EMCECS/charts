@@ -35,6 +35,7 @@ $(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/objectscale-crd.yaml)
 $(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/objectscale-manager.yaml)
 $(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/kahm.yaml)
 $(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/decks.yaml)
+$(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/logging-injector.yaml)
   ${service_id}.yaml: |-
     apiVersion: appplatform.wcp.vmware.com/v1alpha1
     kind: SupervisorService
@@ -63,6 +64,9 @@ sed -i 's/[[:space:]]*$//' temp_package/yaml/${vsphere7_plugin_file}
 
 ## Template the namespace value
 sed -i "s/$namespace/{{ .service.namespace }}/g" temp_package/yaml/${vsphere7_plugin_file}
+
+## Template the vsphere service prefix value
+sed -i "s/VSPHERE_SERVICE_PREFIX_VALUE/{{ .service.prefix }}/g" temp_package/yaml/${vsphere7_plugin_file}
 
 cp -p ./vmware/deploy-objectscale-plugin.sh temp_package/scripts 
 

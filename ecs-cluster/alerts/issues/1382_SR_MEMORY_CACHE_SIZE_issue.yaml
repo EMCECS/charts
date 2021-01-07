@@ -1,0 +1,15 @@
+- description: "Page Table memory cache size for sr exceeded threshold"
+  name: "SR_MEMORY_CACHE_SIZE"
+  defaultAutoClearTimeOut: 60
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # NORMAL
+        - label: SymptomID
+          value: 1381
+    - matchon:
+        # WARNING
+        - label: SymptomID
+          value: 1382
+  notifiers:
+    - objectscale-supportassist-ese

@@ -18,7 +18,7 @@ spec:
 {{ include "statefuldaemonset-operator.labels" . | indent 8}}
     spec:
       {{- if .Values.serviceAccount.create }}
-      serviceAccountName: {{ .Values.serviceAccount.name }}
+      serviceAccountName: {{ template "statefuldaemonset-operator.serviceAccountName" . }}
       {{- end }}
       {{- if .Values.global.registrySecret }}
       imagePullSecrets:
@@ -28,14 +28,14 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ include "common-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
+          image: "{{ include "common-monitoring-lib.monitoring_registry" . }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Values.global.monitoring_tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           resources:
-{{ include "common-lib.resources" (dict "top" . "micro" "100Mi" "small" "200Mi" "medium" "306Mi" "large" "306Mi") | indent 12}}
+{{ include "common-monitoring-lib.resources" (dict "top" . "micro" "100Mi" "small" "200Mi" "medium" "306Mi" "large" "306Mi") | indent 12}}
           command: ["bash"]
-          args: ["-c", "{{ include "common-lib.command" . }} ./manager --enable-leader-election"]
+          args: ["-c", "{{ include "common-monitoring-lib.command" . }} ./manager --enable-leader-election"]
           env:
             - name: WATCH_NAMESPACE
 {{- if eq .Values.global.watchAllNamespaces true }}

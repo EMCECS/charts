@@ -5,10 +5,10 @@ tests:
   - it: should create a ClusterRole resource
     asserts:
       - isKind:
-          of: Role
+          of: ClusterRole
       - equal:
           path: metadata.name
-          value: RELEASE-NAME-statefuldaemonset-operator-leader-election-role
+          value: RELEASE-NAME-statefuldaemonset-operator-NAMESPACE-leader-election-role
   - it: should create a Role resource in a namespace
     set:
       global.watchAllNamespaces: false
@@ -17,7 +17,7 @@ tests:
           of: Role
       - equal:
           path: metadata.name
-          value: RELEASE-NAME-statefuldaemonset-operator-leader-election-role
+          value: RELEASE-NAME-statefuldaemonset-operator-NAMESPACE-leader-election-role
       - equal:
           path: metadata.namespace
           value: NAMESPACE

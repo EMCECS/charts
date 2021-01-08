@@ -432,7 +432,7 @@ spaceReclaimer:
   # Docker repository to be used for diagnostic service instances
   image:
     repository: space-reclaimer
-    # tag: stable
+    tag: 0.64.2
     # pullPolicy: IfNotPresent
 
 # The ECS geo service configuration specification
@@ -604,3 +604,14 @@ deos_hc:
 rsyslog-client:
   # RBAC is created in objectscale-manager monitoring
   createRBAC: false
+
+# KAHM health check configuration
+healthChecks:
+  connectivity:
+    image:
+      repository: objectstore-connectivity
+      tag: 0.64.2
+  preUpdate:
+    image:
+      repository: objectstore-pre-update
+      # tag: stable

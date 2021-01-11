@@ -16,7 +16,6 @@ dcm:
   image:
     pullPolicy: IfNotPresent
     registry: asdrepo.isus.emc.com:8200
-    tag: latest
     repository: dcm
     #tag: stable
   replicaCount: 1

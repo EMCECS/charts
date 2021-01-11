@@ -29,7 +29,7 @@ global:
   objectscale_release_name: objectscale-manager
 
 # The default docker tag and pull policy for the ECS Cluster
-tag: 0.64.0
+tag: 0.64.2
 pullPolicy: IfNotPresent
 
 # Override the default number of replicas which taken according to performance profile for each service
@@ -237,7 +237,7 @@ ons:
   # Docker repository to be used for ons instances
   image:
     repository: ons
-    tag: latest
+    # tag: stable
     # pullPolicy: IfNotPresent
 
 # The ECS REP Service configuration specification
@@ -251,7 +251,7 @@ rep:
   # Docker repository to be used for rep instances
   image:
     repository: rep
-    # tag: latest
+    # tag: stable
     # pullPolicy: IfNotPresent
 
 # The ECS storage server manager configuration specification
@@ -446,7 +446,7 @@ geoService:
   # Docker repository to be used for ons instances
   image:
     repository: geoservice
-    tag: latest
+    # tag: stable
     # pullPolicy: IfNotPresent
 
 # The ECS geo receiver configuration specification
@@ -604,3 +604,14 @@ deos_hc:
 rsyslog-client:
   # RBAC is created in objectscale-manager monitoring
   createRBAC: false
+
+# KAHM health check configuration
+healthChecks:
+  connectivity:
+    image:
+      repository: objectstore-connectivity
+      # tag: stable
+  preUpdate:
+    image:
+      repository: objectstore-pre-update
+      # tag: stable

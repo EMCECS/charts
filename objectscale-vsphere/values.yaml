@@ -32,7 +32,7 @@ global:
   objectscale_release_name: objectscale-manager
 
 # The default docker tag and pull policy for objectscale-vsphere and other containers
-tag: 0.64.0
+tag: 0.64.2
 pullPolicy: IfNotPresent
 
 # This package gets values from objectscale-manager/values.yaml

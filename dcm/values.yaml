@@ -17,7 +17,7 @@ dcm:
     pullPolicy: IfNotPresent
     registry: asdrepo.isus.emc.com:8200
     repository: dcm
-    #tag: stable
+    # tag: stable
   replicaCount: 1
   service:
     port: 8080

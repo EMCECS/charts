@@ -3,7 +3,6 @@ tag: 0.64.0
 global:
   registry: emccorp
 atlas:
-  registry: asdrepo.isus.emc.com:8099
   affinity: false
   image:
     pullPolicy: IfNotPresent
@@ -15,7 +14,6 @@ atlas:
 dcm:
   image:
     pullPolicy: IfNotPresent
-    registry: asdrepo.isus.emc.com:8200
     repository: dcm
     # tag: stable
   replicaCount: 1

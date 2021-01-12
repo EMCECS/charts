@@ -1,4 +1,4 @@
-{{- range $i, $svc := list "blob" "cm" "control" "cp" "diagnostic" "event" "geo" "metering" "rm" "resource" "s3" "sr" "sm" "ssm" "objectsvc" "storageserver" }}
+{{- range $i, $svc := list "blob" "cm" "control" "cp" "diagnostic" "event" "geo" "metering" "rm" "rep" "resource" "s3" "sr" "sm" "ssm" "objectsvc" "storageserver" }}
 ---
 apiVersion: v1
 kind: ConfigMap

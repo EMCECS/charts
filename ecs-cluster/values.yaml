@@ -253,6 +253,8 @@ rep:
     repository: rep
     # tag: stable
     # pullPolicy: IfNotPresent
+  extraConfig:
+    {}
 
 # The ECS storage server manager configuration specification
 storageServerManager:

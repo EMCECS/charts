@@ -95,15 +95,13 @@ atlas:
   persistence:
     # Size of each volume to be provisioned
     size: 32Gi
-
     # Name of the storage class that storage should be provisioned from
     # storageClassName:
-
+pravegaRepository: pravega
 pravega:
   # labels:
   image:
-    repository: devops-repo.isus.emc.com:8116/nautilus/pravega
-    tag: 0.9.0-2732.066a3ad0b-SLTS_FOR_FLEX_12_14
+    tag: latest
   controller:
 #    replicas: 1
     service:
@@ -149,9 +147,8 @@ bookkeeper:
 #  replicas: 3
   # labels:
   image:
-    repository: devops-repo.isus.emc.com:8116/nautilus/bookkeeper
     pullPolicy: IfNotPresent
-  version: 0.9.0-2725.77b13981a
+  version: latest
   autoRecovery: true
   storage:
     ledger:

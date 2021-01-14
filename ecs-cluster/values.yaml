@@ -253,6 +253,9 @@ rep:
     repository: rep
     # tag: stable
     # pullPolicy: IfNotPresent
+
+  # Elements to add to the service's ConfigMap. This is a map of string -> string
+  # for ConfigMap data entries. Values may be multiline strings.
   extraConfig:
     {}
 

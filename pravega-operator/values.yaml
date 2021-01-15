@@ -24,7 +24,7 @@ serviceAccount:
 
 ## Whether to create the CRD.
 crd:
-  create: true
+  create: false
 
 testmode:
   ## Whether to enable test mode.

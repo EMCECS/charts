@@ -50,5 +50,5 @@ watchNamespace: ""
 hooks:
   backoffLimit: 10
   image:
-    repository: lachlanevenson/k8s-kubectl
+    repository: devops-repo.isus.emc.com:8116/pravega/k8s-kubectl
     tag: v1.16.10

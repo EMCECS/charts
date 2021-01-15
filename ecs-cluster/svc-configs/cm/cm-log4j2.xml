@@ -8,194 +8,168 @@
     </CustomLevels>
     <Appenders>
         <RollingFile name="R" fileName="${sys:product.home}/logs/cm.log"
-                     filePattern="${sys:product.home}/logs/cm.log.%d{yyyyMMdd-HHmmss}.gz">
+                     filePattern="${sys:product.home}/logs/cm.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="50 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
+            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="P" fileName="${sys:product.home}/logs/cm-perf-counter.log"
-                     filePattern="${sys:product.home}/logs/cm-perf-counter.log.%d{yyyyMMdd-HHmmss}.gz">
+                     filePattern="${sys:product.home}/logs/cm-perf-counter.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="50 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
+            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="E" fileName="${sys:product.home}/logs/cm-error.log"
-                     filePattern="${sys:product.home}/logs/cm-error.log.%d{yyyyMMdd-HHmmss}.gz">
+                     filePattern="${sys:product.home}/logs/cm-error.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="50 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
+            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="M" fileName="${sys:product.home}/logs/cm-stats.log"
-                     filePattern="${sys:product.home}/logs/cm-stats.log.%d{yyyyMMdd-HHmmss}.gz">
+                     filePattern="${sys:product.home}/logs/cm-stats.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="50 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
-        </RollingFile>
-
-        <RollingFile name="ST" fileName="${sys:product.home}/logs/cm-stream.log"
-                     filePattern="${sys:product.home}/logs/cm-stream.log.%d{yyyyMMdd-HHmmss}.gz">
-            <PatternLayout>
-                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
-            </PatternLayout>
-            <Policies>
-                <SizeBasedTriggeringPolicy size="50 MB"/>
-            </Policies>
+            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="B" fileName="${sys:product.home}/logs/cm-zk.log"
-                     filePattern="${sys:product.home}/logs/cm-zk.log.%d{yyyyMMdd-HHmmss}.gz">
+                     filePattern="${sys:product.home}/logs/cm-zk.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="50 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
+            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="O" fileName="${sys:product.home}/logs/cm-ownership.log"
-                     filePattern="${sys:product.home}/logs/cm-ownership.log.%d{yyyyMMdd-HHmmss}.gz">
+                     filePattern="${sys:product.home}/logs/cm-ownership.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="50 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
+            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="G" fileName="${sys:product.home}/logs/cm-chunk-reclaim.log"
-                     filePattern="${sys:product.home}/logs/cm-chunk-reclaim.log.%d{yyyyMMdd-HHmmss}.gz">
+                     filePattern="${sys:product.home}/logs/cm-chunk-reclaim.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="50 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
+            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="C" fileName="${sys:product.home}/logs/cm-corruption-scan.log"
-                     filePattern="${sys:product.home}/logs/cm-corruption-scan.log.%d{yyyyMMdd-HHmmss}.gz">
+                     filePattern="${sys:product.home}/logs/cm-corruption-scan.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="50 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
+            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="L" fileName="${sys:product.home}/logs/cm-chunk-lifecycle.log"
-                     filePattern="${sys:product.home}/logs/cm-chunk-lifecycle.log.%d{yyyyMMdd-HHmmss}.gz">
+                     filePattern="${sys:product.home}/logs/cm-chunk-lifecycle.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="50 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
+            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="D" fileName="${sys:product.home}/logs/cm-typeII-EC-delete.log"
-                     filePattern="${sys:product.home}/logs/cm-typeII-EC-delete.log.%d{yyyyMMdd-HHmmss}.gz">
+                     filePattern="${sys:product.home}/logs/cm-typeII-EC-delete.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="50 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
+            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="T" fileName="${sys:product.home}/logs/cm-remove-repair-task.log"
-                     filePattern="${sys:product.home}/logs/cm-remove-repair-task.log.%d{yyyyMMdd-HHmmss}.gz">
+                     filePattern="${sys:product.home}/logs/cm-remove-repair-task.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="50 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
+            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="L" fileName="${sys:product.home}/logs/cm-chunk-lifecycle.log"
-                     filePattern="${sys:product.home}/logs/cm-chunk-lifecycle.log.%d{yyyyMMdd-HHmmss}.gz">
+                     filePattern="${sys:product.home}/logs/cm-chunk-lifecycle.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="50 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
+            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="W" fileName="${sys:product.home}/logs/cm-statistics.log"
-                     filePattern="${sys:product.home}/logs/cm-statistics.log.%d{yyyyMMdd-HHmmss}.gz">
+                     filePattern="${sys:product.home}/logs/cm-statistics.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="50 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
+            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="S" fileName="${sys:product.home}/logs/cm-migration-block-lifecycle.log"
-                     filePattern="${sys:product.home}/logs/cm-migration-block-lifecycle.log.%d{yyyyMMdd-HHmmss}.gz">
+                     filePattern="${sys:product.home}/logs/cm-migration-block-lifecycle.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="50 MB"/>
-            </Policies>
-        </RollingFile>
-
-        <RollingFile name="AKKA_BFW" fileName="${sys:product.home}/logs/cm-akkabfw.log"
-                     filePattern="${sys:product.home}/logs/cm-akkabfw.log.%d{yyyyMMdd-HHmmss}.gz">
-            <PatternLayout>
-                <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %X{akkaSource} %5p %c{1} %m%n%ex</Pattern>
-            </PatternLayout>
-            <Policies>
-                <SizeBasedTriggeringPolicy size="50 MB" />
-            </Policies>
-        </RollingFile>
-
-        <RollingFile name="AKKA_BFW" fileName="${sys:product.home}/logs/cm-akkabfw.log"
-                     filePattern="${sys:product.home}/logs/cm-akkabfw.log.%i">
-            <PatternLayout>
-                <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %X{akkaSource} %5p %c{1} %m%n%ex</Pattern>
-            </PatternLayout>
-            <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="RCC" fileName="${sys:product.home}/logs/cm-refresh-chunk-cache.log"
-                     filePattern="${sys:product.home}/logs/cm-refresh-chunk-cache.log.%d{yyyyMMdd-HHmmss}.gz">
+                     filePattern="${sys:product.home}/logs/cm-refresh-chunk-cache.log.%i.gz">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="50 MB"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
-        </RollingFile>
-
-        <RollingFile name="UBP" fileName="${sys:product.home}/logs/cm-buffer-pool.log"
-                     filePattern="${sys:product.home}/logs/cm-buffer-pool.log.%d{yyyyMMdd-HHmmss}.gz">
-            <PatternLayout>
-                <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
-            </PatternLayout>
-            <Policies>
-                <SizeBasedTriggeringPolicy size="50 MB"/>
-            </Policies>
+            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <Syslog name="alertsLogger" host="localhost" port="514" protocol="UDP" facility="LOCAL7"/>
@@ -211,9 +185,6 @@
         </Async>
         <Async name="asyncM" includeLocation="true">
             <AppenderRef ref="M"/>
-        </Async>
-        <Async name="asyncST" includeLocation="true">
-            <AppenderRef ref="ST"/>
         </Async>
         <Async name="asyncB" includeLocation="true">
             <AppenderRef ref="B"/>
@@ -242,15 +213,8 @@
         <Async name="asyncS" includeLocation="true">
             <AppenderRef ref="S"/>
         </Async>
-        <Async name="asyncAkkaBfw" includeLocation="true">
-            <AppenderRef ref="AKKA_BFW"/>
-        </Async>
         <Async name="asyncRCC" includeLocation="true">
             <AppenderRef ref="RCC"/>
-        </Async>
-
-        <Async name="asyncUBP" includeLocation="true">
-            <AppenderRef ref="UBP"/>
         </Async>
     </Appenders>
 
@@ -270,17 +234,6 @@
         </Logger>
         <Logger name="com.emc.storageos.data.object.impl.buffer" level="INFO">
             <AppenderRef ref="asyncM"/>
-        </Logger>
-        <Logger name="com.emc.storageos.data.stream" level="DEBUG">
-            <AppenderRef ref="asyncR" level="INFO"/>
-            <AppenderRef ref="asyncST"/>
-        </Logger>
-        <Logger name="io.pravega.client" level="DEBUG">
-            <AppenderRef ref="asyncR" level="WARN"/>
-            <AppenderRef ref="asyncST"/>
-        </Logger>
-        <Logger name="com.emc.storageos.data.chunkmanager.longevity" level="DEBUG">
-            <AppenderRef ref="asyncST"/>
         </Logger>
         <Logger name="com.emc.storageos.data.object.zkstore" level="INFO" additivity="false">
             <AppenderRef ref="asyncB"/>
@@ -350,22 +303,9 @@
             <AppenderRef ref="asyncS"/>
         </Logger>
 
-        <Logger name="akka.actor" level="warning" additivity="false">
-            <AppenderRef ref="asyncAkkaBfw"/>
-        </Logger>
-        <Logger name="com.emc.storageos.data.object.akkaimpl" level="INFO"  additivity="false">
-            <AppenderRef ref="asyncAkkaBfw"/>
-            <AppenderRef ref="asyncE" level="ERROR"/>
-        </Logger>
-
         <Logger name="com.emc.storageos.data.object.client.ReportBlockErrorTask.refreshChunkInfo" level="WARN" additivity="false">
             <AppenderRef ref="asyncRCC"/>
         </Logger>
-
-        <Logger name="com.emc.storageos.data.object.client.utils.UnifiedMemoryBufferPool.bufferPool" level="INFO" additivity="false">
-            <AppenderRef ref="asyncUBP"/>
-        </Logger>
-
 
         <Root level="info">
             <AppenderRef ref="asyncR"/>

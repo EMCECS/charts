@@ -73,6 +73,9 @@ features:
   # Enable Cross Region Replication
   enableCRR: false
 
+  # Enable object notification
+  enableNotification: false
+
   # Object type defines which service will be used: Blob service or Object service.
   # Values: blobSVC or objectSVC
   # NOTE: If CRR is enabled then Object service will be used forcibly
@@ -240,6 +243,20 @@ ons:
     # tag: stable
     # pullPolicy: IfNotPresent
 
+# The ECS Notification Delivery Service configuration specification
+nds:
+
+  # Override the default ECS Cluster replicas to set the number of nodes in the
+  # ons cluster separately. This value should not be set when using
+  # FabricProxy as the service discovery mechanism
+  # replicas: 1
+
+  # Docker repository to be used for ons instances
+  image:
+    repository: nds
+    # tag: stable
+    # pullPolicy: IfNotPresent
+
 # The ECS REP Service configuration specification
 rep:
 
@@ -253,6 +270,11 @@ rep:
     repository: rep
     # tag: stable
     # pullPolicy: IfNotPresent
+
+  # Elements to add to the service's ConfigMap. This is a map of string -> string
+  # for ConfigMap data entries. Values may be multiline strings.
+  extraConfig:
+    {}
 
 # The ECS storage server manager configuration specification
 storageServerManager:

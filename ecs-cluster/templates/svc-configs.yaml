@@ -1,4 +1,4 @@
-{{- range $i, $svc := list "blob" "cm" "control" "cp" "diagnostic" "event" "geo" "metering" "rm" "resource" "s3" "sr" "sm" "ssm" "objectsvc" "storageserver" }}
+{{- range $i, $svc := list "blob" "cm" "control" "cp" "diagnostic" "event" "geo" "metering" "rm" "resource" "s3" "sr" "sm" "ssm" "objectsvc" "rep" "storageserver" }}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -16,4 +16,24 @@ metadata:
 
 data:
 {{ ($.Files.Glob (print "svc-configs/" $svc "/*")).AsConfig | indent 2 }}
+{{- end }}
+
+{{- range $i, $svc := list "rep" }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{$.Release.Name}}-{{$svc}}-conf
+  namespace: {{$.Release.namespace}}
+  labels:
+    app.kubernetes.io/name: {{$.Release.Name}}
+    app.kubernetes.io/version: {{$.Values.tag}}
+    app.kubernetes.io/instance: {{$.Release.Name}}
+    app.kubernetes.io/managed-by: {{$.Release.Service}}
+    helm.sh/chart: {{$.Chart.Name}}-{{$.Chart.Version | replace "+" "_"}}
+    product: objectscale
+    release: {{$.Release.Name}}
+
+data:
+{{ with $svcMap := $svc | index $.Values }}{{ toYaml $svcMap.extraConfig | indent 2 }}{{ end }}
 {{- end }}

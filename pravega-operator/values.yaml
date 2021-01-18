@@ -9,7 +9,7 @@ global:
   watchAllNamespaces: true
 
 image:
-  repository: devops-repo.isus.emc.com:8116/nautilus/pravega-operator
+  repository: pravega/pravega-operator
   tag: 0.5.2-211-24bb31d0
   pullPolicy: IfNotPresent
 
@@ -50,5 +50,5 @@ watchNamespace: ""
 hooks:
   backoffLimit: 10
   image:
-    repository: devops-repo.isus.emc.com:8116/pravega/k8s-kubectl
+    repository: lachlanevenson/k8s-kubectl
     tag: v1.16.10

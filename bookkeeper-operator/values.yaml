@@ -9,7 +9,7 @@ global:
   watchAllNamespaces: true
 
 image:
-  repository: devops-repo.isus.emc.com:8116/nautilus/bookkeeper-operator
+  repository: pravega/bookkeeper-operator
   tag: 0.1.3-50-f528f6f
   pullPolicy: IfNotPresent
 
@@ -48,5 +48,5 @@ webhookCert:
 hooks:
   backoffLimit: 10
   image:
-    repository: devops-repo.isus.emc.com:8116/pravega/k8s-kubectl
+    repository: lachlanevenson/k8s-kubectl
     tag: v1.16.10

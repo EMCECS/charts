@@ -100,7 +100,7 @@ atlas:
     size: 32Gi
     # Name of the storage class that storage should be provisioned from
     # storageClassName:
-pravegaRepository: devops-repo.isus.emc.com:8116/nautilus
+pravegaRepository: pravega
 pravega:
   # labels:
   image:

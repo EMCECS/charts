@@ -1,0 +1,23 @@
+---
+tag: 0.64.0
+global:
+  registry: emccorp
+atlas:
+  affinity: false
+  image:
+    pullPolicy: IfNotPresent
+    repository: atlas
+    tag: v1.1.1
+  persistence:
+    size: 1Gi
+  replicaCount: 3
+dcm:
+  image:
+    pullPolicy: IfNotPresent
+    repository: dcm
+    # tag: stable
+  replicaCount: 1
+  service:
+    port: 8080
+    targetPort: 9026
+    type: ClusterIP

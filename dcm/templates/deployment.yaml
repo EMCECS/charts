@@ -1,0 +1,47 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "dcm.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "dcm.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.dcm.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "dcm.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "dcm.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          env:
+          - name: SPRING_PROFILES_ACTIVE
+            value: "atlas,flex,dns"
+          - name: ATLAS_SERVICE_HOSTNAME
+            value: "{{ .Release.Name }}-dcm-atlas-client"
+          - name: MY_POD_NAME
+            valueFrom:
+             fieldRef:
+              fieldPath: metadata.name
+          - name: MY_POD_NAMESPACE
+            valueFrom:
+             fieldRef:
+              fieldPath: metadata.namespace
+          - name: MY_POD_IP
+            valueFrom:
+             fieldRef:
+              fieldPath: status.podIP
+          image: "{{ default  .Values.global.registry .Values.dcm.image.registry }}/{{ .Values.dcm.image.repository }}:{{ .Values.dcm.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.dcm.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 9026
+              protocol: TCP

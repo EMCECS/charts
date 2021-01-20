@@ -32,7 +32,6 @@ data:
        - description: "license is expiring or expired"
          name: ExpiringLicense
          issueCategory: Auto
-         defaultAutoClearTimeOut: 720
          matchOnList:
           - matchon:
             - label: SymptomID
@@ -40,6 +39,9 @@ data:
           - matchon:
             - label: SymptomID
               value: DECKS-LIC-1006
+          - matchon:
+            - label: SymptomID
+              value: DECKS-LIC-1002
          notifiers:
               - {{.Values.product}}-supportassist-ese
     eventRemedies: |-

@@ -73,19 +73,28 @@ dep:
 	sudo mv yq_linux_amd64 /usr/bin/yq
 	sudo chmod u+x /usr/bin/yq
 
-decksver:
+yqcheck:
+	echo "looking for yq command"
+	which yq
+	echo "Found it"
+	yq_curversion=`yq --version|awk '{print $$3}'`; \
+	echo $${yq_curversion}; \
+	if [ "$${yq_curversion}" != "${YQ_VERSION}" ]; then \
+		echo current yq version: $${yq_curversion}; \
+		echo required yq version: ${YQ_VERSION}; \
+		exit 1 ; \
+	fi
+
+decksver: yqcheck
 	if [ -z ${DECKSVER} ] ; then \
 		echo "Missing DECKSVER= param" ; \
 		exit 1 ; \
 	fi
 
-	echo "looking for yq command"
-	which yq
-	echo "Found it"
 	for CHART in ${DECKSCHARTS}; do  \
 		echo "Setting version ${DECKSVER} in $$CHART" ;\
-		yq w -i $$CHART/Chart.yaml appVersion ${DECKSVER} ; \
-		yq w -i $$CHART/Chart.yaml version ${DECKSVER} ; \
+		yq e '.appVersion = "${DECKSVER}"' -i $$CHART/Chart.yaml ; \
+		yq e '.version = "${DECKSVER}"' -i $$CHART/Chart.yaml ; \
 		sed -i '1s/^/---\n/' $$CHART/Chart.yaml ; \
 		sed -i -e "0,/^tag.*/s//tag: ${DECKSVER}/"  $$CHART/values.yaml; \
 	done ;
@@ -95,34 +104,28 @@ decksver:
 		sed -i -e "/no_auto_change__decks_auto_change/s/version:.*/version: ${DECKSVER} # no_auto_change__decks_auto_change/g"  $$CHART/Chart.yaml; \
 	done ;
 
-flexver:
+flexver: yqcheck
 	if [ -z ${FLEXVER} ] ; then \
 		echo "Missing FLEXVER= param" ; \
 		exit 1 ; \
 	fi
-	echo "looking for yq command"
-	which yq
-	echo "Found it"
 	for CHART in ${FLEXCHARTS}; do  \
 		echo "Setting version $$FLEXVER in $$CHART" ;\
-		yq w -i $$CHART/Chart.yaml appVersion ${FLEXVER} ; \
+		yq e '.appVersion = "${FLEXVER}"' -i $$CHART/Chart.yaml ; \
 		sed -i -e "/no_auto_change/!s/version:.*/version: ${FLEXVER}/g"  $$CHART/Chart.yaml; \
 		sed -i '1s/^/---\n/' $$CHART/Chart.yaml ; \
 		sed -i -e "0,/^tag.*/s//tag: ${FLEXVER}/"  $$CHART/values.yaml; \
 	done ;
 
 build-all: build
-
-build:
-	@echo "looking for yq command"
-	which yq
+build: yqcheck
 	@echo "Ensure no helm repo accessible"
 	helm repo list | grep .; \
         if [ $${?} -eq 0 ]; then exit 1; fi
 	REINDEX=0; \
 	for CHART in ${CHARTS}; do \
-		CURRENT_VER=`yq r $$CHART/Chart.yaml version` ; \
-		yq r docs/index.yaml "entries.$${CHART}[*].version" | grep -q "\- $${CURRENT_VER}$$" ; \
+		CURRENT_VER=`yq e .version $$CHART/Chart.yaml` ; \
+		yq e ".entries.$${CHART}[].version" docs/index.yaml | grep -q "\- $${CURRENT_VER}$$" ; \
 		if [ "$${?}" -eq "1" ] || [ "$${REBUILDHELMPKG}" ] ; then \
 		    echo "Updating package for $${CHART}" ; \
 		    helm dep update $${CHART}; \

@@ -274,6 +274,9 @@ spec:
 {{- if .Values.storageServer.persistence.protected }}
       protected: {{ .Values.storageServer.persistence.protected }}
 {{- end }}
+{{- if .Values.storageServer.persistence.collocated }}
+      collocated: {{ .Values.storageServer.persistence.collocated }}
+{{- end }}
 {{- if .Values.storageServer.persistence.erasureCoding }}
       erasureCoding:
 {{- if .Values.storageServer.persistence.erasureCoding.dataBlocks }}

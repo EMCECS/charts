@@ -204,6 +204,9 @@ storageServer:
     # not dependent on a single node to function
     protected: true
 
+    # Indicates that the storage volumes can be provisioned on the same node even with enabled Erasure Coding
+    collocated: false
+
     # Number of volumes to be provisioned for each storage server instance
     # volumesCount: 1
 

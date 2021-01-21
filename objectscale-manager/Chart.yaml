@@ -39,7 +39,7 @@ dependencies:
     repository: file://../pravega-operator
     condition: pravega.enabled
   - name: bookkeeper-operator
-    version: 0.1.2 # no_auto_change
+    version: 0.1.3 # no_auto_change
     repository: file://../bookkeeper-operator
     condition: bookkeeper.enabled
   - name: dcm

@@ -1,7 +1,7 @@
-HELM_VERSION := v3.0.3
+HELM_VERSION := v3.5.0
 HELM_URL     := https://get.helm.sh
 HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
-YQ_VERSION   := 3.4.1
+YQ_VERSION   := v4.4.1
 YAMLLINT_VERSION := 1.20.0
 CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod objectscale-graphql helm-controller objectscale-vsphere iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator influxdb-operator federation logging-injector dcm
 DECKSCHARTS := decks kahm supportassist service-pod dellemc-license decks-support-store
@@ -61,7 +61,7 @@ test:
 dep:
 	wget -q ${HELM_URL}/${HELM_TGZ}
 	tar xzf ${HELM_TGZ} -C /tmp --strip-components=1
-	PATH=`pwd`/linux-amd64/:$PATH
+	PATH=`pwd`/linux-amd64/:${PATH}
 	chmod +x /tmp/helm
 	helm plugin list | grep -q "unittest" ; \
 	if [ "$${?}" -eq "1" ] ; then \
@@ -69,7 +69,7 @@ dep:
  	fi
 	export PATH=$PATH:/tmp
 	sudo pip install yamllint=="${YAMLLINT_VERSION}"
-	wget -q http://asdrepo.isus.emc.com/artifactory/ecs-build/com/github/yq/${YQ_VERSION}/yq_linux_amd64
+	wget -q http://asdrepo.isus.emc.com/artifactory/objectscale-build/com/github/yq/${YQ_VERSION}/yq_linux_amd64
 	sudo mv yq_linux_amd64 /usr/bin/yq
 	sudo chmod u+x /usr/bin/yq
 

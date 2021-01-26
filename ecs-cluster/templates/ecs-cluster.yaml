@@ -699,6 +699,9 @@ spec:
 
   enableNotification: {{ .Values.features.enableNotification }}
 
+  enableRRDriven: {{ .Values.features.enableRRDriven }}
+  enableRRDrivenPartialSR: {{ .Values.features.enableRRDrivenPartialSR }}
+
   objectType: {{ .Values.features.objectType }}
 
   deploymentDeadlineSeconds: {{ .Values.deploymentDeadlineSeconds }}

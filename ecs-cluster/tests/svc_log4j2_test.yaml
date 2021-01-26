@@ -19,7 +19,7 @@ tests:
       global.monitoring.enabled: false
     asserts:
       - hasDocuments:
-          count: 19
+          count: 21
 
       - equal:
           path: metadata.name

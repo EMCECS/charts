@@ -86,6 +86,10 @@ features:
   # NOTE: If CRR is enabled then Object service will be used forcibly
   objectType: objectSVC
 
+  # Enable RR-Driven space reclamation for sr/cm/objectsvc
+  enableRRDriven: false
+  enableRRDrivenPartialSR: false
+
 #
 # ECS Service Configuration
 #
@@ -271,6 +275,10 @@ objectsvc:
     # tag: stable
     # pullPolicy: IfNotPresent
 
+  # Elements to add to the service's ConfigMap. This is a map of string -> string
+  # for ConfigMap data entries. Values may be multiline strings.
+  extraConfig: {}
+
 # The ECS Object Notification Service configuration specification
 ons:
 
@@ -402,6 +410,10 @@ resource:
     repository: resource-service
     # tag: stable
     # pullPolicy: IfNotPresent
+
+  # Elements to add to the service's ConfigMap. This is a map of string -> string
+  # for ConfigMap data entries. Values may be multiline strings.
+  extraConfig: {}
 
 # The ECS control configuration specification
 # This container image is used in "Micro" performance profile instances

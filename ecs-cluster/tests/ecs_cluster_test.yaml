@@ -410,7 +410,7 @@ tests:
             objectscale.dellemc.com/logging-release-name: RELEASE-NAME
 
       - equal:
-          path: spec.objmt.labels
+          path: spec.objectStoreMetering.labels
           value:
             app.kubernetes.io/namespace: NAMESPACE
             objectscale.dellemc.com/logging-inject: "true"

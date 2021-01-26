@@ -11,7 +11,7 @@ atlas:
   persistence:
     size: 10Gi
   replicaCount: 3
-iamsvc:
+iam:
   image:
     pullPolicy: IfNotPresent
     repository: iamsvc

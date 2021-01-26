@@ -2,25 +2,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: iamsvc
+  name: objectscale-iam
   labels:
-    {{- include "iamsvc.labels" . | nindent 4 }}
+    {{- include "iam.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.iamsvc.replicaCount }}
+  replicas: {{ .Values.iam.replicaCount }}
   selector:
     matchLabels:
-      {{- include "iamsvc.selectorLabels" . | nindent 6 }}
+      {{- include "iam.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "iamsvc.selectorLabels" . | nindent 8 }}
+        {{- include "iam.selectorLabels" . | nindent 8 }}
     spec:
+      serviceAccountName: objectscale-iam
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
       containers:
-      - name: iamsvc 
+      - name: iam
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: "atlas,flex,dns"
@@ -38,23 +39,23 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
-        image: {{ default  .Values.global.registry .Values.iamsvc.image.registry }}/{{ .Values.iamsvc.image.repository }}:{{ default .Values.tag .Values.iamsvc.image.tag }}
-        imagePullPolicy: {{ .Values.iamsvc.image.pullPolicy }}
+        image: {{ default  .Values.global.registry .Values.iam.image.registry }}/{{ .Values.iam.image.repository }}:{{ default .Values.tag .Values.iam.image.tag }}
+        imagePullPolicy: {{ .Values.iam.image.pullPolicy }}
         ports:
           - name: http
             containerPort: 9401 
             protocol: TCP
         livenessProbe:
             httpGet:
-                path: {{ .Values.iamsvc.livenessProbe.probePath }}
+                path: {{ .Values.iam.livenessProbe.probePath }}
                 port: http
-            failureThreshold: {{ .Values.iamsvc.livenessProbe.failureThreshold | default 3 }}
-            periodSeconds: {{ .Values.iamsvc.livenessProbe.periodSeconds | default 60 }}
+            failureThreshold: {{ .Values.iam.livenessProbe.failureThreshold | default 3 }}
+            periodSeconds: {{ .Values.iam.livenessProbe.periodSeconds | default 60 }}
         readinessProbe:
             httpGet:
-                path: {{ .Values.iamsvc.readinessProbe.probePath }}
+                path: {{ .Values.iam.readinessProbe.probePath }}
                 port: http
-            failureThreshold: {{ .Values.iamsvc.readinessProbe.failureThreshold | default 3 }}
-            periodSeconds: {{ .Values.iamsvc.readinessProbe.periodSeconds | default 60 }}
+            failureThreshold: {{ .Values.iam.readinessProbe.failureThreshold | default 3 }}
+            periodSeconds: {{ .Values.iam.readinessProbe.periodSeconds | default 60 }}
 
 

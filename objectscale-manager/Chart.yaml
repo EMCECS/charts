@@ -26,9 +26,9 @@ dependencies:
     version: 0.65.0
     repository: file://../federation
     condition: federation.enabled
-  - name: iam
+  - name: objectscale-iam
     version: 0.65.0
-    repository: file://../iam
+    repository: file://../objectscale-iam
     condition: iam.enabled
   - name: service-pod
     version: 2.0.65 # no_auto_change__decks_auto_change

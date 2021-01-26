@@ -1,26 +1,55 @@
 ---
+# Default values for ObjectScale IAM service
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
 tag: 0.65.0
+
+# These values may be overridden when the IAM is included within a subchart
 global:
+  # Name of a Kubernetes secret with container registry credentials for the
+  # private registry
+  # registrySecret: ecs-flex-registry
+
+  # The container image registry hosting containers for the Atlas operator
   registry: emccorp
+
+# The image configured for the ObjectScale IAM
+image:
+  pullPolicy: IfNotPresent
+  repository: iamsvc
+  # tag: stable
+
+# Number of replicas for the ObjectScale IAM deployment
+replicaCount: 3
+
+# Liveness and Readiness Probe configurations for the ObjectScale IAM Deployment
+livenessProbe:
+  probePath: /iamhealthcheck
+readinessProbe:
+  probePath: /iamhealthcheck
+
+# Service Configuration for ObjectScale IAM
+service:
+  port: 9400
+  type: LoadBalancer
+
+# Atlas Cluster configuration for ObjectScale persistent Storage
 atlas:
-  affinity: false
+
+  # Disables the affinity rules for the Atlas Cluster, allowing it to run
+  # multiple replicas on a single node
+  disableAntiAffinity: false
+
+  # Configure the container image
   image:
     pullPolicy: IfNotPresent
     repository: atlas
     tag: v1.1.2
+
+  # Persistent storage options for Atlas Cluster
   persistence:
     size: 10Gi
+
+  # Replica count for ObjectScale IAM Atlas Cluster
   replicaCount: 3
-iam:
-  image:
-    pullPolicy: IfNotPresent
-    repository: iamsvc
-    # tag: stable
-  livenessProbe:
-    probePath: /iamhealthcheck
-  readinessProbe:
-    probePath: /iamhealthcheck
-  replicaCount: 3
-  service:
-    port: 9400
-    type: LoadBalancer

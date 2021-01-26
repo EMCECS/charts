@@ -132,20 +132,20 @@ spec:
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
 
-  objectstoreMetering:
+  objectStoreMetering:
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
-{{- if .Values.objectstoreMetering.replicas }}
-    replicas: {{ .Values.objectstoreMetering.replicas }}
+{{- if .Values.objectStoreMetering.replicas }}
+    replicas: {{ .Values.objectStoreMetering.replicas }}
 {{- end }}
     image:
-      repository: {{ .Values.global.registry }}/{{ .Values.objectstoreMetering.image.repository }}
-{{- if .Values.objectstoreMetering.image.tag }}
-      tag: {{ .Values.objectstoreMetering.image.tag }}
+      repository: {{ .Values.global.registry }}/{{ .Values.objectStoreMetering.image.repository }}
+{{- if .Values.objectStoreMetering.image.tag }}
+      tag: {{ .Values.objectStoreMetering.image.tag }}
 {{- else }}
       tag: {{ .Values.tag }}
 {{- end }}
-{{- if .Values.objectstoreMetering.image.pullPolicy }}
-      pullPolicy: {{ .Values.objectstoreMetering.image.pullPolicy }}
+{{- if .Values.objectStoreMetering.image.pullPolicy }}
+      pullPolicy: {{ .Values.objectStoreMetering.image.pullPolicy }}
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
@@ -693,7 +693,7 @@ spec:
 
   enableCRR: {{ .Values.features.enableCRR }}
 
-  enableObjectstoreMetering: {{ .Values.features.enableObjectstoreMetering }}
+  enableObjectStoreMetering: {{ .Values.features.enableObjectStoreMetering }}
 
   enablePravega: {{ .Values.features.enablePravega }}
 

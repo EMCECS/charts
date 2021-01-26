@@ -74,7 +74,7 @@ features:
   enableCRR: false
 
   # use old metering svc
-  enableObjectstoreMetering: false
+  enableObjectStoreMetering: false
 
   # Enable object notification
   enableNotification: false
@@ -375,15 +375,15 @@ metering:
     # tag: stable
     # pullPolicy: IfNotPresent
 
-# The ECS objectstoreMetering configuration specification
-objectstoreMetering:
+# The ECS objectStoreMetering configuration specification
+objectStoreMetering:
   # Override the default ECS Cluster replicas to set the number of nodes in the
-  # objectstoreMetering cluster separately. This value should not be set when using
+  # objectStoreMetering cluster separately. This value should not be set when using
   # FabricProxy as the service discovery mechanism
   # replicas: 1
 
   image:
-    repository: objectstoreMetering
+    repository: objectStoreMetering
     # tag: stable
     # pullPolicy: IfNotPresent
 

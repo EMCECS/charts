@@ -32,9 +32,9 @@ tests:
   - it: should configure the image
     set:
       global.registry: REGISTRY
-      iam.image.repository: REPO
-      iam.image.tag: TAG
-      iam.image.pullPolicy: IfNotPresent
+      image.repository: REPO
+      image.tag: TAG
+      image.pullPolicy: IfNotPresent
     asserts:
       - equal:
           path: spec.template.spec.containers[0].image

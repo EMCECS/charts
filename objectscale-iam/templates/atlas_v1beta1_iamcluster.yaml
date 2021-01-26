@@ -17,7 +17,7 @@ spec:
       resources:
         requests:
           storage: {{ required "atlas.persistence.size is required" .Values.atlas.persistence.size }}
-{{- if .Values.atlas.affinity }}
+{{- if .Values.atlas.disableAntiAffinity }}
   # junk node affinity allows multiple atlas instances on the same node
   # - needed for 3 replicas deployed on a single node(test only)
   pod:

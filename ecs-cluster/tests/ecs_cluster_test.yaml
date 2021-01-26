@@ -410,6 +410,13 @@ tests:
             objectscale.dellemc.com/logging-release-name: RELEASE-NAME
 
       - equal:
+          path: spec.objmt.labels
+          value:
+            app.kubernetes.io/namespace: NAMESPACE
+            objectscale.dellemc.com/logging-inject: "true"
+            objectscale.dellemc.com/logging-release-name: RELEASE-NAME
+
+      - equal:
           path: spec.objectsvc.labels
           value:
             app.kubernetes.io/namespace: NAMESPACE

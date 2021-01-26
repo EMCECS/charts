@@ -20,6 +20,6 @@ dcm:
     # tag: stable
   replicaCount: 1
   service:
-    port: 8080
+    port: 9026
     targetPort: 9026
     type: ClusterIP

@@ -23,3 +23,7 @@ dcm:
     port: 9026
     targetPort: 9026
     type: ClusterIP
+  livenessProbe:
+    probePath: /dcmhealthcheck
+  readinessProbe:
+    probePath: /dcmhealthcheck

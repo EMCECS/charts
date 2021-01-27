@@ -1,0 +1,15 @@
+- description: "Page Table disk cache size for objectsvc exceeded threshold"
+  name: "OBJECT_DISK_CACHE_SIZE"
+  defaultAutoClearTimeOut: 60
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # NORMAL
+        - label: SymptomID
+          value: 1406
+    - matchon:
+        # WARNING
+        - label: SymptomID
+          value: 1407
+  notifiers:
+    - objectscale-supportassist-ese

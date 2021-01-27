@@ -83,6 +83,10 @@ features:
   # NOTE: If CRR is enabled then Object service will be used forcibly
   objectType: objectSVC
 
+  # Enable RR-Driven space reclamation for sr/cm/objectsvc
+  enableRRDriven: false
+  enableRRDrivenPartialSR: false
+
 #
 # ECS Service Configuration
 #

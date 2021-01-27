@@ -1,0 +1,11 @@
+- description: "Fluxd has not responded for the last 30 minutes"
+  name: "MonitoringFluxd"
+  defaultAutoClearTimeOut: 60
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # CRITICAL
+        - label: SymptomID
+          value: 4020
+  notifiers:
+    - objectscale-supportassist-ese

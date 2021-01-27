@@ -1,7 +1,7 @@
 HELM_VERSION := v3.5.0
 HELM_URL     := https://get.helm.sh
 HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
-YQ_VERSION   := v4.4.1
+YQ_VERSION   := 4.4.1
 YAMLLINT_VERSION := 1.20.0
 CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod objectscale-graphql helm-controller objectscale-vsphere iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator influxdb-operator federation logging-injector dcm
 DECKSCHARTS := decks kahm supportassist service-pod dellemc-license decks-support-store
@@ -17,6 +17,7 @@ GIT_COMMIT_COUNT=$(shell git rev-list HEAD | wc -l)
 GIT_COMMIT_ID=$(shell git rev-parse HEAD)
 GIT_COMMIT_SHORT_ID=$(shell git rev-parse --short HEAD)
 GIT_BRANCH_ID=$(shell git rev-parse --abbrev-ref HEAD)
+YQ_CMD_VERSION := $(shell yq --version | awk '{print $$3}')
 
 # packaging
 MANAGER_MANIFEST    := objectscale-manager.yaml
@@ -50,7 +51,7 @@ clean: clean-package
 
 all: test package
 
-release: decksver flexver build-all generate-issues-events-all add-to-git
+release: decksver flexver build generate-issues-events-all add-to-git
 
 test:
 	helm lint ${CHARTS} --set product=objectscale --set global.product=objectscale
@@ -69,21 +70,18 @@ dep:
  	fi
 	export PATH=$PATH:/tmp
 	sudo pip install yamllint=="${YAMLLINT_VERSION}"
-	wget -q http://asdrepo.isus.emc.com/artifactory/objectscale-build/com/github/yq/${YQ_VERSION}/yq_linux_amd64
+	wget -q http://asdrepo.isus.emc.com/artifactory/objectscale-build/com/github/yq/v${YQ_VERSION}/yq_linux_amd64
 	sudo mv yq_linux_amd64 /usr/bin/yq
 	sudo chmod u+x /usr/bin/yq
 
 yqcheck:
-	echo "looking for yq command"
-	which yq
-	echo "Found it"
-	yq_curversion=`yq --version|awk '{print $$3}'`; \
-	echo $${yq_curversion}; \
-	if [ "$${yq_curversion}" != "${YQ_VERSION}" ]; then \
-		echo current yq version: $${yq_curversion}; \
-		echo required yq version: ${YQ_VERSION}; \
-		exit 1 ; \
-	fi
+ifneq (${YQ_VERSION},${YQ_CMD_VERSION})
+	@echo "Requires yq version:${YQ_VERSION} found version:${YQ_CMD_VERSION}"
+	@echo
+	@echo "Run make dep to install 'yq'"
+	@echo
+	exit 1
+endif
 
 decksver: yqcheck
 	if [ -z ${DECKSVER} ] ; then \
@@ -104,7 +102,12 @@ decksver: yqcheck
 		sed -i -e "/no_auto_change__decks_auto_change/s/version:.*/version: ${DECKSVER} # no_auto_change__decks_auto_change/g"  $$CHART/Chart.yaml; \
 	done ;
 
-flexver: yqcheck
+graphqlver: yqcheck
+	yq e '(.objectStoreAvailableVersions[0] = "${FLEXVER}") | (.decks.licenseChartVersion = "${DECKSVER}") | (.decks.supportAssistChartVersion = "${DECKSVER}") ' -i objectscale-graphql/values.yaml
+	sed -i '1s/^/---\n/' objectscale-graphql/values.yaml
+	yamllint -c .yamllint.yml objectscale-graphql/values.yaml
+
+flexver: yqcheck graphqlver
 	if [ -z ${FLEXVER} ] ; then \
 		echo "Missing FLEXVER= param" ; \
 		exit 1 ; \
@@ -117,7 +120,6 @@ flexver: yqcheck
 		sed -i -e "0,/^tag.*/s//tag: ${FLEXVER}/"  $$CHART/values.yaml; \
 	done ;
 
-build-all: build
 build: yqcheck
 	@echo "Ensure no helm repo accessible"
 	helm repo list | grep .; \

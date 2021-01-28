@@ -49,6 +49,9 @@ Selector labels
 {{- define "iam.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "iam.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/namespace: "{{ .Release.Namespace }}"
+objectscale.dellemc.com/logging-inject: "true"
+objectscale.dellemc.com/logging-release-name: "{{ .Release.Name }}"
 product: objectscale
 release: {{ .Release.Name }}
 {{- end -}}

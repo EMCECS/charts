@@ -1,0 +1,11 @@
+- description: "Disk Failed Replace Process"
+  name: "DiskReplacementFailed"
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        - label: SymptomID
+          value: 2062
+        - field: type
+          value: Error
+  notifiers:
+    - objectscale-supportassist-ese

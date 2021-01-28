@@ -1,0 +1,11 @@
+- description: "Disk Missing Event"
+  name: "DiskMissing"
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        - label: SymptomID
+          value: 2063
+        - field: type
+          value: Error
+  notifiers:
+    - objectscale-supportassist-ese

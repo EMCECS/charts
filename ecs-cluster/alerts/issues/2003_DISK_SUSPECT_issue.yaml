@@ -1,0 +1,11 @@
+- description: "Disk Suspect Event"
+  name: "DiskSuspect"
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        - label: SymptomID
+          value: 2003
+        - field: type
+          value: Error
+  notifiers:
+    - objectscale-supportassist-ese

@@ -1,0 +1,11 @@
+- description: "Disk Failure Event"
+  name: "DiskFailure"
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        - label: SymptomID
+          value: 2002
+        - field: type
+          value: Error
+  notifiers:
+    - objectscale-supportassist-ese

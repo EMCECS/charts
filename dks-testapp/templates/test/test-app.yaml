@@ -30,10 +30,10 @@ spec:
       value: {{ .Values.application.testAppName }}
     - name: TEST_APP_NAMESPACE
       value: {{ .Release.Namespace }}
-    - name: SRS_GATEWAY_NAME
-      value: {{ .Values.srsGateway.name }}
-    - name: SRS_GATEWAY_NAMESPACE
-      value: {{ .Values.srsGateway.namespace }}
+    - name: SUPPORTASSIST_PRODUCT_NAME
+      value: {{ .Values.supportassist.productName }}
+    - name: SUPPORTASSIST_NAMESPACE
+      value: {{ .Values.supportassist.namespace }}
     - name: REGISTRY_SECRET
       value: {{ .Values.global.registrySecret }}
     envFrom:

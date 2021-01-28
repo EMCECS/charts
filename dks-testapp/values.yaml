@@ -31,16 +31,16 @@ application:
   event:
     totalEvents: 5
     type: "Critical"
-    label: "srs-event"
+    label: "ese-event"
     labelValue: "true"
-    reason: "srs-test"
-    message: "this is an SRS test event"
+    reason: "ese-test"
+    message: "this is an ESE test event"
 
   # Default event rules will create a configmap for the application event routing rule.
   # The user needs to change according to their requirement. The rule is that if an event matches with
   # the defined rule (label + field), it will route the event to SRS notifier.
   eventRules:
-    label: "srs-event"
+    label: "ese-event"
     labelValue: "true"
     field: "type"
     fieldValue: "Critical"
@@ -49,6 +49,6 @@ application:
 
 # The following specifies the SRSGateway to be tested. The name and namespace must be the name
 # of srsGateway custom resource.
-srsGateway:
-  name: "objectscale"
+supportassist:
+  productName: "objectscale"
   namespace: "default"

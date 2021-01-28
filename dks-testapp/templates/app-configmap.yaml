@@ -2,14 +2,14 @@ apiVersion: v1
 data:
     eventRules:  |-
       rules:
-        - description: "send srs events"
+        - description: "send ese events"
           matchon:
             - label: {{ .Values.application.eventRules.label }}
               value: {{ .Values.application.eventRules.labelValue }}
             - field: {{ .Values.application.eventRules.field }}
               value: {{ .Values.application.eventRules.fieldValue }}
           notifiers:
-            - {{ .Values.srsGateway.name }}-srs
+            - supportassist-{{ .Values.supportassist.productName }}
     healthChecks:  |-
     eventRemedies:  |-
       symptoms:

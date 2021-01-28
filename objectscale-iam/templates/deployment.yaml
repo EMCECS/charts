@@ -32,7 +32,7 @@ spec:
         - name: SPRING_PROFILES_ACTIVE
           value: "atlas,flex,dns"
         - name: ATLAS_SERVICE_HOSTNAME
-          value: "{{ .Release.Name }}-iam-atlas-client"
+          value: {{ include "iam.name" . }}-atlas-client
         - name: MY_POD_NAME
           valueFrom:
             fieldRef:
@@ -57,11 +57,13 @@ spec:
                 port: http
             failureThreshold: {{ .Values.livenessProbe.failureThreshold | default 3 }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds | default 60 }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds | default 60 }}
         readinessProbe:
             httpGet:
                 path: {{ .Values.readinessProbe.probePath }}
                 port: http
             failureThreshold: {{ .Values.readinessProbe.failureThreshold | default 3 }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 60 }}
+            initialDelaySeconds: {{ .Values.readinessProbe.iinitialDelaySeconds | default 60 }}
 
 

@@ -27,7 +27,7 @@ replicaCount: 3
 livenessProbe:
   probePath: /iamhealthcheck
 readinessProbe:
-  probePath: /iamhealthcheck
+  probePath: /iamhealthcheck/atlas
 
 # Service Configuration for ObjectScale IAM
 service:

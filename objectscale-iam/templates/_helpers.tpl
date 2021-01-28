@@ -49,6 +49,8 @@ Selector labels
 {{- define "iam.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "iam.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+product: objectscale
+release: {{ .Release.Name }}
 {{- end -}}
 
 {{/*

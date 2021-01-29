@@ -8,7 +8,7 @@ atlas:
   image:
     pullPolicy: IfNotPresent
     repository: atlas
-    tag: v1.1.1
+    tag: v1.1.2
   persistence:
     size: 1Gi
   # Define the replica if you want to explicitly set it

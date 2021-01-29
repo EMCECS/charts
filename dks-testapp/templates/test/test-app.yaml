@@ -25,7 +25,6 @@ spec:
     command:
     - dks-testapp
     env:
-    env:
     - name: TEST_APP_NAME
       value: {{ .Values.application.testAppName }}
     - name: TEST_APP_NAMESPACE
@@ -33,7 +32,7 @@ spec:
     - name: SUPPORTASSIST_PRODUCT_NAME
       value: {{ .Values.supportassist.productName }}
     - name: SUPPORTASSIST_NAMESPACE
-      value: {{ .Values.supportassist.namespace }}
+      value: {{ .Release.Namespace }}
     - name: REGISTRY_SECRET
       value: {{ .Values.global.registrySecret }}
     envFrom:

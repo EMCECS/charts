@@ -86,4 +86,7 @@ features:
   bucketsv2: true
   iam: true
   objectscaleSystems: true
+  replications: true
+  # Possible modes - ERROR, INFO, DEBUG, WARNING
+  uiLoggingLevel: ERROR  
 

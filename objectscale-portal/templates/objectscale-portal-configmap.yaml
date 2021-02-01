@@ -77,6 +77,9 @@ data:
                 default_type application/json;
                 return 200 '{"value":"{{ .Values.global.platform }}"}';
             }
+            location /features {
+                return 200 '{{ .Values.features | toJson }}';
+            }
             location / {
                 root   /usr/share/nginx/html;
                 index  index.html index.htm;
@@ -128,11 +131,32 @@ data:
                 },
                 "configure": {
                     "views": [
+                        {{- if (eq .Values.features.objectscaleDashboard true) }}
+                        {
+                            "navigationId": "deos.configure.dashboard",
+                            "labelKey": "cluster.configure.list.dashboard",
+                            "uri": "index.html?view=dashboard"
+                        },
+                        {{- end }}
+                        {{- if (eq .Values.features.iam true) }}
+                        {
+                            "navigationId": "deos.configure.accounts",
+                            "labelKey": "cluster.configure.list.accounts",
+                            "uri": "index.html?view=accounts"
+                        },
+                        {{- end}}
                         {
                             "navigationId": "deos.configure.objectstores",
                             "labelKey": "cluster.configure.list.objectstores",
                             "uri": "index.html?view=objectstores"
                         },
+                        {{- if (eq .Values.features.objectscaleSystems true) }}
+                        {
+                            "navigationId": "deos.configure.objectscalesystems",
+                            "labelKey": "cluster.configure.list.objectscalesystems",
+                            "uri": "index.html?view=objectscalesystems"
+                        },
+                        {{- end}}
                         {
                             "navigationId": "deos.configure.settings",
                             "labelKey": "cluster.configure.list.settings",
@@ -178,6 +202,21 @@ data:
                         "en-US": "SettingsSERVICE_ID",
                         "de-DE": "SettingsSERVICE_ID",
                         "fr-FR": "SettingsSERVICE_ID"
+                    },
+                    "cluster.configure.list.dashboard": {
+                        "en-US": "DashboardSERVICE_ID",
+                        "de-DE": "DashboardSERVICE_ID",
+                        "fr-FR": "DashboardSERVICE_ID"
+                    },
+                    "cluster.configure.list.accounts": {
+                        "en-US": "AccountsSERVICE_ID",
+                        "de-DE": "AccountsSERVICE_ID",
+                        "fr-FR": "AccountsSERVICE_ID"
+                    },
+                    "cluster.configure.list.objectscalesystems": {
+                        "en-US": "Objectscale SystemsSERVICE_ID",
+                        "de-DE": "Objectscale SystemsSERVICE_ID",
+                        "fr-FR": "Objectscale SystemsSERVICE_ID"
                     }
                 }
             }

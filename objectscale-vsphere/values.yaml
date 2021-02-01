@@ -79,3 +79,14 @@ objectscale-graphql:
 # rsyslog-client subchart configuration
 rsyslog-client:
   createLogrotateConfigs: false
+
+# UI Features
+features:
+  objectscaleDashboard: true
+  bucketsv2: true
+  iam: true
+  objectscaleSystems: true
+  replications: true
+  # Possible modes - ERROR, INFO, DEBUG, WARNING Only
+  uiLoggingLevel: ERROR  
+

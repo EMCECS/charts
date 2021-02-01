@@ -127,32 +127,27 @@ data:
                 },
                 "configure": {
                     "views": [
-                        {{- if (eq .Values.features.objectscaleDashboard true) }}
                         {
                             "navigationId": "deos.configure.dashboard",
                             "labelKey": "cluster.configure.list.dashboard",
                             "uri": "index.html?view=dashboard"
                         },
-                        {{- end }}
-                        {{- if (eq .Values.features.iam true) }}
                         {
                             "navigationId": "deos.configure.accounts",
                             "labelKey": "cluster.configure.list.accounts",
                             "uri": "index.html?view=accounts"
                         },
-                        {{- end}}
                         {
                             "navigationId": "deos.configure.objectstores",
                             "labelKey": "cluster.configure.list.objectstores",
                             "uri": "index.html?view=objectstores"
                         },
-                        {{- if (eq .Values.features.objectscaleSystems true) }}
                         {
                             "navigationId": "deos.configure.objectscalesystems",
                             "labelKey": "cluster.configure.list.objectscalesystems",
                             "uri": "index.html?view=objectscalesystems"
                         },
-                        {{- end}}
+                        
                         {
                             "navigationId": "deos.configure.settings",
                             "labelKey": "cluster.configure.list.settings",

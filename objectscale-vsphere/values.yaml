@@ -82,11 +82,12 @@ rsyslog-client:
 
 # UI Features
 features:
-  objectscaleDashboard: true
-  bucketsv2: true
-  iam: true
-  objectscaleSystems: true
-  replications: true
-  # Possible modes - ERROR, INFO, DEBUG, WARNING Only
+  objectscaleDashboard: false
+  iam: false
+  replications: false
+  objectscaleSystems: false
+  # enable this if you want to deploy the BETA.3 Buckets workflows
+  bucketsv2: false  
+  # Possible Logging modes - ERROR, INFO, DEBUG, WARNING Only
   uiLoggingLevel: ERROR  
 

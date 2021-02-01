@@ -87,8 +87,8 @@ features:
   objectType: objectSVC
 
   # Enable RR-Driven space reclamation for sr/cm/objectsvc
-  enableRRDriven: false
-  enableRRDrivenPartialSR: false
+  enableRRDriven: true
+  enableRRDrivenPartialSR: true
 
 #
 # ECS Service Configuration

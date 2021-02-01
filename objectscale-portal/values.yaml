@@ -88,11 +88,11 @@ rsyslog-client:
   createLogrotateConfigs: false
 
 # ObjectScale UI Feature flags
-features:
   objectscaleDashboard: false
-  bucketsv2: false
   iam: false
-  objectscaleSystems: false
   replications: false
-  # Possible modes - ERROR, INFO, DEBUG, WARNING Only
+  objectscaleSystems: false
+  # enable this if you want to deploy the BETA.3 Buckets workflows
+  bucketsv2: false
+  # Possible Logging modes - ERROR, INFO, DEBUG, WARNING Only
   uiLoggingLevel: ERROR

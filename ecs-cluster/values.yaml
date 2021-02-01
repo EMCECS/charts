@@ -73,6 +73,9 @@ features:
   # Enable Cross Region Replication
   enableCRR: false
 
+  # use old metering svc
+  enableObjectStoreMetering: false
+
   # Enable object notification
   enableNotification: false
 
@@ -84,8 +87,8 @@ features:
   objectType: objectSVC
 
   # Enable RR-Driven space reclamation for sr/cm/objectsvc
-  enableRRDriven: false
-  enableRRDrivenPartialSR: false
+  enableRRDriven: true
+  enableRRDrivenPartialSR: true
 
 #
 # ECS Service Configuration
@@ -369,6 +372,18 @@ metering:
 
   image:
     repository: metering
+    # tag: stable
+    # pullPolicy: IfNotPresent
+
+# The ECS objectStoreMetering configuration specification
+objectStoreMetering:
+  # Override the default ECS Cluster replicas to set the number of nodes in the
+  # objectStoreMetering cluster separately. This value should not be set when using
+  # FabricProxy as the service discovery mechanism
+  # replicas: 1
+
+  image:
+    repository: objmt
     # tag: stable
     # pullPolicy: IfNotPresent
 

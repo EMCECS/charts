@@ -13,6 +13,7 @@ rules:
   - apps
   resources:
   - statefulsets
+  - statefulsets/finalizers
   verbs:
   - create
   - delete
@@ -37,6 +38,7 @@ rules:
   - stateful.ecs.dellemc.com
   resources:
   - statefuldaemonsets
+  - statefuldaemonsets/finalizers
   verbs:
   - create
   - delete

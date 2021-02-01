@@ -13,6 +13,7 @@ rules:
   - apps
   resources:
   - statefulsets
+  - statefulsets/finalizers
   verbs:
   - create
   - delete
@@ -37,6 +38,7 @@ rules:
   - db.ecs.dellemc.com
   resources:
   - influxdbs
+  - influxdbs/finalizers
   verbs:
   - create
   - delete

@@ -1,19 +1,13 @@
 ---
 apiVersion: v2
 name: objectscale-vsphere
-version: 0.65.0
-appVersion: 0.65.0
-description: |
-  vsphere PSP necessary setup resources
+version: 0.65.8
+appVersion: 0.65.8
+description: ObjectScale VMware vSphere Plugin
 maintainers:
   - name: Dell EMC
     url: https://dellemc.com
 dependencies:
-  - name: objectscale-graphql
-    version: 0.65.0
-    repository: file://../objectscale-graphql
-    condition: graphql.enabled
-  - name: rsyslog-client
-    repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
-    version: 3.7.0-1108.93754507 # no_auto_change__monitoring_auto_change
-    condition: global.rsyslog_enabled
+  - name: objectscale-portal
+    version: 0.65.7
+    repository: file://../objectscale-portal

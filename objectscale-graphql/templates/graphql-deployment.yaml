@@ -80,8 +80,10 @@ spec:
           value: objectscale-operator
         - name: MANAGER_RELEASE_NAME
           value: {{ .Values.managerReleaseName }}
+        {{- if (eq .Values.global.platform "VMware") }}
         - name: VSPHERE_SERVICE_PREFIX
           value: VSPHERE_SERVICE_PREFIX_VALUE
+        {{- end }}
         {{- if .Values.global.storageClassName }}
         - name: STORAGE_CLASS_NAME
           value: {{ .Values.global.storageClassName }}

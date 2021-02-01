@@ -24,6 +24,6 @@ dependencies:
     condition: helmController.enabled
   - name: common-monitoring-lib
     repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
-    version: 3.7.0-1108.93754507 # no_auto_change__monitoring_auto_change
+    version: 3.7.0-1111.e5c34b7d # no_auto_change__monitoring_auto_change
     import-values:
       - default

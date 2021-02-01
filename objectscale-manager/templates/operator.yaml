@@ -81,6 +81,10 @@ spec:
               fieldPath: metadata.name
         - name: PLATFORM
           value: {{ .Values.global.platform | default "Default" }}
+{{- if .Values.dcm.enabled }}
+        - name: DCM_SERVICE_HOSTNAME
+          value: "{{ .Release.Name }}-dcm"
+{{- end }}
 {{- if .Values.logReceiver.create }}
         - name: LOG_RECEIVER_TYPE
           value: Syslog

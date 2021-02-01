@@ -1,0 +1,22 @@
+
+Thank you for installing {{ .Chart.Name }}. This release provides 
+a Dell EMC ObjectScale User Interface (portal)
+
+This release is named {{ .Release.Name }}.
+
+1. To get started, read your service account token:
+
+  $ read -r SVCACCOUNT_TOKEN \
+        <<< $(kubectl get secret -o jsonpath='{.data.token}' $(kubectl get sa "objectscale-api" -o json | jq -r '.secrets[] | select (.name | test("objectscale-api-token-")).name') | base64 --decode; echo -n " ")
+
+2. Use "kubectl get svc objectscale-portal" to obtain the network address of the ObjectScale Portal
+
+   kubectl get svc objectscale-portal
+   NAME                         TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)          AGE
+   objectscale-portal           LoadBalancer   172.30.22.167   10.x.y.z        4443:30436/TCP   9m2s
+
+3. Bring up a browser and connect to the above URL: https://<addr>:4443
+
+4. Then paste this service account token into the ObjectScale Portal login page.
+
+---

@@ -180,6 +180,18 @@ metering:
     # tag: stable
     # pullPolicy: IfNotPresent
 
+# The ECS objectStoreMetering configuration specification
+objectStoreMetering:
+  # Override the default ECS Cluster replicas to set the number of nodes in the
+  # objectStoreMetering cluster separately. This value should not be set when using
+  # FabricProxy as the service discovery mechanism
+  # replicas: 1
+
+  image:
+    repository: objmt
+    # tag: stable
+    # pullPolicy: IfNotPresent
+
 # The ECS Metering configuration specification
 event:
   # Override the default ECS Cluster replicas to set the number of nodes in the

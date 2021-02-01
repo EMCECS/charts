@@ -14,7 +14,7 @@ spec:
   {{- else }}
   uiBackendSecret: objectscale-plugin-secret-{{ .Release.Namespace }}
   {{- end }}
-  uiBackendService: objectscale-vsphere-plugin
+  uiBackendService: objectscale-portal
   vSphereUiPluginUrl: /plugin.json
   vSphereExtensionKey: com.dellemc.vsphere.plugin.{{ .Release.Namespace }}
 {{- end }}

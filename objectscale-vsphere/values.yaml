@@ -79,3 +79,15 @@ objectscale-graphql:
 # rsyslog-client subchart configuration
 rsyslog-client:
   createLogrotateConfigs: false
+
+# UI Features
+features:
+  objectscaleDashboard: false
+  iam: false
+  replications: false
+  objectscaleSystems: false
+  # enable this if you want to deploy the BETA.3 Buckets workflows
+  bucketsv2: false  
+  # Possible Logging modes - ERROR, INFO, DEBUG, WARNING Only
+  uiLoggingLevel: ERROR  
+

@@ -29,7 +29,7 @@ global:
 
   # Enable log forwarding to central objectscale rsyslog
   rsyslog_enabled: true
-  # 
+  #
   # Name of the objectscale-manager release used by rsyslog sidecars
   objectscale_release_name: objectscale-manager
   #
@@ -49,7 +49,7 @@ decks:
       name: decks-support-store
       port: 7443
 #
-# graphql enpoint settings 
+# graphql endpoint settings
 graphql:
   enabled: true
   port: 8080
@@ -86,3 +86,13 @@ objectscale-graphql:
 # rsyslog-client subchart configuration
 rsyslog-client:
   createLogrotateConfigs: false
+
+# ObjectScale UI Feature flags
+features:
+  objectscaleDashboard: true
+  bucketsv2: true
+  iam: true
+  objectscaleSystems: true
+  replications: true
+  # Possible modes - ERROR, INFO, DEBUG, WARNING Only
+  uiLoggingLevel: ERROR

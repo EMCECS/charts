@@ -133,9 +133,11 @@ resources:
     limits:
       # cpu:
       memory: 500Mi
+      ephemeralStorage: 1256Mi
     requests:
       # cpu:
       memory: 300Mi
+      ephemeralStorage: 1256Mi
   fluentbitAgent:
     limits:
       # cpu:

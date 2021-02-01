@@ -89,10 +89,10 @@ rsyslog-client:
 
 # ObjectScale UI Feature flags
 features:
-  objectscaleDashboard: true
-  bucketsv2: true
-  iam: true
-  objectscaleSystems: true
-  replications: true
+  objectscaleDashboard: false
+  bucketsv2: false
+  iam: false
+  objectscaleSystems: false
+  replications: false
   # Possible modes - ERROR, INFO, DEBUG, WARNING Only
   uiLoggingLevel: ERROR

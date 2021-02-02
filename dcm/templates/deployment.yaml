@@ -45,3 +45,16 @@ spec:
             - name: http
               containerPort: 9026
               protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.dcm.livenessProbe.probePath }}
+              port: http
+            failureThreshold: {{ .Values.dcm.livenessProbe.failureThreshold | default 3 }}
+            periodSeconds: {{ .Values.dcm.livenessProbe.periodSeconds | default 60 }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.dcm.readinessProbe.probePath }}
+              port: http
+            failureThreshold: {{ .Values.dcm.readinessProbe.failureThreshold | default 3 }}
+            periodSeconds: {{ .Values.dcm.readinessProbe.periodSeconds | default 60 }}
+

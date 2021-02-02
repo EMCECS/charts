@@ -2,7 +2,7 @@
 apiVersion: atlas.dellemc.com/v1beta1
 kind: AtlasCluster
 metadata:
-  name: "{{ .Release.Name }}-iam-atlas"
+  name: {{ include "iam.name" . }}-atlas
 spec:
   replicas: {{ .Values.atlas.replicaCount }}
   image:
@@ -17,7 +17,7 @@ spec:
       resources:
         requests:
           storage: {{ required "atlas.persistence.size is required" .Values.atlas.persistence.size }}
-{{- if .Values.atlas.affinity }}
+{{- if .Values.atlas.disableAntiAffinity }}
   # junk node affinity allows multiple atlas instances on the same node
   # - needed for 3 replicas deployed on a single node(test only)
   pod:

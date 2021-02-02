@@ -1,0 +1,37 @@
+suite: test iam deployment
+templates:
+  - atlas_v1beta1_iamcluster.yaml
+tests:
+  - it: should create an Atlas cluster
+    asserts:
+      - isKind:
+          of: AtlasCluster
+  - it: should have a default image
+    asserts:
+      - equal:
+          path: spec.image.repository
+          value: emccorp/atlas
+      - equal:
+          path: spec.image.pullPolicy
+          value: IfNotPresent
+  - it: should have name ending with iam-atlas
+    asserts:
+      - matchRegex:
+          path: metadata.name
+          pattern: ^.+-iam-atlas$
+  - it: should configure the image
+    set:
+      global.registry: REGISTRY
+      atlas.image.repository: REPO
+      atlas.image.tag: TAG
+      atlas.image.pullPolicy: IfNotPresent
+    asserts:
+      - equal:
+          path: spec.image.repository
+          value: REGISTRY/REPO
+      - equal:
+          path: spec.image.tag
+          value: TAG
+      - equal:
+          path: spec.image.pullPolicy
+          value: IfNotPresent

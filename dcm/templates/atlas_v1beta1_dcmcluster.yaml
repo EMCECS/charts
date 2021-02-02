@@ -5,7 +5,7 @@ metadata:
   name: "{{ .Release.Name }}-dcm-atlas"
   namespace: {{ .Release.Namespace }}
 spec:
-  replicas: {{ .Values.atlas.replicaCount }}
+  replicas: {{ coalesce .Values.atlas.replicaCount (index (dict "Large" 3) (title .Values.global.performanceProfile)) 1 }}
   image:
     repository:  {{  default  .Values.global.registry  .Values.atlas.registry }}/{{ .Values.atlas.image.repository }}
     tag: {{ .Values.atlas.image.tag }}

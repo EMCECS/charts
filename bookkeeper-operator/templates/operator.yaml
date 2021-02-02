@@ -31,7 +31,7 @@ spec:
           {{- end }}
           env:
             - name: WATCH_NAMESPACE
-              value: {{ .Values.watchNamespace }}
+              value: "{{ .Release.Namespace }}"
             - name: POD_NAME
               valueFrom:
                 fieldRef:

@@ -6,7 +6,7 @@ global:
   # Specifies which namespace the Operator should watch for new ClusterResource
   # resources
   # Default: true == Watch ALL namespaces
-  watchAllNamespaces: true
+  watchAllNamespaces: false
 
 image:
   repository: pravega/pravega-operator

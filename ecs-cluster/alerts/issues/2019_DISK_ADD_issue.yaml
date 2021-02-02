@@ -1,11 +1,11 @@
-- description: "Disk has suspected"
-  name: "DiskSuspect"
+- description: "Disk has added"
+  name: "DiskAdded"
   issueCategory: Auto
   matchOnList:
     - matchon:
         - label: SymptomID
-          value: 2003
+          value: 2019
         - field: type
-          value: Error
+          value: Normal
   notifiers:
     - objectscale-supportassist-ese

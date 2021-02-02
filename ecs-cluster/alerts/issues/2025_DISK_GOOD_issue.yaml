@@ -1,11 +1,11 @@
-- description: "Disk has suspected"
-  name: "DiskSuspect"
+- description: "Disk has revived"
+  name: "DiskGood"
   issueCategory: Auto
   matchOnList:
     - matchon:
         - label: SymptomID
-          value: 2003
+          value: 2025
         - field: type
-          value: Error
+          value: Normal
   notifiers:
     - objectscale-supportassist-ese

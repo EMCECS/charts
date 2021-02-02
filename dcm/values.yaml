@@ -2,15 +2,17 @@
 tag: 0.65.0
 global:
   registry: emccorp
+  performanceProfile: "Small"
 atlas:
   affinity: false
   image:
     pullPolicy: IfNotPresent
     repository: atlas
-    tag: v1.1.1
+    tag: v1.1.2
   persistence:
     size: 1Gi
-  replicaCount: 3
+  # Define the replica if you want to explicitly set it
+  # replicaCount: 3
 dcm:
   image:
     pullPolicy: IfNotPresent
@@ -18,6 +20,10 @@ dcm:
     # tag: stable
   replicaCount: 1
   service:
-    port: 8080
+    port: 9026
     targetPort: 9026
     type: ClusterIP
+  livenessProbe:
+    probePath: /dcmhealthcheck
+  readinessProbe:
+    probePath: /dcmhealthcheck

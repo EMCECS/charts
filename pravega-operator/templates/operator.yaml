@@ -31,6 +31,7 @@ spec:
         {{- if .Values.testmode.enabled }}
         args: [-test]
         {{- end }}
+        args: ["-webhook=false"]
         env:
         - name: WATCH_NAMESPACE
           value: "{{ .Release.Namespace }}"
@@ -41,19 +42,9 @@ spec:
         - name: OPERATOR_NAME
           value: {{ template "pravega-operator.fullname" . }}
         volumeMounts:
-        - name: webhook-cert
-          mountPath: "/tmp/k8s-webhook-server/serving-certs"
-          readOnly: true
         - name: versions-volume
           mountPath: "/tmp/config"
       volumes:
-      - name: webhook-cert
-        secret:
-          {{- if .Values.webhookCert.generate }}
-          secretName: {{ template "pravega-operator.fullname" . }}-cert-tls
-          {{- else }}
-          secretName: {{ .Values.webhookCert.secretName }}
-          {{- end }}
       - name: versions-volume
         configMap:
           name: supported-versions-map

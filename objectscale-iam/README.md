@@ -8,34 +8,33 @@ This Helm chart deploys a Dell EMC IAM Service and its dependencies.
 
 ## Description
 
-The Dell EMC IAM Service is 2 k8s pods:
-- atlas instance with persistent volume claim (Retain)
-- iamservice controller to support accounts,  iam entities and iamclient requests
+The Dell EMC IAM Service is a subchart of objectscale-manager.
 
-By default the iam feature is not enabled in objectscale-manager.
+- The Iam Service name is "objectscale-iam" and eploys as a LoadBalancer with external IP on port 9400. 
+- The feature is enabled by default and integrated with objectstore provisioning via the iam client. 
+- It requires  atlas instance with persistent volume claim (Retain)
 
-To enable iam on the install - include:
+
+By default the iam service and atlas number of replicas is set to 3.
+To decrease the number of replicas of the objectscale-iam service use:
 ```bash
-  --set iam.enabled=true
+  --set objectscale-iam.replicaCount=1
 ```
 
-
-You can specify a different repository for iam using:
-```bash
-  --set iam.atlas.registry=<repo>
-```
-
-
-
-By default the iam number of replicas is set to 3.
+For single node deployments, set atlas replicas to 1.
 To decrease the number of replicas use:
 ```bash
-  --set iam.atlas.replicaCount=1
+  --set objectscale-iam.atlas.replicaCount=1
 ```
 
 By default,atlas affinity is set to false. When installing on single a node with replicaCount=3, you will also need to set affinity:
 ```bash
-  --set iam.atlas.affinity=true
+  --set objectscale-iam.atlas.disableAntiAffinity=true
 ```
-
+Additional settings include:
+```bash
+   --set objectscale-iam.image.registry=
+   --set objectscale-iam.image.repository=
+   --set objectscale-iam.image.tag=
+```
 

@@ -3,11 +3,11 @@ entries:
   atlas-operator:
   - apiVersion: v1
     appVersion: 0.11.0
-    created: "2021-02-01T13:15:32.892906334-08:00"
+    created: "2021-02-02T23:26:30.977030291-05:00"
     description: |
       Atlas operator deploys a custom resource for an Atlas cluster and a
       pod to provision Atlas clusters.
-    digest: 4a81e1eb5138cf28b282724bd384258403af9d885cd578467ce39523a9efa9f3
+    digest: 7ba8ee527aef78b9bb7c896d92bdd3d1a2c9cbfa298956ab9726106a822c7f7c
     maintainers:
     - name: Dell EMC
       url: https://dellemc.com
@@ -17,7 +17,7 @@ entries:
     version: 0.28.0
   - apiVersion: v1
     appVersion: 0.9.0
-    created: "2021-02-01T13:15:32.891887327-08:00"
+    created: "2021-02-02T23:26:30.975459214-05:00"
     description: |
       Atlas operator deploys a custom resource for an Atlas cluster and a
       pod to provision Atlas clusters.
@@ -31,7 +31,7 @@ entries:
     version: 0.27.1
   - apiVersion: v1
     appVersion: "0.9"
-    created: "2021-02-01T13:15:32.890872624-08:00"
+    created: "2021-02-02T23:26:30.974705222-05:00"
     description: |
       Atlas operator deploys a custom resource for an Atlas cluster and a
       pod to provision Atlas clusters.
@@ -45,7 +45,7 @@ entries:
     version: 0.27.0
   - apiVersion: v1
     appVersion: "0.8"
-    created: "2021-02-01T13:15:32.889964689-08:00"
+    created: "2021-02-02T23:26:30.973959194-05:00"
     description: |
       Atlas operator deploys a custom resource for an Atlas cluster and a
       pod to provision Atlas clusters.
@@ -59,7 +59,7 @@ entries:
     version: 0.26.0
   - apiVersion: v1
     appVersion: "0.7"
-    created: "2021-02-01T13:15:32.888926284-08:00"
+    created: "2021-02-02T23:26:30.973260455-05:00"
     description: |
       Atlas operator deploys a custom resource for an Atlas cluster and a
       pod to provision atlas clusters.
@@ -73,7 +73,7 @@ entries:
     version: 0.25.0
   - apiVersion: v1
     appVersion: "0.6"
-    created: "2021-02-01T13:15:32.888018492-08:00"
+    created: "2021-02-02T23:26:30.972281176-05:00"
     description: |
       Atlas operator deploys a custom resource for an atlas cluster and a
       pod to provision atlas clusters.
@@ -87,7 +87,7 @@ entries:
     version: 0.24.2
   - apiVersion: v1
     appVersion: "0.5"
-    created: "2021-02-01T13:15:32.886878444-08:00"
+    created: "2021-02-02T23:26:30.971485292-05:00"
     description: |
       Atlas operator deploys a custom resource for an atlas cluster and a
       pod to provision atlas clusters.
@@ -101,7 +101,7 @@ entries:
     version: 0.24.1
   - apiVersion: v1
     appVersion: "0.4"
-    created: "2021-02-01T13:15:32.885953496-08:00"
+    created: "2021-02-02T23:26:30.970774299-05:00"
     description: |
       Atlas operator deploys a custom resource for an atlas cluster and a
       pod to provision atlas clusters.
@@ -115,7 +115,7 @@ entries:
     version: 0.24.0
   - apiVersion: v1
     appVersion: "0.3"
-    created: "2021-02-01T13:15:32.885011149-08:00"
+    created: "2021-02-02T23:26:30.970069278-05:00"
     description: |
       Atlas is a highly available key-value store for shared metadata
     digest: 19e9c1e300c9ad2698804dc84d3fc681d0e74f1c58e4df28d5b8adbd8cc67650
@@ -128,7 +128,7 @@ entries:
     version: 0.19.0
   - apiVersion: v1
     appVersion: "0.1"
-    created: "2021-02-01T13:15:32.88394039-08:00"
+    created: "2021-02-02T23:26:30.969406134-05:00"
     description: |
       Atlas is a highly available key-value store for shared metadata
     digest: 048decd3624c79d1d9596654fe697955551eb30a8c8c8507d4f1a0e546da35ad
@@ -142,9 +142,9 @@ entries:
   bookkeeper-operator:
   - apiVersion: v2
     appVersion: 0.1.3
-    created: "2021-02-01T13:15:32.895350443-08:00"
+    created: "2021-02-02T23:26:30.978325031-05:00"
     description: Bookkeeper Operator Helm chart for Kubernetes
-    digest: ba4185b92aedd854d77ce5765f45811a4da698226d6b72e9742cd2485799a6e0
+    digest: c7431a48864692aad73da2cbf7ec85be1934c361f5bfa9410475917b8e2960e8
     home: https://github.com/pravega/bookkeeper-operator
     icon: https://bookkeeper.apache.org/images/bookkeeper_logo_blk.png
     keywords:
@@ -156,7 +156,7 @@ entries:
     version: 0.1.3
   - apiVersion: v2
     appVersion: 0.1.2
-    created: "2021-02-01T13:15:32.893820786-08:00"
+    created: "2021-02-02T23:26:30.977521968-05:00"
     description: Bookkeeper Operator Helm chart for Kubernetes
     digest: 63accaafe4e0d6716d8c5b930007af3c7c9cd481170831afffe6da876b15a64d
     home: https://github.com/pravega/bookkeeper-operator
@@ -170,8 +170,21 @@ entries:
     version: 0.1.2
   dcm:
   - apiVersion: v1
+    appVersion: 0.66.0
+    created: "2021-02-02T23:26:30.979577506-05:00"
+    description: A Helm chart for Dell EMC DCM
+    digest: 19ed31ac51da918ed64926fafb6fcbfbed8184f2148ddc8d92ca388e0d97ad2a
+    icon: https://avatars0.githubusercontent.com/u/12926680
+    maintainers:
+    - name: Dell EMC
+      url: http://dellemc.com
+    name: dcm
+    urls:
+    - dcm-0.66.0.tgz
+    version: 0.66.0
+  - apiVersion: v1
     appVersion: 0.65.0
-    created: "2021-02-01T13:15:32.897150613-08:00"
+    created: "2021-02-02T23:26:30.979166549-05:00"
     description: A Helm chart for Dell EMC DCM
     digest: 8c159edc4fe16782cb2cbf60230148815da341ddc8fb69bc3378b5d539bb626a
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -184,7 +197,7 @@ entries:
     version: 0.65.0
   - apiVersion: v1
     appVersion: 0.64.0
-    created: "2021-02-01T13:15:32.89679129-08:00"
+    created: "2021-02-02T23:26:30.978761647-05:00"
     description: A Helm chart for Dell EMC DCM
     digest: 64cb3d2f66db61ae7b640da31c683de4c1cbd15d3c811dd7827e9748b8559df5
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -197,8 +210,26 @@ entries:
     version: 0.64.0
   decks:
   - apiVersion: v2
+    appVersion: 2.0.66
+    created: "2021-02-02T23:26:31.012341915-05:00"
+    dependencies:
+    - condition: supportStore.enabled
+      name: decks-support-store
+      repository: file://../decks-support-store
+      version: 2.0.66
+    description: A Helm chart for Dell EMC Common Kubernetes Services
+    digest: 62d212e0d13c1ff8082e9a8caa3d6943f38af6f8303ac168840e0a58b63ce14a
+    icon: https://avatars0.githubusercontent.com/u/12926680
+    maintainers:
+    - name: Dell EMC
+      url: http://dellemc.com
+    name: decks
+    urls:
+    - decks-2.0.66.tgz
+    version: 2.0.66
+  - apiVersion: v2
     appVersion: 2.0.65
-    created: "2021-02-01T13:15:32.930555782-08:00"
+    created: "2021-02-02T23:26:31.010743325-05:00"
     dependencies:
     - condition: supportStore.enabled
       name: decks-support-store
@@ -216,7 +247,7 @@ entries:
     version: 2.0.65
   - apiVersion: v2
     appVersion: 2.0.64
-    created: "2021-02-01T13:15:32.929371326-08:00"
+    created: "2021-02-02T23:26:31.009218664-05:00"
     dependencies:
     - condition: supportStore.enabled
       name: decks-support-store
@@ -234,7 +265,7 @@ entries:
     version: 2.0.64
   - apiVersion: v2
     appVersion: 2.0.63
-    created: "2021-02-01T13:15:32.928283166-08:00"
+    created: "2021-02-02T23:26:31.007596449-05:00"
     dependencies:
     - condition: supportStore.enabled
       name: decks-support-store
@@ -252,7 +283,7 @@ entries:
     version: 2.0.63
   - apiVersion: v2
     appVersion: 2.0.62
-    created: "2021-02-01T13:15:32.927060884-08:00"
+    created: "2021-02-02T23:26:31.006042038-05:00"
     dependencies:
     - condition: supportStore.enabled
       name: decks-support-store
@@ -270,7 +301,7 @@ entries:
     version: 2.0.62
   - apiVersion: v2
     appVersion: 2.0.61
-    created: "2021-02-01T13:15:32.925921867-08:00"
+    created: "2021-02-02T23:26:31.00453804-05:00"
     dependencies:
     - condition: supportStore.enabled
       name: decks-support-store
@@ -288,7 +319,7 @@ entries:
     version: 2.0.61
   - apiVersion: v2
     appVersion: 2.0.60
-    created: "2021-02-01T13:15:32.924818549-08:00"
+    created: "2021-02-02T23:26:31.002952225-05:00"
     dependencies:
     - condition: supportStore.enabled
       name: decks-support-store
@@ -306,7 +337,7 @@ entries:
     version: 2.0.60
   - apiVersion: v2
     appVersion: 2.0.55
-    created: "2021-02-01T13:15:32.923610436-08:00"
+    created: "2021-02-02T23:26:31.000825107-05:00"
     dependencies:
     - condition: supportStore.enabled
       name: decks-support-store
@@ -324,7 +355,7 @@ entries:
     version: 2.0.55
   - apiVersion: v2
     appVersion: 2.0.54
-    created: "2021-02-01T13:15:32.922524317-08:00"
+    created: "2021-02-02T23:26:30.999784092-05:00"
     dependencies:
     - condition: supportStore.enabled
       name: decks-support-store
@@ -342,7 +373,7 @@ entries:
     version: 2.0.54
   - apiVersion: v2
     appVersion: 2.0.53
-    created: "2021-02-01T13:15:32.921491464-08:00"
+    created: "2021-02-02T23:26:30.99882757-05:00"
     dependencies:
     - condition: supportStore.enabled
       name: decks-support-store
@@ -360,7 +391,7 @@ entries:
     version: 2.0.53
   - apiVersion: v1
     appVersion: 2.0.52
-    created: "2021-02-01T13:15:32.920267797-08:00"
+    created: "2021-02-02T23:26:30.997775287-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: 779f725eaaf1367d1ba611684419ac47ec501d5301bfa0189011712b23a2b7be
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -373,7 +404,7 @@ entries:
     version: 2.0.52
   - apiVersion: v1
     appVersion: 2.0.51
-    created: "2021-02-01T13:15:32.91915613-08:00"
+    created: "2021-02-02T23:26:30.996758371-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: ad0bd1baf9edaf444b2f6787d0b0c06a1f09553b58114a9f6a7059752efa6e35
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -386,7 +417,7 @@ entries:
     version: 2.0.51
   - apiVersion: v1
     appVersion: 2.0.50
-    created: "2021-02-01T13:15:32.918176327-08:00"
+    created: "2021-02-02T23:26:30.995957777-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: c0b54f0b5733ef3836d9e61ea6e786106e0b15042c36c8cb86343b52d86d122a
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -399,7 +430,7 @@ entries:
     version: 2.0.50
   - apiVersion: v1
     appVersion: 1.2.0
-    created: "2021-02-01T13:15:32.917067172-08:00"
+    created: "2021-02-02T23:26:30.995229669-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: ec24c38104271a68b68a51847e538e253afb6a1c4493838c25f61f8757f755fe
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -412,7 +443,7 @@ entries:
     version: 1.2.1
   - apiVersion: v1
     appVersion: 1.2.0
-    created: "2021-02-01T13:15:32.916017004-08:00"
+    created: "2021-02-02T23:26:30.994417896-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: 150b06b1a861982c1865f1af00d7c6706863348ca08f7ec8a2f48dbeb2db3e94
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -425,7 +456,7 @@ entries:
     version: 1.2.0
   - apiVersion: v1
     appVersion: 1.1.3
-    created: "2021-02-01T13:15:32.914684191-08:00"
+    created: "2021-02-02T23:26:30.993358117-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: eb64d75f8744205524842cd6092d379589f54f96ff3890ed2a1b9bbbdc2e96da
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -438,7 +469,7 @@ entries:
     version: 1.1.3
   - apiVersion: v1
     appVersion: 1.1.2
-    created: "2021-02-01T13:15:32.913128097-08:00"
+    created: "2021-02-02T23:26:30.992631714-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: fd1d27d1eb22154d7ce2b9618c103e897120c2f018520d14c94dc68a5e251b2e
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -451,7 +482,7 @@ entries:
     version: 1.1.2
   - apiVersion: v1
     appVersion: 1.1.0-1
-    created: "2021-02-01T13:15:32.912257761-08:00"
+    created: "2021-02-02T23:26:30.991876399-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: ecda644196f20279c23bc9bc006aeb44c2a77a9acb645dd308179962b8ed8270
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -464,7 +495,7 @@ entries:
     version: 1.1.0
   - apiVersion: v1
     appVersion: 1.0.2-17
-    created: "2021-02-01T13:15:32.906198881-08:00"
+    created: "2021-02-02T23:26:30.986064715-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: 53bbb7011845502cf31566d5fcd7868a40c77e1d249af4f52529745dda217a4a
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -477,7 +508,7 @@ entries:
     version: 0.19.0
   - apiVersion: v1
     appVersion: 1.0.2-17
-    created: "2021-02-01T13:15:32.905310409-08:00"
+    created: "2021-02-02T23:26:30.985354267-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: 1dc08f1d8a0529e9e562a9bf848eeb277257724cab9dfbbbcc3ea68d7abc3500
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -490,7 +521,7 @@ entries:
     version: 0.17.2
   - apiVersion: v1
     appVersion: 1.0.1-17
-    created: "2021-02-01T13:15:32.904344944-08:00"
+    created: "2021-02-02T23:26:30.984618249-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: 16c4ef9b8a1967243ff86be279de2b4a0e186234424590bd12322144ac331854
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -503,7 +534,7 @@ entries:
     version: 0.17.1
   - apiVersion: v1
     appVersion: 1.0.0-17
-    created: "2021-02-01T13:15:32.903357806-08:00"
+    created: "2021-02-02T23:26:30.983859761-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: 0c4c665ed5e68162c5d694a4f66eea4b4be5151769d8cc401e1c116d47f470a3
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -516,7 +547,7 @@ entries:
     version: 0.17.0
   - apiVersion: v1
     appVersion: 1.0.0-16
-    created: "2021-02-01T13:15:32.902440559-08:00"
+    created: "2021-02-02T23:26:30.983189139-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: 532624f40d57a2c8fcfedb214d5bc2a50b35f11f870fd458fe03d268c0c3deb7
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -529,7 +560,7 @@ entries:
     version: 0.16.1
   - apiVersion: v1
     appVersion: 1.0.0-16
-    created: "2021-02-01T13:15:32.901529634-08:00"
+    created: "2021-02-02T23:26:30.982492746-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: 8067e6362a9a2690e8349b67f3892ef494c799296e155495291dd4738b857302
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -542,7 +573,7 @@ entries:
     version: 0.16.0
   - apiVersion: v1
     appVersion: 0.14.0
-    created: "2021-02-01T13:15:32.90054191-08:00"
+    created: "2021-02-02T23:26:30.981812531-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: 94167731cb38bf9978d7d6d5635bd91227665e62d1fbc5b6bfce8de0c5eaeac8
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -555,7 +586,7 @@ entries:
     version: 0.14.0
   - apiVersion: v1
     appVersion: 0.13.5
-    created: "2021-02-01T13:15:32.899628073-08:00"
+    created: "2021-02-02T23:26:30.981069134-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: d5cc45dfe6eae10787baf245c0aa4b348986f8e1af655828d4e170618c1b742c
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -568,7 +599,7 @@ entries:
     version: 0.13.5
   - apiVersion: v1
     appVersion: 0.12.0
-    created: "2021-02-01T13:15:32.898676186-08:00"
+    created: "2021-02-02T23:26:30.98030469-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: 04b27e73b522c53f08ab268bb918cd8e2b07cb4a246fca0014f9c30810014f9c
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -581,7 +612,7 @@ entries:
     version: 0.12.0
   - apiVersion: v1
     appVersion: 0.6.0
-    created: "2021-02-01T13:15:32.911353714-08:00"
+    created: "2021-02-02T23:26:30.990957403-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: c1c684f0d19e3298f77fc3c5633a7be903d5ef84db5bf257768ddbc2d2fb4b96
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -594,7 +625,7 @@ entries:
     version: 0.6.0
   - apiVersion: v1
     appVersion: 0.5.5
-    created: "2021-02-01T13:15:32.910474904-08:00"
+    created: "2021-02-02T23:26:30.990092842-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: 6b70c93e8527ce4a49f8beb9f156321502c5b0ca38724c4b3417cd52bed9565e
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -607,7 +638,7 @@ entries:
     version: 0.5.5
   - apiVersion: v1
     appVersion: 0.5.0
-    created: "2021-02-01T13:15:32.909633421-08:00"
+    created: "2021-02-02T23:26:30.989146758-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: fdd342033870d30fbdf85fb7de07351a46f489f5555ce3de948f0b8d676db4d6
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -620,7 +651,7 @@ entries:
     version: 0.5.0
   - apiVersion: v1
     appVersion: 0.4.0
-    created: "2021-02-01T13:15:32.908751332-08:00"
+    created: "2021-02-02T23:26:30.988159649-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: 5ff2e7998d1e1d973d8a289f86d9e6ecbaf67d74d8b83bcaa81c4a248a500e05
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -633,7 +664,7 @@ entries:
     version: 0.4.0
   - apiVersion: v1
     appVersion: 0.3.5
-    created: "2021-02-01T13:15:32.907751161-08:00"
+    created: "2021-02-02T23:26:30.987135801-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: 2557d112fc2b0646d9f741db8860f4e850b14074cdf1538d14064b6ce2c2a897
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -646,7 +677,7 @@ entries:
     version: 0.3.5
   - apiVersion: v1
     appVersion: 0.2.0
-    created: "2021-02-01T13:15:32.906950728-08:00"
+    created: "2021-02-02T23:26:30.986601901-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services
     digest: 29c1d77687e6db00f6466c1e8b290d4df772de2de033b96b953f1e6eb6935609
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -659,8 +690,21 @@ entries:
     version: 0.2.0
   decks-support-store:
   - apiVersion: v1
+    appVersion: 2.0.66
+    created: "2021-02-02T23:26:31.01812449-05:00"
+    description: A Helm chart for Dell EMC Common Kubernetes Services Support Store
+    digest: e3a098ddcf8611007d6b249db6ecbaa40caf8b3a6d5589b60a8c561a0bb69c1d
+    icon: https://avatars0.githubusercontent.com/u/12926680
+    maintainers:
+    - name: Dell EMC
+      url: http://dellemc.com
+    name: decks-support-store
+    urls:
+    - decks-support-store-2.0.66.tgz
+    version: 2.0.66
+  - apiVersion: v1
     appVersion: 2.0.65
-    created: "2021-02-01T13:15:32.937006438-08:00"
+    created: "2021-02-02T23:26:31.017512783-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services Support Store
     digest: b7ac1a5b4f95136e04aeff92f8b1d963729780f65428836be58d124242d0d6da
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -673,7 +717,7 @@ entries:
     version: 2.0.65
   - apiVersion: v1
     appVersion: 2.0.64
-    created: "2021-02-01T13:15:32.936302889-08:00"
+    created: "2021-02-02T23:26:31.01695503-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services Support Store
     digest: 4196d8e1da3ac77dea9f163b10fb37967cbf40c80703211d54871d32d5c600a7
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -686,7 +730,7 @@ entries:
     version: 2.0.64
   - apiVersion: v1
     appVersion: 2.0.63
-    created: "2021-02-01T13:15:32.935618311-08:00"
+    created: "2021-02-02T23:26:31.016380343-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services Support Store
     digest: 9c1bc70744f0aefe62e62144e7e2286d172eeeb572b394dc9f4d7eda8491e447
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -699,7 +743,7 @@ entries:
     version: 2.0.63
   - apiVersion: v1
     appVersion: 2.0.62
-    created: "2021-02-01T13:15:32.934921157-08:00"
+    created: "2021-02-02T23:26:31.015778353-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services Support Store
     digest: e7208869080794c4949ffc0c382c10568ec3bf792ffecc36c5f3b92530796e01
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -712,7 +756,7 @@ entries:
     version: 2.0.62
   - apiVersion: v1
     appVersion: 2.0.61
-    created: "2021-02-01T13:15:32.934290253-08:00"
+    created: "2021-02-02T23:26:31.015246324-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services Support Store
     digest: b33ba7a52aff543a3d373fa704f7e2bff5981f2626f5802d0f553eb23cba8ca3
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -725,7 +769,7 @@ entries:
     version: 2.0.61
   - apiVersion: v1
     appVersion: 2.0.60
-    created: "2021-02-01T13:15:32.933587539-08:00"
+    created: "2021-02-02T23:26:31.014701615-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services Support Store
     digest: 2daa8afc1a25cc6936047b06a8506122ed7758742650e0299efa80e08e796ebf
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -738,7 +782,7 @@ entries:
     version: 2.0.60
   - apiVersion: v1
     appVersion: 2.0.55
-    created: "2021-02-01T13:15:32.932878378-08:00"
+    created: "2021-02-02T23:26:31.014074634-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services Support Store
     digest: b3eda794d967805e8bc6c7e0dfabb5c274d397861a101aff00a8a3ecb68435c9
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -751,7 +795,7 @@ entries:
     version: 2.0.55
   - apiVersion: v1
     appVersion: 2.0.54
-    created: "2021-02-01T13:15:32.932142374-08:00"
+    created: "2021-02-02T23:26:31.013512042-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services Support Store
     digest: b797c464ca70b0e0ac24171d76fee93487f2f98cc6f625eb95d1e9efee5348b3
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -764,7 +808,7 @@ entries:
     version: 2.0.54
   - apiVersion: v1
     appVersion: 2.0.53
-    created: "2021-02-01T13:15:32.931444532-08:00"
+    created: "2021-02-02T23:26:31.012902769-05:00"
     description: A Helm chart for Dell EMC Common Kubernetes Services Support Store
     digest: 35937517f315151f62de293d469e82eb4ecd44b8c38c64547699e1be886f7ffc
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -777,8 +821,17 @@ entries:
     version: 2.0.53
   dellemc-license:
   - apiVersion: v1
+    appVersion: 2.0.66
+    created: "2021-02-02T23:26:31.027253955-05:00"
+    description: A Helm chart for applying a Dell EMC License for a product in the k8s cluster
+    digest: 56533fe1435cb5b346b9d4651bb01d75f5512b753bcdd875874c9e2727acc620
+    name: dellemc-license
+    urls:
+    - dellemc-license-2.0.66.tgz
+    version: 2.0.66
+  - apiVersion: v1
     appVersion: 2.0.65
-    created: "2021-02-01T13:15:32.951667802-08:00"
+    created: "2021-02-02T23:26:31.026910264-05:00"
     description: A Helm chart for applying a Dell EMC License for a product in the k8s cluster
     digest: 66d03e07450766aac342a5f606a50a154f3a8ade23bd98b31e41d43ef96c92c8
     name: dellemc-license
@@ -787,7 +840,7 @@ entries:
     version: 2.0.65
   - apiVersion: v1
     appVersion: 2.0.64
-    created: "2021-02-01T13:15:32.950994902-08:00"
+    created: "2021-02-02T23:26:31.026617839-05:00"
     description: A Helm chart for applying a Dell EMC License for a product in the k8s cluster
     digest: 0b0661271e9d510838c651a714dbba2c346e6cecb8301172fd17c899476f800d
     name: dellemc-license
@@ -796,7 +849,7 @@ entries:
     version: 2.0.64
   - apiVersion: v1
     appVersion: 2.0.63
-    created: "2021-02-01T13:15:32.950333099-08:00"
+    created: "2021-02-02T23:26:31.026318778-05:00"
     description: A Helm chart for applying a Dell EMC License for a product in the k8s cluster
     digest: 3cc4a119577dfb4e8db4a046ce3871bb1d25ddcee85459435f2070c7991baf14
     name: dellemc-license
@@ -805,7 +858,7 @@ entries:
     version: 2.0.63
   - apiVersion: v1
     appVersion: 2.0.62
-    created: "2021-02-01T13:15:32.949674677-08:00"
+    created: "2021-02-02T23:26:31.026019149-05:00"
     description: A Helm chart for applying a Dell EMC License for a product in the k8s cluster
     digest: cf29410a22463ac9870614ccede18f18ead966eb092a131728bfc085a7b264ff
     name: dellemc-license
@@ -814,7 +867,7 @@ entries:
     version: 2.0.62
   - apiVersion: v1
     appVersion: 2.0.61
-    created: "2021-02-01T13:15:32.949016216-08:00"
+    created: "2021-02-02T23:26:31.025695103-05:00"
     description: A Helm chart for applying a Dell EMC License for a product in the k8s cluster
     digest: 24d3e3ab4bf2d2e36b827560782b3fe66d9567e4b2db841f481fa0afbf29e4a3
     name: dellemc-license
@@ -823,7 +876,7 @@ entries:
     version: 2.0.61
   - apiVersion: v1
     appVersion: 2.0.60
-    created: "2021-02-01T13:15:32.948362204-08:00"
+    created: "2021-02-02T23:26:31.025398832-05:00"
     description: A Helm chart for applying a Dell EMC License for a product in the k8s cluster
     digest: 731a8e9d774a76fdba8b02cf4af10ca2f4ca56da3ab0fd5a6648ec34d09d926c
     name: dellemc-license
@@ -832,7 +885,7 @@ entries:
     version: 2.0.60
   - apiVersion: v1
     appVersion: 2.0.55
-    created: "2021-02-01T13:15:32.947721849-08:00"
+    created: "2021-02-02T23:26:31.02507845-05:00"
     description: A Helm chart for applying a Dell EMC License for a product in the k8s cluster
     digest: f53513748e2a526e9a8c59fe688a84d11827d2a17189438445ce32ebb657cca0
     name: dellemc-license
@@ -841,7 +894,7 @@ entries:
     version: 2.0.55
   - apiVersion: v1
     appVersion: 2.0.54
-    created: "2021-02-01T13:15:32.947097907-08:00"
+    created: "2021-02-02T23:26:31.024768139-05:00"
     description: A Helm chart for applying a Dell EMC License for a product in the k8s cluster
     digest: e31a852bd93eca1bcf3611ccc3160441c84c14708ebe57a3151d17096622e475
     name: dellemc-license
@@ -850,7 +903,7 @@ entries:
     version: 2.0.54
   - apiVersion: v1
     appVersion: 2.0.53
-    created: "2021-02-01T13:15:32.946462419-08:00"
+    created: "2021-02-02T23:26:31.024450887-05:00"
     description: A Helm chart for applying a Dell EMC License for a product in the k8s cluster
     digest: 7ad1f8b7373326991d4bbcbb273a26f275be68a463956cb9f6939d9a37ebe13f
     name: dellemc-license
@@ -859,7 +912,7 @@ entries:
     version: 2.0.53
   - apiVersion: v1
     appVersion: 2.0.52
-    created: "2021-02-01T13:15:32.945894326-08:00"
+    created: "2021-02-02T23:26:31.024112217-05:00"
     description: A Helm chart for applying a Dell EMC License for a product in the k8s cluster
     digest: 3ed5ce7bd743b012d4e20503ca2dec20945337f1ecd742e9dae0d6108fc42e4c
     name: dellemc-license
@@ -868,7 +921,7 @@ entries:
     version: 2.0.52
   - apiVersion: v1
     appVersion: 1.2.0
-    created: "2021-02-01T13:15:32.945334762-08:00"
+    created: "2021-02-02T23:26:31.023593588-05:00"
     description: A Helm chart for applying a Dell EMC License for a product in the k8s cluster
     digest: 87bb98feffe05e3c3adb029c97d98ac8cbf53ac7723dcef747475327b9f809c0
     name: dellemc-license
@@ -877,7 +930,7 @@ entries:
     version: 1.2.0
   - apiVersion: v1
     appVersion: 1.1.3
-    created: "2021-02-01T13:15:32.944762016-08:00"
+    created: "2021-02-02T23:26:31.023087262-05:00"
     description: A Helm chart for applying a Dell EMC License for a product in the k8s cluster
     digest: 56404c51a83db09c0f92343e42212c96e14faeaa242b1237dff39642aa8b7480
     name: dellemc-license
@@ -886,7 +939,7 @@ entries:
     version: 1.1.3
   - apiVersion: v1
     appVersion: 1.1.2
-    created: "2021-02-01T13:15:32.944139824-08:00"
+    created: "2021-02-02T23:26:31.022619534-05:00"
     description: A Helm chart for applying a Dell EMC License for a product in the k8s cluster
     digest: 69c05d5a1fb13e4ee6f5ee696bd9d961e21727d79178bde5e4f2c195f205a1d4
     name: dellemc-license
@@ -895,7 +948,7 @@ entries:
     version: 1.1.2
   - apiVersion: v1
     appVersion: 1.1.0-1
-    created: "2021-02-01T13:15:32.943564192-08:00"
+    created: "2021-02-02T23:26:31.022269091-05:00"
     description: A Helm chart for applying a Dell EMC License for a product in the k8s cluster
     digest: e740094469d28de7d115a32c43bc4d4d181d459ae6364bb371a85ee7b4fb0954
     name: dellemc-license
@@ -904,7 +957,7 @@ entries:
     version: 1.1.0
   - apiVersion: v1
     appVersion: 1.0.2-17
-    created: "2021-02-01T13:15:32.942456956-08:00"
+    created: "2021-02-02T23:26:31.021759719-05:00"
     description: A Helm chart for applying a Dell EMC License for a product in the k8s cluster
     digest: a7b9b1dec2dbdcc22abdd917e3b6ba8c3cb2516055300d7b2f8c1f1a91ec80ab
     name: dellemc-license
@@ -913,7 +966,7 @@ entries:
     version: 0.17.2
   - apiVersion: v1
     appVersion: 1.0.1-17
-    created: "2021-02-01T13:15:32.941892249-08:00"
+    created: "2021-02-02T23:26:31.02147331-05:00"
     description: A Helm chart for applying a Dell EMC License for a product in the k8s cluster
     digest: 790f41c5cf8b671e2f59c1fc7785dcd02eb480e337cbdbc898600f4f622a6c31
     name: dellemc-license
@@ -922,7 +975,7 @@ entries:
     version: 0.17.1
   - apiVersion: v1
     appVersion: 1.0.0-17
-    created: "2021-02-01T13:15:32.941127718-08:00"
+    created: "2021-02-02T23:26:31.021130151-05:00"
     description: A Helm chart for applying a Dell EMC License for a product in the k8s cluster
     digest: 2be2ee4be7cbe1a95e8e8a41c3c07ad083304d9f5a190c11dffb53b1e73d5cb1
     name: dellemc-license
@@ -931,7 +984,7 @@ entries:
     version: 0.17.0
   - apiVersion: v1
     appVersion: 1.0.0-16
-    created: "2021-02-01T13:15:32.940504335-08:00"
+    created: "2021-02-02T23:26:31.020830672-05:00"
     description: A Helm chart for applying a Dell EMC License for a product in the k8s cluster
     digest: 5c3a09d5e278cd0975a69f844644237521cf89ee671994e367deb32a312ad4f7
     name: dellemc-license
@@ -940,7 +993,7 @@ entries:
     version: 0.16.0
   - apiVersion: v1
     appVersion: 0.14.0
-    created: "2021-02-01T13:15:32.939774598-08:00"
+    created: "2021-02-02T23:26:31.020495876-05:00"
     description: A Helm chart for applying a Dell EMC License for a product in the k8s cluster
     digest: fa3ff38bf91d18dd5179163a790cbef6b9eaf7380664c6cc91b8bf0f6c9de553
     name: dellemc-license
@@ -949,7 +1002,7 @@ entries:
     version: 0.14.0
   - apiVersion: v1
     appVersion: 0.13.5
-    created: "2021-02-01T13:15:32.939078959-08:00"
+    created: "2021-02-02T23:26:31.019825459-05:00"
     description: A Helm chart for applying a Dell EMC License for a product in the k8s cluster
     digest: c925ebbf594ab147be031f1e0e76dbeba1e79fe983e6ff3d4388d1160dba7526
     name: dellemc-license
@@ -958,7 +1011,7 @@ entries:
     version: 0.13.5
   - apiVersion: v1
     appVersion: 0.12.0
-    created: "2021-02-01T13:15:32.938335763-08:00"
+    created: "2021-02-02T23:26:31.019265346-05:00"
     description: A Helm chart for installing a Dell EMC License for a product in the Kubernetes cluster
     digest: 90f8840c5e5b5e8aa7ce2f565f631e13afe314aa3ff74b2bcaec79b701e91710
     name: dellemc-license
@@ -967,7 +1020,7 @@ entries:
     version: 0.12.0
   - apiVersion: v1
     appVersion: 0.6.0
-    created: "2021-02-01T13:15:32.943002471-08:00"
+    created: "2021-02-02T23:26:31.021990895-05:00"
     description: A Helm chart for installing a Dell EMC License for a product in the Kubernetes cluster
     digest: acd58e5249604c4b3274423e9fae967185e4f0a477b6131fba0043e1d461490e
     name: dellemc-license
@@ -977,16 +1030,16 @@ entries:
   dks-testapp:
   - apiVersion: v1
     appVersion: 1.2.0
-    created: "2021-02-01T13:15:32.963727632-08:00"
+    created: "2021-02-02T23:26:31.036838894-05:00"
     description: A Helm chart for DKS (DECKS, KAHM, and SRSGateway) test application
-    digest: 45b3258568e32019c50f2fd73dab52caf62d9ad5039b68550ba0a43c5012b1af
+    digest: d0f2ea0cb6daa7b2b0a18a17cbd40fd42c54bef7cad3ab4dce9aeeb40650798e
     name: dks-testapp
     urls:
     - dks-testapp-1.2.0.tgz
     version: 1.2.0
   - apiVersion: v1
     appVersion: 1.1.3
-    created: "2021-02-01T13:15:32.962797304-08:00"
+    created: "2021-02-02T23:26:31.036140337-05:00"
     description: A Helm chart for DKS (DECKS, KAHM, and SRSGateway) test application
     digest: cec9eacc8b622907c523dcefb0c960fab08a97429bb1d7570b96abcd2854d463
     name: dks-testapp
@@ -995,7 +1048,7 @@ entries:
     version: 1.1.3
   - apiVersion: v1
     appVersion: 1.1.2
-    created: "2021-02-01T13:15:32.962104439-08:00"
+    created: "2021-02-02T23:26:31.035500235-05:00"
     description: A Helm chart for DKS (DECKS, KAHM, and SRSGateway) test application
     digest: 9efd111f373ed80426f16e9530b6e63f3d5bd807269cfd61d3c73fe1d43e159c
     name: dks-testapp
@@ -1004,7 +1057,7 @@ entries:
     version: 1.1.2
   - apiVersion: v1
     appVersion: 1.1.0-1
-    created: "2021-02-01T13:15:32.961413868-08:00"
+    created: "2021-02-02T23:26:31.034866029-05:00"
     description: A Helm chart for DKS (DECKS, KAHM, and SRSGateway) test application
     digest: cd24b3e6718f1512e7542ef800cdb32c38b87e7b8b82d2884533352e79be1c74
     name: dks-testapp
@@ -1013,7 +1066,7 @@ entries:
     version: 1.1.0
   - apiVersion: v1
     appVersion: 1.0.2-17
-    created: "2021-02-01T13:15:32.956463855-08:00"
+    created: "2021-02-02T23:26:31.030566393-05:00"
     description: A Helm chart for DKS (DECKS, KAHM, and SRSGateway) test application
     digest: a2b40a892cb5adc4bb179953d15b2c60dc0724d323e7e01706900cfbb5226540
     name: dks-testapp
@@ -1022,7 +1075,7 @@ entries:
     version: 0.17.2
   - apiVersion: v1
     appVersion: 1.0.1-17
-    created: "2021-02-01T13:15:32.955694935-08:00"
+    created: "2021-02-02T23:26:31.029752184-05:00"
     description: A Helm chart for DKS (DECKS, KAHM, and SRSGateway) test application
     digest: d76786649b9d80bbe3a7eadd8200ae499fe2c3c6409142801451bf7ca82dce2b
     name: dks-testapp
@@ -1031,7 +1084,7 @@ entries:
     version: 0.17.1
   - apiVersion: v1
     appVersion: 1.0.0-17
-    created: "2021-02-01T13:15:32.954800722-08:00"
+    created: "2021-02-02T23:26:31.029286163-05:00"
     description: A Helm chart for DKS (DECKS, KAHM, and SRSGateway) test application
     digest: 1273c014474f0f84c9fb1ad8eb4cdb5aa869025952e1eb4442fd4575c78472a7
     name: dks-testapp
@@ -1040,7 +1093,7 @@ entries:
     version: 0.17.0
   - apiVersion: v1
     appVersion: 1.0.0-16
-    created: "2021-02-01T13:15:32.95399027-08:00"
+    created: "2021-02-02T23:26:31.028785814-05:00"
     description: A Helm chart for DKS (DECKS, KAHM, and SRSGateway) test application
     digest: 50eb5ea1393995f1bf9f7a3bdb709ae4dcc8b44caa244d465159d08f973a87ce
     name: dks-testapp
@@ -1049,7 +1102,7 @@ entries:
     version: 0.16.0
   - apiVersion: v1
     appVersion: 0.14.0
-    created: "2021-02-01T13:15:32.953259944-08:00"
+    created: "2021-02-02T23:26:31.028259556-05:00"
     description: A Helm chart for DKS (DECKS, KAHM, and SRSGateway) test application
     digest: f5c9449be7a604de051498a1cc26b168b7aae765c688956c7e91f38553c12d01
     name: dks-testapp
@@ -1058,7 +1111,7 @@ entries:
     version: 0.14.0
   - apiVersion: v1
     appVersion: 0.12.0
-    created: "2021-02-01T13:15:32.952464375-08:00"
+    created: "2021-02-02T23:26:31.0277326-05:00"
     description: A Helm chart for DKS (DECKS, KAHM, and SRSGateway) test application
     digest: 2ca71bd11bcf02afc17e9cf0ed779c14977d1494de92f8df73f79fc6197709fc
     name: dks-testapp
@@ -1067,7 +1120,7 @@ entries:
     version: 0.12.0
   - apiVersion: v1
     appVersion: 0.6.0
-    created: "2021-02-01T13:15:32.960638142-08:00"
+    created: "2021-02-02T23:26:31.034219318-05:00"
     description: A Helm chart for DKS (DECKS, KAHM, and SRSGateway) test application
     digest: 3cdaafb2ab14293c9b1003b386d814c8ec34ee38afc16ee8fcaf44cfb3b96da2
     name: dks-testapp
@@ -1076,7 +1129,7 @@ entries:
     version: 0.6.0
   - apiVersion: v1
     appVersion: 0.5.5
-    created: "2021-02-01T13:15:32.959884917-08:00"
+    created: "2021-02-02T23:26:31.03352913-05:00"
     description: A Helm chart for DKS (DECKS, KAHM, and SRSGateway) test application
     digest: b8b0a17ec5cf7336fd38f5d7d48c722871d7a826ae566c63f947dea69db10a07
     name: dks-testapp
@@ -1085,7 +1138,7 @@ entries:
     version: 0.5.5
   - apiVersion: v1
     appVersion: 0.5.0
-    created: "2021-02-01T13:15:32.959070258-08:00"
+    created: "2021-02-02T23:26:31.032847205-05:00"
     description: A Helm chart for DKS (DECKS, KAHM, and SRSGateway) test application
     digest: 9a721b7723c6abf88888df73f474816755f67034e04be795c10606abed3e4be5
     name: dks-testapp
@@ -1094,7 +1147,7 @@ entries:
     version: 0.5.0
   - apiVersion: v1
     appVersion: 0.4.0
-    created: "2021-02-01T13:15:32.958273131-08:00"
+    created: "2021-02-02T23:26:31.032145373-05:00"
     description: A Helm chart for DKS (DECKS, KAHM, and SRSGateway) test application
     digest: 7d1534a119ebb682e130db98b7af4ba6b3dd1026ea49cf67632c224c310229aa
     name: dks-testapp
@@ -1103,7 +1156,7 @@ entries:
     version: 0.4.0
   - apiVersion: v1
     appVersion: 0.3.5
-    created: "2021-02-01T13:15:32.95723047-08:00"
+    created: "2021-02-02T23:26:31.031449697-05:00"
     description: A Helm chart for DKS (DECKS, KAHM, and SRSGateway) test application
     digest: b83548c0bc7dc6dc2c0b036ca52b908d4440f5997adbb0828957e918aa8b0975
     name: dks-testapp
@@ -1112,8 +1165,30 @@ entries:
     version: 0.3.5
   ecs-cluster:
   - apiVersion: v1
+    appVersion: 0.66.0
+    created: "2021-02-02T23:26:31.339350054-05:00"
+    dependencies:
+    - condition: global.monitoring.enabled
+      name: ecs-monitoring
+      repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+      version: 3.7.0-1111.e5c34b7d
+    - name: rsyslog-client
+      repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+      version: 3.7.0-1111.e5c34b7d
+    description: |
+      Dell EMC ObjectScale is highly scalable, and high performance S3 compatible object storage platform.
+    digest: eeaff4cef7a5ca4af92b87faa230b5f427bd12e73de8ec59c6b5786f97b588a3
+    icon: https://avatars0.githubusercontent.com/u/12926680
+    maintainers:
+    - name: Dell EMC
+      url: http://dellemc.com
+    name: ecs-cluster
+    urls:
+    - ecs-cluster-0.66.0.tgz
+    version: 0.66.0
+  - apiVersion: v1
     appVersion: 0.65.0
-    created: "2021-02-01T13:15:33.194884992-08:00"
+    created: "2021-02-02T23:26:31.321497888-05:00"
     dependencies:
     - condition: global.monitoring.enabled
       name: ecs-monitoring
@@ -1135,7 +1210,7 @@ entries:
     version: 0.65.0
   - apiVersion: v1
     appVersion: 0.64.2
-    created: "2021-02-01T13:15:33.180998775-08:00"
+    created: "2021-02-02T23:26:31.301493107-05:00"
     dependencies:
     - condition: global.monitoring.enabled
       name: ecs-monitoring
@@ -1157,7 +1232,7 @@ entries:
     version: 0.64.2
   - apiVersion: v1
     appVersion: 0.64.1
-    created: "2021-02-01T13:15:33.168805949-08:00"
+    created: "2021-02-02T23:26:31.284113349-05:00"
     dependencies:
     - condition: global.monitoring.enabled
       name: ecs-monitoring
@@ -1179,7 +1254,7 @@ entries:
     version: 0.64.1
   - apiVersion: v1
     appVersion: 0.64.0
-    created: "2021-02-01T13:15:33.156888897-08:00"
+    created: "2021-02-02T23:26:31.267773998-05:00"
     dependencies:
     - condition: global.monitoring.enabled
       name: ecs-monitoring
@@ -1201,7 +1276,7 @@ entries:
     version: 0.64.0
   - apiVersion: v1
     appVersion: 0.63.0
-    created: "2021-02-01T13:15:33.144324681-08:00"
+    created: "2021-02-02T23:26:31.252130022-05:00"
     dependencies:
     - condition: global.monitoring.enabled
       name: ecs-monitoring
@@ -1223,7 +1298,7 @@ entries:
     version: 0.63.0
   - apiVersion: v1
     appVersion: 0.62.0
-    created: "2021-02-01T13:15:33.132113333-08:00"
+    created: "2021-02-02T23:26:31.235601049-05:00"
     dependencies:
     - condition: global.monitoring.enabled
       name: ecs-monitoring
@@ -1245,7 +1320,7 @@ entries:
     version: 0.62.0
   - apiVersion: v1
     appVersion: 0.61.0
-    created: "2021-02-01T13:15:33.113337845-08:00"
+    created: "2021-02-02T23:26:31.214419022-05:00"
     dependencies:
     - condition: global.monitoring.enabled
       name: ecs-monitoring
@@ -1267,7 +1342,7 @@ entries:
     version: 0.61.0
   - apiVersion: v1
     appVersion: 0.60.0
-    created: "2021-02-01T13:15:33.098607533-08:00"
+    created: "2021-02-02T23:26:31.196963204-05:00"
     dependencies:
     - condition: global.monitoring.enabled
       name: ecs-monitoring
@@ -1289,7 +1364,7 @@ entries:
     version: 0.60.0
   - apiVersion: v1
     appVersion: 0.55.0
-    created: "2021-02-01T13:15:33.086066655-08:00"
+    created: "2021-02-02T23:26:31.180814385-05:00"
     dependencies:
     - condition: global.monitoring.enabled
       name: ecs-monitoring
@@ -1311,7 +1386,7 @@ entries:
     version: 0.55.0
   - apiVersion: v1
     appVersion: 0.54.0
-    created: "2021-02-01T13:15:33.071993589-08:00"
+    created: "2021-02-02T23:26:31.161981301-05:00"
     dependencies:
     - condition: global.monitoring.enabled
       name: ecs-monitoring
@@ -1333,7 +1408,7 @@ entries:
     version: 0.54.0
   - apiVersion: v1
     appVersion: 0.53.0
-    created: "2021-02-01T13:15:33.060565916-08:00"
+    created: "2021-02-02T23:26:31.147361999-05:00"
     dependencies:
     - condition: global.monitoring.enabled
       name: ecs-monitoring
@@ -1352,7 +1427,7 @@ entries:
     version: 0.53.0
   - apiVersion: v1
     appVersion: 0.52.0
-    created: "2021-02-01T13:15:33.047338336-08:00"
+    created: "2021-02-02T23:26:31.129464361-05:00"
     dependencies:
     - condition: global.monitoring.enabled
       name: ecs-monitoring
@@ -1371,7 +1446,7 @@ entries:
     version: 0.52.0
   - apiVersion: v1
     appVersion: 0.51.0
-    created: "2021-02-01T13:15:33.044224643-08:00"
+    created: "2021-02-02T23:26:31.126218397-05:00"
     dependencies:
     - condition: global.monitoring.enabled
       name: ecs-monitoring
@@ -1390,7 +1465,7 @@ entries:
     version: 0.51.0
   - apiVersion: v1
     appVersion: 0.50.0
-    created: "2021-02-01T13:15:33.031379354-08:00"
+    created: "2021-02-02T23:26:31.113195348-05:00"
     dependencies:
     - condition: global.monitoring.enabled
       name: ecs-monitoring
@@ -1409,7 +1484,7 @@ entries:
     version: 0.50.0
   - apiVersion: v1
     appVersion: 0.33.0
-    created: "2021-02-01T13:15:33.019574328-08:00"
+    created: "2021-02-02T23:26:31.099294277-05:00"
     dependencies:
     - condition: monitoring.enabled
       name: ecs-monitoring
@@ -1428,7 +1503,7 @@ entries:
     version: 0.33.0
   - apiVersion: v1
     appVersion: 0.32.1
-    created: "2021-02-01T13:15:33.017434134-08:00"
+    created: "2021-02-02T23:26:31.097481512-05:00"
     dependencies:
     - condition: monitoring.enabled
       name: ecs-monitoring
@@ -1447,7 +1522,7 @@ entries:
     version: 0.32.1
   - apiVersion: v1
     appVersion: 0.32.0
-    created: "2021-02-01T13:15:33.013921855-08:00"
+    created: "2021-02-02T23:26:31.095594252-05:00"
     dependencies:
     - condition: monitoring.enabled
       name: ecs-monitoring
@@ -1466,7 +1541,7 @@ entries:
     version: 0.32.0
   - apiVersion: v1
     appVersion: 0.31.1
-    created: "2021-02-01T13:15:33.011733447-08:00"
+    created: "2021-02-02T23:26:31.093380124-05:00"
     dependencies:
     - condition: monitoring.enabled
       name: ecs-monitoring
@@ -1485,7 +1560,7 @@ entries:
     version: 0.31.1
   - apiVersion: v1
     appVersion: 0.31.0
-    created: "2021-02-01T13:15:33.010120124-08:00"
+    created: "2021-02-02T23:26:31.09139943-05:00"
     dependencies:
     - condition: monitoring.enabled
       name: ecs-monitoring
@@ -1504,7 +1579,7 @@ entries:
     version: 0.31.0
   - apiVersion: v1
     appVersion: 0.30.0
-    created: "2021-02-01T13:15:33.008209404-08:00"
+    created: "2021-02-02T23:26:31.089705536-05:00"
     dependencies:
     - condition: monitoring.enabled
       name: ecs-monitoring
@@ -1523,7 +1598,7 @@ entries:
     version: 0.30.0
   - apiVersion: v1
     appVersion: 0.29.0
-    created: "2021-02-01T13:15:33.006512734-08:00"
+    created: "2021-02-02T23:26:31.087866555-05:00"
     dependencies:
     - condition: monitoring.enabled
       name: ecs-monitoring
@@ -1542,7 +1617,7 @@ entries:
     version: 0.29.0
   - apiVersion: v1
     appVersion: 0.28.3
-    created: "2021-02-01T13:15:33.004915319-08:00"
+    created: "2021-02-02T23:26:31.085979087-05:00"
     dependencies:
     - condition: monitoring.enabled
       name: ecs-monitoring
@@ -1561,7 +1636,7 @@ entries:
     version: 0.28.3
   - apiVersion: v1
     appVersion: 0.28.2
-    created: "2021-02-01T13:15:33.002841117-08:00"
+    created: "2021-02-02T23:26:31.084320019-05:00"
     dependencies:
     - condition: monitoring.enabled
       name: ecs-monitoring
@@ -1580,7 +1655,7 @@ entries:
     version: 0.28.2
   - apiVersion: v1
     appVersion: 0.28.0
-    created: "2021-02-01T13:15:33.000575725-08:00"
+    created: "2021-02-02T23:26:31.08264753-05:00"
     dependencies:
     - condition: installMonitoringHelmDependency
       name: ecs-monitoring
@@ -1599,7 +1674,7 @@ entries:
     version: 0.28.0
   - apiVersion: v1
     appVersion: 0.27.0
-    created: "2021-02-01T13:15:32.999056226-08:00"
+    created: "2021-02-02T23:26:31.081000502-05:00"
     dependencies:
     - condition: installMonitoringHelmDependency
       name: ecs-monitoring
@@ -1618,7 +1693,7 @@ entries:
     version: 0.27.0
   - apiVersion: v1
     appVersion: 0.26.0
-    created: "2021-02-01T13:15:32.997466971-08:00"
+    created: "2021-02-02T23:26:31.079075612-05:00"
     dependencies:
     - condition: installMonitoringHelmDependency
       name: ecs-monitoring
@@ -1637,7 +1712,7 @@ entries:
     version: 0.26.0
   - apiVersion: v1
     appVersion: 0.25.0
-    created: "2021-02-01T13:15:32.995969025-08:00"
+    created: "2021-02-02T23:26:31.077304258-05:00"
     dependencies:
     - condition: installMonitoringHelmDependency
       name: ecs-monitoring
@@ -1656,7 +1731,7 @@ entries:
     version: 0.25.0
   - apiVersion: v1
     appVersion: 0.24.0
-    created: "2021-02-01T13:15:32.994444936-08:00"
+    created: "2021-02-02T23:26:31.075130544-05:00"
     dependencies:
     - condition: installMonitoringHelmDependency
       name: ecs-monitoring
@@ -1675,7 +1750,7 @@ entries:
     version: 0.24.0
   - apiVersion: v1
     appVersion: 0.23.0
-    created: "2021-02-01T13:15:32.992982154-08:00"
+    created: "2021-02-02T23:26:31.072376145-05:00"
     dependencies:
     - condition: installMonitoringHelmDependency
       name: ecs-monitoring
@@ -1694,7 +1769,7 @@ entries:
     version: 0.23.0
   - apiVersion: v1
     appVersion: 0.22.0
-    created: "2021-02-01T13:15:32.99145207-08:00"
+    created: "2021-02-02T23:26:31.070761223-05:00"
     dependencies:
     - condition: installMonitoringHelmDependency
       name: ecs-monitoring
@@ -1713,7 +1788,7 @@ entries:
     version: 0.22.1
   - apiVersion: v1
     appVersion: 0.22.0
-    created: "2021-02-01T13:15:32.989509021-08:00"
+    created: "2021-02-02T23:26:31.069081597-05:00"
     dependencies:
     - condition: installMonitoringHelmDependency
       name: ecs-monitoring
@@ -1732,7 +1807,7 @@ entries:
     version: 0.22.0
   - apiVersion: v1
     appVersion: 0.21.0
-    created: "2021-02-01T13:15:32.987660287-08:00"
+    created: "2021-02-02T23:26:31.067308807-05:00"
     dependencies:
     - condition: installMonitoringHelmDependency
       name: ecs-monitoring
@@ -1751,7 +1826,7 @@ entries:
     version: 0.21.0
   - apiVersion: v1
     appVersion: 0.20.0
-    created: "2021-02-01T13:15:32.986267113-08:00"
+    created: "2021-02-02T23:26:31.065785264-05:00"
     description: |
       Dell EMC ObjectScale is highly scalable, and high performance S3 compatible object storage platform.
     digest: 9f87cabb9d66236790cc9c3e110013904e4da533e6ada8a6c2fb02bd4f555047
@@ -1765,7 +1840,7 @@ entries:
     version: 0.20.0
   - apiVersion: v1
     appVersion: 0.18.0
-    created: "2021-02-01T13:15:32.984973654-08:00"
+    created: "2021-02-02T23:26:31.064563626-05:00"
     description: |
       Dell EMC ObjectScale is highly scalable, and high performance S3 compatible object storage platform.
     digest: 98757f3e3e6a197fc474b8e1db0734fe176116d056e8ad7b912b6bb8d14138bf
@@ -1779,7 +1854,7 @@ entries:
     version: 0.19.0
   - apiVersion: v1
     appVersion: 0.18.0
-    created: "2021-02-01T13:15:32.983755354-08:00"
+    created: "2021-02-02T23:26:31.063253978-05:00"
     description: |
       Dell EMC ObjectScale is highly scalable, and high performance S3 compatible object storage platform.
     digest: 92cea161c3051a1c3b8c48b71952a3f19704fc4a2511aa58f3a32c480f008c07
@@ -1793,7 +1868,7 @@ entries:
     version: 0.18.0
   - apiVersion: v1
     appVersion: 0.17.0
-    created: "2021-02-01T13:15:32.98243187-08:00"
+    created: "2021-02-02T23:26:31.059909945-05:00"
     description: |
       Dell EMC ObjectScale is highly scalable, and high performance S3 compatible object storage platform.
     digest: 4e981736de964040cc6dcd5303f97140d02aecdd5b14f505cd03e41f5a82643e
@@ -1807,7 +1882,7 @@ entries:
     version: 0.17.5
   - apiVersion: v1
     appVersion: 0.17.0
-    created: "2021-02-01T13:15:32.981110157-08:00"
+    created: "2021-02-02T23:26:31.058216079-05:00"
     description: |
       Dell EMC ObjectScale is highly scalable, and high performance S3 compatible object storage platform.
     digest: 2f19315dc1144d1f66543e016541c1406661ef3a5a8a0c4ff4a4df80941d9802
@@ -1821,7 +1896,7 @@ entries:
     version: 0.17.0
   - apiVersion: v1
     appVersion: 0.16.5
-    created: "2021-02-01T13:15:32.97961538-08:00"
+    created: "2021-02-02T23:26:31.056231918-05:00"
     description: |
       Dell EMC ObjectScale is highly scalable, and high performance S3 compatible object storage platform.
     digest: 14d9bb4b0a30ecc95640120bd4929734a7a5605a7bf33d89955cf9fc0a7d29a9
@@ -1835,7 +1910,7 @@ entries:
     version: 0.16.5
   - apiVersion: v1
     appVersion: 0.16.0
-    created: "2021-02-01T13:15:32.978068548-08:00"
+    created: "2021-02-02T23:26:31.054225737-05:00"
     description: |
       Dell EMC ObjectScale is highly scalable, and high performance S3 compatible object storage platform.
     digest: bb137b8b02a910116bba732dff1cc0787a38d77ba651c2f5b4630db86d61f955
@@ -1849,7 +1924,7 @@ entries:
     version: 0.16.0
   - apiVersion: v1
     appVersion: 0.14.0
-    created: "2021-02-01T13:15:32.976724416-08:00"
+    created: "2021-02-02T23:26:31.052319075-05:00"
     description: |
       Dell EMC ObjectScale is highly scalable, and high performance S3 compatible object storage platform.
     digest: 619ab4a93e4b307b0c4b26995b8e00556aa3c03d96e3822ca247063418ede042
@@ -1863,7 +1938,7 @@ entries:
     version: 0.14.0
   - apiVersion: v1
     appVersion: 0.12.0
-    created: "2021-02-01T13:15:32.974979303-08:00"
+    created: "2021-02-02T23:26:31.050880748-05:00"
     description: |
       Dell EMC ObjectScale is highly scalable, and high performance S3 compatible object storage platform.
     digest: 5dd0db9d393ac718b044330baecb4f65e7b50ae3aaacfb3e7fc56af0b41692f0
@@ -1877,7 +1952,7 @@ entries:
     version: 0.12.0
   - apiVersion: v1
     appVersion: 0.1.6
-    created: "2021-02-01T13:15:32.972458897-08:00"
+    created: "2021-02-02T23:26:31.049376597-05:00"
     description: |
       Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
     digest: cb481ec8f1ffe84b019445c781eb8284b8d073df5df3635f367a465cb0ea2c2f
@@ -1891,7 +1966,7 @@ entries:
     version: 0.1.6
   - apiVersion: v1
     appVersion: 0.1.6-rc1
-    created: "2021-02-01T13:15:32.970895212-08:00"
+    created: "2021-02-02T23:26:31.04807763-05:00"
     description: |
       Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
     digest: 9c0e62123abd950e7f75d75c327d901316b4d04d3bf0a5cb82227b07f5859b88
@@ -1905,7 +1980,7 @@ entries:
     version: 0.1.6-rc1
   - apiVersion: v1
     appVersion: 0.1.5
-    created: "2021-02-01T13:15:32.969707196-08:00"
+    created: "2021-02-02T23:26:31.045507098-05:00"
     description: |
       Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
     digest: acc8c0ded5d5da4a228c0b553dcd3d1fc21a891ede70a0d37090abfabe50a3ec
@@ -1919,7 +1994,7 @@ entries:
     version: 0.1.5
   - apiVersion: v1
     appVersion: 0.1.4
-    created: "2021-02-01T13:15:32.968538307-08:00"
+    created: "2021-02-02T23:26:31.043813579-05:00"
     description: |
       Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
     digest: 71152825f4cda20c77d26b28fdcb2513196b7ce0b0750bd80f078f3f11341d5d
@@ -1933,7 +2008,7 @@ entries:
     version: 0.1.4
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2021-02-01T13:15:32.967436617-08:00"
+    created: "2021-02-02T23:26:31.042109285-05:00"
     description: |
       Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
     digest: 41155014150b0dbbb5e39238288c89da80d1d4bf590c484b050de58dfe1d6979
@@ -1947,7 +2022,7 @@ entries:
     version: 0.1.3
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2021-02-01T13:15:32.966258365-08:00"
+    created: "2021-02-02T23:26:31.040430749-05:00"
     description: |
       Dell EMC Elastic Cloud Storage is highly scalable, and high performance S3 compatible object storage platform.
     digest: f59c01b502ab44f2f8f42fdc31eb2d57160bb797ee7046cd63dd5eaab9ba535b
@@ -1961,7 +2036,7 @@ entries:
     version: 0.1.2
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2021-02-01T13:15:32.965029338-08:00"
+    created: "2021-02-02T23:26:31.038606862-05:00"
     description: |
       Elastic Cloud Storage is a highly scalable, S3 compatible object storage service
     digest: 29e1803e8550070aad94223f5419ee775c732882399a701e2c744464be1d187e
@@ -1975,8 +2050,21 @@ entries:
     version: 0.1.0
   federation:
   - apiVersion: v1
+    appVersion: 0.66.0
+    created: "2021-02-02T23:26:31.34178727-05:00"
+    description: A Helm chart for Dell EMC Federation Service
+    digest: 116e1959978e62d7103e49be9d8868583f4a94157c476bb9d4b9269f37b5e8f4
+    icon: https://avatars0.githubusercontent.com/u/12926680
+    maintainers:
+    - name: Dell EMC
+      url: http://dellemc.com
+    name: federation
+    urls:
+    - federation-0.66.0.tgz
+    version: 0.66.0
+  - apiVersion: v1
     appVersion: 0.65.0
-    created: "2021-02-01T13:15:33.199892171-08:00"
+    created: "2021-02-02T23:26:31.34147335-05:00"
     description: A Helm chart for Dell EMC Federation Service
     digest: 54c4414610b089a6fac6330448f2cb890d71bc874a97fffd23cb58c67a115062
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -1989,7 +2077,7 @@ entries:
     version: 0.65.0
   - apiVersion: v1
     appVersion: 0.64.0
-    created: "2021-02-01T13:15:33.19921931-08:00"
+    created: "2021-02-02T23:26:31.341155862-05:00"
     description: A Helm chart for Dell EMC Federation Service
     digest: 2283b8383ec7a51bbc062733560c018e9394e289c0ae278c993c96723d3b13f1
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2002,7 +2090,7 @@ entries:
     version: 0.64.0
   - apiVersion: v1
     appVersion: 0.63.0
-    created: "2021-02-01T13:15:33.198552783-08:00"
+    created: "2021-02-02T23:26:31.340845399-05:00"
     description: A Helm chart for Dell EMC Federation Service
     digest: c3a9548e6d74374fd57126360157089cb543316cd6535ede331a88dba785558e
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2015,7 +2103,7 @@ entries:
     version: 0.63.0
   - apiVersion: v1
     appVersion: 0.62.0
-    created: "2021-02-01T13:15:33.197866669-08:00"
+    created: "2021-02-02T23:26:31.340568511-05:00"
     description: A Helm chart for Dell EMC Federation Service
     digest: 8527c32b7e6d9e679bdec821da47baab0cb835f95dbe76c90313ffad4c03c064
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2028,7 +2116,7 @@ entries:
     version: 0.62.0
   - apiVersion: v1
     appVersion: 0.61.0
-    created: "2021-02-01T13:15:33.196971864-08:00"
+    created: "2021-02-02T23:26:31.34027579-05:00"
     description: A Helm chart for Dell EMC Federation Service
     digest: 1e1c4364db2b850c900372ecacaf0e6086576fc720616d2defb5ffd073c7c150
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2041,7 +2129,7 @@ entries:
     version: 0.61.0
   - apiVersion: v1
     appVersion: 0.60.0
-    created: "2021-02-01T13:15:33.196299151-08:00"
+    created: "2021-02-02T23:26:31.339970149-05:00"
     description: A Helm chart for Dell EMC Federation Service
     digest: 8088f963f0a6f289ca8c0b85ac76276a6fed84b3ae2313836b399b5af962a820
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2054,7 +2142,7 @@ entries:
     version: 0.60.0
   - apiVersion: v1
     appVersion: 0.55.0
-    created: "2021-02-01T13:15:33.195538041-08:00"
+    created: "2021-02-02T23:26:31.339669756-05:00"
     description: A Helm chart for Dell EMC Federation Service
     digest: d9845348842cc11a2179b71d70d168bc365a9a4e8f564b2a28e70cbeab1827a0
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2068,9 +2156,9 @@ entries:
   fio-test:
   - apiVersion: v1
     appVersion: 3.14.1
-    created: "2021-02-01T13:15:33.206008603-08:00"
+    created: "2021-02-02T23:26:31.343705294-05:00"
     description: A Helm chart for Kubernetes Applications Health Check Tools using FIO for persistent volume tests
-    digest: 683e8db637d66fa4938d75443f6864514078bb8a38c62a0659fd9c1a22b24f8b
+    digest: d30a048bab3d8ffd5588d28416eb8945854f91822ae1e051e3e1778f90093f23
     icon: https://avatars0.githubusercontent.com/u/12926680
     maintainers:
     - name: Dell EMC
@@ -2081,7 +2169,7 @@ entries:
     version: 0.28.2
   - apiVersion: v1
     appVersion: 3.14.1
-    created: "2021-02-01T13:15:33.205268525-08:00"
+    created: "2021-02-02T23:26:31.343293991-05:00"
     description: A Helm chart for Kubernetes Applications Health Check Tools using FIO for persistent volume tests
     digest: 0ce8e10bffea83f9c7d0779ad4b913acd80fdff44c13a427cce4c5a8b51a78c2
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2094,7 +2182,7 @@ entries:
     version: 0.22.2
   - apiVersion: v1
     appVersion: 3.14.1
-    created: "2021-02-01T13:15:33.204431298-08:00"
+    created: "2021-02-02T23:26:31.342908227-05:00"
     description: A Helm chart for Kubernetes Applications Health Check Tools using FIO for persistent volume tests
     digest: 7ea8501b250a7e3d839bde6f3f44eb55b4cdcd172d50b6c65e2419713555c9e3
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2107,7 +2195,7 @@ entries:
     version: 0.22.1
   - apiVersion: v1
     appVersion: 0.14.0
-    created: "2021-02-01T13:15:33.203322286-08:00"
+    created: "2021-02-02T23:26:31.342555124-05:00"
     description: A Helm chart for Kubernetes Applications Health Check Tools using FIO to complete volume tests
     digest: d6aaf32f1971cd5dce438300ff56035ed6beaf153cf5669ae6af04930f783be2
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2120,7 +2208,7 @@ entries:
     version: 0.14.0
   - apiVersion: v1
     appVersion: 0.12.0
-    created: "2021-02-01T13:15:33.200578651-08:00"
+    created: "2021-02-02T23:26:31.34217771-05:00"
     description: A Helm chart for Kubernetes Applications Health Check Tools using FIO to complete volume tests
     digest: 618cbfb95df8cd05add42e05d19da0276a9aed3a1a488c8f0ed1c68b2eb58189
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2133,7 +2221,7 @@ entries:
     version: 0.12.0
   - apiVersion: v1
     appVersion: 0.6.0
-    created: "2021-02-01T13:15:33.209703171-08:00"
+    created: "2021-02-02T23:26:31.345680729-05:00"
     description: A Helm chart for Kubernetes Applications Health Check Tools using FIO to complete volume tests
     digest: 42efe86bf2c07c76f882657670ef910d7e2bc67f0a91cc0ac661052bede9fec0
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2146,7 +2234,7 @@ entries:
     version: 0.6.0
   - apiVersion: v1
     appVersion: 0.5.5
-    created: "2021-02-01T13:15:33.208765834-08:00"
+    created: "2021-02-02T23:26:31.345287487-05:00"
     description: A Helm chart for Kubernetes Applications Health Check Tools using FIO to complete volume tests
     digest: b677838c37f1ff89bb4304aa451466addf7320580bb0905f3de7c097ed41f035
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2159,7 +2247,7 @@ entries:
     version: 0.5.5
   - apiVersion: v1
     appVersion: 0.5.0
-    created: "2021-02-01T13:15:33.208073656-08:00"
+    created: "2021-02-02T23:26:31.344883758-05:00"
     description: A Helm chart for Kubernetes Applications Health Check Tools using FIO to complete volume tests
     digest: 4932e45f544a0f14fd23c97275f4a00885469c408033ef661e8f41552b3434b2
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2172,7 +2260,7 @@ entries:
     version: 0.5.0
   - apiVersion: v1
     appVersion: 0.4.0
-    created: "2021-02-01T13:15:33.207430357-08:00"
+    created: "2021-02-02T23:26:31.344500131-05:00"
     description: A Helm chart for Kubernetes Applications Health Check Tools using FIO to complete volume tests
     digest: 55cc606ff9ef7758e464dbcb4da2026c2db2e355da28e36018bdd4b52162e48c
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2185,7 +2273,7 @@ entries:
     version: 0.4.0
   - apiVersion: v1
     appVersion: 0.3.5
-    created: "2021-02-01T13:15:33.20673877-08:00"
+    created: "2021-02-02T23:26:31.344108587-05:00"
     description: A Helm chart for Kubernetes Applications Health Check Tools using FIO to complete volume tests
     digest: 1b0de34d8c92bb1c6c850b998ffc31b6dfed50796b852c82cc9326437362a639
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2198,12 +2286,26 @@ entries:
     version: 0.3.5
   helm-controller:
   - apiVersion: v2
-    appVersion: 0.65.0
-    created: "2021-02-01T13:15:33.220247993-08:00"
+    appVersion: 0.66.0
+    created: "2021-02-02T23:26:31.352552774-05:00"
     description: |
       helm-controller runs inside the cluster and acts as a helm broker to perform
       helm actions for packages, i.e install, update, delete
-    digest: 9806747d11331c93ab6aac967cf6265c8d4261132f592288baaeafa5591ef129
+    digest: 9fa2ba39ba0e80927a734c261237d8ad934ec993689a2323ef89a369a6ee3955
+    maintainers:
+    - name: Dell EMC
+      url: https://dellemc.com
+    name: helm-controller
+    urls:
+    - helm-controller-0.66.0.tgz
+    version: 0.66.0
+  - apiVersion: v2
+    appVersion: 0.65.0
+    created: "2021-02-02T23:26:31.352160538-05:00"
+    description: |
+      helm-controller runs inside the cluster and acts as a helm broker to perform
+      helm actions for packages, i.e install, update, delete
+    digest: fedccbbc37c08dcfa42759c96c18e26d25ce6414a5ad5c8e9ff48648b7d45389
     maintainers:
     - name: Dell EMC
       url: https://dellemc.com
@@ -2213,7 +2315,7 @@ entries:
     version: 0.65.0
   - apiVersion: v2
     appVersion: 0.64.2
-    created: "2021-02-01T13:15:33.219584658-08:00"
+    created: "2021-02-02T23:26:31.351765931-05:00"
     description: |
       helm-controller runs inside the cluster and acts as a helm broker to perform
       helm actions for packages, i.e install, update, delete
@@ -2227,7 +2329,7 @@ entries:
     version: 0.64.2
   - apiVersion: v2
     appVersion: 0.64.1
-    created: "2021-02-01T13:15:33.218892031-08:00"
+    created: "2021-02-02T23:26:31.351384797-05:00"
     description: |
       helm-controller runs inside the cluster and acts as a helm broker to perform
       helm actions for packages, i.e install, update, delete
@@ -2241,7 +2343,7 @@ entries:
     version: 0.64.1
   - apiVersion: v2
     appVersion: 0.64.0
-    created: "2021-02-01T13:15:33.217884551-08:00"
+    created: "2021-02-02T23:26:31.350984135-05:00"
     description: |
       helm-controller runs inside the cluster and acts as a helm broker to perform
       helm actions for packages, i.e install, update, delete
@@ -2255,7 +2357,7 @@ entries:
     version: 0.64.0
   - apiVersion: v2
     appVersion: 0.63.0
-    created: "2021-02-01T13:15:33.217162787-08:00"
+    created: "2021-02-02T23:26:31.350586076-05:00"
     description: |
       helm-controller runs inside the cluster and acts as a helm broker to perform
       helm actions for packages, i.e install, update, delete
@@ -2269,7 +2371,7 @@ entries:
     version: 0.63.0
   - apiVersion: v2
     appVersion: 0.62.0
-    created: "2021-02-01T13:15:33.216419923-08:00"
+    created: "2021-02-02T23:26:31.350212639-05:00"
     description: |
       helm-controller runs inside the cluster and acts as a helm broker to perform
       helm actions for packages, i.e install, update, delete
@@ -2283,7 +2385,7 @@ entries:
     version: 0.62.0
   - apiVersion: v2
     appVersion: 0.61.0
-    created: "2021-02-01T13:15:33.215657266-08:00"
+    created: "2021-02-02T23:26:31.349878736-05:00"
     description: |
       helm-controller runs inside the cluster and acts as a helm broker to perform
       helm actions for packages, i.e install, update, delete
@@ -2297,7 +2399,7 @@ entries:
     version: 0.61.0
   - apiVersion: v2
     appVersion: 0.60.0
-    created: "2021-02-01T13:15:33.214711529-08:00"
+    created: "2021-02-02T23:26:31.349527383-05:00"
     description: |
       helm-controller runs inside the cluster and acts as a helm broker to perform
       helm actions for packages, i.e install, update, delete
@@ -2311,7 +2413,7 @@ entries:
     version: 0.60.0
   - apiVersion: v2
     appVersion: 0.55.0
-    created: "2021-02-01T13:15:33.21368765-08:00"
+    created: "2021-02-02T23:26:31.349146673-05:00"
     description: |
       helm-controller runs inside the cluster and acts as a helm broker to perform
       helm actions for packages, i.e install, update, delete
@@ -2325,7 +2427,7 @@ entries:
     version: 0.55.0
   - apiVersion: v2
     appVersion: 0.54.0
-    created: "2021-02-01T13:15:33.212970559-08:00"
+    created: "2021-02-02T23:26:31.348776861-05:00"
     description: |
       helm-controller runs inside the cluster and acts as a helm broker to perform
       helm actions for packages, i.e install, update, delete
@@ -2339,7 +2441,7 @@ entries:
     version: 0.54.0
   - apiVersion: v2
     appVersion: 0.53.0
-    created: "2021-02-01T13:15:33.212286552-08:00"
+    created: "2021-02-02T23:26:31.348248934-05:00"
     description: |
       helm-controller runs inside the cluster and acts as a helm broker to perform
       helm actions for packages, i.e install, update, delete
@@ -2353,7 +2455,7 @@ entries:
     version: 0.53.0
   - apiVersion: v2
     appVersion: 0.52.0
-    created: "2021-02-01T13:15:33.211462289-08:00"
+    created: "2021-02-02T23:26:31.346512396-05:00"
     description: |
       helm-controller runs inside the cluster and acts as a helm broker to perform
       helm actions for packages, i.e install, update, delete
@@ -2367,7 +2469,7 @@ entries:
     version: 0.52.0
   - apiVersion: v2
     appVersion: 0.51.0
-    created: "2021-02-01T13:15:33.210905452-08:00"
+    created: "2021-02-02T23:26:31.346227343-05:00"
     description: |
       helm-controller runs inside the cluster and acts as a helm broker to perform
       helm actions for packages, i.e install, update, delete
@@ -2381,7 +2483,7 @@ entries:
     version: 0.51.0
   - apiVersion: v2
     appVersion: 0.50.0
-    created: "2021-02-01T13:15:33.210269464-08:00"
+    created: "2021-02-02T23:26:31.345963204-05:00"
     description: |
       helm-controller runs inside the cluster and acts as a helm broker to perform
       helm actions for packages, i.e install, update, delete
@@ -2396,7 +2498,7 @@ entries:
   iam:
   - apiVersion: v1
     appVersion: 0.65.0
-    created: "2021-02-01T13:15:33.228353902-08:00"
+    created: "2021-02-02T23:26:31.356257591-05:00"
     description: A Helm chart for Dell EMC IAM
     digest: e6dc2697278cab83911cbd45eefcfee639a3f289e359fb37115f3733933aeaa0
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2409,7 +2511,7 @@ entries:
     version: 0.65.0
   - apiVersion: v1
     appVersion: 0.64.0
-    created: "2021-02-01T13:15:33.227643121-08:00"
+    created: "2021-02-02T23:26:31.355892472-05:00"
     description: A Helm chart for Dell EMC IAM
     digest: aecbebc755d5bb2cb83bc2480ea5dc7020b11fcc0a4d7dc40eb61d21f648cbc0
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2422,7 +2524,7 @@ entries:
     version: 0.64.0
   - apiVersion: v1
     appVersion: 0.63.0
-    created: "2021-02-01T13:15:33.226748919-08:00"
+    created: "2021-02-02T23:26:31.35555668-05:00"
     description: A Helm chart for Dell EMC IAM
     digest: 1fdf9aa89e4400e0d5ead52a15621954f2b661b37eb2906a1a5c9862fee37438
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2435,7 +2537,7 @@ entries:
     version: 0.63.0
   - apiVersion: v1
     appVersion: 0.62.0
-    created: "2021-02-01T13:15:33.225890056-08:00"
+    created: "2021-02-02T23:26:31.355218316-05:00"
     description: A Helm chart for Dell EMC IAM
     digest: f1e9f58cd40da17967c9956f5a59397fadbb3f63948215e7d10f9032672370f2
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2448,7 +2550,7 @@ entries:
     version: 0.62.0
   - apiVersion: v1
     appVersion: 0.61.0
-    created: "2021-02-01T13:15:33.225219975-08:00"
+    created: "2021-02-02T23:26:31.354878253-05:00"
     description: A Helm chart for Dell EMC IAM
     digest: 2cf25f7b46fb2f3a3caed49ad2283e923e168c2a6a8573fd09a6cfede8856793
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2461,7 +2563,7 @@ entries:
     version: 0.61.0
   - apiVersion: v1
     appVersion: 0.60.0
-    created: "2021-02-01T13:15:33.224533298-08:00"
+    created: "2021-02-02T23:26:31.354533672-05:00"
     description: A Helm chart for Dell EMC IAM
     digest: 379ca2f1caa7ca1dc775dadd253086549651c5d96c0f84700d46559bf52281eb
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2474,7 +2576,7 @@ entries:
     version: 0.60.0
   - apiVersion: v1
     appVersion: 0.55.0
-    created: "2021-02-01T13:15:33.223950159-08:00"
+    created: "2021-02-02T23:26:31.354173103-05:00"
     description: A Helm chart for Dell EMC IAM
     digest: af7c0930d94eef56118ca383f7a3beae3149f7ac666496a67131a414422ae4bc
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2487,7 +2589,7 @@ entries:
     version: 0.55.0
   - apiVersion: v1
     appVersion: 0.54.0
-    created: "2021-02-01T13:15:33.223226874-08:00"
+    created: "2021-02-02T23:26:31.353834241-05:00"
     description: A Helm chart for Dell EMC IAM
     digest: 94d102af23b6dd67d466d3bec743ea2d59545dd6d1ceee3c511c833438081f52
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2500,7 +2602,7 @@ entries:
     version: 0.54.0
   - apiVersion: v1
     appVersion: 0.1.0
-    created: "2021-02-01T13:15:33.222485454-08:00"
+    created: "2021-02-02T23:26:31.353494497-05:00"
     description: A Helm chart for Dell EMC IAM
     digest: 7fdb5deaa30a807ab95272018d54ec433bb1df79b1b40797002b7eabfbbb26b1
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2513,7 +2615,7 @@ entries:
     version: 0.3.0
   - apiVersion: v1
     appVersion: 0.1.0
-    created: "2021-02-01T13:15:33.221707367-08:00"
+    created: "2021-02-02T23:26:31.353154812-05:00"
     description: A Helm chart for Dell EMC IAM
     digest: c367bb50800904fffdb1cb30762d4e0040bc80b464bc04186896e56634ecbc3c
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2526,7 +2628,7 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: 0.1.0
-    created: "2021-02-01T13:15:33.220826891-08:00"
+    created: "2021-02-02T23:26:31.352815391-05:00"
     description: A Helm chart for Dell EMC IAM
     digest: 5e247936eafdc03f9a47bbb72e0cc42b345600b94217a6990abcb1755c89b2c8
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2539,8 +2641,26 @@ entries:
     version: 0.1.0
   influxdb-operator:
   - apiVersion: v2
+    appVersion: 0.66.0
+    created: "2021-02-02T23:26:31.361953304-05:00"
+    dependencies:
+    - name: common-monitoring-lib
+      repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+      version: 3.7.0-1111.e5c34b7d
+    description: |
+      InfluxDB Operator deploys operator pod which is
+      responsible for managing Influxdb custom resources
+    digest: 9af4a0ce4bcb4c629b20726d419d8ed335e4ad0ea3f06dce5bcab19d26f0967c
+    maintainers:
+    - name: Dell EMC
+      url: https://dellemc.com
+    name: influxdb-operator
+    urls:
+    - influxdb-operator-0.66.0.tgz
+    version: 0.66.0
+  - apiVersion: v2
     appVersion: 0.65.0
-    created: "2021-02-01T13:15:33.233584455-08:00"
+    created: "2021-02-02T23:26:31.361124811-05:00"
     dependencies:
     - name: common-monitoring-lib
       repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
@@ -2558,7 +2678,7 @@ entries:
     version: 0.65.0
   - apiVersion: v2
     appVersion: 0.64.0
-    created: "2021-02-01T13:15:33.232572557-08:00"
+    created: "2021-02-02T23:26:31.360324766-05:00"
     dependencies:
     - name: common-monitoring-lib
       repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
@@ -2576,7 +2696,7 @@ entries:
     version: 0.64.0
   - apiVersion: v2
     appVersion: 0.63.0
-    created: "2021-02-01T13:15:33.231547285-08:00"
+    created: "2021-02-02T23:26:31.359459021-05:00"
     dependencies:
     - name: common-monitoring-lib
       repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
@@ -2594,7 +2714,7 @@ entries:
     version: 0.63.0
   - apiVersion: v2
     appVersion: 0.62.0
-    created: "2021-02-01T13:15:33.230298916-08:00"
+    created: "2021-02-02T23:26:31.358204909-05:00"
     dependencies:
     - name: common-lib
       repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
@@ -2612,7 +2732,7 @@ entries:
     version: 0.62.0
   - apiVersion: v2
     appVersion: 0.61.0
-    created: "2021-02-01T13:15:33.229362655-08:00"
+    created: "2021-02-02T23:26:31.356981223-05:00"
     dependencies:
     - name: common-lib
       repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
@@ -2630,8 +2750,21 @@ entries:
     version: 0.61.0
   kahm:
   - apiVersion: v1
+    appVersion: 2.0.66
+    created: "2021-02-02T23:26:31.379987599-05:00"
+    description: A Helm chart for Kubernetes Applications Health Management
+    digest: 430a4363c129c94460387bb5c1f0790f7671cf866917e51182a6d9590374b1f0
+    icon: https://avatars0.githubusercontent.com/u/12926680
+    maintainers:
+    - name: Dell EMC
+      url: http://dellemc.com
+    name: kahm
+    urls:
+    - kahm-2.0.66.tgz
+    version: 2.0.66
+  - apiVersion: v1
     appVersion: 2.0.65
-    created: "2021-02-01T13:15:33.26100065-08:00"
+    created: "2021-02-02T23:26:31.379373304-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: 734bff8c2ccb6d05b9adca481ef906f1672dc9a2538623f95c457b025b896702
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2644,7 +2777,7 @@ entries:
     version: 2.0.65
   - apiVersion: v1
     appVersion: 2.0.64
-    created: "2021-02-01T13:15:33.260220318-08:00"
+    created: "2021-02-02T23:26:31.378780286-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: 4f73ed3819d3f9ad54c856bfc8544751cdde972cfa45205cfc086cb619b19219
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2657,7 +2790,7 @@ entries:
     version: 2.0.64
   - apiVersion: v1
     appVersion: 2.0.63
-    created: "2021-02-01T13:15:33.259456612-08:00"
+    created: "2021-02-02T23:26:31.378183445-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: 8fa334cda067c9ab55791743c11f64b3360731405a77f4534398958f22038abb
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2670,7 +2803,7 @@ entries:
     version: 2.0.63
   - apiVersion: v1
     appVersion: 2.0.62
-    created: "2021-02-01T13:15:33.258112713-08:00"
+    created: "2021-02-02T23:26:31.377553147-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: 09fe797b94b522f7a53f040b116d1691ed79ddf03aa8e8a1973f77553890e633
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2683,7 +2816,7 @@ entries:
     version: 2.0.62
   - apiVersion: v1
     appVersion: 2.0.61
-    created: "2021-02-01T13:15:33.256959808-08:00"
+    created: "2021-02-02T23:26:31.3769818-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: bfc1feea724dd23a5fb8434243a4d9f43298a452f52043bcbea8502225a8d929
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2696,7 +2829,7 @@ entries:
     version: 2.0.61
   - apiVersion: v1
     appVersion: 2.0.60
-    created: "2021-02-01T13:15:33.255914397-08:00"
+    created: "2021-02-02T23:26:31.376429088-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: f2d81e51a835670f0ab1dcbd8445c147854b23d2103cc258529498a8361d4d8f
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2709,7 +2842,7 @@ entries:
     version: 2.0.60
   - apiVersion: v1
     appVersion: 2.0.55
-    created: "2021-02-01T13:15:33.254917783-08:00"
+    created: "2021-02-02T23:26:31.375806878-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: 2e8cdb17badab6be0aeea47258b0b860b1a19e271824a9b4219942a1b79fbe12
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2722,7 +2855,7 @@ entries:
     version: 2.0.55
   - apiVersion: v1
     appVersion: 2.0.54
-    created: "2021-02-01T13:15:33.253803972-08:00"
+    created: "2021-02-02T23:26:31.375253913-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: cc3acac0655388cc07003c7b6a5071b197d15c803170538dbcd39a4bc7d64e61
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2735,7 +2868,7 @@ entries:
     version: 2.0.54
   - apiVersion: v1
     appVersion: 2.0.53
-    created: "2021-02-01T13:15:33.252757285-08:00"
+    created: "2021-02-02T23:26:31.374633114-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: 03b2400983865aa45dfcc15702040a8fd56ecb6329ce41550f10d26d9112007a
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2748,7 +2881,7 @@ entries:
     version: 2.0.53
   - apiVersion: v1
     appVersion: 2.0.52
-    created: "2021-02-01T13:15:33.25193086-08:00"
+    created: "2021-02-02T23:26:31.374029411-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: 2ab67c75b51de5b24a11b966a66d0d24323a4065cfb6e4d7aef567c08f5f7496
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2761,7 +2894,7 @@ entries:
     version: 2.0.52
   - apiVersion: v1
     appVersion: 2.0.51
-    created: "2021-02-01T13:15:33.251126163-08:00"
+    created: "2021-02-02T23:26:31.373442193-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: 9d399550dc6870d50efa23ac351762ff48bc9e7e606ab68b59660225c29cf59a
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2774,7 +2907,7 @@ entries:
     version: 2.0.51
   - apiVersion: v1
     appVersion: 2.0.50
-    created: "2021-02-01T13:15:33.250081195-08:00"
+    created: "2021-02-02T23:26:31.372626735-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: 5edc3c58a31b8e90ad07a0ff768e6142b2377aba15589f8c675f306a8d31e951
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2787,7 +2920,7 @@ entries:
     version: 2.0.50
   - apiVersion: v1
     appVersion: 1.2.0
-    created: "2021-02-01T13:15:33.249326081-08:00"
+    created: "2021-02-02T23:26:31.371704861-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: 774f7b080116821d70022aa7c20b8e46166f2aa5ecb23756798d0983cddf700e
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2800,7 +2933,7 @@ entries:
     version: 1.2.1
   - apiVersion: v1
     appVersion: 1.2.0
-    created: "2021-02-01T13:15:33.248269436-08:00"
+    created: "2021-02-02T23:26:31.370664357-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: 1e73debbdb654bc230e19e411fc4f57caa5e8621d7dd02dfea6901bb3dd3b8af
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2813,7 +2946,7 @@ entries:
     version: 1.2.0
   - apiVersion: v1
     appVersion: 1.1.3
-    created: "2021-02-01T13:15:33.247438587-08:00"
+    created: "2021-02-02T23:26:31.370075274-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: 317ff92ea61bf972cb3c3d9c1bbf559340960cd085c03b56e03d5320f679e71b
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2826,7 +2959,7 @@ entries:
     version: 1.1.3
   - apiVersion: v1
     appVersion: 1.1.2
-    created: "2021-02-01T13:15:33.246344381-08:00"
+    created: "2021-02-02T23:26:31.369548026-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: 6fac7530e1144a7fb9202073ce8a74d9d0098f04c9f72b16241954c32d875022
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2839,7 +2972,7 @@ entries:
     version: 1.1.2
   - apiVersion: v1
     appVersion: 1.1.0-1
-    created: "2021-02-01T13:15:33.245644566-08:00"
+    created: "2021-02-02T23:26:31.369020403-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: 7c33e1263efe5564c7da3f538488eb9b258e8e9191f97938893e0d3bb408aaa0
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2852,7 +2985,7 @@ entries:
     version: 1.1.0
   - apiVersion: v1
     appVersion: 1.0.0-17
-    created: "2021-02-01T13:15:33.238827241-08:00"
+    created: "2021-02-02T23:26:31.365097364-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: 77fa83832151ceaee65aad7a04d5ebe84effd76d4c4c54db4715fe8802001503
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2865,7 +2998,7 @@ entries:
     version: 0.19.0
   - apiVersion: v1
     appVersion: 1.0.0-17
-    created: "2021-02-01T13:15:33.238077275-08:00"
+    created: "2021-02-02T23:26:31.364564871-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: bcf95bab1033eab5ebb076404df1f23f958da15161c6d2a45f90118af9102f77
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2878,7 +3011,7 @@ entries:
     version: 0.17.0
   - apiVersion: v1
     appVersion: 1.0.0-16
-    created: "2021-02-01T13:15:33.23727553-08:00"
+    created: "2021-02-02T23:26:31.363948438-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: 03f2c0383d82cd6e2f2be5ec63f9ba4f1cf397a7b742d47848dd5f034fcf4b59
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2891,7 +3024,7 @@ entries:
     version: 0.16.0
   - apiVersion: v1
     appVersion: 0.14.0
-    created: "2021-02-01T13:15:33.236413225-08:00"
+    created: "2021-02-02T23:26:31.3634101-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: d79bae1fb9396021ee0a11cdda6d40684c5d8597041482405eed0da7f0034850
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2904,7 +3037,7 @@ entries:
     version: 0.14.0
   - apiVersion: v1
     appVersion: 0.12.0
-    created: "2021-02-01T13:15:33.235588682-08:00"
+    created: "2021-02-02T23:26:31.362863821-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: d4db03db773e108b13de69be0b1a241ebefdff89ccc794d0a9326e6d24a57746
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2917,7 +3050,7 @@ entries:
     version: 0.12.0
   - apiVersion: v1
     appVersion: 0.6.0
-    created: "2021-02-01T13:15:33.244830822-08:00"
+    created: "2021-02-02T23:26:31.368439711-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: be36d8ec2e637db7cbe39926621b4388a2f9aa10f043584ba97ae8dfe3549692
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2930,7 +3063,7 @@ entries:
     version: 0.6.0
   - apiVersion: v1
     appVersion: 0.5.5
-    created: "2021-02-01T13:15:33.243973743-08:00"
+    created: "2021-02-02T23:26:31.367844967-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: 7c76f4be862dfa7a4133ae34daa150bed1e9f69a551628774793618531ed22c7
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2943,7 +3076,7 @@ entries:
     version: 0.5.5
   - apiVersion: v1
     appVersion: 0.5.0
-    created: "2021-02-01T13:15:33.243213533-08:00"
+    created: "2021-02-02T23:26:31.367287968-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: 25c788bfa27e87cd1d5e3aad8d2d6645dd40c3436a4e1223207392e5831eac2c
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2956,7 +3089,7 @@ entries:
     version: 0.5.0
   - apiVersion: v1
     appVersion: 0.4.0
-    created: "2021-02-01T13:15:33.242394051-08:00"
+    created: "2021-02-02T23:26:31.366735249-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: 4372b4f0675d3cc6f66dc1a06986422c712c96ab22cd74e15997580cdfea779d
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2969,7 +3102,7 @@ entries:
     version: 0.4.0
   - apiVersion: v1
     appVersion: 0.3.5
-    created: "2021-02-01T13:15:33.241594539-08:00"
+    created: "2021-02-02T23:26:31.366180314-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: 251e01b6078c1c290411624d6a65fb63792e1397eb3521a5d69da6fed7582c24
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2982,7 +3115,7 @@ entries:
     version: 0.3.5
   - apiVersion: v1
     appVersion: 0.2.0
-    created: "2021-02-01T13:15:33.240162475-08:00"
+    created: "2021-02-02T23:26:31.365621204-05:00"
     description: A Helm chart for Kubernetes Applications Health Management
     digest: a8156f8d9060ace80482125a10d32c94265f28a3873d53757730cdccd85975b4
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -2995,7 +3128,7 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2021-02-01T13:15:33.234537142-08:00"
+    created: "2021-02-02T23:26:31.362299296-05:00"
     description: A Helm chart for Kubernetes Applications serviceability and health management
     digest: 01569354614ffbf6b93bd6de6abb2d651216071113d7872712ae4cd908d4f761
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -3008,8 +3141,21 @@ entries:
     version: 0.1.0
   logging-injector:
   - apiVersion: v2
+    appVersion: 0.66.0
+    created: "2021-02-02T23:26:31.384826055-05:00"
+    dependencies:
+    - name: logging-injector
+      repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+      version: 3.7.0-1111.e5c34b7d
+    description: Rsyslog client sidecar injector
+    digest: 3c2a0486442f1b66f48807212c82f496030b112737ee858fc2871809b45a73c6
+    name: logging-injector
+    urls:
+    - logging-injector-0.66.0.tgz
+    version: 0.66.0
+  - apiVersion: v2
     appVersion: 0.65.0
-    created: "2021-02-01T13:15:33.266313429-08:00"
+    created: "2021-02-02T23:26:31.383830558-05:00"
     dependencies:
     - name: logging-injector
       repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
@@ -3022,7 +3168,7 @@ entries:
     version: 0.65.0
   - apiVersion: v2
     appVersion: 0.64.0
-    created: "2021-02-01T13:15:33.264967147-08:00"
+    created: "2021-02-02T23:26:31.382841937-05:00"
     dependencies:
     - name: logging-injector
       repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
@@ -3035,7 +3181,7 @@ entries:
     version: 0.64.0
   - apiVersion: v2
     appVersion: 0.63.0
-    created: "2021-02-01T13:15:33.263740243-08:00"
+    created: "2021-02-02T23:26:31.381898469-05:00"
     dependencies:
     - name: logging-injector
       repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
@@ -3048,7 +3194,7 @@ entries:
     version: 0.63.0
   - apiVersion: v2
     appVersion: 0.62.0
-    created: "2021-02-01T13:15:33.262408523-08:00"
+    created: "2021-02-02T23:26:31.380952055-05:00"
     dependencies:
     - name: logging-injector
       repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
@@ -3062,10 +3208,10 @@ entries:
   mongoose:
   - apiVersion: v1
     appVersion: 4.1.1
-    created: "2021-02-01T13:15:33.269509465-08:00"
+    created: "2021-02-02T23:26:31.386863124-05:00"
     description: |
       Mongoose is a horizontally scalable and configurable S3 performance testing utility
-    digest: ad8c954064c70d6119cca745ee7e9a86fc77126721138bf3ee02f149cf4f63ff
+    digest: 5a20dbee25686426f75aef2ec6a8d8461d5242d7dce977b5866919be3d253bfd
     icon: https://avatars0.githubusercontent.com/u/12926680
     maintainers:
     - name: Dell EMC
@@ -3076,7 +3222,7 @@ entries:
     version: 0.1.3
   - apiVersion: v1
     appVersion: 4.1.1
-    created: "2021-02-01T13:15:33.268653903-08:00"
+    created: "2021-02-02T23:26:31.386247028-05:00"
     description: |
       Mongoose is a horizontally scalable and configurable S3 performance testing utility
     digest: f9d0e10a371570f1dc7cf672fb4f78fdddee2e3b79458cc7af2c8011ed7596f6
@@ -3090,7 +3236,7 @@ entries:
     version: 0.1.2
   - apiVersion: v1
     appVersion: 3.6.1
-    created: "2021-02-01T13:15:33.267807819-08:00"
+    created: "2021-02-02T23:26:31.385817255-05:00"
     description: |
       Mongoose is a horizontally scalable and configurable S3 performance testing utility
     digest: 910f819f8e9c074de0570faa2494bb185b8f7214f6cd51cf70b40796d7fa3c34
@@ -3104,7 +3250,7 @@ entries:
     version: 0.1.1
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2021-02-01T13:15:33.266943252-08:00"
+    created: "2021-02-02T23:26:31.385159926-05:00"
     description: |
       Mongoose is a horizontally scalable and configurable S3 performance testing utility
     digest: 2ab2e3f2543d33726fc99e65b08d37f3cef2a7b95d38861d89d16ec8e8351d4d
@@ -3118,8 +3264,28 @@ entries:
     version: 0.1.0
   objectscale-graphql:
   - apiVersion: v2
+    appVersion: 0.66.0
+    created: "2021-02-02T23:26:31.403644832-05:00"
+    dependencies:
+    - condition: helmController.enabled
+      name: helm-controller
+      repository: file://../helm-controller
+      version: 0.66.0
+    - import-values:
+      - default
+      name: common-monitoring-lib
+      repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+      version: 3.7.0-1111.e5c34b7d
+    description: A Helm chart for Kubernetes
+    digest: 8cdd059d8a4c82c8d4cc3fb4d805888fa13e505ddb5c04781fb53cea0f76fb5e
+    name: objectscale-graphql
+    type: application
+    urls:
+    - objectscale-graphql-0.66.0.tgz
+    version: 0.66.0
+  - apiVersion: v2
     appVersion: 0.65.0
-    created: "2021-02-01T13:15:33.287072918-08:00"
+    created: "2021-02-02T23:26:31.402348124-05:00"
     dependencies:
     - condition: helmController.enabled
       name: helm-controller
@@ -3139,7 +3305,7 @@ entries:
     version: 0.65.0
   - apiVersion: v2
     appVersion: 0.64.2
-    created: "2021-02-01T13:15:33.286293783-08:00"
+    created: "2021-02-02T23:26:31.401111512-05:00"
     dependencies:
     - condition: helmController.enabled
       name: helm-controller
@@ -3159,7 +3325,7 @@ entries:
     version: 0.64.2
   - apiVersion: v2
     appVersion: 0.64.1
-    created: "2021-02-01T13:15:33.284684679-08:00"
+    created: "2021-02-02T23:26:31.399778443-05:00"
     dependencies:
     - condition: helmController.enabled
       name: helm-controller
@@ -3179,7 +3345,7 @@ entries:
     version: 0.64.1
   - apiVersion: v2
     appVersion: 0.64.0
-    created: "2021-02-01T13:15:33.28312089-08:00"
+    created: "2021-02-02T23:26:31.397729296-05:00"
     dependencies:
     - condition: helmController.enabled
       name: helm-controller
@@ -3199,7 +3365,7 @@ entries:
     version: 0.64.0
   - apiVersion: v2
     appVersion: 0.63.0
-    created: "2021-02-01T13:15:33.281849146-08:00"
+    created: "2021-02-02T23:26:31.396383371-05:00"
     dependencies:
     - condition: helmController.enabled
       name: helm-controller
@@ -3219,7 +3385,7 @@ entries:
     version: 0.63.0
   - apiVersion: v2
     appVersion: 0.62.0
-    created: "2021-02-01T13:15:33.280273234-08:00"
+    created: "2021-02-02T23:26:31.395077803-05:00"
     dependencies:
     - condition: helmController.enabled
       name: helm-controller
@@ -3234,7 +3400,7 @@ entries:
     version: 0.62.0
   - apiVersion: v2
     appVersion: 0.61.0
-    created: "2021-02-01T13:15:33.279302517-08:00"
+    created: "2021-02-02T23:26:31.39411493-05:00"
     dependencies:
     - condition: helmController.enabled
       name: helm-controller
@@ -3249,7 +3415,7 @@ entries:
     version: 0.61.0
   - apiVersion: v2
     appVersion: 0.60.0
-    created: "2021-02-01T13:15:33.278305682-08:00"
+    created: "2021-02-02T23:26:31.393165457-05:00"
     dependencies:
     - condition: helmController.enabled
       name: helm-controller
@@ -3264,7 +3430,7 @@ entries:
     version: 0.60.0
   - apiVersion: v2
     appVersion: 0.55.0
-    created: "2021-02-01T13:15:33.277237466-08:00"
+    created: "2021-02-02T23:26:31.39213787-05:00"
     dependencies:
     - condition: helmController.enabled
       name: helm-controller
@@ -3279,7 +3445,7 @@ entries:
     version: 0.55.0
   - apiVersion: v2
     appVersion: 0.54.0
-    created: "2021-02-01T13:15:33.275760485-08:00"
+    created: "2021-02-02T23:26:31.391167107-05:00"
     dependencies:
     - condition: helmController.enabled
       name: helm-controller
@@ -3294,7 +3460,7 @@ entries:
     version: 0.54.0
   - apiVersion: v2
     appVersion: 0.53.0
-    created: "2021-02-01T13:15:33.274121418-08:00"
+    created: "2021-02-02T23:26:31.390173016-05:00"
     dependencies:
     - condition: helmController.enabled
       name: helm-controller
@@ -3309,7 +3475,7 @@ entries:
     version: 0.53.0
   - apiVersion: v2
     appVersion: 0.52.0
-    created: "2021-02-01T13:15:33.272824856-08:00"
+    created: "2021-02-02T23:26:31.389385696-05:00"
     dependencies:
     - condition: helmController.enabled
       name: helm-controller
@@ -3324,7 +3490,7 @@ entries:
     version: 0.52.0
   - apiVersion: v2
     appVersion: 0.51.0
-    created: "2021-02-01T13:15:33.271672897-08:00"
+    created: "2021-02-02T23:26:31.388534561-05:00"
     dependencies:
     - condition: helmController.enabled
       name: helm-controller
@@ -3339,7 +3505,7 @@ entries:
     version: 0.51.0
   - apiVersion: v2
     appVersion: 0.50.0
-    created: "2021-02-01T13:15:33.270687245-08:00"
+    created: "2021-02-02T23:26:31.387712857-05:00"
     dependencies:
     - condition: helmController.enabled
       name: helm-controller
@@ -3352,10 +3518,88 @@ entries:
     urls:
     - objectscale-graphql-0.50.0.tgz
     version: 0.50.0
+  objectscale-iam:
+  - apiVersion: v1
+    appVersion: 0.66.0
+    created: "2021-02-02T23:26:31.404584732-05:00"
+    description: A Helm chart for Dell EMC IAM
+    digest: f0b659b3e609c9cf30cfab520d57cc7cf3848f167b4cc5afc83a6734d21569f2
+    icon: https://avatars0.githubusercontent.com/u/12926680
+    maintainers:
+    - name: Dell EMC
+      url: http://dellemc.com
+    name: objectscale-iam
+    urls:
+    - objectscale-iam-0.66.0.tgz
+    version: 0.66.0
+  - apiVersion: v1
+    appVersion: 0.65.0
+    created: "2021-02-02T23:26:31.404081431-05:00"
+    description: A Helm chart for Dell EMC IAM
+    digest: 39437c18d2d0adec2857a624d3302547504d97d749eef359c269a3d4499088ff
+    icon: https://avatars0.githubusercontent.com/u/12926680
+    maintainers:
+    - name: Dell EMC
+      url: http://dellemc.com
+    name: objectscale-iam
+    urls:
+    - objectscale-iam-0.65.0.tgz
+    version: 0.65.0
   objectscale-manager:
   - apiVersion: v2
+    appVersion: 0.66.0
+    created: "2021-02-02T23:26:31.835533316-05:00"
+    dependencies:
+    - condition: zookeeper.enabled
+      name: zookeeper-operator
+      repository: file://../zookeeper-operator
+      version: 0.2.9
+    - condition: atlas.enabled
+      name: atlas-operator
+      repository: file://../atlas-operator
+      version: 0.28.0
+    - condition: global.monitoring.enabled
+      name: objectscale-monitoring
+      repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+      version: 3.7.0-1111.e5c34b7d
+    - condition: federation.enabled
+      name: federation
+      repository: file://../federation
+      version: 0.66.0
+    - condition: iam.enabled
+      name: objectscale-iam
+      repository: file://../objectscale-iam
+      version: 0.66.0
+    - condition: servicePod.enabled
+      name: service-pod
+      repository: file://../service-pod
+      version: 2.0.66
+    - condition: pravega.enabled
+      name: pravega-operator
+      repository: file://../pravega-operator
+      version: 0.5.2
+    - condition: bookkeeper.enabled
+      name: bookkeeper-operator
+      repository: file://../bookkeeper-operator
+      version: 0.1.3
+    - condition: dcm.enabled
+      name: dcm
+      repository: file://../dcm
+      version: 0.66.0
+    description: |
+      Dell EMC ObjectScale is highly scalable, and high performance S3 compatible object storage platform.
+    digest: fcfd257bc999ac797e8d581c6b2f0d6b7dce6c900bcbdb5db7b35f35efaa68dc
+    icon: https://avatars0.githubusercontent.com/u/12926680
+    maintainers:
+    - name: Dell EMC
+      url: http://dellemc.com
+    name: objectscale-manager
+    urls:
+    - objectscale-manager-0.66.0.tgz
+    version: 0.66.0
+  - apiVersion: v2
     appVersion: 0.65.0
-    created: "2021-02-01T13:15:33.610097588-08:00"
+    created: "2021-02-02T23:26:31.811900248-05:00"
     dependencies:
     - condition: zookeeper.enabled
       name: zookeeper-operator
@@ -3406,7 +3650,7 @@ entries:
     version: 0.65.0
   - apiVersion: v2
     appVersion: 0.64.2
-    created: "2021-02-01T13:15:33.592372494-08:00"
+    created: "2021-02-02T23:26:31.78833312-05:00"
     dependencies:
     - condition: zookeeper.enabled
       name: zookeeper-operator
@@ -3457,7 +3701,7 @@ entries:
     version: 0.64.2
   - apiVersion: v2
     appVersion: 0.64.1
-    created: "2021-02-01T13:15:33.574984333-08:00"
+    created: "2021-02-02T23:26:31.764519181-05:00"
     dependencies:
     - condition: zookeeper.enabled
       name: zookeeper-operator
@@ -3504,7 +3748,7 @@ entries:
     version: 0.64.1
   - apiVersion: v2
     appVersion: 0.64.0
-    created: "2021-02-01T13:15:33.558704791-08:00"
+    created: "2021-02-02T23:26:31.741332997-05:00"
     dependencies:
     - condition: zookeeper.enabled
       name: zookeeper-operator
@@ -3555,7 +3799,7 @@ entries:
     version: 0.64.0
   - apiVersion: v2
     appVersion: 0.63.0
-    created: "2021-02-01T13:15:33.54128858-08:00"
+    created: "2021-02-02T23:26:31.7191219-05:00"
     dependencies:
     - condition: zookeeper.enabled
       name: zookeeper-operator
@@ -3602,7 +3846,7 @@ entries:
     version: 0.63.0
   - apiVersion: v2
     appVersion: 0.62.0
-    created: "2021-02-01T13:15:33.524464518-08:00"
+    created: "2021-02-02T23:26:31.697188493-05:00"
     dependencies:
     - condition: zookeeper.enabled
       name: zookeeper-operator
@@ -3649,7 +3893,7 @@ entries:
     version: 0.62.0
   - apiVersion: v2
     appVersion: 0.61.0
-    created: "2021-02-01T13:15:33.503315506-08:00"
+    created: "2021-02-02T23:26:31.671711095-05:00"
     dependencies:
     - condition: zookeeper.enabled
       name: zookeeper-operator
@@ -3696,7 +3940,7 @@ entries:
     version: 0.61.0
   - apiVersion: v2
     appVersion: 0.60.0
-    created: "2021-02-01T13:15:33.482987926-08:00"
+    created: "2021-02-02T23:26:31.645813977-05:00"
     dependencies:
     - condition: zookeeper.enabled
       name: zookeeper-operator
@@ -3743,7 +3987,7 @@ entries:
     version: 0.60.0
   - apiVersion: v2
     appVersion: 0.55.0
-    created: "2021-02-01T13:15:33.467530424-08:00"
+    created: "2021-02-02T23:26:31.625190048-05:00"
     dependencies:
     - condition: zookeeper.enabled
       name: zookeeper-operator
@@ -3790,7 +4034,7 @@ entries:
     version: 0.55.0
   - apiVersion: v2
     appVersion: 0.54.0
-    created: "2021-02-01T13:15:33.450543896-08:00"
+    created: "2021-02-02T23:26:31.604985565-05:00"
     dependencies:
     - condition: zookeeper.enabled
       name: zookeeper-operator
@@ -3833,7 +4077,7 @@ entries:
     version: 0.54.0
   - apiVersion: v2
     appVersion: 0.53.0
-    created: "2021-02-01T13:15:33.436398251-08:00"
+    created: "2021-02-02T23:26:31.586508215-05:00"
     dependencies:
     - condition: zookeeper.enabled
       name: zookeeper-operator
@@ -3876,7 +4120,7 @@ entries:
     version: 0.53.0
   - apiVersion: v2
     appVersion: 0.52.0
-    created: "2021-02-01T13:15:33.419715433-08:00"
+    created: "2021-02-02T23:26:31.564569322-05:00"
     dependencies:
     - condition: zookeeper.enabled
       name: zookeeper-operator
@@ -3919,7 +4163,7 @@ entries:
     version: 0.52.0
   - apiVersion: v2
     appVersion: 0.51.0
-    created: "2021-02-01T13:15:33.415740816-08:00"
+    created: "2021-02-02T23:26:31.558802823-05:00"
     dependencies:
     - condition: zookeeper.enabled
       name: zookeeper-operator
@@ -3962,7 +4206,7 @@ entries:
     version: 0.51.0
   - apiVersion: v2
     appVersion: 0.50.0
-    created: "2021-02-01T13:15:33.404080033-08:00"
+    created: "2021-02-02T23:26:31.544777684-05:00"
     dependencies:
     - condition: zookeeper.enabled
       name: zookeeper-operator
@@ -3993,7 +4237,7 @@ entries:
     version: 0.50.0
   - apiVersion: v1
     appVersion: 0.33.0
-    created: "2021-02-01T13:15:33.389172877-08:00"
+    created: "2021-02-02T23:26:31.530154504-05:00"
     dependencies:
     - name: zookeeper-operator
       repository: file://../zookeeper-operator
@@ -4018,7 +4262,7 @@ entries:
     version: 0.33.0
   - apiVersion: v1
     appVersion: 0.32.1
-    created: "2021-02-01T13:15:33.384936088-08:00"
+    created: "2021-02-02T23:26:31.52528016-05:00"
     dependencies:
     - name: zookeeper-operator
       repository: file://../zookeeper-operator
@@ -4043,7 +4287,7 @@ entries:
     version: 0.32.1
   - apiVersion: v1
     appVersion: 0.32.0
-    created: "2021-02-01T13:15:33.380978199-08:00"
+    created: "2021-02-02T23:26:31.519955094-05:00"
     dependencies:
     - name: zookeeper-operator
       repository: file://../zookeeper-operator
@@ -4068,7 +4312,7 @@ entries:
     version: 0.32.0
   - apiVersion: v1
     appVersion: 0.31.2
-    created: "2021-02-01T13:15:33.372771918-08:00"
+    created: "2021-02-02T23:26:31.511712739-05:00"
     dependencies:
     - name: zookeeper-operator
       repository: file://../zookeeper-operator
@@ -4096,7 +4340,7 @@ entries:
     version: 0.31.2
   - apiVersion: v1
     appVersion: 0.31.1
-    created: "2021-02-01T13:15:33.368558243-08:00"
+    created: "2021-02-02T23:26:31.506456527-05:00"
     dependencies:
     - name: zookeeper-operator
       repository: file://../zookeeper-operator
@@ -4124,7 +4368,7 @@ entries:
     version: 0.31.1
   - apiVersion: v1
     appVersion: 0.31.0
-    created: "2021-02-01T13:15:33.364218104-08:00"
+    created: "2021-02-02T23:26:31.500455136-05:00"
     dependencies:
     - name: zookeeper-operator
       repository: file://../zookeeper-operator
@@ -4152,7 +4396,7 @@ entries:
     version: 0.31.0
   - apiVersion: v1
     appVersion: 0.30.0
-    created: "2021-02-01T13:15:33.358520721-08:00"
+    created: "2021-02-02T23:26:31.495259334-05:00"
     dependencies:
     - name: zookeeper-operator
       repository: file://../zookeeper-operator
@@ -4180,7 +4424,7 @@ entries:
     version: 0.30.0
   - apiVersion: v1
     appVersion: 0.29.0
-    created: "2021-02-01T13:15:33.353768936-08:00"
+    created: "2021-02-02T23:26:31.487787873-05:00"
     dependencies:
     - name: zookeeper-operator
       repository: file://../zookeeper-operator
@@ -4208,7 +4452,7 @@ entries:
     version: 0.29.0
   - apiVersion: v1
     appVersion: 0.28.3
-    created: "2021-02-01T13:15:33.349226816-08:00"
+    created: "2021-02-02T23:26:31.482685764-05:00"
     dependencies:
     - name: zookeeper-operator
       repository: file://../zookeeper-operator
@@ -4240,7 +4484,7 @@ entries:
     version: 0.28.3
   - apiVersion: v1
     appVersion: 0.28.2
-    created: "2021-02-01T13:15:33.338412066-08:00"
+    created: "2021-02-02T23:26:31.467169332-05:00"
     dependencies:
     - name: zookeeper-operator
       repository: file://../zookeeper-operator
@@ -4272,7 +4516,7 @@ entries:
     version: 0.28.2
   - apiVersion: v1
     appVersion: 0.28.1
-    created: "2021-02-01T13:15:33.325897148-08:00"
+    created: "2021-02-02T23:26:31.449840955-05:00"
     dependencies:
     - name: zookeeper-operator
       repository: file://../zookeeper-operator
@@ -4304,7 +4548,7 @@ entries:
     version: 0.28.1
   - apiVersion: v1
     appVersion: 0.28.0
-    created: "2021-02-01T13:15:33.312875571-08:00"
+    created: "2021-02-02T23:26:31.43309402-05:00"
     dependencies:
     - name: zookeeper-operator
       repository: file://../zookeeper-operator
@@ -4332,7 +4576,7 @@ entries:
     version: 0.28.0
   - apiVersion: v1
     appVersion: 0.27.0
-    created: "2021-02-01T13:15:33.309956021-08:00"
+    created: "2021-02-02T23:26:31.42969907-05:00"
     dependencies:
     - name: zookeeper-operator
       repository: file://../zookeeper-operator
@@ -4360,7 +4604,7 @@ entries:
     version: 0.27.0
   - apiVersion: v1
     appVersion: 0.26.0
-    created: "2021-02-01T13:15:33.30721273-08:00"
+    created: "2021-02-02T23:26:31.426462439-05:00"
     dependencies:
     - name: zookeeper-operator
       repository: file://../zookeeper-operator
@@ -4388,7 +4632,7 @@ entries:
     version: 0.26.0
   - apiVersion: v1
     appVersion: 0.25.0
-    created: "2021-02-01T13:15:33.304536718-08:00"
+    created: "2021-02-02T23:26:31.421227656-05:00"
     dependencies:
     - name: zookeeper-operator
       repository: file://../zookeeper-operator
@@ -4416,7 +4660,7 @@ entries:
     version: 0.25.0
   - apiVersion: v1
     appVersion: 0.24.0
-    created: "2021-02-01T13:15:33.300328962-08:00"
+    created: "2021-02-02T23:26:31.418033503-05:00"
     dependencies:
     - name: zookeeper-operator
       repository: file://../zookeeper-operator
@@ -4443,7 +4687,7 @@ entries:
     version: 0.24.0
   - apiVersion: v1
     appVersion: 0.23.0
-    created: "2021-02-01T13:15:33.297520339-08:00"
+    created: "2021-02-02T23:26:31.415171189-05:00"
     dependencies:
     - name: zookeeper-operator
       repository: file://../zookeeper-operator
@@ -4470,7 +4714,7 @@ entries:
     version: 0.23.0
   - apiVersion: v1
     appVersion: 0.22.0
-    created: "2021-02-01T13:15:33.294866657-08:00"
+    created: "2021-02-02T23:26:31.412382712-05:00"
     dependencies:
     - name: zookeeper-operator
       repository: file://../zookeeper-operator
@@ -4497,7 +4741,7 @@ entries:
     version: 0.22.1
   - apiVersion: v1
     appVersion: 0.22.0
-    created: "2021-02-01T13:15:33.292236424-08:00"
+    created: "2021-02-02T23:26:31.408813279-05:00"
     dependencies:
     - name: zookeeper-operator
       repository: file://../zookeeper-operator
@@ -4518,7 +4762,7 @@ entries:
     version: 0.22.0
   - apiVersion: v1
     appVersion: 0.21.0
-    created: "2021-02-01T13:15:33.289595861-08:00"
+    created: "2021-02-02T23:26:31.406718194-05:00"
     dependencies:
     - name: zookeeper-operator
       repository: file://../zookeeper-operator
@@ -4539,8 +4783,29 @@ entries:
     version: 0.21.0
   objectscale-portal:
   - apiVersion: v2
+    appVersion: 0.66.0
+    created: "2021-02-02T23:26:31.840310188-05:00"
+    dependencies:
+    - condition: graphql.enabled
+      name: objectscale-graphql
+      repository: file://../objectscale-graphql
+      version: 0.66.0
+    - condition: global.rsyslog_enabled
+      name: rsyslog-client
+      repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+      version: 3.7.0-1111.e5c34b7d
+    description: ObjectScale Portal
+    digest: c427ccf06097f578811c8567987abcf67820ccfb81ea8b77579540f164521e17
+    maintainers:
+    - name: Dell EMC
+      url: https://dellemc.com
+    name: objectscale-portal
+    urls:
+    - objectscale-portal-0.66.0.tgz
+    version: 0.66.0
+  - apiVersion: v2
     appVersion: 0.65.7
-    created: "2021-02-01T13:15:33.611682797-08:00"
+    created: "2021-02-02T23:26:31.837935552-05:00"
     dependencies:
     - condition: graphql.enabled
       name: objectscale-graphql
@@ -4561,8 +4826,24 @@ entries:
     version: 0.65.7
   objectscale-vsphere:
   - apiVersion: v2
+    appVersion: 0.66.0
+    created: "2021-02-02T23:26:31.874086641-05:00"
+    dependencies:
+    - name: objectscale-portal
+      repository: file://../objectscale-portal
+      version: 0.66.0
+    description: ObjectScale VMware vSphere Plugin
+    digest: 5a5e89ea283ccb6dde0559c1fff974ac09f05a2d34edf659a904075a32e44b15
+    maintainers:
+    - name: Dell EMC
+      url: https://dellemc.com
+    name: objectscale-vsphere
+    urls:
+    - objectscale-vsphere-0.66.0.tgz
+    version: 0.66.0
+  - apiVersion: v2
     appVersion: 0.65.8
-    created: "2021-02-01T13:15:33.645413677-08:00"
+    created: "2021-02-02T23:26:31.871481211-05:00"
     dependencies:
     - name: objectscale-portal
       repository: file://../objectscale-portal
@@ -4578,7 +4859,7 @@ entries:
     version: 0.65.8
   - apiVersion: v2
     appVersion: 0.65.5
-    created: "2021-02-01T13:15:33.641190803-08:00"
+    created: "2021-02-02T23:26:31.86828566-05:00"
     dependencies:
     - condition: graphql.enabled
       name: objectscale-graphql
@@ -4599,7 +4880,7 @@ entries:
     version: 0.65.5
   - apiVersion: v2
     appVersion: 0.65.0
-    created: "2021-02-01T13:15:33.639494048-08:00"
+    created: "2021-02-02T23:26:31.865858727-05:00"
     dependencies:
     - condition: graphql.enabled
       name: objectscale-graphql
@@ -4621,7 +4902,7 @@ entries:
     version: 0.65.0
   - apiVersion: v2
     appVersion: 0.64.2
-    created: "2021-02-01T13:15:33.637037942-08:00"
+    created: "2021-02-02T23:26:31.863380625-05:00"
     dependencies:
     - condition: graphql.enabled
       name: objectscale-graphql
@@ -4643,7 +4924,7 @@ entries:
     version: 0.64.2
   - apiVersion: v2
     appVersion: 0.64.1
-    created: "2021-02-01T13:15:33.63476316-08:00"
+    created: "2021-02-02T23:26:31.86105895-05:00"
     dependencies:
     - condition: graphql.enabled
       name: objectscale-graphql
@@ -4665,7 +4946,7 @@ entries:
     version: 0.64.1
   - apiVersion: v2
     appVersion: 0.64.0
-    created: "2021-02-01T13:15:33.632441424-08:00"
+    created: "2021-02-02T23:26:31.858669786-05:00"
     dependencies:
     - condition: graphql.enabled
       name: objectscale-graphql
@@ -4687,7 +4968,7 @@ entries:
     version: 0.64.0
   - apiVersion: v2
     appVersion: 0.63.0
-    created: "2021-02-01T13:15:33.629486347-08:00"
+    created: "2021-02-02T23:26:31.856306588-05:00"
     dependencies:
     - condition: graphql.enabled
       name: objectscale-graphql
@@ -4709,7 +4990,7 @@ entries:
     version: 0.63.0
   - apiVersion: v2
     appVersion: 0.62.0
-    created: "2021-02-01T13:15:33.626928879-08:00"
+    created: "2021-02-02T23:26:31.853258807-05:00"
     dependencies:
     - condition: graphql.enabled
       name: objectscale-graphql
@@ -4727,7 +5008,7 @@ entries:
     version: 0.62.0
   - apiVersion: v2
     appVersion: 0.61.0
-    created: "2021-02-01T13:15:33.625305503-08:00"
+    created: "2021-02-02T23:26:31.85182576-05:00"
     dependencies:
     - condition: graphql.enabled
       name: objectscale-graphql
@@ -4745,7 +5026,7 @@ entries:
     version: 0.61.0
   - apiVersion: v2
     appVersion: 0.60.0
-    created: "2021-02-01T13:15:33.623671597-08:00"
+    created: "2021-02-02T23:26:31.850384033-05:00"
     dependencies:
     - condition: graphql.enabled
       name: objectscale-graphql
@@ -4763,7 +5044,7 @@ entries:
     version: 0.60.0
   - apiVersion: v2
     appVersion: 0.55.0
-    created: "2021-02-01T13:15:33.621856228-08:00"
+    created: "2021-02-02T23:26:31.848889449-05:00"
     dependencies:
     - condition: graphql.enabled
       name: objectscale-graphql
@@ -4781,7 +5062,7 @@ entries:
     version: 0.55.0
   - apiVersion: v2
     appVersion: 0.54.0
-    created: "2021-02-01T13:15:33.620357356-08:00"
+    created: "2021-02-02T23:26:31.847455506-05:00"
     dependencies:
     - condition: graphql.enabled
       name: objectscale-graphql
@@ -4799,7 +5080,7 @@ entries:
     version: 0.54.0
   - apiVersion: v2
     appVersion: 0.53.0
-    created: "2021-02-01T13:15:33.618577883-08:00"
+    created: "2021-02-02T23:26:31.84620959-05:00"
     dependencies:
     - condition: graphql.enabled
       name: objectscale-graphql
@@ -4817,7 +5098,7 @@ entries:
     version: 0.53.0
   - apiVersion: v2
     appVersion: 0.52.0
-    created: "2021-02-01T13:15:33.61720457-08:00"
+    created: "2021-02-02T23:26:31.844907102-05:00"
     dependencies:
     - condition: graphql.enabled
       name: objectscale-graphql
@@ -4835,7 +5116,7 @@ entries:
     version: 0.52.0
   - apiVersion: v2
     appVersion: 0.51.0
-    created: "2021-02-01T13:15:33.615307959-08:00"
+    created: "2021-02-02T23:26:31.843495578-05:00"
     dependencies:
     - condition: graphql.enabled
       name: objectscale-graphql
@@ -4853,7 +5134,7 @@ entries:
     version: 0.51.0
   - apiVersion: v2
     appVersion: 0.50.0
-    created: "2021-02-01T13:15:33.613237593-08:00"
+    created: "2021-02-02T23:26:31.842261526-05:00"
     dependencies:
     - condition: graphql.enabled
       name: objectscale-graphql
@@ -4872,9 +5153,9 @@ entries:
   pravega-operator:
   - apiVersion: v2
     appVersion: 0.5.2
-    created: "2021-02-01T13:15:33.647660005-08:00"
+    created: "2021-02-02T23:26:31.875448883-05:00"
     description: Pravega Operator Helm chart for Kubernetes
-    digest: 0c079f2c1b0c3a4896c35deb5390a294090f08c72577888cc43a1b319c441c96
+    digest: a16b0ac07d70eb3de1a0976d9c01c55283e3ade55f7e678cdf2fd0e845dff1b8
     home: https://github.com/pravega/pravega-operator
     icon: https://avatars3.githubusercontent.com/u/25698199
     keywords:
@@ -4886,7 +5167,7 @@ entries:
     version: 0.5.2
   - apiVersion: v2
     appVersion: 0.5.1
-    created: "2021-02-01T13:15:33.646576317-08:00"
+    created: "2021-02-02T23:26:31.874732538-05:00"
     description: Pravega Operator Helm chart for Kubernetes
     digest: bdfd812337565ca3502fddf0bad3762e2d59e75230dda24167d8b068a4527f37
     home: https://github.com/pravega/pravega-operator
@@ -4900,8 +5181,21 @@ entries:
     version: 0.5.1
   service-pod:
   - apiVersion: v1
+    appVersion: 2.0.66
+    created: "2021-02-02T23:26:31.886039002-05:00"
+    description: A Helm chart for Dell EMC Service Pod
+    digest: 4be81185ef57bb89507247f3a4454b50c9a773cec47cba58cb9d22a71f311de3
+    icon: https://avatars0.githubusercontent.com/u/12926680
+    maintainers:
+    - name: Dell EMC
+      url: http://dellemc.com
+    name: service-pod
+    urls:
+    - service-pod-2.0.66.tgz
+    version: 2.0.66
+  - apiVersion: v1
     appVersion: 2.0.65
-    created: "2021-02-01T13:15:33.664341876-08:00"
+    created: "2021-02-02T23:26:31.885595437-05:00"
     description: A Helm chart for Dell EMC Service Pod
     digest: 9983623b09a1cdc7ec56baf8cb503e7bee9bcd7769e3d355125e9464dba01526
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -4914,7 +5208,7 @@ entries:
     version: 2.0.65
   - apiVersion: v1
     appVersion: 2.0.64
-    created: "2021-02-01T13:15:33.66342833-08:00"
+    created: "2021-02-02T23:26:31.885169752-05:00"
     description: A Helm chart for Dell EMC Service Pod
     digest: 371efd2049e498212f9d670e20075570698b3d068e631f83086ea77c7d13f5d8
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -4927,7 +5221,7 @@ entries:
     version: 2.0.64
   - apiVersion: v1
     appVersion: 2.0.63
-    created: "2021-02-01T13:15:33.662564969-08:00"
+    created: "2021-02-02T23:26:31.884708957-05:00"
     description: A Helm chart for Dell EMC Service Pod
     digest: a9f16f239571d773f5a96c4472d7a3f0447a4f6270012ac58ac555beaf3af188
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -4940,7 +5234,7 @@ entries:
     version: 2.0.63
   - apiVersion: v1
     appVersion: 2.0.62
-    created: "2021-02-01T13:15:33.661694816-08:00"
+    created: "2021-02-02T23:26:31.884242337-05:00"
     description: A Helm chart for Dell EMC Service Pod
     digest: a2cf9e2c5cc96f87231d172fa25bc5fc143d476a71c0d43cb3faff77ddc1e645
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -4953,7 +5247,7 @@ entries:
     version: 2.0.62
   - apiVersion: v1
     appVersion: 2.0.61
-    created: "2021-02-01T13:15:33.660845361-08:00"
+    created: "2021-02-02T23:26:31.883790089-05:00"
     description: A Helm chart for Dell EMC Service Pod
     digest: baf384d4a1386163ad3c673095a18dba8ebea3db5e3da97774e656e6d22573ad
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -4966,7 +5260,7 @@ entries:
     version: 2.0.61
   - apiVersion: v1
     appVersion: 2.0.60
-    created: "2021-02-01T13:15:33.65998667-08:00"
+    created: "2021-02-02T23:26:31.88335094-05:00"
     description: A Helm chart for Dell EMC Service Pod
     digest: 914d59419084382c945d0d244a51501f24dc9f7350c5ab069f8361d3e0dc1975
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -4979,7 +5273,7 @@ entries:
     version: 2.0.60
   - apiVersion: v1
     appVersion: 2.0.55
-    created: "2021-02-01T13:15:33.659173986-08:00"
+    created: "2021-02-02T23:26:31.882906929-05:00"
     description: A Helm chart for Dell EMC Service Pod
     digest: 6fe5c31a4f37fb24b35c63969a926c6f51ab145dcda4b2293c3fb0967026e8b5
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -4992,7 +5286,7 @@ entries:
     version: 2.0.55
   - apiVersion: v1
     appVersion: 2.0.54
-    created: "2021-02-01T13:15:33.658341843-08:00"
+    created: "2021-02-02T23:26:31.882405453-05:00"
     description: A Helm chart for Dell EMC Service Pod
     digest: d80c073a343122ff3777ed05918b1517bff97c4280cd49eac1a6249020d86b75
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5005,7 +5299,7 @@ entries:
     version: 2.0.54
   - apiVersion: v1
     appVersion: 2.0.53
-    created: "2021-02-01T13:15:33.657554345-08:00"
+    created: "2021-02-02T23:26:31.880900057-05:00"
     description: A Helm chart for Dell EMC Service Pod
     digest: a23be0165120502ebd022de02245580c4f71c913a69a27473081efac4e27d5b8
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5018,7 +5312,7 @@ entries:
     version: 2.0.53
   - apiVersion: v1
     appVersion: 2.0.52
-    created: "2021-02-01T13:15:33.656715728-08:00"
+    created: "2021-02-02T23:26:31.880446726-05:00"
     description: A Helm chart for Dell EMC Service Pod
     digest: 9bed1fb1223d5bdcb96553e12686e987a54113e6d2eaeb2936023af4b59ac17a
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5031,7 +5325,7 @@ entries:
     version: 2.0.52
   - apiVersion: v1
     appVersion: 1.2.0
-    created: "2021-02-01T13:15:33.655925037-08:00"
+    created: "2021-02-02T23:26:31.879972322-05:00"
     description: A Helm chart for Dell EMC Service Pod
     digest: e1e4f4c4c28e960ab6fd4a18ac4c514dc417cd515d5e178480cff08e391042f8
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5044,7 +5338,7 @@ entries:
     version: 1.2.0
   - apiVersion: v1
     appVersion: 1.1.3
-    created: "2021-02-01T13:15:33.655098039-08:00"
+    created: "2021-02-02T23:26:31.879522119-05:00"
     description: A Helm chart for Dell EMC Service Pod
     digest: 65e7aa32a4f1557db515e9aab07437af8f9f26e324171a7dda31c72abe74362f
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5057,7 +5351,7 @@ entries:
     version: 1.1.3
   - apiVersion: v1
     appVersion: 1.1.2
-    created: "2021-02-01T13:15:33.654397148-08:00"
+    created: "2021-02-02T23:26:31.87905337-05:00"
     description: A Helm chart for Dell EMC Service Pod
     digest: ebf6d00b5240ebad05b6898ad0ad6bc210efe4a52b1a8323b1274f6864700448
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5070,7 +5364,7 @@ entries:
     version: 1.1.2
   - apiVersion: v1
     appVersion: 1.1.0-1
-    created: "2021-02-01T13:15:33.653626221-08:00"
+    created: "2021-02-02T23:26:31.878641903-05:00"
     description: A Helm chart for Dell EMC Service Pod
     digest: 1e9d00f4a19e3c81e7415c05cdd2f03c12cd282cb85f083078c428e8868a4de5
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5083,7 +5377,7 @@ entries:
     version: 1.1.0
   - apiVersion: v1
     appVersion: 1.0.2-17
-    created: "2021-02-01T13:15:33.652821735-08:00"
+    created: "2021-02-02T23:26:31.878206139-05:00"
     description: A Helm chart for Dell EMC Service Pod
     digest: 2ba1216a7397dbe270362ccf244994ba5b67757060b82cb326d841fa55637d9d
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5096,7 +5390,7 @@ entries:
     version: 0.19.1
   - apiVersion: v1
     appVersion: 1.0.2-17
-    created: "2021-02-01T13:15:33.651837442-08:00"
+    created: "2021-02-02T23:26:31.877785872-05:00"
     description: A Helm chart for Dell EMC Service Pod
     digest: 4736ebfed93b1e4e78029724323ef29de5b2dd949372a5b855e15318a7c443ec
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5109,7 +5403,7 @@ entries:
     version: 0.17.2
   - apiVersion: v1
     appVersion: 1.0.1-17
-    created: "2021-02-01T13:15:33.650836657-08:00"
+    created: "2021-02-02T23:26:31.877330326-05:00"
     description: A Helm chart for Dell EMC Service Pod
     digest: 3975fd981a3e816bc7e16dca9f69bd1779b59145ae720b0a1fd6b89364d38e5b
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5122,7 +5416,7 @@ entries:
     version: 0.17.1
   - apiVersion: v1
     appVersion: 1.0.0-17
-    created: "2021-02-01T13:15:33.649918464-08:00"
+    created: "2021-02-02T23:26:31.876853311-05:00"
     description: A Helm chart for Dell EMC Service Pod
     digest: 3055ca4c08c5755ea9a48c30b6eb0ba55a6252b2a997391188d5a5a1e4d788b8
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5135,7 +5429,7 @@ entries:
     version: 0.17.0
   - apiVersion: v1
     appVersion: 1.0.0-16
-    created: "2021-02-01T13:15:33.649123279-08:00"
+    created: "2021-02-02T23:26:31.876378163-05:00"
     description: A Helm chart for Dell EMC Service Pod
     digest: 53581cd15312f6aecfd5d3b0aeb7c2bb1c072307670f4d679add96b4fd84559d
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5148,7 +5442,7 @@ entries:
     version: 0.16.0
   - apiVersion: v1
     appVersion: 0.14.0
-    created: "2021-02-01T13:15:33.648387252-08:00"
+    created: "2021-02-02T23:26:31.875904498-05:00"
     description: A Helm chart for Dell EMC Service Pod
     digest: f65d26b2f3d998176f2cd4534f05a142d0bbfbd994b19f91d5d06ab22d29ca3d
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5162,9 +5456,9 @@ entries:
   sonobuoy:
   - apiVersion: v1
     appVersion: 0.16.6
-    created: "2021-02-01T13:15:33.668929727-08:00"
+    created: "2021-02-02T23:26:31.888070263-05:00"
     description: A Helm chart for sonobuoy
-    digest: c865184fa24ebef148d01e619099eb2934f58ae376db2391c3f0c33d13c256b7
+    digest: a11cd586ba6ad11116955fe5c6bad504b2ee39370f812ef1a9843a29c0e3a805
     icon: https://avatars2.githubusercontent.com/u/22035492
     maintainers:
     - name: Heptio
@@ -5175,7 +5469,7 @@ entries:
     version: 0.16.6
   - apiVersion: v1
     appVersion: 0.16.5
-    created: "2021-02-01T13:15:33.668115279-08:00"
+    created: "2021-02-02T23:26:31.887542774-05:00"
     description: A Helm chart for sonobuoy
     digest: 02f603f0c2c9d0efec284435fc0ca88ef9e9360a4aa12785d10175f87200a00d
     icon: https://avatars2.githubusercontent.com/u/22035492
@@ -5188,7 +5482,7 @@ entries:
     version: 0.16.5
   - apiVersion: v1
     appVersion: 0.14.0
-    created: "2021-02-01T13:15:33.667074471-08:00"
+    created: "2021-02-02T23:26:31.887053576-05:00"
     description: A Helm chart for sonobuoy
     digest: ca0d9b22cfa7d0491587cc7506ec3d4f9a39bbc96a3b94691066cefadba9761d
     icon: https://avatars2.githubusercontent.com/u/22035492
@@ -5201,7 +5495,7 @@ entries:
     version: 0.14.0
   - apiVersion: v1
     appVersion: 0.12.0
-    created: "2021-02-01T13:15:33.665475604-08:00"
+    created: "2021-02-02T23:26:31.886542555-05:00"
     description: A Helm chart for sonobuoy
     digest: 4707dc36669c5bedc8f0aab26eff87e704fd1bf90beac5317229589ac6a3960a
     icon: https://avatars2.githubusercontent.com/u/22035492
@@ -5214,7 +5508,7 @@ entries:
     version: 0.12.0
   - apiVersion: v1
     appVersion: 0.6.0
-    created: "2021-02-01T13:15:33.673044557-08:00"
+    created: "2021-02-02T23:26:31.889933877-05:00"
     description: A Helm chart for sonobuoy
     digest: 5ef248124ac86c273424ae8c5af394c389599eb08d870274e75be532bddb0215
     icon: https://avatars2.githubusercontent.com/u/22035492
@@ -5227,7 +5521,7 @@ entries:
     version: 0.6.0
   - apiVersion: v1
     appVersion: 0.5.5
-    created: "2021-02-01T13:15:33.672063719-08:00"
+    created: "2021-02-02T23:26:31.889545237-05:00"
     description: A Helm chart for sonobuoy
     digest: 4ca111254f98a42eb0164f44507142b8482d93bd410ead137ce6ad156200b34e
     icon: https://avatars2.githubusercontent.com/u/22035492
@@ -5240,7 +5534,7 @@ entries:
     version: 0.5.5
   - apiVersion: v1
     appVersion: 0.5.0
-    created: "2021-02-01T13:15:33.671416947-08:00"
+    created: "2021-02-02T23:26:31.889176483-05:00"
     description: A Helm chart for sonobuoy
     digest: 79dbc52eef04d3e55b8bd3f5f7cf143de2bfa154ec3e686363154c7c2f7465c4
     icon: https://avatars2.githubusercontent.com/u/22035492
@@ -5253,7 +5547,7 @@ entries:
     version: 0.5.0
   - apiVersion: v1
     appVersion: 0.4.0
-    created: "2021-02-01T13:15:33.670608787-08:00"
+    created: "2021-02-02T23:26:31.888813868-05:00"
     description: A Helm chart for sonobuoy
     digest: ef847a03f039513ba2e020742c0ab7dd54e89e8288e38826f5f78f8b0fdc5451
     icon: https://avatars2.githubusercontent.com/u/22035492
@@ -5266,7 +5560,7 @@ entries:
     version: 0.4.0
   - apiVersion: v1
     appVersion: 0.3.5
-    created: "2021-02-01T13:15:33.669654837-08:00"
+    created: "2021-02-02T23:26:31.888451221-05:00"
     description: A Helm chart for sonobuoy
     digest: 8c07e153c3a6d504e0fa48cb85b0026928477337e1f9d34232009569d05fbbb1
     icon: https://avatars2.githubusercontent.com/u/22035492
@@ -5280,7 +5574,7 @@ entries:
   srs-gateway:
   - apiVersion: v1
     appVersion: 1.2.0
-    created: "2021-02-01T13:15:33.693210734-08:00"
+    created: "2021-02-02T23:26:31.904095004-05:00"
     description: A Helm chart for Dell EMC SRS Gateway Custom Resource Support
     digest: c4af4392d6752e27320f24d3820fcf103c4df5136b018eadd08d5f9568256bb0
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5293,7 +5587,7 @@ entries:
     version: 1.2.0
   - apiVersion: v1
     appVersion: 1.1.3
-    created: "2021-02-01T13:15:33.692234816-08:00"
+    created: "2021-02-02T23:26:31.902933678-05:00"
     description: A Helm chart for Dell EMC SRS Gateway Custom Resource Support
     digest: 0f72a8eb636effe5ee1f422f6f9c60f9158919a797cff6f2ac9fa4b88f940899
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5306,7 +5600,7 @@ entries:
     version: 1.1.3
   - apiVersion: v1
     appVersion: 1.1.2
-    created: "2021-02-01T13:15:33.691119008-08:00"
+    created: "2021-02-02T23:26:31.902081718-05:00"
     description: A Helm chart for Dell EMC SRS Gateway Custom Resource Support
     digest: 6444d43edc9ed8429d0f51768f5ae0954bda6765b7349511f0642f8116a9034b
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5319,7 +5613,7 @@ entries:
     version: 1.1.2
   - apiVersion: v1
     appVersion: 1.1.0-1
-    created: "2021-02-01T13:15:33.689923771-08:00"
+    created: "2021-02-02T23:26:31.901266509-05:00"
     description: A Helm chart for Dell EMC SRS Gateway Custom Resource Support
     digest: d7a513ec763aeeb71890d4a66bf58a001228a6fcf80a8f2a0c857623c2f3cfe8
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5332,7 +5626,7 @@ entries:
     version: 1.1.0
   - apiVersion: v1
     appVersion: 1.0.2-17
-    created: "2021-02-01T13:15:33.682016524-08:00"
+    created: "2021-02-02T23:26:31.896327584-05:00"
     description: A Helm chart for Dell EMC SRS Gateway Custom Resource Support
     digest: 68766af46388e2c6d91f67daf653d99b5060b3c272c54f7d5914c055313066ff
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5345,7 +5639,7 @@ entries:
     version: 0.19.1
   - apiVersion: v1
     appVersion: 1.0.2-17
-    created: "2021-02-01T13:15:33.680145404-08:00"
+    created: "2021-02-02T23:26:31.89551039-05:00"
     description: A Helm chart for Dell EMC SRS Gateway Custom Resource Support
     digest: b00e91393f0493762c6096e9c8e6c58751903b450ebeb4bcfc3ebd486de65d3c
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5358,7 +5652,7 @@ entries:
     version: 0.17.2
   - apiVersion: v1
     appVersion: 1.0.1-17
-    created: "2021-02-01T13:15:33.679118321-08:00"
+    created: "2021-02-02T23:26:31.894662583-05:00"
     description: A Helm chart for Dell EMC SRS Gateway Custom Resource Support
     digest: 743b08a881dc6e04c8d05ec1a2bee4352ede1c71323dc53590e22d7d7ec4617a
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5371,7 +5665,7 @@ entries:
     version: 0.17.1
   - apiVersion: v1
     appVersion: 1.0.0-17
-    created: "2021-02-01T13:15:33.677763278-08:00"
+    created: "2021-02-02T23:26:31.893777233-05:00"
     description: A Helm chart for Dell EMC SRS Gateway Custom Resource Support
     digest: 1a8f9e96a9171b74bedb546da9ae3346f06923c086a38d826efb74a981e21f2f
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5384,7 +5678,7 @@ entries:
     version: 0.17.0
   - apiVersion: v1
     appVersion: 1.0.0-16
-    created: "2021-02-01T13:15:33.676653237-08:00"
+    created: "2021-02-02T23:26:31.892916006-05:00"
     description: A Helm chart for Dell EMC SRS Gateway Custom Resource Support
     digest: 6aaf1b005f4d1c30469b35de59a7dba66921b04ef0009960547faf77f2ba6c1e
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5397,7 +5691,7 @@ entries:
     version: 0.16.0
   - apiVersion: v1
     appVersion: 0.14.0
-    created: "2021-02-01T13:15:33.67547882-08:00"
+    created: "2021-02-02T23:26:31.891562008-05:00"
     description: A Helm chart for Dell EMC SRS Gateway Custom Resource Support
     digest: e874ee2486845039b80ed40fee06427f2b9eaf1ea71e250527cc24e42d7c84fc
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5410,7 +5704,7 @@ entries:
     version: 0.14.0
   - apiVersion: v1
     appVersion: 0.12.0
-    created: "2021-02-01T13:15:33.674128087-08:00"
+    created: "2021-02-02T23:26:31.890759508-05:00"
     description: A Helm chart for Dell EMC SRS Gateway Custom Resource Support
     digest: 1640af432cbca3ee322e44f925213fe048f3f1f82fc8d08133b11ae579846674
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5423,7 +5717,7 @@ entries:
     version: 0.12.0
   - apiVersion: v1
     appVersion: 0.6.0
-    created: "2021-02-01T13:15:33.68873671-08:00"
+    created: "2021-02-02T23:26:31.900489315-05:00"
     description: A Helm chart for Dell EMC SRS Gateway Custom Resource Support
     digest: 55b856c5a8875596201244d2804aa2fc647c78faf4e7168cfbaf3f0af3c06b53
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5436,7 +5730,7 @@ entries:
     version: 0.6.0
   - apiVersion: v1
     appVersion: 0.5.5
-    created: "2021-02-01T13:15:33.687737676-08:00"
+    created: "2021-02-02T23:26:31.899675216-05:00"
     description: A Helm chart for Dell EMC SRS Gateway Custom Resource Support
     digest: a9b8016e89d510d4c6f8874763a93bfd6d0f08809be69f5cce8c7d3bd6ebfefa
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5449,7 +5743,7 @@ entries:
     version: 0.5.5
   - apiVersion: v1
     appVersion: 0.5.0
-    created: "2021-02-01T13:15:33.686800694-08:00"
+    created: "2021-02-02T23:26:31.898898251-05:00"
     description: A Helm chart for Dell EMC SRS Gateway Custom Resource Support
     digest: 5b7be3404029beab2b56bd79ef8f161a584428a83f8aaadcee0b12c0bf438af3
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5462,7 +5756,7 @@ entries:
     version: 0.5.0
   - apiVersion: v1
     appVersion: 0.4.0
-    created: "2021-02-01T13:15:33.685880309-08:00"
+    created: "2021-02-02T23:26:31.898218758-05:00"
     description: A Helm chart for Dell EMC SRS Gateway Custom Resource Support
     digest: ae793a33d7c513e72aa7094101ed7888439818186a4af8f4a6fdb5f016517f70
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5475,7 +5769,7 @@ entries:
     version: 0.4.0
   - apiVersion: v1
     appVersion: 0.3.5
-    created: "2021-02-01T13:15:33.684975739-08:00"
+    created: "2021-02-02T23:26:31.897515751-05:00"
     description: A Helm chart for Dell EMC SRS Gateway Custom Resource Support
     digest: cf99c2c91e5ff160a866f0d11c9a5cb9495d5d6104984c3ea10a07c7dfcd6c50
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5488,7 +5782,7 @@ entries:
     version: 0.3.5
   - apiVersion: v1
     appVersion: 0.2.0
-    created: "2021-02-01T13:15:33.682940052-08:00"
+    created: "2021-02-02T23:26:31.89681747-05:00"
     description: A Helm chart for Dell EMC SRS Gateway Custom Resource Support
     digest: 42a692f63e3329c2c9f9a949b77aceb651d65148b9f329500819fdc0a4b7fc1b
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5501,8 +5795,26 @@ entries:
     version: 0.2.0
   statefuldaemonset-operator:
   - apiVersion: v2
+    appVersion: 0.66.0
+    created: "2021-02-02T23:26:31.911539829-05:00"
+    dependencies:
+    - name: common-monitoring-lib
+      repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+      version: 3.7.0-1111.e5c34b7d
+    description: |
+      StatefulDaemonSet operator deploys operator pod which is responsible
+      for creation of statefulset pods on all k8s nodes
+    digest: d85353b93137d9434867ecc223e3442765902a9bd8ca6e7248bbd1d2d60de63f
+    maintainers:
+    - name: Dell EMC
+      url: https://dellemc.com
+    name: statefuldaemonset-operator
+    urls:
+    - statefuldaemonset-operator-0.66.0.tgz
+    version: 0.66.0
+  - apiVersion: v2
     appVersion: 0.65.0
-    created: "2021-02-01T13:15:33.702516625-08:00"
+    created: "2021-02-02T23:26:31.910726876-05:00"
     dependencies:
     - name: common-monitoring-lib
       repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
@@ -5520,7 +5832,7 @@ entries:
     version: 0.65.0
   - apiVersion: v2
     appVersion: 0.64.0
-    created: "2021-02-01T13:15:33.701356005-08:00"
+    created: "2021-02-02T23:26:31.909940454-05:00"
     dependencies:
     - name: common-monitoring-lib
       repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
@@ -5538,7 +5850,7 @@ entries:
     version: 0.64.0
   - apiVersion: v2
     appVersion: 0.63.0
-    created: "2021-02-01T13:15:33.69990647-08:00"
+    created: "2021-02-02T23:26:31.909152738-05:00"
     dependencies:
     - name: common-monitoring-lib
       repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
@@ -5556,7 +5868,7 @@ entries:
     version: 0.63.0
   - apiVersion: v2
     appVersion: 0.62.0
-    created: "2021-02-01T13:15:33.698379274-08:00"
+    created: "2021-02-02T23:26:31.908324021-05:00"
     dependencies:
     - name: common-lib
       repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
@@ -5574,7 +5886,7 @@ entries:
     version: 0.62.0
   - apiVersion: v2
     appVersion: 0.61.0
-    created: "2021-02-01T13:15:33.69715981-08:00"
+    created: "2021-02-02T23:26:31.907611363-05:00"
     dependencies:
     - name: common-lib
       repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
@@ -5592,7 +5904,7 @@ entries:
     version: 0.61.0
   - apiVersion: v2
     appVersion: 0.60.0
-    created: "2021-02-01T13:15:33.696257302-08:00"
+    created: "2021-02-02T23:26:31.906895386-05:00"
     dependencies:
     - name: common-lib
       repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
@@ -5610,7 +5922,7 @@ entries:
     version: 0.60.0
   - apiVersion: v2
     appVersion: 0.55.0
-    created: "2021-02-01T13:15:33.695266325-08:00"
+    created: "2021-02-02T23:26:31.90608268-05:00"
     dependencies:
     - name: common-lib
       repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
@@ -5628,7 +5940,7 @@ entries:
     version: 0.55.0
   - apiVersion: v2
     appVersion: 0.54.0
-    created: "2021-02-01T13:15:33.694296885-08:00"
+    created: "2021-02-02T23:26:31.905170794-05:00"
     dependencies:
     - name: common-lib
       repository: file://../monitoring/common-lib
@@ -5646,8 +5958,21 @@ entries:
     version: 0.54.0
   supportassist:
   - apiVersion: v1
+    appVersion: 2.0.66
+    created: "2021-02-02T23:26:31.919850053-05:00"
+    description: Helm chart for Dell SupportAssist ESE
+    digest: 483fcb2e8799fd2190d6d15eecb207f9119800531551959609b4aa4f77a03a73
+    icon: https://avatars0.githubusercontent.com/u/12926680
+    maintainers:
+    - name: Dell EMC
+      url: http://dellemc.com
+    name: supportassist
+    urls:
+    - supportassist-2.0.66.tgz
+    version: 2.0.66
+  - apiVersion: v1
     appVersion: 2.0.65
-    created: "2021-02-01T13:15:33.712574945-08:00"
+    created: "2021-02-02T23:26:31.91900684-05:00"
     description: Helm chart for Dell SupportAssist ESE
     digest: 53c24dcf0f2d3a5b849ebfb215d475ec2876c7e63ac8c0672d8b01717fac82a7
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5660,7 +5985,7 @@ entries:
     version: 2.0.65
   - apiVersion: v1
     appVersion: 2.0.64
-    created: "2021-02-01T13:15:33.711569086-08:00"
+    created: "2021-02-02T23:26:31.917689826-05:00"
     description: Helm chart for Dell SupportAssist ESE
     digest: b3d3e7ef68b803898a8b3d7b123d3e5d66c46dc48a1416c2fcd520dc1b7e6451
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5673,7 +5998,7 @@ entries:
     version: 2.0.64
   - apiVersion: v1
     appVersion: 2.0.63
-    created: "2021-02-01T13:15:33.710435895-08:00"
+    created: "2021-02-02T23:26:31.91696279-05:00"
     description: Helm chart for Dell SupportAssist ESE
     digest: e9f143367108fe639aeea0e62754d806445918e0ec372325f10b9639123b424f
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5686,7 +6011,7 @@ entries:
     version: 2.0.63
   - apiVersion: v1
     appVersion: 2.0.62
-    created: "2021-02-01T13:15:33.709307006-08:00"
+    created: "2021-02-02T23:26:31.91623798-05:00"
     description: Helm chart for Dell SupportAssist ESE
     digest: 616625fd492ca9f132d7c4d3a4fe0a9edf756cab370097f3942c5ccb79b18287
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5699,7 +6024,7 @@ entries:
     version: 2.0.62
   - apiVersion: v1
     appVersion: 2.0.61
-    created: "2021-02-01T13:15:33.708172555-08:00"
+    created: "2021-02-02T23:26:31.915537399-05:00"
     description: Helm chart for Dell SupportAssist ESE
     digest: 3798b499d383ad0af8ee08c7902090a2b8890981b5c90618e389801e1575fed4
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5712,7 +6037,7 @@ entries:
     version: 2.0.61
   - apiVersion: v1
     appVersion: 2.0.60
-    created: "2021-02-01T13:15:33.707260956-08:00"
+    created: "2021-02-02T23:26:31.914811626-05:00"
     description: Helm chart for Dell SupportAssist ESE
     digest: 9f8125d9da50be4d0622e1d248493d5e44980a7f2206c11e216ba5e5892816ad
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5725,7 +6050,7 @@ entries:
     version: 2.0.60
   - apiVersion: v1
     appVersion: 2.0.55
-    created: "2021-02-01T13:15:33.706357673-08:00"
+    created: "2021-02-02T23:26:31.914054006-05:00"
     description: Helm chart for Dell SupportAssist ESE
     digest: bb836a2cb09887d6afb0561685924ea7827f869f9d071087a087b9caad551898
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5738,7 +6063,7 @@ entries:
     version: 2.0.55
   - apiVersion: v1
     appVersion: 2.0.54
-    created: "2021-02-01T13:15:33.705234969-08:00"
+    created: "2021-02-02T23:26:31.91339095-05:00"
     description: Helm chart for Dell SupportAssist ESE
     digest: 825e86c06dd826ea687ba6bd831be51b6b8e373e4b34f0424ae94c5313ba0172
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5751,7 +6076,7 @@ entries:
     version: 2.0.54
   - apiVersion: v1
     appVersion: 2.0.53
-    created: "2021-02-01T13:15:33.704284754-08:00"
+    created: "2021-02-02T23:26:31.912649974-05:00"
     description: Helm chart for Dell SupportAssist ESE
     digest: 5a734db1a385abd044116b9afe367e5e05a26313e6ce1ba83deac917d9b26568
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5764,7 +6089,7 @@ entries:
     version: 2.0.53
   - apiVersion: v1
     appVersion: 2.0.3
-    created: "2021-02-01T13:15:33.703311155-08:00"
+    created: "2021-02-02T23:26:31.911965575-05:00"
     description: Helm chart for Dell SupportAssist ESE
     digest: 02f019b4b08086aed0d0001cecc23f6b20278163c12c74835e7dc092e133a639
     icon: https://avatars0.githubusercontent.com/u/12926680
@@ -5778,7 +6103,7 @@ entries:
   zookeeper-operator:
   - apiVersion: v1
     appVersion: 0.28.0
-    created: "2021-02-01T13:15:33.731785921-08:00"
+    created: "2021-02-02T23:26:31.929430501-05:00"
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -5798,7 +6123,7 @@ entries:
     version: 0.28.0
   - apiVersion: v1
     appVersion: 0.27.0
-    created: "2021-02-01T13:15:33.731155349-08:00"
+    created: "2021-02-02T23:26:31.928963678-05:00"
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -5818,7 +6143,7 @@ entries:
     version: 0.27.0
   - apiVersion: v1
     appVersion: 0.26.0
-    created: "2021-02-01T13:15:33.730467092-08:00"
+    created: "2021-02-02T23:26:31.928299197-05:00"
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -5838,7 +6163,7 @@ entries:
     version: 0.26.0
   - apiVersion: v1
     appVersion: 0.25.0
-    created: "2021-02-01T13:15:33.729469657-08:00"
+    created: "2021-02-02T23:26:31.927950058-05:00"
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -5858,7 +6183,7 @@ entries:
     version: 0.25.0
   - apiVersion: v1
     appVersion: 0.24.0
-    created: "2021-02-01T13:15:33.72879182-08:00"
+    created: "2021-02-02T23:26:31.927619988-05:00"
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -5878,7 +6203,7 @@ entries:
     version: 0.24.0
   - apiVersion: v1
     appVersion: 0.23.0
-    created: "2021-02-01T13:15:33.728189289-08:00"
+    created: "2021-02-02T23:26:31.927304378-05:00"
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -5898,7 +6223,7 @@ entries:
     version: 0.23.0
   - apiVersion: v1
     appVersion: 0.22.0
-    created: "2021-02-01T13:15:33.727582466-08:00"
+    created: "2021-02-02T23:26:31.926975053-05:00"
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -5918,7 +6243,7 @@ entries:
     version: 0.22.1
   - apiVersion: v1
     appVersion: 0.22.0
-    created: "2021-02-01T13:15:33.727013021-08:00"
+    created: "2021-02-02T23:26:31.926646697-05:00"
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -5938,7 +6263,7 @@ entries:
     version: 0.22.0
   - apiVersion: v1
     appVersion: 0.21.0
-    created: "2021-02-01T13:15:33.726465883-08:00"
+    created: "2021-02-02T23:26:31.926311897-05:00"
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -5958,7 +6283,7 @@ entries:
     version: 0.21.0
   - apiVersion: v1
     appVersion: 0.20.0
-    created: "2021-02-01T13:15:33.725904391-08:00"
+    created: "2021-02-02T23:26:31.926001368-05:00"
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -5978,7 +6303,7 @@ entries:
     version: 0.20.0
   - apiVersion: v1
     appVersion: 0.18.0
-    created: "2021-02-01T13:15:33.723664661-08:00"
+    created: "2021-02-02T23:26:31.924977806-05:00"
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -5998,7 +6323,7 @@ entries:
     version: 0.19.0
   - apiVersion: v1
     appVersion: 0.18.0
-    created: "2021-02-01T13:15:33.7229725-08:00"
+    created: "2021-02-02T23:26:31.924647768-05:00"
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -6018,7 +6343,7 @@ entries:
     version: 0.18.0
   - apiVersion: v1
     appVersion: 0.17.0
-    created: "2021-02-01T13:15:33.721982438-08:00"
+    created: "2021-02-02T23:26:31.924249426-05:00"
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -6038,7 +6363,7 @@ entries:
     version: 0.17.1
   - apiVersion: v1
     appVersion: 0.17.0
-    created: "2021-02-01T13:15:33.721210814-08:00"
+    created: "2021-02-02T23:26:31.92392149-05:00"
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -6058,7 +6383,7 @@ entries:
     version: 0.17.0
   - apiVersion: v1
     appVersion: 0.16.5
-    created: "2021-02-01T13:15:33.720401457-08:00"
+    created: "2021-02-02T23:26:31.923544388-05:00"
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -6078,7 +6403,7 @@ entries:
     version: 0.16.5
   - apiVersion: v1
     appVersion: 0.2.4
-    created: "2021-02-01T13:15:33.719507597-08:00"
+    created: "2021-02-02T23:26:31.923217862-05:00"
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -6098,7 +6423,7 @@ entries:
     version: 0.16.1
   - apiVersion: v1
     appVersion: 0.2.4
-    created: "2021-02-01T13:15:33.718654057-08:00"
+    created: "2021-02-02T23:26:31.922891001-05:00"
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -6118,7 +6443,7 @@ entries:
     version: 0.16.0
   - apiVersion: v1
     appVersion: 0.2.3
-    created: "2021-02-01T13:15:33.717746569-08:00"
+    created: "2021-02-02T23:26:31.922551692-05:00"
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -6138,7 +6463,7 @@ entries:
     version: 0.14.0
   - apiVersion: v1
     appVersion: 0.2.3
-    created: "2021-02-01T13:15:33.717122814-08:00"
+    created: "2021-02-02T23:26:31.922190572-05:00"
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -6158,11 +6483,11 @@ entries:
     version: 0.12.0
   - apiVersion: v1
     appVersion: 0.2.9
-    created: "2021-02-01T13:15:33.725329143-08:00"
+    created: "2021-02-02T23:26:31.92568366-05:00"
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
-    digest: 19b4be1aa875e721eb9f053608c753edf9c42a822a1d3d9a4ef3ed560c5df04f
+    digest: 081e6ed58e27aec4b19721c09cb531d0b06db7aab4456db56d2805c16a18d3fe
     home: https://github.com/pravega/charts/blob/master/zookeeper-operator
     icon: https://zookeeper.apache.org/images/zookeeper_small.gif
     keywords:
@@ -6178,7 +6503,7 @@ entries:
     version: 0.2.9
   - apiVersion: v1
     appVersion: 0.2.7
-    created: "2021-02-01T13:15:33.724380648-08:00"
+    created: "2021-02-02T23:26:31.92532963-05:00"
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -6198,7 +6523,7 @@ entries:
     version: 0.2.7
   - apiVersion: v1
     appVersion: 0.2.0
-    created: "2021-02-01T13:15:33.716445002-08:00"
+    created: "2021-02-02T23:26:31.921874944-05:00"
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -6218,7 +6543,7 @@ entries:
     version: 0.1.6
   - apiVersion: v1
     appVersion: 0.2.0
-    created: "2021-02-01T13:15:33.715836679-08:00"
+    created: "2021-02-02T23:26:31.921544339-05:00"
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -6238,7 +6563,7 @@ entries:
     version: 0.1.6-rc1
   - apiVersion: v1
     appVersion: 0.2.0
-    created: "2021-02-01T13:15:33.715258599-08:00"
+    created: "2021-02-02T23:26:31.921205685-05:00"
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -6258,7 +6583,7 @@ entries:
     version: 0.0.4
   - apiVersion: v1
     appVersion: 0.2.0
-    created: "2021-02-01T13:15:33.714608888-08:00"
+    created: "2021-02-02T23:26:31.92088509-05:00"
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -6278,7 +6603,7 @@ entries:
     version: 0.0.3
   - apiVersion: v1
     appVersion: 0.2.0
-    created: "2021-02-01T13:15:33.713913228-08:00"
+    created: "2021-02-02T23:26:31.920550477-05:00"
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -6298,7 +6623,7 @@ entries:
     version: 0.0.2
   - apiVersion: v1
     appVersion: 2.6.0
-    created: "2021-02-01T13:15:33.713248229-08:00"
+    created: "2021-02-02T23:26:31.920209368-05:00"
     description: |
       Zookeeper operator deploys a custom resource for a zookeeper cluster, and a
       pod to provision and scale zookeeper clusters.
@@ -6316,4 +6641,4 @@ entries:
     urls:
     - zookeeper-operator-0.0.1.tgz
     version: 0.0.1
-generated: "2021-02-01T13:15:32.881462066-08:00"
+generated: "2021-02-02T23:26:30.968528477-05:00"

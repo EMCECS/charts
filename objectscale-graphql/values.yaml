@@ -28,10 +28,10 @@ global:
 #
 # This is the list of available objectstore versions to graphql for UI to configure the store.
 objectStoreAvailableVersions:
-  - 0.65.0
+  - 0.66.0
 #
 # The default docker tag and pull policy for objectscale-graphql services
-tag: 0.65.0
+tag: 0.66.0
 pullPolicy: IfNotPresent
 #
 # This will create the graphql container with the debug image. debug image will always be {{image.repository}}-debug
@@ -49,8 +49,8 @@ service:
   type: ClusterIP
 #
 decks:
-  licenseChartVersion: "2.0.65"
-  supportAssistChartVersion: "2.0.65"
+  licenseChartVersion: "2.0.66"
+  supportAssistChartVersion: "2.0.66"
   srsGatewayChartVersion: "1.2.0"
 #
 logReceiver:
@@ -61,7 +61,6 @@ logReceiver:
   # provide connectivity details in the "logReceiver" configuration block below.
   #
   type:
-
   # User login will be used by fluentd to connect to the elastic search.
   # user: elastic
 
@@ -79,7 +78,6 @@ logReceiver:
   #
   # Port to use for customer provided Syslog or Elasticsearch receiver
   # port: 514
-
 # The log agent configuration for log collection of Manager components
 fluentbitAgent:
   image:

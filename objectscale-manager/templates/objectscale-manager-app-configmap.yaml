@@ -21,9 +21,9 @@ data:
     health: |-
       spec:
         - name: pre-update
-            container: {{.Values.global.registry}}/objectscale-manager-pre-update:{{.Values.tag}}
-            schedule: "*/30 * * * *"
-            timelimit: "5m"
+          container: {{.Values.global.registry}}/objectscale-manager-pre-update:{{.Values.tag}}
+          schedule: "*/30 * * * *"
+          timelimit: "5m"
     eventRemedies: |-
       symptoms:
         - symptomid: DEOS-MGR-1001

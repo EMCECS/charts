@@ -58,17 +58,21 @@ spec:
         ports:
         - containerPort: 60000
           name: metrics
-        command:
-        - objectscale-operator
+        command: ["bash"]
+        args: ["-c", "echo /crash-dump/core-%e > /proc/sys/kernel/core_pattern; ulimit -c unlimited; GOTRACEBACK=crash /usr/local/bin/objectscale-operator"]
         resources:
           limits:
             memory: {{ .Values.resources.operator.limits.memory }}
+            ephemeral-storage: {{ .Values.resources.operator.limits.ephemeralStorage }}
           requests:
             memory: {{ .Values.resources.operator.requests.memory }}
+            ephemeral-storage: {{ .Values.resources.operator.requests.ephemeralStorage }}
 {{- if eq .Values.loggerConfig.enabled true }}
         volumeMounts:
         - name: logger-config
           mountPath: /etc/config
+        - name: crash-dump
+          mountPath: /crash-dump
 {{- end }}
         env:
         - name: POD_NAME
@@ -196,4 +200,6 @@ spec:
           configMap:
             name: logger-config
         {{- end }}
+        - name: crash-dump
+          emptyDir: {}
 {{- end }}

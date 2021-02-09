@@ -1,0 +1,10 @@
+- description: "Disk has suspected"
+  name: "DiskSuspect"
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        - label: SymptomID
+          value: 2003
+        - field: type
+          value: Error
+  notifiers:

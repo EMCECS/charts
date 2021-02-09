@@ -1,0 +1,10 @@
+- description: "Disk has been successfully replaced"
+  name: "DriveSuccessfullyReplaced"
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        - label: SymptomID
+          value: 2065
+        - field: type
+          value: Normal
+  notifiers:

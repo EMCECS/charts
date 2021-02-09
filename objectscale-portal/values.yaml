@@ -37,7 +37,7 @@ global:
   #dns: kube-dns.kube-system.svc.cluster.local
 
 # The default docker tag and pull policy for objectscale-portal and other containers
-tag: 0.65.0
+tag: 0.66.0
 pullPolicy: IfNotPresent
 
 # This package gets values from objectscale-manager/values.yaml
@@ -88,6 +88,7 @@ rsyslog-client:
   createLogrotateConfigs: false
 
 # ObjectScale UI Feature flags
+features:
   objectscaleDashboard: false
   iam: false
   replications: false

@@ -53,10 +53,10 @@ iam:
   enabled: true
 
 pravega:
-  enabled: false
+  enabled: true
 
 bookkeeper:
-  enabled: false
+  enabled: true
 
 dcm:
   enabled: false
@@ -66,7 +66,7 @@ dcm:
 createApplicationResource: true
 
 # The default docker tag and pull policy for objectscale-manager services
-tag: 0.65.0
+tag: 0.66.0
 pullPolicy: IfNotPresent
 
 # The default number of replicas for the objectscale-manager deployment
@@ -133,9 +133,11 @@ resources:
     limits:
       # cpu:
       memory: 500Mi
+      ephemeralStorage: 1256Mi
     requests:
       # cpu:
       memory: 300Mi
+      ephemeralStorage: 1256Mi
   fluentbitAgent:
     limits:
       # cpu:

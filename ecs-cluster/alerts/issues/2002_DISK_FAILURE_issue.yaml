@@ -1,0 +1,10 @@
+- description: "Disk has failed"
+  name: "DiskFailure"
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        - label: SymptomID
+          value: 2002
+        - field: type
+          value: Error
+  notifiers:

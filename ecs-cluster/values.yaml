@@ -79,7 +79,7 @@ features:
   # Enable object notification
   enableNotification: false
 
-  enablePravega: true
+  enablePravega: false
 
   # Object type defines which service will be used: Blob service or Object service.
   # Values: blobSVC or objectSVC
@@ -111,7 +111,7 @@ pravegaRepository: pravega
 pravega:
   # labels:
   image:
-    tag: 0.10.0-2802.a86f69c38-SLTS_COMBINED_FIXES_JAN_22_FLEX
+    tag: 0.9.0-2739.12fb64ed0-SLTS_COMBINED_FIXES_JAN_4
   controller:
 #    replicas: 1
     service:

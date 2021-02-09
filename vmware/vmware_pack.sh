@@ -69,7 +69,7 @@ sed -i "s/$namespace/{{ .service.namespace }}/g" temp_package/yaml/${vsphere7_pl
 sed -i -e "s/REGISTRYTEMPLATE/{{ .Values.registryName }}/g" temp_package/yaml/*
 
 ## Template docker username and password from supervisor service input
-dockersecret='{{printf "{\\"auths\\": {\\"%s\\": {\\"auth\\": \\"%s\\"}}}" {{ .Values.registryName }} (printf "%s:%s" .Values.registryUsername .Values.registryPasswd | b64enc) | b64enc}}'
+dockersecret='{{printf "{\\"auths\\": {\\"%s\\": {\\"auth\\": \\"%s\\"}}}" "https:\/\/index.docker.io\/v1\/" (printf "%s:%s" .Values.registryUsername .Values.registryPasswd | b64enc) | b64enc}}'
 sed -i -e "s/DOCKERSECRETPLACEHOLDER/$dockersecret/g" temp_package/yaml/*
 
 ## Template the vsphere service prefix value

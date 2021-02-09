@@ -14,5 +14,5 @@ dependencies:
     condition: graphql.enabled
   - name: rsyslog-client
     repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
-    version: 3.7.0-1111.e5c34b7d # no_auto_change__monitoring_auto_change
+    version: 3.7.0-1119.e12eefd8 # no_auto_change__monitoring_auto_change
     condition: global.rsyslog_enabled

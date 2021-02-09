@@ -15,7 +15,7 @@ spec:
   sessionAffinity: None
   type: ClusterIP
 ---
-
+{{- if .Values.webhookCert.generate }}
 apiVersion: admissionregistration.k8s.io/v1beta1
 kind: ValidatingWebhookConfiguration
 metadata:
@@ -47,4 +47,5 @@ webhooks:
     resources:
     - bookkeeperclusters
     scope: "*"
-  timeoutSeconds: 30
+  timeoutSeconds: 3
+{{end}}

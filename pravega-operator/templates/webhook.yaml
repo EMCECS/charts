@@ -15,7 +15,7 @@ spec:
   sessionAffinity: None
   type: ClusterIP
 ---
-
+{{- if .Values.webhookCert.generate }}
 apiVersion: admissionregistration.k8s.io/v1beta1
 kind: ValidatingWebhookConfiguration
 metadata:
@@ -43,3 +43,4 @@ webhooks:
     - pravegaclusters
     scope: "*"
   timeoutSeconds: 30
+{{-end}}

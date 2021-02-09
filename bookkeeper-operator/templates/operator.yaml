@@ -27,7 +27,7 @@ spec:
           command:
             - bookkeeper-operator
           {{- if .Values.testmode.enabled }}
-          args: [-test]
+          args: ["-test -webhook=false"]
           {{- end }}
           args: ["-webhook=false"]
           env:

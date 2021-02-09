@@ -29,7 +29,7 @@ spec:
         command:
         - pravega-operator
         {{- if .Values.testmode.enabled }}
-        args: [-test]
+        args: ["-test -webhook=false"]
         {{- end }}
         args: ["-webhook=false"]
         env:

@@ -14,10 +14,10 @@ spec:
   names:
     kind: StoragePolicy
     listKind: StoragePolicyList
-    plural: storagepolicies
-    singular: storagepolicy
+    plural: ecs-storagepolicies
+    singular: ecs-storagepolicy
     shortNames:
-      - sp
+      - ecssp
   scope: Namespaced
   versions:
     - name: v1beta1

@@ -35,6 +35,10 @@ spec:
         operator: objectscale-operator
         product: objectscale
     spec:
+      {{- if .Values.global.registrySecret }}
+      imagePullSecrets:
+        - name: {{ .Values.global.registrySecret }}
+      {{- end }}
       volumes:
         - name: config-volume
           configMap:

@@ -189,7 +189,7 @@ create-manager-app: create-temp-package
 	--set global.platform=VMware \
 	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} \
 	--set global.registry=${REGISTRY} \
-	--set global.hooks.registry=${REGISTRY} \
+	--set hooks.registry=${REGISTRY} \
 	--set global.registrySecret=${REGISTRYSECRET} \
 	--set global.storageClassName=${STORAGECLASSNAME} \
 	--set global.monitoring_registry=${REGISTRY} \

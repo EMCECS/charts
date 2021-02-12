@@ -15,6 +15,7 @@ spec:
       labels:
         {{- include "fedsvc.selectorLabels" . | nindent 8 }}
     spec:
+      serviceAccountName: "federation"
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}

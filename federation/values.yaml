@@ -2,6 +2,11 @@
 tag: 0.67.0
 global:
   registry: emccorp
+  # Default: true == Watch ALL namespaces
+  watchAllNamespaces: true
+  # Platform:
+  platform: Default
+
 fedsvc:
   image:
     pullPolicy: IfNotPresent

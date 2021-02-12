@@ -47,8 +47,8 @@ rules:
     - ""
   resources:
     - pods
-    - persistentvolumeclaims
     - secrets
     - configmaps
+    - services
   verbs:
     - "*"

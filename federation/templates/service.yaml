@@ -6,6 +6,8 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "fedsvc.labels" . | nindent 4 }}
+  annotations:
+    objectscale.dellemc.com/federationRegistration: "ObjectScale"
 spec:
   type: {{ .Values.fedsvc.service.type }}
   ports:

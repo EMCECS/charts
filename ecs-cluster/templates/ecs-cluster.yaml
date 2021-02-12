@@ -21,6 +21,8 @@ metadata:
 spec:
 {{- if .Values.global.registrySecret }}
   registrySecret: {{ .Values.global.registrySecret }}
+  imagePullSecrets:
+   - name: {{ .Values.global.registrySecret }}
 {{- end }}
 {{- if .Values.replicas }}
   replicas: {{ .Values.replicas }}

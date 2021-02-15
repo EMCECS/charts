@@ -111,7 +111,7 @@ decksver: yqcheck
 
 graphqlver: yqcheck
 	yq e '(.objectStoreAvailableVersions[0] = "${FLEXVER}") | (.decks.licenseChartVersion = "${DECKSVER}") | (.decks.supportAssistChartVersion = "${DECKSVER}") ' -i objectscale-graphql/values.yaml
-	sed -i '1s/^/---\n/' objectscale-graphql/values.yaml
+	sed ${SED_INPLACE} '1s/^/---\n/' objectscale-graphql/values.yaml
 	yamllint -c .yamllint.yml objectscale-graphql/values.yaml
 
 flexver: yqcheck graphqlver

@@ -48,6 +48,10 @@ spec:
             requests:
               memory: 250M
           image: {{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ default .Values.tag .Values.image.tag }}
+          {{- if .Values.testStartupCommand }}
+          command: ["/bin/sh"]
+          args: ["-c", "{{ .Values.testStartupCommand }}"]
+          {{- end }}
           env:
             - name: OPERATOR_NAME
               value: objectscale-operator

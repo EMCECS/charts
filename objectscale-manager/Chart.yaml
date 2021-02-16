@@ -15,7 +15,7 @@ dependencies:
     repository: file://../zookeeper-operator
     condition: zookeeper.enabled
   - name: atlas-operator
-    version: 0.28.0 # no_auto_change
+    version: 0.29.0 # no_auto_change
     repository: file://../atlas-operator
     condition: atlas.enabled
   - name: objectscale-monitoring

@@ -630,6 +630,7 @@ managementGateway:
 # be provisioned via API before it can be used
 provision:
   enabled: true
+  newProvisionAPI: false
   image:
     repository: provision
     # tag: stable

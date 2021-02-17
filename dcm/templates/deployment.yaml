@@ -39,22 +39,22 @@ spec:
             valueFrom:
              fieldRef:
               fieldPath: status.podIP
-          image: "{{ default  .Values.global.registry .Values.dcm.image.registry }}/{{ .Values.dcm.image.repository }}:{{ .Values.dcm.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.dcm.image.pullPolicy }}
+          image: "{{ default  .Values.global.registry .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
               containerPort: 9026
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: {{ .Values.dcm.livenessProbe.probePath }}
+              path: {{ .Values.livenessProbe.probePath }}
               port: http
-            failureThreshold: {{ .Values.dcm.livenessProbe.failureThreshold | default 3 }}
-            periodSeconds: {{ .Values.dcm.livenessProbe.periodSeconds | default 60 }}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold | default 3 }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds | default 60 }}
           readinessProbe:
             httpGet:
-              path: {{ .Values.dcm.readinessProbe.probePath }}
+              path: {{ .Values.readinessProbe.probePath }}
               port: http
-            failureThreshold: {{ .Values.dcm.readinessProbe.failureThreshold | default 3 }}
-            periodSeconds: {{ .Values.dcm.readinessProbe.periodSeconds | default 60 }}
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold | default 3 }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 60 }}
 

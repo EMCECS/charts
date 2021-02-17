@@ -1,5 +1,5 @@
 ---
-{{- if or (eq .Values.global.platform "VMware") (eq .Values.global.watchAllNamespaces true) }}
+{{- if (eq .Values.global.watchAllNamespaces true) }}
 kind: ClusterRole
 {{- else }}
 kind: Role

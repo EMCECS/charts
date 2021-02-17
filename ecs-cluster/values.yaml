@@ -470,10 +470,10 @@ s3:
 
     # Specify the service port configuration for the s3 service
     ports:
-      - name: https
+      - name: secure
         port: 443
         targetPort: 9021
-      - name: http
+      - name: insecure
         port: 80
         targetPort: 9020
         # nodePort:           # select specific node port for the connection
@@ -585,7 +585,7 @@ managementGateway:
 
     # Specify the service port configuration for the managementGateway service
     ports:
-      - name: https
+      - name: api
         port: 4443
         targetPort: 4443
         # nodePort:           # select specific node port for the connection

@@ -393,7 +393,7 @@ managementGateway:
 
     # Specify the service port configuration for the managementGateway service
     ports:
-      - name: https
+      - name: api
         port: 4443
         targetPort: 4443
 

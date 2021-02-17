@@ -3,12 +3,12 @@ HELM_URL     := https://get.helm.sh
 HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
 YQ_VERSION   := 4.4.1
 YAMLLINT_VERSION := 1.20.0
-CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod objectscale-graphql helm-controller objectscale-vsphere objectscale-portal objectscale-iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator influxdb-operator federation logging-injector dcm
+CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod helm-controller objectscale-graphql objectscale-vsphere objectscale-portal objectscale-iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator influxdb-operator federation logging-injector dcm
 DECKSCHARTS := decks kahm supportassist service-pod dellemc-license decks-support-store
 FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller objectscale-portal objectscale-iam statefuldaemonset-operator influxdb-operator federation logging-injector dcm
 
 # release version
-PACKAGE_VERSION=0.66
+PACKAGE_VERSION=0.67
 FULL_PACKAGE_VERSION=${PACKAGE_VERSION}.0
 FLEXVER=${FULL_PACKAGE_VERSION}
 DECKSVER=2.${PACKAGE_VERSION}

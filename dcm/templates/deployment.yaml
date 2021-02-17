@@ -7,7 +7,7 @@ metadata:
   labels:
     {{- include "dcm.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.dcm.replicaCount }}
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       {{- include "dcm.selectorLabels" . | nindent 6 }}

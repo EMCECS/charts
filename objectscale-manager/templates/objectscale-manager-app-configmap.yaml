@@ -23,6 +23,7 @@ data:
         - name: pre-update
           container: {{.Values.global.registry}}/objectscale-manager-pre-update:{{.Values.tag}}
           schedule: "*/30 * * * *"
+          serviceaccount: {{ .Release.Name }}-healthchecks
           timelimit: "5m"
     eventRemedies: |-
       symptoms:

@@ -95,7 +95,7 @@ spec:
           value: stdout
 {{- end }}
         - name: HELM_CONTROLLER_ENDPOINT
-          value: {{ .Release.Name }}-installer
+          value: http://{{ .Release.Name }}-installer
         - name: HELM_CONTROLLER_REST_CREDENTIALS
           valueFrom:
             secretKeyRef:

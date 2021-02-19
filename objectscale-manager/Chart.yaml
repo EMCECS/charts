@@ -19,7 +19,7 @@ dependencies:
     repository: file://../atlas-operator
     condition: atlas.enabled
   - name: objectscale-monitoring
-    version: 3.7.0-1128.47615ab6 # no_auto_change__monitoring_auto_change
+    version: 3.7.0-1129.2b07b6b8 # no_auto_change__monitoring_auto_change
     condition: global.monitoring.enabled
     repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
   - name: federation

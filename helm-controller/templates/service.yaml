@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ .Release.Name }}-installer
   namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: objectscale-manager

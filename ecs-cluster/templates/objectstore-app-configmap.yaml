@@ -27,14 +27,14 @@ data:
 {{ end }}
     health: |-
       spec:
-        - name: objectstore-healthcheck
+        - name: healthcheck
           container: {{.Values.global.registry}}/{{.Values.healthChecks.connectivity.image.repository}}:{{default .Values.tag .Values.healthChecks.connectivity.image.tag}}
           serviceaccount: {{.Release.Name}}-healthchecks
           schedule: "0 */6 * * *"
           timelimit: "5m"
           args:
             - all
-        - name: objectstore-pre-update
+        - name: pre-update
           container: {{.Values.global.registry}}/{{.Values.healthChecks.preUpdate.image.repository}}:{{default .Values.tag .Values.healthChecks.preUpdate.image.tag}}
           serviceaccount: {{.Release.Name}}-healthchecks
           schedule: "*/30 * * * *"

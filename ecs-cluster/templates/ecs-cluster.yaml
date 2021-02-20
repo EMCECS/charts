@@ -604,6 +604,7 @@ spec:
 
   provision:
     enabled: {{.Values.provision.enabled }}
+    newProvisionAPI: {{.Values.provision.newProvisionAPI}}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.provision.image.repository }}
 {{- if .Values.provision.image.tag }}

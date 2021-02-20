@@ -94,6 +94,13 @@ spec:
 {{- else }}
           value: stdout
 {{- end }}
+        - name: HELM_CONTROLLER_ENDPOINT
+          value: {{ .Release.Name }}-installer
+        - name: HELM_CONTROLLER_REST_CREDENTIALS
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-rest-credentials
+              key: credentials
 {{- if .Values.withPlayground }}
         args:
           - "-P"

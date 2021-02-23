@@ -4,7 +4,7 @@ metadata:
   name: {{ include "atlas-operator.name" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-{{ include "atlas-operator.labels" . | indent 4 }}
+    {{- include "atlas-operator.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
@@ -25,7 +25,7 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}

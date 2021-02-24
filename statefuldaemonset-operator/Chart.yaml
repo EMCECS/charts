@@ -1,8 +1,8 @@
 ---
 apiVersion: v2
 name: statefuldaemonset-operator
-version: 0.67.0
-appVersion: 0.67.0
+version: 0.68.0
+appVersion: 0.68.0
 description: |
   StatefulDaemonSet operator deploys operator pod which is responsible
   for creation of statefulset pods on all k8s nodes

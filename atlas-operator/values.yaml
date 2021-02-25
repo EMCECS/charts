@@ -25,6 +25,10 @@ image:
 
 nameOverride: ""
 
+serviceAccount:
+  create: true
+  name: atlas-operator
+
 podSecurityContext: {}
 #  fsGroup: 2000
 

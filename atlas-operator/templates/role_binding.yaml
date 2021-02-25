@@ -6,12 +6,12 @@ metadata:
   namespace: {{ .Release.Namespace }}
 {{- end }}
   labels:
-{{ include "atlas-operator.labels" . | indent 4 }}
+    {{- include "atlas-operator.labels" . | nindent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: {{ .Values.global.watchAllNamespaces | ternary "ClusterRole" "Role" }}
   name: atlas-operator
 subjects:
 - kind: ServiceAccount
-  name: default
+  name: {{ .Values.serviceAccount.name }}
   namespace: {{ .Release.Namespace }}

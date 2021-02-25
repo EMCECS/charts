@@ -73,11 +73,11 @@ sed "${sed_inplace[@]}" 's/[[:space:]]*$//' temp_package/yaml/${vsphere7_plugin_
 sed "${sed_inplace[@]}" "s/$namespace/{{ .service.namespace }}/g" temp_package/yaml/${vsphere7_plugin_file}
 
 ## Template registry from supervisor service input
-sed -i -e "s/REGISTRYTEMPLATE/{{ .Values.registryName }}/g" temp_package/yaml/*
+sed "${sed_inplace[@]}" -e "s/REGISTRYTEMPLATE/{{ .Values.registryName }}/g" temp_package/yaml/*
 
 ## Template docker username and password from supervisor service input
 dockersecret='{{printf "{\\"auths\\": {\\"%s\\": {\\"auth\\": \\"%s\\"}}}" .Values.registryName (printf "%s:%s" .Values.registryUsername .Values.registryPasswd | b64enc) | b64enc}}'
-sed -i -e "s/DOCKERSECRETPLACEHOLDER/$dockersecret/g" temp_package/yaml/*
+sed "${sed_inplace[@]}" -e "s/DOCKERSECRETPLACEHOLDER/$dockersecret/g" temp_package/yaml/*
 
 ## Template the vsphere service prefix value
 sed "${sed_inplace[@]}" "s/VSPHERE_SERVICE_PREFIX_VALUE/{{ .service.prefix }}/g" temp_package/yaml/${vsphere7_plugin_file}

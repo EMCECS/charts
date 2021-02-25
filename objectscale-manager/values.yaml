@@ -66,7 +66,7 @@ dcm:
 createApplicationResource: true
 
 # The default docker tag and pull policy for objectscale-manager services
-tag: 0.67.0
+tag: 0.68.0
 pullPolicy: IfNotPresent
 
 # The default number of replicas for the objectscale-manager deployment

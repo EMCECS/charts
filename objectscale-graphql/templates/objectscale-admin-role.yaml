@@ -19,9 +19,11 @@ rules:
 - apiGroups:
   - ""
   resources:
-  - secrets
+    - resourcequotas
   verbs:
-    - "*"
+    - get
+    - list
+    - watch
 - apiGroups:
     - decks.ecs.dellemc.com
   resources:
@@ -43,6 +45,7 @@ rules:
 - apiGroups:
     - ""
   resources:
+    - secrets
     - pods
     - services
     - endpoints

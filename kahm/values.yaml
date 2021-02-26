@@ -18,7 +18,8 @@ global:
   # Platform:
   platform: Default
 
-deploymentUpgrade: false 
+# this will be true only if the upgrade is happening from statefulset to deployment
+deploymentUpgrade: false
 
 # The default docker tag and pull policy for the KAHM
 tag: 2.0.68

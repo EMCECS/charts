@@ -6,12 +6,12 @@ metadata:
   labels:
     release: {{ .Release.Name }}
 spec:
-  podManagementPolicy: Parallel
   replicas: 1
   selector:
     matchLabels:
       name: kahm
-  serviceName: kahm-headless
+  strategy:
+   type: Recreate
   template:
     metadata:
       labels:
@@ -77,19 +77,27 @@ spec:
             configMapKeyRef:
              name: kahm-db-config
              key: eventTTL
-  volumeClaimTemplates:
-  - metadata:
-      labels:
-        app: kahm 
-        release: {{ .Release.Name }}
-      name: db
-    spec:
-      accessModes:
-      - ReadWriteOnce
-      {{- if .Values.storageClassName}}
-      storageClassName: {{.Values.storageClassName}}
-      {{- end}}
-      dataSource: null
-      resources:
-        requests:
-          storage: 2Gi
+      volumes:
+      - name: db
+        persistentVolumeClaim:
+          claimName: db-kahm-0
+---
+{{- if ne .Values.deploymentUpgrade  true }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: db-kahm-0
+  namespace: {{.Release.namespace}}
+  labels:
+    app: kahm
+    release: {{ .Release.Name }}
+spec:
+  {{- if .Values.storageClassName}}
+   storageClassName: {{.Values.storageClassName}}
+  {{- end}}
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+{{- end }}

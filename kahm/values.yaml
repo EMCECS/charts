@@ -18,9 +18,13 @@ global:
   # Platform:
   platform: Default
 
+# this will be true only if the upgrade is happening from statefulsets to deployment
+deploymentUpgrade: false
+
 # The default docker tag and pull policy for the KAHM
 tag: 1.2.5
 pullPolicy: IfNotPresent
+
 
 # The number of replicas for the KAHM deployment
 replicaCount: 1

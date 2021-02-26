@@ -207,6 +207,8 @@ spec:
         repository: {{ .Values.pravegaRepository }}/bookkeeper
         pullPolicy: {{ with .Values.bookkeeper.image }}{{ .pullPolicy }}{{ end }}
     version:  {{ .Values.bookkeeper.version }}
+    serviceAccountName:  {{ .Values.bookkeeper.serviceAccountName }}
+    blockOwnerDeletion:  {{ .Values.bookkeeper.blockOwnerDeletion }}
     autoRecovery: {{ .Values.bookkeeper.autoRecovery }}
     storage:
       ledgerVolumeClaimTemplate:

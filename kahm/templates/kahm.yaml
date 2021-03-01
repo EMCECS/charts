@@ -82,23 +82,3 @@ spec:
       - name: db
         persistentVolumeClaim:
           claimName: db-kahm-0
----
-{{- if ne .Values.deploymentUpgrade  true }}
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: db-kahm-0
-  namespace: {{.Release.namespace}}
-  labels:
-    app: kahm
-    release: {{ .Release.Name }}
-spec:
-  {{- if .Values.storageClassName}}
-   storageClassName: {{.Values.storageClassName}}
-  {{- end}}
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 2Gi
-{{- end }}

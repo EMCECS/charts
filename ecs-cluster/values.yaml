@@ -73,8 +73,8 @@ features:
   # Enable Cross Region Replication
   enableCRR: false
 
-  # use old metering svc
-  enableObjectStoreMetering: false
+  # Enable object store metering (objmt) svc instead of old metering svc
+  enableObjectStoreMetering: true
 
   # Enable object notification
   enableNotification: false

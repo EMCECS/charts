@@ -13,5 +13,5 @@ roleRef:
   name: atlas-operator
 subjects:
 - kind: ServiceAccount
-  name: {{ .Values.serviceAccount.name }}
+  name: atlas-operator
   namespace: {{ .Release.Namespace }}

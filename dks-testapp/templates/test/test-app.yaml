@@ -32,7 +32,11 @@ spec:
     - name: SUPPORTASSIST_PRODUCT_NAME
       value: {{ .Values.supportassist.productName }}
     - name: SUPPORTASSIST_NAMESPACE
+{{- if .Values.supportassist.namespace}}
+      value: {{ .Values.supportassist.namespace }}
+{{- else}}
       value: {{ .Release.Namespace }}
+{{- end}}
     - name: REGISTRY_SECRET
       value: {{ .Values.global.registrySecret }}
     envFrom:

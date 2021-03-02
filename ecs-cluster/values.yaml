@@ -161,6 +161,19 @@ bookkeeper:
   version: 0.9.0-2725.77b13981a
   blockOwnerDeletion: false
   autoRecovery: true
+  probes:
+    readiness:
+      initialDelaySeconds: 20
+      periodSeconds: 120
+      failureThreshold: 9
+      successThreshold: 1
+      timeoutSeconds: 45
+    liveness:
+      initialDelaySeconds: 60
+      periodSeconds: 15
+      failureThreshold: 4
+      successThreshold: 1
+      timeoutSeconds: 5
   storage:
     ledger:
       # storageClassName:

@@ -1,0 +1,50 @@
+---
+apiVersion: "ecs.dellemc.com/v1beta1"
+kind: "NetworkConnection"
+metadata:
+  name: objectscale-communication-gateway
+  namespace: {{ .Release.Namespace}}
+  labels:
+    app.kubernetes.io/name: {{ template "objectscaleCommunicationGateway.name" . }}
+    app.kubernetes.io/component: objectscale-communication-gateway
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+spec:
+{{- if .Values.objectscaleCommunicationGateway.external.service }}
+  service:
+      {{ toYaml .Values.objectscaleCommunicationGateway.external.service | nindent 6 | trim }}
+{{- end }}
+{{- if .Values.objectscaleCommunicationGateway.external.tls }}
+  tls:
+      {{ toYaml .Values.objectscaleCommunicationGateway.external.tls | nindent 6 | trim }}
+{{- end }}
+---
+apiVersion: "ecs.dellemc.com/v1beta1"
+kind: "NetworkConnection"
+metadata:
+  name: objectscale-communication-gateway-internal
+  namespace: {{ .Release.Namespace}}
+  labels:
+    app.kubernetes.io/name: {{ template "objectscaleCommunicationGateway.name" . }}
+    app.kubernetes.io/component: objectscale-communication-gateway
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+  annotations:
+    objectscale.dellemc.com/federationSigned: "InternalCA"
+spec:
+{{- if .Values.objectscaleCommunicationGateway.internal.service }}
+  service:
+      {{ toYaml .Values.objectscaleCommunicationGateway.internal.service | nindent 6 | trim }}
+{{- end }}
+{{- if .Values.objectscaleCommunicationGateway.internal.tls }}
+  tls:
+      {{ toYaml .Values.objectscaleCommunicationGateway.internal.tls | nindent 6 | trim }}
+{{- end }}

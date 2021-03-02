@@ -32,7 +32,7 @@ readinessProbe:
 # Service Configuration for ObjectScale IAM
 service:
   port: 9400
-  type: LoadBalancer
+  type: ClusterIP
 
 # Atlas Cluster configuration for ObjectScale persistent Storage
 atlas:

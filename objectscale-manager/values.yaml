@@ -46,6 +46,9 @@ atlas:
 servicePod:
   enabled: true
 
+objectscale-communication-gateway:
+  enabled: true
+
 federation:
   enabled: true
 

@@ -31,6 +31,10 @@ spec:
       - name: service-pod
         image: {{.Values.global.registry}}/{{.Values.image.repository | replace "base" .Values.global.product}}:{{default .Values.tag .Values.image.tag}}
         imagePullPolicy: {{default .Values.pullPolicy .Values.image.pullPolicy }}
+        securityContext:
+          capabilities:
+            add:
+            - SYS_CHROOT
         ports:
         - containerPort: 22
           name: ssh

@@ -7,7 +7,7 @@
                 <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="80 MB"/>
+                <SizeBasedTriggeringPolicy size="40 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
@@ -51,7 +51,7 @@
                 <Pattern>%d{ISO8601} %5p %m%n</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="80 MB"/>
+                <SizeBasedTriggeringPolicy size="40 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>

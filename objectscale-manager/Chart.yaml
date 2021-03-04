@@ -1,10 +1,10 @@
 ---
 apiVersion: v2
-appVersion: 0.68.0
+appVersion: 0.68.2
 description: |
   Dell EMC ObjectScale is highly scalable, and high performance S3 compatible object storage platform.
 name: objectscale-manager
-version: 0.68.1
+version: 0.68.2
 icon: https://avatars0.githubusercontent.com/u/12926680
 maintainers:
   - name: Dell EMC
@@ -23,15 +23,15 @@ dependencies:
     condition: global.monitoring.enabled
     repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
   - name: federation
-    version: 0.68.0
+    version: 0.68.2
     repository: file://../federation
     condition: federation.enabled
   - name: objectscale-iam
-    version: 0.68.0
+    version: 0.68.2
     repository: file://../objectscale-iam
     condition: iam.enabled
   - name: service-pod
-    version: 2.0.68 # no_auto_change__decks_auto_change
+    version: 2.0.68.2 # no_auto_change__decks_auto_change
     condition: servicePod.enabled
     repository: file://../service-pod
   - name: pravega-operator
@@ -43,6 +43,6 @@ dependencies:
     repository: file://../bookkeeper-operator
     condition: bookkeeper.enabled
   - name: dcm
-    version: 0.68.0
+    version: 0.68.2
     repository: file://../dcm
     condition: dcm.enabled

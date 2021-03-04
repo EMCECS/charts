@@ -9,9 +9,9 @@ FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-gr
 
 # release version
 PACKAGE_VERSION=0.68
-FULL_PACKAGE_VERSION=${PACKAGE_VERSION}.0
+FULL_PACKAGE_VERSION=${PACKAGE_VERSION}.2
 FLEXVER=${FULL_PACKAGE_VERSION}
-DECKSVER=2.${PACKAGE_VERSION}
+DECKSVER=2.${FULL_PACKAGE_VERSION}
 
 GIT_COMMIT_COUNT=$(shell git rev-list HEAD | wc -l)
 GIT_COMMIT_ID=$(shell git rev-parse HEAD)

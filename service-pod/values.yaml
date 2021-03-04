@@ -34,3 +34,11 @@ resources:
     storage: 10Gi
   limits:
     storage: 20Gi
+# service-pod securityContext, on openshift this context allows chroot capability
+# when installing on openshift run installer with podSecurityContext.enabled set to true
+podSecurityContext:
+  enabled: false
+  securityContext:
+    capabilities:
+      add:
+      - SYS_CHROOT

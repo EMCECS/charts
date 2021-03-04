@@ -89,7 +89,7 @@ rsyslog-client:
 
 # ObjectScale UI Feature flags
 features:
-  objectscaleDashboard: false
+  objectscaleDashboard: true
   iam: false
   replications: false
   objectscaleSystems: false

@@ -92,3 +92,6 @@ hooks:
   registry: "lachlanevenson"
   repository: "k8s-kubectl"
   tag: "v1.13.4"
+
+podSecurityContext:
+  enabled: false

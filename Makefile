@@ -1,7 +1,7 @@
 HELM_VERSION := v3.0.3
 HELM_URL     := https://get.helm.sh
 HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
-YQ_VERSION   := 2.4.1
+YQ_VERSION   := 3.4.1
 YAMLLINT_VERSION := 1.20.0
 CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm srs-gateway dks-testapp fio-test sonobuoy dellemc-license service-pod
 DECKSCHARTS := decks kahm srs-gateway dks-testapp dellemc-license service-pod
@@ -37,8 +37,10 @@ dep:
 		helm plugin install https://github.com/lrills/helm-unittest ; \
  	fi
 	export PATH=$PATH:/tmp
+	wget -q http://asdrepo.isus.emc.com/artifactory/ecs-build/com/github/yq/${YQ_VERSION}/yq_linux_amd64
+	sudo mv yq_linux_amd64 /usr/bin/yq
+	sudo chmod u+x /usr/bin/yq
 	sudo pip install yamllint=="${YAMLLINT_VERSION}"
-	sudo pip install yq=="${YQ_VERSION}"
 
 decksver:
 	if [ -z $${DECKSVER} ] ; then \

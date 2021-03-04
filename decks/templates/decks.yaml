@@ -62,3 +62,7 @@ spec:
 {{- end }}
         - name: CONTROLLER_NAME
           value: decks
+        {{- if eq .Values.podSecurityContext.enabled true}}
+        - name: SERVICE_POD_SECURITY_CONTEXT
+          value: "true"
+        {{- end }}

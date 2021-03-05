@@ -25,7 +25,7 @@
 # The default docker registry, tag and pull policy for the remote access and
 # notifier pods that are created as SRS gateway CR secondary resources.
 registry: "emccorp"
-tag: 1.2.5
+tag: 1.2.6
 pullPolicy: IfNotPresent
 
 gateway:

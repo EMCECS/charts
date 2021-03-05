@@ -37,5 +37,4 @@ data:
         - name: pre-update
           container: {{.Values.global.registry}}/{{.Values.healthChecks.preUpdate.image.repository}}:{{default .Values.tag .Values.healthChecks.preUpdate.image.tag}}
           serviceaccount: {{.Release.Name}}-healthchecks
-          schedule: "*/30 * * * *"
           timelimit: "5m"

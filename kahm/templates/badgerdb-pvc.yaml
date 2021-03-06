@@ -10,9 +10,9 @@ metadata:
   annotations:
     "helm.sh/hook": "pre-install"
 spec:
-  {{- if .Values.storageClassName}}
-   storageClassName: {{.Values.storageClassName}}
-  {{- end}}
+{{- if .Values.storageClassName}}
+  storageClassName: {{.Values.storageClassName}}
+{{- end}}
   accessModes:
     - ReadWriteOnce
   resources:

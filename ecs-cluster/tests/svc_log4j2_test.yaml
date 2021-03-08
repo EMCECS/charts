@@ -180,7 +180,7 @@ tests:
         documentIndex: 17
       - matchRegex:
           path: data.ons-log4j2\.xml
-          pattern: "repsvc.log"
+          pattern: "ons.log"
         documentIndex: 17
 
       - equal:
@@ -189,7 +189,7 @@ tests:
         documentIndex: 18
       - matchRegex:
           path: data.nds-log4j2\.xml
-          pattern: "repsvc.log"
+          pattern: "nds.log"
         documentIndex: 18
 
 

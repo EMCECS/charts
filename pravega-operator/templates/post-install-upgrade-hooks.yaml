@@ -94,7 +94,7 @@ spec:
       restartPolicy: Never
       containers:
       - name: post-install-upgrade-job
-        image: "{{ .Values.hooks.image.repository }}:{{ .Values.hooks.image.tag }}"
+        image: "{{ .Values.global.registry }}/{{ .Values.hooks.image.repository }}:{{ .Values.hooks.image.tag }}"
         command:
           - /scripts/validations.sh
         volumeMounts:

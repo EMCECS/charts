@@ -108,6 +108,7 @@ atlas:
     # Name of the storage class that storage should be provisioned from
     # storageClassName:
 pravegaRepository: pravega
+bookkeeperRepository: bookkeeper
 pravega:
   # labels:
   image:

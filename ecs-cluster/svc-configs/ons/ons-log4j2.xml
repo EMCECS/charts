@@ -10,12 +10,6 @@
  * it is provided by or on behalf of Dell EMC.
  -->
 <Configuration monitorInterval="60" shutdownHook="disable">
-    <CustomLevels>
-        <CustomLevel name="DEBUG_TREE" intLevel="520"/>
-        <CustomLevel name="DEBUG_SYNC" intLevel="540"/>
-        <CustomLevel name="DEBUG_PAGE" intLevel="560"/>
-        <CustomLevel name="DEBUG_ALL" intLevel="580"/>
-    </CustomLevels>
     <Appenders>
         <RollingFile name="R" fileName="${sys:product.home}/logs/ons.log"
                      filePattern="${sys:product.home}/logs/ons.log.%i">
@@ -83,16 +77,26 @@
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
+        <RollingFile name="ST" fileName="${sys:product.home}/logs/ons-stream.log"
+                     filePattern="${sys:product.home}/logs/ons-stream.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+        </RollingFile>
+
         <Syslog name="alertsLogger" host="localhost" port="514" protocol="UDP" facility="LOCAL7"/>
 
         <Async name="asyncR" includeLocation="true">
             <AppenderRef ref="R"/>
         </Async>
-        <Async name="asyncE" includeLocation="true">
-            <AppenderRef ref="E"/>
-        </Async>
         <Async name="asyncP" includeLocation="true">
             <AppenderRef ref="P"/>
+        </Async>
+        <Async name="asyncE" includeLocation="true">
+            <AppenderRef ref="E"/>
         </Async>
         <Async name="asyncM" includeLocation="true">
             <AppenderRef ref="M"/>
@@ -102,6 +106,9 @@
         </Async>
         <Async name="asyncT" includeLocation="true">
             <AppenderRef ref="T"/>
+        </Async>
+        <Async name="asyncST" includeLocation="true">
+            <AppenderRef ref="ST"/>
         </Async>
     </Appenders>
 
@@ -138,19 +145,14 @@
             <AppenderRef ref="asyncE" level="ERROR"/>
         </Logger>
 
-        <Logger name="org.apache.http" level="WARN" additivity="false">
+        <Logger name="com.emc.storageos.data.stream" level="INFO">
             <AppenderRef ref="asyncR" level="WARN"/>
-            <AppenderRef ref="asyncE" level="ERROR"/>
+            <AppenderRef ref="asyncST"/>
         </Logger>
 
-        <Logger name="org.apache.http.impl.conn.PoolingHttpClientConnectionManager" level="DEBUG" additivity="false">
-            <AppenderRef ref="asyncR"/>
-            <AppenderRef ref="asyncE" level="ERROR"/>
-        </Logger>
-
-        <Logger name="com.emc.ecs.ons" level="INFO" additivity="false">
-            <AppenderRef ref="asyncR"/>
-            <AppenderRef ref="asyncE" level="ERROR"/>
+        <Logger name="io.pravega.client" level="INFO">
+            <AppenderRef ref="asyncR" level="WARN"/>
+            <AppenderRef ref="asyncST"/>
         </Logger>
 
         <Logger name="com.dell.objectscale.objmt" level="DEBUG" additivity="false">
@@ -169,9 +171,9 @@
             <AppenderRef ref="asyncR"/>
         </Logger>
 
-        <Root level="info">
+        <Root level="INFO">
             <AppenderRef ref="asyncR"/>
-            <AppenderRef ref="asyncE" level="error"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
         </Root>
     </Loggers>
 

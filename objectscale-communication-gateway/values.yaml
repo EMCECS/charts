@@ -82,8 +82,8 @@ objectscaleCommunicationGateway:
       #   - 2001:0db8:0000:0000:0000:0000:0000:0001
 
     tls:
-      # Type of certificate signing: SelfSigned, KubernetesSigned, or ExternallySigned
-      certificateType: KubernetesSigned
+      # Type of certificate signing: SelfSigned, KubernetesSigned, InternallySigned or ExternallySigned
+      certificateType: InternallySigned
 
       certificate: {}
       # publicKey: < server side customer certificate>

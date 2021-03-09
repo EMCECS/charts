@@ -13,6 +13,8 @@ metadata:
     app.kubernetes.io/part-of: {{ .Release.Name }}
     helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     release: {{ .Release.Name }}
+  annotations:
+    objectscale.dellemc.com/federationRegistration: "ObjectScale"
 spec:
 {{- if .Values.objectscaleCommunicationGateway.external.service }}
   service:
@@ -38,6 +40,7 @@ metadata:
     helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     release: {{ .Release.Name }}
   annotations:
+    objectscale.dellemc.com/federationRegistration: "ObjectScale"
     objectscale.dellemc.com/federationSigned: "InternalCA"
 spec:
 {{- if .Values.objectscaleCommunicationGateway.internal.service }}

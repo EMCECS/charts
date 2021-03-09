@@ -218,3 +218,10 @@ loggerConfig:
     durationEncoder: "string"
     # "full" or "short" caller info
     callerEncoder: "short"
+
+# KAHM health check configuration
+healthChecks:
+  preUpdate:
+    image:
+      repository: objectscale-manager-pre-update
+      # tag: stable

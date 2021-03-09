@@ -38,3 +38,6 @@ data:
           container: {{.Values.global.registry}}/{{.Values.healthChecks.preUpdate.image.repository}}:{{default .Values.tag .Values.healthChecks.preUpdate.image.tag}}
           serviceaccount: {{.Release.Name}}-healthchecks
           timelimit: "5m"
+          args:
+            - -target-version
+            - {{ .Values.tag .Values.healthChecks.preUpdate.image.tag }}

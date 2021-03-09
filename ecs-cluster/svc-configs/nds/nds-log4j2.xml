@@ -94,11 +94,11 @@
             <AppenderRef ref="asyncM"/>
         </Logger>
 
-        <Logger name="com.emc.storageos.data.stream" level="INFO">
+        <Logger name="com.emc.storageos.data.stream" level="INFO" additivity="false">
             <AppenderRef ref="asyncR" level="WARN"/>
             <AppenderRef ref="asyncST"/>
         </Logger>
-        <Logger name="io.pravega.client" level="INFO">
+        <Logger name="io.pravega.client" level="INFO" additivity="false">
             <AppenderRef ref="asyncR" level="WARN"/>
             <AppenderRef ref="asyncST"/>
         </Logger>

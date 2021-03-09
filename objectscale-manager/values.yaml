@@ -53,13 +53,13 @@ iam:
   enabled: true
 
 pravega:
-  enabled: true
+  enabled: false
 
 bookkeeper:
-  enabled: true
+  enabled: false
 
 dcm:
-  enabled: true
+  enabled: false
 
 # Create an application resource for management  using Dell EMC common installer or other application-resource
 # controllers

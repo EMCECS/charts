@@ -1,4 +1,4 @@
-#Dell EMC Federation Service  Helm Chart
+#Dell EMC ObjectScale Communication Gateway Helm Chart
 
 This Helm chart deploys a Dell EMC ObjectScale Communication Gateway
 

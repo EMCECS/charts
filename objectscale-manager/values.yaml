@@ -53,20 +53,20 @@ iam:
   enabled: true
 
 pravega:
-  enabled: true
+  enabled: false
 
 bookkeeper:
-  enabled: true
+  enabled: false
 
 dcm:
-  enabled: true
+  enabled: false
 
 # Create an application resource for management  using Dell EMC common installer or other application-resource
 # controllers
 createApplicationResource: true
 
 # The default docker tag and pull policy for objectscale-manager services
-tag: 0.68.0
+tag: 0.68.2
 pullPolicy: IfNotPresent
 
 # The default number of replicas for the objectscale-manager deployment

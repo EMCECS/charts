@@ -9,6 +9,8 @@ tests:
       - equal:
           path: metadata.name
           value: atlas-operator-binding
+      - isNull:
+          path: metadata.namespace
   - it: should create a RoleBinding resource in a namespace
     set:
       global.watchAllNamespaces: false
@@ -18,6 +20,9 @@ tests:
       - equal:
           path: metadata.name
           value: atlas-operator-binding
+      - equal:
+          path: metadata.namespace
+          value: NAMESPACE
   - it: should have labels
     asserts:
       - equal:
@@ -29,7 +34,7 @@ tests:
       - equal:
           path: metadata.labels.app\.kubernetes\.io/instance
           value: RELEASE-NAME
-  - it: should bind the ClusterRole to the default account
+  - it: should bind the ClusterRole to the atlas-operator account
     asserts:
       - equal:
           path: roleRef.kind
@@ -42,8 +47,8 @@ tests:
           value: ServiceAccount
       - equal:
           path: subjects[0].name
-          value: default
-  - it: should bind the Role to the default account
+          value: atlas-operator
+  - it: should bind the Role to the atlas-operator account
     set:
       global.watchAllNamespaces: false
     asserts:
@@ -58,4 +63,4 @@ tests:
           value: ServiceAccount
       - equal:
           path: subjects[0].name
-          value: default
+          value: atlas-operator

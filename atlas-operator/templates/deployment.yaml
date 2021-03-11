@@ -17,6 +17,7 @@ spec:
         app.kubernetes.io/name: {{ include "atlas-operator.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      serviceAccountName: atlas-operator
       {{- if .Values.global.registrySecret }}
       imagePullSecrets:
         - name: {{ .Values.global.registrySecret }}

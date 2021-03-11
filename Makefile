@@ -8,10 +8,13 @@ DECKSCHARTS := decks kahm supportassist service-pod dellemc-license decks-suppor
 FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller objectscale-portal objectscale-communication-gateway objectscale-iam statefuldaemonset-operator influxdb-operator federation logging-injector dcm
 
 # release version
-PACKAGE_VERSION=0.68
-FULL_PACKAGE_VERSION=${PACKAGE_VERSION}.0
+MAJOR=0
+MINOR=68
+PATCH=2
+
+FULL_PACKAGE_VERSION=${MAJOR}.${MINOR}.${PATCH}
 FLEXVER=${FULL_PACKAGE_VERSION}
-DECKSVER=2.${PACKAGE_VERSION}
+DECKSVER=2.${MINOR}.${PATCH}
 
 GIT_COMMIT_COUNT=$(shell git rev-list HEAD | wc -l)
 GIT_COMMIT_ID=$(shell git rev-parse HEAD)

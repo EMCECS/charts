@@ -204,10 +204,30 @@ spec:
     {{- end }}
     image:
       imageSpec:
-        repository: {{ .Values.pravegaRepository }}/bookkeeper
+        repository: "{{ .Values.global.registry }}/{{ .Values.bookkeeperRepository }}"
         pullPolicy: {{ with .Values.bookkeeper.image }}{{ .pullPolicy }}{{ end }}
     version:  {{ .Values.bookkeeper.version }}
+    blockOwnerDeletion:  {{ .Values.bookkeeper.blockOwnerDeletion }}
     autoRecovery: {{ .Values.bookkeeper.autoRecovery }}
+    {{- if .Values.bookkeeper.probes }}
+    probes:
+      {{- if .Values.bookkeeper.probes.readiness }}
+      readinessProbe:
+        initialDelaySeconds: {{ .Values.bookkeeper.probes.readiness.initialDelaySeconds | default 20 }}
+        periodSeconds: {{ .Values.bookkeeper.probes.readiness.periodSeconds | default 10 }}
+        failureThreshold: {{ .Values.bookkeeper.probes.readiness.failureThreshold | default 9 }}
+        successThreshold: {{ .Values.bookkeeper.probes.readiness.successThreshold | default 1 }}
+        timeoutSeconds: {{ .Values.bookkeeper.probes.readiness.timeoutSeconds | default 5 }}
+      {{- end }}
+      {{- if .Values.bookkeeper.probes.liveness }}
+      livenessProbe:
+        initialDelaySeconds: {{ .Values.bookkeeper.probes.liveness.initialDelaySeconds | default 60 }}
+        periodSeconds: {{ .Values.bookkeeper.probes.liveness.periodSeconds | default 15 }}
+        failureThreshold: {{ .Values.bookkeeper.probes.liveness.failureThreshold | default 4 }}
+        successThreshold: {{ .Values.bookkeeper.probes.liveness.successThreshold | default 1 }}
+        timeoutSeconds: {{ .Values.bookkeeper.probes.liveness.timeoutSeconds | default 5 }}
+      {{- end }}
+    {{- end }}
     storage:
       ledgerVolumeClaimTemplate:
         accessModes: [ "ReadWriteOnce" ]
@@ -254,7 +274,7 @@ spec:
       segmentStoreExtServiceType: {{ .Values.pravega.segmentStore.service.type }}
       {{- end }}
       image:
-        repository: {{ .Values.pravegaRepository }}/pravega
+        repository: "{{ .Values.global.registry }}/{{ .Values.pravegaRepository }}"
         pullPolicy: {{ .Values.pullPolicy }}
       {{- if .Values.pravega.controller.replicas }}
       controllerReplicas: {{ .Values.pravega.controller.replicas }}

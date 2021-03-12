@@ -23,7 +23,7 @@ dependencies:
     condition: global.monitoring.enabled
     repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
   - name: objectscale-communication-gateway
-    version: 0.68.0
+    version: 0.68.2
     repository: file://../objectscale-communication-gateway
     condition: objectscale-communication-gateway.enabled
   - name: federation

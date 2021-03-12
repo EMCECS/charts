@@ -5,16 +5,12 @@ kind: VCUIPlugin
 metadata:
   labels:
     controller-tools.k8s.io: "1.0"
-  name: objectscale-ui-{{ .Release.Namespace }}
+  name: vcuiplugin-{{ `{{ .service.prefix }}` }}
   namespace: {{ .Release.Namespace }}
 spec:
-  name: objectscale-{{ .Release.Namespace }}
-  {{- if (eq .Release.Namespace "dellemc-objectscale-system") }}
-  uiBackendSecret: objectscale-plugin-secret
-  {{- else }}
-  uiBackendSecret: objectscale-plugin-secret-{{ .Release.Namespace }}
-  {{- end }}
+  name: plugin-{{ `{{ .service.prefix }}` }}
+  uiBackendSecret: plugin-secret-{{ `{{ .service.prefix }}` }}
   uiBackendService: objectscale-portal
   vSphereUiPluginUrl: /plugin.json
-  vSphereExtensionKey: com.dellemc.vsphere.plugin.{{ .Release.Namespace }}
+  vSphereExtensionKey: com.{{ `{{ .service.prefix }}` }}.vsphere.plugin
 {{- end }}

@@ -46,11 +46,7 @@ spec:
         {{- if (eq .Values.global.platform "VMware") }}
         - name: certificate
           secret:
-            {{- if (eq .Release.Namespace "dellemc-objectscale-system") }}
-            secretName: objectscale-plugin-secret
-            {{- else }}
-            secretName: objectscale-plugin-secret-{{ .Release.Namespace }}
-            {{- end }}
+            secretName: plugin-secret-{{ `{{ .service.prefix }}` }}
         {{- end }}
       containers:
         - name: objectscale-portal

@@ -15,6 +15,7 @@ spec:
     metadata:
       labels:
         {{- include "dcm.selectorLabels" . | nindent 8 }}
+{{ include "common-monitoring-lib.logging-inject-labels" . | indent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -57,4 +58,10 @@ spec:
               port: http
             failureThreshold: {{ .Values.readinessProbe.failureThreshold | default 3 }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 60 }}
+          volumeMounts:
+            - name: log
+              mountPath: /var/log
 
+      volumes:
+        - name: log
+          emptyDir: {}

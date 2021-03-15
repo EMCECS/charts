@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration  monitorInterval="60" shutdownHook="disable">
+    <Appenders>
+        <RollingFile name="R" fileName="${sys:product.home}/logs/nds.log"
+                     filePattern="${sys:product.home}/logs/nds.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="P" fileName="${sys:product.home}/logs/nds-perf-counter.log"
+                     filePattern="${sys:product.home}/logs/nds-perf-counter.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="E" fileName="${sys:product.home}/logs/nds-error.log"
+                     filePattern="${sys:product.home}/logs/nds-error.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="M" fileName="${sys:product.home}/logs/nds-stats.log"
+                     filePattern="${sys:product.home}/logs/nds-stats.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="ST" fileName="${sys:product.home}/logs/nds-stream.log"
+                     filePattern="${sys:product.home}/logs/nds-stream.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <Syslog name="alertsLogger" host="localhost" port="514" protocol="UDP" facility="LOCAL7"/>
+
+        <Async name="asyncR" includeLocation="true">
+            <AppenderRef ref="R"/>
+        </Async>
+        <Async name="asyncP" includeLocation="true">
+            <AppenderRef ref="P"/>
+        </Async>
+        <Async name="asyncE" includeLocation="true">
+            <AppenderRef ref="E"/>
+        </Async>
+        <Async name="asyncM" includeLocation="true">
+            <AppenderRef ref="M"/>
+        </Async>
+        <Async name="asyncST" includeLocation="true">
+            <AppenderRef ref="ST"/>
+        </Async>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="org.apache.zookeeper" level="INFO"/>
+        <Logger name="org.perf4j.TimingLogger" level="ERROR"/>
+        <Logger name="com.emc.storageos.data.object.utils.RequestTrace" level="INFO"/>
+        <Logger name="org.eclipse.jetty.server.RequestLog" level="INFO"/>
+
+        <Logger name="com.emc.storageos.services.util.AlertsLogger" level="WARN" additivity="false">
+            <AppenderRef ref="alertsLogger"/>
+        </Logger>
+        <Logger name="com.emc.storageos.objcontrol.object.shared.PerformanceCounter" level="DEBUG" additivity="false">
+            <AppenderRef ref="asyncP"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.monitoring.MonitoringWorker" level="INFO">
+            <AppenderRef ref="asyncM"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.buffer" level="INFO">
+            <AppenderRef ref="asyncM"/>
+        </Logger>
+
+        <Logger name="com.emc.storageos.data.stream" level="INFO" additivity="false">
+            <AppenderRef ref="asyncR" level="WARN"/>
+            <AppenderRef ref="asyncST"/>
+        </Logger>
+        <Logger name="io.pravega.client" level="INFO" additivity="false">
+            <AppenderRef ref="asyncR" level="WARN"/>
+            <AppenderRef ref="asyncST"/>
+        </Logger>
+
+        <Logger name="com.dell.objectscale.nds.deliverer" level="DEBUG"/>
+        <Logger name="com.dell.objectscale.nds.gatherer" level="DEBUG"/>
+
+        <Root level="INFO">
+            <AppenderRef ref="asyncR"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Root>
+    </Loggers>
+
+</Configuration>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * Copyright (c) 2020 Dell EMC
+ * All Rights Reserved
+ *
+ * This software contains the intellectual property of Dell EMC
+ * or is licensed to Dell EMC from third parties.  Use of this
+ * software and the intellectual property contained therein is expressly
+ * limited to the terms and conditions of the License Agreement under which
+ * it is provided by or on behalf of Dell EMC.
+ -->
+<Configuration monitorInterval="60" shutdownHook="disable">
+    <Appenders>
+        <RollingFile name="R" fileName="${sys:product.home}/logs/ons.log"
+                     filePattern="${sys:product.home}/logs/ons.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="P" fileName="${sys:product.home}/logs/ons-perf-counter.log"
+                     filePattern="${sys:product.home}/logs/ons-perf-counter.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="E" fileName="${sys:product.home}/logs/ons-error.log"
+                     filePattern="${sys:product.home}/logs/ons-error.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t%X{apiRequestId}] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="M" fileName="${sys:product.home}/logs/ons-stats.log"
+                     filePattern="${sys:product.home}/logs/ons-stats.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="O" fileName="${sys:product.home}/logs/ons-ownership.log"
+                     filePattern="${sys:product.home}/logs/ons-ownership.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="T" fileName="${sys:product.home}/logs/ons-monitor.log"
+                     filePattern="${sys:product.home}/logs/ons-monitor.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="ST" fileName="${sys:product.home}/logs/ons-stream.log"
+                     filePattern="${sys:product.home}/logs/ons-stream.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <Syslog name="alertsLogger" host="localhost" port="514" protocol="UDP" facility="LOCAL7"/>
+
+        <Async name="asyncR" includeLocation="true">
+            <AppenderRef ref="R"/>
+        </Async>
+        <Async name="asyncP" includeLocation="true">
+            <AppenderRef ref="P"/>
+        </Async>
+        <Async name="asyncE" includeLocation="true">
+            <AppenderRef ref="E"/>
+        </Async>
+        <Async name="asyncM" includeLocation="true">
+            <AppenderRef ref="M"/>
+        </Async>
+        <Async name="asyncO" includeLocation="true">
+            <AppenderRef ref="O"/>
+        </Async>
+        <Async name="asyncT" includeLocation="true">
+            <AppenderRef ref="T"/>
+        </Async>
+        <Async name="asyncST" includeLocation="true">
+            <AppenderRef ref="ST"/>
+        </Async>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="org.apache.zookeeper" level="INFO"/>
+        <Logger name="org.perf4j.TimingLogger" level="ERROR"/>
+
+        <Logger name="com.emc.storageos.services.util.AlertsLogger" level="WARN" additivity="false">
+            <AppenderRef ref="alertsLogger"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+
+        <Logger name="com.emc.storageos.data.object.impl.TaskScheduler" level="INFO" additivity="false">
+            <AppenderRef ref="asyncT"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.utils.ProcessMonitor" level="INFO" additivity="false">
+            <AppenderRef ref="asyncT"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+
+        <Logger name="com.emc.storageos.objcontrol.object.shared.PerformanceCounter" level="DEBUG" additivity="false">
+            <AppenderRef ref="asyncP"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.monitoring.MonitoringWorker" level="INFO">
+            <AppenderRef ref="asyncM"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.buffer" level="INFO">
+            <AppenderRef ref="asyncM"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.ownership.impl" level="INFO" additivity="false">
+            <AppenderRef ref="asyncO"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Logger>
+
+        <Logger name="com.emc.storageos.data.stream" level="INFO" additivity="false">
+            <AppenderRef ref="asyncR" level="WARN"/>
+            <AppenderRef ref="asyncST"/>
+        </Logger>
+
+        <Logger name="io.pravega.client" level="INFO" additivity="false">
+            <AppenderRef ref="asyncR" level="WARN"/>
+            <AppenderRef ref="asyncST"/>
+        </Logger>
+
+        <Logger name="com.dell.objectscale.objmt" level="DEBUG" additivity="false">
+            <AppenderRef ref="asyncR"/>
+        </Logger>
+
+        <Logger name="com.dell.objectscale.replication" level="DEBUG" additivity="false">
+            <AppenderRef ref="asyncR"/>
+        </Logger>
+
+        <Logger name="com.dell.objectscale.nds" level="DEBUG" additivity="false">
+            <AppenderRef ref="asyncR"/>
+        </Logger>
+
+        <Logger name="com.emc.ecs.ons.publisher.PravegaEventPublisher" level="DEBUG" additivity="false">
+            <AppenderRef ref="asyncR"/>
+        </Logger>
+
+        <Root level="INFO">
+            <AppenderRef ref="asyncR"/>
+            <AppenderRef ref="asyncE" level="ERROR"/>
+        </Root>
+    </Loggers>
+
+</Configuration>

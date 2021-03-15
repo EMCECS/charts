@@ -1,8 +1,8 @@
 dependencies:
 - name: ecs-monitoring
-  version: 3.7.0-1137.4d29996c # no_auto_change__monitoring_auto_change
+  version: 3.7.0-1146.a692701d # no_auto_change__monitoring_auto_change
   condition: global.monitoring.enabled
   repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
 - name: rsyslog-client
   repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
-  version: 3.7.0-1137.4d29996c # no_auto_change__monitoring_auto_change
+  version: 3.7.0-1146.a692701d # no_auto_change__monitoring_auto_change

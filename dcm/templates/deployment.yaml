@@ -61,6 +61,13 @@ spec:
           volumeMounts:
             - name: log
               mountPath: /var/log
+            - name: config
+              mountPath: /opt/storageos/conf/dcm-log4j2.xml
+              subPath: dcm-log4j2.xml
       volumes:
         - name: log
           emptyDir: {}
+        - name: config
+          configMap:
+            name: dcm-log-config
+

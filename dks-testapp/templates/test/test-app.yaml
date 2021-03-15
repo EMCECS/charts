@@ -25,6 +25,8 @@ spec:
     command:
     - dks-testapp
     env:
+    - name: START_TIME
+      value: "{{ now | date "2006-01-02T15:04:05Z07:00" }}"
     - name: TEST_APP_NAME
       value: {{ .Values.application.testAppName }}
     - name: TEST_APP_NAMESPACE

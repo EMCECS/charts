@@ -9,7 +9,7 @@ data:
             - field: {{ .Values.application.eventRules.field }}
               value: {{ .Values.application.eventRules.fieldValue }}
           notifiers:
-            - supportassist-{{ .Values.supportassist.productName }}
+            - {{ .Values.supportassist.productName }}-supportassist-ese
     healthChecks:  |-
     eventRemedies:  |-
       symptoms:

@@ -206,7 +206,7 @@ create-manager-app: create-temp-package
 	--set global.monitoring.enabled=false \
 	--set objectscale-monitoring.influxdb.persistence.storageClassName=${STORAGECLASSNAME} \
 	--set objectscale-monitoring.rsyslog.persistence.storageClassName=${STORAGECLASSNAME_VSAN_SNA} \
-	--set objectscale-communication-gateway.enabled=true ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
+	--set objectscale-communication-gateway.enabled=false ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
 	--set objectscale-iam.enabled=true ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
 	--set federation.enabled=true ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
 	--set dcm.enabled=false ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \

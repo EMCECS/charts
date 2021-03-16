@@ -47,7 +47,7 @@ servicePod:
   enabled: true
 
 objectscale-communication-gateway:
-  enabled: true
+  enabled: false
 
 federation:
   enabled: true

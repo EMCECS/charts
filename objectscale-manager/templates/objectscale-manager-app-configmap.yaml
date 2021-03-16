@@ -26,7 +26,7 @@ data:
           timelimit: "5m"
           args:
             - -target-version
-            - {{ .Values.tag .Values.healthChecks.preUpdate.image.tag}}
+            - {{ default .Values.tag .Values.healthChecks.preUpdate.image.tag}}
     eventRemedies: |-
       symptoms:
         - symptomid: DEOS-MGR-1001

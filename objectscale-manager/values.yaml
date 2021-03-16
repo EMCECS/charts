@@ -69,7 +69,7 @@ dcm:
 createApplicationResource: true
 
 # The default docker tag and pull policy for objectscale-manager services
-tag: 0.68.2
+tag: 0.69.0
 pullPolicy: IfNotPresent
 
 # The default number of replicas for the objectscale-manager deployment
@@ -221,3 +221,10 @@ loggerConfig:
     durationEncoder: "string"
     # "full" or "short" caller info
     callerEncoder: "short"
+
+# KAHM health check configuration
+healthChecks:
+  preUpdate:
+    image:
+      repository: objectscale-manager-pre-update
+      # tag: stable

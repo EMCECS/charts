@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: db-kahm-0
+  namespace: {{.Release.namespace}}
+  labels:
+    app: kahm
+    release: {{ .Release.Name }}
+  annotations:
+    "helm.sh/hook": "pre-install"
+spec:
+{{- if .Values.storageClassName }}
+  storageClassName: {{.Values.storageClassName}}
+{{- end }}
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi

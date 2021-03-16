@@ -35,13 +35,7 @@ spec:
       value: {{ .Values.global.registrySecret }}
     - name: DECKS_NAMESPACE
       value: "{{ .Release.Namespace}}"
-    - name: SRS_TEST_GATEWAY_HOSTNAME
-      value: {{ .Values.helmTestConfig.srsGateway.hostname }}
-    - name: SRS_TEST_GATEWAY_PORT
-      value: "{{ .Values.helmTestConfig.srsGateway.port }}"
-    - name: SRS_TEST_GATEWAY_LOGIN
-      value: {{ .Values.helmTestConfig.srsGateway.login }}
-    - name: GLOBAL_IMAGE_TAG
-      value: {{ .Values.tag }}
+    - name: START_TIME
+      value: "{{ now | date "2006-01-02T15:04:05Z07:00" }}"
   restartPolicy: Never
 {{- end}}

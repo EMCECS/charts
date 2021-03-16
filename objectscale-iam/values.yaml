@@ -29,7 +29,7 @@ livenessProbe:
 readinessProbe:
   probePath: /iamhealthcheck/atlas
 
-objectscaleCommunicationGateway:
+objectscaleGateway:
   enabled: false
 
 # Service Configuration for ObjectScale IAM

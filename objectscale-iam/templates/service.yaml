@@ -9,7 +9,7 @@ metadata:
   annotations:
     objectscale.dellemc.com/federationRegistration: "ObjectScale"
 spec:
-  {{- if eq .Values.objectscaleCommunicationGateway.enabled true }}
+  {{- if eq .Values.objectscaleGateway.enabled true }}
   type: {{ .Values.service.clusterIpType }}
   {{- else }}
   type: {{ .Values.service.loadBalancerType }}

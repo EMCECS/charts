@@ -2,21 +2,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: objectscale-communication-gateway
+  name: objectscale-gateway
   labels:
-    {{- include "objectscaleCommunicationGateway.labels" . | nindent 4 }}
+    {{- include "objectscaleGateway.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.objectscaleCommunicationGateway.replicaCount }}
+  replicas: {{ .Values.objectscaleGateway.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ template "objectscaleCommunicationGateway.name" . }}
-      app.kubernetes.io/component: objectscale-communication-gateway
+      app.kubernetes.io/name: {{ template "objectscaleGateway.name" . }}
+      app.kubernetes.io/component: objectscale-gateway
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ template "objectscaleCommunicationGateway.name" . }}
-        app.kubernetes.io/component: objectscale-communication-gateway
+        app.kubernetes.io/name: {{ template "objectscaleGateway.name" . }}
+        app.kubernetes.io/component: objectscale-gateway
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
     {{- with .Values.imagePullSecrets }}
@@ -24,7 +24,7 @@ spec:
         {{- toYaml . | nindent 8 }}
     {{- end }}
       containers:
-      - name: objectscale-communication-gateway
+      - name: objectscale-gateway
         env:
         - name: MY_POD_NAME
           valueFrom:
@@ -38,8 +38,8 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
-        image: {{ default  .Values.global.registry .Values.objectscaleCommunicationGateway.image.registry }}/{{ .Values.objectscaleCommunicationGateway.image.repository }}:{{ default .Values.tag .Values.objectscaleCommunicationGateway.image.tag }}
-        imagePullPolicy: {{ .Values.objectscaleCommunicationGateway.image.pullPolicy }}
+        image: {{ default  .Values.global.registry .Values.objectscaleGateway.image.registry }}/{{ .Values.objectscaleGateway.image.repository }}:{{ default .Values.tag .Values.objectscaleGateway.image.tag }}
+        imagePullPolicy: {{ .Values.objectscaleGateway.image.pullPolicy }}
         ports:
           - name: https-external
             containerPort: 443
@@ -55,8 +55,8 @@ spec:
       volumes:
       - name: tls-secrets-external
         secret:
-          secretName: objectscale-communication-gateway-tls
+          secretName: objectscale-gateway-tls
       - name: tls-secrets-internal
         secret:
-          secretName: objectscale-communication-gateway-internal-tls
+          secretName: objectscale-gateway-internal-tls
 

@@ -2,7 +2,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "objectscaleCommunicationGateway.name" -}}
+{{- define "objectscaleGateway.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
@@ -11,7 +11,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "objectscaleCommunicationGateway.fullname" -}}
+{{- define "objectscaleGateway.fullname" -}}
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -27,16 +27,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "objectscaleCommunicationGateway.chart" -}}
+{{- define "objectscaleGateway.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
 Common labels
 */}}
-{{- define "objectscaleCommunicationGateway.labels" -}}
-helm.sh/chart: {{ include "objectscaleCommunicationGateway.chart" . }}
-{{ include "objectscaleCommunicationGateway.selectorLabels" . }}
+{{- define "objectscaleGateway.labels" -}}
+helm.sh/chart: {{ include "objectscaleGateway.chart" . }}
+{{ include "objectscaleGateway.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -46,18 +46,18 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "objectscaleCommunicationGateway.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "objectscaleCommunicationGateway.name" . }}
+{{- define "objectscaleGateway.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "objectscaleGateway.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/component: objectscale-communication-gateway
+app.kubernetes.io/component: objectscale-gateway
 {{- end -}}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "objectscaleCommunicationGateway.serviceAccountName" -}}
+{{- define "objectscaleGateway.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create -}}
-    {{ default (include "objectscaleCommunicationGateway.fullname" .) .Values.serviceAccount.name }}
+    {{ default (include "objectscaleGateway.fullname" .) .Values.serviceAccount.name }}
 {{- else -}}
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}

@@ -7,10 +7,10 @@ global:
   # Platform:
   platform: Default
 
-objectscaleCommunicationGateway:
+objectscaleGateway:
   image:
     pullPolicy: IfNotPresent
-    repository: objectscale-communication-gateway
+    repository: objectscale-gateway
     # tag: stable
     #livenessProbe:
     # probePath: /usr/local/bin/checkRunningCertificate.bash
@@ -49,7 +49,7 @@ objectscaleCommunicationGateway:
       #   intermediateCA:      # provide the intermediate CA here (optional)
 
       signingRequest:
-        commonName: objectscale-communication-gateway
+        commonName: objectscale-gateway
         # email: insertyouremail@example.com.local
         names:
           country: USA
@@ -94,7 +94,7 @@ objectscaleCommunicationGateway:
       #   intermediateCA:      # provide the intermediate CA here (optional)
 
       signingRequest:
-        commonName: objectscale-communication-gateway-internal
+        commonName: objectscale-gateway-internal
         # email: insertyouremail@example.com.local
         names:
           country: USA

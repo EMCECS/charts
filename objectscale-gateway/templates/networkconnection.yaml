@@ -2,11 +2,11 @@
 apiVersion: "ecs.dellemc.com/v1beta1"
 kind: "NetworkConnection"
 metadata:
-  name: objectscale-communication-gateway
+  name: objectscale-gateway
   namespace: {{ .Release.Namespace}}
   labels:
-    app.kubernetes.io/name: {{ template "objectscaleCommunicationGateway.name" . }}
-    app.kubernetes.io/component: objectscale-communication-gateway
+    app.kubernetes.io/name: {{ template "objectscaleGateway.name" . }}
+    app.kubernetes.io/component: objectscale-gateway
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/version: {{ .Chart.AppVersion }}
@@ -16,23 +16,23 @@ metadata:
   annotations:
     objectscale.dellemc.com/federationRegistration: "ObjectScale"
 spec:
-{{- if .Values.objectscaleCommunicationGateway.external.service }}
+{{- if .Values.objectscaleGateway.external.service }}
   service:
-      {{ toYaml .Values.objectscaleCommunicationGateway.external.service | nindent 6 | trim }}
+      {{ toYaml .Values.objectscaleGateway.external.service | nindent 6 | trim }}
 {{- end }}
-{{- if .Values.objectscaleCommunicationGateway.external.tls }}
+{{- if .Values.objectscaleGateway.external.tls }}
   tls:
-      {{ toYaml .Values.objectscaleCommunicationGateway.external.tls | nindent 6 | trim }}
+      {{ toYaml .Values.objectscaleGateway.external.tls | nindent 6 | trim }}
 {{- end }}
 ---
 apiVersion: "ecs.dellemc.com/v1beta1"
 kind: "NetworkConnection"
 metadata:
-  name: objectscale-communication-gateway-internal
+  name: objectscale-gateway-internal
   namespace: {{ .Release.Namespace}}
   labels:
-    app.kubernetes.io/name: {{ template "objectscaleCommunicationGateway.name" . }}
-    app.kubernetes.io/component: objectscale-communication-gateway
+    app.kubernetes.io/name: {{ template "objectscaleGateway.name" . }}
+    app.kubernetes.io/component: objectscale-gateway
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/version: {{ .Chart.AppVersion }}
@@ -43,11 +43,11 @@ metadata:
     objectscale.dellemc.com/federationRegistration: "ObjectScale"
     objectscale.dellemc.com/federationSigned: "InternalCA"
 spec:
-{{- if .Values.objectscaleCommunicationGateway.internal.service }}
+{{- if .Values.objectscaleGateway.internal.service }}
   service:
-      {{ toYaml .Values.objectscaleCommunicationGateway.internal.service | nindent 6 | trim }}
+      {{ toYaml .Values.objectscaleGateway.internal.service | nindent 6 | trim }}
 {{- end }}
-{{- if .Values.objectscaleCommunicationGateway.internal.tls }}
+{{- if .Values.objectscaleGateway.internal.tls }}
   tls:
-      {{ toYaml .Values.objectscaleCommunicationGateway.internal.tls | nindent 6 | trim }}
+      {{ toYaml .Values.objectscaleGateway.internal.tls | nindent 6 | trim }}
 {{- end }}

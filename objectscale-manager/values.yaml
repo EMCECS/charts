@@ -33,6 +33,12 @@ global:
   monitoring:
     enabled: true
 
+  # Enable integration logging framework
+  logging_injection_enabled: true
+
+  # Enable injection of rsyslog client sidecars
+  rsyslog_enabled: true
+
   # Global Product specifier
   product: objectscale
 

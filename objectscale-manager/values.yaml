@@ -65,6 +65,9 @@ dcm:
 # controllers
 createApplicationResource: true
 
+# If debugMode true then run Operator with delve and in remote debug mode
+debugMode: false
+
 # The default docker tag and pull policy for objectscale-manager services
 tag: 0.68.2
 pullPolicy: IfNotPresent

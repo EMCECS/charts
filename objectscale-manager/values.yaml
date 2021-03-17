@@ -33,6 +33,12 @@ global:
   monitoring:
     enabled: true
 
+  # Enable integration logging framework
+  logging_injection_enabled: true
+
+  # Enable injection of rsyslog client sidecars
+  rsyslog_enabled: true
+
   # Global Product specifier
   product: objectscale
 
@@ -69,7 +75,7 @@ createApplicationResource: true
 debugMode: false
 
 # The default docker tag and pull policy for objectscale-manager services
-tag: 0.68.2
+tag: 0.69.0
 pullPolicy: IfNotPresent
 
 # The default number of replicas for the objectscale-manager deployment

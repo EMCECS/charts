@@ -77,9 +77,9 @@ features:
   enableObjectStoreMetering: false
 
   # Enable object notification
-  enableNotification: false
+  enableNotification: true
 
-  enablePravega: false
+  enablePravega: true
 
   # Object type defines which service will be used: Blob service or Object service.
   # Values: blobSVC or objectSVC

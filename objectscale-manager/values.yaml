@@ -33,6 +33,12 @@ global:
   monitoring:
     enabled: true
 
+  # Enable integration logging framework
+  logging_injection_enabled: true
+
+  # Enable injection of rsyslog client sidecars
+  rsyslog_enabled: true
+
   # Global Product specifier
   product: objectscale
 
@@ -53,13 +59,13 @@ iam:
   enabled: true
 
 pravega:
-  enabled: false
+  enabled: true
 
 bookkeeper:
-  enabled: false
+  enabled: true
 
 dcm:
-  enabled: false
+  enabled: true
 
 # Create an application resource for management  using Dell EMC common installer or other application-resource
 # controllers

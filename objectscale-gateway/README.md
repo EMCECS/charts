@@ -12,11 +12,11 @@ The Dell EMC ObjectScale Gateway for the secure interaction within Objectscale i
 
 By default ObjectScale Gateway feature is disabled in objectscale-manager
 
-To enable ObjectScale Gateway on the install - include:
+To enable ObjectScale Gateway on the install and change the federation and objectscale-iam to ClusterIP - include:
 ```bash
 --set objectscale-gateway.enabled=true \
---set objectscale-iam.objectscaleGateway.enabled=true \
---set federation.objectscaleGateway.enabled=true 
+--set objectscale-iam.service.type=ClusterIP \
+--set federation.fedsvc.service.type=ClusterIP
 ```
 
 

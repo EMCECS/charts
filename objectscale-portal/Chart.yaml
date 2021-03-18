@@ -9,7 +9,7 @@ maintainers:
     url: https://dellemc.com
 dependencies:
   - name: objectscale-graphql
-    version: 0.69.0
+    version: 0.69.1
     repository: file://../objectscale-graphql
     condition: graphql.enabled
   - name: rsyslog-client

@@ -19,7 +19,7 @@ version: 0.69.1
 appVersion: 0.69.1
 dependencies:
   - name: helm-controller
-    version: 0.69.0
+    version: 0.69.1
     repository: file://../helm-controller
     condition: helmController.enabled
   - name: common-monitoring-lib

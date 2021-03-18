@@ -1,18 +1,18 @@
 ---
 apiVersion: v2
 name: objectscale-portal
-version: 0.69.0
-appVersion: 0.69.0
+version: 0.69.1
+appVersion: 0.69.1
 description: ObjectScale Portal
 maintainers:
   - name: Dell EMC
     url: https://dellemc.com
 dependencies:
   - name: objectscale-graphql
-    version: 0.69.0
+    version: 0.69.1
     repository: file://../objectscale-graphql
     condition: graphql.enabled
   - name: rsyslog-client
     repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
-    version: 3.7.0-1146.a692701d # no_auto_change__monitoring_auto_change
+    version: 3.7.0-1149.1cd6e2f6 # no_auto_change__monitoring_auto_change
     condition: global.rsyslog_enabled

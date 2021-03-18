@@ -7,9 +7,6 @@ global:
   # Platform:
   platform: Default
 
-objectscaleGateway:
-  enabled: false
-
 fedsvc:
   image:
     pullPolicy: IfNotPresent
@@ -22,5 +19,4 @@ fedsvc:
   replicaCount: 3
   service:
     port: 9500
-    clusterIpType: ClusterIP
-    loadBalancerType: LoadBalancer
+    type: LoadBalancer

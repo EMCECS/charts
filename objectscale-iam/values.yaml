@@ -29,14 +29,11 @@ livenessProbe:
 readinessProbe:
   probePath: /iamhealthcheck/atlas
 
-objectscaleGateway:
-  enabled: false
-
 # Service Configuration for ObjectScale IAM
 service:
   port: 9400
-  clusterIpType: ClusterIP
-  loadBalancerType : LoadBalancer
+  type: LoadBalancer
+
 # Atlas Cluster configuration for ObjectScale persistent Storage
 atlas:
 

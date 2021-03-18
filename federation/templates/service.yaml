@@ -9,11 +9,7 @@ metadata:
   annotations:
     objectscale.dellemc.com/federationRegistration: "ObjectScale"
 spec:
-  {{- if eq .Values.objectscaleGateway.enabled true }}
-  type: {{ .Values.fedsvc.service.clusterIpType }}
-  {{- else }}
-  type: {{ .Values.fedsvc.service.loadBalancerType }}
-  {{- end }}
+  type: {{ .Values.fedsvc.service.type }}
   ports:
     - port: {{ .Values.fedsvc.service.port }}
       targetPort: http

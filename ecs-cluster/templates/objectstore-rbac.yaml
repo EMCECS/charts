@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: {{.Release.Name }}
+  name: {{.Release.Name }}-storageserver
   namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: {{ .Release.Name }}
@@ -21,7 +21,7 @@ imagePullSecrets:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: {{ .Release.Name }}
+  name: {{.Release.Name }}-storageserver
   namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: {{ .Release.Name }}
@@ -45,7 +45,7 @@ rules:
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Release.Name }}
+  name: {{.Release.Name }}-storageserver
   namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: {{ .Release.Name }}
@@ -58,9 +58,9 @@ metadata:
     product: objectscale
 subjects:
   - kind: ServiceAccount
-    name: {{ .Release.Name }}
+    name: {{.Release.Name }}-storageserver
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: Role
-  name: {{ .Release.Name }}
+  name: {{.Release.Name }}-storageserver
   apiGroup: rbac.authorization.k8s.io

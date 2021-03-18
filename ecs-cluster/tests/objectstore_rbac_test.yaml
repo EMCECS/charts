@@ -10,7 +10,7 @@ tests:
         documentIndex: 0
       - equal:
           path: metadata.name
-          value: RELEASE-NAME
+          value: RELEASE-NAME-storageserver
         documentIndex: 0
       - equal:
           path: metadata.namespace
@@ -21,7 +21,7 @@ tests:
         documentIndex: 1
       - equal:
           path: metadata.name
-          value: RELEASE-NAME
+          value: RELEASE-NAME-storageserver
         documentIndex: 1
       - equal:
           path: metadata.namespace
@@ -32,7 +32,7 @@ tests:
         documentIndex: 2
       - equal:
           path: metadata.name
-          value: RELEASE-NAME
+          value: RELEASE-NAME-storageserver
         documentIndex: 2
       - equal:
           path: metadata.namespace

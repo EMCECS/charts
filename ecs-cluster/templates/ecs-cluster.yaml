@@ -292,7 +292,7 @@ spec:
       debugLogging: {{ .Values.pravega.debugLogging }}
 
   storageServer:
-    serviceAccount: {{ .Release.Name }}
+    serviceAccount: {{ .Release.Name }}-storageserver
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.storageServer.replicas }}
     replicas: {{ .Values.storageServer.replicas }}

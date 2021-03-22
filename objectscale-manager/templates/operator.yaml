@@ -58,17 +58,29 @@ spec:
         ports:
         - containerPort: 60000
           name: metrics
-        command:
-        - objectscale-operator
+{{- if eq .Values.debugMode true }}
+        - containerPort: 40000
+          name: debug
+{{- end }}
+        command: ["bash"]
+{{- if eq .Values.debugMode true }}
+        args: ["-c", "echo /crash-dump/core-%e > /proc/sys/kernel/core_pattern; ulimit -c unlimited; GOTRACEBACK=crash /dlv --listen=:40000 --headless=true --api-version=2 --continue=true --accept-multiclient=true exec /usr/local/bin/objectscale-operator"]
+{{- else }}
+        args: ["-c", "echo /crash-dump/core-%e > /proc/sys/kernel/core_pattern; ulimit -c unlimited; GOTRACEBACK=crash /usr/local/bin/objectscale-operator"]
+{{- end }}
         resources:
           limits:
             memory: {{ .Values.resources.operator.limits.memory }}
+            ephemeral-storage: {{ .Values.resources.operator.limits.ephemeralStorage }}
           requests:
             memory: {{ .Values.resources.operator.requests.memory }}
+            ephemeral-storage: {{ .Values.resources.operator.requests.ephemeralStorage }}
 {{- if eq .Values.loggerConfig.enabled true }}
         volumeMounts:
         - name: logger-config
           mountPath: /etc/config
+        - name: crash-dump
+          mountPath: /crash-dump
 {{- end }}
         env:
         - name: POD_NAME
@@ -79,8 +91,16 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+        - name: MY_POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
         - name: PLATFORM
           value: {{ .Values.global.platform | default "Default" }}
+{{- if .Values.dcm.enabled }}
+        - name: DCM_SERVICE_HOSTNAME
+          value: "{{ .Release.Name }}-dcm"
+{{- end }}
 {{- if .Values.logReceiver.create }}
         - name: LOG_RECEIVER_TYPE
           value: Syslog
@@ -192,4 +212,6 @@ spec:
           configMap:
             name: logger-config
         {{- end }}
+        - name: crash-dump
+          emptyDir: {}
 {{- end }}

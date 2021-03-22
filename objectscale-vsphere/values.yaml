@@ -15,7 +15,7 @@ global:
   # "Vmware-PKS" - PKS platform with vSphere UI integration
   # "Atlantic" - Project Atlantic Bare-Metal Kubernetes platform
   # "Default" - All others
-  platform: Default
+  platform: VMware
 
   # Name of a Kubernetes secret with Docker credentials for the private registry
   # registrySecret: ecs-flex-registry
@@ -32,50 +32,5 @@ global:
   objectscale_release_name: objectscale-manager
 
 # The default docker tag and pull policy for objectscale-vsphere and other containers
-tag: 0.65.0
+tag: 0.69.0
 pullPolicy: IfNotPresent
-
-# This package gets values from objectscale-manager/values.yaml
-
-# The service name and port that decks-support-store is listening on for download requests
-decks:
-  supportStore:
-    service:
-      name: decks-support-store
-      port: 7443
-graphql:
-  enabled: true
-  port: 8080
-  serviceName: objectscale-graphql
-
-enabled: false
-image:
-  repository: ecs-flex-vsphere-plugin
-  # tag: stable
-  # pullPolicy: IfNotPresent
-service:
-  # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
-  type: ClusterIP
-
-  # Specify the service port configuration for the vSpherePlugin service
-  ports:
-    - name: https
-      port: 4443
-      targetPort: 4443
-      # nodePort:           # select specific node port for the connection
-
-      # loadBalancerIP:     # select specific load balancer IP of the connection
-      # externalHostnames:
-      #   - objectscale-vsp.example.com
-      # externalIPAddresses:
-      #   - 203.0.113.10
-      #   - 203.0.113.30
-      # externalIPv6Addresses:
-      #   - 2001:0db8:0000:0000:0000:0000:0000:0001
-
-objectscale-graphql:
-  managerReleaseName: objectscale-manager
-
-# rsyslog-client subchart configuration
-rsyslog-client:
-  createLogrotateConfigs: false

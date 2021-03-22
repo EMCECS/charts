@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/name: dellemc-{{.Values.product}}-license
     app.kubernetes.io/version: {{.Values.tag}}
     app.kubernetes.io/instance: {{.Release.Name}}
-    app.kubernetes.io/managed-by: nautilus
+    app.kubernetes.io/managed-by: {{.Release.Service}}
     helm.sh/chart: {{.Chart.Name}}-{{.Chart.Version | replace "+" "_"}}
     product: {{.Values.product}}
     release: {{.Release.Name}}
@@ -32,8 +32,8 @@ spec:
       Dell EMC License
     keywords:
       - "decks"
-      - "srs"
+      - "supportassist"
       - "licensing"
     info:
-      - "Copyright © 2019 Dell Inc. or its subsidiaries. All Rights Reserved."
+      - "Copyright © 2019-2021 Dell Inc. or its subsidiaries. All Rights Reserved."
 {{- end}}

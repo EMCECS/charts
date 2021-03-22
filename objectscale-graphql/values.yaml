@@ -1,5 +1,5 @@
 ---
-# Default values for ecs-flex.
+# Default values for objectscale-graphql.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -11,32 +11,33 @@ global:
   # "VMware" - VMWare Persistent Services Platform
   # "Vmware-PKS" - PKS platform with vSphere UI integration
   # "Atlantic" - Project Atlantic Bare-Metal Kubernetes platform
+  # "OpenShift" - RedHat OpenShift k8s Container Platform
   # "Default" - All others
   platform: Default
-
+  #
   # Name of a Kubernetes secret with Docker credentials for the private registry
   # registrySecret: ecs-flex-registry
 
   # The private docker registry hosting containers for ECS Flex
   registry: emccorp
-
+  #
   # Default: true == Watch ALL namespaces
   watchAllNamespaces: true
-
+  #
   # storageClassName  - set default storageClassName for objectscale-manager/graphql
-
+#
 # This is the list of available objectstore versions to graphql for UI to configure the store.
 objectStoreAvailableVersions:
-  - 0.65.0
-
+  - 0.69.1
+#
 # The default docker tag and pull policy for objectscale-graphql services
-tag: 0.65.0
+tag: 0.69.1
 pullPolicy: IfNotPresent
-
+#
 # This will create the graphql container with the debug image. debug image will always be {{image.repository}}-debug
 # also, this will expose port 40000 as debug port for debugging the application remotely in the cluster itself
 debug: false
-
+#
 image:
   repository: ecs-flex-graphql
   # tag: stable
@@ -46,12 +47,12 @@ port: 8080
 serviceName: objectscale-graphql
 service:
   type: ClusterIP
-
+#
 decks:
-  licenseChartVersion: "2.0.65"
-  supportAssistChartVersion: "2.0.65"
+  licenseChartVersion: "2.69.0"
+  supportAssistChartVersion: "2.69.0"
   srsGatewayChartVersion: "1.2.0"
-
+#
 logReceiver:
   # The type of log receiver that ECS Flex will use to consolidate logs. Valid
   # are: "Syslog" and "Elasticsearch".  When using a "Syslog" receiver, you can
@@ -60,7 +61,6 @@ logReceiver:
   # provide connectivity details in the "logReceiver" configuration block below.
   #
   type:
-
   # User login will be used by fluentd to connect to the elastic search.
   # user: elastic
 
@@ -78,16 +78,15 @@ logReceiver:
   #
   # Port to use for customer provided Syslog or Elasticsearch receiver
   # port: 514
-
 # The log agent configuration for log collection of Manager components
 fluentbitAgent:
   image:
     repository: fluent-bit
     tag: 0.28.0
     # pullPolicy: IfNotPresent
-
+#
 helmController:
   enabled: true
-
+#
 # Release name of objectscale-manager (configuration parameter for objectstore).
 managerReleaseName:

@@ -21,7 +21,7 @@ spec:
       serviceAccountName: {{ .Values.serviceAccount.name }}
       containers:
       - name: {{ template "pravega-operator.fullname" . }}
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        image: "{{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
         - containerPort: 6000
@@ -29,17 +29,11 @@ spec:
         command:
         - pravega-operator
         {{- if .Values.testmode.enabled }}
-        args: [-test]
+        args: ["-test", "-webhook=false"]
         {{- end }}
         env:
         - name: WATCH_NAMESPACE
-{{- if eq .Values.global.watchAllNamespaces true}}
-          value: ""
-{{- else }}
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
-{{- end }}
+          value: "{{ .Release.Namespace }}"
         - name: POD_NAME
           valueFrom:
             fieldRef:
@@ -47,12 +41,15 @@ spec:
         - name: OPERATOR_NAME
           value: {{ template "pravega-operator.fullname" . }}
         volumeMounts:
+        {{- if .Values.webhookCert.generate }}
         - name: webhook-cert
           mountPath: "/tmp/k8s-webhook-server/serving-certs"
           readOnly: true
+        {{end}}
         - name: versions-volume
           mountPath: "/tmp/config"
       volumes:
+      {{- if .Values.webhookCert.generate }}
       - name: webhook-cert
         secret:
           {{- if .Values.webhookCert.generate }}
@@ -60,6 +57,7 @@ spec:
           {{- else }}
           secretName: {{ .Values.webhookCert.secretName }}
           {{- end }}
+      {{end}}
       - name: versions-volume
         configMap:
           name: supported-versions-map

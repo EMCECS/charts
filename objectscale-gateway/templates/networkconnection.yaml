@@ -1,0 +1,53 @@
+---
+apiVersion: "ecs.dellemc.com/v1beta1"
+kind: "NetworkConnection"
+metadata:
+  name: objectscale-gateway
+  namespace: {{ .Release.Namespace}}
+  labels:
+    app.kubernetes.io/name: {{ template "objectscaleGateway.name" . }}
+    app.kubernetes.io/component: objectscale-gateway
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+  annotations:
+    objectscale.dellemc.com/federationRegistration: "ObjectScale"
+spec:
+{{- if .Values.objectscaleGateway.external.service }}
+  service:
+      {{ toYaml .Values.objectscaleGateway.external.service | nindent 6 | trim }}
+{{- end }}
+{{- if .Values.objectscaleGateway.external.tls }}
+  tls:
+      {{ toYaml .Values.objectscaleGateway.external.tls | nindent 6 | trim }}
+{{- end }}
+---
+apiVersion: "ecs.dellemc.com/v1beta1"
+kind: "NetworkConnection"
+metadata:
+  name: objectscale-gateway-internal
+  namespace: {{ .Release.Namespace}}
+  labels:
+    app.kubernetes.io/name: {{ template "objectscaleGateway.name" . }}
+    app.kubernetes.io/component: objectscale-gateway
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+  annotations:
+    objectscale.dellemc.com/federationRegistration: "ObjectScale"
+    objectscale.dellemc.com/federationSigned: "InternalCA"
+spec:
+{{- if .Values.objectscaleGateway.internal.service }}
+  service:
+      {{ toYaml .Values.objectscaleGateway.internal.service | nindent 6 | trim }}
+{{- end }}
+{{- if .Values.objectscaleGateway.internal.tls }}
+  tls:
+      {{ toYaml .Values.objectscaleGateway.internal.tls | nindent 6 | trim }}
+{{- end }}

@@ -1,0 +1,99 @@
+---
+# Default values for objectscale-portal.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# These global settings relate to both objectscale-portal and objectscale-graphql
+global:
+  # sets the name of the storage class and storage policy that should be used by default
+  storageClassName: dellemc-objectscale-highly-available
+
+  # Name of the target platform
+  # By setting this value all necessary resources for ecs-flex will be created and configured accordingly.
+  # Valid values are
+  # "VMware" - VMWare Persistent Services Platform
+  # "Vmware-PKS" - PKS platform with vSphere UI integration
+  # "Atlantic" - Project Atlantic Bare-Metal Kubernetes platform
+  # "OpenShift" - RedHat OpenShift k8s platform
+  # "Default" - All others
+  platform: Default
+
+  # Name of a Kubernetes secret with Docker credentials for the private registry
+  # registrySecret: ecs-flex-registry
+
+  # The private docker registry hosting containers for ECS Flex
+  registry: emccorp
+
+  # Default: true == Watch ALL namespaces
+  watchAllNamespaces: true
+
+  # Enable log forwarding to central objectscale rsyslog
+  rsyslog_enabled: true
+  #
+  # Name of the objectscale-manager release used by rsyslog sidecars
+  objectscale_release_name: objectscale-manager
+  #
+  # default k8s fqdn dns name:
+  #dns: kube-dns.kube-system.svc.cluster.local
+
+# The default docker tag and pull policy for objectscale-portal and other containers
+tag: 0.69.1
+pullPolicy: IfNotPresent
+
+# This package gets values from objectscale-manager/values.yaml
+
+# The service name and port that decks-support-store is listening on for download requests
+decks:
+  supportStore:
+    service:
+      name: decks-support-store
+      port: 7443
+#
+# graphql endpoint settings
+graphql:
+  enabled: true
+  port: 8080
+  serviceName: objectscale-graphql
+
+enabled: false
+image:
+  repository: ecs-flex-vsphere-plugin
+  # tag: stable
+  # pullPolicy: IfNotPresent
+service:
+  # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
+  type: LoadBalancer
+
+  # Specify the service port configuration for the vSpherePlugin service
+  ports:
+    - name: https
+      port: 4443
+      targetPort: 4443
+      # nodePort:           # select specific node port for the connection
+
+      # loadBalancerIP:     # select specific load balancer IP of the connection
+      # externalHostnames:
+      #   - objectscale-vsp.example.com
+      # externalIPAddresses:
+      #   - 203.0.113.10
+      #   - 203.0.113.30
+      # externalIPv6Addresses:
+      #   - 2001:0db8:0000:0000:0000:0000:0000:0001
+
+objectscale-graphql:
+  managerReleaseName: objectscale-manager
+
+# rsyslog-client subchart configuration
+rsyslog-client:
+  createLogrotateConfigs: false
+
+# ObjectScale UI Feature flags
+features:
+  objectscaleDashboard: true
+  iam: false
+  replications: false
+  objectscaleSystems: false
+  # enable this if you want to deploy the BETA.3 Buckets workflows
+  bucketsv2: false
+  # Possible Logging modes - ERROR, INFO, DEBUG, WARNING Only
+  uiLoggingLevel: ERROR

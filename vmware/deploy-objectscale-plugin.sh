@@ -51,38 +51,18 @@ echomsg () {
 ## Add rules needed to apply our plugin
 add_vsphere7_clusterrole_rules () {
   vsphere7AppRoles="kubectl get -n vmware-system-appplatform-operator-system clusterrole vmware-system-appplatform-operator-manager-role  -o yaml"
-  numRoles=$(eval ${vsphere7AppRoles} | egrep -c -e "- batch|- app.k8s.io|- policy")
+  numRoles=$(eval ${vsphere7AppRoles} | egrep -c -e "- app.k8s.io")
 
   if [ ${numRoles} -le 3 ] 
   then
       echomsg "Adding roles to app platform"
       cat <<'EOT' > /tmp/newrules.yaml
 - apiGroups:
-  - batch
-  resources:
-  - cronjobs
-  - jobs
-  verbs:
-  - get
-  - list
-  - create
-  - update
-  - patch
-  - delete
-- apiGroups:
   - app.k8s.io
   resources:
   - applications
   verbs:
   - '*'
-- apiGroups:
-  - policy
-  resourceNames:
-  - wcp-privileged-psp
-  resources:
-  - podsecuritypolicies
-  verbs:
-  - use
 EOT
       eval ${vsphere7AppRoles} > /tmp/currrules.yaml
       kubectl apply -f <(cat <(cat /tmp/currrules.yaml) /tmp/newrules.yaml)

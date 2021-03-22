@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ .Values.application.testAppName }}
-  namespace: default
+  namespace: {{ .Release.Namespace }}
 data:
 {{- if gt .Values.application.event.totalEvents 10.0 }}
   TEST_EVENTS_COUNT: "10"

@@ -33,6 +33,12 @@ global:
   monitoring:
     enabled: true
 
+  # Enable integration logging framework
+  logging_injection_enabled: true
+
+  # Enable injection of rsyslog client sidecars
+  rsyslog_enabled: true
+
   # Global Product specifier
   product: objectscale
 
@@ -46,27 +52,33 @@ atlas:
 servicePod:
   enabled: true
 
-federation:
+objectscale-gateway:
   enabled: false
+
+federation:
+  enabled: true
 
 iam:
-  enabled: false
+  enabled: true
 
 pravega:
-  enabled: false
+  enabled: true
 
 bookkeeper:
-  enabled: false
+  enabled: true
 
 dcm:
-  enabled: false
+  enabled: true
 
 # Create an application resource for management  using Dell EMC common installer or other application-resource
 # controllers
 createApplicationResource: true
 
+# If debugMode true then run Operator with delve and in remote debug mode
+debugMode: false
+
 # The default docker tag and pull policy for objectscale-manager services
-tag: 0.65.0
+tag: 0.69.0
 pullPolicy: IfNotPresent
 
 # The default number of replicas for the objectscale-manager deployment
@@ -133,9 +145,11 @@ resources:
     limits:
       # cpu:
       memory: 500Mi
+      ephemeralStorage: 1256Mi
     requests:
       # cpu:
       memory: 300Mi
+      ephemeralStorage: 1256Mi
   fluentbitAgent:
     limits:
       # cpu:
@@ -216,3 +230,10 @@ loggerConfig:
     durationEncoder: "string"
     # "full" or "short" caller info
     callerEncoder: "short"
+
+# KAHM health check configuration
+healthChecks:
+  preUpdate:
+    image:
+      repository: objectscale-manager-pre-update
+      # tag: stable

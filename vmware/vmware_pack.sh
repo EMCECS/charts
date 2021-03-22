@@ -6,6 +6,13 @@ namespace="dellemc-objectscale-system"
 ## supervisor service name
 label="Dell EMC ObjectScale"
 
+sed_inplace=("-i")
+uname_s=$(uname -s)
+if [ "$uname_s" == "Darwin" ]; then
+	sed_inplace+=(".orig")
+fi
+
+
 ## extract the version from objectscale-manager 
 objs_ver=$(grep appVersion: objectscale-manager/Chart.yaml | sed -e "s/.*: //g")
 
@@ -15,8 +22,8 @@ service_id=$1
 if [ ${service_id} != "objectscale" ]
 then
      label="${label}-${service_id}"
-     sed -i "s/SERVICE_ID/-${service_id}/g" temp_package/yaml/objectscale-manager.yaml
-else sed -i "s/SERVICE_ID//g" temp_package/yaml/objectscale-manager.yaml
+     sed "${sed_inplace[@]}" "s/SERVICE_ID/-${service_id}/g" temp_package/yaml/objectscale-manager.yaml
+else sed "${sed_inplace[@]}" "s/SERVICE_ID//g" temp_package/yaml/objectscale-manager.yaml
 fi
 
 cat <<EOT >> temp_package/yaml/${vsphere7_plugin_file}
@@ -60,18 +67,25 @@ $(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/logging-injector.yaml)
 EOT
 
 ## Remove trailing whitespaace
-sed -i 's/[[:space:]]*$//' temp_package/yaml/${vsphere7_plugin_file}
+sed "${sed_inplace[@]}" 's/[[:space:]]*$//' temp_package/yaml/${vsphere7_plugin_file}
 
 ## Template the namespace value
-sed -i "s/$namespace/{{ .service.namespace }}/g" temp_package/yaml/${vsphere7_plugin_file}
+sed "${sed_inplace[@]}" "s/$namespace/{{ .service.namespace }}/g" temp_package/yaml/${vsphere7_plugin_file}
+
+## Template registry from supervisor service input
+sed "${sed_inplace[@]}" -e "s/REGISTRYTEMPLATE/{{ .Values.registryName }}/g" temp_package/yaml/*
+
+## Template docker username and password from supervisor service input
+dockersecret='{{printf "{\\"auths\\": {\\"%s\\": {\\"auth\\": \\"%s\\"}}}" .Values.registryName (printf "%s:%s" .Values.registryUsername .Values.registryPasswd | b64enc) | b64enc}}'
+sed "${sed_inplace[@]}" -e "s/DOCKERSECRETPLACEHOLDER/$dockersecret/g" temp_package/yaml/*
 
 ## Template the vsphere service prefix value
-sed -i "s/VSPHERE_SERVICE_PREFIX_VALUE/{{ .service.prefix }}/g" temp_package/yaml/${vsphere7_plugin_file}
+sed "${sed_inplace[@]}" "s/VSPHERE_SERVICE_PREFIX_VALUE/{{ .service.prefix }}/g" temp_package/yaml/${vsphere7_plugin_file}
 
 cp -p ./vmware/deploy-objectscale-plugin.sh temp_package/scripts 
 
 ## Template the service_id value
-sed -i "s/SERVICE_ID/${service_id}/" temp_package/scripts/deploy-objectscale-plugin.sh
+sed "${sed_inplace[@]}" "s/SERVICE_ID/${service_id}/" temp_package/scripts/deploy-objectscale-plugin.sh
 
 cat temp_package/yaml/${vsphere7_plugin_file} >> temp_package/scripts/deploy-objectscale-plugin.sh 
 echo "EOF" >> temp_package/scripts/deploy-objectscale-plugin.sh

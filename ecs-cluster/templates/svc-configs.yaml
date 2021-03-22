@@ -1,4 +1,4 @@
-{{- range $i, $svc := list "blob" "cm" "control" "cp" "diagnostic" "event" "geo" "metering" "rm" "resource" "s3" "sr" "sm" "ssm" "objectsvc" "rep" "storageserver" }}
+{{- range $i, $svc := list "blob" "cm" "control" "cp" "diagnostic" "event" "geo" "metering" "objmt" "rm" "resource" "s3" "sr" "sm" "ssm" "objectsvc" "rep" "storageserver" "ons" "nds"}}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -18,7 +18,7 @@ data:
 {{ ($.Files.Glob (print "svc-configs/" $svc "/*")).AsConfig | indent 2 }}
 {{- end }}
 
-{{- range $i, $svc := list "rep" }}
+{{- range $i, $svc := list "objectsvc" "rep" "resource" }}
 ---
 apiVersion: v1
 kind: ConfigMap

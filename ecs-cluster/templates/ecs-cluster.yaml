@@ -21,6 +21,8 @@ metadata:
 spec:
 {{- if .Values.global.registrySecret }}
   registrySecret: {{ .Values.global.registrySecret }}
+  imagePullSecrets:
+    - name: {{ .Values.global.registrySecret }}
 {{- end }}
 {{- if .Values.replicas }}
   replicas: {{ .Values.replicas }}
@@ -132,6 +134,25 @@ spec:
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
 
+  objectStoreMetering:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
+{{- if .Values.objectStoreMetering.replicas }}
+    replicas: {{ .Values.objectStoreMetering.replicas }}
+{{- end }}
+    image:
+      repository: {{ .Values.global.registry }}/{{ .Values.objectStoreMetering.image.repository }}
+{{- if .Values.objectStoreMetering.image.tag }}
+      tag: {{ .Values.objectStoreMetering.image.tag }}
+{{- else }}
+      tag: {{ .Values.tag }}
+{{- end }}
+{{- if .Values.objectStoreMetering.image.pullPolicy }}
+      pullPolicy: {{ .Values.objectStoreMetering.image.pullPolicy }}
+{{- else }}
+      pullPolicy: {{ .Values.pullPolicy }}
+{{- end }}
+
+
   rep:
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.rep.replicas }}
@@ -183,10 +204,30 @@ spec:
     {{- end }}
     image:
       imageSpec:
-        repository: {{ .Values.pravegaRepository }}/bookkeeper
+        repository: "{{ .Values.global.registry }}/{{ .Values.bookkeeperRepository }}"
         pullPolicy: {{ with .Values.bookkeeper.image }}{{ .pullPolicy }}{{ end }}
     version:  {{ .Values.bookkeeper.version }}
+    blockOwnerDeletion:  {{ .Values.bookkeeper.blockOwnerDeletion }}
     autoRecovery: {{ .Values.bookkeeper.autoRecovery }}
+    {{- if .Values.bookkeeper.probes }}
+    probes:
+      {{- if .Values.bookkeeper.probes.readiness }}
+      readinessProbe:
+        initialDelaySeconds: {{ .Values.bookkeeper.probes.readiness.initialDelaySeconds | default 20 }}
+        periodSeconds: {{ .Values.bookkeeper.probes.readiness.periodSeconds | default 10 }}
+        failureThreshold: {{ .Values.bookkeeper.probes.readiness.failureThreshold | default 9 }}
+        successThreshold: {{ .Values.bookkeeper.probes.readiness.successThreshold | default 1 }}
+        timeoutSeconds: {{ .Values.bookkeeper.probes.readiness.timeoutSeconds | default 5 }}
+      {{- end }}
+      {{- if .Values.bookkeeper.probes.liveness }}
+      livenessProbe:
+        initialDelaySeconds: {{ .Values.bookkeeper.probes.liveness.initialDelaySeconds | default 60 }}
+        periodSeconds: {{ .Values.bookkeeper.probes.liveness.periodSeconds | default 15 }}
+        failureThreshold: {{ .Values.bookkeeper.probes.liveness.failureThreshold | default 4 }}
+        successThreshold: {{ .Values.bookkeeper.probes.liveness.successThreshold | default 1 }}
+        timeoutSeconds: {{ .Values.bookkeeper.probes.liveness.timeoutSeconds | default 5 }}
+      {{- end }}
+    {{- end }}
     storage:
       ledgerVolumeClaimTemplate:
         accessModes: [ "ReadWriteOnce" ]
@@ -233,7 +274,7 @@ spec:
       segmentStoreExtServiceType: {{ .Values.pravega.segmentStore.service.type }}
       {{- end }}
       image:
-        repository: {{ .Values.pravegaRepository }}/pravega
+        repository: "{{ .Values.global.registry }}/{{ .Values.pravegaRepository }}"
         pullPolicy: {{ .Values.pullPolicy }}
       {{- if .Values.pravega.controller.replicas }}
       controllerReplicas: {{ .Values.pravega.controller.replicas }}
@@ -251,7 +292,7 @@ spec:
       debugLogging: {{ .Values.pravega.debugLogging }}
 
   storageServer:
-    serviceAccount: {{ .Release.Name }}
+    serviceAccount: {{ .Release.Name }}-storageserver
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.storageServer.replicas }}
     replicas: {{ .Values.storageServer.replicas }}
@@ -273,6 +314,9 @@ spec:
     volumes:
 {{- if .Values.storageServer.persistence.protected }}
       protected: {{ .Values.storageServer.persistence.protected }}
+{{- end }}
+{{- if .Values.storageServer.persistence.collocated }}
+      collocated: {{ .Values.storageServer.persistence.collocated }}
 {{- end }}
 {{- if .Values.storageServer.persistence.erasureCoding }}
       erasureCoding:
@@ -582,6 +626,7 @@ spec:
 
   provision:
     enabled: {{.Values.provision.enabled }}
+    newProvisionAPI: {{.Values.provision.newProvisionAPI}}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.provision.image.repository }}
 {{- if .Values.provision.image.tag }}
@@ -671,9 +716,14 @@ spec:
 
   enableCRR: {{ .Values.features.enableCRR }}
 
+  enableObjectStoreMetering: {{ .Values.features.enableObjectStoreMetering }}
+
   enablePravega: {{ .Values.features.enablePravega }}
 
   enableNotification: {{ .Values.features.enableNotification }}
+
+  enableRRDriven: {{ .Values.features.enableRRDriven }}
+  enableRRDrivenPartialSR: {{ .Values.features.enableRRDrivenPartialSR }}
 
   objectType: {{ .Values.features.objectType }}
 

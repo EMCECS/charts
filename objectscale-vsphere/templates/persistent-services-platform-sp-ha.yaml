@@ -1,13 +1,15 @@
 ---
+{{- if eq .Values.global.platform "VMware" }}
 apiVersion: appplatform.wcp.vmware.com/v1beta1
 kind: StoragePolicy
 metadata:
-    labels:
-      controller-tools.k8s.io: "1.0"
-    name: {{ .Values.global.storageClassName }}
-    namespace: {{ .Release.Namespace }}
+  labels:
+    controller-tools.k8s.io: "1.0"
+  name: {{ .Values.global.storageClassName }}
+  namespace: {{ .Release.Namespace }}
 spec:
-    name: {{ .Values.global.storageClassName }}
-    rules:
-      VSAN.hostFailuresToTolerate: "1"
-      VSAN.stripeWidth: "1"
+  name: {{ .Values.global.storageClassName }}
+  rules:
+    VSAN.hostFailuresToTolerate: "1"
+    VSAN.stripeWidth: "1"
+{{- end }}

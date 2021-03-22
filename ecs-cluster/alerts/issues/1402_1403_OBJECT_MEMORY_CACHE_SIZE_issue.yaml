@@ -1,0 +1,15 @@
+- description: "Page Table memory cache size for objectsvc exceeded threshold"
+  name: "OBJECT_MEMORY_CACHE_SIZE"
+  defaultAutoClearTimeOut: 60
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # NORMAL
+        - label: SymptomID
+          value: 1402
+    - matchon:
+        # WARNING
+        - label: SymptomID
+          value: 1403
+  notifiers:
+    - objectscale-supportassist-ese

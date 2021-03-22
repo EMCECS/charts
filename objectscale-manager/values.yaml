@@ -186,9 +186,9 @@ fluentbitAgent:
 
 # hook for VMWare platform
 hooks:
-  registry: "lachlanevenson"
+  registry: "emccorp"
   repository: "k8s-kubectl"
-  tag: "v1.13.4"
+  tag: "v1.16.10"
 
 loggerConfig:
   enabled: true

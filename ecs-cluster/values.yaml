@@ -29,7 +29,7 @@ global:
   objectscale_release_name: objectscale-manager
 
 # The default docker tag and pull policy for the ECS Cluster
-tag: 0.68.0
+tag: 0.69.0
 pullPolicy: IfNotPresent
 
 # Override the default number of replicas which taken according to performance profile for each service
@@ -77,9 +77,9 @@ features:
   enableObjectStoreMetering: false
 
   # Enable object notification
-  enableNotification: false
+  enableNotification: true
 
-  enablePravega: false
+  enablePravega: true
 
   # Object type defines which service will be used: Blob service or Object service.
   # Values: blobSVC or objectSVC
@@ -108,10 +108,11 @@ atlas:
     # Name of the storage class that storage should be provisioned from
     # storageClassName:
 pravegaRepository: pravega
+bookkeeperRepository: bookkeeper
 pravega:
   # labels:
   image:
-    tag: 0.10.0-2802.a86f69c38-SLTS_COMBINED_FIXES_JAN_22_FLEX
+    tag: 0.10.0-2824.d61af504c-SLTS_FEB_21_FLEX
   controller:
 #    replicas: 1
     service:

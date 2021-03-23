@@ -70,6 +70,7 @@ rules:
       - namespaces
       - serviceaccounts
       - secrets
+      - resourcequotas
     verbs:
       - get
       - list

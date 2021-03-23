@@ -65,5 +65,9 @@ spec:
             failureThreshold: {{ .Values.readinessProbe.failureThreshold | default 3 }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 60 }}
             initialDelaySeconds: {{ .Values.readinessProbe.iinitialDelaySeconds | default 60 }}
-
-
+        volumeMounts:
+        - name: log
+          mountPath: /opt/storageos/logs
+      volumes:
+      - name: log
+        emptyDir: {}

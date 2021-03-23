@@ -53,6 +53,14 @@ rules:
   resources:
   - clusterroles
   - clusterrolebindings
+  - roles
+  - rolebindings
+  verbs:
+  - "*"
+- apiGroups:
+  - app.k8s.io
+  resources:
+  - "*"
   verbs:
   - "*"
 - apiGroups:
@@ -70,6 +78,7 @@ rules:
   - deployments
   - replicasets
   - serviceaccounts
+  - persistentvolumeclaims
   verbs:
   - "*"
 - apiGroups:

@@ -3,15 +3,18 @@ HELM_URL     := https://get.helm.sh
 HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
 YQ_VERSION   := 4.4.1
 YAMLLINT_VERSION := 1.20.0
-CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod helm-controller objectscale-graphql objectscale-vsphere objectscale-portal objectscale-iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator influxdb-operator federation logging-injector dcm
+CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod helm-controller objectscale-graphql objectscale-vsphere objectscale-portal objectscale-gateway objectscale-iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator influxdb-operator federation logging-injector dcm
 DECKSCHARTS := decks kahm supportassist service-pod dellemc-license decks-support-store
-FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller objectscale-portal objectscale-iam statefuldaemonset-operator influxdb-operator federation logging-injector dcm
+FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller objectscale-portal objectscale-gateway objectscale-iam statefuldaemonset-operator influxdb-operator federation logging-injector dcm
 
 # release version
-PACKAGE_VERSION=0.68
-FULL_PACKAGE_VERSION=${PACKAGE_VERSION}.0
+MAJOR=0
+MINOR=69
+PATCH=1
+
+FULL_PACKAGE_VERSION=${MAJOR}.${MINOR}.${PATCH}
 FLEXVER=${FULL_PACKAGE_VERSION}
-DECKSVER=2.${PACKAGE_VERSION}
+DECKSVER=2.${MINOR}.${PATCH}
 
 GIT_COMMIT_COUNT=$(shell git rev-list HEAD | wc -l)
 GIT_COMMIT_ID=$(shell git rev-parse HEAD)
@@ -128,9 +131,6 @@ flexver: yqcheck graphqlver
 	done ;
 
 build: yqcheck
-	@echo "Ensure no helm repo accessible"
-	helm repo list | grep .; \
-        if [ $${?} -eq 0 ]; then exit 1; fi
 	REINDEX=0; \
 	for CHART in ${CHARTS}; do \
 		CURRENT_VER=`yq e .version $$CHART/Chart.yaml` ; \
@@ -203,9 +203,9 @@ create-manager-app: create-temp-package
 	--set global.monitoring.enabled=false \
 	--set objectscale-monitoring.influxdb.persistence.storageClassName=${STORAGECLASSNAME} \
 	--set objectscale-monitoring.rsyslog.persistence.storageClassName=${STORAGECLASSNAME_VSAN_SNA} \
+	--set objectscale-gateway.enabled=false ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
 	--set objectscale-iam.enabled=true ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
 	--set federation.enabled=true ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
-	--set dcm.enabled=false ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
 	-f values.yaml > ../${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml;
 	sed ${SED_INPLACE} 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
 	sed ${SED_INPLACE} 's/\\"monitoring\\":{\\"enabled\\":false}/\\"monitoring\\":{\\"enabled\\":true}/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \

@@ -204,7 +204,7 @@ spec:
     {{- end }}
     image:
       imageSpec:
-        repository: {{ .Values.pravegaRepository }}/bookkeeper
+        repository: "{{ .Values.global.registry }}/{{ .Values.bookkeeperRepository }}"
         pullPolicy: {{ with .Values.bookkeeper.image }}{{ .pullPolicy }}{{ end }}
     version:  {{ .Values.bookkeeper.version }}
     blockOwnerDeletion:  {{ .Values.bookkeeper.blockOwnerDeletion }}
@@ -274,7 +274,7 @@ spec:
       segmentStoreExtServiceType: {{ .Values.pravega.segmentStore.service.type }}
       {{- end }}
       image:
-        repository: {{ .Values.pravegaRepository }}/pravega
+        repository: "{{ .Values.global.registry }}/{{ .Values.pravegaRepository }}"
         pullPolicy: {{ .Values.pullPolicy }}
       {{- if .Values.pravega.controller.replicas }}
       controllerReplicas: {{ .Values.pravega.controller.replicas }}
@@ -292,7 +292,7 @@ spec:
       debugLogging: {{ .Values.pravega.debugLogging }}
 
   storageServer:
-    serviceAccount: {{ .Release.Name }}
+    serviceAccount: {{ .Release.Name }}-storageserver
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.storageServer.replicas }}
     replicas: {{ .Values.storageServer.replicas }}

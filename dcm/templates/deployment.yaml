@@ -17,9 +17,9 @@ spec:
         {{- include "dcm.selectorLabels" . | nindent 8 }}
 {{ include "common-monitoring-lib.logging-inject-labels" . | indent 8 }}
     spec:
-      {{- with .Values.imagePullSecrets }}
+      {{- if .Values.global.registrySecret }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
+        - name: {{ .Values.global.registrySecret }}
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}

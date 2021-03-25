@@ -33,6 +33,14 @@ rules:
       - get
       - list
       - patch
+  - apiGroups:
+    - ""
+    resources:
+    - serviceaccounts
+    verbs:
+    - get
+    - list
+    - patch
 
 ---
 

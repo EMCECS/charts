@@ -80,5 +80,12 @@ spec:
       containers:
         - name: pre-install-job
           image: "{{ .Values.hooks.registry }}/{{.Values.hooks.repository }}:{{ .Values.hooks.tag }}"
-          command: ["kubectl", "-n", "{{ .Release.Namespace }}", "patch", "wcpnamespace", "{{ .Release.Namespace }}", "--type=json", "-p", '[{"op":"add", "path":"/spec/spbmPolicies/-", "value":"{{ .Values.global.storageClassName }}"}]']
+          command: ["/bin/sh", "-c"]
+          args:
+          - kubectl version;
+            kubectl -n "{{ .Release.Namespace }}" patch wcpnamespace "{{ .Release.Namespace }}" --type=json -p='[{"op":"add", "path":"/spec/spbmPolicies/-","value":"{{ .Values.global.storageClassName }}"}]';
+            {{- if .Values.global.registrySecret }}
+            kubectl -n {{ .Release.Namespace}} patch serviceaccount default --type='json' -p='[{"op":"add", "path":"/imagePullSecrets/-", "value":{"name" :"{{.Values.global.registrySecret}}"}}]';
+            {{- end }}
 {{- end }}
+

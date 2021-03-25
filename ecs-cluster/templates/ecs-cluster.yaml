@@ -206,7 +206,11 @@ spec:
       imageSpec:
         repository: "{{ .Values.global.registry }}/{{ .Values.bookkeeperRepository }}"
         pullPolicy: {{ with .Values.bookkeeper.image }}{{ .pullPolicy }}{{ end }}
-    version:  {{ .Values.bookkeeper.version }}
+    {{- if .Values.bookkeeper.version }}
+    version: {{ .Values.bookkeeper.version }}
+    {{- else }}
+    version: {{ .Values.tag }}
+    {{- end }}
     blockOwnerDeletion:  {{ .Values.bookkeeper.blockOwnerDeletion }}
     autoRecovery: {{ .Values.bookkeeper.autoRecovery }}
     {{- if .Values.bookkeeper.probes }}
@@ -257,7 +261,11 @@ spec:
       log.level: {{ .Values.bookkeeper.options.log.level }}
 
   pravega:
+    {{- if .Values.pravega.image.tag }}
     version: {{ .Values.pravega.image.tag }}
+    {{- else }}
+    version: {{ .Values.tag }}
+    {{- end }}
     externalAccess:
       enabled: {{ .Values.pravega.externalAccess.enabled }}
       {{ if .Values.pravega.externalAccess.type }}

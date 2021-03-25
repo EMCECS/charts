@@ -22,6 +22,11 @@ spec:
       {{- end }}
       containers:
       - name: fedsvc
+        resources:
+          limits:
+            memory: 2Gi
+          requests:
+            memory: 2Gi
         env:
         - name: MY_POD_NAME
           valueFrom:

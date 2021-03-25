@@ -21,6 +21,11 @@ spec:
       {{- end }}
       containers:
       - name: iam
+        resources:
+          limits:
+            memory: 2Gi
+          requests:
+            memory: 2Gi
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: "atlas,flex,dns"

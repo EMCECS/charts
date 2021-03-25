@@ -111,7 +111,8 @@ pravegaRepository: pravega
 bookkeeperRepository: bookkeeper
 pravega:
   # labels:
-#  image:
+  image:
+    pullPolicy: IfNotPresent
 #    tag: 0.10.0-2831.d5f944ebf-issue-5853-SLTS-deep-copy
   controller:
 #    replicas: 1

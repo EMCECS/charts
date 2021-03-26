@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration  monitorInterval="60" shutdownHook="disable">
+    <Appenders>
+        <RollingFile name="R" fileName="${sys:product.home}/logs/geoservice.log"
+                     filePattern="${sys:product.home}/logs/geoservice.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="40 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="P" fileName="${sys:product.home}/logs/geoservice-perf-counter.log"
+                     filePattern="${sys:product.home}/logs/geoservice-perf-counter.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="E" fileName="${sys:product.home}/logs/geoservice-error.log"
+                     filePattern="${sys:product.home}/logs/geoservice-error.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="M" fileName="${sys:product.home}/logs/geoservice-stats.log"
+                     filePattern="${sys:product.home}/logs/geoservice-stats.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="T" fileName="${sys:product.home}/logs/geoservice-task.log"
+                     filePattern="${sys:product.home}/logs/geoservice-task.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} %5p %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="40 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <RollingFile name="ST" fileName="${sys:product.home}/logs/geoservice-stream.log"
+                     filePattern="${sys:product.home}/logs/geoservice-stream.log.%i">
+            <PatternLayout>
+                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="1"/>
+        </RollingFile>
+
+        <Syslog name="alertsLogger" host="localhost" port="514" protocol="UDP" facility="LOCAL7"/>
+
+        <Async name="asyncR" includeLocation="true">
+            <AppenderRef ref="R"/>
+        </Async>
+        <Async name="asyncE" includeLocation="true">
+            <AppenderRef ref="E"/>
+        </Async>
+        <Async name="asyncP" includeLocation="true">
+            <AppenderRef ref="P"/>
+        </Async>
+        <Async name="asyncM" includeLocation="true">
+            <AppenderRef ref="M"/>
+        </Async>
+        <Async name="asyncT" includeLocation="true">
+            <AppenderRef ref="T"/>
+        </Async>
+        <Async name="asyncST" includeLocation="true">
+            <AppenderRef ref="ST"/>
+        </Async>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="org.apache.zookeeper" level="ERROR"/>
+        <Logger name="org.perf4j.TimingLogger" level="ERROR"/>
+        <Logger name="com.emc.storageos.data.object.utils.RequestTrace" level="ERROR"/>
+        <Logger name="org.eclipse.jetty.server.RequestLog" level="ERROR"/>
+
+        <Logger name="com.emc.storageos.data.object.utils.ThreadPoolMonitor" level="ERROR"/>
+        <Logger name="org.eclipse.jetty.servlets.DoSFilter" level="WARN"/>
+        <Logger name="org.eclipse.jetty.util.thread.QueuedThreadPool" level="WARN"/>
+
+        <Logger name="com.emc.storageos.services.util.AlertsLogger" level="WARN" additivity="false">
+            <AppenderRef ref="alertsLogger"/>
+        </Logger>
+        <Logger name="com.emc.storageos.objcontrol.object.shared.PerformanceCounter" level="DEBUG" additivity="false">
+            <AppenderRef ref="asyncP"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.monitoring.MonitoringWorker" level="ERROR">
+            <AppenderRef ref="asyncM"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.impl.buffer" level="ERROR">
+            <AppenderRef ref="asyncM"/>
+        </Logger>
+
+        <Logger name="com.emc.storageos.data.geoservice.service" level="INFO" />
+
+        <Logger name="com.emc.storageos.data.geoservice.service.replication.common.ReplicationTaskLifeCycleLogger" level="INFO" additivity="false">
+            <AppenderRef ref="asyncT"/>
+        </Logger>
+
+        <Logger name="com.emc.storageos.data.stream" level="ERROR">
+            <AppenderRef ref="asyncST"/>
+        </Logger>
+        <Logger name="io.pravega.client" level="ERROR">
+            <AppenderRef ref="asyncST"/>
+        </Logger>
+
+        <Root level="ERROR">
+            <AppenderRef ref="asyncR"/>
+            <AppenderRef ref="asyncE" level="error"/>
+        </Root>
+    </Loggers>
+
+</Configuration>

@@ -29,7 +29,7 @@ global:
   objectscale_release_name: objectscale-manager
 
 # The default docker tag and pull policy for the ECS Cluster
-tag: 0.69.0
+tag: 0.70.0
 pullPolicy: IfNotPresent
 
 # Override the default number of replicas which taken according to performance profile for each service
@@ -112,7 +112,8 @@ bookkeeperRepository: bookkeeper
 pravega:
   # labels:
   image:
-    tag: 0.10.0-2824.d61af504c-SLTS_FEB_21_FLEX
+    pullPolicy: IfNotPresent
+#    tag: 0.10.0-2831.d5f944ebf-issue-5853-SLTS-deep-copy
   controller:
 #    replicas: 1
     service:
@@ -159,7 +160,7 @@ bookkeeper:
   # labels:
   image:
     pullPolicy: IfNotPresent
-  version: 0.9.0-2725.77b13981a
+#  version: 0.10.0-2831.d5f944ebf-issue-5853-SLTS-deep-copy
   blockOwnerDeletion: false
   autoRecovery: true
   probes:

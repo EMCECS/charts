@@ -58,8 +58,16 @@ spec:
         ports:
         - containerPort: 60000
           name: metrics
+{{- if eq .Values.debugMode true }}
+        - containerPort: 40000
+          name: debug
+{{- end }}
         command: ["bash"]
+{{- if eq .Values.debugMode true }}
+        args: ["-c", "echo /crash-dump/core-%e > /proc/sys/kernel/core_pattern; ulimit -c unlimited; GOTRACEBACK=crash /dlv --listen=:40000 --headless=true --api-version=2 --continue=true --accept-multiclient=true exec /usr/local/bin/objectscale-operator"]
+{{- else }}
         args: ["-c", "echo /crash-dump/core-%e > /proc/sys/kernel/core_pattern; ulimit -c unlimited; GOTRACEBACK=crash /usr/local/bin/objectscale-operator"]
+{{- end }}
         resources:
           limits:
             memory: {{ .Values.resources.operator.limits.memory }}

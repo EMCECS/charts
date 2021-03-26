@@ -52,7 +52,10 @@ metadata:
     "helm.sh/hook": post-install, post-upgrade
     "helm.sh/hook-weight": "1"
     "helm.sh/hook-delete-policy": hook-succeeded, before-hook-creation, hook-failed
-
+{{- if .Values.global.registrySecret }}
+imagePullSecrets:
+  - name: {{ .Values.global.registrySecret }}
+{{- end }}
 ---
 
 apiVersion: v1
@@ -91,6 +94,10 @@ spec:
       name: {{ template "pravega-operator.fullname" . }}-post-install-upgrade
     spec:
       serviceAccountName: {{ template "pravega-operator.fullname" . }}-post-install-upgrade
+      {{- if .Values.global.registrySecret }}
+      imagePullSecrets:
+        - name: {{ .Values.global.registrySecret }}
+      {{- end }}
       restartPolicy: Never
       containers:
       - name: post-install-upgrade-job

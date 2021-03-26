@@ -25,7 +25,7 @@ global:
   watchAllNamespaces: true
 
 # The default docker tag and pull policy for helm-controller services
-tag: 0.69.1
+tag: 0.70.0
 pullPolicy: IfNotPresent
 
 image:

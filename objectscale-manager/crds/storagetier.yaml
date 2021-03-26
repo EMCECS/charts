@@ -1,0 +1,25 @@
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: storagetiers.ecs.dellemc.com
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    helm.sh/chart: objectscale-manager
+    app.kubernetes.io/component: objectscale-operator
+    app.kubernetes.io/part-of: objectscale-manager
+    app.kubernetes.io/managed-by: nautilus
+spec:
+  group: ecs.dellemc.com
+  names:
+    kind: StorageTier
+    listKind: StorageTierList
+    plural: storagetiers
+    singular: storagetier
+    shortNames:
+      - st
+  scope: Namespaced
+  versions:
+    - name: v1beta1
+      served: true
+      storage: true

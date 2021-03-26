@@ -9,8 +9,8 @@ FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-gr
 
 # release version
 MAJOR=0
-MINOR=69
-PATCH=1
+MINOR=70
+PATCH=0
 
 FULL_PACKAGE_VERSION=${MAJOR}.${MINOR}.${PATCH}
 FLEXVER=${FULL_PACKAGE_VERSION}
@@ -131,9 +131,6 @@ flexver: yqcheck graphqlver
 	done ;
 
 build: yqcheck
-	@echo "Ensure no helm repo accessible"
-	helm repo list | grep .; \
-        if [ $${?} -eq 0 ]; then exit 1; fi
 	REINDEX=0; \
 	for CHART in ${CHARTS}; do \
 		CURRENT_VER=`yq e .version $$CHART/Chart.yaml` ; \
@@ -209,7 +206,6 @@ create-manager-app: create-temp-package
 	--set objectscale-gateway.enabled=false ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
 	--set objectscale-iam.enabled=true ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
 	--set federation.enabled=true ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
-	--set dcm.enabled=false ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
 	-f values.yaml > ../${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml;
 	sed ${SED_INPLACE} 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
 	sed ${SED_INPLACE} 's/\\"monitoring\\":{\\"enabled\\":false}/\\"monitoring\\":{\\"enabled\\":true}/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \

@@ -52,7 +52,10 @@ metadata:
     "helm.sh/hook": post-install, post-upgrade
     "helm.sh/hook-weight": "1"
     "helm.sh/hook-delete-policy": hook-succeeded, before-hook-creation, hook-failed
-
+{{- if .Values.global.registrySecret }}
+imagePullSecrets:
+  - name: {{ .Values.global.registrySecret }}
+{{- end }}
 ---
 
 apiVersion: v1
@@ -92,6 +95,10 @@ spec:
     spec:
       serviceAccountName: {{ template "bookkeeper-operator.fullname" . }}-post-install-upgrade
       restartPolicy: Never
+      {{- if .Values.global.registrySecret }}
+      imagePullSecrets:
+        - name: {{ .Values.global.registrySecret }}
+      {{- end }}
       containers:
       - name: post-install-upgrade-job
         image: "{{ .Values.global.registry }}/{{ .Values.hooks.image.repository }}:{{ .Values.hooks.image.tag }}"

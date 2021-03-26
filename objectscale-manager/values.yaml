@@ -78,7 +78,7 @@ createApplicationResource: true
 debugMode: false
 
 # The default docker tag and pull policy for objectscale-manager services
-tag: 0.70.0
+tag: 0.70.2
 pullPolicy: IfNotPresent
 
 # The default number of replicas for the objectscale-manager deployment

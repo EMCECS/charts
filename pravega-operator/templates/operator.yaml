@@ -19,6 +19,10 @@ spec:
     spec:
       automountServiceAccountToken: true
       serviceAccountName: {{ .Values.serviceAccount.name }}
+      {{- if .Values.global.registrySecret }}
+      imagePullSecrets:
+        - name: {{ .Values.global.registrySecret }}
+      {{- end }}
       containers:
       - name: {{ template "pravega-operator.fullname" . }}
         image: "{{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"

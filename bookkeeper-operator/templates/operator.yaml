@@ -17,6 +17,10 @@ spec:
         component: bookkeeper-operator
     spec:
       serviceAccountName: {{ .Values.serviceAccount.name }}
+      {{- if .Values.global.registrySecret }}
+      imagePullSecrets:
+        - name: {{ .Values.global.registrySecret }}
+      {{- end }}
       containers:
         - name: {{ template "bookkeeper-operator.fullname" . }}
           image: "{{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"

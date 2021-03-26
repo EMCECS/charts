@@ -175,6 +175,8 @@ spec:
 {{- if .Values.zookeeper.replicas }}
     replicas: {{ .Values.zookeeper.replicas }}
 {{- end }}
+    pod: 
+      serviceAccountName: {{.Release.Name}}-storageserver
     labels:
       app: zookeeper
       component: zk

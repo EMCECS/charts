@@ -70,6 +70,10 @@ spec:
 {{- end }}
         - name: GLOBAL_REGISTRY
           value: {{ .Values.global.registry }}
+        {{- if .Values.global.registrySecret }}
+        - name: GLOBAL_REGISTRY_SECRET
+          value: {{ .Values.global.registrySecret }}
+        {{- end }}
         - name: LICENSE_CHART_VERSION
           value: {{ default "1.1.0" .Values.decks.licenseChartVersion }}
         - name: SUPPORTASSIST_CHART_VERSION

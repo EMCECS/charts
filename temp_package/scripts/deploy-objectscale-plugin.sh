@@ -2063,10 +2063,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.3
+        app.kubernetes.io/version: 0.70.4
         app.kubernetes.io/component: objectscale-operator
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: helm-controller-0.70.3
+        helm.sh/chart: helm-controller-0.70.4
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -2083,10 +2083,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.3
+        app.kubernetes.io/version: 0.70.4
         app.kubernetes.io/component: objectscale-graphql
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: objectscale-graphql-0.70.3
+        helm.sh/chart: objectscale-graphql-0.70.4
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -2414,10 +2414,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.3
+        app.kubernetes.io/version: 0.70.4
         app.kubernetes.io/component: objectscale-operator
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: helm-controller-0.70.3
+        helm.sh/chart: helm-controller-0.70.4
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -2578,10 +2578,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.3
+        app.kubernetes.io/version: 0.70.4
         app.kubernetes.io/component: objectscale-graphql
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: objectscale-graphql-0.70.3
+        helm.sh/chart: objectscale-graphql-0.70.4
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -2638,10 +2638,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.3
+        app.kubernetes.io/version: 0.70.4
         app.kubernetes.io/component: objectscale-graphql
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: objectscale-graphql-0.70.3
+        helm.sh/chart: objectscale-graphql-0.70.4
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -2770,10 +2770,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.3
+        app.kubernetes.io/version: 0.70.4
         app.kubernetes.io/component: graphql-cluster-scoped-resources
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: objectscale-graphql-0.70.3
+        helm.sh/chart: objectscale-graphql-0.70.4
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -2848,10 +2848,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.3
+        app.kubernetes.io/version: 0.70.4
         app.kubernetes.io/component: helm-controller
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: helm-controller-0.70.3
+        helm.sh/chart: helm-controller-0.70.4
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -2899,10 +2899,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.3
+        app.kubernetes.io/version: 0.70.4
         app.kubernetes.io/component: objectscale-graphql
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: objectscale-graphql-0.70.3
+        helm.sh/chart: objectscale-graphql-0.70.4
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -2924,10 +2924,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.3
+        app.kubernetes.io/version: 0.70.4
         app.kubernetes.io/component: objectscale-graphql
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: objectscale-graphql-0.70.3
+        helm.sh/chart: objectscale-graphql-0.70.4
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -3066,10 +3066,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.3
+        app.kubernetes.io/version: 0.70.4
         app.kubernetes.io/component: objectscale-graphql
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: objectscale-graphql-0.70.3
+        helm.sh/chart: objectscale-graphql-0.70.4
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -3167,9 +3167,9 @@ data:
       labels:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/component: objectscale-install-controller
-        helm.sh/chart: helm-controller-0.70.3
+        helm.sh/chart: helm-controller-0.70.4
         app.kubernetes.io/instance: vsphere-plugin
-        app.kubernetes.io/version: 0.70.3
+        app.kubernetes.io/version: 0.70.4
         app.kubernetes.io/part-of: vsphere-plugin
         release: vsphere-plugin
         operator: objectscale-operator
@@ -3195,10 +3195,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.3
+        app.kubernetes.io/version: 0.70.4
         app.kubernetes.io/component: objectscale-graphql
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: objectscale-graphql-0.70.3
+        helm.sh/chart: objectscale-graphql-0.70.4
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -3249,9 +3249,9 @@ data:
         app.kubernetes.io/component: objectscale-install-controller
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/instance: vsphere-plugin
-        app.kubernetes.io/version: 0.70.3
+        app.kubernetes.io/version: 0.70.4
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: helm-controller-0.70.3
+        helm.sh/chart: helm-controller-0.70.4
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -3268,9 +3268,9 @@ data:
             app.kubernetes.io/component: objectscale-install-controller
             app.kubernetes.io/managed-by: Helm
             app.kubernetes.io/instance: vsphere-plugin
-            app.kubernetes.io/version: 0.70.3
+            app.kubernetes.io/version: 0.70.4
             app.kubernetes.io/part-of: vsphere-plugin
-            helm.sh/chart: helm-controller-0.70.3
+            helm.sh/chart: helm-controller-0.70.4
             release: vsphere-plugin
             operator: objectscale-operator
             product: objectscale
@@ -3285,7 +3285,7 @@ data:
                   memory: 500M
                 requests:
                   memory: 250M
-              image: {{ .Values.registryName }}/install-controller:0.70.3
+              image: {{ .Values.registryName }}/install-controller:0.70.4
               env:
                 - name: OPERATOR_NAME
                   value: objectscale-operator
@@ -3319,10 +3319,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.3
+        app.kubernetes.io/version: 0.70.4
         app.kubernetes.io/component: objectscale-graphql
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: objectscale-graphql-0.70.3
+        helm.sh/chart: objectscale-graphql-0.70.4
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -3340,8 +3340,8 @@ data:
             app.kubernetes.io/managed-by: Helm
             app.kubernetes.io/instance: vsphere-plugin
             app.kubernetes.io/part-of: vsphere-plugin
-            app.kubernetes.io/version: 0.70.3
-            helm.sh/chart: objectscale-graphql-0.70.3
+            app.kubernetes.io/version: 0.70.4
+            helm.sh/chart: objectscale-graphql-0.70.4
             release: vsphere-plugin
             operator: objectscale-operator
             product: objectscale
@@ -3349,11 +3349,11 @@ data:
           serviceAccountName: objectscale-api
           containers:
           - name: objectscale-graphql
-            image: {{ .Values.registryName }}/ecs-flex-graphql:0.70.3
+            image: {{ .Values.registryName }}/ecs-flex-graphql:0.70.4
             imagePullPolicy: IfNotPresent
             env:
             - name: OBJSTORE_AVAILABLE_VERSIONS
-              value: "[\"0.70.3\"]"
+              value: "[\"0.70.4\"]"
             - name: GRAPHQL_NAMESPACE
               valueFrom:
                 fieldRef:
@@ -3367,9 +3367,9 @@ data:
             - name: GLOBAL_REGISTRY_SECRET
               value: vsphere-docker-secret
             - name: LICENSE_CHART_VERSION
-              value: 2.70.3
+              value: 2.70.4
             - name: SUPPORTASSIST_CHART_VERSION
-              value: 2.70.3
+              value: 2.70.4
             - name: SRSGATEWAY_CHART_VERSION
               value: 1.2.0
             - name: OPERATOR_NAME
@@ -3531,7 +3531,7 @@ data:
         "helm.sh/hook-delete-policy": "before-hook-creation"
     type: Opaque
     stringData:
-      credentials: objectscale:GI8jAVDCsSrJAHBh:ncOTgPQDdfVkjpS8
+      credentials: objectscale:QPG0D1IgdjhtDdh3:bE9Hks9WuCc3Obs5
     ---
     ---
     # Source: objectscale-manager/templates/objectscale-manager-app.yaml

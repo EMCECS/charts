@@ -20,3 +20,22 @@ fedsvc:
   service:
     port: 9500
     type: LoadBalancer
+# Atlas Cluster configuration for ObjectScale persistent Storage
+atlas:
+
+  # Disables the affinity rules for the Atlas Cluster, allowing it to run
+  # multiple replicas on a single node
+  disableAntiAffinity: false
+
+  # Configure the container image
+  image:
+    pullPolicy: IfNotPresent
+    repository: atlas
+    tag: v1.1.2
+
+  # Persistent storage options for Atlas Cluster
+  persistence:
+    size: 10Gi
+
+  # Replica count for ObjectScale Federation Atlas Cluster
+  replicaCount: 3

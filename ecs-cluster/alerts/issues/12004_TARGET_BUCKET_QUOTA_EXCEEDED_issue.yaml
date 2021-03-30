@@ -1,0 +1,8 @@
+- description: "Target bucket quota limit exceeded"
+  name: "TARGET_BUCKET_QUOTA_EXCEEDED"
+  issueCategory: Manual
+  matchOnList:
+    - matchon:
+        # ERROR
+        - label: SymptomID
+          value: 12004

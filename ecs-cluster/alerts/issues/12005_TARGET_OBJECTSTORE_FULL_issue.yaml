@@ -1,0 +1,8 @@
+- description: "Target object store storage full"
+  name: "TARGET_OBJECT_STORE_FULL"
+  issueCategory: Manual
+  matchOnList:
+    - matchon:
+        # ERROR
+        - label: SymptomID
+          value: 12005

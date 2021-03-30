@@ -4,9 +4,6 @@
 # Use to rebuild charts with dependencies only after rebuilding of their dependencies
 
 import os
-import sys
-import json
-import time
 import yaml
 import argparse
 

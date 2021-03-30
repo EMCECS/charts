@@ -133,7 +133,7 @@ flexver: yqcheck graphqlver
 build: yqcheck
 	REINDEX=0; \
 	SORTED_CHARTS=`python tools/build_helper/sort_charts_by_deps.py -c ${CHARTS}`; \
-	for CHART in ${SORTED_CHARTS}; do \
+	for CHART in $${SORTED_CHARTS}; do \
 		CURRENT_VER=`yq e .version $$CHART/Chart.yaml` ; \
 		yq e ".entries.$${CHART}[].version" docs/index.yaml | grep -q "\- $${CURRENT_VER}$$" ; \
 		if [ "$${?}" -eq "1" ] || [ "$${REBUILDHELMPKG}" ] ; then \

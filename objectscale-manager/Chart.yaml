@@ -19,15 +19,15 @@ dependencies:
     repository: file://../atlas-operator
     condition: atlas.enabled
   - name: objectscale-monitoring
-    version: 3.7.0-1165.50c1e20a # no_auto_change__monitoring_auto_change
+    version: 3.7.0-1166.a088699c # no_auto_change__monitoring_auto_change
     condition: global.monitoring.enabled
     repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
   - name: objectscale-gateway
-    version: 0.70.0
+    version: 0.70.2
     repository: file://../objectscale-gateway
     condition: objectscale-gateway.enabled
   - name: federation
-    version: 0.70.0
+    version: 0.70.2
     repository: file://../federation
     condition: federation.enabled
   - name: objectscale-iam
@@ -35,7 +35,7 @@ dependencies:
     repository: file://../objectscale-iam
     condition: iam.enabled
   - name: service-pod
-    version: 2.70.0 # no_auto_change__decks_auto_change
+    version: 2.70.2 # no_auto_change__decks_auto_change
     condition: servicePod.enabled
     repository: file://../service-pod
   - name: pravega-operator

@@ -136,7 +136,7 @@ build: yqcheck
 	if [ "$${CHARTS}" == "$${ALL_CHARTS}" ] ; then \
 	    BUILD_CHARTS=`python tools/build_helper/sort_charts_by_deps.py -c ${CHARTS}`; \
 	else  \
-	    BUILD_CHARTS="$${CHARTS}"; \
+	    BUILD_CHARTS="python tools/build_helper/sort_charts_by_deps.py -c ${ALL_CHARTS} -s ${CHARTS}"; \
 	fi ; \
 	for CHART in $${BUILD_CHARTS}; do \
 		CURRENT_VER=`yq e .version $$CHART/Chart.yaml` ; \

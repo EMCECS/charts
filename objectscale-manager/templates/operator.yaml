@@ -97,6 +97,8 @@ spec:
               fieldPath: metadata.namespace
         - name: PLATFORM
           value: {{ .Values.global.platform | default "Default" }}
+        - name: FEDERATION_SERVICE_NAME
+          value: "fedsvc"
 {{- if .Values.dcm.enabled }}
         - name: DCM_SERVICE_HOSTNAME
           value: "{{ .Release.Name }}-dcm"

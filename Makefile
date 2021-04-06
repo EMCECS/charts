@@ -9,8 +9,8 @@ FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-gr
 
 # release version
 MAJOR=0
-MINOR=70
-PATCH=2
+MINOR=71
+PATCH=0
 
 FULL_PACKAGE_VERSION=${MAJOR}.${MINOR}.${PATCH}
 FLEXVER=${FULL_PACKAGE_VERSION}
@@ -132,7 +132,8 @@ flexver: yqcheck graphqlver
 
 build: yqcheck
 	REINDEX=0; \
-	for CHART in ${CHARTS}; do \
+	SORTED_CHARTS=`python tools/build_helper/sort_charts_by_deps.py -c ${CHARTS}`; \
+	for CHART in $${SORTED_CHARTS}; do \
 		CURRENT_VER=`yq e .version $$CHART/Chart.yaml` ; \
 		yq e ".entries.$${CHART}[].version" docs/index.yaml | grep -q "\- $${CURRENT_VER}$$" ; \
 		if [ "$${?}" -eq "1" ] || [ "$${REBUILDHELMPKG}" ] ; then \

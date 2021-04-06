@@ -9,6 +9,7 @@ metadata:
         app.kubernetes.io/version: {{.Values.tag}}
         app.kubernetes.io/instance: {{.Release.Name}}
         app.kubernetes.io/managed-by: nautilus
+        app.kubernetes.io/type: app-config
         helm.sh/chart: {{.Chart.Name}}-{{.Chart.Version | replace "+" "_"}}
         release: {{.Release.Name}}
     annotations:

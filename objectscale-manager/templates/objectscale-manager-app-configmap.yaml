@@ -10,6 +10,7 @@ metadata:
       app.kubernetes.io/managed-by: {{ .Release.Service }}
       app.kubernetes.io/version: {{ .Chart.AppVersion }}
       app.kubernetes.io/part-of: {{ .Release.Name }}
+      app.kubernetes.io/type: app-config
       helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
       release: {{ .Release.Name}}
       operator: objectscale-operator

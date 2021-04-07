@@ -35,6 +35,7 @@ pipeline {
                     sshagent([GH_CREDS]) {
                        sh('''
                             make dep
+                            PATH=/tmp:$PATH
                             make test
                        ''')
                     }

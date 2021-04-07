@@ -1,17 +1,17 @@
 apiVersion: apps/v1
-kind: StatefulSet 
+kind: Deployment
 metadata:
   name: kahm
   namespace: {{ .Release.Namespace}}
   labels:
     release: {{ .Release.Name }}
 spec:
-  podManagementPolicy: Parallel
   replicas: 1
   selector:
     matchLabels:
       name: kahm
-  serviceName: kahm-headless
+  strategy:
+   type: Recreate
   template:
     metadata:
       labels:
@@ -74,20 +74,8 @@ spec:
           value: {{ .Values.db.dbType }}
         - name: KAHM_DB_EVENT_TTL
           value: "{{ .Values.db.eventTTL }}"
-  volumeClaimTemplates:
-  - metadata:
-      labels:
-        app: kahm 
-        release: {{ .Release.Name }}
-      name: db
-      namespace: {{ .Release.Namespace }}
-    spec:
-      accessModes:
-      - ReadWriteOnce
-      {{- if .Values.storageClassName}}
-      storageClassName: {{.Values.storageClassName}}
-      {{- end}}
-      dataSource: null
-      resources:
-        requests:
-          storage: 2Gi
+      restartPolicy: Always
+      volumes:
+      - name: db
+        persistentVolumeClaim:
+          claimName: db-kahm-0 

@@ -6,6 +6,9 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   replicas: {{ coalesce .Values.atlas.replicaCount (index (dict "Large" 3) (title .Values.global.performanceProfile)) 1 }}
+  {{- if .Values.global.registrySecret }}
+  imagePullSecret: {{ .Values.global.registrySecret }}
+  {{- end }}
   image:
     repository:  {{  default  .Values.global.registry  .Values.atlas.registry }}/{{ .Values.atlas.image.repository }}
     tag: {{ .Values.atlas.image.tag }}

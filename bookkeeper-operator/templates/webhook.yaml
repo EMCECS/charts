@@ -1,3 +1,4 @@
+{{- if .Values.webhookCert.generate }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -48,3 +49,4 @@ webhooks:
     - bookkeeperclusters
     scope: "*"
   timeoutSeconds: 30
+{{end}}

@@ -15,10 +15,11 @@ spec:
     metadata:
       labels:
         {{- include "dcm.selectorLabels" . | nindent 8 }}
+{{ include "common-monitoring-lib.logging-inject-labels" . | indent 8 }}
     spec:
-      {{- with .Values.imagePullSecrets }}
+      {{- if .Values.global.registrySecret }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
+        - name: {{ .Values.global.registrySecret }}
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
@@ -57,4 +58,16 @@ spec:
               port: http
             failureThreshold: {{ .Values.readinessProbe.failureThreshold | default 3 }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds | default 60 }}
+          volumeMounts:
+            - name: log
+              mountPath: /var/log
+            - name: config
+              mountPath: /opt/storageos/conf/dcm-log4j2.xml
+              subPath: dcm-log4j2.xml
+      volumes:
+        - name: log
+          emptyDir: {}
+        - name: config
+          configMap:
+            name: dcm-log-config
 

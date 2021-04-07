@@ -19,7 +19,7 @@ tests:
       global.monitoring.enabled: false
     asserts:
       - hasDocuments:
-          count: 21
+          count: 24
 
       - equal:
           path: metadata.name
@@ -173,4 +173,23 @@ tests:
           path: data.repsvc-log4j2\.xml
           pattern: "repsvc.log"
         documentIndex: 16
+
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-ons-log4j2
+        documentIndex: 18
+      - matchRegex:
+          path: data.ons-log4j2\.xml
+          pattern: "ons.log"
+        documentIndex: 18
+
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-nds-log4j2
+        documentIndex: 19
+      - matchRegex:
+          path: data.nds-log4j2\.xml
+          pattern: "nds.log"
+        documentIndex: 19
+
 

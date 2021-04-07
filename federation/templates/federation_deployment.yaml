@@ -16,10 +16,10 @@ spec:
         {{- include "fedsvc.selectorLabels" . | nindent 8 }}
     spec:
       serviceAccountName: "federation"
-    {{- with .Values.imagePullSecrets }}
+      {{- if .Values.global.registrySecret }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
+        - name: {{ .Values.global.registrySecret }}
+      {{- end }}
       containers:
       - name: fedsvc
         env:

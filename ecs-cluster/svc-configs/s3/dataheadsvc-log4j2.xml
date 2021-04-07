@@ -66,6 +66,7 @@
                 <CFTriggeringPolicy />
                 <SizeBasedTriggeringPolicy size="5 MB"/>
             </Policies>
+            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="CA" fileName="${sys:product.home}/logs/datahead-cas-access.log"
@@ -78,6 +79,7 @@
                 <CFTriggeringPolicy />
                 <SizeBasedTriggeringPolicy size="5 MB"/>
             </Policies>
+            <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
         <RollingFile name="RCC" fileName="${sys:product.home}/logs/dataheadsvc-refresh-chunk-cache.log"

@@ -3,15 +3,19 @@ HELM_URL     := https://get.helm.sh
 HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
 YQ_VERSION   := 4.4.1
 YAMLLINT_VERSION := 1.20.0
-CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod helm-controller objectscale-graphql objectscale-vsphere objectscale-portal objectscale-iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator influxdb-operator federation logging-injector dcm
+ALL_CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod helm-controller objectscale-graphql objectscale-vsphere objectscale-portal objectscale-gateway objectscale-iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator influxdb-operator federation logging-injector dcm
+CHARTS = ${ALL_CHARTS}
 DECKSCHARTS := decks kahm supportassist service-pod dellemc-license decks-support-store
-FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller objectscale-portal objectscale-iam statefuldaemonset-operator influxdb-operator federation logging-injector dcm
+FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller objectscale-portal objectscale-gateway objectscale-iam statefuldaemonset-operator influxdb-operator federation logging-injector dcm
 
 # release version
-PACKAGE_VERSION=0.68
-FULL_PACKAGE_VERSION=${PACKAGE_VERSION}.0
+MAJOR=0
+MINOR=71
+PATCH=0
+
+FULL_PACKAGE_VERSION=${MAJOR}.${MINOR}.${PATCH}
 FLEXVER=${FULL_PACKAGE_VERSION}
-DECKSVER=2.${PACKAGE_VERSION}
+DECKSVER=2.${MINOR}.${PATCH}
 
 GIT_COMMIT_COUNT=$(shell git rev-list HEAD | wc -l)
 GIT_COMMIT_ID=$(shell git rev-parse HEAD)
@@ -44,6 +48,12 @@ HELM_INSTALLER_ARGS  = # --set objectscale-graphql.helm-controller.tag=${YOUR_VE
 HELM_DECKS_ARGS      = # --set image.tag=${YOUR_VERSION_HERE}
 HELM_KAHM_ARGS       = # --set image.tag=${YOUR_VERSION_HERE}
 HELM_DECKS_SUPPORT_STORE_ARGS      = # --set decks-support-store.image.tag=${YOUR_VERSION_HERE}
+SED_INPLACE         := -i
+
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Darwin)
+	SED_INPLACE += .orig
+endif
 
 ISSUE_EVENTS_RAW     = ${TEMP_PACKAGE}/yaml/issues_events_${FLEXVER}.yaml
 ISSUE_EVENTS_REPORT  = ${TEMP_PACKAGE}/yaml/issues_events_${FLEXVER}.json
@@ -94,18 +104,18 @@ decksver: yqcheck
 		echo "Setting version ${DECKSVER} in $$CHART" ;\
 		yq e '.appVersion = "${DECKSVER}"' -i $$CHART/Chart.yaml ; \
 		yq e '.version = "${DECKSVER}"' -i $$CHART/Chart.yaml ; \
-		sed -i '1s/^/---\n/' $$CHART/Chart.yaml ; \
-		sed -i -e "0,/^tag.*/s//tag: ${DECKSVER}/"  $$CHART/values.yaml; \
+		sed ${SED_INPLACE} '1s/^/---\n/' $$CHART/Chart.yaml ; \
+		sed ${SED_INPLACE} -e "0,/^tag.*/s//tag: ${DECKSVER}/"  $$CHART/values.yaml; \
 	done ;
 
 	for CHART in ${FLEXCHARTS} ${DECKSCHARTS}; do  \
 		echo "Setting decks dep version ${DECKSVER} in $$CHART" ;\
-		sed -i -e "/no_auto_change__decks_auto_change/s/version:.*/version: ${DECKSVER} # no_auto_change__decks_auto_change/g"  $$CHART/Chart.yaml; \
+		sed ${SED_INPLACE} -e "/no_auto_change__decks_auto_change/s/version:.*/version: ${DECKSVER} # no_auto_change__decks_auto_change/g"  $$CHART/Chart.yaml; \
 	done ;
 
 graphqlver: yqcheck
 	yq e '(.objectStoreAvailableVersions[0] = "${FLEXVER}") | (.decks.licenseChartVersion = "${DECKSVER}") | (.decks.supportAssistChartVersion = "${DECKSVER}") ' -i objectscale-graphql/values.yaml
-	sed -i '1s/^/---\n/' objectscale-graphql/values.yaml
+	sed ${SED_INPLACE} '1s/^/---\n/' objectscale-graphql/values.yaml
 	yamllint -c .yamllint.yml objectscale-graphql/values.yaml
 
 flexver: yqcheck graphqlver
@@ -116,17 +126,19 @@ flexver: yqcheck graphqlver
 	for CHART in ${FLEXCHARTS}; do  \
 		echo "Setting version $$FLEXVER in $$CHART" ;\
 		yq e '.appVersion = "${FLEXVER}"' -i $$CHART/Chart.yaml ; \
-		sed -i -e "/no_auto_change/!s/version:.*/version: ${FLEXVER}/g"  $$CHART/Chart.yaml; \
-		sed -i '1s/^/---\n/' $$CHART/Chart.yaml ; \
-		sed -i -e "0,/^tag.*/s//tag: ${FLEXVER}/"  $$CHART/values.yaml; \
+		sed ${SED_INPLACE} -e "/no_auto_change/!s/version:.*/version: ${FLEXVER}/g"  $$CHART/Chart.yaml; \
+		sed ${SED_INPLACE} '1s/^/---\n/' $$CHART/Chart.yaml ; \
+		sed ${SED_INPLACE} -e "0,/^tag.*/s//tag: ${FLEXVER}/"  $$CHART/values.yaml; \
 	done ;
 
 build: yqcheck
-	@echo "Ensure no helm repo accessible"
-	helm repo list | grep .; \
-        if [ $${?} -eq 0 ]; then exit 1; fi
 	REINDEX=0; \
-	for CHART in ${CHARTS}; do \
+	if [ "$${CHARTS}" == "$${ALL_CHARTS}" ] ; then \
+	    BUILD_CHARTS=`python tools/build_helper/sort_charts_by_deps.py -c ${CHARTS}`; \
+	else  \
+	    BUILD_CHARTS=`python tools/build_helper/sort_charts_by_deps.py -c ${ALL_CHARTS} -s ${CHARTS}`; \
+	fi ; \
+	for CHART in $${BUILD_CHARTS}; do \
 		CURRENT_VER=`yq e .version $$CHART/Chart.yaml` ; \
 		yq e ".entries.$${CHART}[].version" docs/index.yaml | grep -q "\- $${CURRENT_VER}$$" ; \
 		if [ "$${?}" -eq "1" ] || [ "$${REBUILDHELMPKG}" ] ; then \
@@ -168,7 +180,7 @@ combine-crds:
 	cp -R influxdb-operator/crds ${TEMP_PACKAGE}
 	cat ${TEMP_PACKAGE}/crds/*.yaml > ${TEMP_PACKAGE}/yaml/objectscale-crd.yaml
 	## Remove # from crd to prevent app-platform from crashing in 7.0P1
-	sed -i -e "/^#.*/d" ${TEMP_PACKAGE}/yaml/objectscale-crd.yaml
+	sed ${SED_INPLACE} "/^#.*/d" ${TEMP_PACKAGE}/yaml/objectscale-crd.yaml
 	rm -rf ${TEMP_PACKAGE}/crds
 
 create-vmware-package:
@@ -197,13 +209,13 @@ create-manager-app: create-temp-package
 	--set global.monitoring.enabled=false \
 	--set objectscale-monitoring.influxdb.persistence.storageClassName=${STORAGECLASSNAME} \
 	--set objectscale-monitoring.rsyslog.persistence.storageClassName=${STORAGECLASSNAME_VSAN_SNA} \
+	--set objectscale-gateway.enabled=false ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
 	--set objectscale-iam.enabled=true ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
 	--set federation.enabled=true ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
-	--set dcm.enabled=false ${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
 	-f values.yaml > ../${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml;
-	sed -i 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
-	sed -i 's/\\"monitoring\\":{\\"enabled\\":false}/\\"monitoring\\":{\\"enabled\\":true}/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
-	sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
+	sed ${SED_INPLACE} 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
+	sed ${SED_INPLACE} 's/\\"monitoring\\":{\\"enabled\\":false}/\\"monitoring\\":{\\"enabled\\":true}/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
+	sed ${SED_INPLACE} 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
 	cat ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
 
 create-vsphere-templates: create-temp-package
@@ -227,8 +239,8 @@ create-decks-app: create-temp-package
 	--set decks-support-store.persistentVolume.storageClassName=${STORAGECLASSNAME} \
         ${HELM_DECKS_ARGS} ${HELM_DECKS_SUPPORT_STORE_ARGS} \
 	-f values.yaml > ../${TEMP_PACKAGE}/yaml/decks-app.yaml;
-	sed -i 's/createdecksappResource\\":true/createdecksappResource\\":false/g' ${TEMP_PACKAGE}/yaml/decks-app.yaml && \
-	sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/decks-app.yaml
+	sed ${SED_INPLACE} 's/createdecksappResource\\":true/createdecksappResource\\":false/g' ${TEMP_PACKAGE}/yaml/decks-app.yaml && \
+	sed ${SED_INPLACE} 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/decks-app.yaml
 	cat ${TEMP_PACKAGE}/yaml/decks-app.yaml >> ${TEMP_PACKAGE}/yaml/${DECKS_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/decks-app.yaml
 
 create-kahm-app: create-temp-package
@@ -242,8 +254,8 @@ create-kahm-app: create-temp-package
 	--set storageClassName=${STORAGECLASSNAME} \
         ${HELM_KAHM_ARGS} \
 	-f values.yaml > ../${TEMP_PACKAGE}/yaml/kahm-app.yaml;
-	sed -i 's/createkahmappResource\\":true/createkahmappResource\\":false/g' ${TEMP_PACKAGE}/yaml/kahm-app.yaml && \
-	sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/kahm-app.yaml
+	sed ${SED_INPLACE} 's/createkahmappResource\\":true/createkahmappResource\\":false/g' ${TEMP_PACKAGE}/yaml/kahm-app.yaml && \
+	sed ${SED_INPLACE} 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/kahm-app.yaml
 	cat ${TEMP_PACKAGE}/yaml/kahm-app.yaml >> ${TEMP_PACKAGE}/yaml/${KAHM_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/kahm-app.yaml
 
 create-logging-injector-app: create-temp-package
@@ -255,8 +267,8 @@ create-logging-injector-app: create-temp-package
 	--set global.registrySecret=${REGISTRYSECRET} \
 	--set global.objectscale_release_name=objectscale-manager \
 	-f values.yaml > ../${TEMP_PACKAGE}/yaml/logging-injector-app.yaml;
-	sed -i 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/logging-injector-app.yaml && \
-	sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/logging-injector-app.yaml
+	sed ${SED_INPLACE} 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/logging-injector-app.yaml && \
+	sed ${SED_INPLACE} 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/logging-injector-app.yaml
 	cat ${TEMP_PACKAGE}/yaml/logging-injector-app.yaml >> ${TEMP_PACKAGE}/yaml/${LOGGING_INJECTOR_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/logging-injector-app.yaml
 
 archive-package:

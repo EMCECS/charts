@@ -1,0 +1,101 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dcm-log-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/part-of: ecs-flex-manager
+data:
+  dcm-log4j2.xml: |
+    <?xml version="1.0" encoding="UTF-8"?>
+    <Configuration  monitorInterval="60" shutdownHook="disable">
+        <Appenders>
+            <RollingFile name="R" fileName="${sys:product.home}/logs/dcm.log"
+                         filePattern="${sys:product.home}/logs/dcm.log.%i">
+                <PatternLayout>
+                    <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+                </PatternLayout>
+                <Policies>
+                    <SizeBasedTriggeringPolicy size="5 MB"/>
+                </Policies>
+            </RollingFile>
+
+            <RollingFile name="P" fileName="${sys:product.home}/logs/dcm-perf-counter.log"
+                         filePattern="${sys:product.home}/logs/dcm-perf-counter.log.%i">
+                <PatternLayout>
+                    <Pattern>%d{ISO8601} %m%n%ex</Pattern>
+                </PatternLayout>
+                <Policies>
+                    <SizeBasedTriggeringPolicy size="5 MB"/>
+                </Policies>
+            </RollingFile>
+
+            <RollingFile name="E" fileName="${sys:product.home}/logs/dcm-error.log"
+                         filePattern="${sys:product.home}/logs/dcm-error.log.%i">
+                <PatternLayout>
+                    <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+                </PatternLayout>
+                <Policies>
+                    <SizeBasedTriggeringPolicy size="5 MB"/>
+                </Policies>
+            </RollingFile>
+
+            <RollingFile name="M" fileName="${sys:product.home}/logs/dcm-stats.log"
+                         filePattern="${sys:product.home}/logs/dcm-stats.log.%i">
+                <PatternLayout>
+                    <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
+                </PatternLayout>
+                <Policies>
+                    <SizeBasedTriggeringPolicy size="5 MB"/>
+                </Policies>
+            </RollingFile>
+
+            <Syslog name="alertsLogger" host="localhost" port="514" protocol="UDP" facility="LOCAL7"/>
+
+            <Async name="asyncR" includeLocation="true">
+                <AppenderRef ref="R"/>
+            </Async>
+            <Async name="asyncE" includeLocation="true">
+                <AppenderRef ref="E"/>
+            </Async>
+            <Async name="asyncP" includeLocation="true">
+                <AppenderRef ref="P"/>
+            </Async>
+            <Async name="asyncM" includeLocation="true">
+                <AppenderRef ref="M"/>
+            </Async>
+        </Appenders>
+
+        <Loggers>
+            <Logger name="org.apache.zookeeper" level="INFO"/>
+            <Logger name="org.perf4j.TimingLogger" level="ERROR"/>
+            <Logger name="com.emc.storageos.data.object.utils.RequestTrace" level="INFO"/>
+            <Logger name="org.eclipse.jetty.server.RequestLog" level="INFO"/>
+
+            <Logger name="com.emc.storageos.services.util.AlertsLogger" level="WARN" additivity="false">
+                <AppenderRef ref="alertsLogger"/>
+            </Logger>
+            <Logger name="com.emc.storageos.objcontrol.object.shared.PerformanceCounter" level="DEBUG" additivity="false">
+                <AppenderRef ref="asyncP"/>
+            </Logger>
+            <Logger name="com.emc.storageos.data.monitoring.MonitoringWorker" level="INFO">
+                <AppenderRef ref="asyncM"/>
+            </Logger>
+            <Logger name="com.emc.storageos.data.object.impl.buffer" level="INFO">
+                <AppenderRef ref="asyncM"/>
+            </Logger>
+            <Logger name="com.dell.objectscale.dcm.rest" level="DEBUG" />
+
+            <Root level="info">
+                <AppenderRef ref="asyncR"/>
+                <AppenderRef ref="asyncE" level="error"/>
+            </Root>
+        </Loggers>
+
+    </Configuration>
+---

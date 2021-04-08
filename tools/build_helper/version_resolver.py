@@ -36,7 +36,7 @@ def load_artifacts(input_file):
             if 'artifactId' in art:
                 artmap[art['artifactId']] = art
 
-def process_yaml(input_yaml):
+def process_yaml(input_yaml, return_modified=False):
     with open(input_yaml, "r+") as iym:
         ylines = iym.readlines()
 
@@ -48,6 +48,9 @@ def process_yaml(input_yaml):
             proc_next = None
         elif RFW_NEXT_LINE_FLAG in tx:
             proc_next = tx
+
+    if return_modified:
+        return "".join(ylines)
 
     if oylines != ylines:
         open(input_yaml + ".proc",'w').write("".join(ylines))

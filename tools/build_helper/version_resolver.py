@@ -19,7 +19,7 @@ def update_line(line, marker_text):
     else:
         (_, idx) = line.split(RFW_THIS_LINE_FLAG, 1)
 
-    left, right = line.split(": ", 1)
+    left, right = line.split(":", 1)
     rparts = right.split("#", 1)
 
     artid, akey = idx.split(',') if ',' in idx else (idx, 'version')

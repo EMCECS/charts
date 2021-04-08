@@ -6,4 +6,5 @@ dependencies:
   repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
 - name: rsyslog-client
   repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+  # rfw-update-next rsyslog-client-helm-chart
   version: 3.7.0-1171.4dce49e6 # no_auto_change__monitoring_auto_change

@@ -19,7 +19,7 @@ fedsvc:
   replicaCount: 3
   service:
     port: 9500
-    type: LoadBalancer
+    type: ClusterIP
 # Atlas Cluster configuration for ObjectScale persistent Storage
 atlas:
 

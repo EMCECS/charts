@@ -1,4 +1,4 @@
-HELM_VERSION := v3.5.0
+HELM_VERSION := v3.5.3
 HELM_URL     := https://get.helm.sh
 HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
 YQ_VERSION   := 4.4.1

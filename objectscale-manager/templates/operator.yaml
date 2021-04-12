@@ -99,6 +99,8 @@ spec:
           value: {{ .Values.global.platform | default "Default" }}
         - name: IAM_SERVICE_NAME
           value: "objectscale-iam"
+        - name: FEDERATION_SERVICE_NAME
+          value: "fedsvc"
 {{- if .Values.dcm.enabled }}
         - name: DCM_SERVICE_HOSTNAME
           value: "{{ .Release.Name }}-dcm"

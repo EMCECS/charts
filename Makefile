@@ -3,7 +3,8 @@ HELM_URL     := https://get.helm.sh
 HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
 YQ_VERSION   := 4.4.1
 YAMLLINT_VERSION := 1.20.0
-CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod helm-controller objectscale-graphql objectscale-vsphere objectscale-portal objectscale-gateway objectscale-iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator influxdb-operator federation logging-injector dcm
+ALL_CHARTS := ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod helm-controller objectscale-graphql objectscale-vsphere objectscale-portal objectscale-gateway objectscale-iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator influxdb-operator federation logging-injector dcm
+CHARTS = ${ALL_CHARTS}
 DECKSCHARTS := decks kahm supportassist service-pod dellemc-license decks-support-store
 FLEXCHARTS := ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller objectscale-portal objectscale-gateway objectscale-iam statefuldaemonset-operator influxdb-operator federation logging-injector dcm
 
@@ -132,8 +133,12 @@ flexver: yqcheck graphqlver
 
 build: yqcheck
 	REINDEX=0; \
-	SORTED_CHARTS=`python tools/build_helper/sort_charts_by_deps.py -c ${CHARTS}`; \
-	for CHART in $${SORTED_CHARTS}; do \
+	if [ "$${CHARTS}" == "$${ALL_CHARTS}" ] ; then \
+	    BUILD_CHARTS=`python tools/build_helper/sort_charts_by_deps.py -c ${CHARTS}`; \
+	else  \
+	    BUILD_CHARTS=`python tools/build_helper/sort_charts_by_deps.py -c ${ALL_CHARTS} -s ${CHARTS}`; \
+	fi ; \
+	for CHART in $${BUILD_CHARTS}; do \
 		CURRENT_VER=`yq e .version $$CHART/Chart.yaml` ; \
 		yq e ".entries.$${CHART}[].version" docs/index.yaml | grep -q "\- $${CURRENT_VER}$$" ; \
 		if [ "$${?}" -eq "1" ] || [ "$${REBUILDHELMPKG}" ] ; then \

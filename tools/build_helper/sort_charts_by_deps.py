@@ -3,6 +3,9 @@
 # Script to sort charts for rebuild in order of resolved dependencies
 # Use to rebuild charts with dependencies only after rebuilding of their dependencies
 
+# If -s option is specified, it is considered as subset of "all_charts" (-c option)
+# In this case, subset is sorted - and dependent charts added to the resulting list
+
 import os
 import yaml
 import argparse
@@ -37,6 +40,7 @@ def fill_chart_deps(ch, vfile, rfile):
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-c", "--charts", help="space-separated list of charts", required=True, nargs='+')
+parser.add_argument("-s", "--subset", help="space-separated list of charts sub-set", required=False, nargs='+')
 args = parser.parse_args()
 
 for ch in args.charts:
@@ -52,6 +56,7 @@ for ch in acharts.keys():
     if extra_check:
         raise Exception("Extra, non-referred local chart deps {} in '{}'".format(extra_check, ch))
 
+ocharts = acharts.copy()                                    # create copy for subset processing
 rs = []
 while bool(acharts):
     for ch in sorted(acharts.keys()):
@@ -61,4 +66,22 @@ while bool(acharts):
     for ch in acharts.keys():
         acharts[ch] = list(set(acharts[ch]) - set(rs))      # remove processed from remained charts
 
-print(" ".join(rs))
+if args.subset:
+    # check that subset charts are in all_charts list
+    intss = list(set(args.subset) - set(ocharts.keys()))
+    if intss:
+        raise Exception("Unknown chart in sub-set {}".format(intss))
+
+    # form ss list from rs list, take all subset charts and all other charts that depends on them
+    sdct = dict.fromkeys(args.subset, 1)
+    ss = []
+    for ch in rs:
+        if ch in sdct:
+            ss.append(ch)
+        elif set(ocharts[ch]).intersection(set(sdct.keys())):
+            ss.append(ch)
+            sdct[ch] = 1                                    # also include parents
+    print(" ".join(ss))
+else:
+    print(" ".join(rs))
+

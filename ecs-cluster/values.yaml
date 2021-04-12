@@ -569,7 +569,7 @@ geoReceiver:
     ports:
       - name: geo
         port: 9094
-      - name: external
+      - name: http-external # is should be changed to https when TLS integrated
         port: 12002
         targetPort: 12002
 

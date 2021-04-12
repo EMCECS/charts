@@ -90,10 +90,12 @@ rsyslog-client:
 # ObjectScale UI Feature flags
 features:
   objectscaleDashboard: true
-  iam: false
+  iam: true
+  # enable this if you want to deploy the BETA.3 Buckets workflows
+  bucketsv2: true
+  # enable this if you want to deploy the BETA.3 New/Edit Objectstore workflows
+  manageObjectStoreV2 : false
   replications: false
   objectscaleSystems: false
-  # enable this if you want to deploy the BETA.3 Buckets workflows
-  bucketsv2: false
   # Possible Logging modes - ERROR, INFO, DEBUG, WARNING Only
   uiLoggingLevel: ERROR

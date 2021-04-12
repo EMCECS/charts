@@ -25,6 +25,9 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
         app.kubernetes.io/version: {{ .Chart.AppVersion }}
         app.kubernetes.io/component: zookeeper-operator
+        objectscale.dellemc.com/logging-inject: "true"
+        app.kubernetes.io/namespace: {{ .Release.Namespace }}
+        objectscale.dellemc.com/logging-release-name: {{ .Release.Name }}
     spec:
       {{- if .Values.global.registrySecret }}
       imagePullSecrets:

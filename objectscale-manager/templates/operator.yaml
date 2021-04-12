@@ -34,6 +34,9 @@ spec:
         operator: objectscale-operator
         product: objectscale
         release: {{ .Release.Name }}
+        objectscale.dellemc.com/logging-inject: "true"
+        app.kubernetes.io/namespace: {{ .Release.Namespace }}
+        objectscale.dellemc.com/logging-release-name: {{ .Release.Name }}
     spec:
       serviceAccountName: objectscale-operator
 {{- if .Values.global.registrySecret }}

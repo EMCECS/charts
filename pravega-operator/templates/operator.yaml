@@ -16,6 +16,9 @@ spec:
       labels:
         name: {{ template "pravega-operator.fullname" . }}
         component: pravega-operator
+        objectscale.dellemc.com/logging-inject: "true"
+        app.kubernetes.io/namespace: {{ .Release.Namespace }}
+        objectscale.dellemc.com/logging-release-name: {{ .Release.Name }}
     spec:
       automountServiceAccountToken: true
       serviceAccountName: {{ .Values.serviceAccount.name }}

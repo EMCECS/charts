@@ -15,6 +15,9 @@ spec:
       labels:
         name: {{ template "bookkeeper-operator.fullname" . }}
         component: bookkeeper-operator
+        objectscale.dellemc.com/logging-inject: "true"
+        app.kubernetes.io/namespace: {{ .Release.Namespace }}
+        objectscale.dellemc.com/logging-release-name: {{ .Release.Name }}
     spec:
       serviceAccountName: {{ .Values.serviceAccount.name }}
       {{- if .Values.global.registrySecret }}

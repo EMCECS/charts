@@ -23,6 +23,8 @@ spec:
       containers:
       - name: fedsvc
         env:
+        - name: ATLAS_SERVICE_HOSTNAME
+          value: {{ include "fedsvc.name" . }}-atlas-client
         - name: MY_POD_NAME
           valueFrom:
             fieldRef:
@@ -47,11 +49,11 @@ spec:
                 port: http
             failureThreshold: {{ .Values.fedsvc.livenessProbe.failureThreshold | default 3 }}
             periodSeconds: {{ .Values.fedsvc.livenessProbe.periodSeconds | default 60 }}
+            initialDelaySeconds: {{ .Values.fedsvc.livenessProbe.initialDelaySeconds | default 60 }}
         readinessProbe:
             httpGet:
                 path: {{ .Values.fedsvc.readinessProbe.probePath }}
                 port: http
             failureThreshold: {{ .Values.fedsvc.readinessProbe.failureThreshold | default 3 }}
             periodSeconds: {{ .Values.fedsvc.readinessProbe.periodSeconds | default 60 }}
-
-
+            initialDelaySeconds: {{ .Values.fedsvc.readinessProbe.initialDelaySeconds | default 60 }}

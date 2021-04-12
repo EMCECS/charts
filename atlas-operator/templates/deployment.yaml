@@ -16,9 +16,7 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "atlas-operator.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
-        objectscale.dellemc.com/logging-inject: "true"
-        app.kubernetes.io/namespace: {{ .Release.Namespace }}
-        objectscale.dellemc.com/logging-release-name: {{ .Release.Name }}
+{{ include "statefuldaemonset-operator.labels" . | indent 8}}
     spec:
       serviceAccountName: atlas-operator
       {{- if .Values.global.registrySecret }}

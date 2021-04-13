@@ -80,7 +80,7 @@ dep:
 	if [ "$${?}" -eq "1" ] ; then \
 		helm plugin install https://github.com/lrills/helm-unittest ; \
  	fi
-	export PATH=$PATH:/tmp
+	export PATH=/tmp:$PATH
 	sudo pip install yamllint=="${YAMLLINT_VERSION}"
 	wget -q http://asdrepo.isus.emc.com/artifactory/objectscale-build/com/github/yq/v${YQ_VERSION}/yq_linux_amd64
 	sudo mv yq_linux_amd64 /usr/bin/yq

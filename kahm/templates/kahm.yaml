@@ -74,6 +74,43 @@ spec:
           value: {{ .Values.db.dbType }}
         - name: KAHM_DB_EVENT_TTL
           value: "{{ .Values.db.eventTTL }}"
+        - name: RELEASE_NAME 
+          value: {{ .Release.Name }}
+        - name: RELEASE_NAMESPACE
+          value: {{ .Release.Namespace }}
+
+{{- if eq .Values.db.dbType "PostgresDB" }}
+        - name: POSTGRES_DBNAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-postgres-credentials
+              key: dbname 
+        - name: POSTGRES_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-postgres-credentials
+              key: username 
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-postgres-credentials
+              key: password 
+        - name: POSTGRES_PORT
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-postgres-credentials
+              key: port 
+        - name: POSTGRES_HOSTNAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-postgres-credentials
+              key: hostname
+        - name: POSTGRES_CREDENTIALS
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-postgres-credentials
+              key: credentials
+{{- end }}
       restartPolicy: Always
       volumes:
       - name: db

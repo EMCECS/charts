@@ -74,7 +74,7 @@ features:
   enableCRR: false
 
   # use old metering svc
-  enableObjectStoreMetering: false
+  enableObjectStoreMetering: true
 
   # Enable object notification
   enableNotification: true
@@ -569,7 +569,7 @@ geoReceiver:
     ports:
       - name: geo
         port: 9094
-      - name: external
+      - name: http-external # should be changed to https when TLS integrated
         port: 12002
         targetPort: 12002
 

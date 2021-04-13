@@ -12,7 +12,7 @@ spec:
   ports:
   - port: 22
     name: ssh
-    targetPort: 21222
+    targetPort: ssh
     protocol: TCP
   selector:
     remote_access: {{.Values.global.product}}-service-pod

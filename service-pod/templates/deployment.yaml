@@ -27,17 +27,13 @@ spec:
       imagePullSecrets:
         - name: {{ .Values.global.registrySecret }}
       {{- end }}
-      securityContext:
-        runAsUser: 1001
-        runAsGroup: 1001
-        fsGroup: 1001
       containers:
       - name: service-pod
         image: {{.Values.global.registry}}/{{.Values.image.repository | replace "base" .Values.global.product}}:{{default .Values.tag .Values.image.tag}}
         imagePullPolicy: {{default .Values.pullPolicy .Values.image.pullPolicy }}
-        command: ["/opt/dell/epsilon/bin/remote-access.py"]
+        command: ["/root/entrypoint.sh"]
         ports:
-        - containerPort: 21222
+        - containerPort: 22
           name: ssh
           protocol: TCP
         resources:

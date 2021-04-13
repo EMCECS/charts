@@ -25,4 +25,4 @@ tests:
             name: ssh
             port: 22
             protocol: TCP
-            targetPort: 21222
+            targetPort: ssh

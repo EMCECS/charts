@@ -652,7 +652,7 @@ provision:
   newProvisionAPI: false
   image:
     repository: provision
-    tag: # rfw-update-this provision-docker-image # rfw-update-this provision-docker-image
+    tag: # rfw-update-this provision-docker-image
     # pullPolicy: IfNotPresent
 
 # The job will assign new created ss to the sp

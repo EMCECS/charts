@@ -8,7 +8,7 @@ global:
 image:
   pullPolicy: IfNotPresent
   repository: dcm
-  # tag: stable
+  tag: # rfw-update-this dcm-docker-image
 
 # Number of replicas for the ObjectScale DCM deployment
 replicaCount: 1
@@ -31,7 +31,7 @@ atlas:
   image:
     pullPolicy: IfNotPresent
     repository: atlas
-    tag: 1.1.3
+    tag: 1.1.3 # rfw-update-this atlas-docker-image
   persistence:
     size: 1Gi
   # Define the replica if you want to explicitly set it

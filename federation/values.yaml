@@ -11,7 +11,7 @@ fedsvc:
   image:
     pullPolicy: IfNotPresent
     repository: fedsvc
-    # tag: stable
+    tag: # rfw-update-this fedsvc-docker-image
   livenessProbe:
     probePath: /fedsvchealthcheck
   readinessProbe:
@@ -31,7 +31,7 @@ atlas:
   image:
     pullPolicy: IfNotPresent
     repository: atlas
-    tag: 1.1.3
+    tag: 1.1.3 # rfw-update-this atlas-docker-image
 
   # Persistent storage options for Atlas Cluster
   persistence:

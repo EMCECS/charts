@@ -58,7 +58,7 @@ graphql:
 enabled: false
 image:
   repository: ecs-flex-vsphere-plugin
-  # tag: stable
+  tag: # rfw-update-this ecs-flex-vsphere-plugin-docker-image
   # pullPolicy: IfNotPresent
 service:
   # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer

@@ -51,4 +51,4 @@ hooks:
   backoffLimit: 10
   image:
     repository: k8s-kubectl
-    tag: v1.16.10
+    tag: v1.16.10 # rfw-update-this k8s-kubectl-docker-image

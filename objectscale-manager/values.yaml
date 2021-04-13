@@ -131,7 +131,7 @@ logReceiver:
   # The Docker image used for the rSyslog receiver
   image:
     repository: rsyslog
-    # tag: stable
+    tag: # rfw-update-this rsyslog-docker-image
     # pullPolicy: IfNotPresent
 
   persistence:
@@ -181,14 +181,14 @@ affinity: {}
 fluentbitAgent:
   image:
     repository: fluent-bit
-    tag: 0.28.0
+    tag: 0.28.0 # rfw-update-this fluent-bit-docker-image
     # pullPolicy: IfNotPresent
 
 # hook for VMWare platform
 hooks:
   registry: "emccorp"
   repository: "k8s-kubectl"
-  tag: "v1.16.10"
+  tag: "v1.16.10" # rfw-update-this k8s-kubectl-docker-image
 
 loggerConfig:
   enabled: true
@@ -236,4 +236,4 @@ healthChecks:
   preUpdate:
     image:
       repository: objectscale-manager-pre-update
-      # tag: stable
+      tag: # rfw-update-this objectscale-manager-pre-update-image

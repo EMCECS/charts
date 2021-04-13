@@ -214,6 +214,7 @@ spec:
     version: {{ .Values.tag }}
     {{- end }}
     blockOwnerDeletion:  {{ .Values.bookkeeper.blockOwnerDeletion }}
+    serviceAccountName:  {{ .Release.Name }}
     autoRecovery: {{ .Values.bookkeeper.autoRecovery }}
     {{- if .Values.bookkeeper.probes }}
     probes:

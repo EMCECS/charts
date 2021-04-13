@@ -23,6 +23,7 @@ pullPolicy: IfNotPresent
 
 image:
   repository: decks-support-store
+  # tag: stable
   version: 2.0.0
   pullPolicy: IfNotPresent
 persistentVolume:

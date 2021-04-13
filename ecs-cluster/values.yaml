@@ -113,7 +113,8 @@ pravega:
   # labels:
   image:
     pullPolicy: IfNotPresent
-#    tag: 0.10.0-2831.d5f944ebf-issue-5853-SLTS-deep-copy
+    repository: pravega
+    # tag: stable
   controller:
 #    replicas: 1
     service:
@@ -160,6 +161,8 @@ bookkeeper:
   # labels:
   image:
     pullPolicy: IfNotPresent
+    repository: bookkeeper
+    # tag: stable
 #  version: 0.10.0-2831.d5f944ebf-issue-5853-SLTS-deep-copy
   blockOwnerDeletion: false
   autoRecovery: true

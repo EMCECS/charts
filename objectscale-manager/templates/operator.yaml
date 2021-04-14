@@ -164,6 +164,122 @@ spec:
 {{- else }}
           value: stdout
 {{- end }}
+{{- if .Values.features.spOperatorEnabled }}
+      - name: sp-operator
+        image: {{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ default .Values.tag .Values.image.tag }}
+  {{- if .Values.image.pullPolicy }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+  {{- else }}
+        imagePullPolicy: {{ .Values.pullPolicy }}
+  {{- end }}
+        ports:
+        - containerPort: 8384
+          name: metrics
+  {{- if eq .Values.debugMode true }}
+        - containerPort: 40001
+          name: debug
+  {{- end }}
+        command: ["bash"]
+  {{- if eq .Values.debugMode true }}
+        args: ["-c", "echo /crash-dump/core-%e > /proc/sys/kernel/core_pattern; ulimit -c unlimited; GOTRACEBACK=crash /dlv --listen=:40001 --headless=true --api-version=2 --continue=true --accept-multiclient=true exec ${SP_OPERATOR}"]
+  {{- else }}
+        args: ["-c", "echo /crash-dump/core-%e > /proc/sys/kernel/core_pattern; ulimit -c unlimited; GOTRACEBACK=crash ${SP_OPERATOR}"]
+  {{- end }}
+        resources:
+          limits:
+            memory: {{ .Values.resources.operator.limits.memory }}
+            ephemeral-storage: {{ .Values.resources.operator.limits.ephemeralStorage }}
+          requests:
+            memory: {{ .Values.resources.operator.requests.memory }}
+            ephemeral-storage: {{ .Values.resources.operator.requests.ephemeralStorage }}
+  {{- if eq .Values.loggerConfig.enabled true }}
+        volumeMounts:
+        - name: logger-config
+          mountPath: /etc/config
+        - name: crash-dump
+          mountPath: /crash-dump
+  {{- end }}
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: OPERATOR_NAME
+          value: "sp-operator"
+        - name: MY_POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: PLATFORM
+          value: {{ .Values.global.platform | default "Default" }}
+  {{- if .Values.dcm.enabled }}
+        - name: DCM_SERVICE_HOSTNAME
+          value: "{{ .Release.Name }}-dcm"
+        - name: SP_OPERATOR_ENABLED
+          value: "true"
+  {{- end }}
+  {{- if .Values.logReceiver.create }}
+        - name: LOG_RECEIVER_TYPE
+          value: Syslog
+        - name: LOG_RECEIVER_HOST
+          value: objectscale-syslog.{{ .Release.Namespace }}.svc.cluster.local
+        - name: LOG_RECEIVER_PROTO
+          value: tcp
+        - name: LOG_RECEIVER_PORT
+          value: "514"
+  {{- else }}
+    {{- if .Values.logReceiver.type }}
+        - name: LOG_RECEIVER_TYPE
+          value: {{ .Values.logReceiver.type }}
+    {{- end }}
+    {{- if .Values.logReceiver.user }}
+        - name: LOG_RECEIVER_USER
+          value: {{ .Values.logReceiver.user }}
+    {{- end }}
+    {{- if .Values.logReceiver.password }}
+        - name: LOG_RECEIVER_PASSWORD
+          value: {{ .Values.logReceiver.password }}
+    {{- end }}
+      {{- if .Values.logReceiver.host }}
+        - name: LOG_RECEIVER_HOST
+          value: {{ .Values.logReceiver.host }}
+    {{- end }}
+    {{- if .Values.logReceiver.protocol }}
+        - name: LOG_RECEIVER_PROTO
+          value: {{ .Values.logReceiver.protocol }}
+    {{- end }}
+    {{- if .Values.logReceiver.port }}
+        - name: LOG_RECEIVER_PORT
+          value: "{{ .Values.logReceiver.port }}"
+    {{- end }}
+  {{- end }}
+        - name: LOG_DIRECTION
+  {{- if .Values.logReceiver.type }}
+          value: file
+  {{- else }}
+          value: stdout
+  {{- end }}
+        - name: WATCH_NAMESPACE
+  {{- if eq .Values.global.watchAllNamespaces true}}
+          value: ""
+  {{- else }}
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+  {{- end }}
+  {{- if .Values.global.registrySecret }}
+        - name: REGISTRY_SECRET
+          value: {{ .Values.global.registrySecret }}
+  {{- end }}
+        - name: OPERATOR_NAME
+          value: sp-operator
+        - name: LOG_DIRECTION
+  {{- if .Values.logReceiver.type }}
+          value: file
+  {{- else }}
+          value: stdout
+  {{- end }}
+{{- end }}
 {{- if ne .Values.global.platform "VMware"}}
       {{- if or .Values.logReceiver.type .Values.logReceiver.create }}
       - name: fluentbit-agent

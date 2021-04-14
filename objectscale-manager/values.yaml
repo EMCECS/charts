@@ -237,3 +237,6 @@ healthChecks:
     image:
       repository: objectscale-manager-pre-update
       # tag: stable
+
+features:
+  spOperatorEnabled: false

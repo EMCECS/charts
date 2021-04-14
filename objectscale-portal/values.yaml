@@ -91,9 +91,9 @@ rsyslog-client:
 features:
   objectscaleDashboard: true
   iam: true
-  # enable this if you want to deploy the BETA.3 Buckets workflows
+  # enable this if you want to deploy the BETA3 Buckets workflows
   bucketsv2: true
-  # enable this if you want to deploy the BETA.3 New/Edit Objectstore workflows
+  # enable this if you want to deploy the BETA3 New/Edit Objectstore workflows
   manageObjectStoreV2 : false
   replications: false
   objectscaleSystems: false

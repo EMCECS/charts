@@ -25,5 +25,5 @@ replicaCount: 1
 # The image configured for the Zookeeper Operator
 image:
   repository: zookeeper-operator
-  tag: 0.3.0-703b24b
+  tag: 2.10.0-b1519ae
   pullPolicy: IfNotPresent

@@ -11,7 +11,7 @@ maintainers:
     url: http://dellemc.com
 dependencies:
   - name: zookeeper-operator
-    version: 0.2.9 # no_auto_change
+    version: 0.2.10 # no_auto_change
     repository: file://../zookeeper-operator
     condition: zookeeper.enabled
   - name: atlas-operator

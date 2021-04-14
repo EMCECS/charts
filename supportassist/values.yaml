@@ -18,7 +18,7 @@ pullPolicy: Always
 # The image configured for dell-ese
 image:
   repository: dell-supportassist-ese
-  tag: 2.2.0.0
+  # tag:
   # pullPolicy: Always
 
 # Create app resource thru helm

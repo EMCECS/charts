@@ -569,7 +569,7 @@ geoReceiver:
     ports:
       - name: geo
         port: 9094
-      - name: external
+      - name: http-external # should be changed to https when TLS integrated
         port: 12002
         targetPort: 12002
 
@@ -646,7 +646,7 @@ managementGateway:
 # be provisioned via API before it can be used
 provision:
   enabled: true
-  newProvisionAPI: false
+  newProvisionAPI: true
   image:
     repository: provision
     # tag: stable

@@ -1,5 +1,5 @@
 ---
-apiVersion: v1
+apiVersion: v2
 appVersion: 2.71.0
 description: A Helm chart for Kubernetes Applications Health Management
 name: kahm
@@ -8,3 +8,8 @@ icon: https://avatars0.githubusercontent.com/u/12926680
 maintainers:
   - name: Dell EMC
     url: http://dellemc.com
+dependencies:
+  - name: postgresql-ha
+    version: 6.8.1 # no_auto_change
+    repository: https://charts.bitnami.com/bitnami
+    condition: db.postgres.enable

@@ -16,7 +16,7 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "atlas-operator.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
-{{ include "statefuldaemonset-operator.labels" . | indent 8}}
+{{ include "common-monitoring-lib.logging-inject-labels" . | indent 8 }}
     spec:
       serviceAccountName: atlas-operator
       {{- if .Values.global.registrySecret }}

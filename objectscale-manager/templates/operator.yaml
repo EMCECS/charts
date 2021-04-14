@@ -34,7 +34,7 @@ spec:
         operator: objectscale-operator
         product: objectscale
         release: {{ .Release.Name }}
-{{ include "statefuldaemonset-operator.labels" . | indent 8}}
+{{ include "common-monitoring-lib.logging-inject-labels" . | indent 8 }}
     spec:
       serviceAccountName: objectscale-operator
 {{- if .Values.global.registrySecret }}

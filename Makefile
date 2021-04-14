@@ -38,6 +38,7 @@ KAHM_REGISTRY        = REGISTRYTEMPLATE
 REGISTRYSECRET       = vsphere-docker-secret
 STORAGECLASSNAME     = dellemc-${SERVICE_ID}-highly-available
 STORAGECLASSNAME_VSAN_SNA     = dellemc-${SERVICE_ID}-vsan-sna-thick
+VERSION_SLICE_PATH   = version_slice.json
 
 WATCH_ALL_NAMESPACES = false # --set global.watchAllNamespaces={true | false}
 HELM_MANAGER_ARGS    = # --set image.tag={YOUR_VERSION_HERE}
@@ -79,7 +80,7 @@ dep:
 	if [ "$${?}" -eq "1" ] ; then \
 		helm plugin install https://github.com/lrills/helm-unittest ; \
  	fi
-	export PATH=$PATH:/tmp
+	export PATH=/tmp:$PATH
 	sudo pip install yamllint=="${YAMLLINT_VERSION}"
 	wget -q http://asdrepo.isus.emc.com/artifactory/objectscale-build/com/github/yq/v${YQ_VERSION}/yq_linux_amd64
 	sudo mv yq_linux_amd64 /usr/bin/yq
@@ -130,6 +131,11 @@ flexver: yqcheck graphqlver
 		sed ${SED_INPLACE} '1s/^/---\n/' $$CHART/Chart.yaml ; \
 		sed ${SED_INPLACE} -e "0,/^tag.*/s//tag: ${FLEXVER}/"  $$CHART/values.yaml; \
 	done ;
+
+
+resolve-versions:
+	python tools/build_helper/version_resolver.py -vs ${VERSION_SLICE_PATH}
+
 
 build: yqcheck
 	REINDEX=0; \

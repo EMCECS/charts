@@ -31,6 +31,7 @@ spec:
       - name: service-pod
         image: {{.Values.global.registry}}/{{.Values.image.repository | replace "base" .Values.global.product}}:{{default .Values.tag .Values.image.tag}}
         imagePullPolicy: {{default .Values.pullPolicy .Values.image.pullPolicy }}
+        command: ["/root/entrypoint.sh"]
         ports:
         - containerPort: 22
           name: ssh
@@ -38,6 +39,8 @@ spec:
         resources:
           requests:
             memory: {{ .Values.resources.requests.memory }}
+        securityContext:
+          allowPrivilegeEscalation: true
         env:
         - name: MY_POD_IP
           valueFrom:

@@ -21,6 +21,8 @@ metadata:
 spec:
 {{- if .Values.global.registrySecret }}
   registrySecret: {{ .Values.global.registrySecret }}
+  imagePullSecrets:
+    - name: {{ .Values.global.registrySecret }}
 {{- end }}
 {{- if .Values.replicas }}
   replicas: {{ .Values.replicas }}
@@ -173,6 +175,8 @@ spec:
 {{- if .Values.zookeeper.replicas }}
     replicas: {{ .Values.zookeeper.replicas }}
 {{- end }}
+    pod: 
+      serviceAccountName: {{.Release.Name}}-storageserver
     labels:
       app: zookeeper
       component: zk
@@ -202,10 +206,34 @@ spec:
     {{- end }}
     image:
       imageSpec:
-        repository: {{ .Values.pravegaRepository }}/bookkeeper
+        repository: "{{ .Values.global.registry }}/{{ .Values.bookkeeperRepository }}"
         pullPolicy: {{ with .Values.bookkeeper.image }}{{ .pullPolicy }}{{ end }}
-    version:  {{ .Values.bookkeeper.version }}
+    {{- if .Values.bookkeeper.version }}
+    version: {{ .Values.bookkeeper.version }}
+    {{- else }}
+    version: {{ .Values.tag }}
+    {{- end }}
+    blockOwnerDeletion:  {{ .Values.bookkeeper.blockOwnerDeletion }}
     autoRecovery: {{ .Values.bookkeeper.autoRecovery }}
+    {{- if .Values.bookkeeper.probes }}
+    probes:
+      {{- if .Values.bookkeeper.probes.readiness }}
+      readinessProbe:
+        initialDelaySeconds: {{ .Values.bookkeeper.probes.readiness.initialDelaySeconds | default 20 }}
+        periodSeconds: {{ .Values.bookkeeper.probes.readiness.periodSeconds | default 10 }}
+        failureThreshold: {{ .Values.bookkeeper.probes.readiness.failureThreshold | default 9 }}
+        successThreshold: {{ .Values.bookkeeper.probes.readiness.successThreshold | default 1 }}
+        timeoutSeconds: {{ .Values.bookkeeper.probes.readiness.timeoutSeconds | default 5 }}
+      {{- end }}
+      {{- if .Values.bookkeeper.probes.liveness }}
+      livenessProbe:
+        initialDelaySeconds: {{ .Values.bookkeeper.probes.liveness.initialDelaySeconds | default 60 }}
+        periodSeconds: {{ .Values.bookkeeper.probes.liveness.periodSeconds | default 15 }}
+        failureThreshold: {{ .Values.bookkeeper.probes.liveness.failureThreshold | default 4 }}
+        successThreshold: {{ .Values.bookkeeper.probes.liveness.successThreshold | default 1 }}
+        timeoutSeconds: {{ .Values.bookkeeper.probes.liveness.timeoutSeconds | default 5 }}
+      {{- end }}
+    {{- end }}
     storage:
       ledgerVolumeClaimTemplate:
         accessModes: [ "ReadWriteOnce" ]
@@ -235,7 +263,11 @@ spec:
       log.level: {{ .Values.bookkeeper.options.log.level }}
 
   pravega:
+    {{- if .Values.pravega.image.tag }}
     version: {{ .Values.pravega.image.tag }}
+    {{- else }}
+    version: {{ .Values.tag }}
+    {{- end }}
     externalAccess:
       enabled: {{ .Values.pravega.externalAccess.enabled }}
       {{ if .Values.pravega.externalAccess.type }}
@@ -252,7 +284,7 @@ spec:
       segmentStoreExtServiceType: {{ .Values.pravega.segmentStore.service.type }}
       {{- end }}
       image:
-        repository: {{ .Values.pravegaRepository }}/pravega
+        repository: "{{ .Values.global.registry }}/{{ .Values.pravegaRepository }}"
         pullPolicy: {{ .Values.pullPolicy }}
       {{- if .Values.pravega.controller.replicas }}
       controllerReplicas: {{ .Values.pravega.controller.replicas }}
@@ -270,7 +302,7 @@ spec:
       debugLogging: {{ .Values.pravega.debugLogging }}
 
   storageServer:
-    serviceAccount: {{ .Release.Name }}
+    serviceAccount: {{ .Release.Name }}-storageserver
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
 {{- if .Values.storageServer.replicas }}
     replicas: {{ .Values.storageServer.replicas }}
@@ -604,6 +636,7 @@ spec:
 
   provision:
     enabled: {{.Values.provision.enabled }}
+    newProvisionAPI: {{.Values.provision.newProvisionAPI}}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.provision.image.repository }}
 {{- if .Values.provision.image.tag }}

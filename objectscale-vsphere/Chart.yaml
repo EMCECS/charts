@@ -1,13 +1,13 @@
 ---
 apiVersion: v2
 name: objectscale-vsphere
-version: 0.67.0
-appVersion: 0.67.0
+version: 0.71.0
+appVersion: 0.71.0
 description: ObjectScale VMware vSphere Plugin
 maintainers:
   - name: Dell EMC
     url: https://dellemc.com
 dependencies:
   - name: objectscale-portal
-    version: 0.67.0
+    version: 0.71.0
     repository: file://../objectscale-portal

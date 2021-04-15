@@ -1,0 +1,19 @@
+---
+apiVersion: "ecs.dellemc.com/v1beta1"
+kind: "NetworkConnection"
+metadata:
+  name: objectscale-iam
+  namespace: {{ .Release.Namespace}}
+  labels:
+    {{- include "iam.labels" . | nindent 4 }}
+  annotations:
+    objectscale.dellemc.com/federationRegistration: "ObjectScale"
+spec:
+{{- if .Values.service }}
+  service:
+      {{ toYaml .Values.service | nindent 6 | trim }}
+{{- end }}
+{{- if .Values.tls }}
+  tls:
+      {{ toYaml .Values.tls | nindent 6 | trim }}
+{{- end }}

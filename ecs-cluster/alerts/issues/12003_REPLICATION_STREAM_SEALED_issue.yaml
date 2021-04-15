@@ -1,0 +1,9 @@
+- description: "Replication stream has been sealed."
+  name: "REPLICATION_STREAM_SEALED"
+  issueCategory: Manual
+  matchOnList:
+    - matchon:
+        # WARNING
+        - label: SymptomID
+          value: 12003
+# Do not generate SR

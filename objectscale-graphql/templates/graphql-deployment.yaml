@@ -70,6 +70,10 @@ spec:
 {{- end }}
         - name: GLOBAL_REGISTRY
           value: {{ .Values.global.registry }}
+        {{- if .Values.global.registrySecret }}
+        - name: GLOBAL_REGISTRY_SECRET
+          value: {{ .Values.global.registrySecret }}
+        {{- end }}
         - name: LICENSE_CHART_VERSION
           value: {{ default "1.1.0" .Values.decks.licenseChartVersion }}
         - name: SUPPORTASSIST_CHART_VERSION
@@ -94,6 +98,13 @@ spec:
 {{- else }}
           value: stdout
 {{- end }}
+        - name: HELM_CONTROLLER_ENDPOINT
+          value: http://{{ .Release.Name }}-installer
+        - name: HELM_CONTROLLER_REST_CREDENTIALS
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-rest-credentials
+              key: credentials
 {{- if .Values.withPlayground }}
         args:
           - "-P"

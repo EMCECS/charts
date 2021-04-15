@@ -7,9 +7,9 @@ global:
   # resources
   # Default: true == Watch ALL namespaces
   watchAllNamespaces: false
-
+  registry: emccorp
 image:
-  repository: pravega/pravega-operator
+  repository: pravega-operator
   tag: 0.5.2-211-24bb31d0
   pullPolicy: IfNotPresent
 
@@ -50,5 +50,5 @@ watchNamespace: ""
 hooks:
   backoffLimit: 10
   image:
-    repository: lachlanevenson/k8s-kubectl
+    repository: k8s-kubectl
     tag: v1.16.10

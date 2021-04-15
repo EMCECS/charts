@@ -17,12 +17,6 @@ metadata:
     product: objectscale
 rules:
 - apiGroups:
-  - ""
-  resources:
-  - secrets
-  verbs:
-    - "*"
-- apiGroups:
     - decks.ecs.dellemc.com
   resources:
     - "*"
@@ -43,6 +37,7 @@ rules:
 - apiGroups:
     - ""
   resources:
+    - secrets
     - pods
     - services
     - endpoints

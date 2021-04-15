@@ -22,8 +22,11 @@ data:
       spec:
         - name: pre-update
           container: {{.Values.global.registry}}/objectscale-manager-pre-update:{{.Values.tag}}
-          schedule: "*/30 * * * *"
+          serviceaccount: {{ .Release.Name }}-healthchecks
           timelimit: "5m"
+          args:
+            - -target-version
+            - {{ default .Values.tag .Values.healthChecks.preUpdate.image.tag}}
     eventRemedies: |-
       symptoms:
         - symptomid: DEOS-MGR-1001

@@ -37,7 +37,7 @@ global:
   #dns: kube-dns.kube-system.svc.cluster.local
 
 # The default docker tag and pull policy for objectscale-portal and other containers
-tag: 0.67.0
+tag: 0.71.0
 pullPolicy: IfNotPresent
 
 # This package gets values from objectscale-manager/values.yaml
@@ -89,11 +89,13 @@ rsyslog-client:
 
 # ObjectScale UI Feature flags
 features:
-  objectscaleDashboard: false
-  iam: false
+  objectscaleDashboard: true
+  iam: true
+  # enable this if you want to deploy the BETA3 Buckets workflows
+  bucketsv2: true
+  # enable this if you want to deploy the BETA3 New/Edit Objectstore workflows
+  manageObjectStoreV2: false
   replications: false
   objectscaleSystems: false
-  # enable this if you want to deploy the BETA.3 Buckets workflows
-  bucketsv2: false
   # Possible Logging modes - ERROR, INFO, DEBUG, WARNING Only
   uiLoggingLevel: ERROR

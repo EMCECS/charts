@@ -1,0 +1,61 @@
+---
+apiVersion: v2
+appVersion: 0.71.0
+description: |
+  Dell EMC ObjectScale is highly scalable, and high performance S3 compatible object storage platform.
+name: objectscale-manager
+version: 0.71.0
+icon: https://avatars0.githubusercontent.com/u/12926680
+maintainers:
+  - name: Dell EMC
+    url: http://dellemc.com
+dependencies:
+  - name: objectscale-gateway
+    version: 0.71.0
+    repository: file://../objectscale-gateway
+    condition: objectscale-gateway.enabled
+  - name: objectscale-monitoring
+
+    # SAMPLE version change for the next line
+
+    # rfw-update-next objectscale-monitoring-helm-chart
+    version: 3.7.0-1171.4dce49e6 # no_auto_change__monitoring_auto_change
+    condition: global.monitoring.enabled
+    repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+  - name: objectscale-monitoring
+
+    # SAMPLE version change for the same line - note: "#" + " rfw-update-this" must be presented, even if only in a comment
+
+    version: 3.7.0-1171.4dce49e6 # no_auto_change__monitoring_auto_change # rfw-update-this objectscale-monitoring-helm-chart
+    condition: global.monitoring.enabled
+    repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+  - name: objectscale-monitoring
+
+    # SAMPLE version change for the next line, with specific sub-key, without comment
+
+    # rfw-update-next objectscale-monitoring-helm-chart, componentName
+    component: temp-component
+    condition: global.monitoring.enabled
+    repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+  - name: atlas-operator
+
+    # SAMPLE there is no difference in chart or image to replace, it is up to user. number of spaces do not count
+
+    version: 0.31.0 # no_auto_change            # rfw-update-this      atlas-operator-docker-image
+    repository: file://../atlas-operator
+    condition: atlas.enabled
+  - name: atlas-operator
+
+    # SAMPLE without comment, note that additional spaces before first # are not saved in processing
+
+    version: 0.31.0     # rfw-update-this      atlas-operator-docker-image
+    repository: file://../atlas-operator
+    condition: atlas.enabled
+  - name: federation
+    version: 0.71.0
+    repository: file://../federation
+    condition: federation.enabled
+  - name: objectscale-iam
+    version: 0.71.0
+    repository: file://../objectscale-iam
+    condition: iam.enabled

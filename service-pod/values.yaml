@@ -13,7 +13,7 @@ global:
   registry: emccorp
 
 # The default docker tag and pull policy for service-pod
-tag: 2.0.67
+tag: 2.71.0
 pullPolicy: IfNotPresent
 # product for which the service pod is required
 # product: objectscale
@@ -25,8 +25,8 @@ image:
   # pullPolicy: IfNotPresent
 
 sshCred:
-  user: "root"
-  group: "adm"
+  user: "svcuser"
+  group: "users"
   password: "ChangeMe"
 
 # specify the requests and limits for the pod

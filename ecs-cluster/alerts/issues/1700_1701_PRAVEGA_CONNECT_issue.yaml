@@ -1,0 +1,15 @@
+- description: "Pravega connect failed"
+  name: "PRAVEGA_CONNECT_FAILED"
+  defaultAutoClearTimeOut: 60
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # NORMAL
+        - label: SymptomID
+          value: 1701
+    - matchon:
+        # WARNING
+        - label: SymptomID
+          value: 1700
+  notifiers:
+    - objectscale-supportassist-ese

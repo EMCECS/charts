@@ -301,6 +301,8 @@ spec:
         controller.metrics.influxDB.reporter.enable: {{ .Values.global.monitoring.enabled | quote }}
         controller.metrics.statistics.enable: {{ .Values.global.monitoring.enabled | quote }}
       debugLogging: {{ .Values.pravega.debugLogging }}
+      controllerServiceAccountName: {{ .Release.Name }}
+      segmentStoreServiceAccountName: {{ .Release.Name }}
 
   storageServer:
     serviceAccount: {{ .Release.Name }}-storageserver

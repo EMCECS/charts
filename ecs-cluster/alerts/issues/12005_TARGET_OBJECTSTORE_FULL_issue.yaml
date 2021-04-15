@@ -1,8 +1,11 @@
 - description: "Target object store storage full"
   name: "TARGET_OBJECT_STORE_FULL"
-  issueCategory: Manual
+  defaultAutoClearTimeOut: 900
+  issueCategory: Auto
   matchOnList:
     - matchon:
         # ERROR
         - label: SymptomID
           value: 12005
+  notifiers:
+    - objectscale-supportassist-ese

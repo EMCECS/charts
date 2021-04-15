@@ -25,8 +25,8 @@ image:
   # pullPolicy: IfNotPresent
 
 sshCred:
-  user: "root"
-  group: "adm"
+  user: "svcuser"
+  group: "users"
   password: "ChangeMe"
 
 # specify the requests and limits for the pod

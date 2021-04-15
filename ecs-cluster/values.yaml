@@ -646,7 +646,7 @@ managementGateway:
 # be provisioned via API before it can be used
 provision:
   enabled: true
-  newProvisionAPI: false
+  newProvisionAPI: true
   image:
     repository: provision
     tag: # rfw-update-this provision-docker-image

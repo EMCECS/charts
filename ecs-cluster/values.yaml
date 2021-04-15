@@ -113,7 +113,6 @@ pravega:
   # labels:
   image:
     pullPolicy: IfNotPresent
-    repository: pravega
     tag: # rfw-update-this pravega-docker-image
   controller:
 #    replicas: 1
@@ -161,9 +160,7 @@ bookkeeper:
   # labels:
   image:
     pullPolicy: IfNotPresent
-    repository: bookkeeper
-    tag: # rfw-update-this bookkeeper-docker-image
-#  version: 0.10.0-2831.d5f944ebf-issue-5853-SLTS-deep-copy
+  version: # rfw-update-this bookkeeper-docker-image
   blockOwnerDeletion: false
   autoRecovery: true
   probes:

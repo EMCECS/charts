@@ -20,8 +20,8 @@ global:
 
 image:
   repository: atlas-operator
-  tag: # rfw-update-this atlas-operator-docker-image
   pullPolicy: IfNotPresent
+  tag: # rfw-update-this atlas-operator-docker-image
 
 nameOverride: ""
 

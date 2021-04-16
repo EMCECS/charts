@@ -71,6 +71,7 @@ rules:
       - serviceaccounts
       - secrets
       - resourcequotas
+      - configmaps
     verbs:
       - get
       - list

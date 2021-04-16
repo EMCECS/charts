@@ -16,6 +16,7 @@ spec:
       labels:
         name: {{ template "pravega-operator.fullname" . }}
         component: pravega-operator
+{{ include "common-monitoring-lib.logging-inject-labels" . | indent 8 }}
     spec:
       automountServiceAccountToken: true
       serviceAccountName: {{ .Values.serviceAccount.name }}

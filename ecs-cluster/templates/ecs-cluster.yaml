@@ -214,7 +214,7 @@ spec:
     version: {{ .Values.tag }}
     {{- end }}
     blockOwnerDeletion:  {{ .Values.bookkeeper.blockOwnerDeletion }}
-    serviceAccountName:  {{ .Release.Name }}
+    serviceAccountName:  {{ .Release.Name }}-pravega
     autoRecovery: {{ .Values.bookkeeper.autoRecovery }}
     {{- if .Values.bookkeeper.probes }}
     probes:
@@ -301,8 +301,8 @@ spec:
         controller.metrics.influxDB.reporter.enable: {{ .Values.global.monitoring.enabled | quote }}
         controller.metrics.statistics.enable: {{ .Values.global.monitoring.enabled | quote }}
       debugLogging: {{ .Values.pravega.debugLogging }}
-      controllerServiceAccountName: {{ .Release.Name }}
-      segmentStoreServiceAccountName: {{ .Release.Name }}
+      controllerServiceAccountName: {{ .Release.Name }}-pravega
+      segmentStoreServiceAccountName: {{ .Release.Name }}-pravega
 
   storageServer:
     serviceAccount: {{ .Release.Name }}-storageserver

@@ -10,7 +10,7 @@ keywords:
 name: bookkeeper-operator
 version: 0.1.3
 dependencies:
-  - name: common-monitoring-lib
-    repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
-    # rfw-update-next objectscale-monitoring-helm-chart
-    version: 3.7.0-1174.d65bd7ec # no_auto_change__monitoring_auto_change
+- name: common-monitoring-lib
+  repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+  # rfw-update-next objectscale-monitoring-helm-chart
+  version: 3.7.0-1174.d65bd7ec # no_auto_change__monitoring_auto_change

@@ -7,17 +7,17 @@ metadata:
   namespace: dellemc-objectscale-system
   labels:
     app.kubernetes.io/name: logging-injector
-    app.kubernetes.io/version: 0.70.2
+    app.kubernetes.io/version: 0.71.2
     app.kubernetes.io/instance: logging-injector
     app.kubernetes.io/managed-by: nautilus
-    helm.sh/chart: logging-injector-0.70.2
+    helm.sh/chart: logging-injector-0.71.2
     release: logging-injector
     product: objectscale
   annotations:
     nautilus.dellemc.com/run-level: "9"    # start before objectscale-manager
     nautilus.dellemc.com/chart-name: logging-injector
-    nautilus.dellemc.com/chart-version: 0.70.2
-    nautilus.dellemc.com/chart-values: "{\"createApplicationResource\":false,\"global\":{\"objectscale_release_name\":\"objectscale-manager\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"watchAllNamespaces\":false},\"logging-injector\":{\"common-monitoring-lib\":{\"exports\":{\"default\":{\"rsyslog_client_image_pull_policy\":\"IfNotPresent\",\"rsyslog_client_tag\":null}},\"global\":{\"monitoring_tag\":\"3.7.0.0-1164.08aefd2c\",\"objectscale_release_name\":\"objectscale-manager\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_client_stdout_enabled\":false,\"rsyslog_enabled\":false,\"watchAllNamespaces\":false}},\"config\":{\"logVolumeName\":\"log\"},\"global\":{\"monitoring_tag\":\"3.7.0.0-1164.08aefd2c\",\"objectscale_release_name\":\"objectscale-manager\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_client_stdout_enabled\":false,\"rsyslog_enabled\":false,\"watchAllNamespaces\":false},\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"logging-injector\"},\"replicas\":1,\"resources\":{\"limits\":{\"memory\":\"256Mi\"},\"requests\":{\"memory\":\"256Mi\"}},\"rsyslog-client\":{\"common-monitoring-lib\":{\"exports\":{\"default\":{\"rsyslog_client_image_pull_policy\":\"IfNotPresent\"}},\"global\":{\"monitoring_tag\":\"3.7.0.0-1164.08aefd2c\",\"objectscale_release_name\":\"objectscale-manager\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_client_stdout_enabled\":false,\"rsyslog_enabled\":false,\"watchAllNamespaces\":false}},\"config\":{\"logs_size_high_watermark\":\"_204800\",\"logs_size_low_watermark\":\"_153600\",\"maxage\":30,\"output\":{\"port\":10514,\"queue\":{\"size\":10000,\"type\":\"linkedList\"},\"resumeRetryCount\":100}},\"createLogrotateConfigs\":true,\"createRBAC\":true,\"global\":{\"monitoring_tag\":\"3.7.0.0-1164.08aefd2c\",\"objectscale_release_name\":\"objectscale-manager\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_client_stdout_enabled\":false,\"rsyslog_enabled\":false,\"watchAllNamespaces\":false}},\"tolerations\":[]}}"
+    nautilus.dellemc.com/chart-version: 0.71.2
+    nautilus.dellemc.com/chart-values: "{\"createApplicationResource\":false,\"global\":{\"objectscale_release_name\":\"objectscale-manager\",\"registry\":\"asdrepo.isus.emc.com:8099\",\"registrySecret\":\"vsphere-docker-secret\",\"watchAllNamespaces\":false},\"logging-injector\":{\"common-monitoring-lib\":{\"exports\":{\"default\":{\"rsyslog_client_image_pull_policy\":\"IfNotPresent\",\"rsyslog_client_tag\":null}},\"global\":{\"monitoring_tag\":\"3.7.0.0-1177.a733579c\",\"objectscale_release_name\":\"objectscale-manager\",\"registry\":\"asdrepo.isus.emc.com:8099\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_client_stdout_enabled\":false,\"rsyslog_enabled\":false,\"watchAllNamespaces\":false}},\"config\":{\"logVolumeName\":\"log\"},\"global\":{\"monitoring_tag\":\"3.7.0.0-1177.a733579c\",\"objectscale_release_name\":\"objectscale-manager\",\"registry\":\"asdrepo.isus.emc.com:8099\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_client_stdout_enabled\":false,\"rsyslog_enabled\":false,\"watchAllNamespaces\":false},\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"logging-injector\"},\"replicas\":1,\"resources\":{\"limits\":{\"memory\":\"256Mi\"},\"requests\":{\"memory\":\"256Mi\"}},\"rsyslog-client\":{\"common-monitoring-lib\":{\"exports\":{\"default\":{\"rsyslog_client_image_pull_policy\":\"IfNotPresent\"}},\"global\":{\"monitoring_tag\":\"3.7.0.0-1177.a733579c\",\"objectscale_release_name\":\"objectscale-manager\",\"registry\":\"asdrepo.isus.emc.com:8099\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_client_stdout_enabled\":false,\"rsyslog_enabled\":false,\"watchAllNamespaces\":false}},\"config\":{\"logs_size_high_watermark\":\"_204800\",\"logs_size_low_watermark\":\"_153600\",\"maxage\":30,\"output\":{\"port\":10514,\"queue\":{\"size\":10000,\"type\":\"linkedList\"},\"resumeRetryCount\":100}},\"createLogrotateConfigs\":true,\"createRBAC\":true,\"global\":{\"monitoring_tag\":\"3.7.0.0-1177.a733579c\",\"objectscale_release_name\":\"objectscale-manager\",\"registry\":\"asdrepo.isus.emc.com:8099\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_client_stdout_enabled\":false,\"rsyslog_enabled\":false,\"watchAllNamespaces\":false}},\"tolerations\":[]}}"
 spec:
   assemblyPhase: Pending
   selector:
@@ -43,7 +43,7 @@ spec:
   descriptor:
     type: logging-injector
     description: Logging sidecar injector
-    version: 0.70.2
+    version: 0.71.2
     keywords:
       - objectscale
       - object store

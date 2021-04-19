@@ -7,17 +7,17 @@ metadata:
   namespace: dellemc-objectscale-system
   labels:
     app.kubernetes.io/name: "decks"
-    app.kubernetes.io/version: 2.70.2
+    app.kubernetes.io/version: 2.71.2
     app.kubernetes.io/instance: decks
     app.kubernetes.io/managed-by: nautilus
-    helm.sh/chart: decks-2.70.2
+    helm.sh/chart: decks-2.71.2
     release: decks
   annotations:
     com.dellemc.kahm.subscribed: "true"
     nautilus.dellemc.com/run-level: "15"
     nautilus.dellemc.com/chart-name: decks
-    nautilus.dellemc.com/chart-version: 2.70.2
-    nautilus.dellemc.com/chart-values: "{\"affinity\":{},\"createdecksappResource\":false,\"decks-support-store\":{\"affinity\":{},\"containerPort\":7443,\"global\":{\"platform\":\"VMware\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"watchAllNamespaces\":false},\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"decks-support-store\",\"version\":\"2.0.0\"},\"nodeSelector\":{},\"persistentVolume\":{\"size\":\"200Gi\",\"storageClassName\":\"dellemc-objectscale-highly-available\"},\"pullPolicy\":\"IfNotPresent\",\"replicaCount\":1,\"resources\":{},\"service\":{\"port\":7443,\"targetPort\":7443,\"type\":\"ClusterIP\"},\"tag\":\"2.70.2\",\"tolerations\":[]},\"global\":{\"platform\":\"VMware\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"watchAllNamespaces\":false},\"helmTestConfig\":{\"srsGateway\":{\"port\":9443},\"testImage\":{\"repository\":\"decks-testapp\"}},\"image\":{\"repository\":\"decks\"},\"nodeSelector\":{},\"pullPolicy\":\"IfNotPresent\",\"replicaCount\":1,\"resources\":{},\"supportStore\":{\"enabled\":true},\"tag\":\"2.70.2\",\"tolerations\":[]}"
+    nautilus.dellemc.com/chart-version: 2.71.2
+    nautilus.dellemc.com/chart-values: "{\"affinity\":{},\"createdecksappResource\":false,\"decks-support-store\":{\"affinity\":{},\"containerPort\":7443,\"global\":{\"platform\":\"VMware\",\"registry\":\"asdrepo.isus.emc.com:9042\",\"registrySecret\":\"vsphere-docker-secret\",\"watchAllNamespaces\":false},\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"decks-support-store\",\"version\":\"2.0.0\"},\"nodeSelector\":{},\"persistentVolume\":{\"size\":\"200Gi\",\"storageClassName\":\"dellemc-chemaf-highly-available\"},\"pullPolicy\":\"IfNotPresent\",\"replicaCount\":1,\"resources\":{},\"service\":{\"port\":7443,\"targetPort\":7443,\"type\":\"ClusterIP\"},\"tag\":\"2.71.2\",\"tolerations\":[]},\"global\":{\"platform\":\"VMware\",\"registry\":\"asdrepo.isus.emc.com:9042\",\"registrySecret\":\"vsphere-docker-secret\",\"watchAllNamespaces\":false},\"helmTestConfig\":{\"srsGateway\":{\"port\":9443},\"testImage\":{\"repository\":\"decks-testapp\"}},\"image\":{\"repository\":\"decks\"},\"nodeSelector\":{},\"pullPolicy\":\"IfNotPresent\",\"replicaCount\":1,\"resources\":{},\"supportStore\":{\"enabled\":true},\"tag\":\"2.71.2\",\"tolerations\":[]}"
 spec:
   selector:
     matchLabels:
@@ -40,7 +40,7 @@ spec:
   assemblyPhase: "Pending"
   descriptor:
     type: "decks"
-    version: 2.70.2
+    version: 2.71.2
     description: >
       Dell EMC Common Kubernetes Services
     keywords:

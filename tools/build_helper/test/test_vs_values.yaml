@@ -15,6 +15,10 @@ global:
   objectscale_release_name: objectscale-manager
 
 # The default docker tag and pull policy for the ECS Cluster
+
+# SAMPLE - on how to specify version of component - use *comp* prefix
+
+# rfw-update-next *comp*bookkeeper
 tag: 0.71.0
 pullPolicy: IfNotPresent
 
@@ -83,3 +87,15 @@ control:
     # tag: stable
     # pullPolicy: IfNotPresent
 
+
+bookkeeper1:
+  image:
+    # SAMPLE - 
+
+    tag: 2.3.4 # rfw-update-this     bookkeeper-docker-image -
+
+bookkeeper2:
+  image:
+    # SAMPLE - 
+
+    tag:            # rfw-update-this     bookkeeper-docker-image

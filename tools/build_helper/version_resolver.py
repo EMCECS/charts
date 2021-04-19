@@ -39,6 +39,9 @@ def load_artifacts(input_file):
         for art in slice.get('resolvedArtifacts'):
             if 'artifactId' in art:
                 artmap[art['artifactId']] = art
+        for comp in slice["resolvedComponentVersions"].keys():
+            compid = "*comp*" + comp
+            artmap[compid] = slice["resolvedComponentVersions"][comp]
 
 def process_yaml(input_yaml, return_modified=False):
     with open(input_yaml, "r+") as iym:

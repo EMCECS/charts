@@ -29,6 +29,7 @@ global:
   objectscale_release_name: objectscale-manager
 
 # The default docker tag and pull policy for the ECS Cluster
+# rfw-update-next *comp*object-services
 tag: 0.71.2
 pullPolicy: IfNotPresent
 

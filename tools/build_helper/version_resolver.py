@@ -9,6 +9,10 @@ import argparse
 
 RFW_THIS_LINE_FLAG = "# rfw-update-this"
 RFW_NEXT_LINE_FLAG = "# rfw-update-next"
+DEFAULT_ARTMAP_KEY = "version"
+
+# extra artmap key set to version if it differs from component version, otherwise - empty string
+NON_COMPON_VERSION = "non-component-version"
 
 artmap = dict()
 
@@ -25,23 +29,25 @@ def update_line(line, marker_text):
     rparts = right.split("#", 1)
 
     # index can point to subkey, if not assume 'version'. then get replacement value
-    artid, akey = idx.split(',') if ',' in idx else (idx, 'version')
+    artid, akey = idx.split(',') if ',' in idx else (idx, DEFAULT_ARTMAP_KEY)
     new_val = artmap[artid.strip()][akey.strip()]
 
     # restore comment part if it was present
     rcomment = " #" + rparts[1] if len(rparts) > 1 else '\n'
 
-    return "{}: {}{}".format(left, new_val, rcomment)
+    return "{}:{}{}{}".format(left, " "*bool(new_val), new_val, rcomment)
 
 def load_artifacts(input_file):
     with open(input_file, "r+") as ijs:
         slice = json.load(ijs)
         for art in slice.get('resolvedArtifacts'):
             if 'artifactId' in art:
+                art[NON_COMPON_VERSION] = art['version'] if art['componentVersion'] != art['version'] else ''
                 artmap[art['artifactId']] = art
-        for comp in slice["resolvedComponentVersions"].keys():
+
+        for (comp, version) in slice.get('resolvedComponentVersions').items():
             compid = "*comp*" + comp
-            artmap[compid] = slice["resolvedComponentVersions"][comp]
+            artmap[compid] = {DEFAULT_ARTMAP_KEY: version}
 
 def process_yaml(input_yaml, return_modified=False):
     with open(input_yaml, "r+") as iym:

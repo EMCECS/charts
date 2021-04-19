@@ -219,7 +219,7 @@ storageServer:
   # Docker repository to be used for storage server instances
   image:
     repository: storageserver
-    tag: # rfw-update-this storageserver-docker-image
+    tag: # rfw-update-this storageserver-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
   # Persistent storage options for storage server volume requests
@@ -261,7 +261,7 @@ chunkManager:
   # Docker repository to be used for chunk manager instances
   image:
     repository: chunk-manager
-    tag: # rfw-update-this chunk-manager-docker-image
+    tag: # rfw-update-this chunk-manager-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The ECS blob service configuration specification
@@ -275,7 +275,7 @@ blob:
   # Docker repository to be used for chunk manager instances
   image:
     repository: blob-service
-    tag: # rfw-update-this blob-service-docker-image
+    tag: # rfw-update-this blob-service-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The ECS Object Service configuration specification
@@ -307,7 +307,7 @@ ons:
   # Docker repository to be used for ons instances
   image:
     repository: ons
-    tag: # rfw-update-this ons-docker-image
+    tag: # rfw-update-this ons-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The ECS Notification Delivery Service configuration specification
@@ -321,7 +321,7 @@ nds:
   # Docker repository to be used for ons instances
   image:
     repository: nds
-    tag: # rfw-update-this nds-docker-image
+    tag: # rfw-update-this nds-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The ECS REP Service configuration specification
@@ -335,7 +335,7 @@ rep:
   # Docker repository to be used for rep instances
   image:
     repository: rep
-    tag: # rfw-update-this rep-docker-image
+    tag: # rfw-update-this rep-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
   # Elements to add to the service's ConfigMap. This is a map of string -> string
@@ -352,7 +352,7 @@ storageServerManager:
   # Docker repository to be used for storage server instances
   image:
     repository: storageserver-manager
-    tag: # rfw-update-this storageserver-manager-docker-image
+    tag: # rfw-update-this storageserver-manager-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The ECS record manager configuration specification
@@ -364,7 +364,7 @@ recordManager:
 
   image:
     repository: record-manager
-    tag: # rfw-update-this record-manager-docker-image
+    tag: # rfw-update-this record-manager-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The ECS storage management configuration specification
@@ -377,7 +377,7 @@ storageManagement:
 
   image:
     repository: storagemanagement-service
-    tag: # rfw-update-this storagemanagement-service-docker-image
+    tag: # rfw-update-this storagemanagement-service-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The ECS Metering configuration specification
@@ -389,7 +389,7 @@ metering:
 
   image:
     repository: metering
-    tag: # rfw-update-this metering-docker-image
+    tag: # rfw-update-this metering-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The ECS objectStoreMetering configuration specification
@@ -401,7 +401,7 @@ objectStoreMetering:
 
   image:
     repository: objmt
-    tag: # rfw-update-this objmt-docker-image
+    tag: # rfw-update-this objmt-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The ECS Metering configuration specification
@@ -413,7 +413,7 @@ event:
 
   image:
     repository: event-service
-    tag: # rfw-update-this event-service-docker-image
+    tag: # rfw-update-this event-service-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The ECS resource service configuration specification
@@ -425,7 +425,7 @@ resource:
   # Docker repository to be used for resource service instances
   image:
     repository: resource-service
-    tag: # rfw-update-this resource-service-docker-image
+    tag: # rfw-update-this resource-service-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
   # Elements to add to the service's ConfigMap. This is a map of string -> string
@@ -442,7 +442,7 @@ controlPlane:
 
   image:
     repository: control-service
-    tag: # rfw-update-this control-service-docker-image
+    tag: # rfw-update-this control-service-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The ECS diagnostic service configuration specification
@@ -454,7 +454,7 @@ diagnostic:
   # Docker repository to be used for diagnostic service instances
   image:
     repository: diagnostic-service
-    tag: # rfw-update-this diagnostic-service-docker-image
+    tag: # rfw-update-this diagnostic-service-docker-image, non-component-version
     # pullPolicy: IfNotPresent
   service:
     # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
@@ -478,7 +478,7 @@ s3:
   # Docker repository to be used for object heads instances
   image:
     repository: object-heads
-    tag: # rfw-update-this object-heads-docker-image
+    tag: # rfw-update-this object-heads-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
   service:
@@ -537,7 +537,7 @@ spaceReclaimer:
   # Docker repository to be used for diagnostic service instances
   image:
     repository: space-reclaimer
-    tag: # rfw-update-this space-reclaimer-docker-image
+    tag: # rfw-update-this space-reclaimer-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The ECS geo service configuration specification
@@ -551,7 +551,7 @@ geoService:
   # Docker repository to be used for ons instances
   image:
     repository: geoservice
-    tag: # rfw-update-this geoservice-docker-image
+    tag: # rfw-update-this geoservice-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The ECS geo receiver configuration specification
@@ -563,7 +563,7 @@ geoReceiver:
   # Docker repository to be used for geo receiver instances
   image:
     repository: geo-receiver
-    tag: # rfw-update-this geo-receiver-docker-image
+    tag: # rfw-update-this geo-receiver-docker-image, non-component-version
     # pullPolicy: IfNotPresent
   service:
 
@@ -582,7 +582,7 @@ control:
   # Docker repository to be used for object control instances
   image:
     repository: object-control
-    tag: # rfw-update-this object-control-docker-image
+    tag: # rfw-update-this object-control-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The managementGateway configuration specification

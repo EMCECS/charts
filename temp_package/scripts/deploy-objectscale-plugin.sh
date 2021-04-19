@@ -8,7 +8,7 @@
 ## terms and conditions of the License Agreement under which it is provided by or
 ## on behalf of Dell Inc. or its subsidiaries.
 
-service_id="objectscale"
+service_id="chemaf"
 
 echomsg () {
 
@@ -110,12 +110,12 @@ cat <<'EOF' | kubectl apply -f -
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: objectscale
+  name: chemaf
   namespace: vmware-system-appplatform-operator-system
   labels:
     appplatform.vmware.com/kind: supervisorservice
 data:
-  objectscale-crd.yaml: |-
+  chemaf-crd.yaml: |-
 
 
     ---
@@ -2038,7 +2038,7 @@ data:
       version: v1beta1
       subresources:
         status: {}
-  objectscale-operator.yaml: |-
+  chemaf-operator.yaml: |-
     ---
     # Source: objectscale-vsphere/templates/vsphere-plugin-network-policy.yaml
     apiVersion: networking.k8s.io/v1
@@ -2063,10 +2063,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.1
+        app.kubernetes.io/version: 0.71.2
         app.kubernetes.io/component: objectscale-operator
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: helm-controller-0.70.1
+        helm.sh/chart: helm-controller-0.71.2
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -2083,10 +2083,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.1
+        app.kubernetes.io/version: 0.71.2
         app.kubernetes.io/component: objectscale-graphql
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: objectscale-graphql-0.70.1
+        helm.sh/chart: objectscale-graphql-0.71.2
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -2128,7 +2128,7 @@ data:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/version: "0.54.0"
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: rsyslog-client-3.7.0-1164.08aefd2c
+        helm.sh/chart: rsyslog-client-3.7.0-1177.a733579c
         release: vsphere-plugin
     data:
       rsyslog.conf.template: |+
@@ -2203,10 +2203,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.2
+        app.kubernetes.io/version: 0.71.2
         app.kubernetes.io/component: objectscale-portal
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: objectscale-portal-0.70.2
+        helm.sh/chart: objectscale-portal-0.71.2
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -2267,7 +2267,7 @@ data:
                     return 200 '{"value":"VMware"}';
                 }
                 location /features {
-                    return 200 '{"bucketsv2":false,"iam":false,"objectscaleDashboard":true,"objectscaleSystems":false,"replications":false,"uiLoggingLevel":"ERROR"}';
+                    return 200 '{"bucketsv2":true,"iam":true,"manageObjectStoreV2":false,"objectscaleDashboard":true,"objectscaleSystems":false,"replications":false,"uiLoggingLevel":"ERROR"}';
                 }
                 location / {
                     root   /usr/share/nginx/html;
@@ -2366,39 +2366,39 @@ data:
                     ],
                     "definitions": {
                         "plugin.name": {
-                            "en-US": "ObjectScale",
-                            "de-DE": "ObjectScale",
-                            "fr-FR": "ObjectScale"
+                            "en-US": "ObjectScale-chemaf",
+                            "de-DE": "ObjectScale-chemaf",
+                            "fr-FR": "ObjectScale-chemaf"
                         },
                         "cluster.monitor.list.health": {
-                            "en-US": "Health",
-                            "de-DE": "Gesundheit",
-                            "fr-FR": "santé"
+                            "en-US": "Health-chemaf",
+                            "de-DE": "Gesundheit-chemaf",
+                            "fr-FR": "santé-chemaf"
                         },
                         "cluster.configure.list.objectstores": {
-                            "en-US": "Object Stores",
-                            "de-DE": "Object Stores",
-                            "fr-FR": "Object Stores"
+                            "en-US": "Object Stores-chemaf",
+                            "de-DE": "Object Stores-chemaf",
+                            "fr-FR": "Object Stores-chemaf"
                         },
                         "cluster.configure.list.settings": {
-                            "en-US": "Settings",
-                            "de-DE": "Settings",
-                            "fr-FR": "Settings"
+                            "en-US": "Settings-chemaf",
+                            "de-DE": "Settings-chemaf",
+                            "fr-FR": "Settings-chemaf"
                         },
                         "cluster.configure.list.dashboard": {
-                            "en-US": "Dashboard",
-                            "de-DE": "Dashboard",
-                            "fr-FR": "Dashboard"
+                            "en-US": "Dashboard-chemaf",
+                            "de-DE": "Dashboard-chemaf",
+                            "fr-FR": "Dashboard-chemaf"
                         },
                         "cluster.configure.list.accounts": {
-                            "en-US": "Accounts",
-                            "de-DE": "Accounts",
-                            "fr-FR": "Accounts"
+                            "en-US": "Accounts-chemaf",
+                            "de-DE": "Accounts-chemaf",
+                            "fr-FR": "Accounts-chemaf"
                         },
                         "cluster.configure.list.objectscalesystems": {
-                            "en-US": "Objectscale Systems",
-                            "de-DE": "Objectscale Systems",
-                            "fr-FR": "Objectscale Systems"
+                            "en-US": "Objectscale Systems-chemaf",
+                            "de-DE": "Objectscale Systems-chemaf",
+                            "fr-FR": "Objectscale Systems-chemaf"
                         }
                     }
                 }
@@ -2414,10 +2414,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.1
+        app.kubernetes.io/version: 0.71.2
         app.kubernetes.io/component: objectscale-operator
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: helm-controller-0.70.1
+        helm.sh/chart: helm-controller-0.71.2
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -2578,10 +2578,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.1
+        app.kubernetes.io/version: 0.71.2
         app.kubernetes.io/component: objectscale-graphql
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: objectscale-graphql-0.70.1
+        helm.sh/chart: objectscale-graphql-0.71.2
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -2638,10 +2638,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.1
+        app.kubernetes.io/version: 0.71.2
         app.kubernetes.io/component: objectscale-graphql
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: objectscale-graphql-0.70.1
+        helm.sh/chart: objectscale-graphql-0.71.2
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -2770,10 +2770,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.1
+        app.kubernetes.io/version: 0.71.2
         app.kubernetes.io/component: graphql-cluster-scoped-resources
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: objectscale-graphql-0.70.1
+        helm.sh/chart: objectscale-graphql-0.71.2
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -2848,10 +2848,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.1
+        app.kubernetes.io/version: 0.71.2
         app.kubernetes.io/component: helm-controller
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: helm-controller-0.70.1
+        helm.sh/chart: helm-controller-0.71.2
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -2873,10 +2873,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.2
+        app.kubernetes.io/version: 0.71.2
         app.kubernetes.io/component: objectscale-graphql
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: objectscale-portal-0.70.2
+        helm.sh/chart: objectscale-portal-0.71.2
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -2899,10 +2899,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.1
+        app.kubernetes.io/version: 0.71.2
         app.kubernetes.io/component: objectscale-graphql
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: objectscale-graphql-0.70.1
+        helm.sh/chart: objectscale-graphql-0.71.2
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -2924,10 +2924,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.1
+        app.kubernetes.io/version: 0.71.2
         app.kubernetes.io/component: objectscale-graphql
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: objectscale-graphql-0.70.1
+        helm.sh/chart: objectscale-graphql-0.71.2
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -3031,7 +3031,7 @@ data:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/version: "0.54.0"
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: rsyslog-client-3.7.0-1164.08aefd2c
+        helm.sh/chart: rsyslog-client-3.7.0-1177.a733579c
         release: vsphere-plugin
       name: "vsphere-plugin-rsyslog-client"
       namespace: "{{ .service.namespace }}"
@@ -3066,10 +3066,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.1
+        app.kubernetes.io/version: 0.71.2
         app.kubernetes.io/component: objectscale-graphql
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: objectscale-graphql-0.70.1
+        helm.sh/chart: objectscale-graphql-0.71.2
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -3106,7 +3106,7 @@ data:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/version: "0.54.0"
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: rsyslog-client-3.7.0-1164.08aefd2c
+        helm.sh/chart: rsyslog-client-3.7.0-1177.a733579c
         release: vsphere-plugin
     subjects:
       - apiGroup: rbac.authorization.k8s.io
@@ -3127,10 +3127,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.2
+        app.kubernetes.io/version: 0.71.2
         app.kubernetes.io/component: objectscale-graphql
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: objectscale-portal-0.70.2
+        helm.sh/chart: objectscale-portal-0.71.2
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -3167,9 +3167,9 @@ data:
       labels:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/component: objectscale-install-controller
-        helm.sh/chart: helm-controller-0.70.1
+        helm.sh/chart: helm-controller-0.71.2
         app.kubernetes.io/instance: vsphere-plugin
-        app.kubernetes.io/version: 0.70.1
+        app.kubernetes.io/version: 0.71.2
         app.kubernetes.io/part-of: vsphere-plugin
         release: vsphere-plugin
         operator: objectscale-operator
@@ -3195,10 +3195,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.1
+        app.kubernetes.io/version: 0.71.2
         app.kubernetes.io/component: objectscale-graphql
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: objectscale-graphql-0.70.1
+        helm.sh/chart: objectscale-graphql-0.71.2
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -3221,10 +3221,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.2
+        app.kubernetes.io/version: 0.71.2
         app.kubernetes.io/component: objectscale-portal
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: objectscale-portal-0.70.2
+        helm.sh/chart: objectscale-portal-0.71.2
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -3249,9 +3249,9 @@ data:
         app.kubernetes.io/component: objectscale-install-controller
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/instance: vsphere-plugin
-        app.kubernetes.io/version: 0.70.1
+        app.kubernetes.io/version: 0.71.2
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: helm-controller-0.70.1
+        helm.sh/chart: helm-controller-0.71.2
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -3268,9 +3268,9 @@ data:
             app.kubernetes.io/component: objectscale-install-controller
             app.kubernetes.io/managed-by: Helm
             app.kubernetes.io/instance: vsphere-plugin
-            app.kubernetes.io/version: 0.70.1
+            app.kubernetes.io/version: 0.71.2
             app.kubernetes.io/part-of: vsphere-plugin
-            helm.sh/chart: helm-controller-0.70.1
+            helm.sh/chart: helm-controller-0.71.2
             release: vsphere-plugin
             operator: objectscale-operator
             product: objectscale
@@ -3285,7 +3285,7 @@ data:
                   memory: 500M
                 requests:
                   memory: 250M
-              image: {{ .Values.registryName }}/install-controller:0.70.0
+              image: asdrepo.isus.emc.com:8099/install-controller:0.71.2
               env:
                 - name: OPERATOR_NAME
                   value: objectscale-operator
@@ -3319,10 +3319,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.1
+        app.kubernetes.io/version: 0.71.2
         app.kubernetes.io/component: objectscale-graphql
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: objectscale-graphql-0.70.1
+        helm.sh/chart: objectscale-graphql-0.71.2
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -3340,8 +3340,8 @@ data:
             app.kubernetes.io/managed-by: Helm
             app.kubernetes.io/instance: vsphere-plugin
             app.kubernetes.io/part-of: vsphere-plugin
-            app.kubernetes.io/version: 0.70.1
-            helm.sh/chart: objectscale-graphql-0.70.1
+            app.kubernetes.io/version: 0.71.2
+            helm.sh/chart: objectscale-graphql-0.71.2
             release: vsphere-plugin
             operator: objectscale-operator
             product: objectscale
@@ -3349,11 +3349,11 @@ data:
           serviceAccountName: objectscale-api
           containers:
           - name: objectscale-graphql
-            image: {{ .Values.registryName }}/ecs-flex-graphql:0.70.0
+            image: asdrepo.isus.emc.com:8099/ecs-flex-graphql:0.71.2
             imagePullPolicy: IfNotPresent
             env:
             - name: OBJSTORE_AVAILABLE_VERSIONS
-              value: "[\"0.70.0\"]"
+              value: "[\"0.71.2\"]"
             - name: GRAPHQL_NAMESPACE
               valueFrom:
                 fieldRef:
@@ -3363,13 +3363,13 @@ data:
                 fieldRef:
                   fieldPath: metadata.namespace
             - name: GLOBAL_REGISTRY
-              value: {{ .Values.registryName }}
+              value: asdrepo.isus.emc.com:8099
             - name: GLOBAL_REGISTRY_SECRET
               value: vsphere-docker-secret
             - name: LICENSE_CHART_VERSION
-              value: 2.70.0
+              value: 2.71.2
             - name: SUPPORTASSIST_CHART_VERSION
-              value: 2.70.0
+              value: 2.71.2
             - name: SRSGATEWAY_CHART_VERSION
               value: 1.2.0
             - name: OPERATOR_NAME
@@ -3379,7 +3379,7 @@ data:
             - name: VSPHERE_SERVICE_PREFIX
               value: {{ .service.prefix }}
             - name: STORAGE_CLASS_NAME
-              value: dellemc-objectscale-highly-available
+              value: dellemc-chemaf-highly-available
             - name: LOG_DIRECTION
               value: stdout
             - name: HELM_CONTROLLER_ENDPOINT
@@ -3391,7 +3391,7 @@ data:
                   key: credentials
 
           - name: rsyslog
-            image: "{{ .Values.registryName }}/rsyslog:3.7.0.0-1161.35f87a27"
+            image: "asdrepo.isus.emc.com:8099/rsyslog:3.7.0.0-1177.a733579c"
             imagePullPolicy: "IfNotPresent"
             env:
               - name: POD_NAME
@@ -3435,10 +3435,10 @@ data:
         app.kubernetes.io/name: objectscale-manager
         app.kubernetes.io/instance: vsphere-plugin
         app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/version: 0.70.2
+        app.kubernetes.io/version: 0.71.2
         app.kubernetes.io/component: objectscale-portal
         app.kubernetes.io/part-of: vsphere-plugin
-        helm.sh/chart: objectscale-portal-0.70.2
+        helm.sh/chart: objectscale-portal-0.71.2
         release: vsphere-plugin
         operator: objectscale-operator
         product: objectscale
@@ -3456,8 +3456,8 @@ data:
             app.kubernetes.io/managed-by: Helm
             app.kubernetes.io/instance: vsphere-plugin
             app.kubernetes.io/part-of: vsphere-plugin
-            app.kubernetes.io/version: 0.70.2
-            helm.sh/chart: objectscale-portal-0.70.2
+            app.kubernetes.io/version: 0.71.2
+            helm.sh/chart: objectscale-portal-0.71.2
             release: vsphere-plugin
             operator: objectscale-operator
             product: objectscale
@@ -3473,7 +3473,7 @@ data:
                 secretName: objectscale-plugin-secret
           containers:
             - name: objectscale-portal
-              image: {{ .Values.registryName }}/ecs-flex-vsphere-plugin:0.70.2
+              image: asdrepo.isus.emc.com:8099/ecs-flex-vsphere-plugin:0.71.2
               env:
                 - name: OPERATOR_NAME
                   value: objectscale-operator
@@ -3497,10 +3497,10 @@ data:
     metadata:
       labels:
         controller-tools.k8s.io: "1.0"
-      name: dellemc-objectscale-highly-available
+      name: dellemc-chemaf-highly-available
       namespace: {{ .service.namespace }}
     spec:
-      name: dellemc-objectscale-highly-available
+      name: dellemc-chemaf-highly-available
       rules:
         VSAN.hostFailuresToTolerate: "1"
         VSAN.stripeWidth: "1"
@@ -3531,7 +3531,7 @@ data:
         "helm.sh/hook-delete-policy": "before-hook-creation"
     type: Opaque
     stringData:
-      credentials: objectscale:guuTkL2mKhm3vMll:j5DtdcYAzQt9rYq4
+      credentials: objectscale:uJdjuSo7U07NHY75:6qmWoK9pb0wpLbsJ
     ---
     ---
     # Source: objectscale-manager/templates/objectscale-manager-app.yaml
@@ -3542,18 +3542,18 @@ data:
       namespace: {{ .service.namespace }}
       labels:
         app.kubernetes.io/name: objectscale-manager
-        app.kubernetes.io/version: 0.70.2
+        app.kubernetes.io/version: 0.71.2
         app.kubernetes.io/instance: objectscale-manager
         app.kubernetes.io/managed-by: nautilus
-        helm.sh/chart: objectscale-manager-0.70.2
+        helm.sh/chart: objectscale-manager-0.71.2
         release: objectscale-manager
         product: objectscale
       annotations:
         com.dellemc.kahm.subscribed: "true"
         nautilus.dellemc.com/run-level: "10"
         nautilus.dellemc.com/chart-name: objectscale-manager
-        nautilus.dellemc.com/chart-version: 0.70.2
-        nautilus.dellemc.com/chart-values: "{\"affinity\":{},\"atlas\":{\"enabled\":true},\"atlas-operator\":{\"affinity\":{},\"global\":{\"enableHealthcheck\":false,\"labels\":{},\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"{{ .Values.registryName }}\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-objectscale-highly-available\",\"watchAllNamespaces\":false},\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"atlas-operator\"},\"nameOverride\":\"\",\"nodeSelector\":{},\"podSecurityContext\":{},\"resources\":{\"limits\":{\"cpu\":1,\"memory\":\"500Mi\"},\"requests\":{\"cpu\":\"250m\",\"memory\":\"300Mi\"}},\"securityContext\":{},\"tolerations\":[]},\"bookkeeper\":{\"enabled\":true},\"bookkeeper-operator\":{\"crd\":{\"create\":true},\"global\":{\"enableHealthcheck\":false,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"{{ .Values.registryName }}\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-objectscale-highly-available\",\"watchAllNamespaces\":false},\"hooks\":{\"backoffLimit\":10,\"image\":{\"repository\":\"k8s-kubectl\",\"tag\":\"v1.16.10\"}},\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"bookkeeper-operator\",\"tag\":\"0.1.3-50-f528f6f\"},\"rbac\":{\"create\":true},\"serviceAccount\":{\"create\":true,\"name\":\"bookkeeper-operator\"},\"testmode\":{\"enabled\":true,\"version\":\"0.9.0\"},\"watchNamespace\":\"\",\"webhookCert\":{\"certName\":\"selfsigned-cert-bk\",\"generate\":false,\"secretName\":\"selfsigned-cert-tls-bk\"}},\"createApplicationResource\":false,\"dcm\":{\"atlas\":{\"affinity\":false,\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"atlas\",\"tag\":\"1.1.3\"},\"persistence\":{\"size\":\"1Gi\"}},\"common-monitoring-lib\":{\"exports\":{\"default\":{\"rsyslog_client_image_pull_policy\":\"IfNotPresent\",\"rsyslog_client_tag\":\"3.7.0.0-1146.a692701d\"}},\"global\":{\"enableHealthcheck\":false,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"{{ .Values.registryName }}\",\"performanceProfile\":\"Small\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-objectscale-highly-available\",\"watchAllNamespaces\":false}},\"enabled\":true,\"global\":{\"enableHealthcheck\":false,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"{{ .Values.registryName }}\",\"performanceProfile\":\"Small\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-objectscale-highly-available\",\"watchAllNamespaces\":false},\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"dcm\"},\"livenessProbe\":{\"probePath\":\"/dcmhealthcheck\"},\"readinessProbe\":{\"probePath\":\"/dcmhealthcheck\"},\"replicaCount\":1,\"service\":{\"port\":9026,\"targetPort\":9026,\"type\":\"LoadBalancer\"},\"tag\":\"0.70.2\"},\"debugMode\":false,\"ecs-monitoring\":{\"influxdb\":{\"persistence\":{\"storageClassName\":\"dellemc-objectscale-highly-available\"}}},\"federation\":{\"enabled\":true,\"fedsvc\":{\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"fedsvc\"},\"livenessProbe\":{\"probePath\":\"/fedsvchealthcheck\"},\"readinessProbe\":{\"probePath\":\"/fedsvchealthcheck\"},\"replicaCount\":3,\"service\":{\"port\":9500,\"type\":\"LoadBalancer\"}},\"global\":{\"enableHealthcheck\":false,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"{{ .Values.registryName }}\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-objectscale-highly-available\",\"watchAllNamespaces\":false},\"tag\":\"0.70.2\"},\"fluentbitAgent\":{\"image\":{\"repository\":\"fluent-bit\",\"tag\":\"0.28.0\"}},\"global\":{\"enableHealthcheck\":false,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"{{ .Values.registryName }}\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-objectscale-highly-available\",\"watchAllNamespaces\":false},\"healthChecks\":{\"preUpdate\":{\"image\":{\"repository\":\"objectscale-manager-pre-update\"}}},\"hooks\":{\"registry\":\"{{ .Values.registryName }}\",\"repository\":\"k8s-kubectl\",\"tag\":\"v1.16.10\"},\"iam\":{\"enabled\":true},\"image\":{\"repository\":\"objectscale-operator\"},\"installApplicationCRD\":true,\"installObjectStoreCRD\":true,\"logReceiver\":{\"image\":{\"repository\":\"rsyslog\"},\"persistence\":{\"accessMode\":\"ReadWriteOnce\",\"enabled\":true,\"size\":\"50Gi\"}},\"loggerConfig\":{\"development\":true,\"disableCaller\":false,\"disableStacktrace\":false,\"enabled\":true,\"encoderConfig\":{\"callerEncoder\":\"short\",\"callerKey\":\"C\",\"durationEncoder\":\"string\",\"levelEncoder\":\"capital\",\"levelKey\":\"L\",\"lineEnding\":\"\\n\",\"messageKey\":\"M\",\"nameKey\":\"N\",\"stacktraceKey\":\"S\",\"timeEncoder\":\"iso8601\",\"timeKey\":\"T\"},\"encoding\":\"console\",\"errorOutputPaths\":[\"stderr\"],\"level\":\"info\",\"outputPaths\":[\"stdout\"]},\"nodeSelector\":{},\"objectscale-gateway\":{\"enabled\":false},\"objectscale-iam\":{\"atlas\":{\"disableAntiAffinity\":false,\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"atlas\",\"tag\":\"1.1.3\"},\"persistence\":{\"size\":\"10Gi\"},\"replicaCount\":3},\"enabled\":true,\"global\":{\"enableHealthcheck\":false,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"{{ .Values.registryName }}\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-objectscale-highly-available\",\"watchAllNamespaces\":false},\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"iamsvc\"},\"livenessProbe\":{\"probePath\":\"/iamhealthcheck\"},\"readinessProbe\":{\"probePath\":\"/iamhealthcheck/atlas\"},\"replicaCount\":3,\"service\":{\"port\":9400,\"type\":\"LoadBalancer\"},\"tag\":\"0.70.2\"},\"objectscale-monitoring\":{\"influxdb\":{\"persistence\":{\"storageClassName\":\"dellemc-objectscale-highly-available\"}},\"rsyslog\":{\"persistence\":{\"storageClassName\":\"dellemc-objectscale-vsan-sna-thick\"}}},\"pravega\":{\"enabled\":true},\"pravega-operator\":{\"crd\":{\"create\":false},\"global\":{\"enableHealthcheck\":false,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"{{ .Values.registryName }}\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-objectscale-highly-available\",\"watchAllNamespaces\":false},\"hooks\":{\"backoffLimit\":10,\"image\":{\"repository\":\"k8s-kubectl\",\"tag\":\"v1.16.10\"}},\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"pravega-operator\",\"tag\":\"0.5.2-211-24bb31d0\"},\"rbac\":{\"create\":true},\"serviceAccount\":{\"create\":true,\"name\":\"pravega-operator\"},\"testmode\":{\"enabled\":true,\"version\":\"0.10.0\"},\"watchNamespace\":\"\",\"webhookCert\":{\"certName\":\"selfsigned-cert\",\"generate\":false,\"secretName\":\"selfsigned-cert-tls\"}},\"pullPolicy\":\"IfNotPresent\",\"replicaCount\":1,\"resources\":{\"fluentbitAgent\":{\"limits\":{\"memory\":\"40Mi\"},\"requests\":{\"memory\":\"20Mi\"}},\"operator\":{\"limits\":{\"ephemeralStorage\":\"1256Mi\",\"memory\":\"500Mi\"},\"requests\":{\"ephemeralStorage\":\"1256Mi\",\"memory\":\"300Mi\"}},\"rsyslog\":{\"limits\":{\"memory\":\"60Mi\"},\"requests\":{\"memory\":\"30Mi\"}}},\"service-pod\":{\"global\":{\"enableHealthcheck\":false,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"{{ .Values.registryName }}\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-objectscale-highly-available\",\"watchAllNamespaces\":false},\"image\":{\"repository\":\"base-service-tools\"},\"pullPolicy\":\"IfNotPresent\",\"resources\":{\"limits\":{\"ephemeral-storage\":\"20Gi\"},\"requests\":{\"ephemeral-storage\":\"10Gi\",\"memory\":\"2Gi\"}},\"sshCred\":{\"group\":\"adm\",\"password\":\"ChangeMe\",\"user\":\"root\"},\"tag\":\"2.70.2\"},\"servicePod\":{\"enabled\":true},\"tag\":\"0.70.2\",\"tolerations\":[],\"zookeeper\":{\"enabled\":true},\"zookeeper-operator\":{\"global\":{\"enableHealthcheck\":false,\"installCRD\":true,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"{{ .Values.registryName }}\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-objectscale-highly-available\",\"watchAllNamespaces\":false},\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"zookeeper-operator\",\"tag\":\"0.2.9\"},\"replicaCount\":1}}"
+        nautilus.dellemc.com/chart-version: 0.71.2
+        nautilus.dellemc.com/chart-values: "{\"affinity\":{},\"atlas\":{\"enabled\":true},\"atlas-operator\":{\"affinity\":{},\"global\":{\"enableHealthcheck\":false,\"labels\":{},\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"asdrepo.isus.emc.com:8099\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"asdrepo.isus.emc.com:8099\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-chemaf-highly-available\",\"watchAllNamespaces\":false},\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"atlas-operator\"},\"nameOverride\":\"\",\"nodeSelector\":{},\"podSecurityContext\":{},\"resources\":{\"limits\":{\"cpu\":1,\"memory\":\"500Mi\"},\"requests\":{\"cpu\":\"250m\",\"memory\":\"300Mi\"}},\"securityContext\":{},\"tolerations\":[]},\"bookkeeper\":{\"enabled\":true},\"bookkeeper-operator\":{\"crd\":{\"create\":true},\"global\":{\"enableHealthcheck\":false,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"asdrepo.isus.emc.com:8099\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"asdrepo.isus.emc.com:8099\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-chemaf-highly-available\",\"watchAllNamespaces\":false},\"hooks\":{\"backoffLimit\":10,\"image\":{\"repository\":\"k8s-kubectl\",\"tag\":\"v1.16.10\"}},\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"bookkeeper-operator\",\"tag\":\"0.1.3-50-f528f6f\"},\"rbac\":{\"create\":true},\"serviceAccount\":{\"create\":true,\"name\":\"bookkeeper-operator\"},\"testmode\":{\"enabled\":true,\"version\":\"0.9.0\"},\"watchNamespace\":\"\",\"webhookCert\":{\"certName\":\"selfsigned-cert-bk\",\"generate\":false,\"secretName\":\"selfsigned-cert-tls-bk\"}},\"createApplicationResource\":false,\"dcm\":{\"atlas\":{\"affinity\":false,\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"atlas\",\"tag\":\"1.1.3\"},\"persistence\":{\"size\":\"1Gi\"}},\"common-monitoring-lib\":{\"exports\":{\"default\":{\"rsyslog_client_image_pull_policy\":\"IfNotPresent\",\"rsyslog_client_tag\":\"3.7.0.0-1146.a692701d\"}},\"global\":{\"enableHealthcheck\":false,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"asdrepo.isus.emc.com:8099\",\"performanceProfile\":\"Small\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"asdrepo.isus.emc.com:8099\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-chemaf-highly-available\",\"watchAllNamespaces\":false}},\"enabled\":true,\"global\":{\"enableHealthcheck\":false,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"asdrepo.isus.emc.com:8099\",\"performanceProfile\":\"Small\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"asdrepo.isus.emc.com:8099\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-chemaf-highly-available\",\"watchAllNamespaces\":false},\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"dcm\"},\"livenessProbe\":{\"probePath\":\"/dcmhealthcheck\"},\"readinessProbe\":{\"probePath\":\"/dcmhealthcheck\"},\"replicaCount\":1,\"service\":{\"port\":9026,\"targetPort\":9026,\"type\":\"LoadBalancer\"},\"tag\":\"0.71.2\"},\"debugMode\":false,\"ecs-monitoring\":{\"influxdb\":{\"persistence\":{\"storageClassName\":\"dellemc-chemaf-highly-available\"}}},\"federation\":{\"atlas\":{\"disableAntiAffinity\":false,\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"atlas\",\"tag\":\"1.1.3\"},\"persistence\":{\"size\":\"10Gi\"},\"replicaCount\":1},\"enabled\":true,\"fedsvc\":{\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"fedsvc\"},\"livenessProbe\":{\"probePath\":\"/fedsvchealthcheck\"},\"readinessProbe\":{\"probePath\":\"/fedsvchealthcheck\"},\"replicaCount\":3,\"service\":{\"port\":9500,\"type\":\"LoadBalancer\"}},\"global\":{\"enableHealthcheck\":false,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"asdrepo.isus.emc.com:8099\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"asdrepo.isus.emc.com:8099\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-chemaf-highly-available\",\"watchAllNamespaces\":false},\"tag\":\"0.71.2\"},\"fluentbitAgent\":{\"image\":{\"repository\":\"fluent-bit\",\"tag\":\"0.28.0\"}},\"global\":{\"enableHealthcheck\":false,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"asdrepo.isus.emc.com:8099\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"asdrepo.isus.emc.com:8099\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-chemaf-highly-available\",\"watchAllNamespaces\":false},\"healthChecks\":{\"preUpdate\":{\"image\":{\"repository\":\"objectscale-manager-pre-update\"}}},\"hooks\":{\"registry\":\"asdrepo.isus.emc.com:8099\",\"repository\":\"k8s-kubectl\",\"tag\":\"v1.16.10\"},\"iam\":{\"enabled\":true},\"image\":{\"repository\":\"objectscale-operator\",\"tag\":\"0.72.0-460.0db4eecf\"},\"installApplicationCRD\":true,\"installObjectStoreCRD\":true,\"logReceiver\":{\"image\":{\"repository\":\"rsyslog\"},\"persistence\":{\"accessMode\":\"ReadWriteOnce\",\"enabled\":true,\"size\":\"50Gi\"}},\"loggerConfig\":{\"development\":true,\"disableCaller\":false,\"disableStacktrace\":false,\"enabled\":true,\"encoderConfig\":{\"callerEncoder\":\"short\",\"callerKey\":\"C\",\"durationEncoder\":\"string\",\"levelEncoder\":\"capital\",\"levelKey\":\"L\",\"lineEnding\":\"\\n\",\"messageKey\":\"M\",\"nameKey\":\"N\",\"stacktraceKey\":\"S\",\"timeEncoder\":\"iso8601\",\"timeKey\":\"T\"},\"encoding\":\"console\",\"errorOutputPaths\":[\"stderr\"],\"level\":\"info\",\"outputPaths\":[\"stdout\"]},\"nodeSelector\":{},\"objectscale-gateway\":{\"enabled\":false},\"objectscale-iam\":{\"atlas\":{\"disableAntiAffinity\":false,\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"atlas\",\"tag\":\"1.1.3\"},\"persistence\":{\"size\":\"10Gi\"},\"replicaCount\":3},\"enabled\":true,\"global\":{\"enableHealthcheck\":false,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"asdrepo.isus.emc.com:8099\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"asdrepo.isus.emc.com:8099\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-chemaf-highly-available\",\"watchAllNamespaces\":false},\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"iamsvc\"},\"livenessProbe\":{\"probePath\":\"/iamhealthcheck\"},\"readinessProbe\":{\"probePath\":\"/iamhealthcheck/atlas\"},\"replicaCount\":3,\"service\":{\"ports\":[{\"name\":\"https\",\"port\":443,\"protocol\":\"TCP\",\"targetPort\":9401},{\"name\":\"http\",\"port\":9400,\"protocol\":\"TCP\",\"targetPort\":9402}],\"type\":\"LoadBalancer\"},\"tag\":\"0.71.2\",\"tls\":{\"certificate\":{},\"certificateType\":\"InternallySigned\",\"signingRequest\":{\"commonName\":\"objectscale-iam\",\"keyAlgorithm\":\"RSA\",\"keySize\":2048,\"names\":{\"country\":\"USA\",\"locality\":\"Hopkinton\",\"organization\":\"Dell EMC\",\"organizationalUnit\":\"ObjectScale\",\"state\":\"MA\"}}}},\"objectscale-monitoring\":{\"influxdb\":{\"persistence\":{\"storageClassName\":\"dellemc-chemaf-highly-available\"}},\"rsyslog\":{\"persistence\":{\"storageClassName\":\"dellemc-chemaf-vsan-sna-thick\"}}},\"pravega\":{\"enabled\":true},\"pravega-operator\":{\"crd\":{\"create\":false},\"global\":{\"enableHealthcheck\":false,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"asdrepo.isus.emc.com:8099\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"asdrepo.isus.emc.com:8099\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-chemaf-highly-available\",\"watchAllNamespaces\":false},\"hooks\":{\"backoffLimit\":10,\"image\":{\"repository\":\"k8s-kubectl\",\"tag\":\"v1.16.10\"}},\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"pravega-operator\",\"tag\":\"0.5.2-211-24bb31d0\"},\"rbac\":{\"create\":true},\"serviceAccount\":{\"create\":true,\"name\":\"pravega-operator\"},\"testmode\":{\"enabled\":true,\"version\":\"0.10.0\"},\"watchNamespace\":\"\",\"webhookCert\":{\"certName\":\"selfsigned-cert\",\"generate\":false,\"secretName\":\"selfsigned-cert-tls\"}},\"pullPolicy\":\"IfNotPresent\",\"replicaCount\":1,\"resources\":{\"fluentbitAgent\":{\"limits\":{\"memory\":\"40Mi\"},\"requests\":{\"memory\":\"20Mi\"}},\"operator\":{\"limits\":{\"ephemeralStorage\":\"1256Mi\",\"memory\":\"500Mi\"},\"requests\":{\"ephemeralStorage\":\"1256Mi\",\"memory\":\"300Mi\"}},\"rsyslog\":{\"limits\":{\"memory\":\"60Mi\"},\"requests\":{\"memory\":\"30Mi\"}}},\"service-pod\":{\"global\":{\"enableHealthcheck\":false,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"asdrepo.isus.emc.com:8099\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"asdrepo.isus.emc.com:8099\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-chemaf-highly-available\",\"watchAllNamespaces\":false},\"image\":{\"repository\":\"base-service-tools\"},\"pullPolicy\":\"IfNotPresent\",\"resources\":{\"limits\":{\"ephemeral-storage\":\"20Gi\"},\"requests\":{\"ephemeral-storage\":\"10Gi\",\"memory\":\"2Gi\"}},\"sshCred\":{\"group\":\"users\",\"password\":\"ChangeMe\",\"user\":\"svcuser\"},\"tag\":\"2.71.2\"},\"servicePod\":{\"enabled\":true},\"tag\":\"0.71.2\",\"tolerations\":[],\"zookeeper\":{\"enabled\":true},\"zookeeper-operator\":{\"global\":{\"enableHealthcheck\":false,\"installCRD\":true,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"asdrepo.isus.emc.com:8099\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"asdrepo.isus.emc.com:8099\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-chemaf-highly-available\",\"watchAllNamespaces\":false},\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"zookeeper-operator\",\"tag\":\"2.10.0-b1519ae\"},\"replicaCount\":1}}"
     spec:
       assemblyPhase: Pending
       selector:
@@ -3585,7 +3585,7 @@ data:
       descriptor:
         type: objectscale-manager
         description: Cluster-level management of Dell EMC ObjecScale Object Stores
-        version: 0.70.2
+        version: 0.71.2
         keywords:
           - deos
           - objectscale
@@ -3604,17 +3604,17 @@ data:
       namespace: {{ .service.namespace }}
       labels:
         app.kubernetes.io/name: "kahm"
-        app.kubernetes.io/version: 2.70.2
+        app.kubernetes.io/version: 2.71.2
         app.kubernetes.io/instance: kahm
         app.kubernetes.io/managed-by: nautilus
-        helm.sh/chart: kahm-2.70.2
+        helm.sh/chart: kahm-2.71.2
         release: kahm
       annotations:
         com.dellemc.kahm.subscribed: "true"
         nautilus.dellemc.com/run-level: "12"
         nautilus.dellemc.com/chart-name: kahm
-        nautilus.dellemc.com/chart-version: 2.70.2
-        nautilus.dellemc.com/chart-values: "{\"affinity\":{},\"createkahmappResource\":false,\"db\":{\"dbType\":\"BadgerDB\",\"eventTTL\":\"2592000\"},\"global\":{\"platform\":\"VMware\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"watchAllNamespaces\":false},\"image\":{\"repository\":\"kahm\"},\"nodeSelector\":{},\"pullPolicy\":\"IfNotPresent\",\"replicaCount\":1,\"resources\":{\"requests\":{\"memory\":\"2Gi\"}},\"restapi\":{\"password\":\"ChangeMe\",\"realm\":\"kahm-restapi\",\"username\":\"kahm\"},\"storageClassName\":\"dellemc-objectscale-highly-available\",\"tag\":\"2.70.2\",\"testImage\":{\"repository\":\"kahm-testapp\"},\"tolerations\":[]}"
+        nautilus.dellemc.com/chart-version: 2.71.2
+        nautilus.dellemc.com/chart-values: "{\"affinity\":{},\"createkahmappResource\":false,\"db\":{\"dbType\":\"BadgerDB\",\"eventTTL\":\"2592000\",\"postgres\":{\"database\":\"kahm\",\"enable\":false,\"password\":\"ChangeMe\",\"userName\":\"kahm\"}},\"global\":{\"platform\":\"VMware\",\"registry\":\"asdrepo.isus.emc.com:9042\",\"registrySecret\":\"vsphere-docker-secret\",\"watchAllNamespaces\":false},\"image\":{\"repository\":\"kahm\"},\"nodeSelector\":{},\"postgresql-ha\":{\"persistence\":{\"mountPath\":\"/kahm/postgresql\"},\"pgpool\":{\"maxPool\":2,\"numInitChildren\":32,\"resources\":{\"limits\":{\"memory\":\"2Gi\"},\"requests\":{\"memory\":\"2Gi\"}}},\"postgresql\":{\"database\":\"kahm\",\"extraVolumeMounts\":[{\"mountPath\":\"/dev/shm\",\"name\":\"dshm\"}],\"extraVolumes\":[{\"emptyDir\":{\"medium\":\"Memory\"},\"name\":\"dshm\"}],\"password\":\"ChangeMe\",\"postgresPassword\":\"ChangeMe\",\"resources\":{\"limits\":{\"memory\":\"2Gi\"},\"requests\":{\"memory\":\"2Gi\"}},\"username\":\"kahm\"}},\"pullPolicy\":\"IfNotPresent\",\"replicaCount\":1,\"resources\":{\"requests\":{\"memory\":\"2Gi\"}},\"restapi\":{\"password\":\"ChangeMe\",\"realm\":\"kahm-restapi\",\"username\":\"kahm\"},\"storageClassName\":\"dellemc-chemaf-highly-available\",\"tag\":\"2.71.2\",\"testImage\":{\"repository\":\"kahm-testapp\"},\"tolerations\":[]}"
     spec:
       selector:
         matchLabels:
@@ -3637,7 +3637,7 @@ data:
       assemblyPhase: "Pending"
       descriptor:
         type: "kahm"
-        version: 2.70.2
+        version: 2.71.2
         description: >
           Kubernetes Application Health Management
         keywords:
@@ -3655,17 +3655,17 @@ data:
       namespace: {{ .service.namespace }}
       labels:
         app.kubernetes.io/name: "decks"
-        app.kubernetes.io/version: 2.70.2
+        app.kubernetes.io/version: 2.71.2
         app.kubernetes.io/instance: decks
         app.kubernetes.io/managed-by: nautilus
-        helm.sh/chart: decks-2.70.2
+        helm.sh/chart: decks-2.71.2
         release: decks
       annotations:
         com.dellemc.kahm.subscribed: "true"
         nautilus.dellemc.com/run-level: "15"
         nautilus.dellemc.com/chart-name: decks
-        nautilus.dellemc.com/chart-version: 2.70.2
-        nautilus.dellemc.com/chart-values: "{\"affinity\":{},\"createdecksappResource\":false,\"decks-support-store\":{\"affinity\":{},\"containerPort\":7443,\"global\":{\"platform\":\"VMware\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"watchAllNamespaces\":false},\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"decks-support-store\",\"version\":\"2.0.0\"},\"nodeSelector\":{},\"persistentVolume\":{\"size\":\"200Gi\",\"storageClassName\":\"dellemc-objectscale-highly-available\"},\"pullPolicy\":\"IfNotPresent\",\"replicaCount\":1,\"resources\":{},\"service\":{\"port\":7443,\"targetPort\":7443,\"type\":\"ClusterIP\"},\"tag\":\"2.70.2\",\"tolerations\":[]},\"global\":{\"platform\":\"VMware\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"watchAllNamespaces\":false},\"helmTestConfig\":{\"srsGateway\":{\"port\":9443},\"testImage\":{\"repository\":\"decks-testapp\"}},\"image\":{\"repository\":\"decks\"},\"nodeSelector\":{},\"pullPolicy\":\"IfNotPresent\",\"replicaCount\":1,\"resources\":{},\"supportStore\":{\"enabled\":true},\"tag\":\"2.70.2\",\"tolerations\":[]}"
+        nautilus.dellemc.com/chart-version: 2.71.2
+        nautilus.dellemc.com/chart-values: "{\"affinity\":{},\"createdecksappResource\":false,\"decks-support-store\":{\"affinity\":{},\"containerPort\":7443,\"global\":{\"platform\":\"VMware\",\"registry\":\"asdrepo.isus.emc.com:9042\",\"registrySecret\":\"vsphere-docker-secret\",\"watchAllNamespaces\":false},\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"decks-support-store\",\"version\":\"2.0.0\"},\"nodeSelector\":{},\"persistentVolume\":{\"size\":\"200Gi\",\"storageClassName\":\"dellemc-chemaf-highly-available\"},\"pullPolicy\":\"IfNotPresent\",\"replicaCount\":1,\"resources\":{},\"service\":{\"port\":7443,\"targetPort\":7443,\"type\":\"ClusterIP\"},\"tag\":\"2.71.2\",\"tolerations\":[]},\"global\":{\"platform\":\"VMware\",\"registry\":\"asdrepo.isus.emc.com:9042\",\"registrySecret\":\"vsphere-docker-secret\",\"watchAllNamespaces\":false},\"helmTestConfig\":{\"srsGateway\":{\"port\":9443},\"testImage\":{\"repository\":\"decks-testapp\"}},\"image\":{\"repository\":\"decks\"},\"nodeSelector\":{},\"pullPolicy\":\"IfNotPresent\",\"replicaCount\":1,\"resources\":{},\"supportStore\":{\"enabled\":true},\"tag\":\"2.71.2\",\"tolerations\":[]}"
     spec:
       selector:
         matchLabels:
@@ -3688,7 +3688,7 @@ data:
       assemblyPhase: "Pending"
       descriptor:
         type: "decks"
-        version: 2.70.2
+        version: 2.71.2
         description: >
           Dell EMC Common Kubernetes Services
         keywords:
@@ -3706,17 +3706,17 @@ data:
       namespace: {{ .service.namespace }}
       labels:
         app.kubernetes.io/name: logging-injector
-        app.kubernetes.io/version: 0.70.2
+        app.kubernetes.io/version: 0.71.2
         app.kubernetes.io/instance: logging-injector
         app.kubernetes.io/managed-by: nautilus
-        helm.sh/chart: logging-injector-0.70.2
+        helm.sh/chart: logging-injector-0.71.2
         release: logging-injector
         product: objectscale
       annotations:
         nautilus.dellemc.com/run-level: "9"    # start before objectscale-manager
         nautilus.dellemc.com/chart-name: logging-injector
-        nautilus.dellemc.com/chart-version: 0.70.2
-        nautilus.dellemc.com/chart-values: "{\"createApplicationResource\":false,\"global\":{\"objectscale_release_name\":\"objectscale-manager\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"watchAllNamespaces\":false},\"logging-injector\":{\"common-monitoring-lib\":{\"exports\":{\"default\":{\"rsyslog_client_image_pull_policy\":\"IfNotPresent\",\"rsyslog_client_tag\":null}},\"global\":{\"monitoring_tag\":\"3.7.0.0-1164.08aefd2c\",\"objectscale_release_name\":\"objectscale-manager\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_client_stdout_enabled\":false,\"rsyslog_enabled\":false,\"watchAllNamespaces\":false}},\"config\":{\"logVolumeName\":\"log\"},\"global\":{\"monitoring_tag\":\"3.7.0.0-1164.08aefd2c\",\"objectscale_release_name\":\"objectscale-manager\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_client_stdout_enabled\":false,\"rsyslog_enabled\":false,\"watchAllNamespaces\":false},\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"logging-injector\"},\"replicas\":1,\"resources\":{\"limits\":{\"memory\":\"256Mi\"},\"requests\":{\"memory\":\"256Mi\"}},\"rsyslog-client\":{\"common-monitoring-lib\":{\"exports\":{\"default\":{\"rsyslog_client_image_pull_policy\":\"IfNotPresent\"}},\"global\":{\"monitoring_tag\":\"3.7.0.0-1164.08aefd2c\",\"objectscale_release_name\":\"objectscale-manager\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_client_stdout_enabled\":false,\"rsyslog_enabled\":false,\"watchAllNamespaces\":false}},\"config\":{\"logs_size_high_watermark\":\"_204800\",\"logs_size_low_watermark\":\"_153600\",\"maxage\":30,\"output\":{\"port\":10514,\"queue\":{\"size\":10000,\"type\":\"linkedList\"},\"resumeRetryCount\":100}},\"createLogrotateConfigs\":true,\"createRBAC\":true,\"global\":{\"monitoring_tag\":\"3.7.0.0-1164.08aefd2c\",\"objectscale_release_name\":\"objectscale-manager\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_client_stdout_enabled\":false,\"rsyslog_enabled\":false,\"watchAllNamespaces\":false}},\"tolerations\":[]}}"
+        nautilus.dellemc.com/chart-version: 0.71.2
+        nautilus.dellemc.com/chart-values: "{\"createApplicationResource\":false,\"global\":{\"objectscale_release_name\":\"objectscale-manager\",\"registry\":\"asdrepo.isus.emc.com:8099\",\"registrySecret\":\"vsphere-docker-secret\",\"watchAllNamespaces\":false},\"logging-injector\":{\"common-monitoring-lib\":{\"exports\":{\"default\":{\"rsyslog_client_image_pull_policy\":\"IfNotPresent\",\"rsyslog_client_tag\":null}},\"global\":{\"monitoring_tag\":\"3.7.0.0-1177.a733579c\",\"objectscale_release_name\":\"objectscale-manager\",\"registry\":\"asdrepo.isus.emc.com:8099\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_client_stdout_enabled\":false,\"rsyslog_enabled\":false,\"watchAllNamespaces\":false}},\"config\":{\"logVolumeName\":\"log\"},\"global\":{\"monitoring_tag\":\"3.7.0.0-1177.a733579c\",\"objectscale_release_name\":\"objectscale-manager\",\"registry\":\"asdrepo.isus.emc.com:8099\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_client_stdout_enabled\":false,\"rsyslog_enabled\":false,\"watchAllNamespaces\":false},\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"logging-injector\"},\"replicas\":1,\"resources\":{\"limits\":{\"memory\":\"256Mi\"},\"requests\":{\"memory\":\"256Mi\"}},\"rsyslog-client\":{\"common-monitoring-lib\":{\"exports\":{\"default\":{\"rsyslog_client_image_pull_policy\":\"IfNotPresent\"}},\"global\":{\"monitoring_tag\":\"3.7.0.0-1177.a733579c\",\"objectscale_release_name\":\"objectscale-manager\",\"registry\":\"asdrepo.isus.emc.com:8099\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_client_stdout_enabled\":false,\"rsyslog_enabled\":false,\"watchAllNamespaces\":false}},\"config\":{\"logs_size_high_watermark\":\"_204800\",\"logs_size_low_watermark\":\"_153600\",\"maxage\":30,\"output\":{\"port\":10514,\"queue\":{\"size\":10000,\"type\":\"linkedList\"},\"resumeRetryCount\":100}},\"createLogrotateConfigs\":true,\"createRBAC\":true,\"global\":{\"monitoring_tag\":\"3.7.0.0-1177.a733579c\",\"objectscale_release_name\":\"objectscale-manager\",\"registry\":\"asdrepo.isus.emc.com:8099\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_client_stdout_enabled\":false,\"rsyslog_enabled\":false,\"watchAllNamespaces\":false}},\"tolerations\":[]}}"
     spec:
       assemblyPhase: Pending
       selector:
@@ -3742,7 +3742,7 @@ data:
       descriptor:
         type: logging-injector
         description: Logging sidecar injector
-        version: 0.70.2
+        version: 0.71.2
         keywords:
           - objectscale
           - object store
@@ -3751,23 +3751,23 @@ data:
           - s3
         info:
           - "Copyright © 2020 Dell Inc. or its subsidiaries. All Rights Reserved."
-  objectscale.yaml: |-
+  chemaf.yaml: |-
     apiVersion: appplatform.wcp.vmware.com/v1alpha1
     kind: SupervisorService
     metadata:
       labels:
         controller-tools.k8s.io: "1.0"
-      name: objectscale
+      name: chemaf
       namespace: "kube-system"
     spec:
-      serviceId: dellemc-objectscale
-      label: Dell EMC ObjectScale
+      serviceId: dellemc-chemaf
+      label: Dell EMC ObjectScale-chemaf
       description: |
         Dell EMC ObjectScale is a dynamically scalable, secure, and multi-tenant object storage platform
         for on-premises and cloud use cases.  It supports advanced storage functionality including
         comprehensive S3 support, flexible erasure-coding, data-at-rest encryption, compression,
         and scales capacity and performance linearly.
-      versions: ["0.70.2"]
+      versions: ["0.71.2"]
       enableHostLocalStorage: true
       enabled: false
       eula: |+

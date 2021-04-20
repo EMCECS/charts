@@ -27,6 +27,11 @@ data:
           args:
             - -target-version
             - {{ default .Values.tag .Values.healthChecks.preUpdate.image.tag}}
+      - name: license
+        container: {{.Values.global.registry}}/objectscale-license:{{.Values.tag}}
+        serviceaccount: {{ .Release.Name }}-healthchecks
+        schedule: "0 */6 * * *"
+        timelimit: "5m"
     eventRemedies: |-
       symptoms:
         - symptomid: DEOS-MGR-1001

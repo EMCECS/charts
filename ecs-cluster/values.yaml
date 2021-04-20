@@ -73,6 +73,9 @@ features:
   # Enable Cross Region Replication
   enableCRR: false
 
+  # Enable ephemeral storage in Objectstore pods
+  enableEphStorage: true
+
   # use old metering svc
   enableObjectStoreMetering: true
 

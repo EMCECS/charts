@@ -14,7 +14,7 @@ spec:
   enabled: {{default false .Values.enabled}}
   siteID: {{required "siteID must be specified" .Values.siteID}}
   systemMode: {{ default "preProd" .Values.systemMode }}
-  {{ include "supportassist.systemModeValidate" . | required "systemMode is incorrect. The valid values are 'preProd', 'normal', 'maintenance', 'update'. " }}
+  {{- include "supportassist.systemModeValidate" . }}
   eventMuted: {{ default false .Values.eventMuted }}
   testDialHome: {{ default false .Values.testDialHome }}
   {{- if or (ne .Values.enabled true) (eq .Values.useGateways false) }}

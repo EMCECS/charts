@@ -556,7 +556,6 @@ geoService:
 
 # The ECS geo receiver configuration specification
 geoReceiver:
-
   # Number of geo receiver replicas to run with the the deployment
   # replicas: 3
 
@@ -566,13 +565,20 @@ geoReceiver:
     tag: # rfw-update-this geo-receiver-docker-image, non-component-version
     # pullPolicy: IfNotPresent
   service:
-
     ports:
       - name: geo
         port: 9094
       - name: http-external # should be changed to https when TLS integrated
         port: 12002
         targetPort: 12002
+    # loadBalancerIP:     # select specific load balancer IP of the connection
+    # externalHostnames:
+    #   - objectscale-vsp.example.com
+    # externalIPAddresses:
+    #   - 203.0.113.10
+    #   - 203.0.113.30
+    # externalIPv6Addresses:
+    #   - 2001:0db8:0000:0000:0000:0000:0000:0001
 
 # The ECS API control service configuration specification
 control:

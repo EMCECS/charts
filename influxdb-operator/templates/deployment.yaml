@@ -16,6 +16,7 @@ spec:
     metadata:
       labels:
 {{ include "influxdb-operator.labels" . | indent 8}}
+{{ include "common-lib.labels-sp-integrated-all" . | indent 8}}
     spec:
       {{- if .Values.serviceAccount.create }}
       serviceAccountName: {{ template "influxdb-operator.serviceAccountName" . }}

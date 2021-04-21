@@ -20,7 +20,7 @@ global:
 
 image:
   repository: influxdb-operator
-  # tag: stable
+  tag: # rfw-update-this influxdb-operator-docker-image
   pullPolicy: IfNotPresent
 
 nameOverride: ""

@@ -36,54 +36,54 @@ data:
     health: |-
       spec:
         - name: inventory
-          container: {{.Values.global.registry}}/telemetry-upload:{{.Values.tag}}
+          container: {{.Values.global.registry}}/telemetry-upload:{{default .Values.tag .Values.cloudIQ.inventory.image.tag}}
           serviceaccount: {{ .Release.Name }}-telemetry-upload
           timelimit: "5m"
           schedule: {{ default "0 * * * *" .Values.cloudIQ.inventory.schedule }}
           args:
-            - -folder
-            - {{ .Values.cloudIQ.inventory.folder}}
-            - -transferType
-            - {{ .Values.cloudIQ.inventory.transferType}}
             - -product
             - {{.Values.product}}
-          disabled: {{ default false .values.healthChecks.inventory.disabled }}
+            - -transferType
+            - {{ .Values.cloudIQ.inventory.transferType}}
+            - -folder
+            - {{ .Values.cloudIQ.inventory.folder}}
+          disabled: {{ default false .Values.cloudIQ.inventory.disabled }}
         - name: capacity
-          container: {{.Values.global.registry}}/telemetry-upload:{{.Values.tag}}
+          container: {{.Values.global.registry}}/telemetry-upload:{{default .Values.tag .Values.cloudIQ.capacity.image.tag}}
           serviceaccount: {{ .Release.Name }}-telemetry-upload
           timelimit: "5m"
           schedule: {{ default "0 * * * *" .Values.cloudIQ.capacity.schedule }}
           args:
-            - -folder
-            - {{ .Values.cloudIQ.capacity.folder}}
-            - -transferType
-            - {{ .Values.cloudIQ.inventory.transferType}}
             - -product
             - {{.Values.product}}
-          disabled: {{ default false .values.healthChecks.capacity.disabled }}
+            - -transferType
+            - {{ .Values.cloudIQ.inventory.transferType}}
+            - -folder
+            - {{ .Values.cloudIQ.capacity.folder}}
+          disabled: {{ default false .Values.cloudIQ.capacity.disabled }}
         - name: performance
-          container: {{.Values.global.registry}}/telemetry-upload:{{.Values.tag}}
+          container: {{.Values.global.registry}}/telemetry-upload:{{default .Values.tag .Values.cloudIQ.performance.image.tag}}
           serviceaccount: {{ .Release.Name }}-telemetry-upload
           timelimit: "5m"
           schedule: {{ default "0 * * * *" .Values.cloudIQ.performance.schedule }}
           args:
-            - -folder
-            - {{ .Values.cloudIQ.performance.folder}}
-            - -transferType
-            - {{ .Values.cloudIQ.inventory.transferType}}
             - -product
             - {{.Values.product}}
-          disabled: {{ default false .values.healthChecks.performance.disabled }}
+            - -transferType
+            - {{ .Values.cloudIQ.inventory.transferType}}
+            - -folder
+            - {{ .Values.cloudIQ.performance.folder}}
+          disabled: {{ default false .Values.cloudIQ.performance.disabled }}
         - name: health
-          container: {{.Values.global.registry}}/telemetry-upload:{{.Values.tag}}
+          container: {{.Values.global.registry}}/telemetry-upload:{{default .Values.tag .Values.cloudIQ.health.image.tag}}
           serviceaccount: {{ .Release.Name }}-telemetry-upload
           timelimit: "5m"
           schedule: {{ default "0 * * * *" .Values.cloudIQ.health.schedule }}
           args:
-            - -folder
-            - {{ .Values.cloudIQ.health.folder}}
-            - -transferType
-            - {{ .Values.cloudIQ.inventory.transferType}}
             - -product
             - {{.Values.product}}
-          disabled: {{ default false .values.healthChecks.health.disabled }}
+            - -transferType
+            - {{ .Values.cloudIQ.inventory.transferType}}
+            - -folder
+            - {{ .Values.cloudIQ.health.folder}}
+          disabled: {{ default false .Values.cloudIQ.health.disabled }}

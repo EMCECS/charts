@@ -21,32 +21,32 @@ data:
     health: |-
       spec:
         - name: pre-update
-          container: {{.Values.global.registry}}/objectscale-manager-pre-update:{{.Values.tag}}
+          container: {{.Values.global.registry}}/objectscale-manager-pre-update:{{ default .Values.tag .Values.healthChecks.preUpdate.image.tag}}
           serviceaccount: {{ .Release.Name }}-healthchecks
           timelimit: "5m"
           args:
             - -target-version
             - {{ default .Values.tag .Values.healthChecks.preUpdate.image.tag}}
         - name: inventory
-          container: {{.Values.global.registry}}/objectscale-inventory:{{.Values.tag}}
+          container: {{.Values.global.registry}}/objectscale-inventory:{{default .Values.tag .Values.healthChecks.inventory.image.tag}}
           serviceaccount: {{ .Release.Name }}-inventory
           timelimit: "5m"
           schedule: {{ default "0 * * * *" .Values.healthChecks.inventory.schedule }}
           disabled: {{ default false .Values.healthChecks.inventory.disabled }}
         - name: capacity 
-          container: {{.Values.global.registry}}/objectscale-capacity:{{.Values.tag}}
+          container: {{.Values.global.registry}}/objectscale-capacity:{{default .Values.tag .Values.healthChecks.capacity.image.tag}}
           serviceaccount: {{ .Release.Name }}-capacity
           timelimit: "5m"
           schedule: {{ default "0 * * * *" .Values.healthChecks.capacity.schedule }}
           disabled: {{ default false .Values.healthChecks.capacity.disabled }}
         - name: performance 
-          container: {{.Values.global.registry}}/objectscale-performance:{{.Values.tag}}
+          container: {{.Values.global.registry}}/objectscale-performance:{{default .Values.tag .Values.healthChecks.performance.image.tag}}
           serviceaccount: {{ .Release.Name }}-performance
           timelimit: "5m"
           schedule: {{ default "*/5 * * * *" .Values.healthChecks.performance.schedule }}
           disabled: {{ default false .Values.healthChecks.performance.disabled }}
         - name: health
-          container: {{.Values.global.registry}}/objectscale-health:{{.Values.tag}}
+          container: {{.Values.global.registry}}/objectscale-health:{{default .Values.tag .Values.healthChecks.health.image.tag}}
           serviceaccount: {{ .Release.Name }}-health
           timelimit: "5m"
           schedule: {{ default "*/5 * * * *" .Values.healthChecks.health.schedule }}

@@ -87,7 +87,7 @@ replicaCount: 1
 # The image configured for the ObjectScale Manager
 image:
   repository: objectscale-operator
-  # tag: stable
+  tag: # rfw-update-this operator-docker-image
   # pullPolicy: IfNotPresent
 
 # A customer provided log server can be used for external log aggregation.
@@ -131,7 +131,7 @@ logReceiver:
   # The Docker image used for the rSyslog receiver
   image:
     repository: rsyslog
-    # tag: stable
+    tag: # rfw-update-this rsyslog-docker-image
     # pullPolicy: IfNotPresent
 
   persistence:
@@ -181,14 +181,14 @@ affinity: {}
 fluentbitAgent:
   image:
     repository: fluent-bit
-    tag: 0.28.0
+    tag: 0.28.0 # rfw-update-this fluent-bit-docker-image
     # pullPolicy: IfNotPresent
 
 # hook for VMWare platform
 hooks:
   registry: "emccorp"
   repository: "k8s-kubectl"
-  tag: "v1.16.10"
+  tag: "v1.16.10" # rfw-update-this k8s-kubectl-docker-image
 
 loggerConfig:
   enabled: true
@@ -236,28 +236,28 @@ healthChecks:
   preUpdate:
     image:
       repository: objectscale-manager-pre-update
-      # tag: stable
+      tag: # rfw-update-this objectscale-manager-pre-update-image
   inventory:
     image:
       repository: objectscale-inventory
-      tag: 0.71.2 
+      tag: # rfw-update-this objectscale-inventory-image
     schedule: "0 * * * *"
     disabled: true
   capacity:
     image:
       repository: objectscale-capacity
-      tag: 0.71.2 
+      tag: # rfw-update-this objectscale-capacity-image
     schedule: "0 * * * *"
     disabled: true
   performance:
     image:
       repository: objectscale-performance
-      tag: 0.71.2 
+      tag: # rfw-update-this objectscale-performance-image
     schedule: "*/10 * * * *"
     disabled: true
   healthReport:
     image:
       repository: objectscale-health
-      tag: 0.71.2 
+      tag: # rfw-update-this objectscale-health-image
     schedule: "*/10 * * * *"
     disabled: true

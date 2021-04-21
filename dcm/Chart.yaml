@@ -1,9 +1,9 @@
 ---
 apiVersion: v2
-appVersion: 0.71.0
+appVersion: 0.71.2
 description: A Helm chart for Dell EMC DCM
 name: dcm
-version: 0.71.0
+version: 0.71.2
 icon: https://avatars0.githubusercontent.com/u/12926680
 maintainers:
   - name: Dell EMC
@@ -11,4 +11,5 @@ maintainers:
 dependencies:
   - name: common-monitoring-lib
     repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+    # rfw-update-next common-monitoring-lib-helm-chart
     version: 3.7.0-1146.a692701d # no_auto_change__monitoring_auto_change

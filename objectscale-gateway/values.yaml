@@ -1,5 +1,5 @@
 ---
-tag: 0.71.0
+tag: 0.71.2
 global:
   registry: emccorp
   # Default: true == Watch ALL namespaces
@@ -11,7 +11,7 @@ objectscaleGateway:
   image:
     pullPolicy: IfNotPresent
     repository: objectscale-gateway
-    # tag: stable
+    tag: # rfw-update-this objectscale-gateway-docker-image
     #livenessProbe:
     # probePath: /usr/local/bin/checkRunningCertificate.bash
   replicaCount: 1

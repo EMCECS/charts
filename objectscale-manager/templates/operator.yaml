@@ -34,6 +34,7 @@ spec:
         operator: objectscale-operator
         product: objectscale
         release: {{ .Release.Name }}
+{{ include "common-monitoring-lib.logging-inject-labels" . | indent 8 }}
     spec:
       serviceAccountName: objectscale-operator
 {{- if .Values.global.registrySecret }}
@@ -97,6 +98,8 @@ spec:
               fieldPath: metadata.namespace
         - name: PLATFORM
           value: {{ .Values.global.platform | default "Default" }}
+        - name: IAM_SERVICE_NAME
+          value: "objectscale-iam"
         - name: FEDERATION_SERVICE_NAME
           value: "fedsvc"
 {{- if .Values.dcm.enabled }}

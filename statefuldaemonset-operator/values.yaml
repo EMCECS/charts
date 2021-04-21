@@ -20,7 +20,7 @@ global:
 
 image:
   repository: statefuldaemonset-operator
-  # tag: stable
+  tag: # rfw-update-this statefuldaemonset-operator-docker-image
   pullPolicy: IfNotPresent
 
 nameOverride: ""

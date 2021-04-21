@@ -1,0 +1,75 @@
+---
+#
+# Copyright © [2021] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+
+
+#
+# Label for registering for default handling on all service procedures.
+#
+{{ define "common-lib.labels-sp-integrated-all" -}}
+objectscale.dellemc.com/sp-integrated: "true"
+{{- end }}
+
+#
+# Label for registering for default handling on Permanent Maintenance Mode.
+#
+{{ define "common-lib.labels-sp-integrated-pmm" -}}
+objectscale.dellemc.com/sp-integrated-pmm: "true"
+{{- end }}
+
+#
+# Label for registering for default handling on Temporary Maintenance Mode.
+#
+{{ define "common-lib.labels-sp-integrated-tmm" -}}
+objectscale.dellemc.com/sp-integrated-tmm: "true"
+{{- end }}
+
+#
+# Label for registering for default handling on disk replacement.
+#
+{{ define "common-lib.labels-sp-integrated-disk-replacement" -}}
+objectscale.dellemc.com/sp-integrated-disk-replacement: "true"
+{{- end }}
+
+#
+# Label for defining 'Recovery Status' script which will be called
+# to check if recovery is still in progress.
+#
+# Script should have following return codes:
+#   0 - no active recovery detected
+#   1 - active recovery detected
+#   any other - some error (sp operator will retry on error several times with small delay)
+#
+# Example how to pass script name in template:
+# {{ include "common-lib.labels-sp-integrated-recovery-status-script" (dict "script" "/my_script") | indent 8}}
+#
+{{ define "common-lib.labels-sp-integrated-recovery-status-script" -}}
+objectscale.dellemc.com/sp-integrated-recovery-status-probe-exec: "{{- .script -}}"
+{{- end }}
+
+#
+# Label for defining 'Initiate Decommission' script which will be called
+# to initiate decommission of a running pod.
+# This script should initiate data recovery from the pod inside which it is called.
+# Script should return only after recovery has started (so that 'Recovery Status' script
+# may be used to monitor recovery progress after this script returns).
+#
+# Script should have following return codes:
+#   0 - successfully initiated decommission (or it is not required)
+#   any other - some error (sp operator will retry on error several times with small delay)
+#
+# Example how to pass script name in template:
+# {{ include "common-lib.labels-sp-integrated-initiate-decommission-script" (dict "script" "/my_script") | indent 8}}
+#
+{{ define "common-lib.labels-sp-integrated-initiate-decommission-script" -}}
+objectscale.dellemc.com/sp-integrated-initiate-decommission-exec: "{{- .script -}}"
+{{- end }}

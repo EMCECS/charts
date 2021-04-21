@@ -35,39 +35,55 @@ data:
             - Verify a valid AccessKey and PIN were used.
     health: |-
       spec:
-        - name: inventory-report
+        - name: inventory
           container: {{.Values.global.registry}}/telemetry-upload:{{.Values.tag}}
           serviceaccount: {{ .Release.Name }}-telemetry-upload
           timelimit: "5m"
-          schedule: {{ default "0 * * * *" .Values.cloudIQ.inventoryReport.schedule }}
+          schedule: {{ default "0 * * * *" .Values.cloudIQ.inventory.schedule }}
           args:
             - -folder
-            - {{ .Values.cloudIQ.inventoryReport.folder}}
-          disabled: {{ default false .values.healthChecks.inventoryReport.disabled }}
-        - name: capacity-report
+            - {{ .Values.cloudIQ.inventory.folder}}
+            - -transferType
+            - {{ .Values.cloudIQ.inventory.transferType}}
+            - -product
+            - {{.Values.product}}
+          disabled: {{ default false .values.healthChecks.inventory.disabled }}
+        - name: capacity
           container: {{.Values.global.registry}}/telemetry-upload:{{.Values.tag}}
           serviceaccount: {{ .Release.Name }}-telemetry-upload
           timelimit: "5m"
-          schedule: {{ default "0 * * * *" .Values.cloudIQ.capacityReport.schedule }}
+          schedule: {{ default "0 * * * *" .Values.cloudIQ.capacity.schedule }}
           args:
             - -folder
-            - {{ .Values.cloudIQ.capacityReport.folder}}
-          disabled: {{ default false .values.healthChecks.capacityReport.disabled }}
-        - name: performance-report
+            - {{ .Values.cloudIQ.capacity.folder}}
+            - -transferType
+            - {{ .Values.cloudIQ.inventory.transferType}}
+            - -product
+            - {{.Values.product}}
+          disabled: {{ default false .values.healthChecks.capacity.disabled }}
+        - name: performance
           container: {{.Values.global.registry}}/telemetry-upload:{{.Values.tag}}
           serviceaccount: {{ .Release.Name }}-telemetry-upload
           timelimit: "5m"
-          schedule: {{ default "0 * * * *" .Values.cloudIQ.performanceReport.schedule }}
+          schedule: {{ default "0 * * * *" .Values.cloudIQ.performance.schedule }}
           args:
             - -folder
-            - {{ .Values.cloudIQ.performanceReport.folder}}
-          disabled: {{ default false .values.healthChecks.performanceReport.disabled }}
-        - name: health-report
+            - {{ .Values.cloudIQ.performance.folder}}
+            - -transferType
+            - {{ .Values.cloudIQ.inventory.transferType}}
+            - -product
+            - {{.Values.product}}
+          disabled: {{ default false .values.healthChecks.performance.disabled }}
+        - name: health
           container: {{.Values.global.registry}}/telemetry-upload:{{.Values.tag}}
           serviceaccount: {{ .Release.Name }}-telemetry-upload
           timelimit: "5m"
-          schedule: {{ default "0 * * * *" .Values.cloudIQ.healthReport.schedule }}
+          schedule: {{ default "0 * * * *" .Values.cloudIQ.health.schedule }}
           args:
             - -folder
-            - {{ .Values.cloudIQ.healthReport.folder}}
-          disabled: {{ default false .values.healthChecks.healthReport.disabled }}
+            - {{ .Values.cloudIQ.health.folder}}
+            - -transferType
+            - {{ .Values.cloudIQ.inventory.transferType}}
+            - -product
+            - {{.Values.product}}
+          disabled: {{ default false .values.healthChecks.health.disabled }}

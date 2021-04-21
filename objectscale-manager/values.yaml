@@ -237,27 +237,27 @@ healthChecks:
     image:
       repository: objectscale-manager-pre-update
       # tag: stable
-  inventoryReport:
+  inventory:
     image:
-      repository: objectscale-inventory-report
+      repository: objectscale-inventory
       tag: 0.71.2 
     schedule: "0 * * * *"
     disabled: true
-  capacityReport:
+  capacity:
     image:
-      repository: objectscale-capacity-report
+      repository: objectscale-capacity
       tag: 0.71.2 
     schedule: "0 * * * *"
     disabled: true
-  performanceReport:
+  performance:
     image:
-      repository: objectscale-performance-report
+      repository: objectscale-performance
       tag: 0.71.2 
     schedule: "*/10 * * * *"
     disabled: true
   healthReport:
     image:
-      repository: objectscale-health-report
+      repository: objectscale-health
       tag: 0.71.2 
     schedule: "*/10 * * * *"
     disabled: true

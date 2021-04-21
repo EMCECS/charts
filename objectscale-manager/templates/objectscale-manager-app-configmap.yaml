@@ -27,30 +27,30 @@ data:
           args:
             - -target-version
             - {{ default .Values.tag .Values.healthChecks.preUpdate.image.tag}}
-        - name: inventory-report
-          container: {{.Values.global.registry}}/objectscale-inventory-report:{{.Values.tag}}
-          serviceaccount: {{ .Release.Name }}-inventory-report
+        - name: inventory
+          container: {{.Values.global.registry}}/objectscale-inventory:{{.Values.tag}}
+          serviceaccount: {{ .Release.Name }}-inventory
           timelimit: "5m"
-          schedule: {{ default "0 * * * *" .Values.healthChecks.inventoryReport.schedule }}
-          disabled: {{ default false .values.healthChecks.inventoryReport.disabled }}
-        - name: capacity-report 
-          container: {{.Values.global.registry}}/objectscale-capacity-report:{{.Values.tag}}
-          serviceaccount: {{ .Release.Name }}-capacity-report
+          schedule: {{ default "0 * * * *" .Values.healthChecks.inventory.schedule }}
+          disabled: {{ default false .Values.healthChecks.inventory.disabled }}
+        - name: capacity 
+          container: {{.Values.global.registry}}/objectscale-capacity:{{.Values.tag}}
+          serviceaccount: {{ .Release.Name }}-capacity
           timelimit: "5m"
-          schedule: {{ default "0 * * * *" .Values.healthChecks.capacityReport.schedule }}
-          disabled: {{ default false .values.healthChecks.capacityReport.disabled }}
-        - name: performance-report 
-          container: {{.Values.global.registry}}/objectscale-performance-report:{{.Values.tag}}
-          serviceaccount: {{ .Release.Name }}-performance-report
+          schedule: {{ default "0 * * * *" .Values.healthChecks.capacity.schedule }}
+          disabled: {{ default false .Values.healthChecks.capacity.disabled }}
+        - name: performance 
+          container: {{.Values.global.registry}}/objectscale-performance:{{.Values.tag}}
+          serviceaccount: {{ .Release.Name }}-performance
           timelimit: "5m"
-          schedule: {{ default "*/5 * * * *" .Values.healthChecks.performanceReport.schedule }}
-          disabled: {{ default false .values.healthChecks.performanceReport.disabled }}
-        - name: health-report 
-          container: {{.Values.global.registry}}/objectscale-health-report:{{.Values.tag}}
-          serviceaccount: {{ .Release.Name }}-health-report
+          schedule: {{ default "*/5 * * * *" .Values.healthChecks.performance.schedule }}
+          disabled: {{ default false .Values.healthChecks.performance.disabled }}
+        - name: health
+          container: {{.Values.global.registry}}/objectscale-health:{{.Values.tag}}
+          serviceaccount: {{ .Release.Name }}-health
           timelimit: "5m"
-          schedule: {{ default "*/5 * * * *" .Values.healthChecks.healthReport.schedule }}
-          disabled: {{ default false .values.healthChecks.healthReport.disabled }}
+          schedule: {{ default "*/5 * * * *" .Values.healthChecks.health.schedule }}
+          disabled: {{ default false .Values.healthChecks.health.disabled }}
     eventRemedies: |-
       symptoms:
         - symptomid: DEOS-MGR-1001

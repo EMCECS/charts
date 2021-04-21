@@ -128,31 +128,35 @@ affinity: {}
 
 # cloudIQ
 cloudIQ:
-  inventoryReport:
+  inventory:
     image:
       repository: telemetry-upload
       # tag: 0.71.2
     schedule: "0 * * * *"
     disabled: true
-    folder: inventory_report
+    folder: inventory
+    transferType: cloudiq
   capacityReport:
     image:
       repository: telemetry-upload
       # tag: 0.71.2
     schedule: "0 * * * *"
     disabled: true
-    folder: capacity_report
+    folder: capacity
+    transferType: cloudiq
   performanceReport:
     image:
       repository: telemetry-upload
       # tag: 0.71.2
     schedule: "*/10 * * * *"
     disabled: true
-    folder: performance_report
-  healthReport:
+    folder: performance
+    transferType: cloudiq
+  health:
     image:
       repository: telemetry-upload
       # tag: 0.71.2
     schedule: "*/10 * * * *"
     disabled: true
-    folder: health_report
+    folder: health
+    transferType: cloudiq

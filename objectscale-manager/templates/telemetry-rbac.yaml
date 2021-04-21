@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: {{ .Release.Name }}-inventory-report
+  name: {{ .Release.Name }}-inventory
   namespace: {{ .Release.Namespace }}
   {{- if .Values.global.registrySecret }}
 imagePullSecrets:
@@ -12,7 +12,7 @@ imagePullSecrets:
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Release.Name }}-inventory-report
+  name: {{ .Release.Name }}-inventory
   labels:
     release: {{ .Release.Name }}
 rules:
@@ -23,16 +23,16 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Release.Name }}-inventory-report
+  name: {{ .Release.Name }}-inventory
   labels:
     release: {{ .Release.Name }}
 subjects:
   - kind: ServiceAccount
-    name: {{ .Release.Name }}-inventory-report
+    name: {{ .Release.Name }}-inventory
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: {{ .Release.Name }}-inventory-report
+  name: {{ .Release.Name }}-inventory
   apiGroup: rbac.authorization.k8s.io
 
 ---
@@ -41,7 +41,7 @@ roleRef:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: {{ .Release.Name }}-capacity-report
+  name: {{ .Release.Name }}-capacity
   namespace: {{ .Release.Namespace }}
   {{- if .Values.global.registrySecret }}
 imagePullSecrets:
@@ -51,7 +51,7 @@ imagePullSecrets:
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Release.Name }}-capacity-report
+  name: {{ .Release.Name }}-capacity
   labels:
     release: {{ .Release.Name }}
 rules:
@@ -62,16 +62,16 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Release.Name }}-capacity-report
+  name: {{ .Release.Name }}-capacity
   labels:
     release: {{ .Release.Name }}
 subjects:
   - kind: ServiceAccount
-    name: {{ .Release.Name }}-capacity-report
+    name: {{ .Release.Name }}-capacity
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: {{ .Release.Name }}-capacity-report
+  name: {{ .Release.Name }}-capacity
   apiGroup: rbac.authorization.k8s.io
 
 ---
@@ -80,7 +80,7 @@ roleRef:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: {{ .Release.Name }}-performance-report
+  name: {{ .Release.Name }}-performance
   namespace: {{ .Release.Namespace }}
   {{- if .Values.global.registrySecret }}
 imagePullSecrets:
@@ -90,7 +90,7 @@ imagePullSecrets:
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Release.Name }}-performance-report
+  name: {{ .Release.Name }}-performance
   labels:
     release: {{ .Release.Name }}
 rules:
@@ -101,23 +101,23 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Release.Name }}-performance-report
+  name: {{ .Release.Name }}-performance
   labels:
     release: {{ .Release.Name }}
 subjects:
   - kind: ServiceAccount
-    name: {{ .Release.Name }}-performance-report
+    name: {{ .Release.Name }}-performance
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: {{ .Release.Name }}-performance-report
+  name: {{ .Release.Name }}-performance
   apiGroup: rbac.authorization.k8s.io
 
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: {{ .Release.Name }}-health-report
+  name: {{ .Release.Name }}-health
   namespace: {{ .Release.Namespace }}
   {{- if .Values.global.registrySecret }}
 imagePullSecrets:
@@ -127,7 +127,7 @@ imagePullSecrets:
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Release.Name }}-health-report
+  name: {{ .Release.Name }}-health
   labels:
     release: {{ .Release.Name }}
 rules:
@@ -138,14 +138,14 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Release.Name }}-health-report
+  name: {{ .Release.Name }}-health
   labels:
     release: {{ .Release.Name }}
 subjects:
   - kind: ServiceAccount
-    name: {{ .Release.Name }}-health-report
+    name: {{ .Release.Name }}-health
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: {{ .Release.Name }}-health-report
+  name: {{ .Release.Name }}-health
   apiGroup: rbac.authorization.k8s.io

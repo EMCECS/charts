@@ -12,10 +12,11 @@ FLEXCHARTS := common-lib ecs-cluster objectscale-manager objectscale-vsphere obj
 MAJOR=0
 MINOR=71
 PATCH=2
+PRERELEASE=
 
-FULL_PACKAGE_VERSION=${MAJOR}.${MINOR}.${PATCH}
+FULL_PACKAGE_VERSION=${MAJOR}.${MINOR}.${PATCH}$(if $(PRERELEASE),-$(PRERELEASE),)
 FLEXVER=${FULL_PACKAGE_VERSION}
-DECKSVER=2.${MINOR}.${PATCH}
+DECKSVER=2.${MINOR}.${PATCH}$(if $(PRERELEASE),-$(PRERELEASE),)
 
 GIT_COMMIT_COUNT=$(shell git rev-list HEAD | wc -l)
 GIT_COMMIT_ID=$(shell git rev-parse HEAD)

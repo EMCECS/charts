@@ -31,12 +31,24 @@ spec:
         spec:
           description: ServiceProcedureSpec defines the desired state of ServiceProcedure
           properties:
-            diskUUID:
-              type: string
+            diskInfo:
+              description: ObjectInfo defines objects name and UUID
+              properties:
+                name:
+                  type: string
+                uuid:
+                  type: string
+              type: object
             information:
               type: string
-            nodeUUID:
-              type: string
+            nodeInfo:
+              description: ObjectInfo defines objects name and UUID
+              properties:
+                name:
+                  type: string
+                uuid:
+                  type: string
+              type: object
             type:
               type: string
           required:

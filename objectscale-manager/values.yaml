@@ -237,3 +237,9 @@ healthChecks:
     image:
       repository: objectscale-manager-pre-update
       tag: # rfw-update-this objectscale-manager-pre-update-image
+  license:
+    image:
+      repository: objectscale-license
+      tag: # rfw-update-this objectscale-license-image
+      schedule: "0 */6 * * *"
+      disabled: false

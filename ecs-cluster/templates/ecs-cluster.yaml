@@ -729,6 +729,8 @@ spec:
 
   enableCRR: {{ .Values.features.enableCRR }}
 
+  enableEphStorage: {{ .Values.features.enableEphStorage }}
+
   enableObjectStoreMetering: {{ .Values.features.enableObjectStoreMetering }}
 
   enablePravega: {{ .Values.features.enablePravega }}

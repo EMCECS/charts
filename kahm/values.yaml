@@ -29,7 +29,7 @@ replicaCount: 1
 # The image configured for the KAHM
 image:
   repository: kahm
-  # tag: stable
+  tag: # rfw-update-this kahm-image
   # pullPolicy: IfNotPresent
 
 ## Allow callers to bypass creating app resource

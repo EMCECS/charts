@@ -25,5 +25,5 @@ replicaCount: 1
 # The image configured for the Zookeeper Operator
 image:
   repository: zookeeper-operator
-  tag: 2.10.0-b1519ae
+  tag: 2.10.0-b1519ae # rfw-update-this zookeeper-operator-docker-image
   pullPolicy: IfNotPresent

@@ -36,54 +36,54 @@ data:
     health: |-
       spec:
         - name: inventory
-          container: {{.Values.global.registry}}/telemetry-upload:{{default .Values.tag .Values.cloudIQ.inventory.image.tag}}
+          container: {{.Values.global.registry}}/telemetry-upload:{{default .Values.tag .Values.telemetry.inventory.image.tag}}
           serviceaccount: {{ .Release.Name }}-telemetry-upload
           timelimit: "5m"
-          schedule: {{ default "0 * * * *" .Values.cloudIQ.inventory.schedule }}
+          schedule: {{ default "0 * * * *" .Values.telemetry.inventory.schedule }}
           args:
             - -product
             - {{.Values.product}}
             - -transferType
-            - {{ .Values.cloudIQ.inventory.transferType}}
+            - {{ .Values.telemetry.inventory.transferType}}
             - -folder
-            - {{ .Values.cloudIQ.inventory.folder}}
-          disabled: {{ default false .Values.cloudIQ.inventory.disabled }}
+            - {{ .Values.telemetry.inventory.folder}}
+          disabled: {{ default false .Values.telemetry.inventory.disabled }}
         - name: capacity
-          container: {{.Values.global.registry}}/telemetry-upload:{{default .Values.tag .Values.cloudIQ.capacity.image.tag}}
+          container: {{.Values.global.registry}}/telemetry-upload:{{default .Values.tag .Values.telemetry.capacity.image.tag}}
           serviceaccount: {{ .Release.Name }}-telemetry-upload
           timelimit: "5m"
-          schedule: {{ default "0 * * * *" .Values.cloudIQ.capacity.schedule }}
+          schedule: {{ default "0 * * * *" .Values.telemetry.capacity.schedule }}
           args:
             - -product
             - {{.Values.product}}
             - -transferType
-            - {{ .Values.cloudIQ.inventory.transferType}}
+            - {{ .Values.telemetry.inventory.transferType}}
             - -folder
-            - {{ .Values.cloudIQ.capacity.folder}}
-          disabled: {{ default false .Values.cloudIQ.capacity.disabled }}
+            - {{ .Values.telemetry.capacity.folder}}
+          disabled: {{ default false .Values.telemetry.capacity.disabled }}
         - name: performance
-          container: {{.Values.global.registry}}/telemetry-upload:{{default .Values.tag .Values.cloudIQ.performance.image.tag}}
+          container: {{.Values.global.registry}}/telemetry-upload:{{default .Values.tag .Values.telemetry.performance.image.tag}}
           serviceaccount: {{ .Release.Name }}-telemetry-upload
           timelimit: "5m"
-          schedule: {{ default "0 * * * *" .Values.cloudIQ.performance.schedule }}
+          schedule: {{ default "0 * * * *" .Values.telemetry.performance.schedule }}
           args:
             - -product
             - {{.Values.product}}
             - -transferType
-            - {{ .Values.cloudIQ.inventory.transferType}}
+            - {{ .Values.telemetry.inventory.transferType}}
             - -folder
-            - {{ .Values.cloudIQ.performance.folder}}
-          disabled: {{ default false .Values.cloudIQ.performance.disabled }}
+            - {{ .Values.telemetry.performance.folder}}
+          disabled: {{ default false .Values.telemetry.performance.disabled }}
         - name: health
-          container: {{.Values.global.registry}}/telemetry-upload:{{default .Values.tag .Values.cloudIQ.health.image.tag}}
+          container: {{.Values.global.registry}}/telemetry-upload:{{default .Values.tag .Values.telemetry.health.image.tag}}
           serviceaccount: {{ .Release.Name }}-telemetry-upload
           timelimit: "5m"
-          schedule: {{ default "0 * * * *" .Values.cloudIQ.health.schedule }}
+          schedule: {{ default "0 * * * *" .Values.telemetry.health.schedule }}
           args:
             - -product
             - {{.Values.product}}
             - -transferType
-            - {{ .Values.cloudIQ.inventory.transferType}}
+            - {{ .Values.telemetry.inventory.transferType}}
             - -folder
-            - {{ .Values.cloudIQ.health.folder}}
-          disabled: {{ default false .Values.cloudIQ.health.disabled }}
+            - {{ .Values.telemetry.health.folder}}
+          disabled: {{ default false .Values.telemetry.health.disabled }}

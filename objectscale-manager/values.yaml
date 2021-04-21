@@ -255,7 +255,7 @@ healthChecks:
       tag: # rfw-update-this objectscale-performance-image
     schedule: "*/10 * * * *"
     disabled: true
-  healthReport:
+  health:
     image:
       repository: objectscale-health
       tag: # rfw-update-this objectscale-health-image

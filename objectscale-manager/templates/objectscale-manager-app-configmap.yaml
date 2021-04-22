@@ -27,7 +27,7 @@ data:
           args:
             - -target-version
             - {{ default .Values.tag .Values.healthChecks.preUpdate.image.tag}}
-        - name: license
+        - name: license-usage
           container: {{.Values.global.registry}}/objectscale-license:{{ default .Values.tag .Values.healthChecks.license.image.tag}}
           serviceaccount: {{ .Release.Name }}-license
           timelimit: "5m"

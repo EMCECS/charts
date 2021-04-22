@@ -13,18 +13,18 @@ description: A Helm chart for Kubernetes
 type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
-version: 0.71.0
+version: 0.71.2
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application.
-appVersion: 0.71.0
+appVersion: 0.71.2
 dependencies:
   - name: helm-controller
-    version: 0.71.0
+    version: 0.71.2
     repository: file://../helm-controller
     condition: helmController.enabled
   - name: common-monitoring-lib
     repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
     # rfw-update-next common-monitoring-lib-helm-chart
-    version: 3.7.0-1177.a733579c # no_auto_change__monitoring_auto_change
+    version: 3.7.0-1181.32880d1a # no_auto_change__monitoring_auto_change
     import-values:
       - default

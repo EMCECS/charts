@@ -25,6 +25,7 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
         app.kubernetes.io/version: {{ .Chart.AppVersion }}
         app.kubernetes.io/component: zookeeper-operator
+{{ include "common-monitoring-lib.logging-inject-labels" . | indent 8 }}
     spec:
       {{- if .Values.global.registrySecret }}
       imagePullSecrets:

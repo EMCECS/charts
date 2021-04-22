@@ -31,6 +31,8 @@ readinessProbe:
 
 # Service Configuration for ObjectScale IAM
 iam:
+  httpPort: 9400
+
 service:
   # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
   type: LoadBalancer

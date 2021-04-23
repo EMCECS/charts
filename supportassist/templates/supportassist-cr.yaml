@@ -16,7 +16,7 @@ spec:
   systemMode: {{ include "supportassist.systemModeValidate" . | required "SystemMode value is incorrect. Valid values are 'preProd', 'normal', 'maintenance', or 'update' " }}
   eventMuted: {{ default false .Values.eventMuted }}
   testDialHome: {{ default false .Values.testDialHome }}
-  testConnectivityID: {{"999999"}}
+  testConnectivityID: {{randInt 100000 999999}}
   {{- if or (ne .Values.enabled true) (eq .Values.useGateways false) }}
   remoteAccessEnabled: false
   {{- else }}

@@ -42,7 +42,7 @@ metadata:
     release: {{ .Release.Name }}
 subjects:
   - kind: ServiceAccount
-    name: {{ .Release.Name }}-license
+    name: {{ .Release.Name }}-license-usage
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole

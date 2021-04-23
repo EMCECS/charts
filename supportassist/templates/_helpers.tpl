@@ -52,8 +52,13 @@ release: {{.Release.Name}}
 Verify that systemMode value is allowed.
 */}}
 {{- define "supportassist.systemModeValidate" -}}
-  {{ $sysModeValue := .Values.systemMode }}
-  {{- if or (eq $sysModeValue "normal") (eq $sysModeValue "maintenance") (eq $sysModeValue "preProd") (eq $sysModeValue "update") -}}
-    true
+  {{- if .Values.systemMode -}}
+    {{- $sysModeValue := .Values.systemMode -}}
+    {{- if or (eq $sysModeValue "normal") (eq $sysModeValue "maintenance") (eq $sysModeValue "preProd") (eq $sysModeValue "update") -}}
+      {{- .Values.systemMode -}}
+    {{- end -}}
+  {{- else -}}
+    {{- default "preProd" .Values.systemMode -}}
+    {{- .Values.systemMode -}}
   {{- end -}}
 {{- end -}}

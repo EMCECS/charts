@@ -13,11 +13,10 @@ spec:
   productVersion: {{required "productVersion must be specified" .Values.productVersion}}
   enabled: {{default false .Values.enabled}}
   siteID: {{required "siteID must be specified" .Values.siteID}}
-  systemMode: {{ default "preProd" .Values.systemMode }}
-  {{- include "supportassist.systemModeValidate" . }}
+  systemMode: {{ include "supportassist.systemModeValidate" . | required "Action value is incorrect. The valid values are 'action1', 'action2', 'action3' " }}
   eventMuted: {{ default false .Values.eventMuted }}
   testDialHome: {{ default false .Values.testDialHome }}
-  testConnectivityID: {{randInt 100000 999999}}
+  testConnectivityID: {{"999999"}}
   {{- if or (ne .Values.enabled true) (eq .Values.useGateways false) }}
   remoteAccessEnabled: false
   {{- else }}

@@ -237,3 +237,6 @@ healthChecks:
     image:
       repository: objectscale-manager-pre-update
       tag: # rfw-update-this objectscale-manager-pre-update-image
+
+features:
+  spOperatorEnabled: false

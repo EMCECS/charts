@@ -25,11 +25,21 @@ rules:
     - get
     - list
   - apiGroups:
+    - ecs.dellemc.com
+    resources:
+    - ecsclusters
+    verbs:
+    - get
+    - list    
+  - apiGroups:
     - ""
     resources:
     - services
     - serviceaccounts
     - secrets
+    - nodes
+    - persistentvolumes
+    - persistentvolumeclaims
     verbs:
     - get
     - list
@@ -145,9 +155,23 @@ metadata:
   labels:
     release: {{ .Release.Name }}
 rules:
-- apiGroups: ["*"]
-  resources: ["*"]
-  verbs: ["get", "watch", "list"]
+  - apiGroups:
+    - decks.ecs.dellemc.com
+    resources:
+    - licenses
+    - supportassists
+    verbs:
+    - get
+    - list
+  - apiGroups:
+    - ""
+    resources:
+    - services
+    - serviceaccounts
+    - secrets
+    verbs:
+    - get
+    - list
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1

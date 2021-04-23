@@ -36,7 +36,7 @@ data:
     health: |-
       spec:
         - name: inventory
-          container: {{.Values.global.registry}}/telemetry-upload:{{default .Values.tag .Values.telemetry.inventory.image.tag}}
+          container: {{.Values.global.registry}}/{{ .Values.telemetry.inventory.image.repository }}:{{default .Values.tag .Values.telemetry.inventory.image.tag}}
           serviceaccount: {{ .Release.Name }}-telemetry-upload
           timelimit: "5m"
           schedule: {{ default "0 * * * *" .Values.telemetry.inventory.schedule | quote}}
@@ -49,7 +49,7 @@ data:
             - {{ .Values.telemetry.inventory.folder}}
           disabled: {{ default false .Values.telemetry.inventory.disabled }}
         - name: capacity
-          container: {{.Values.global.registry}}/telemetry-upload:{{default .Values.tag .Values.telemetry.capacity.image.tag}}
+          container: {{.Values.global.registry}}/{{ .Values.telemetry.capacity.image.repository }}:{{default .Values.tag .Values.telemetry.capacity.image.tag}}
           serviceaccount: {{ .Release.Name }}-telemetry-upload
           timelimit: "5m"
           schedule: {{ default "0 * * * *" .Values.telemetry.capacity.schedule | quote}}
@@ -62,7 +62,7 @@ data:
             - {{ .Values.telemetry.capacity.folder}}
           disabled: {{ default false .Values.telemetry.capacity.disabled }}
         - name: performance
-          container: {{.Values.global.registry}}/telemetry-upload:{{default .Values.tag .Values.telemetry.performance.image.tag}}
+          container: {{.Values.global.registry}}/{{ .Values.telemetry.performance.image.repository }}:{{default .Values.tag .Values.telemetry.performance.image.tag}}
           serviceaccount: {{ .Release.Name }}-telemetry-upload
           timelimit: "5m"
           schedule: {{ default "0 * * * *" .Values.telemetry.performance.schedule | quote}}
@@ -75,7 +75,7 @@ data:
             - {{ .Values.telemetry.performance.folder}}
           disabled: {{ default false .Values.telemetry.performance.disabled }}
         - name: health
-          container: {{.Values.global.registry}}/telemetry-upload:{{default .Values.tag .Values.telemetry.health.image.tag}}
+          container: {{.Values.global.registry}}/{{ .Values.telemetry.health.image.repository }}:{{default .Values.tag .Values.telemetry.health.image.tag}}
           serviceaccount: {{ .Release.Name }}-telemetry-upload
           timelimit: "5m"
           schedule: {{ default "0 * * * *" .Values.telemetry.health.schedule | quote}}

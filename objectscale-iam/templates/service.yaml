@@ -10,8 +10,12 @@ spec:
   clusterIP: None
   ports:
     - port: {{ .Values.iam.httpPort }}
-      targetPort: http
+      targetPort: 9402
       protocol: TCP
       name: http
+    - port: {{ .Values.iam.httpsPort }}
+      targetPort: 9401
+      protocol: TCP
+      name: https
   selector:
     {{- include "iam.selectorLabels" . | nindent 4 }}

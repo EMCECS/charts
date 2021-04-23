@@ -31,7 +31,7 @@ data:
           container: {{.Values.global.registry}}/objectscale-license:{{ default .Values.tag .Values.healthChecks.license.image.tag}}
           serviceaccount: {{ .Release.Name }}-license
           timelimit: "5m"
-          schedule: {{ default "0 */6 * * *" .Values.healthChecks.license.schedule }}
+          schedule: {{ default "0 */6 * * *" .Values.healthChecks.license.schedule | quote }}
           disabled: {{ default false .Values.healthChecks.license.disabled }}
     eventRemedies: |-
       symptoms:

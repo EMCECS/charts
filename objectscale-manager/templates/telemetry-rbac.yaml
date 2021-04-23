@@ -16,14 +16,23 @@ metadata:
   labels:
     release: {{ .Release.Name }}
 rules:
-  - apiGroups:
-      - '*'
-    resources:
-      - '*'
-    verbs:
-      - get
-      - update
-      - list
+- apiGroups:
+  - decks.ecs.dellemc.com
+  resources:
+  - licenses
+  verbs:
+  - get
+  - update
+  - list
+- apiGroups:
+  - ""
+  resources:
+  - services
+  - serviceaccounts
+  - secrets
+  verbs:
+  - get
+  - list
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1

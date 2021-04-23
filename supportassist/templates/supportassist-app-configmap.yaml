@@ -39,7 +39,7 @@ data:
           container: {{.Values.global.registry}}/telemetry-upload:{{default .Values.tag .Values.telemetry.inventory.image.tag}}
           serviceaccount: {{ .Release.Name }}-telemetry-upload
           timelimit: "5m"
-          schedule: {{ default "0 * * * *" .Values.telemetry.inventory.schedule }}
+          schedule: {{ default "0 * * * *" .Values.telemetry.inventory.schedule | quote}}
           args:
             - -product
             - {{.Values.product}}
@@ -52,7 +52,7 @@ data:
           container: {{.Values.global.registry}}/telemetry-upload:{{default .Values.tag .Values.telemetry.capacity.image.tag}}
           serviceaccount: {{ .Release.Name }}-telemetry-upload
           timelimit: "5m"
-          schedule: {{ default "0 * * * *" .Values.telemetry.capacity.schedule }}
+          schedule: {{ default "0 * * * *" .Values.telemetry.capacity.schedule | quote}}
           args:
             - -product
             - {{.Values.product}}
@@ -65,7 +65,7 @@ data:
           container: {{.Values.global.registry}}/telemetry-upload:{{default .Values.tag .Values.telemetry.performance.image.tag}}
           serviceaccount: {{ .Release.Name }}-telemetry-upload
           timelimit: "5m"
-          schedule: {{ default "0 * * * *" .Values.telemetry.performance.schedule }}
+          schedule: {{ default "0 * * * *" .Values.telemetry.performance.schedule | quote}}
           args:
             - -product
             - {{.Values.product}}
@@ -78,7 +78,7 @@ data:
           container: {{.Values.global.registry}}/telemetry-upload:{{default .Values.tag .Values.telemetry.health.image.tag}}
           serviceaccount: {{ .Release.Name }}-telemetry-upload
           timelimit: "5m"
-          schedule: {{ default "0 * * * *" .Values.telemetry.health.schedule }}
+          schedule: {{ default "0 * * * *" .Values.telemetry.health.schedule | quote}}
           args:
             - -product
             - {{.Values.product}}

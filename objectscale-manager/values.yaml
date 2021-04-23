@@ -242,7 +242,7 @@ healthChecks:
       repository: objectscale-inventory
       tag: # rfw-update-this objectscale-inventory-image
     schedule: "0 * * * *"
-    disabled: true
+    disabled: false
   capacity:
     image:
       repository: objectscale-capacity
@@ -260,4 +260,4 @@ healthChecks:
       repository: objectscale-health
       tag: # rfw-update-this objectscale-health-image
     schedule: "*/10 * * * *"
-    disabled: true
+    disabled: false 

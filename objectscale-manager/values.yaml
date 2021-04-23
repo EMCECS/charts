@@ -261,3 +261,6 @@ healthChecks:
       tag: # rfw-update-this objectscale-health-image
     schedule: "*/10 * * * *"
     disabled: false
+
+features:
+  spOperatorEnabled: false

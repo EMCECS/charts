@@ -66,6 +66,8 @@ all: test package
 
 release: decksver flexver build generate-issues-events-all add-to-git
 
+resolve-and-release: decksver flexver resolve-versions build generate-issues-events-all add-to-git
+
 test:
 	helm version
 	yamllint --version

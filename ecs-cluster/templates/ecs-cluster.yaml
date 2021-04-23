@@ -31,7 +31,7 @@ spec:
 
   atlas:
     replicas: {{ coalesce .Values.atlas.replicas (index (dict "Large" 3) (title .Values.performanceProfile)) 1 }}
-    labels:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
       release: {{ .Release.Name }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.atlas.image.repository }}

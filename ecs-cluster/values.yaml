@@ -58,7 +58,7 @@ deploymentDeadlineSeconds: 2400
 # Configuration parameters for topology spread and fault domain selection
 topology:
 # The node label key for topology spread and fault domains
-# faultDomainKey: rack
+# faultDomainKey: topology.kubernetes.io/rack
 # Fault domains to be excluded from resource scheduling
 # excludedFaultDomains:
 #   - zone1

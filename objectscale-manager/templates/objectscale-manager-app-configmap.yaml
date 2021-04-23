@@ -31,25 +31,25 @@ data:
           container: {{.Values.global.registry}}/objectscale-inventory:{{default .Values.tag .Values.healthChecks.inventory.image.tag}}
           serviceaccount: {{ .Release.Name }}-inventory
           timelimit: "5m"
-          schedule: {{ default "0 * * * *" .Values.healthChecks.inventory.schedule }}
+          schedule: {{ default "0 * * * *" .Values.healthChecks.inventory.schedule | quote}}
           disabled: {{ default false .Values.healthChecks.inventory.disabled }}
         - name: capacity 
           container: {{.Values.global.registry}}/objectscale-capacity:{{default .Values.tag .Values.healthChecks.capacity.image.tag}}
           serviceaccount: {{ .Release.Name }}-capacity
           timelimit: "5m"
-          schedule: {{ default "0 * * * *" .Values.healthChecks.capacity.schedule }}
+          schedule: {{ default "0 * * * *" .Values.healthChecks.capacity.schedule | qoute}}
           disabled: {{ default false .Values.healthChecks.capacity.disabled }}
         - name: performance 
           container: {{.Values.global.registry}}/objectscale-performance:{{default .Values.tag .Values.healthChecks.performance.image.tag}}
           serviceaccount: {{ .Release.Name }}-performance
           timelimit: "5m"
-          schedule: {{ default "*/5 * * * *" .Values.healthChecks.performance.schedule }}
+          schedule: {{ default "*/5 * * * *" .Values.healthChecks.performance.schedule | qoute}}
           disabled: {{ default false .Values.healthChecks.performance.disabled }}
         - name: health
           container: {{.Values.global.registry}}/objectscale-health:{{default .Values.tag .Values.healthChecks.health.image.tag}}
           serviceaccount: {{ .Release.Name }}-health
           timelimit: "5m"
-          schedule: {{ default "*/5 * * * *" .Values.healthChecks.health.schedule }}
+          schedule: {{ default "*/5 * * * *" .Values.healthChecks.health.schedule | qoute}}
           disabled: {{ default false .Values.healthChecks.health.disabled }}
     eventRemedies: |-
       symptoms:

@@ -237,7 +237,7 @@ healthChecks:
     image:
       repository: objectscale-manager-pre-update
       tag: # rfw-update-this objectscale-manager-pre-update-image
-  license:
+  licenseUsage:
     image:
       repository: objectscale-license-usage
       tag: # rfw-update-this objectscale-license-image

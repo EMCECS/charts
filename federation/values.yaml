@@ -1,5 +1,5 @@
 ---
-tag: 0.70.0
+tag: 0.71.2
 global:
   registry: emccorp
   # Default: true == Watch ALL namespaces
@@ -11,7 +11,7 @@ fedsvc:
   image:
     pullPolicy: IfNotPresent
     repository: fedsvc
-    # tag: stable
+    tag: # rfw-update-this fedsvc-docker-image
   livenessProbe:
     probePath: /fedsvchealthcheck
   readinessProbe:
@@ -20,3 +20,22 @@ fedsvc:
   service:
     port: 9500
     type: LoadBalancer
+# Atlas Cluster configuration for ObjectScale persistent Storage
+atlas:
+
+  # Disables the affinity rules for the Atlas Cluster, allowing it to run
+  # multiple replicas on a single node
+  disableAntiAffinity: false
+
+  # Configure the container image
+  image:
+    pullPolicy: IfNotPresent
+    repository: atlas
+    tag: 1.1.3 # rfw-update-this atlas-docker-image
+
+  # Persistent storage options for Atlas Cluster
+  persistence:
+    size: 10Gi
+
+  # Replica count for ObjectScale Federation Atlas Cluster
+  replicaCount: 1

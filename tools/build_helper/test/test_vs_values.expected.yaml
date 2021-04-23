@@ -1,0 +1,123 @@
+---
+# Default values for ecs-flex.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# This flag decides if an objecstore is actually started or paused
+# Setting started = false will cause the manager to remove the objectstore
+started: true
+
+global:
+  # Name of a Kubernetes secret with Docker credentials for the private registry
+  # registrySecret: ecs-flex-registry
+
+  # Set objectscale release name (needed for central logging and monitoring)
+  objectscale_release_name: objectscale-manager
+
+# The default docker tag and pull policy for the ECS Cluster
+
+# SAMPLE - on how to specify version of component - use *comp* prefix
+
+# rfw-update-next *comp*bookkeeper
+tag: 0.10.0-2853.681142f03
+pullPolicy: IfNotPresent
+
+atlas:
+  # SAMPLE - on how to specify update comments for tags
+
+  image:
+    repository: atlas
+    tag: 1.1.3 # # rfw-update-this     atlas-docker-image
+    pullPolicy: IfNotPresent
+
+atlas2:
+  # replicas: 3
+
+  image:
+    repository: atlas
+    # rfw-update-next     atlas-docker-image
+    tag: 1.1.3
+    pullPolicy: IfNotPresent
+
+
+atlas3:
+  image:
+    repository: atlas
+
+    # SAMPLE - if tag value is not set, file-wide tag will be used - which is 0.71.0 specified in line 18
+
+    # rfw-update-next     atlas-docker-image
+    tag: 1.1.3
+    pullPolicy: IfNotPresent
+
+
+atlas4:
+  image:
+    repository: atlas
+    tag: 1.1.3 # rfw-update-this     atlas-docker-image
+    pullPolicy: IfNotPresent
+
+
+pravegaRepository: pravega
+bookkeeperRepository: bookkeeper
+pravega:
+  # labels:
+  image:
+    pullPolicy: IfNotPresent
+
+    # SAMPLE - note that replacement is done, but most left comment (one before ':') is not removed during processing.
+    # if result of replacement is desired, line should uncommented manually
+
+    # rfw-update-next     atlas-operator-docker-image
+#    tag: 0.13.0
+  controller:
+#    replicas: 1
+    service:
+      type: ClusterIP
+
+
+# The ECS API control service configuration specification
+control:
+  # Override the number of object control replicas to run with the the deployment
+  # replicas: 1
+
+  # Docker repository to be used for object control instances
+  image:
+    repository: object-control
+    # tag: stable
+    # pullPolicy: IfNotPresent
+
+
+bookkeeper1:
+  image:
+    # SAMPLE - several tests related to handling of non-component-version extra key
+
+    tag: 0.10.0-2853.681142f03 # rfw-update-this     bookkeeper-docker-image
+
+bookkeeper2:
+  image:
+    # SAMPLE - result should be empty (unset) because version of this image is the same as component version
+
+    tag: # rfw-update-this     bookkeeper-docker-image, non-component-version
+
+bookkeeper3:
+  image:
+    # SAMPLE - same as above
+
+    tag: # rfw-update-this     bookkeeper-docker-image, non-component-version
+
+    # pullPolicy: IfNotPresent
+
+bookkeeper-op1:
+  image:
+    # SAMPLE - result should be non-empty (set) because version of this image is not same as component version
+
+    tag: 0.1.3-55-e28b49a # rfw-update-this     bookkeeper-operator-docker-image, non-component-version
+
+bookkeeper-op2:
+  image:
+    # SAMPLE - same as above
+
+    tag: 0.1.3-55-e28b49a # rfw-update-this     bookkeeper-operator-docker-image, non-component-version
+
+    # pullPolicy: IfNotPresent

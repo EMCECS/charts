@@ -12,13 +12,13 @@ global:
   registry: emccorp
 
 # The default docker tag and pull policy for dell-supportassist-ese
-tag: 2.70.0
+tag: 2.71.2
 pullPolicy: Always
 
 # The image configured for dell-ese
 image:
   repository: dell-supportassist-ese
-  tag: 2.2.0.0
+  tag: # rfw-update-this dell-supportassist-ese-image
   # pullPolicy: Always
 
 # Create app resource thru helm
@@ -78,7 +78,7 @@ useGateways: true
 notifier:
   image:
     repository: "supportassist-ese-notifier"
-    # tag: stable
+    tag: # rfw-update-this ese-notifier-image
     # pullPolicy: "Always"
   servicePort: 50051
   grpcConnTimeout: 5
@@ -88,7 +88,7 @@ notifier:
 esecallback:
   image:
     repository: "ese-callback"
-    # tag: stable
+    tag: # rfw-update-this ese-callback-image
     # pullPolicy: "Always"
   servicePort: 9447
 
@@ -97,7 +97,7 @@ esecallback:
 eseStore:
   image:
     repository: decks-support-store
-    # tag: stable
+    tag: # rfw-update-this decks-support-store-image
     pullPolicy: Always
   persistentVolume:
     size: 50Gi

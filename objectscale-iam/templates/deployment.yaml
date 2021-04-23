@@ -46,8 +46,11 @@ spec:
         image: {{ default  .Values.global.registry .Values.image.registry }}/{{ .Values.image.repository }}:{{ default .Values.tag .Values.image.tag }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
+          - name: https
+            containerPort: 9401
+            protocol: TCP
           - name: http
-            containerPort: 9401 
+            containerPort: 9402
             protocol: TCP
         livenessProbe:
             httpGet:
@@ -66,6 +69,11 @@ spec:
         volumeMounts:
         - name: log
           mountPath: /opt/storageos/logs
+        - name: tls-secrets
+          mountPath: "/etc/nginx/ssl"
       volumes:
       - name: log
         emptyDir: {}
+      - name: tls-secrets
+        secret:
+          secretName: objectscale-iam-tls

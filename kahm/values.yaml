@@ -19,16 +19,17 @@ global:
   platform: Default
 
 # The default docker tag and pull policy for the KAHM
-tag: 2.70.0
+tag: 2.71.2
 pullPolicy: IfNotPresent
 
 # The number of replicas for the KAHM deployment
 replicaCount: 1
 
+
 # The image configured for the KAHM
 image:
   repository: kahm
-  # tag: stable
+  tag: # rfw-update-this kahm-image
   # pullPolicy: IfNotPresent
 
 ## Allow callers to bypass creating app resource
@@ -61,13 +62,82 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-# Currently we have only badgerdb as underlying database
+# We can configure BadgerDB or PostgreDB as underlying database
 # Each event should have default lifetime of 30 days (2592000 seconds)
 db:
-  dbType: BadgerDB
   eventTTL: "2592000"
+  # BadgerDB or PostgresDB
+  dbType: BadgerDB
+  # this is valid only if the dbType is PostgresDB
+  postgres:
+    # by default don't spawn postgres DB sub-chart
+    enable: false
+    userName: kahm
+    password: ChangeMe
+    database: kahm
+    # hostName:
+    # port: "5432"
 
 restapi:
   realm: "kahm-restapi"
   username: kahm
   password: ChangeMe
+
+#  to overrite postgress sub-charts values from the parent. This is only useful if KAHM is using local postgress HA instance for the database
+#  this is valid only if the db.postgres.enable is true
+postgresql-ha:
+  persistence:
+    mountPath: /kahm/postgresql
+    # storageClass:
+    # default size is 8 Gi
+    # size:
+  postgresql:
+    password: ChangeMe
+    username: kahm
+    database: kahm
+    postgresPassword: ChangeMe
+    extraVolumes:
+      - name: dshm
+        emptyDir:
+          medium: Memory
+    extraVolumeMounts:
+      - name: dshm
+        mountPath: /dev/shm
+
+    ## PostgreSQL containers' resource requests and limits
+    ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+    ##
+    resources:
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+      limits:
+        memory: 2Gi
+      requests:
+        memory: 2Gi
+
+  pgpool:
+  ## The number of preforked Pgpool-II server processes. It is also the concurrent
+  ## connections limit to Pgpool-II from clients. Must be a positive integer. (PGPOOL_NUM_INIT_CHILDREN)
+  ## ref: https://github.com/bitnami/bitnami-docker-pgpool#configuration
+  ##
+    numInitChildren: 32
+
+  ## The maximum number of cached connections in each child process (PGPOOL_MAX_POOL)
+  ## ref: https://github.com/bitnami/bitnami-docker-pgpool#configuration
+  ##
+    maxPool: 2
+
+    ## Pgpool containers' resource requests and limits
+    ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+    ##
+    resources:
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+      limits:
+        memory: 2Gi
+      requests:
+        memory: 2Gi

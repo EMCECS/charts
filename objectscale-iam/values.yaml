@@ -3,7 +3,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-tag: 0.70.0
+tag: 0.71.2
 
 # These values may be overridden when the IAM is included within a subchart
 global:
@@ -18,7 +18,7 @@ global:
 image:
   pullPolicy: IfNotPresent
   repository: iamsvc
-  # tag: stable
+  tag: # rfw-update-this iamsvc-docker-image
 
 # Number of replicas for the ObjectScale IAM deployment
 replicaCount: 3
@@ -30,9 +30,53 @@ readinessProbe:
   probePath: /iamhealthcheck/atlas
 
 # Service Configuration for ObjectScale IAM
+iam:
 service:
-  port: 9400
+  # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
   type: LoadBalancer
+
+  # Specify the service port configuration for the s3 service
+  ports:
+    - name: https
+      port: 443
+      targetPort: 9401
+      protocol: TCP
+    - name: http
+      port: 9400
+      targetPort: 9402
+      protocol: TCP
+  # loadBalancerIP:     # select specific load balancer IP of the connection
+  # externalHostnames:
+  #   - objectscale-vsp.example.com
+  # externalIPAddresses:
+  #   - 203.0.113.10
+  #   - 203.0.113.30
+  # externalIPv6Addresses:
+  #   - 2001:0db8:0000:0000:0000:0000:0000:0001
+
+tls:
+  # Type of certificate signing: SelfSigned, KubernetesSigned, InternallySigned or ExternallySigned
+  certificateType: InternallySigned
+
+  certificate: {}
+  # publicKey: < server side customer certificate>
+  # privateKey: <private key for server side cert>
+  # password: # cert password (optional)
+  # authority: |-  # (optional)
+  #   rootCA: xxxx
+  #   intermediateCA:      # provide the intermediate CA here (optional)
+
+  signingRequest:
+    commonName: objectscale-iam
+    # email: insertyouremail@example.com.local
+    names:
+      country: USA
+      state: MA
+      locality: Hopkinton
+      organization: Dell EMC
+      organizationalUnit: ObjectScale
+    keyAlgorithm: RSA       # algorithm use to generate the key (ex. RSA, ECDSA)
+    keySize: 2048           # size of the key in bits (ex. 2048, 4096, 8192)
 
 # Atlas Cluster configuration for ObjectScale persistent Storage
 atlas:
@@ -45,7 +89,7 @@ atlas:
   image:
     pullPolicy: IfNotPresent
     repository: atlas
-    tag: 1.1.3
+    tag: 1.1.3 # rfw-update-this atlas-docker-image
 
   # Persistent storage options for Atlas Cluster
   persistence:

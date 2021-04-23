@@ -1,0 +1,9 @@
+- description: "Target bucket quota limit exceeded"
+  name: "TARGET_BUCKET_QUOTA_EXCEEDED"
+  defaultAutoClearTimeOut: 900
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # ERROR
+        - label: SymptomID
+          value: 12004

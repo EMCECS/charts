@@ -48,6 +48,8 @@ Selector labels
 {{- define "dcm.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "dcm.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+product: objectscale
+release: {{ .Release.Name }}
 {{- end }}
 
 {{/*

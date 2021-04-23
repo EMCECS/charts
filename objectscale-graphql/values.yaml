@@ -40,7 +40,7 @@ debug: false
 #
 image:
   repository: ecs-flex-graphql
-  # tag: stable
+  tag: # rfw-update-this graphql-image
   # pullPolicy: IfNotPresent
 withPlayground: false
 port: 8080
@@ -82,7 +82,7 @@ logReceiver:
 fluentbitAgent:
   image:
     repository: fluent-bit
-    tag: 0.28.0
+    tag: 0.28.0 # rfw-update-this fluent-bit-docker-image
     # pullPolicy: IfNotPresent
 #
 helmController:

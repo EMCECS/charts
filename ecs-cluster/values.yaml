@@ -29,6 +29,7 @@ global:
   objectscale_release_name: objectscale-manager
 
 # The default docker tag and pull policy for the ECS Cluster
+# rfw-update-next *comp*object-services
 tag: 0.71.2
 pullPolicy: IfNotPresent
 
@@ -73,6 +74,9 @@ features:
   # Enable Cross Region Replication
   enableCRR: false
 
+  # Enable ephemeral storage in Objectstore pods
+  enableEphStorage: true
+
   # use old metering svc
   enableObjectStoreMetering: true
 
@@ -99,7 +103,7 @@ atlas:
 
   image:
     repository: atlas
-    tag: 1.1.3
+    tag: 1.1.3 # rfw-update-this atlas-docker-image
     pullPolicy: IfNotPresent
 
   persistence:
@@ -113,7 +117,7 @@ pravega:
   # labels:
   image:
     pullPolicy: IfNotPresent
-#    tag: 0.10.0-2831.d5f944ebf-issue-5853-SLTS-deep-copy
+    tag: # rfw-update-this pravega-docker-image
   controller:
 #    replicas: 1
     service:
@@ -160,7 +164,7 @@ bookkeeper:
   # labels:
   image:
     pullPolicy: IfNotPresent
-#  version: 0.10.0-2831.d5f944ebf-issue-5853-SLTS-deep-copy
+  version: # rfw-update-this bookkeeper-docker-image
   blockOwnerDeletion: false
   autoRecovery: true
   probes:
@@ -197,7 +201,7 @@ zookeeper:
 
   image:
     repository: zookeeper
-    tag: 0.2.9
+    tag: 0.2.9 # rfw-update-this zookeeper-docker-image
     # pullPolicy: IfNotPresent
 
   # Persistent storage options for zookeeper volume requests
@@ -218,7 +222,7 @@ storageServer:
   # Docker repository to be used for storage server instances
   image:
     repository: storageserver
-    # tag: stable
+    tag: # rfw-update-this storageserver-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
   # Persistent storage options for storage server volume requests
@@ -260,7 +264,7 @@ chunkManager:
   # Docker repository to be used for chunk manager instances
   image:
     repository: chunk-manager
-    # tag: stable
+    tag: # rfw-update-this chunk-manager-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The ECS blob service configuration specification
@@ -274,7 +278,7 @@ blob:
   # Docker repository to be used for chunk manager instances
   image:
     repository: blob-service
-    # tag: stable
+    tag: # rfw-update-this blob-service-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The ECS Object Service configuration specification
@@ -288,7 +292,7 @@ objectsvc:
   # Docker repository to be used for objectsvc instances
   image:
     repository: object-service
-    # tag: stable
+    tag: # rfw-update-this objectsvc-docker-image
     # pullPolicy: IfNotPresent
 
   # Elements to add to the service's ConfigMap. This is a map of string -> string
@@ -306,7 +310,7 @@ ons:
   # Docker repository to be used for ons instances
   image:
     repository: ons
-    # tag: stable
+    tag: # rfw-update-this ons-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The ECS Notification Delivery Service configuration specification
@@ -320,7 +324,7 @@ nds:
   # Docker repository to be used for ons instances
   image:
     repository: nds
-    # tag: stable
+    tag: # rfw-update-this nds-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The ECS REP Service configuration specification
@@ -334,7 +338,7 @@ rep:
   # Docker repository to be used for rep instances
   image:
     repository: rep
-    # tag: stable
+    tag: # rfw-update-this rep-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
   # Elements to add to the service's ConfigMap. This is a map of string -> string
@@ -351,7 +355,7 @@ storageServerManager:
   # Docker repository to be used for storage server instances
   image:
     repository: storageserver-manager
-    # tag: stable
+    tag: # rfw-update-this storageserver-manager-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The ECS record manager configuration specification
@@ -363,7 +367,7 @@ recordManager:
 
   image:
     repository: record-manager
-    # tag: stable
+    tag: # rfw-update-this record-manager-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The ECS storage management configuration specification
@@ -376,7 +380,7 @@ storageManagement:
 
   image:
     repository: storagemanagement-service
-    # tag: stable
+    tag: # rfw-update-this storagemanagement-service-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The ECS Metering configuration specification
@@ -388,7 +392,7 @@ metering:
 
   image:
     repository: metering
-    # tag: stable
+    tag: # rfw-update-this metering-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The ECS objectStoreMetering configuration specification
@@ -400,7 +404,7 @@ objectStoreMetering:
 
   image:
     repository: objmt
-    # tag: stable
+    tag: # rfw-update-this objmt-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The ECS Metering configuration specification
@@ -412,7 +416,7 @@ event:
 
   image:
     repository: event-service
-    # tag: stable
+    tag: # rfw-update-this event-service-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The ECS resource service configuration specification
@@ -424,7 +428,7 @@ resource:
   # Docker repository to be used for resource service instances
   image:
     repository: resource-service
-    # tag: stable
+    tag: # rfw-update-this resource-service-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
   # Elements to add to the service's ConfigMap. This is a map of string -> string
@@ -441,7 +445,7 @@ controlPlane:
 
   image:
     repository: control-service
-    # tag: stable
+    tag: # rfw-update-this control-service-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The ECS diagnostic service configuration specification
@@ -453,7 +457,7 @@ diagnostic:
   # Docker repository to be used for diagnostic service instances
   image:
     repository: diagnostic-service
-    # tag: stable
+    tag: # rfw-update-this diagnostic-service-docker-image, non-component-version
     # pullPolicy: IfNotPresent
   service:
     # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
@@ -477,7 +481,7 @@ s3:
   # Docker repository to be used for object heads instances
   image:
     repository: object-heads
-    # tag: stable
+    tag: # rfw-update-this object-heads-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
   service:
@@ -536,7 +540,7 @@ spaceReclaimer:
   # Docker repository to be used for diagnostic service instances
   image:
     repository: space-reclaimer
-    # tag: stable
+    tag: # rfw-update-this space-reclaimer-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The ECS geo service configuration specification
@@ -550,28 +554,34 @@ geoService:
   # Docker repository to be used for ons instances
   image:
     repository: geoservice
-    # tag: stable
+    tag: # rfw-update-this geoservice-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The ECS geo receiver configuration specification
 geoReceiver:
-
   # Number of geo receiver replicas to run with the the deployment
   # replicas: 3
 
   # Docker repository to be used for geo receiver instances
   image:
     repository: geo-receiver
-    # tag: stable
+    tag: # rfw-update-this geo-receiver-docker-image, non-component-version
     # pullPolicy: IfNotPresent
   service:
-
     ports:
       - name: geo
         port: 9094
       - name: http-external # should be changed to https when TLS integrated
         port: 12002
         targetPort: 12002
+    # loadBalancerIP:     # select specific load balancer IP of the connection
+    # externalHostnames:
+    #   - objectscale-vsp.example.com
+    # externalIPAddresses:
+    #   - 203.0.113.10
+    #   - 203.0.113.30
+    # externalIPv6Addresses:
+    #   - 2001:0db8:0000:0000:0000:0000:0000:0001
 
 # The ECS API control service configuration specification
 control:
@@ -581,7 +591,7 @@ control:
   # Docker repository to be used for object control instances
   image:
     repository: object-control
-    # tag: stable
+    tag: # rfw-update-this object-control-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
 # The managementGateway configuration specification
@@ -592,7 +602,7 @@ managementGateway:
   # Docker repository to be used for managementGateway instances
   image:
     repository: management-gateway
-    # tag: stable
+    tag: # rfw-update-this management-gateway-docker-image
     # pullPolicy: IfNotPresent
 
   service:
@@ -649,7 +659,7 @@ provision:
   newProvisionAPI: true
   image:
     repository: provision
-    # tag: stable
+    tag: # rfw-update-this provision-docker-image
     # pullPolicy: IfNotPresent
 
 # The job will assign new created ss to the sp
@@ -660,7 +670,7 @@ expandsp:
 cmfswitch:
   image:
     repository: cmf-switch
-    # tag: stable
+    tag: # rfw-update-this cmf-switch-docker-image
     # pullPolicy: IfNotPresent
 
 #
@@ -672,7 +682,7 @@ cmfswitch:
 syslogAgent:
   image:
     repository: rsyslog
-    # tag: stable
+    tag: # rfw-update-this rsyslog-docker-image
     # pullPolicy: IfNotPresent
 
 # The log agent configuration for log collection of ECS services with a Syslog
@@ -680,7 +690,7 @@ syslogAgent:
 fluentbitAgent:
   image:
     repository: fluent-bit
-    # tag: stable
+    tag: # rfw-update-this fluent-bit-docker-image
     # pullPolicy: IfNotPresent
 
 # The fabric proxy sidecar configuration for ECS Service Discovery and container
@@ -694,7 +704,7 @@ fabricProxy:
   # Docker repository to be used for fabric proxy instances
   image:
     repository: fabric-proxy
-    # tag: stable
+    tag: # rfw-update-this fabric-proxy-docker-image
     # pullPolicy: IfNotPresent
 
 # deos health check configuration
@@ -715,8 +725,8 @@ healthChecks:
   connectivity:
     image:
       repository: objectstore-connectivity
-      # tag: stable
+      tag: # rfw-update-this objectstore-connectivity-image
   preUpdate:
     image:
       repository: objectstore-pre-update
-      # tag: stable
+      tag: # rfw-update-this objectstore-pre-update-image

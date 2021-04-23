@@ -260,4 +260,4 @@ healthChecks:
       repository: objectscale-health
       tag: # rfw-update-this objectscale-health-image
     schedule: "*/10 * * * *"
-    disabled: false 
+    disabled: false

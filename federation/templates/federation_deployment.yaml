@@ -29,7 +29,7 @@ spec:
             memory: 500M
         env:
         - name: ATLAS_SERVICE_HOSTNAME
-          value: {{ include "fedsvc.name" . }}-atlas-client
+          value: objectscale-iam-atlas-client
         - name: MY_POD_NAME
           valueFrom:
             fieldRef:

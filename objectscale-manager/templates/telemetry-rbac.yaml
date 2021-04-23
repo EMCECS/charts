@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: {{ .Release.Name }}-license
+  name: {{ .Release.Name }}-license-usage
   namespace: {{ .Release.Namespace }}
   {{- if .Values.global.registrySecret }}
 imagePullSecrets:

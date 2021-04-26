@@ -12,7 +12,7 @@ imagePullSecrets:
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Release.Name }}-inventory
+  name: {{ .Release.Namespace }}-inventory
   labels:
     release: {{ .Release.Name }}
 rules:
@@ -47,7 +47,7 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Release.Name }}-inventory
+  name: {{ .Release.Namespace }}-inventory
   labels:
     release: {{ .Release.Name }}
 subjects:
@@ -56,7 +56,7 @@ subjects:
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: {{ .Release.Name }}-inventory
+  name: {{ .Release.Namespace }}-inventory
   apiGroup: rbac.authorization.k8s.io
 
 ---
@@ -75,7 +75,7 @@ imagePullSecrets:
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Release.Name }}-capacity
+  name: {{ .Release.Namespace }}-capacity
   labels:
     release: {{ .Release.Name }}
 rules:
@@ -86,7 +86,7 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Release.Name }}-capacity
+  name: {{ .Release.Namespace }}-capacity
   labels:
     release: {{ .Release.Name }}
 subjects:
@@ -95,7 +95,7 @@ subjects:
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: {{ .Release.Name }}-capacity
+  name: {{ .Release.Namespace }}-capacity
   apiGroup: rbac.authorization.k8s.io
 
 ---
@@ -114,7 +114,7 @@ imagePullSecrets:
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Release.Name }}-performance
+  name: {{ .Release.Namespace }}-performance
   labels:
     release: {{ .Release.Name }}
 rules:
@@ -125,7 +125,7 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Release.Name }}-performance
+  name: {{ .Release.Namespace }}-performance
   labels:
     release: {{ .Release.Name }}
 subjects:
@@ -134,7 +134,7 @@ subjects:
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: {{ .Release.Name }}-performance
+  name: {{ .Release.Namespace }}-performance
   apiGroup: rbac.authorization.k8s.io
 
 ---
@@ -151,7 +151,7 @@ imagePullSecrets:
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Release.Name }}-health
+  name: {{ .Release.Namespace }}-health
   labels:
     release: {{ .Release.Name }}
 rules:
@@ -176,7 +176,7 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Release.Name }}-health
+  name: {{ .Release.Namespace }}-health
   labels:
     release: {{ .Release.Name }}
 subjects:
@@ -185,5 +185,5 @@ subjects:
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: {{ .Release.Name }}-health
+  name: {{ .Release.Namespace }}-health
   apiGroup: rbac.authorization.k8s.io

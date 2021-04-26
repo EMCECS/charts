@@ -12,7 +12,7 @@ imagePullSecrets:
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Release.Name }}-telemetry-upload
+  name: {{ .Release.Namespace }}-telemetry-upload
   labels:
     release: {{ .Release.Name }}
 rules:
@@ -23,7 +23,7 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Release.Name }}-telemetry-upload
+  name: {{ .Release.Namespace }}-telemetry-upload
   labels:
     release: {{ .Release.Name }}
 subjects:
@@ -32,5 +32,5 @@ subjects:
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: {{ .Release.Name }}-telemetry-upload
+  name: {{ .Release.Namespace }}-telemetry-upload
   apiGroup: rbac.authorization.k8s.io

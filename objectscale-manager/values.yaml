@@ -240,7 +240,7 @@ healthChecks:
   licenseUsage:
     image:
       repository: objectscale-license
-      tag: # rfw-update-this objectscale-license-image
+      tag: # rfw-update-this objectscale-license-usage-image
     schedule: "0 */6 * * *"
     disabled: false
   inventory:

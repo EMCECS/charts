@@ -59,7 +59,7 @@ metadata:
   name: vsphere-docker-secret
   namespace: dellemc-objectscale-system
 data:
-  .dockerconfigjson: DOCKERSECRETPLACEHOLDER
+  .dockerconfigjson: {{printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" .Values.registryName (printf "%s:%s" .Values.registryUsername .Values.registryPasswd | b64enc) | b64enc}}
 type: kubernetes.io/dockerconfigjson
 ---
 # Source: objectscale-vsphere/charts/objectscale-portal/charts/rsyslog-client/templates/rsyslog-client-config.yaml
@@ -325,39 +325,39 @@ data:
                 ],
                 "definitions": {
                     "plugin.name": {
-                        "en-US": "ObjectScaleSERVICE_ID",
-                        "de-DE": "ObjectScaleSERVICE_ID",
-                        "fr-FR": "ObjectScaleSERVICE_ID"
+                        "en-US": "ObjectScale-sarah426",
+                        "de-DE": "ObjectScale-sarah426",
+                        "fr-FR": "ObjectScale-sarah426"
                     },
                     "cluster.monitor.list.health": {
-                        "en-US": "HealthSERVICE_ID",
-                        "de-DE": "GesundheitSERVICE_ID",
-                        "fr-FR": "santéSERVICE_ID"
+                        "en-US": "Health-sarah426",
+                        "de-DE": "Gesundheit-sarah426",
+                        "fr-FR": "santé-sarah426"
                     },
                     "cluster.configure.list.objectstores": {
-                        "en-US": "Object StoresSERVICE_ID",
-                        "de-DE": "Object StoresSERVICE_ID",
-                        "fr-FR": "Object StoresSERVICE_ID"
+                        "en-US": "Object Stores-sarah426",
+                        "de-DE": "Object Stores-sarah426",
+                        "fr-FR": "Object Stores-sarah426"
                     },
                     "cluster.configure.list.settings": {
-                        "en-US": "SettingsSERVICE_ID",
-                        "de-DE": "SettingsSERVICE_ID",
-                        "fr-FR": "SettingsSERVICE_ID"
+                        "en-US": "Settings-sarah426",
+                        "de-DE": "Settings-sarah426",
+                        "fr-FR": "Settings-sarah426"
                     },
                     "cluster.configure.list.dashboard": {
-                        "en-US": "DashboardSERVICE_ID",
-                        "de-DE": "DashboardSERVICE_ID",
-                        "fr-FR": "DashboardSERVICE_ID"
+                        "en-US": "Dashboard-sarah426",
+                        "de-DE": "Dashboard-sarah426",
+                        "fr-FR": "Dashboard-sarah426"
                     },
                     "cluster.configure.list.accounts": {
-                        "en-US": "AccountsSERVICE_ID",
-                        "de-DE": "AccountsSERVICE_ID",
-                        "fr-FR": "AccountsSERVICE_ID"
+                        "en-US": "Accounts-sarah426",
+                        "de-DE": "Accounts-sarah426",
+                        "fr-FR": "Accounts-sarah426"
                     },
                     "cluster.configure.list.objectscalesystems": {
-                        "en-US": "Objectscale SystemsSERVICE_ID",
-                        "de-DE": "Objectscale SystemsSERVICE_ID",
-                        "fr-FR": "Objectscale SystemsSERVICE_ID"
+                        "en-US": "Objectscale Systems-sarah426",
+                        "de-DE": "Objectscale Systems-sarah426",
+                        "fr-FR": "Objectscale Systems-sarah426"
                     }
                 }
             }
@@ -1245,7 +1245,7 @@ spec:
               memory: 500M
             requests:
               memory: 250M
-          image: REGISTRYTEMPLATE/install-controller:0.71.2
+          image: {{ .Values.registryName }}/install-controller:0.71.2
           env:
             - name: OPERATOR_NAME
               value: objectscale-operator
@@ -1309,7 +1309,7 @@ spec:
       serviceAccountName: objectscale-api
       containers:
       - name: objectscale-graphql
-        image: REGISTRYTEMPLATE/ecs-flex-graphql:0.71.2
+        image: {{ .Values.registryName }}/ecs-flex-graphql:0.71.2
         imagePullPolicy: IfNotPresent
         env:
         - name: OBJSTORE_AVAILABLE_VERSIONS
@@ -1323,7 +1323,7 @@ spec:
             fieldRef:
               fieldPath: metadata.namespace
         - name: GLOBAL_REGISTRY
-          value: REGISTRYTEMPLATE
+          value: {{ .Values.registryName }}
         - name: GLOBAL_REGISTRY_SECRET
           value: vsphere-docker-secret
         - name: LICENSE_CHART_VERSION
@@ -1351,7 +1351,7 @@ spec:
               key: credentials
       
       - name: rsyslog
-        image: "REGISTRYTEMPLATE/rsyslog:3.7.0.0-1183.133b23a9"
+        image: "{{ .Values.registryName }}/rsyslog:3.7.0.0-1183.133b23a9"
         imagePullPolicy: "IfNotPresent"
         env:
           - name: POD_NAME
@@ -1433,7 +1433,7 @@ spec:
             secretName: objectscale-plugin-secret
       containers:
         - name: objectscale-portal
-          image: REGISTRYTEMPLATE/ecs-flex-vsphere-plugin:0.71.2
+          image: {{ .Values.registryName }}/ecs-flex-vsphere-plugin:0.71.2
           env:
             - name: OPERATOR_NAME
               value: objectscale-operator
@@ -1491,4 +1491,67 @@ metadata:
     "helm.sh/hook-delete-policy": "before-hook-creation"
 type: Opaque
 stringData:
-  credentials: objectscale:3UNCK0TrvwH5SBvt:aCwFmlDiMOc9c6Qd
+  credentials: objectscale:zXz3Szzn4EP5Vvf3:kF44JUhx9nwZEZVC
+---
+---
+# Source: objectscale-manager/templates/objectscale-manager-app.yaml
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: objectscale-manager
+  namespace: dellemc-objectscale-system
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/version: 0.71.2
+    app.kubernetes.io/instance: objectscale-manager
+    app.kubernetes.io/managed-by: nautilus
+    helm.sh/chart: objectscale-manager-0.71.2
+    release: objectscale-manager
+    product: objectscale
+  annotations:
+    com.dellemc.kahm.subscribed: "true"
+    nautilus.dellemc.com/run-level: "10"
+    nautilus.dellemc.com/chart-name: objectscale-manager
+    nautilus.dellemc.com/chart-version: 0.71.2
+    nautilus.dellemc.com/chart-values: "{\"affinity\":{},\"atlas\":{\"enabled\":true},\"atlas-operator\":{\"affinity\":{},\"common-monitoring-lib\":{\"exports\":{\"default\":{\"rsyslog_client_image_pull_policy\":\"IfNotPresent\",\"rsyslog_client_tag\":\"3.7.0.0-1174.d65bd7ec\"}},\"global\":{\"enableHealthcheck\":false,\"labels\":{},\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"{{ .Values.registryName }}\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-sarah426-highly-available\",\"watchAllNamespaces\":false}},\"global\":{\"enableHealthcheck\":false,\"labels\":{},\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"{{ .Values.registryName }}\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-sarah426-highly-available\",\"watchAllNamespaces\":false},\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"atlas-operator\"},\"nameOverride\":\"\",\"nodeSelector\":{},\"podSecurityContext\":{},\"resources\":{\"limits\":{\"cpu\":1,\"memory\":\"500Mi\"},\"requests\":{\"cpu\":\"250m\",\"memory\":\"300Mi\"}},\"securityContext\":{},\"tolerations\":[]},\"bookkeeper\":{\"enabled\":true},\"bookkeeper-operator\":{\"common-monitoring-lib\":{\"exports\":{\"default\":{\"rsyslog_client_image_pull_policy\":\"IfNotPresent\",\"rsyslog_client_tag\":\"3.7.0.0-1174.d65bd7ec\"}},\"global\":{\"enableHealthcheck\":false,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"{{ .Values.registryName }}\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-sarah426-highly-available\",\"watchAllNamespaces\":false}},\"crd\":{\"create\":true},\"global\":{\"enableHealthcheck\":false,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"{{ .Values.registryName }}\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-sarah426-highly-available\",\"watchAllNamespaces\":false},\"hooks\":{\"backoffLimit\":10,\"image\":{\"repository\":\"k8s-kubectl\",\"tag\":\"v1.16.10\"}},\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"bookkeeper-operator\",\"tag\":\"0.1.3-50-f528f6f\"},\"rbac\":{\"create\":true},\"serviceAccount\":{\"create\":true,\"name\":\"bookkeeper-operator\"},\"testmode\":{\"enabled\":true,\"version\":\"0.9.0\"},\"watchNamespace\":\"\",\"webhookCert\":{\"certName\":\"selfsigned-cert-bk\",\"generate\":false,\"secretName\":\"selfsigned-cert-tls-bk\"}},\"createApplicationResource\":false,\"dcm\":{\"atlas\":{\"affinity\":false,\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"atlas\",\"tag\":\"1.1.3\"},\"persistence\":{\"size\":\"1Gi\"}},\"common-monitoring-lib\":{\"exports\":{\"default\":{\"rsyslog_client_image_pull_policy\":\"IfNotPresent\",\"rsyslog_client_tag\":\"3.7.0.0-1146.a692701d\"}},\"global\":{\"enableHealthcheck\":false,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"{{ .Values.registryName }}\",\"performanceProfile\":\"Small\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-sarah426-highly-available\",\"watchAllNamespaces\":false}},\"enabled\":true,\"global\":{\"enableHealthcheck\":false,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"{{ .Values.registryName }}\",\"performanceProfile\":\"Small\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-sarah426-highly-available\",\"watchAllNamespaces\":false},\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"dcm\"},\"livenessProbe\":{\"probePath\":\"/dcmhealthcheck\"},\"readinessProbe\":{\"probePath\":\"/dcmhealthcheck\"},\"replicaCount\":1,\"service\":{\"port\":9026,\"targetPort\":9026,\"type\":\"LoadBalancer\"},\"tag\":\"0.71.2\"},\"debugMode\":false,\"ecs-monitoring\":{\"influxdb\":{\"persistence\":{\"storageClassName\":\"dellemc-sarah426-highly-available\"}}},\"features\":{\"spOperatorEnabled\":false},\"federation\":{\"atlas\":{\"disableAntiAffinity\":false,\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"atlas\",\"tag\":\"1.1.3\"},\"persistence\":{\"size\":\"1Gi\"},\"replicaCount\":3},\"enabled\":true,\"fedsvc\":{\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"fedsvc\"},\"livenessProbe\":{\"probePath\":\"/fedsvchealthcheck\"},\"readinessProbe\":{\"probePath\":\"/fedsvchealthcheck\"},\"replicaCount\":3,\"service\":{\"port\":9500,\"type\":\"LoadBalancer\"}},\"global\":{\"enableHealthcheck\":false,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"{{ .Values.registryName }}\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-sarah426-highly-available\",\"watchAllNamespaces\":false},\"tag\":\"0.71.2\"},\"fluentbitAgent\":{\"image\":{\"repository\":\"fluent-bit\",\"tag\":\"0.28.0\"}},\"global\":{\"enableHealthcheck\":false,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"{{ .Values.registryName }}\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-sarah426-highly-available\",\"watchAllNamespaces\":false},\"healthChecks\":{\"capacity\":{\"disabled\":true,\"image\":{\"repository\":\"objectscale-capacity\"},\"schedule\":\"0 * * * *\"},\"health\":{\"disabled\":false,\"image\":{\"repository\":\"objectscale-health\"},\"schedule\":\"*/10 * * * *\"},\"inventory\":{\"disabled\":false,\"image\":{\"repository\":\"objectscale-inventory\"},\"schedule\":\"0 * * * *\"},\"licenseUsage\":{\"disabled\":false,\"image\":{\"repository\":\"objectscale-license-usage\"},\"schedule\":\"0 */6 * * *\"},\"performance\":{\"disabled\":true,\"image\":{\"repository\":\"objectscale-performance\"},\"schedule\":\"*/10 * * * *\"},\"preUpdate\":{\"image\":{\"repository\":\"objectscale-manager-pre-update\"}}},\"hooks\":{\"registry\":\"{{ .Values.registryName }}\",\"repository\":\"k8s-kubectl\",\"tag\":\"v1.16.10\"},\"iam\":{\"enabled\":true},\"image\":{\"repository\":\"objectscale-operator\"},\"installApplicationCRD\":true,\"installObjectStoreCRD\":true,\"logReceiver\":{\"image\":{\"repository\":\"rsyslog\"},\"persistence\":{\"accessMode\":\"ReadWriteOnce\",\"enabled\":true,\"size\":\"50Gi\"}},\"loggerConfig\":{\"development\":true,\"disableCaller\":false,\"disableStacktrace\":false,\"enabled\":true,\"encoderConfig\":{\"callerEncoder\":\"short\",\"callerKey\":\"C\",\"durationEncoder\":\"string\",\"levelEncoder\":\"capital\",\"levelKey\":\"L\",\"lineEnding\":\"\\n\",\"messageKey\":\"M\",\"nameKey\":\"N\",\"stacktraceKey\":\"S\",\"timeEncoder\":\"iso8601\",\"timeKey\":\"T\"},\"encoding\":\"console\",\"errorOutputPaths\":[\"stderr\"],\"level\":\"info\",\"outputPaths\":[\"stdout\"]},\"nodeSelector\":{},\"objectscale-gateway\":{\"enabled\":false},\"objectscale-iam\":{\"atlas\":{\"disableAntiAffinity\":false,\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"atlas\",\"tag\":\"1.1.3\"},\"persistence\":{\"size\":\"10Gi\"},\"replicaCount\":3},\"enabled\":true,\"global\":{\"enableHealthcheck\":false,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"{{ .Values.registryName }}\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-sarah426-highly-available\",\"watchAllNamespaces\":false},\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"iamsvc\"},\"livenessProbe\":{\"probePath\":\"/iamhealthcheck\"},\"readinessProbe\":{\"probePath\":\"/iamhealthcheck/atlas\"},\"replicaCount\":3,\"service\":{\"ports\":[{\"name\":\"https\",\"port\":443,\"protocol\":\"TCP\",\"targetPort\":9401},{\"name\":\"http\",\"port\":9400,\"protocol\":\"TCP\",\"targetPort\":9402}],\"type\":\"LoadBalancer\"},\"tag\":\"0.71.2\",\"tls\":{\"certificate\":{},\"certificateType\":\"InternallySigned\",\"signingRequest\":{\"commonName\":\"objectscale-iam\",\"keyAlgorithm\":\"RSA\",\"keySize\":2048,\"names\":{\"country\":\"USA\",\"locality\":\"Hopkinton\",\"organization\":\"Dell EMC\",\"organizationalUnit\":\"ObjectScale\",\"state\":\"MA\"}}}},\"objectscale-monitoring\":{\"influxdb\":{\"persistence\":{\"storageClassName\":\"dellemc-sarah426-highly-available\"}},\"rsyslog\":{\"persistence\":{\"storageClassName\":\"dellemc-sarah426-vsan-sna-thick\"}}},\"pravega\":{\"enabled\":true},\"pravega-operator\":{\"common-monitoring-lib\":{\"exports\":{\"default\":{\"rsyslog_client_image_pull_policy\":\"IfNotPresent\",\"rsyslog_client_tag\":\"3.7.0.0-1174.d65bd7ec\"}},\"global\":{\"enableHealthcheck\":false,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"{{ .Values.registryName }}\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-sarah426-highly-available\",\"watchAllNamespaces\":false}},\"crd\":{\"create\":false},\"global\":{\"enableHealthcheck\":false,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"{{ .Values.registryName }}\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-sarah426-highly-available\",\"watchAllNamespaces\":false},\"hooks\":{\"backoffLimit\":10,\"image\":{\"repository\":\"k8s-kubectl\",\"tag\":\"v1.16.10\"}},\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"pravega-operator\",\"tag\":\"0.5.2-211-24bb31d0\"},\"rbac\":{\"create\":true},\"serviceAccount\":{\"create\":true,\"name\":\"pravega-operator\"},\"testmode\":{\"enabled\":true,\"version\":\"0.10.0\"},\"watchNamespace\":\"\",\"webhookCert\":{\"certName\":\"selfsigned-cert\",\"generate\":false,\"secretName\":\"selfsigned-cert-tls\"}},\"pullPolicy\":\"IfNotPresent\",\"replicaCount\":1,\"resources\":{\"fluentbitAgent\":{\"limits\":{\"memory\":\"40Mi\"},\"requests\":{\"memory\":\"20Mi\"}},\"operator\":{\"limits\":{\"ephemeralStorage\":\"1256Mi\",\"memory\":\"500Mi\"},\"requests\":{\"ephemeralStorage\":\"1256Mi\",\"memory\":\"300Mi\"}},\"rsyslog\":{\"limits\":{\"memory\":\"60Mi\"},\"requests\":{\"memory\":\"30Mi\"}}},\"service-pod\":{\"global\":{\"enableHealthcheck\":false,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"{{ .Values.registryName }}\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-sarah426-highly-available\",\"watchAllNamespaces\":false},\"image\":{\"repository\":\"base-service-tools\"},\"pullPolicy\":\"IfNotPresent\",\"resources\":{\"limits\":{\"ephemeral-storage\":\"20Gi\"},\"requests\":{\"ephemeral-storage\":\"10Gi\",\"memory\":\"2Gi\"}},\"sshCred\":{\"group\":\"users\",\"password\":\"ChangeMe\",\"user\":\"svcuser\"},\"tag\":\"2.71.2\"},\"servicePod\":{\"enabled\":true},\"tag\":\"0.71.2\",\"tolerations\":[],\"zookeeper\":{\"enabled\":true},\"zookeeper-operator\":{\"common-monitoring-lib\":{\"exports\":{\"default\":{\"rsyslog_client_image_pull_policy\":\"IfNotPresent\",\"rsyslog_client_tag\":\"3.7.0.0-1174.d65bd7ec\"}},\"global\":{\"enableHealthcheck\":false,\"installCRD\":true,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"{{ .Values.registryName }}\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-sarah426-highly-available\",\"watchAllNamespaces\":false}},\"global\":{\"enableHealthcheck\":false,\"installCRD\":true,\"logging_injection_enabled\":true,\"monitoring\":{\"enabled\":true},\"monitoring_registry\":\"{{ .Values.registryName }}\",\"platform\":\"VMware\",\"product\":\"objectscale\",\"registry\":\"{{ .Values.registryName }}\",\"registrySecret\":\"vsphere-docker-secret\",\"rsyslog_enabled\":true,\"storageClassName\":\"dellemc-sarah426-highly-available\",\"watchAllNamespaces\":false},\"image\":{\"pullPolicy\":\"IfNotPresent\",\"repository\":\"zookeeper-operator\",\"tag\":\"2.10.0-b1519ae\"},\"replicaCount\":1}}"
+spec:
+  assemblyPhase: Pending
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: objectscale-manager
+  componentKinds:
+    - group: core
+      kind: Service
+    - group: apps
+      kind: Deployment
+    - group: core
+      kind: Pod
+    - group: core
+      kind: ReplicaSet
+    - group: core
+      kind: ConfigMap
+    - group: core
+      kind: ServiceAccount
+    - group: rbac.authorization.k8s.io
+      kind: Role
+    - group: rbac.authorization.k8s.io
+      kind: RoleBinding
+    - group: batch
+      kind: CronJob
+    - group: batch
+      kind: Job
+    - group: core
+      kind: Secret
+  descriptor:
+    type: objectscale-manager
+    description: Cluster-level management of Dell EMC ObjecScale Object Stores
+    version: 0.71.2
+    keywords:
+      - deos
+      - objectscale
+      - object store
+      - flex
+      - ecs
+      - s3
+    info:
+      - "Copyright © 2019 Dell Inc. or its subsidiaries. All Rights Reserved."

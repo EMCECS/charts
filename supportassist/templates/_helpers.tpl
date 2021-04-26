@@ -54,7 +54,7 @@ Verify that systemMode value is allowed.
 {{- define "supportassist.systemModeValidate" -}}
   {{- if .Values.systemMode -}}
     {{- $sysModeValue := .Values.systemMode -}}
-    {{- if or (eq $sysModeValue "normal") (eq $sysModeValue "maintenance") (eq $sysModeValue "preProd") (eq $sysModeValue "upgrade") -}}
+    {{- if or (eq $sysModeValue "normal") (eq $sysModeValue "maintenance") (eq $sysModeValue "preProd") (eq $sysModeValue "update") -}}
       {{- .Values.systemMode -}}
     {{- end -}}
   {{- else -}}

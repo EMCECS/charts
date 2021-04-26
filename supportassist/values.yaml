@@ -131,7 +131,7 @@ telemetry:
   inventory:
     image:
       repository: telemetry-upload
-      tag: # rfw-update-this telemetry-upload-image
+      tag: # wait-73-rfw-update-this telemetry-upload-image
     schedule: "0 * * * *"
     disabled: true
     folder: inventory
@@ -139,7 +139,7 @@ telemetry:
   capacity:
     image:
       repository: telemetry-upload
-      tag: # rfw-update-this telemetry-upload-image
+      tag: # wait-73-rfw-update-this telemetry-upload-image
     schedule: "0 * * * *"
     disabled: true
     folder: capacity
@@ -147,7 +147,7 @@ telemetry:
   performance:
     image:
       repository: telemetry-upload
-      tag: # rfw-update-this telemetry-upload-image
+      tag: # wait-73-rfw-update-this telemetry-upload-image
     schedule: "*/10 * * * *"
     disabled: true
     folder: performance
@@ -155,7 +155,7 @@ telemetry:
   health:
     image:
       repository: telemetry-upload
-      tag: # rfw-update-this telemetry-upload-image
+      tag: # wait-73-rfw-update-this telemetry-upload-image
     schedule: "*/10 * * * *"
     disabled: true
     folder: health

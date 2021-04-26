@@ -17,32 +17,32 @@ metadata:
     release: {{ .Release.Name }}
 rules:
   - apiGroups:
-      - decks.ecs.dellemc.com
+    - decks.ecs.dellemc.com
     resources:
-      - licenses
-      - supportassists
+    - licenses
+    - supportassists
     verbs:
-      - get
-      - list
+    - get
+    - list
   - apiGroups:
-      - ecs.dellemc.com
+    - ecs.dellemc.com
     resources:
-      - ecsclusters
+    - ecsclusters
     verbs:
-      - get
-      - list
+    - get
+    - list
   - apiGroups:
-      - ""
+    - ""
     resources:
-      - services
-      - serviceaccounts
-      - secrets
-      - nodes
-      - persistentvolumes
-      - persistentvolumeclaims
+    - services
+    - serviceaccounts
+    - secrets
+    - nodes
+    - persistentvolumes
+    - persistentvolumeclaims
     verbs:
-      - get
-      - list
+    - get
+    - list
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -118,9 +118,9 @@ metadata:
   labels:
     release: {{ .Release.Name }}
 rules:
-  - apiGroups: ["*"]
-    resources: ["*"]
-    verbs: ["get", "watch", "list"]
+- apiGroups: ["*"]
+  resources: ["*"]
+  verbs: ["get", "watch", "list"]
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -156,22 +156,22 @@ metadata:
     release: {{ .Release.Name }}
 rules:
   - apiGroups:
-      - decks.ecs.dellemc.com
+    - decks.ecs.dellemc.com
     resources:
-      - licenses
-      - supportassists
+    - licenses
+    - supportassists
     verbs:
-      - get
-      - list
+    - get
+    - list
   - apiGroups:
-      - ""
+    - ""
     resources:
-      - services
-      - serviceaccounts
-      - secrets
+    - services
+    - serviceaccounts
+    - secrets
     verbs:
-      - get
-      - list
+    - get
+    - list
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -206,22 +206,22 @@ metadata:
     release: { { .Release.Name } }
 rules:
   - apiGroups:
-      - decks.ecs.dellemc.com
+    - decks.ecs.dellemc.com
     resources:
-      - licenses
+    - licenses
     verbs:
-      - get
-      - update
-      - list
+    - get
+    - update
+    - list
   - apiGroups:
-      - ""
+    - ""
     resources:
-      - services
-      - serviceaccounts
-      - secrets
+    - services
+    - serviceaccounts
+    - secrets
     verbs:
-      - get
-      - list
+    - get
+    - list
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1

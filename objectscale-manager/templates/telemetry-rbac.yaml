@@ -79,9 +79,9 @@ metadata:
   labels:
     release: {{ .Release.Name }}
 rules:
-  - apiGroups: ["*"]
-    resources: ["*"]
-    verbs: ["get", "watch", "list"]
+- apiGroups: ["*"]
+  resources: ["*"]
+  verbs: ["get", "watch", "list"]
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1

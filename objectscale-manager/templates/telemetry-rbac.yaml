@@ -191,19 +191,19 @@ roleRef:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: { { .Release.Name } }-license-usage
-  namespace: { { .Release.Namespace } }
-  { { - if .Values.global.registrySecret } }
+  name: {{ .Release.Name }}-license-usage
+  namespace: {{ .Release.Namespace }}
+  {{ - if .Values.global.registrySecret }}
 imagePullSecrets:
-  - name: { { .Values.global.registrySecret } }
-  { { - end } }
+  - name: {{ .Values.global.registrySecret }}
+  {{ - end }}
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: { { .Release.Namespace } }-license-usage
+  name: {{ .Release.Namespace }}-license-usage
   labels:
-    release: { { .Release.Name } }
+    release: {{ .Release.Name }}
 rules:
   - apiGroups:
     - decks.ecs.dellemc.com
@@ -226,15 +226,15 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: { { .Release.Namespace } }-license-usage
+  name: {{ .Release.Namespace }}-license-usage
   labels:
-    release: { { .Release.Name } }
+    release: {{ .Release.Name }}
 subjects:
   - kind: ServiceAccount
-    name: { { .Release.Name } }-license-usage
-    namespace: { { .Release.Namespace } }
+    name: {{ .Release.Name }}-license-usage
+    namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: { { .Release.Namespace } }-license
+  name: {{ .Release.Namespace }}-license-usage
   apiGroup: rbac.authorization.k8s.io
 ---

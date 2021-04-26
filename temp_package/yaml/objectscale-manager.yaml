@@ -1,0 +1,1494 @@
+---
+# Source: objectscale-vsphere/templates/vsphere-plugin-network-policy.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: objectscale-allow-all
+  namespace: dellemc-objectscale-system
+spec:
+  ingress:
+    - {}
+  podSelector: {}
+  policyTypes:
+    - Ingress
+---
+# Source: objectscale-vsphere/charts/objectscale-portal/charts/objectscale-graphql/charts/helm-controller/templates/controller-rbac.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: install-controller
+  namespace: dellemc-objectscale-system
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: vsphere-plugin
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.71.2
+    app.kubernetes.io/component: objectscale-operator
+    app.kubernetes.io/part-of: vsphere-plugin
+    helm.sh/chart: helm-controller-0.71.2
+    release: vsphere-plugin
+    operator: objectscale-operator
+    product: objectscale
+imagePullSecrets:
+  - name: vsphere-docker-secret
+---
+# Source: objectscale-vsphere/charts/objectscale-portal/charts/objectscale-graphql/templates/objecscale-api-rbac.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: objectscale-api
+  namespace: dellemc-objectscale-system
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: vsphere-plugin
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.71.2
+    app.kubernetes.io/component: objectscale-graphql
+    app.kubernetes.io/part-of: vsphere-plugin
+    helm.sh/chart: objectscale-graphql-0.71.2
+    release: vsphere-plugin
+    operator: objectscale-operator
+    product: objectscale
+imagePullSecrets:
+  - name: vsphere-docker-secret
+---
+# Source: objectscale-vsphere/templates/vsphere-plugin-secrets.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vsphere-docker-secret
+  namespace: dellemc-objectscale-system
+data:
+  .dockerconfigjson: DOCKERSECRETPLACEHOLDER
+type: kubernetes.io/dockerconfigjson
+---
+# Source: objectscale-vsphere/charts/objectscale-portal/charts/rsyslog-client/templates/rsyslog-client-config.yaml
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vsphere-plugin-rsyslog-client-config
+  # namespace is required for resources created by objectscale-vsphere
+  namespace: dellemc-objectscale-system
+  labels:
+    app.kubernetes.io/name: vsphere-plugin-rsyslog-client
+    app.kubernetes.io/instance: vsphere-plugin
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: "0.54.0"
+    app.kubernetes.io/part-of: vsphere-plugin
+    helm.sh/chart: rsyslog-client-3.7.0-1183.133b23a9
+    release: vsphere-plugin
+data:
+  rsyslog.conf.template: |+
+    #### MODULES ####
+
+    # input module: file
+    module(load="imfile")
+
+    #### GLOBAL DIRECTIVES ####
+
+    #### RULES ####
+
+    # input log files
+    input(type="imfile"
+          File="/var/log/*.log"
+          Tag="vsphere-plugin"
+          addMetadata="on"
+          Ruleset="handle_multiple_logs"
+          Facility="local0"
+    )
+
+    _STDOUT_CONF_
+
+    ruleset(name="handle_multiple_logs") {
+      # http://www.rsyslog.com/doc/v8-stable/rainerscript/functions.html
+      # re_extract(expr, re, match, submatch, no-found)
+      set $.suffix=re_extract($!metadata!filename, "(.*)/([^/]*)", 0, 2, "all.log");
+      set $.pod_name=getenv("POD_NAME");
+      call sendToLogserver
+    }
+
+    ruleset(name="handle_stdout_logs") {
+      # http://www.rsyslog.com/doc/v8-stable/rainerscript/functions.html
+      # re_extract(expr, re, match, submatch, no-found)
+      set $.container_name=re_extract($!metadata!filename, "(.*)/([^/]*)/([^/]*)", 0, 2, "unknown_container");
+      set $.log_name=re_extract($!metadata!filename, "(.*)/([^/]*)", 0, 2, "all.log");
+      set $.suffix= $.container_name & ".stdout." & $.log_name;
+      set $.pod_name=getenv("POD_NAME");
+      call sendToLogserver
+    }
+
+    # output template
+    template(name="FileFormat" type="string"
+    string= "<%PRI%>%TIMESTAMP% %HOSTNAME% %syslogtag%__%$.pod_name%__%$.suffix%%msg:::sp-if-no-1st-sp%%msg:::drop-last-lf%\n"
+            )
+
+    ruleset(name="sendToLogserver") {
+      action(type="omfwd"
+          Target="_RSYSLOG_POD_NAME_.objectscale-manager-rsyslog.dellemc-objectscale-system.svc.cluster.local"
+          Port="10514"
+          Protocol="tcp"
+          Template="FileFormat" )
+    #    action.resumeRetryCount=100
+    #    queue.type=linkedList queue.size=10000)
+    }
+  rsyslog_stdout.conf.template: |+
+    input(type="imfile"
+          File="_CONTAINER_DIR_/*.log"
+          Tag="vsphere-plugin"
+          addMetadata="on"
+          Ruleset="handle_stdout_logs"
+          Facility="local0"
+    )
+---
+# Source: objectscale-vsphere/charts/objectscale-portal/templates/objectscale-portal-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: objectscale-portal
+  namespace: dellemc-objectscale-system
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: vsphere-plugin
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.71.2
+    app.kubernetes.io/component: objectscale-portal
+    app.kubernetes.io/part-of: vsphere-plugin
+    helm.sh/chart: objectscale-portal-0.71.2
+    release: vsphere-plugin
+    operator: objectscale-operator
+    product: objectscale
+data:
+  upstream.conf: |
+    upstream graphql {
+        server objectscale-graphql:8080;
+    }
+  nginx.conf: |
+    events {
+        worker_connections  4096;  ## Default: 1024
+    }
+
+    http {
+        include /etc/nginx/mime.types;
+        include /conf/upstream.conf;
+        map $request_method $decksname {
+         default decks-support-store.dellemc-objectscale-system.svc.cluster.local;
+        }
+        map $request_method $decksport {
+         default 7443;
+        }
+        server {
+            resolver kube-dns.kube-system.svc.cluster.local;
+            listen       4443;
+            server_name  localhost;
+            access_log /dev/stdout;
+            error_log /dev/stdout;
+            rewrite_log on;
+            ssl on;
+            ssl_protocols        TLSv1.2;
+            ssl_ciphers          AES:!ADH;
+            ssl_certificate /etc/nginx/ssl/tls.crt;
+            ssl_certificate_key /etc/nginx/ssl/tls.key;
+            location /wcp/login {
+                proxy_pass_request_headers on;
+                proxy_pass_request_body on;
+                proxy_pass https://kube-apiserver-authproxy-svc.kube-system.svc.cluster.local:8443/wcp/login;
+            }
+            location /rest/saml-hook {
+                proxy_pass_request_headers on;
+                proxy_pass_request_body on;
+                proxy_pass https://kube-apiserver-authproxy-svc.kube-system.svc.cluster.local:8443/wcp/vsphere-ui-saml-hook;
+            }
+            location /graphql {
+                proxy_pass http://graphql;
+            }
+            location /data {
+                proxy_pass https://$decksname:$decksport;
+            }
+            location ~* /grafana/[a-z0-9]([-a-z0-9]*[a-z0-9])?/[a-z0-9]([-a-z0-9]*[a-z0-9])? {
+                rewrite /grafana/([a-z0-9-]+)/([a-z0-9-]+)/(.*) /$3 break;
+                rewrite /grafana/([a-z0-9-]+)/([a-z0-9-]+) / break;
+                proxy_pass http://$2-grafana.$1.svc.cluster.local:3000;
+            }
+            location /platform {
+                default_type application/json;
+                return 200 '{"value":"VMware"}';
+            }
+            location /features {
+                return 200 '{"bucketsv2":true,"iam":true,"manageObjectStoreV2":false,"objectscaleDashboard":true,"objectscaleSystems":false,"replications":false,"uiLoggingLevel":"ERROR"}';
+            }
+            location / {
+                root   /usr/share/nginx/html;
+                index  index.html index.htm;
+            }
+        }
+    }
+  plugin.json: |
+    {
+        "manifestVersion": "1.0.0",
+        "requirements": {
+            "plugin.api.version": "1.0.0"
+        },
+        "configuration": {
+            "nameKey": "plugin.name",
+            "icon": {
+                "name": "star"
+            },
+            "sso": {
+                "saml": {
+                    "hokSolution": {
+                        "pushHook": {
+                            "uri": "rest/saml-hook"
+                        }
+                    }
+                }
+            }
+        },
+        "objects": {
+            "ClusterComputeResource": {
+                "summary": {
+                    "view": {
+                        "uri": "index.html?view=summary",
+                        "size": {
+                            "widthSpan": 1,
+                            "heightSpan": 2
+                        }
+                    }
+                },
+                "monitor": {
+                    "views": [
+                        {
+                            "navigationId": "deos.monitor.health",
+                            "labelKey": "cluster.monitor.list.health",
+                            "uri": "index.html?view=health"
+                        }
+                    ]
+                },
+                "configure": {
+                    "views": [
+                        {
+                            "navigationId": "deos.configure.dashboard",
+                            "labelKey": "cluster.configure.list.dashboard",
+                            "uri": "index.html?view=dashboard"
+                        },
+                        {
+                            "navigationId": "deos.configure.accounts",
+                            "labelKey": "cluster.configure.list.accounts",
+                            "uri": "index.html?view=accounts"
+                        },
+                        {
+                            "navigationId": "deos.configure.objectstores",
+                            "labelKey": "cluster.configure.list.objectstores",
+                            "uri": "index.html?view=objectstores"
+                        },
+                        {
+                            "navigationId": "deos.configure.objectscalesystems",
+                            "labelKey": "cluster.configure.list.objectscalesystems",
+                            "uri": "index.html?view=objectscalesystems"
+                        },
+                        
+                        {
+                            "navigationId": "deos.configure.settings",
+                            "labelKey": "cluster.configure.list.settings",
+                            "uri": "index.html?view=settings"
+                        }
+                    ]
+                }
+            }
+        },
+        "definitions": {
+            "iconSpriteSheet": {
+                "uri": "assets/images/sprites.png",
+                "definitions": {
+                    "star": {
+                        "x": 0,
+                        "y": 96
+                    }
+                }
+            },
+            "i18n": {
+                "locales": [
+                    "en-US",
+                    "de-DE",
+                    "fr-FR"
+                ],
+                "definitions": {
+                    "plugin.name": {
+                        "en-US": "ObjectScaleSERVICE_ID",
+                        "de-DE": "ObjectScaleSERVICE_ID",
+                        "fr-FR": "ObjectScaleSERVICE_ID"
+                    },
+                    "cluster.monitor.list.health": {
+                        "en-US": "HealthSERVICE_ID",
+                        "de-DE": "GesundheitSERVICE_ID",
+                        "fr-FR": "santéSERVICE_ID"
+                    },
+                    "cluster.configure.list.objectstores": {
+                        "en-US": "Object StoresSERVICE_ID",
+                        "de-DE": "Object StoresSERVICE_ID",
+                        "fr-FR": "Object StoresSERVICE_ID"
+                    },
+                    "cluster.configure.list.settings": {
+                        "en-US": "SettingsSERVICE_ID",
+                        "de-DE": "SettingsSERVICE_ID",
+                        "fr-FR": "SettingsSERVICE_ID"
+                    },
+                    "cluster.configure.list.dashboard": {
+                        "en-US": "DashboardSERVICE_ID",
+                        "de-DE": "DashboardSERVICE_ID",
+                        "fr-FR": "DashboardSERVICE_ID"
+                    },
+                    "cluster.configure.list.accounts": {
+                        "en-US": "AccountsSERVICE_ID",
+                        "de-DE": "AccountsSERVICE_ID",
+                        "fr-FR": "AccountsSERVICE_ID"
+                    },
+                    "cluster.configure.list.objectscalesystems": {
+                        "en-US": "Objectscale SystemsSERVICE_ID",
+                        "de-DE": "Objectscale SystemsSERVICE_ID",
+                        "fr-FR": "Objectscale SystemsSERVICE_ID"
+                    }
+                }
+            }
+        }
+    }
+---
+# Source: objectscale-vsphere/charts/objectscale-portal/charts/objectscale-graphql/charts/helm-controller/templates/controller-rbac.yaml
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: dellemc-objectscale-system-install-controller
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: vsphere-plugin
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.71.2
+    app.kubernetes.io/component: objectscale-operator
+    app.kubernetes.io/part-of: vsphere-plugin
+    helm.sh/chart: helm-controller-0.71.2
+    release: vsphere-plugin
+    operator: objectscale-operator
+    product: objectscale
+rules:
+  - apiGroups:
+      - rbac.authorization.k8s.io
+    resources:
+      - roles
+      - rolebindings
+      - clusterroles
+      - clusterrolebindings
+    verbs:
+      - '*'
+  - apiGroups:
+      - ecs.dellemc.com
+    resources:
+      - "*"
+    verbs:
+      - "*"
+  - apiGroups:
+      - decks.ecs.dellemc.com
+    resources:
+      - "*"
+    verbs:
+      - "*"
+  - apiGroups:
+      - kahm.emcecs.github.com
+    resources:
+      - "*"
+    verbs:
+      - "*"
+  - apiGroups:
+      - storage.k8s.io
+    resources:
+      - storageclasses
+      - storageclasslists
+    verbs:
+      - get
+      - list
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+      - services
+      - endpoints
+      - persistentvolumeclaims
+      - persistentvolumes
+      - events
+      - configmaps
+      - secrets
+      - serviceaccounts
+    verbs:
+      - "*"
+  - apiGroups:
+      - batch
+    resources:
+      - jobs
+      - cronjobs
+    verbs:
+      - "*"
+  - apiGroups:
+      - certificates.k8s.io
+    resources:
+      - certificatesigningrequests
+    verbs:
+      - "*"
+  - apiGroups:
+      - certificates.k8s.io
+    resources:
+      - certificatesigningrequests/approval
+    verbs:
+      - update
+  - apiGroups:
+      - policy
+    resources:
+      - poddisruptionbudgets
+    verbs:
+      - "*"
+  - apiGroups:
+      - apps
+    resources:
+      - deployments
+      - daemonsets
+      - replicasets
+      - statefulsets
+    verbs:
+      - "*"
+  - apiGroups:
+      - zookeeper.pravega.io
+    resources:
+      - "*"
+    verbs:
+      - "*"
+  - apiGroups:
+      - app.k8s.io
+    resources:
+      - "*"
+    verbs:
+      - "*"
+  - apiGroups:
+      - atlas.dellemc.com
+    resources:
+      - "*"
+    verbs:
+      - "*"
+  - apiGroups:
+      - influxdata.com
+    resources:
+      - influxdbs
+    verbs:
+      - "*"
+  - apiGroups:
+      - ""
+    resources:
+      - nodes
+      - clusterroles
+    verbs:
+      - "*"
+  - apiGroups:
+    - apiextensions.k8s.io
+    resources:
+    - customresourcedefinitions
+    verbs:
+    - '*'
+  - apiGroups:
+    - ""
+    resources:
+    - namespaces
+    verbs:
+    - list
+    - get
+  - apiGroups:
+      - stateful.ecs.dellemc.com
+    resources:
+      - "*"
+    verbs:
+      - "*"
+  - apiGroups:
+    - "admissionregistration.k8s.io"
+    resources:
+    - "mutatingwebhookconfigurations"
+    - "validatingwebhookconfigurations"
+    verbs:
+      - "*"
+  - apiGroups:
+      - db.ecs.dellemc.com
+    resources:
+      - "*"
+    verbs:
+      - "*"
+---
+# Source: objectscale-vsphere/charts/objectscale-portal/charts/objectscale-graphql/templates/object-store-admin-role.yaml
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: dellemc-objectscale-system-object-store-admin
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: vsphere-plugin
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.71.2
+    app.kubernetes.io/component: objectscale-graphql
+    app.kubernetes.io/part-of: vsphere-plugin
+    helm.sh/chart: objectscale-graphql-0.71.2
+    release: vsphere-plugin
+    operator: objectscale-operator
+    product: objectscale
+    rbac.authorization.k8s.io/aggregate-to-edit: "true"
+rules:
+- apiGroups:
+  - ecs.dellemc.com
+  resources:
+  - ecsclusters
+  verbs:
+  - "*"
+- apiGroups:
+  - app.k8s.io
+  resources:
+  - "*"
+  verbs:
+  - "*"
+- apiGroups:
+  - influxdata.com
+  resources:
+  - influxdbs
+  verbs:
+  - "*"
+- apiGroups:
+    - ""
+  resources:
+    - pods
+    - persistentvolumeclaims
+    - secrets
+    - configmaps
+  verbs:
+    - "*"
+- apiGroups:
+    - batch
+  resources:
+    - jobs
+    - cronjobs
+  verbs:
+    - "*"
+- apiGroups:
+    - appplatform.wcp.vmware.com
+  resources:
+    - storagepolicies
+  verbs:
+    - get
+    - list
+---
+# Source: objectscale-vsphere/charts/objectscale-portal/charts/objectscale-graphql/templates/object-store-monitor-role.yaml
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: dellemc-objectscale-system-object-store-monitor
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: vsphere-plugin
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.71.2
+    app.kubernetes.io/component: objectscale-graphql
+    app.kubernetes.io/part-of: vsphere-plugin
+    helm.sh/chart: objectscale-graphql-0.71.2
+    release: vsphere-plugin
+    operator: objectscale-operator
+    product: objectscale
+    rbac.authorization.k8s.io/aggregate-to-edit: "true"
+    rbac.authorization.k8s.io/aggregate-to-view: "true"
+rules:
+- apiGroups:
+  - ecs.dellemc.com
+  resources:
+  - ecsclusters
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+    - ecs.dellemc.com
+  resources:
+    - networkconnections
+  verbs:
+    - get
+    - watch
+    - list
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - services
+  - endpoints
+  - persistentvolumeclaims
+  - persistentvolumes
+  - events
+  - configmaps
+  - secrets
+  - resourcequotas
+  verbs:
+  - get
+  - watch
+  - list
+- apiGroups:
+  - batch
+  resources:
+  - jobs
+  - cronjobs
+  verbs:
+  - get
+  - watch
+  - list
+- apiGroups:
+  - policy
+  resources:
+  - poddisruptionbudgets
+  verbs:
+  - get
+  - watch
+  - list
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  - daemonsets
+  - replicasets
+  - statefulsets
+  verbs:
+  - get
+  - watch
+  - list
+- apiGroups:
+  - zookeeper.pravega.io
+  resources:
+  - "*"
+  verbs:
+  - get
+  - watch
+  - list
+- apiGroups:
+  - app.k8s.io
+  resources:
+  - "*"
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - atlas.dellemc.com
+  resources:
+  - "*"
+  verbs:
+  - get
+  - watch
+  - list
+- apiGroups:
+  - influxdata.com
+  resources:
+  - influxdbs
+  verbs:
+  - "*"
+- apiGroups:
+    - metrics.k8s.io
+  resources:
+    - "*"
+  verbs:
+    - get
+    - watch
+    - list
+- apiGroups:
+    - appplatform.wcp.vmware.com
+  resources:
+    - storagepolicies
+  verbs:
+    - get
+    - list
+- apiGroups:
+    - appplatform.wcp.vmware.com
+  resources:
+    - storagepolicies
+  verbs:
+    - get
+    - list
+---
+# Source: objectscale-vsphere/charts/objectscale-portal/charts/objectscale-graphql/templates/objectscale-admin-cluster-role.yaml
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: dellemc-objectscale-system-objectscale-admin
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: vsphere-plugin
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.71.2
+    app.kubernetes.io/component: graphql-cluster-scoped-resources
+    app.kubernetes.io/part-of: vsphere-plugin
+    helm.sh/chart: objectscale-graphql-0.71.2
+    release: vsphere-plugin
+    operator: objectscale-operator
+    product: objectscale
+rules:
+  - apiGroups:
+      - cns.vmware.com
+    resources:
+      - storagepools
+    verbs:
+      - get
+      - list
+  - apiGroups:
+      - storage.k8s.io
+    resources:
+      - storageclasses
+      - storageclasslists
+    verbs:
+      - get
+      - list
+  - apiGroups:
+      - certificates.k8s.io
+    resources:
+      - certificatesigningrequests
+    verbs:
+      - "*"
+  - apiGroups:
+      - certificates.k8s.io
+    resources:
+      - certificatesigningrequests/approval
+    verbs:
+      - update
+  - apiGroups:
+      - certificates.k8s.io
+    resourceNames:
+      - kubernetes.io/*
+    resources:
+      - signers
+    verbs:
+      - approve
+  - apiGroups:
+      - rbac.authorization.k8s.io
+    resources:
+      - clusterroles
+      - clusterrolebindings
+    verbs:
+      - "*"
+  - apiGroups:
+      - ""
+    resources:
+      - nodes
+      - clusterroles
+    verbs:
+      - "*"
+  - apiGroups:
+      - ""
+    resources:
+      - namespaces
+      - serviceaccounts
+      - secrets
+      - resourcequotas
+      - configmaps
+    verbs:
+      - get
+      - list
+      - watch
+---
+# Source: objectscale-vsphere/charts/objectscale-portal/charts/objectscale-graphql/charts/helm-controller/templates/controller-rbac.yaml
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: dellemc-objectscale-system-install-controller
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: vsphere-plugin
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.71.2
+    app.kubernetes.io/component: helm-controller
+    app.kubernetes.io/part-of: vsphere-plugin
+    helm.sh/chart: helm-controller-0.71.2
+    release: vsphere-plugin
+    operator: objectscale-operator
+    product: objectscale
+subjects:
+  - kind: ServiceAccount
+    name: install-controller
+    namespace: dellemc-objectscale-system
+roleRef:
+  kind: ClusterRole
+  name: dellemc-objectscale-system-install-controller
+  apiGroup: rbac.authorization.k8s.io
+---
+# Source: objectscale-vsphere/charts/objectscale-portal/templates/objectscale-api-role-bindings.yaml
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: dellemc-objectscale-system-objectscale-api-as-admin
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: vsphere-plugin
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.71.2
+    app.kubernetes.io/component: objectscale-graphql
+    app.kubernetes.io/part-of: vsphere-plugin
+    helm.sh/chart: objectscale-portal-0.71.2
+    release: vsphere-plugin
+    operator: objectscale-operator
+    product: objectscale
+subjects:
+  - kind: ServiceAccount
+    name: objectscale-api
+    namespace: dellemc-objectscale-system
+roleRef:
+  kind: ClusterRole
+  name: dellemc-objectscale-system-objectscale-admin
+  apiGroup: rbac.authorization.k8s.io
+---
+# Source: objectscale-vsphere/charts/objectscale-portal/charts/objectscale-graphql/templates/objecscale-api-rbac.yaml
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: dellemc-objectscale-system-objectscale-api
+  namespace: dellemc-objectscale-system
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: vsphere-plugin
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.71.2
+    app.kubernetes.io/component: objectscale-graphql
+    app.kubernetes.io/part-of: vsphere-plugin
+    helm.sh/chart: objectscale-graphql-0.71.2
+    release: vsphere-plugin
+    operator: objectscale-operator
+    product: objectscale
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+    - "*"
+---
+# Source: objectscale-vsphere/charts/objectscale-portal/charts/objectscale-graphql/templates/objectscale-admin-role.yaml
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: dellemc-objectscale-system-objectscale-admin
+  namespace: dellemc-objectscale-system
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: vsphere-plugin
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.71.2
+    app.kubernetes.io/component: objectscale-graphql
+    app.kubernetes.io/part-of: vsphere-plugin
+    helm.sh/chart: objectscale-graphql-0.71.2
+    release: vsphere-plugin
+    operator: objectscale-operator
+    product: objectscale
+rules:
+- apiGroups:
+    - decks.ecs.dellemc.com
+  resources:
+    - "*"
+  verbs:
+    - "*"
+- apiGroups:
+    - ecs.dellemc.com
+  resources:
+    - "*"
+  verbs:
+    - "*"
+- apiGroups:
+    - kahm.emcecs.github.com
+  resources:
+    - "*"
+  verbs:
+    - "*"
+- apiGroups:
+    - ""
+  resources:
+    - secrets
+    - pods
+    - services
+    - endpoints
+    - persistentvolumeclaims
+    - persistentvolumes
+    - events
+    - configmaps
+  verbs:
+    - "*"
+- apiGroups:
+    - batch
+  resources:
+    - jobs
+    - cronjobs
+  verbs:
+    - "*"
+- apiGroups:
+    - policy
+  resources:
+    - poddisruptionbudgets
+  verbs:
+    - get
+    - list
+    - watch
+- apiGroups:
+    - apps
+  resources:
+    - deployments
+    - daemonsets
+    - replicasets
+    - statefulsets
+  verbs:
+    - "*"
+- apiGroups:
+    - app.k8s.io
+  resources:
+    - "*"
+  verbs:
+    - "*"
+- apiGroups:
+    - metrics.k8s.io
+  resources:
+    - "*"
+  verbs:
+    - get
+    - watch
+    - list
+- apiGroups:
+    - appplatform.wcp.vmware.com
+  resources:
+    - storagepolicies
+  verbs:
+    - get
+    - list
+---
+# Source: objectscale-vsphere/charts/objectscale-portal/charts/rsyslog-client/templates/rbac_role.yaml
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+#  Role for rsyslog-client to find instance of rsyslog service
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    app.kubernetes.io/name: vsphere-plugin-rsyslog-client
+    app.kubernetes.io/instance: vsphere-plugin
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: "0.54.0"
+    app.kubernetes.io/part-of: vsphere-plugin
+    helm.sh/chart: rsyslog-client-3.7.0-1183.133b23a9
+    release: vsphere-plugin
+  name: "vsphere-plugin-rsyslog-client"
+  namespace: "dellemc-objectscale-system"
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["list"]
+---
+# Source: objectscale-vsphere/templates/vsphere-plugin-network-policy.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: objectscale-default-role
+  namespace: dellemc-objectscale-system
+rules:
+  - apiGroups:
+      - policy
+    resourceNames:
+      - wcp-privileged-psp
+    resources:
+      - podsecuritypolicies
+    verbs:
+      - use
+---
+# Source: objectscale-vsphere/charts/objectscale-portal/charts/objectscale-graphql/templates/objecscale-api-rbac.yaml
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: dellemc-objectscale-system-objectscale-api
+  namespace: dellemc-objectscale-system
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: vsphere-plugin
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.71.2
+    app.kubernetes.io/component: objectscale-graphql
+    app.kubernetes.io/part-of: vsphere-plugin
+    helm.sh/chart: objectscale-graphql-0.71.2
+    release: vsphere-plugin
+    operator: objectscale-operator
+    product: objectscale
+subjects:
+- kind: ServiceAccount
+  name: objectscale-api
+  namespace: dellemc-objectscale-system
+roleRef:
+  kind: Role
+  name: dellemc-objectscale-system-objectscale-api
+  apiGroup: rbac.authorization.k8s.io
+---
+# Source: objectscale-vsphere/charts/objectscale-portal/charts/rsyslog-client/templates/rbac_rolebinding.yaml
+#
+# Copyright © [2020] Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# This software contains the intellectual property of Dell Inc.
+# or is licensed to Dell Inc. from third parties. Use of this
+# software and the intellectual property contained therein is expressly
+# limited to the terms and conditions of the License Agreement under which
+# it is provided by or on behalf of Dell Inc. or its subsidiaries.
+#
+#
+#  RoleBinding for rsyslog-client to find instance of rsyslog service
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: "vsphere-plugin-rsyslog-client"
+  namespace: "dellemc-objectscale-system"
+  labels:
+    app.kubernetes.io/name: vsphere-plugin-rsyslog-client
+    app.kubernetes.io/instance: vsphere-plugin
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: "0.54.0"
+    app.kubernetes.io/part-of: vsphere-plugin
+    helm.sh/chart: rsyslog-client-3.7.0-1183.133b23a9
+    release: vsphere-plugin
+subjects:
+  - apiGroup: rbac.authorization.k8s.io
+    kind: Group
+    name: system:serviceaccounts
+roleRef:
+  kind: Role
+  apiGroup: rbac.authorization.k8s.io
+  name: "vsphere-plugin-rsyslog-client"
+---
+# Source: objectscale-vsphere/charts/objectscale-portal/templates/objectscale-api-role-bindings.yaml
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: dellemc-objectscale-system-objectscale-api-as-admin
+  namespace: dellemc-objectscale-system
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: vsphere-plugin
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.71.2
+    app.kubernetes.io/component: objectscale-graphql
+    app.kubernetes.io/part-of: vsphere-plugin
+    helm.sh/chart: objectscale-portal-0.71.2
+    release: vsphere-plugin
+    operator: objectscale-operator
+    product: objectscale
+subjects:
+  - kind: ServiceAccount
+    name: objectscale-api
+    namespace: dellemc-objectscale-system
+roleRef:
+  kind: Role
+  name: dellemc-objectscale-system-objectscale-admin
+  apiGroup: rbac.authorization.k8s.io
+---
+# Source: objectscale-vsphere/templates/vsphere-plugin-network-policy.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: objectscale-default-binding
+  namespace: dellemc-objectscale-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: objectscale-default-role
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: dellemc-objectscale-system
+---
+# Source: objectscale-vsphere/charts/objectscale-portal/charts/objectscale-graphql/charts/helm-controller/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: vsphere-plugin-installer
+  namespace: dellemc-objectscale-system
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/component: objectscale-install-controller
+    helm.sh/chart: helm-controller-0.71.2
+    app.kubernetes.io/instance: vsphere-plugin
+    app.kubernetes.io/version: 0.71.2
+    app.kubernetes.io/part-of: vsphere-plugin
+    release: vsphere-plugin
+    operator: objectscale-operator
+    product: objectscale
+    io.kompose.service: helm-controller
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+  selector:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/component: objectscale-install-controller
+---
+# Source: objectscale-vsphere/charts/objectscale-portal/charts/objectscale-graphql/templates/graphql-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: objectscale-graphql
+  namespace: dellemc-objectscale-system
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: vsphere-plugin
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.71.2
+    app.kubernetes.io/component: objectscale-graphql
+    app.kubernetes.io/part-of: vsphere-plugin
+    helm.sh/chart: objectscale-graphql-0.71.2
+    release: vsphere-plugin
+    operator: objectscale-operator
+    product: objectscale
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/component: objectscale-graphql
+  ports:
+    - port: 8080
+      name: http
+---
+# Source: objectscale-vsphere/charts/objectscale-portal/templates/objectscale-portal-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: objectscale-portal
+  namespace: dellemc-objectscale-system
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: vsphere-plugin
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.71.2
+    app.kubernetes.io/component: objectscale-portal
+    app.kubernetes.io/part-of: vsphere-plugin
+    helm.sh/chart: objectscale-portal-0.71.2
+    release: vsphere-plugin
+    operator: objectscale-operator
+    product: objectscale
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/component: objectscale-portal
+  ports: 
+      - name: https
+        port: 4443
+        targetPort: 4443
+---
+# Source: objectscale-vsphere/charts/objectscale-portal/charts/objectscale-graphql/charts/helm-controller/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: objectscale-install-controller
+  namespace: dellemc-objectscale-system
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/component: objectscale-install-controller
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: vsphere-plugin
+    app.kubernetes.io/version: 0.71.2
+    app.kubernetes.io/part-of: vsphere-plugin
+    helm.sh/chart: helm-controller-0.71.2
+    release: vsphere-plugin
+    operator: objectscale-operator
+    product: objectscale
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: objectscale-manager
+      app.kubernetes.io/component: objectscale-install-controller
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: objectscale-manager
+        app.kubernetes.io/component: objectscale-install-controller
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/instance: vsphere-plugin
+        app.kubernetes.io/version: 0.71.2
+        app.kubernetes.io/part-of: vsphere-plugin
+        helm.sh/chart: helm-controller-0.71.2
+        release: vsphere-plugin
+        operator: objectscale-operator
+        product: objectscale
+    spec:
+      serviceAccountName: install-controller
+      imagePullSecrets:
+        - name: vsphere-docker-secret
+      containers:
+        - name: objectscale-install-controller
+          resources:
+            limits:
+              memory: 500M
+            requests:
+              memory: 250M
+          image: REGISTRYTEMPLATE/install-controller:0.71.2
+          env:
+            - name: OPERATOR_NAME
+              value: objectscale-operator
+            - name: MY_POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: REST_PORT
+              value: "8080"
+            - name: REST_CREDENTIALS
+              valueFrom:
+                secretKeyRef:
+                  name: vsphere-plugin-rest-credentials
+                  key: credentials
+            - name: WATCH_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              name: http
+---
+# Source: objectscale-vsphere/charts/objectscale-portal/charts/objectscale-graphql/templates/graphql-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: objectscale-graphql
+  namespace: dellemc-objectscale-system
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: vsphere-plugin
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.71.2
+    app.kubernetes.io/component: objectscale-graphql
+    app.kubernetes.io/part-of: vsphere-plugin
+    helm.sh/chart: objectscale-graphql-0.71.2
+    release: vsphere-plugin
+    operator: objectscale-operator
+    product: objectscale
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: objectscale-manager
+      app.kubernetes.io/component: objectscale-graphql
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: objectscale-manager
+        app.kubernetes.io/component: objectscale-graphql
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/instance: vsphere-plugin
+        app.kubernetes.io/part-of: vsphere-plugin
+        app.kubernetes.io/version: 0.71.2
+        helm.sh/chart: objectscale-graphql-0.71.2
+        release: vsphere-plugin
+        operator: objectscale-operator
+        product: objectscale
+    spec:
+      serviceAccountName: objectscale-api
+      containers:
+      - name: objectscale-graphql
+        image: REGISTRYTEMPLATE/ecs-flex-graphql:0.71.2
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: OBJSTORE_AVAILABLE_VERSIONS
+          value: "[\"0.71.2\"]"
+        - name: GRAPHQL_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: WATCH_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: GLOBAL_REGISTRY
+          value: REGISTRYTEMPLATE
+        - name: GLOBAL_REGISTRY_SECRET
+          value: vsphere-docker-secret
+        - name: LICENSE_CHART_VERSION
+          value: 2.71.2
+        - name: SUPPORTASSIST_CHART_VERSION
+          value: 2.71.2
+        - name: SRSGATEWAY_CHART_VERSION
+          value: 1.2.0
+        - name: OPERATOR_NAME
+          value: objectscale-operator
+        - name: MANAGER_RELEASE_NAME
+          value: objectscale-manager
+        - name: VSPHERE_SERVICE_PREFIX
+          value: VSPHERE_SERVICE_PREFIX_VALUE
+        - name: STORAGE_CLASS_NAME
+          value: dellemc-sarah426-highly-available
+        - name: LOG_DIRECTION
+          value: stdout
+        - name: HELM_CONTROLLER_ENDPOINT
+          value: http://vsphere-plugin-installer
+        - name: HELM_CONTROLLER_REST_CREDENTIALS
+          valueFrom:
+            secretKeyRef:
+              name: vsphere-plugin-rest-credentials
+              key: credentials
+      
+      - name: rsyslog
+        image: "REGISTRYTEMPLATE/rsyslog:3.7.0.0-1183.133b23a9"
+        imagePullPolicy: "IfNotPresent"
+        env:
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: POD_UID
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.uid
+          - name: POD_NAMESPACE
+            value: "dellemc-objectscale-system"
+          - name: LOG_STDOUT_ENABLED
+            value: ""
+          - name: NODE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
+          - name: RSYSLOG_CLIENT
+            value: "true"
+          - name: RSYSLOG_SVC_NAME
+            value: objectscale-manager-rsyslog
+          - name: RSYSLOG_SVC_NAMESPACE
+            value: dellemc-objectscale-system
+        volumeMounts:
+          - mountPath: /etc/rsyslog
+            name: rsyslog-config
+      volumes:
+      
+      - name: rsyslog-config
+        configMap:
+          name: vsphere-plugin-rsyslog-client-config
+---
+# Source: objectscale-vsphere/charts/objectscale-portal/templates/objectscale-portal-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: objectscale-portal
+  namespace: dellemc-objectscale-system
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: vsphere-plugin
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.71.2
+    app.kubernetes.io/component: objectscale-portal
+    app.kubernetes.io/part-of: vsphere-plugin
+    helm.sh/chart: objectscale-portal-0.71.2
+    release: vsphere-plugin
+    operator: objectscale-operator
+    product: objectscale
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: objectscale-manager
+      app.kubernetes.io/component: objectscale-portal
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: objectscale-manager
+        app.kubernetes.io/component: objectscale-portal
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/instance: vsphere-plugin
+        app.kubernetes.io/part-of: vsphere-plugin
+        app.kubernetes.io/version: 0.71.2
+        helm.sh/chart: objectscale-portal-0.71.2
+        release: vsphere-plugin
+        operator: objectscale-operator
+        product: objectscale
+    spec:
+      imagePullSecrets:
+        - name: vsphere-docker-secret
+      volumes:
+        - name: config-volume
+          configMap:
+            name: objectscale-portal
+        - name: certificate
+          secret:
+            secretName: objectscale-plugin-secret
+      containers:
+        - name: objectscale-portal
+          image: REGISTRYTEMPLATE/ecs-flex-vsphere-plugin:0.71.2
+          env:
+            - name: OPERATOR_NAME
+              value: objectscale-operator
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: config-volume
+              mountPath: /usr/share/nginx/html/plugin.json
+              subPath: plugin.json
+            - name: config-volume
+              mountPath: /conf/upstream.conf
+              subPath: upstream.conf
+            - name: config-volume
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+            - name: certificate
+              mountPath: /etc/nginx/ssl
+---
+# Source: objectscale-vsphere/templates/persistent-services-platform-sp-ha.yaml
+apiVersion: appplatform.wcp.vmware.com/v1beta1
+kind: StoragePolicy
+metadata:
+  labels:
+    controller-tools.k8s.io: "1.0"
+  name: dellemc-sarah426-highly-available
+  namespace: dellemc-objectscale-system
+spec:
+  name: dellemc-sarah426-highly-available
+  rules:
+    VSAN.hostFailuresToTolerate: "1"
+    VSAN.stripeWidth: "1"
+---
+# Source: objectscale-vsphere/templates/persistent-services-platform-operator.yaml
+apiVersion: appplatform.wcp.vmware.com/v1beta1
+kind: VCUIPlugin
+metadata:
+  labels:
+    controller-tools.k8s.io: "1.0"
+  name: objectscale-ui-dellemc-objectscale-system
+  namespace: dellemc-objectscale-system
+spec:
+  name: objectscale-dellemc-objectscale-system
+  uiBackendSecret: objectscale-plugin-secret
+  uiBackendService: objectscale-portal
+  vSphereUiPluginUrl: /plugin.json
+  vSphereExtensionKey: com.dellemc.vsphere.plugin.dellemc-objectscale-system
+---
+# Source: objectscale-vsphere/charts/objectscale-portal/charts/objectscale-graphql/charts/helm-controller/templates/rest-credentials-secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vsphere-plugin-rest-credentials
+  namespace: dellemc-objectscale-system
+  annotations:
+    "helm.sh/hook": "pre-install"
+    "helm.sh/hook-delete-policy": "before-hook-creation"
+type: Opaque
+stringData:
+  credentials: objectscale:3UNCK0TrvwH5SBvt:aCwFmlDiMOc9c6Qd

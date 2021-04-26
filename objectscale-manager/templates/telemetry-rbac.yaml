@@ -235,6 +235,6 @@ subjects:
     namespace: { { .Release.Namespace } }
 roleRef:
   kind: ClusterRole
-  name: { { .Release.Name } }-license
+  name: { { .Release.Namespace } }-license
   apiGroup: rbac.authorization.k8s.io
 ---

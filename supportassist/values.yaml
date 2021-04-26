@@ -125,3 +125,38 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+# telemtry
+telemetry:
+  inventory:
+    image:
+      repository: telemetry-upload
+      tag: # rfw-update-this telemetry-upload-image
+    schedule: "0 * * * *"
+    disabled: true
+    folder: inventory
+    transferType: CLOUDIQ
+  capacity:
+    image:
+      repository: telemetry-upload
+      tag: # rfw-update-this telemetry-upload-image
+    schedule: "0 * * * *"
+    disabled: true
+    folder: capacity
+    transferType: CLOUDIQ
+  performance:
+    image:
+      repository: telemetry-upload
+      tag: # rfw-update-this telemetry-upload-image
+    schedule: "*/10 * * * *"
+    disabled: true
+    folder: performance
+    transferType: CLOUDIQ
+  health:
+    image:
+      repository: telemetry-upload
+      tag: # rfw-update-this telemetry-upload-image
+    schedule: "*/10 * * * *"
+    disabled: true
+    folder: health
+    transferType: CLOUDIQ

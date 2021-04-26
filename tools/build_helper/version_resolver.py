@@ -53,7 +53,7 @@ def process_yaml(input_yaml, return_modified=False):
     with open(input_yaml, "r+") as iym:
         ylines = iym.readlines()
 
-    oylines = ylines.copy()
+    oylines = ylines[:]
     proc_next = None
 
     # process line by line and support update of 'next' line
@@ -80,5 +80,5 @@ if __name__ == '__main__':
 
     load_artifacts(args.version_slice)
 
-    for fl in glob.glob(args.working_dir + '/*/*.yaml', recursive=False):
+    for fl in glob.glob(args.working_dir + '/*/*.yaml'):
         process_yaml(fl)

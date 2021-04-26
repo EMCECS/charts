@@ -241,8 +241,8 @@ healthChecks:
     image:
       repository: objectscale-license-usage
       tag: # rfw-update-this objectscale-license-image
-      schedule: "0 */6 * * *"
-      disabled: false
+    schedule: "0 */6 * * *"
+    disabled: false
   inventory:
     image:
       repository: objectscale-inventory

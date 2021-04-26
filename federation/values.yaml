@@ -35,7 +35,7 @@ atlas:
 
   # Persistent storage options for Atlas Cluster
   persistence:
-    size: 10Gi
+    size: 1Gi
 
   # Replica count for ObjectScale Federation Atlas Cluster
-  replicaCount: 1
+  replicaCount: 3

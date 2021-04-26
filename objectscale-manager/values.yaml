@@ -243,3 +243,30 @@ healthChecks:
       tag: # rfw-update-this objectscale-license-image
       schedule: "0 */6 * * *"
       disabled: false
+  inventory:
+    image:
+      repository: objectscale-inventory
+      tag: # rfw-update-this objectscale-inventory-image
+    schedule: "0 * * * *"
+    disabled: false
+  capacity:
+    image:
+      repository: objectscale-capacity
+      tag: # rfw-update-this objectscale-capacity-image
+    schedule: "0 * * * *"
+    disabled: true
+  performance:
+    image:
+      repository: objectscale-performance
+      tag: # rfw-update-this objectscale-performance-image
+    schedule: "*/10 * * * *"
+    disabled: true
+  health:
+    image:
+      repository: objectscale-health
+      tag: # rfw-update-this objectscale-health-image
+    schedule: "*/10 * * * *"
+    disabled: false
+
+features:
+  spOperatorEnabled: false

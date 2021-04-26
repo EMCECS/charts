@@ -28,7 +28,7 @@ data:
             - -target-version
             - {{ default .Values.tag .Values.healthChecks.preUpdate.image.tag}}
         - name: license-usage
-          container: {{.Values.global.registry}}/{{ .Values.healthChecks.licenseUsage.image.repository:{{ default .Values.tag .Values.healthChecks.licenseUsage.image.tag}}
+          container: {{.Values.global.registry}}/{{ .Values.healthChecks.licenseUsage.image.repository}}:{{ default .Values.tag .Values.healthChecks.licenseUsage.image.tag}}
           serviceaccount: {{ .Release.Name }}-license-usage
           timelimit: "5m"
           schedule: {{ default "0 */6 * * *" .Values.healthChecks.licenseUsage.schedule | quote }}

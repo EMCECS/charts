@@ -239,7 +239,7 @@ healthChecks:
       tag: # rfw-update-this objectscale-manager-pre-update-image
   licenseUsage:
     image:
-      repository: objectscale-license
+      repository: objectscale-license-usage
       tag: # rfw-update-this objectscale-license-usage-image
     schedule: "0 */6 * * *"
     disabled: false

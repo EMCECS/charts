@@ -191,7 +191,7 @@ roleRef:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: {{ .Release.Name }}-license-usage
+  name: {{ .Release.Namespace }}-license-usage
   namespace: {{ .Release.Namespace }}
   {{ - if .Values.global.registrySecret }}
 imagePullSecrets:

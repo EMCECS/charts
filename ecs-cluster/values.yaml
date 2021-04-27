@@ -133,6 +133,8 @@ pravega:
   options:
     metrics:
       influxDBName: "pravega"
+    emptyDirVolumeMounts: "heap-dump=/crash-dump,log=/opt/pravega/logs"
+    configMapVolumeMounts: "log4j2:logback.xml=/opt/pravega/conf/logback.xml"
 #    bookkeeper.write.outstanding.bytes.max: "33554432"
 #    bookkeeper.write.timeout.milliseconds: "60000"
 #    bookkeeper.zk.connect.sessionTimeout.milliseconds: "15000"
@@ -164,9 +166,9 @@ bookkeeper:
   # labels:
   image:
     pullPolicy: IfNotPresent
-  version: # rfw-update-this bookkeeper-docker-image
+    tag: # rfw-update-this bookkeeper-docker-image
   blockOwnerDeletion: false
-  autoRecovery: true
+  autoRecovery: false
   probes:
     readiness:
       initialDelaySeconds: 20
@@ -191,6 +193,8 @@ bookkeeper:
       # storageClassName:
       volumeSize: 5Gi
   options:
+    emptyDirVolumeMounts: "heap-dump=/crash-dump,log=/opt/bookkeeper/logs"
+    configMapVolumeMounts: "log4j2:apply-config-from-env.py=/opt/bookkeeper/scripts/apply-config-from-env.py"
     log:
       level: "INFO"
 
@@ -201,7 +205,7 @@ zookeeper:
 
   image:
     repository: zookeeper
-    tag: 0.2.9 # rfw-update-this zookeeper-docker-image
+    tag: 0.2.10 # rfw-update-this zookeeper-docker-image
     # pullPolicy: IfNotPresent
 
   # Persistent storage options for zookeeper volume requests

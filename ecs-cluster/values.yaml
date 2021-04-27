@@ -583,6 +583,32 @@ geoReceiver:
     # externalIPv6Addresses:
     #   - 2001:0db8:0000:0000:0000:0000:0000:0001
 
+  tls:
+    # Type of certificate signing: SelfSigned, KubernetesSigned, InternallySigned or ExternallySigned
+    certificateType: InternallySigned
+
+    certificate:
+      authority: {}
+      publicKey: ""
+      privateKey: ""
+    # password: # cert password (optional)
+    # authority: |-  # (optional)
+    #   rootCA: xxxx
+    #   intermediateCA:      # provide the intermediate CA here (optional)
+
+    signingRequest:
+      # commonName: ecs-cluster
+      # email: insertyouremail@example.com.local
+      names:
+        country: USA
+        state: MA
+        locality: Hopkinton
+        organization: Dell EMC
+        organizationalUnit: ObjectScale
+      keyAlgorithm: RSA       # algorithm use to generate the key (ex. RSA, ECDSA)
+      keySize: 2048           # size of the key in bits (ex. 2048, 4096, 8192)
+
+
 # The ECS API control service configuration specification
 control:
   # Override the number of object control replicas to run with the the deployment

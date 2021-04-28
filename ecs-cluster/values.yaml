@@ -734,3 +734,7 @@ healthChecks:
     image:
       repository: objectstore-pre-update
       tag: # rfw-update-this objectstore-pre-update-image
+  postUpgrade:
+    image:
+      repository: objectstore-post-upgrade
+      tag: # rfw-update-this objectstore-pre-update-image

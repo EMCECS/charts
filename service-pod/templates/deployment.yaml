@@ -21,6 +21,11 @@ spec:
         release: {{ .Release.Name }}
         remote_access: {{.Values.global.product}}-service-pod
         product: {{ required "global.product (e.g. objectscale) is required" .Values.global.product }}
+{{ include "common-lib.labels-sp-integrated-all" . | indent 8}}
+      annotations:
+{{- if eq (.Values.global.platform) "VMware" }}
+{{ include "common-lib.vsphere-emm-integrated_annotation" | indent 8}}
+{{- end }}
     spec:
       serviceAccountName: {{ .Release.Name }}-service-pod-sa
       {{- if .Values.global.registrySecret }}

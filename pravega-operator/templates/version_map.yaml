@@ -6,7 +6,7 @@ metadata:
   name: supported-versions-map
   namespace: {{ .Release.Namespace }}
   labels:
-  {{ include "pravega-operator.commonLabels" . | indent 4 }}
+{{ include "pravega-operator.commonLabels" . | indent 4 }}
 data:
   keys: |
     {{- if and .Values.testmode.enabled $version }}

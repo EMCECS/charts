@@ -553,6 +553,10 @@ spec:
     service:
       {{ toYaml .Values.geoReceiver.service | nindent 6 | trim }}
 {{- end }}
+{{- if .Values.geoReceiver.tls }}
+    tls:
+      {{ toYaml .Values.geoReceiver.tls | nindent 6 | trim }}
+{{- end }}
 
   spaceReclaimer:
 {{ include "datasvc-lib.common-labels" . | indent 4 }}

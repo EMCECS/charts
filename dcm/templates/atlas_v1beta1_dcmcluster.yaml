@@ -6,6 +6,8 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   replicas: {{ coalesce .Values.atlas.replicaCount (index (dict "Large" 3) (title .Values.global.performanceProfile)) 1 }}
+  labels:
+{{ include "common-monitoring-lib.logging-inject-labels" . | indent 5 }}
   {{- if .Values.global.registrySecret }}
   imagePullSecret: {{ .Values.global.registrySecret }}
   {{- end }}

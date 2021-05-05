@@ -1,0 +1,21 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: objectscale-iam-headless
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "iam.labels" . | nindent 4 }}
+spec:
+  clusterIP: None
+  ports:
+    - port: {{ .Values.iam.httpPort }}
+      targetPort: 9402
+      protocol: TCP
+      name: http
+    - port: {{ .Values.iam.httpsPort }}
+      targetPort: 9401
+      protocol: TCP
+      name: https
+  selector:
+    {{- include "iam.selectorLabels" . | nindent 4 }}

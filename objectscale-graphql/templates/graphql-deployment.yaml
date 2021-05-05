@@ -68,6 +68,8 @@ spec:
             fieldRef:
               fieldPath: metadata.namespace
 {{- end }}
+        - name: EVENT_PAGINATION_SOURCE
+          value: {{ default "GRAPHQL" .Values.eventPaginationSource }}
         - name: GLOBAL_REGISTRY
           value: {{ .Values.global.registry }}
         {{- if .Values.global.registrySecret }}

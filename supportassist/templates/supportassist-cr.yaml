@@ -13,7 +13,7 @@ spec:
   productVersion: {{required "productVersion must be specified" .Values.productVersion}}
   enabled: {{default false .Values.enabled}}
   siteID: {{required "siteID must be specified" .Values.siteID}}
-  systemMode: {{ default "preProd" .Values.systemMode }}
+  systemMode: {{ include "supportassist.systemModeValidate" . | required "SystemMode value is invalid. Valid values are 'preProd', 'normal', 'maintenance', or 'update' " }}
   eventMuted: {{ default false .Values.eventMuted }}
   testDialHome: {{ default false .Values.testDialHome }}
   testConnectivityID: {{randInt 100000 999999}}

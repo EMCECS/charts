@@ -41,3 +41,7 @@ data:
           args:
             - -target-version
             - {{ default .Values.tag .Values.healthChecks.preUpdate.image.tag }}
+        - name: post-upgrade
+          container: {{.Values.global.registry}}/{{.Values.healthChecks.postUpgrade.image.repository}}:{{default .Values.tag .Values.healthChecks.postUpgrade.image.tag}}
+          serviceaccount: {{.Release.Name}}-healthchecks
+          timelimit: "20m"

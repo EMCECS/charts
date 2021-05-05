@@ -1,0 +1,240 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .Release.Name }}-inventory
+  namespace: {{ .Release.Namespace }}
+  {{- if .Values.global.registrySecret }}
+imagePullSecrets:
+  - name: {{ .Values.global.registrySecret }}
+  {{- end }}
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ .Release.Namespace }}-inventory
+  labels:
+    release: {{ .Release.Name }}
+rules:
+  - apiGroups:
+    - decks.ecs.dellemc.com
+    resources:
+    - licenses
+    - supportassists
+    verbs:
+    - get
+    - list
+  - apiGroups:
+    - ecs.dellemc.com
+    resources:
+    - ecsclusters
+    verbs:
+    - get
+    - list
+  - apiGroups:
+    - ""
+    resources:
+    - services
+    - serviceaccounts
+    - secrets
+    - nodes
+    - persistentvolumes
+    - persistentvolumeclaims
+    verbs:
+    - get
+    - list
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ .Release.Namespace }}-inventory
+  labels:
+    release: {{ .Release.Name }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Release.Name }}-inventory
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: {{ .Release.Namespace }}-inventory
+  apiGroup: rbac.authorization.k8s.io
+
+---
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .Release.Name }}-capacity
+  namespace: {{ .Release.Namespace }}
+  {{- if .Values.global.registrySecret }}
+imagePullSecrets:
+  - name: {{ .Values.global.registrySecret }}
+  {{- end }}
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ .Release.Namespace }}-capacity
+  labels:
+    release: {{ .Release.Name }}
+rules:
+- apiGroups: ["*"]
+  resources: ["*"]
+  verbs: ["get", "watch", "list"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ .Release.Namespace }}-capacity
+  labels:
+    release: {{ .Release.Name }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Release.Name }}-capacity
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: {{ .Release.Namespace }}-capacity
+  apiGroup: rbac.authorization.k8s.io
+
+---
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .Release.Name }}-performance
+  namespace: {{ .Release.Namespace }}
+  {{- if .Values.global.registrySecret }}
+imagePullSecrets:
+  - name: {{ .Values.global.registrySecret }}
+  {{- end }}
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ .Release.Namespace }}-performance
+  labels:
+    release: {{ .Release.Name }}
+rules:
+- apiGroups: ["*"]
+  resources: ["*"]
+  verbs: ["get", "watch", "list"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ .Release.Namespace }}-performance
+  labels:
+    release: {{ .Release.Name }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Release.Name }}-performance
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: {{ .Release.Namespace }}-performance
+  apiGroup: rbac.authorization.k8s.io
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .Release.Name }}-health
+  namespace: {{ .Release.Namespace }}
+  {{- if .Values.global.registrySecret }}
+imagePullSecrets:
+  - name: {{ .Values.global.registrySecret }}
+  {{- end }}
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ .Release.Namespace }}-health
+  labels:
+    release: {{ .Release.Name }}
+rules:
+  - apiGroups:
+    - decks.ecs.dellemc.com
+    resources:
+    - licenses
+    - supportassists
+    verbs:
+    - get
+    - list
+  - apiGroups:
+    - ""
+    resources:
+    - services
+    - serviceaccounts
+    - secrets
+    verbs:
+    - get
+    - list
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ .Release.Namespace }}-health
+  labels:
+    release: {{ .Release.Name }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Release.Name }}-health
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: {{ .Release.Namespace }}-health
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .Release.Namespace }}-license-usage
+  namespace: {{ .Release.Namespace }}
+  {{- if .Values.global.registrySecret }}
+imagePullSecrets:
+  - name: {{ .Values.global.registrySecret }}
+  {{- end }}
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ .Release.Namespace }}-license-usage
+  labels:
+    release: {{ .Release.Name }}
+rules:
+  - apiGroups:
+    - decks.ecs.dellemc.com
+    resources:
+    - licenses
+    verbs:
+    - get
+    - update
+    - list
+  - apiGroups:
+    - ""
+    resources:
+    - services
+    - serviceaccounts
+    - secrets
+    verbs:
+    - get
+    - list
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ .Release.Namespace }}-license-usage
+  labels:
+    release: {{ .Release.Name }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Release.Name }}-license-usage
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: {{ .Release.Namespace }}-license-usage
+  apiGroup: rbac.authorization.k8s.io
+---

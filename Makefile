@@ -10,12 +10,13 @@ FLEXCHARTS := common-lib ecs-cluster objectscale-manager objectscale-vsphere obj
 
 # release version
 MAJOR=0
-MINOR=71
-PATCH=2
+MINOR=72
+PATCH=0
+PRERELEASE=
 
-FULL_PACKAGE_VERSION=${MAJOR}.${MINOR}.${PATCH}
+FULL_PACKAGE_VERSION=${MAJOR}.${MINOR}.${PATCH}$(if $(PRERELEASE),-$(PRERELEASE),)
 FLEXVER=${FULL_PACKAGE_VERSION}
-DECKSVER=2.${MINOR}.${PATCH}
+DECKSVER=2.${MINOR}.${PATCH}$(if $(PRERELEASE),-$(PRERELEASE),)
 
 GIT_COMMIT_COUNT=$(shell git rev-list HEAD | wc -l)
 GIT_COMMIT_ID=$(shell git rev-parse HEAD)
@@ -64,6 +65,8 @@ clean: clean-package
 all: test package
 
 release: decksver flexver build generate-issues-events-all add-to-git
+
+resolve-and-release: decksver flexver resolve-versions build generate-issues-events-all add-to-git
 
 test:
 	helm version

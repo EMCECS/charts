@@ -20,7 +20,8 @@ global:
 
 image:
   repository: statefuldaemonset-operator
-  tag: # rfw-update-this statefuldaemonset-operator-docker-image
+  # no need to insert rfw marker here because version comes from global.monitoring_tag
+  # tag: stable
   pullPolicy: IfNotPresent
 
 nameOverride: ""

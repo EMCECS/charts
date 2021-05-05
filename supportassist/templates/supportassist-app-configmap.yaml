@@ -33,4 +33,57 @@ data:
             - Is SupportAssist still disabled?
             - Verify connectivity of configured gateways.
             - Verify a valid AccessKey and PIN were used.
-    healthChecks: |-
+    health: |-
+      spec:
+        - name: inventory
+          container: {{.Values.global.registry}}/{{ .Values.telemetry.inventory.image.repository }}:{{default .Values.tag .Values.telemetry.inventory.image.tag}}
+          serviceaccount: {{ .Release.Name }}-telemetry-upload
+          timelimit: "5m"
+          schedule: {{ default "0 * * * *" .Values.telemetry.inventory.schedule | quote}}
+          args:
+            - -product
+            - {{.Values.product}}
+            - -transferType
+            - {{ .Values.telemetry.inventory.transferType}}
+            - -folder
+            - {{ .Values.telemetry.inventory.folder}}
+          disabled: {{ default false .Values.telemetry.inventory.disabled }}
+        - name: capacity
+          container: {{.Values.global.registry}}/{{ .Values.telemetry.capacity.image.repository }}:{{default .Values.tag .Values.telemetry.capacity.image.tag}}
+          serviceaccount: {{ .Release.Name }}-telemetry-upload
+          timelimit: "5m"
+          schedule: {{ default "0 * * * *" .Values.telemetry.capacity.schedule | quote}}
+          args:
+            - -product
+            - {{.Values.product}}
+            - -transferType
+            - {{ .Values.telemetry.inventory.transferType}}
+            - -folder
+            - {{ .Values.telemetry.capacity.folder}}
+          disabled: {{ default false .Values.telemetry.capacity.disabled }}
+        - name: performance
+          container: {{.Values.global.registry}}/{{ .Values.telemetry.performance.image.repository }}:{{default .Values.tag .Values.telemetry.performance.image.tag}}
+          serviceaccount: {{ .Release.Name }}-telemetry-upload
+          timelimit: "5m"
+          schedule: {{ default "0 * * * *" .Values.telemetry.performance.schedule | quote}}
+          args:
+            - -product
+            - {{.Values.product}}
+            - -transferType
+            - {{ .Values.telemetry.inventory.transferType}}
+            - -folder
+            - {{ .Values.telemetry.performance.folder}}
+          disabled: {{ default false .Values.telemetry.performance.disabled }}
+        - name: health
+          container: {{.Values.global.registry}}/{{ .Values.telemetry.health.image.repository }}:{{default .Values.tag .Values.telemetry.health.image.tag}}
+          serviceaccount: {{ .Release.Name }}-telemetry-upload
+          timelimit: "5m"
+          schedule: {{ default "0 * * * *" .Values.telemetry.health.schedule | quote}}
+          args:
+            - -product
+            - {{.Values.product}}
+            - -transferType
+            - {{ .Values.telemetry.inventory.transferType}}
+            - -folder
+            - {{ .Values.telemetry.health.folder}}
+          disabled: {{ default false .Values.telemetry.health.disabled }}

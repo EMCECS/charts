@@ -53,7 +53,7 @@ def process_yaml(input_yaml, return_modified=False):
     with open(input_yaml, "r+") as iym:
         ylines = iym.readlines()
 
-    oylines = ylines.copy()
+    oylines = ylines[:]
     proc_next = None
 
     # process line by line and support update of 'next' line
@@ -76,9 +76,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("-vs", "--version-slice", help="path to version_slice file", required=True)
     parser.add_argument("-wd", "--working-dir", help="path to directory, default is ./", default='.')
+    parser.add_argument("-dry", "--dry-run", help="don't change files, just try to apply versions", action='store_true')
     args = parser.parse_args()
 
     load_artifacts(args.version_slice)
 
-    for fl in glob.glob(args.working_dir + '/*/*.yaml', recursive=False):
-        process_yaml(fl)
+    for fl in glob.glob(args.working_dir + '/*/*.yaml'):
+        process_yaml(fl, args.dry_run)

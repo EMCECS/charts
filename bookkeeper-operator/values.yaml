@@ -10,7 +10,7 @@ global:
   registry: emccorp
 image:
   repository: bookkeeper-operator
-  tag: 0.1.3-50-f528f6f # rfw-update-this bookkeeper-operator-docker-image
+  tag: 0.1.3-65-5f78fe4 # rfw-update-this bookkeeper-operator-docker-image
   pullPolicy: IfNotPresent
 
 ## Install RBAC roles and bindings.

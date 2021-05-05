@@ -212,12 +212,16 @@ spec:
       imageSpec:
         repository: "{{ .Values.global.registry }}/{{ .Values.bookkeeperRepository }}"
         pullPolicy: {{ with .Values.bookkeeper.image }}{{ .pullPolicy }}{{ end }}
-    {{- if .Values.bookkeeper.version }}
-    version: {{ .Values.bookkeeper.version }}
+    {{- if .Values.bookkeeper.image.tag }}
+    version: {{ .Values.bookkeeper.image.tag }}
     {{- else }}
     version: {{ .Values.tag }}
     {{- end }}
     blockOwnerDeletion:  {{ .Values.bookkeeper.blockOwnerDeletion }}
+    labels:
+      app.kubernetes.io/namespace: {{ .Release.Namespace }}
+      objectscale.dellemc.com/logging-inject: "true"
+      objectscale.dellemc.com/logging-release-name: "{{ .Release.Name }}"
     serviceAccountName:  {{ .Release.Name }}-pravega
     autoRecovery: {{ .Values.bookkeeper.autoRecovery }}
     {{- if .Values.bookkeeper.probes }}
@@ -266,6 +270,10 @@ spec:
             storage: {{ .Values.bookkeeper.storage.index.volumeSize }}
     options:
       log.level: {{ .Values.bookkeeper.options.log.level }}
+      emptyDirVolumeMounts: {{ .Values.bookkeeper.options.emptyDirVolumeMounts }}
+      {{- if .Values.bookkeeper.options.configMapVolumeMounts }}
+      configMapVolumeMounts: {{$.Release.Name}}-bk-{{ .Values.bookkeeper.options.configMapVolumeMounts }}
+      {{ end }}
 
   pravega:
     {{- if .Values.pravega.image.tag }}
@@ -297,6 +305,14 @@ spec:
       {{- if .Values.pravega.segmentStore.replicas }}
       segmentStoreReplicas: {{ .Values.pravega.segmentStore.replicas }}
       {{- end }}
+      controllerPodLabels:
+        app.kubernetes.io/namespace: {{ .Release.Namespace }}
+        objectscale.dellemc.com/logging-inject: "true"
+        objectscale.dellemc.com/logging-release-name: "{{ .Release.Name }}"
+      segmentStorePodLabels:
+        app.kubernetes.io/namespace: {{ .Release.Namespace }}
+        objectscale.dellemc.com/logging-inject: "true"
+        objectscale.dellemc.com/logging-release-name: "{{ .Release.Name }}"
       options:
         controller.metrics.influxDB.connect.db.name: {{ .Values.pravega.options.metrics.influxDBName }}
         metrics.influxDB.connect.db.name: {{ .Values.pravega.options.metrics.influxDBName }}
@@ -304,6 +320,10 @@ spec:
         metrics.statistics.enable: {{ .Values.global.monitoring.enabled | quote }}
         controller.metrics.influxDB.reporter.enable: {{ .Values.global.monitoring.enabled | quote }}
         controller.metrics.statistics.enable: {{ .Values.global.monitoring.enabled | quote }}
+        emptyDirVolumeMounts: {{ .Values.pravega.options.emptyDirVolumeMounts }}
+        {{- if .Values.pravega.options.configMapVolumeMounts }}
+        configMapVolumeMounts: {{$.Release.Name}}-prvg-{{ .Values.pravega.options.configMapVolumeMounts }}
+        {{- end }}
       debugLogging: {{ .Values.pravega.debugLogging }}
       controllerServiceAccountName: {{ .Release.Name }}-pravega
       segmentStoreServiceAccountName: {{ .Release.Name }}-pravega

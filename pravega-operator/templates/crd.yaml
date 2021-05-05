@@ -264,6 +264,16 @@ spec:
                       additionalProperties:
                         type: string
                       type: object
+                    controllerPodLabels:
+                      additionalProperties:
+                        type: string
+                      description: Labels to be added to the Controller Pods
+                      type: object
+                    segmentStorePodLabels:
+                      additionalProperties:
+                        type: string
+                      description: Labels to be added to the SegmentStore Pods
+                      type: object
                     segmentStoreExtServiceType:
                       type: string
                     segmentStoreSvcAnnotations:
@@ -767,6 +777,16 @@ spec:
                     controllerSvcAnnotations:
                       additionalProperties:
                         type: string
+                      type: object
+                    controllerPodLabels:
+                      additionalProperties:
+                        type: string
+                      description: Labels to be added to the Controller Pods
+                      type: object
+                    segmentStorePodLabels:
+                      additionalProperties:
+                        type: string
+                      description: Labels to be added to the SegmentStore Pods
                       type: object
                     segmentStoreExtServiceType:
                       type: string

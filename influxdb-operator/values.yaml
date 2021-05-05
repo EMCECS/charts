@@ -20,7 +20,8 @@ global:
 
 image:
   repository: influxdb-operator
-  tag: # rfw-update-this influxdb-operator-docker-image
+  # no need to insert rfw marker here because version comes from global.monitoring_tag
+  # tag: stable
   pullPolicy: IfNotPresent
 
 nameOverride: ""

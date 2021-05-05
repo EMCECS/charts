@@ -79,7 +79,7 @@ createApplicationResource: true
 debugMode: false
 
 # The default docker tag and pull policy for objectscale-manager services
-tag: 0.71.2
+tag: 0.72.0
 pullPolicy: IfNotPresent
 
 # The default number of replicas for the objectscale-manager deployment
@@ -88,7 +88,7 @@ replicaCount: 1
 # The image configured for the ObjectScale Manager
 image:
   repository: objectscale-operator
-  tag: # rfw-update-this operator-docker-image
+  tag: 0.72.0-468.19ff90c0 # rfw-update-this operator-docker-image
   # pullPolicy: IfNotPresent
 
 # A customer provided log server can be used for external log aggregation.
@@ -132,7 +132,7 @@ logReceiver:
   # The Docker image used for the rSyslog receiver
   image:
     repository: rsyslog
-    tag: # rfw-update-this rsyslog-docker-image
+    tag: 3.7.0.0-1186.91aed4d8 # rfw-update-this rsyslog-docker-image
     # pullPolicy: IfNotPresent
 
   persistence:
@@ -182,14 +182,14 @@ affinity: {}
 fluentbitAgent:
   image:
     repository: fluent-bit
-    tag: 0.28.0 # rfw-update-this fluent-bit-docker-image
+    tag: 3.7.0.0-1186.91aed4d8 # rfw-update-this fluent-bit-docker-image
     # pullPolicy: IfNotPresent
 
 # hook for VMWare platform
 hooks:
   registry: "emccorp"
   repository: "k8s-kubectl"
-  tag: "v1.16.10" # rfw-update-this k8s-kubectl-docker-image
+  tag: v1.16.10 # rfw-update-this k8s-kubectl-docker-image
 
 loggerConfig:
   enabled: true
@@ -237,4 +237,37 @@ healthChecks:
   preUpdate:
     image:
       repository: objectscale-manager-pre-update
-      tag: # rfw-update-this objectscale-manager-pre-update-image
+      tag: 0.72.0-39.99179ae # rfw-update-this objectscale-manager-pre-update-image
+  licenseUsage:
+    image:
+      repository: objectscale-license-usage
+      tag: 0.72.0-39.99179ae # rfw-update-this objectscale-license-usage-image
+    schedule: "0 */6 * * *"
+    disabled: false
+  inventory:
+    image:
+      repository: objectscale-inventory
+      tag: 0.72.0-39.99179ae # rfw-update-this objectscale-inventory-image
+    schedule: "0 * * * *"
+    disabled: false
+  capacity:
+    image:
+      repository: objectscale-capacity
+      tag: # wait-73-rfw-update-this objectscale-capacity-image
+    schedule: "0 * * * *"
+    disabled: true
+  performance:
+    image:
+      repository: objectscale-performance
+      tag: # wait-73-rfw-update-this objectscale-performance-image
+    schedule: "*/10 * * * *"
+    disabled: true
+  health:
+    image:
+      repository: objectscale-health
+      tag: 0.72.0-39.99179ae # rfw-update-this objectscale-health-image
+    schedule: "*/10 * * * *"
+    disabled: false
+
+features:
+  spOperatorEnabled: false

@@ -17,6 +17,35 @@ spec:
       labels:
 {{ include "influxdb-operator.labels" . | indent 8}}
 {{ include "common-lib.labels-sp-integrated-all" . | indent 8}}
+      annotations:
+        # Include a hash of the configmap in the pod template
+        # This means that if the configmap changes, the deployment will be rolled
+        checksum/config: {{ include (print .Template.BasePath "/nginx_config_context.yaml") . | sha256sum }}
+        {{- if .Values.global.use_vault_for_ssl }}
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/agent-inject-status: "update"
+        vault.hashicorp.com/agent-requests-cpu: ""
+        vault.hashicorp.com/agent-limits-cpu: ""
+        vault.hashicorp.com/agent-inject-secret-influxdb_client.crt: "intermediate_pki/issue/intermediate_pki_issuer"
+        vault.hashicorp.com/agent-inject-template-influxdb_client.crt: |
+          {{`{{`}}- with secret "intermediate_pki/issue/intermediate_pki_issuer" "common_name={{ include "influxdb-operator.fullname" . }}-influxdb-client.{{ .Release.Namespace }}.svc.cluster.local" {{`}}`}}
+          {{`{{`}} .Data.certificate {{`}}`}}
+          {{`{{`}}- end {{`}}`}}
+        vault.hashicorp.com/agent-inject-secret-influxdb_client.key: "intermediate_pki/issue/intermediate_pki_issuer"
+        vault.hashicorp.com/agent-inject-template-influxdb_client.key: |
+          {{`{{`}}- with secret "intermediate_pki/issue/intermediate_pki_issuer" "common_name={{ include "influxdb-operator.fullname" . }}-influxdb-client.{{ .Release.Namespace }}.svc.cluster.local" {{`}}`}}
+          {{`{{`}} .Data.private_key {{`}}`}}
+          {{`{{`}}- end {{`}}`}}
+        vault.hashicorp.com/agent-inject-secret-trusted_influxdb_server_ca.crt: "intermediate_pki/issue/intermediate_pki_issuer"
+        vault.hashicorp.com/agent-inject-template-trusted_influxdb_server_ca.crt: |
+          {{`{{`}}- with secret "intermediate_pki/issue/intermediate_pki_issuer" "common_name={{ include "influxdb-operator.fullname" . }}-influxdb-client.{{ .Release.Namespace }}.svc.cluster.local" {{`}}`}}
+          {{`{{`}}- range $cert := .Data.ca_chain {{`}}`}}
+          {{`{{`}} $cert {{`}}`}}
+          {{`{{`}}- end {{`}}`}}
+          {{`{{`}}- end {{`}}`}}
+        vault.hashicorp.com/role: "vault_requester"
+        vault.hashicorp.com/tls-skip-verify: "true"
+        {{- end }}
     spec:
       {{- if .Values.serviceAccount.create }}
       serviceAccountName: {{ template "influxdb-operator.serviceAccountName" . }}
@@ -49,7 +78,37 @@ spec:
           volumeMounts:
           - mountPath: /crash-dump
             name: crash-dump
+      {{- if .Values.global.tls_enabled }}
+        - name: nginx
+          image: "{{ include "common-monitoring-lib.monitoring_registry" . }}/nginx:{{ .Values.global.monitoring_tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+          volumeMounts:
+          - mountPath: /etc/nginx/nginx.conf
+            name: nginx-config
+            subPath: nginx.conf
+          - mountPath: /etc/nginx/conf.d
+            name: nginx-config-context
+          {{- if not .Values.global.use_vault_for_ssl }}
+          - mountPath: /etc/nginx/cert
+            name: cert
+          {{- end }}
+          - mountPath: /crash-dump
+            name: crash-dump
+      {{- end }}
       volumes:
+      {{- if .Values.global.tls_enabled }}
+      - name: nginx-config
+        configMap:
+          name: {{ template "influxdb-operator.fullname" . }}-nginx
+      - name: nginx-config-context
+        configMap:
+          name: {{ template "influxdb-operator.fullname" . }}-nginx-context
+      {{- if not .Values.global.use_vault_for_ssl }}
+      - name: cert
+        configMap:
+          name: {{ .Release.Name }}-cert
+      {{- end }}
+      {{- end }}
       - name: crash-dump
         emptyDir: {}
       {{- with .Values.nodeSelector }}

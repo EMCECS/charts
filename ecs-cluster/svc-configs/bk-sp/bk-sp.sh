@@ -37,7 +37,7 @@ fi
 recovery() {
 if curl "http://`hostname -i`:8080/api/v1/autorecovery/list_under_replicated_ledger" | grep -q "No under replicated ledgers found"
 then
-	if timeout ${timeout_seconds}s bin/bookkeeper shell recover `hostname -i`:3181 -f |tee /opt/bookkeeper/logs/recover_`date +%s`.log| grep  -q "OK: No problem"
+	if timeout ${timeout_seconds}s /opt/bookkeeper/bin/bookkeeper shell recover `hostname -i`:3181 -f |tee /opt/bookkeeper/logs/recover_`date +%s`.log| grep  -q "OK: No problem"
 	then
 	  echo "recovery succeeded!"
 	  exit 0

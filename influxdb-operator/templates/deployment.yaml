@@ -94,7 +94,7 @@ spec:
           {{- end }}
           - mountPath: /crash-dump
             name: crash-dump
-{{ include "common-monitoring-lib.confd_sidecar_container" (dict "top" . "app_container_name" "nginx") | indent 8 }}
+{{ include "common-monitoring-lib.confd_sidecar_container" (dict "top" . "app_container_name" "nginxsidecar") | indent 8 }}
       {{- end }}
       volumes:
       {{- if .Values.global.tls_enabled }}

@@ -74,7 +74,6 @@ data:
       {{- range $i, $e := until (int $replicas) -}}
       8{{$i}}88 "{{ $top.Release.Name }}-influxdb-{{$i}}.{{ $top.Release.Name }}-influxdb.{{ $top.Release.Namespace }}.svc.cluster.local:{{ $serviceRpcPort }}";
       {{- end }}
-      {{ $serviceRpcPort }} "127.0.0.1:8088";
     }
     {{- range $i, $e := until (int $replicas)}}
     server {

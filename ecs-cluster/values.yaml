@@ -194,7 +194,8 @@ bookkeeper:
       volumeSize: 5Gi
   options:
     emptyDirVolumeMounts: "heap-dump=/crash-dump,log=/opt/bookkeeper/logs"
-    configMapVolumeMounts: "log4j2:apply-config-from-env.py=/opt/bookkeeper/scripts/apply-config-from-env.py"
+    configMapVolumeMountsLog: ":apply-config-from-env.py=/opt/bookkeeper/scripts/apply-config-from-env.py"
+    configMapVolumeMountsSP: ":bk-sp.sh=/bk-sp.sh"
     log:
       level: "INFO"
 

@@ -218,6 +218,11 @@ spec:
       app.kubernetes.io/namespace: {{ .Release.Namespace }}
       objectscale.dellemc.com/logging-inject: "true"
       objectscale.dellemc.com/logging-release-name: "{{ .Release.Name }}"
+      objectscale.dellemc.com/sp-integrated-disk-replacement: "true"
+      objectscale.dellemc.com/sp-integrated-tmm: "true"
+      objectscale.dellemc.com/sp-integrated-pmm: "true"
+      objectscale.dellemc.com/sp-integrated-recovery-status-probe-exec: "bk-sp.sh_-t_precheck_-o_600"
+      objectscale.dellemc.com/sp-integrated-initiate-decommission-exec: "bk-sp.sh_-t_recover_-o_600"
     serviceAccountName:  {{ .Release.Name }}-pravega
     autoRecovery: {{ .Values.bookkeeper.autoRecovery }}
     {{- if .Values.bookkeeper.probes }}
@@ -267,8 +272,8 @@ spec:
     options:
       log.level: {{ .Values.bookkeeper.options.log.level }}
       emptyDirVolumeMounts: {{ .Values.bookkeeper.options.emptyDirVolumeMounts }}
-      {{- if .Values.bookkeeper.options.configMapVolumeMounts }}
-      configMapVolumeMounts: {{$.Release.Name}}-bk-{{ .Values.bookkeeper.options.configMapVolumeMounts }}
+      {{- if .Values.bookkeeper.options.configMapVolumeMountsLog }}
+      configMapVolumeMounts: {{- printf $.Release.Name"-bk-log4j2%s,"$.Release.Name"-bk-log42j%s" .Values.bookkeeper.options.configMapVolumeMountsLog .Values.bookkeeper.options.configMapVolumeMountsSP -}}
       {{ end }}
 
   pravega:

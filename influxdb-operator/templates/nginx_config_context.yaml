@@ -23,10 +23,9 @@ data:
     {{- $replicas := include "common-monitoring-lib.influxdb_replicas" . }}
 
     {{range $i, $e := until (int $replicas)}}
-    {{ $j := add $i 1 }}
     server {
-      listen 127.0.0.1{{$j}}:8{{$j}}86;
-      server_name 127.0.0.1{{$j}};
+      listen 127.0.0.1{{$i}}:8{{$i}}86;
+      server_name 127.0.0.1{{$i}};
     {{- if $.Values.global.tls_enabled }}
       ssl_session_cache   shared:SSL:1m;
       ssl_session_timeout 5m;
@@ -70,10 +69,16 @@ data:
     {{- end }}
   stream.conf: |+
     resolver {{ $.Values.global.internal_dns }} valid=30s;
+    {{- $serviceRpcPort  := 8088 -}}
+    map $server_port $remote_ip_addr {
+      {{- range $i, $e := until (int $replicas) -}}
+      8{{$i}}88 "{{ $top.Release.Name }}-influxdb-{{$i}}.{{ $top.Release.Name }}-influxdb.{{ $top.Release.Namespace }}.svc.cluster.local:{{ $serviceRpcPort }}";
+      {{- end }}
+      {{ $serviceRpcPort }} "127.0.0.1:8088";
+    }
     {{- range $i, $e := until (int $replicas)}}
-    {{- $j := add $i 1 }}
     server {
-      listen 127.0.0.1{{$j}}:8{{$j}}88;
+      listen 127.0.0.1{{$i}}:8{{$i}}88;
 
     {{- if $.Values.global.tls_enabled }}
       ssl_session_timeout 5m;
@@ -93,7 +98,7 @@ data:
       {{- end }}
       proxy_ssl_protocols     TLSv1.2;
     {{- end }}
-      proxy_pass {{ $top.Release.Name }}-influxdb-{{$j}}.{{ $top.Release.Name }}-influxdb.{{ $top.Release.Namespace }}.svc.cluster.local:8{{$j}}88;
+      proxy_pass $remote_ip_addr;
     }
     {{- end }}
 {{- end }}

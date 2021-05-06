@@ -104,7 +104,7 @@ spec:
           name: {{ template "influxdb-operator.fullname" . }}-nginx-context
       - name: configs-confd-template
         configMap:
-          name: {{ .Release.Name }}-fluxd-confd-template
+          name: {{ include "influxdb-operator.fullname" . }}-confd-template
       - name: influxdb-replicas-config
         configMap:
           name: {{ include "common-monitoring-lib.influxdb_replicas_config_map_name" . }}

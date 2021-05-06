@@ -13,7 +13,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "influxdb-operator.fullname" . }}
+  name: {{ include "influxdb-operator.fullname" . }}-confd-template
   namespace: {{ .Release.Namespace }}
   labels:
 {{ include "influxdb-operator.labels" . | indent 4}}

@@ -273,7 +273,7 @@ spec:
       log.level: {{ .Values.bookkeeper.options.log.level }}
       emptyDirVolumeMounts: {{ .Values.bookkeeper.options.emptyDirVolumeMounts }}
       {{- if .Values.bookkeeper.options.configMapVolumeMountsLog }}
-      configMapVolumeMounts: {{- printf "%s-bk-log4j2%s,%s-bk-log42j%s" .Release.Name .Values.bookkeeper.options.configMapVolumeMountsLog .Release.Name .Values.bookkeeper.options.configMapVolumeMountsSP -}}
+      {{- $configMapVolumeMounts := printf "%s-bk-log4j2%s,%s-bk-log42j%s" .Release.Name .Values.bookkeeper.options.configMapVolumeMountsLog .Release.Name .Values.bookkeeper.options.configMapVolumeMountsSP -}}
       {{ end }}
 
   pravega:

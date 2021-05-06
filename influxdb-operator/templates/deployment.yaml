@@ -18,9 +18,6 @@ spec:
 {{ include "influxdb-operator.labels" . | indent 8}}
 {{ include "common-lib.labels-sp-integrated-all" . | indent 8}}
       annotations:
-        # Include a hash of the configmap in the pod template
-        # This means that if the configmap changes, the deployment will be rolled
-        checksum/config: {{ include (print .Template.BasePath "/nginx_config_context.yaml") . | sha256sum }}
         {{- if .Values.global.use_vault_for_ssl }}
         vault.hashicorp.com/agent-inject: "true"
         vault.hashicorp.com/agent-inject-status: "update"
@@ -47,6 +44,7 @@ spec:
         vault.hashicorp.com/tls-skip-verify: "true"
         {{- end }}
     spec:
+      shareProcessNamespace: true
       {{- if .Values.serviceAccount.create }}
       serviceAccountName: {{ template "influxdb-operator.serviceAccountName" . }}
       {{- end }}
@@ -87,22 +85,31 @@ spec:
             name: nginx-config
             subPath: nginx.conf
           - mountPath: /etc/nginx/conf.d
-            name: nginx-config-context
+            name: configs-template
           {{- if not .Values.global.use_vault_for_ssl }}
           - mountPath: /etc/nginx/cert
             name: cert
           {{- end }}
           - mountPath: /crash-dump
             name: crash-dump
+{{ include "common-monitoring-lib.confd_sidecar_container" (dict "top" . "app_container_name" "nginx") | indent 8 }}
       {{- end }}
       volumes:
       {{- if .Values.global.tls_enabled }}
       - name: nginx-config
         configMap:
           name: {{ template "influxdb-operator.fullname" . }}-nginx
-      - name: nginx-config-context
+      - name: configs-template
         configMap:
           name: {{ template "influxdb-operator.fullname" . }}-nginx-context
+      - name: configs-confd-template
+        configMap:
+          name: {{ .Release.Name }}-fluxd-confd-template
+      - name: influxdb-replicas-config
+        configMap:
+          name: {{ include "common-monitoring-lib.influxdb_replicas_config_map_name" . }}
+      - name: config
+        emptyDir: {}
       {{- if not .Values.global.use_vault_for_ssl }}
       - name: cert
         configMap:

@@ -29,8 +29,35 @@ spec:
 {{- end }}
   performanceProfile: {{ .Values.performanceProfile }}
 
-{{- if .Values.replicas }}
+{{- if .Values.topology.faultDomainKey }}
   topologyFaultDomainKey: {{ .Values.topology.faultDomainKey}}
+{{- end }}
+
+{{- if or .Values.topology.excludedFaultDomains .Values.topology.nodeSelector }}
+  topologyNodeAffinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              # exclude any fault domains that the customer doesn't want in the
+              # node selectors
+              {{- if .Values.topology.excludedFaultDomains }}
+              - key: {{.Values.topology.faultDomainKey}}
+                operator: Out
+                values:
+              {{- range .Values.topology.excludedFaultDomains }}
+              - {{ .name }}
+                {{- end }}
+                {{- end }}
+                # Limit scheduling to only those listed in the node selector
+                # if we want this to be a multi-select list, we could actually do that
+                # just as easily
+         {{- if .Values.topology.nodeSelector }}
+              - key: {{.Values.topology.nodeSelector.key }}
+                operator: In
+                values:
+                  - {{ .Values.topology.nodeSelector.value }}
+         {{-end}}
 {{- end }}
 
   atlas:

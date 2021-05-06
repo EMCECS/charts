@@ -25,4 +25,4 @@ data:
     keys = [
         "/replicas_f",
     ]
-    reload_cmd = "pkill nginx"
+    reload_cmd = "nginx -s reload"

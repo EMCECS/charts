@@ -21,7 +21,7 @@ data:
   http.conf.toml: |+
     [template]
     src = "http.conf"
-    dest = "/etc/nginx/conf.d/http.conf"
+    dest = "/etc/nginxsidecar/http.conf"
     keys = [
         "/replicas_f",
     ]

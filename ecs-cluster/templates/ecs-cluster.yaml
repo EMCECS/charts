@@ -57,7 +57,7 @@ spec:
                 operator: In
                 values:
                   - {{ .Values.topology.nodeSelector.value }}
-         {{-end}}
+         {{- end }}
 {{- end }}
 
   atlas:

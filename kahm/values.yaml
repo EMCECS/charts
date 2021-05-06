@@ -86,6 +86,12 @@ restapi:
 #  to overrite postgress sub-charts values from the parent. This is only useful if KAHM is using local postgress HA instance for the database
 #  this is valid only if the db.postgres.enable is true
 postgresql-ha:
+  postgresqlImage:
+   registry: asdrepo.isus.emc.com:8099
+   repository: postgresql-repmgr
+  pgpoolImage:
+   registry: asdrepo.isus.emc.com:8099
+   repository: pgpool 
   persistence:
     mountPath: /kahm/postgresql
     # storageClass:

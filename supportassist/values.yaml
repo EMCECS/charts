@@ -131,32 +131,32 @@ telemetry:
   inventory:
     image:
       repository: telemetry-upload
-      tag: # wait-73-rfw-update-this telemetry-upload-image
+      tag: # rfw-update-this telemetry-upload-image
     schedule: "0 * * * *"
-    disabled: true
+    disabled: false
     folder: inventory
     transferType: CLOUDIQ
   capacity:
     image:
       repository: telemetry-upload
-      tag: # wait-73-rfw-update-this telemetry-upload-image
+      tag: # rfw-update-this telemetry-upload-image
     schedule: "0 * * * *"
-    disabled: true
+    disabled: false
     folder: capacity
     transferType: CLOUDIQ
   performance:
     image:
       repository: telemetry-upload
-      tag: # wait-73-rfw-update-this telemetry-upload-image
+      tag: # rfw-update-this telemetry-upload-image
     schedule: "*/10 * * * *"
-    disabled: true
+    disabled: false
     folder: performance
     transferType: CLOUDIQ
   health:
     image:
       repository: telemetry-upload
-      tag: # wait-73-rfw-update-this telemetry-upload-image
+      tag: # rfw-update-this telemetry-upload-image
     schedule: "*/10 * * * *"
-    disabled: true
+    disabled: false
     folder: health
     transferType: CLOUDIQ

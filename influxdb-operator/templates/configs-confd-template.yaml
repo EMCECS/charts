@@ -18,7 +18,7 @@ metadata:
   labels:
 {{ include "influxdb-operator.labels" . | indent 4}}
 data:
-  http.conf: |+
+  http.conf.toml: |+
     [template]
     src = "http.conf"
     dest = "/etc/nginx/conf.d/http.conf"

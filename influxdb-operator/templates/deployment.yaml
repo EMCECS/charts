@@ -52,6 +52,10 @@ spec:
       imagePullSecrets:
         - name: {{ .Values.global.registrySecret }}
       {{- end }}
+      {{- if .Values.global.tls_enabled }}
+      initContainers:
+{{ include "common-monitoring-lib.confd_init_container" (dict "top" . "app_container_name" "nginx") | indent 8 }}
+      {{- end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -86,15 +90,19 @@ spec:
             subPath: nginx.conf
           - mountPath: /etc/nginx/conf.d
             name: configs-template
-          - mountPath: /etc/nginxsidecar
+          - mountPath: /etc/nginx/conf.d
             name: config
+          - mountPath: /etc/confd_flex/templates
+            name: configs-template
+          - mountPath: /etc/confd_flex/conf.d
+            name: configs-confd-template
           {{- if not .Values.global.use_vault_for_ssl }}
           - mountPath: /etc/nginx/cert
             name: cert
           {{- end }}
           - mountPath: /crash-dump
             name: crash-dump
-{{ include "common-monitoring-lib.confd_sidecar_container" (dict "top" . "app_container_name" "nginxsidecar") | indent 8 }}
+{{ include "common-monitoring-lib.confd_sidecar_container" (dict "top" . "app_container_name" "nginx") | indent 8 }}
       {{- end }}
       volumes:
       {{- if .Values.global.tls_enabled }}

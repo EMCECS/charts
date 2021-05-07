@@ -20,8 +20,16 @@ metadata:
 data:
   http.conf.toml: |+
     [template]
-    src = "http.conf"
-    dest = "/etc/nginxsidecar/http.conf"
+    src = "http.conf.tmpl"
+    dest = "/etc/nginx/conf.d/http.conf"
+    keys = [
+        "/replicas_f",
+    ]
+    reload_cmd = "pkill nginx"
+  stream.conf.toml: |+
+    [template]
+    src = "stream.conf.tmpl"
+    dest = "/etc/nginx/conf.d/stream.conf"
     keys = [
         "/replicas_f",
     ]

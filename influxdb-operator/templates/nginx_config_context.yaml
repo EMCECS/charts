@@ -17,15 +17,15 @@ metadata:
   labels:
     release: {{ .Release.Name }}
 data:
-  http.conf: |+
+  http.conf.tmpl: |+
     {{- $top := . }}
     {{- $scheme := ternary "https" "http" .Values.global.tls_enabled }}
-    {{- $replicas := include "common-monitoring-lib.influxdb_replicas" . }}
+    {{- `{{- $replicas := atoi (getv "/replicas_f" "1") }}` | nindent 4 -}}
 
-    {{range $i, $e := until (int $replicas)}}
+    {{- `{{- range $i, $e := seq 1 ($replicas) -}}` | nindent 4 -}}
     server {
-      listen 127.0.0.1{{$i}}:8{{$i}}86;
-      server_name 127.0.0.1{{$i}};
+      listen 127.0.0.1{{- `{{$i}}` -}}:8{{- `{{$i}}` -}}86;
+      server_name 127.0.0.1{{- `{{$i}}` -}};
     {{- if $.Values.global.tls_enabled }}
       ssl_session_cache   shared:SSL:1m;
       ssl_session_timeout 5m;
@@ -33,9 +33,9 @@ data:
 
       location / {
           resolver {{ $.Values.global.internal_dns }} valid=30s;
-          set $upstream_influxdb_{{$i}} {{ $top.Release.Name }}-influxdb-{{$i}}.{{ $top.Release.Name }}-influxdb.{{ $top.Release.Namespace }}.svc.cluster.local;
+          set $upstream_influxdb_{{- `{{$i}}` -}} {{ $top.Release.Name }}-influxdb-{{- `{{$i}}` -}}.{{ $top.Release.Name }}-influxdb.{{ $top.Release.Namespace }}.svc.cluster.local;
 
-          proxy_pass {{ $scheme }}://$upstream_influxdb_{{$i}}:8086;
+          proxy_pass {{ $scheme }}://$upstream_influxdb_{{- `{{$i}}` -}}:8086;
           proxy_set_header Connection "";
           proxy_set_header Authorization "";
         {{- if $.Values.global.tls_enabled }}
@@ -66,18 +66,18 @@ data:
           add_header Cache-Control private;
       }
     }
-    {{- end }}
-  stream.conf: |+
+    {{- `{{- end }}` | nindent 4 -}}
+  stream.conf.tmpl: |+
     resolver {{ $.Values.global.internal_dns }} valid=30s;
     {{- $serviceRpcPort  := 8088 -}}
     map $server_port $remote_ip_addr {
-      {{- range $i, $e := until (int $replicas) -}}
-      8{{$i}}88 "{{ $top.Release.Name }}-influxdb-{{$i}}.{{ $top.Release.Name }}-influxdb.{{ $top.Release.Namespace }}.svc.cluster.local:{{ $serviceRpcPort }}";
-      {{- end }}
+      {{- `{{- range $i, $e := seq 1 ($replicas) -}}` | nindent 6 -}}
+      8{{- `{{$i}}` -}}88 "{{ $top.Release.Name }}-influxdb-{{- `{{$i}}` -}}.{{ $top.Release.Name }}-influxdb.{{ $top.Release.Namespace }}.svc.cluster.local:{{ $serviceRpcPort }}";
+      {{- `{{- end }}` | nindent 6 -}}
     }
-    {{- range $i, $e := until (int $replicas)}}
+    {{- `{{- range $i, $e := seq 1 ($replicas) -}}` | nindent 4 -}}
     server {
-      listen 127.0.0.1{{$i}}:8{{$i}}88;
+      listen 127.0.0.1{{- `{{$i}}` -}}:8{{- `{{$i}}` -}}88;
 
     {{- if $.Values.global.tls_enabled }}
       ssl_session_timeout 5m;
@@ -99,5 +99,5 @@ data:
     {{- end }}
       proxy_pass $remote_ip_addr;
     }
-    {{- end }}
+    {{- `{{- end }}` | nindent 4 -}}
 {{- end }}

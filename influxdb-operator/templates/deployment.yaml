@@ -86,7 +86,7 @@ spec:
             subPath: nginx.conf
           - mountPath: /etc/nginx/conf.d
             name: configs-template
-          - mountPath: /etc/nginx
+          - mountPath: /etc/nginxsidecar
             name: config
           {{- if not .Values.global.use_vault_for_ssl }}
           - mountPath: /etc/nginx/cert

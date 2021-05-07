@@ -87,7 +87,7 @@ restapi:
 #  this is valid only if the db.postgres.enable is true
 postgresql-ha:
   postgresqlImage:
-   registry: asdrepo.isus.emc.com:8099
+   registry: asdrepo.isus.emc.com:9042
    repository: postgresql-repmgr
   pgpoolImage:
    registry: asdrepo.isus.emc.com:8099

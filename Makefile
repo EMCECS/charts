@@ -117,6 +117,7 @@ decksver: yqcheck
 	for CHART in ${FLEXCHARTS} ${DECKSCHARTS}; do  \
 		echo "Setting decks dep version ${DECKSVER} in $$CHART" ;\
 		sed ${SED_INPLACE} -e "/no_auto_change__decks_auto_change/s/version:.*/version: ${DECKSVER} # no_auto_change__decks_auto_change/g"  $$CHART/Chart.yaml; \
+		sed ${SED_INPLACE} -e "/no_auto_change__flex_auto_change/s/version:.*/version: ${FLEXVER} # no_auto_change__flex_auto_change/g"  $$CHART/Chart.yaml; \
 	done ;
 
 graphqlver: yqcheck

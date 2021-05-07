@@ -91,7 +91,7 @@ postgresql-ha:
    repository: postgresql-repmgr
   pgpoolImage:
    registry: asdrepo.isus.emc.com:8099
-   repository: pgpool 
+   repository: pgpool
   persistence:
     mountPath: /kahm/postgresql
     # storageClass:

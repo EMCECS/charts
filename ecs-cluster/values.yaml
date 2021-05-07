@@ -576,7 +576,7 @@ geoReceiver:
     ports:
       - name: geo
         port: 9094
-      - name: http-external # should be changed to https when TLS integrated
+      - name: https-external
         port: 12002
         targetPort: 12002
     # loadBalancerIP:     # select specific load balancer IP of the connection

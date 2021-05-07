@@ -125,10 +125,10 @@ graphqlver: yqcheck
 	sed ${SED_INPLACE} '1s/^/---\n/' objectscale-graphql/values.yaml
 	yamllint -c .yamllint.yml objectscale-graphql/values.yaml
 
-zookeeper-operatorver: yqcheck
+zookeeper-operatorver:
 	sed ${SED_INPLACE} -e "/no_auto_change__flex_auto_change/s/version:.*/version: ${FLEXVER} # no_auto_change__flex_auto_change/g"  zookeeper-operator/Chart.yaml
 
-pravega-operatorver: yqcheck
+pravega-operatorver:
 	sed ${SED_INPLACE} -e "/no_auto_change__flex_auto_change/s/version:.*/version: ${FLEXVER} # no_auto_change__flex_auto_change/g"  pravega-operator/Chart.yaml
 
 flexver: yqcheck graphqlver zookeeper-operatorver pravega-operatorver

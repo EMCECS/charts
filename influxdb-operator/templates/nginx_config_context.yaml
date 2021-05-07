@@ -17,7 +17,7 @@ metadata:
   labels:
     release: {{ .Release.Name }}
 data:
-  http.conf.tmpl: |+
+  http.conf.tmpl: |-
     {{- $top := . }}
     {{- $scheme := ternary "https" "http" .Values.global.tls_enabled }}
     {{- `{{- $replicas := atoi (getv "/replicas_f" "1") }}` | nindent 4 -}}
@@ -67,7 +67,7 @@ data:
       }
     }
     {{- `{{- end }}` | nindent 4 -}}
-  stream.conf.tmpl: |+
+  stream.conf.tmpl: |-
     resolver {{ $.Values.global.internal_dns }} valid=30s;
     {{- $serviceRpcPort  := 8088 -}}
     map $server_port $remote_ip_addr {

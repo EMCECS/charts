@@ -90,7 +90,7 @@ postgresql-ha:
    registry: asdrepo.isus.emc.com:9042
    repository: postgresql-repmgr
   pgpoolImage:
-   registry: asdrepo.isus.emc.com:8099
+   registry: asdrepo.isus.emc.com:9042
    repository: pgpool 
   persistence:
     mountPath: /kahm/postgresql

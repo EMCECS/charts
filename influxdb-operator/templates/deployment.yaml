@@ -89,8 +89,6 @@ spec:
             name: nginx-config
             subPath: nginx.conf
           - mountPath: /etc/nginx/conf.d
-            name: configs-template
-          - mountPath: /etc/nginx/conf.d
             name: config
           - mountPath: /etc/confd_flex/templates
             name: configs-template

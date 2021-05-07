@@ -219,8 +219,8 @@ spec:
       objectscale.dellemc.com/logging-inject: "true"
       objectscale.dellemc.com/logging-release-name: "{{ .Release.Name }}"
 {{ include "common-lib.labels-sp-integrated-all" . | indent 6}}
-{{ include "common-lib.labels-sp-integrated-initiate-decommission-script" (dict "script" "/bk-sp.sh_-t_recover_-o_600") | indent 6}}
-{{ include "common-lib.labels-sp-integrated-recovery-status-script" (dict "script" "/bk-sp.sh_-t_precheck_-o_600") | indent 6}}
+{{ include "common-lib.labels-sp-integrated-initiate-decommission-script" (dict "script" "bk-sp.sh_-t_recover_-o_600") | indent 6}}
+{{ include "common-lib.labels-sp-integrated-recovery-status-script" (dict "script" "bk-sp.sh_-t_precheck_-o_600") | indent 6}}
     annotations:
       vsphere-emm-integrated: "true"
     serviceAccountName:  {{ .Release.Name }}-pravega

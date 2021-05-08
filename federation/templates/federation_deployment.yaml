@@ -14,6 +14,9 @@ spec:
     metadata:
       labels:
         {{- include "fedsvc.selectorLabels" . | nindent 8 }}
+{{ include "common-lib.labels-sp-integrated-all" . | indent 8}}
+      annotations:
+{{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
     spec:
       serviceAccountName: "federation"
       {{- if .Values.global.registrySecret }}

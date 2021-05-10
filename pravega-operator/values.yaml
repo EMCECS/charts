@@ -10,7 +10,7 @@ global:
   registry: emccorp
 image:
   repository: pravega-operator
-  tag: 0.5.2-214-a3498ebe # rfw-update-this pravega-operator-docker-image
+  tag: 0.5.2-240-388128ca # rfw-update-this pravega-operator-docker-image
   pullPolicy: IfNotPresent
 
 ## Install RBAC roles and bindings.

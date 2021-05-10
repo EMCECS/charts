@@ -186,13 +186,13 @@ bookkeeper:
   storage:
     ledger:
       # storageClassName:
-      volumeSize: 10Gi
+      volumeSize: 30Gi
     journal:
       # storageClassName:
-      volumeSize: 10Gi
+      volumeSize: 13Gi
     index:
       # storageClassName:
-      volumeSize: 5Gi
+      volumeSize: 1Gi
   options:
     emptyDirVolumeMounts: "heap-dump=/crash-dump,log=/opt/bookkeeper/logs"
     configMapVolumeMountsLog: ":apply-config-from-env.py=/opt/bookkeeper/scripts/apply-config-from-env.py"

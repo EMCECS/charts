@@ -110,6 +110,8 @@ spec:
             secretKeyRef:
               name: {{ .Release.Name }}-rest-credentials
               key: credentials
+        - name: KUBERNETES_PLATFORM
+          value: {{ .Values.global.platform }}
 {{- if .Values.withPlayground }}
         args:
           - "-P"

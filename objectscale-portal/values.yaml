@@ -94,7 +94,7 @@ features:
   # enable this if you want to deploy the BETA3 Buckets workflows
   bucketsv2: true
   # enable this if you want to deploy the BETA3 New/Edit Objectstore workflows
-  manageObjectStoreV2: false
+  manageObjectStoreV2: true
   replications: false
   objectscaleSystems: false
   # Possible Logging modes - ERROR, INFO, DEBUG, WARNING Only

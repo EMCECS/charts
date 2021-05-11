@@ -13,3 +13,6 @@ dependencies:
     version: 2.72.0 # no_auto_change__decks_auto_change
     repository: file://../decks-support-store
     condition: supportStore.enabled
+  - name: common-lib
+    version: 0.72.0 # no_auto_change__flex_auto_change
+    repository: file://../common-lib

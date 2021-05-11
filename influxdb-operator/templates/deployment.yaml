@@ -52,10 +52,6 @@ spec:
       imagePullSecrets:
         - name: {{ .Values.global.registrySecret }}
       {{- end }}
-      {{- if .Values.global.tls_enabled }}
-      initContainers:
-{{ include "common-monitoring-lib.confd_init_container" (dict "top" . "app_container_name" "nginx") | indent 8 }}
-      {{- end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:

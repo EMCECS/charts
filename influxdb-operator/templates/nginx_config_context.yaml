@@ -33,7 +33,7 @@ data:
 
       location / {
           resolver {{ $.Values.global.internal_dns }} valid=30s;
-          set $upstream_influxdb_{{- `{{$i}}` -}} {{ $top.Release.Name }}-influxdb-{{- `{{$i}}` -}}.{{ $top.Release.Name }}-influxdb.{{ $top.Release.Namespace }}.svc.cluster.local;
+          set $upstream_influxdb_{{- `{{$i}}` }} {{ $top.Release.Name }}-influxdb-{{- `{{$i}}` -}}.{{ $top.Release.Name }}-influxdb.{{ $top.Release.Namespace }}.svc.cluster.local;
 
           proxy_pass {{ $scheme }}://$upstream_influxdb_{{- `{{$i}}` -}}:8086;
           proxy_set_header Connection "";
@@ -66,16 +66,18 @@ data:
           add_header Cache-Control private;
       }
     }
-    {{- `{{- end }}` | nindent 4 -}}
+    {{- `{{- end }}` | nindent 4}}
+
   stream.conf.tmpl: |-
+    {{- `{{- $replicas := atoi (getv "/replicas_f" "1") }}` | nindent 4 }}
     resolver {{ $.Values.global.internal_dns }} valid=30s;
     {{- $serviceRpcPort  := 8088 -}}
     map $server_port $remote_ip_addr {
-      {{- `{{- range $i, $e := seq 1 ($replicas) -}}` | nindent 6 -}}
+      {{- `{{- range $i, $e := seq 1 ($replicas) -}}` | nindent 6 }}
       8{{- `{{$i}}` -}}88 "{{ $top.Release.Name }}-influxdb-{{- `{{$i}}` -}}.{{ $top.Release.Name }}-influxdb.{{ $top.Release.Namespace }}.svc.cluster.local:{{ $serviceRpcPort }}";
-      {{- `{{- end }}` | nindent 6 -}}
+      {{- `{{- end }}` | nindent 6 }}
     }
-    {{- `{{- range $i, $e := seq 1 ($replicas) -}}` | nindent 4 -}}
+    {{- `{{- range $i, $e := seq 1 ($replicas) -}}` | nindent 4 }}
     server {
       listen 127.0.0.1{{- `{{$i}}` -}}:8{{- `{{$i}}` -}}88;
 
@@ -99,5 +101,5 @@ data:
     {{- end }}
       proxy_pass $remote_ip_addr;
     }
-    {{- `{{- end }}` | nindent 4 -}}
+    {{- `{{- end }}` | nindent 4 }}
 {{- end }}

@@ -1,5 +1,5 @@
 #
-# Copyright © [2020] Dell Inc. or its subsidiaries.
+# Copyright © [2021] Dell Inc. or its subsidiaries.
 # All Rights Reserved.
 #
 # This software contains the intellectual property of Dell Inc.
@@ -21,7 +21,7 @@ data:
   http.conf.toml: |+
     [template]
     src = "http.conf.tmpl"
-    dest = "/etc/nginx/conf.d/http.conf"
+    dest = "/etc/nginx/http.conf"
     keys = [
         "/replicas_f",
     ]
@@ -29,7 +29,7 @@ data:
   stream.conf.toml: |+
     [template]
     src = "stream.conf.tmpl"
-    dest = "/etc/nginx/conf.d/stream.conf"
+    dest = "/etc/nginx/stream.conf"
     keys = [
         "/replicas_f",
     ]

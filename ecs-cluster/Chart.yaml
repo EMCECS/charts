@@ -1,5 +1,5 @@
 ---
-apiVersion: v1
+apiVersion: v2
 appVersion: 0.72.0
 description: |
   Dell EMC ObjectScale is highly scalable, and high performance S3 compatible object storage platform.
@@ -9,3 +9,16 @@ icon: https://avatars0.githubusercontent.com/u/12926680
 maintainers:
   - name: Dell EMC
     url: http://dellemc.com
+dependencies:
+  - name: ecs-monitoring
+    # rfw-update-next ecs-monitoring-helm-chart
+    version: 3.7.0-1190.57db76b5 # no_auto_change__monitoring_auto_change
+    condition: global.monitoring.enabled
+    repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+  - name: rsyslog-client
+    repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
+    # rfw-update-next rsyslog-client-helm-chart
+    version: 3.7.0-1190.57db76b5 # no_auto_change__monitoring_auto_change
+  - name: common-lib
+    version: 0.72.0
+    repository: file://../common-lib

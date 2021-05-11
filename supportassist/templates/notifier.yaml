@@ -39,6 +39,9 @@ spec:
       labels:
         app.kubernetes.io/component: supportassist-{{.Values.product}}-notifier
 {{ include "supportassist.labels" . | indent 8 }}
+{{ include "common-lib.labels-sp-integrated-all" . | indent 8}}
+      annotations:
+{{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
     spec:
       serviceAccountName: supportassist-{{required "product must be specified" .Values.product}}-notifier
 {{- if .Values.global.registrySecret }}

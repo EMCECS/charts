@@ -19,6 +19,9 @@ spec:
         name: decks
         app.kubernetes.io/name: "decks"
         release: {{ .Release.Name }}
+{{ include "common-lib.labels-sp-integrated-all" . | indent 8}}
+      annotations:
+{{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
     spec:
       serviceAccountName: "decks"
 {{- if .Values.global.registrySecret }}

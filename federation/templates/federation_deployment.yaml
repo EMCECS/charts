@@ -27,9 +27,9 @@ spec:
       - name: fedsvc
         resources:
           limits:
-            memory: 500M
+            memory: 1000M
           requests:
-            memory: 500M
+            memory: 1000M
         env:
         - name: ATLAS_SERVICE_HOSTNAME
           value: {{ include "fedsvc.name" . }}-atlas-client

@@ -1,0 +1,10 @@
+- description: "Object Scale Temporary Maintenance Mode Started"
+  name: "TMMStarted"
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # NORMAL
+        - label: SymptomID
+          value: OBJSC-SP-3001
+  notifiers:
+    - objectscale-supportassist-ese

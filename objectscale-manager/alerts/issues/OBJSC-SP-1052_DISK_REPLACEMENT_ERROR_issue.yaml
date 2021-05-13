@@ -1,0 +1,10 @@
+- description: "Something went wrong during the disk replacement service procedure"
+  name: "ErrorOnDiskReplacemnt"
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # ERROR
+        - label: SymptomID
+          value: OBJSC-SP-1052
+  notifiers:
+    - objectscale-supportassist-ese

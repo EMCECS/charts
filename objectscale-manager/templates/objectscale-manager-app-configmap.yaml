@@ -18,6 +18,15 @@ metadata:
         com.dellemc.kahm.subscribed: "true"
 data:
     eventRules: |-
+      issueRules:
+{{ range $path, $_ :=  .Files.Glob  "alerts/issues/*_issue.yaml" }}
+{{- $.Files.Get $path | indent 8 }}
+{{ end }}
+    eventRemedies: |-
+      symptoms:
+{{ range $path, $_ :=  .Files.Glob  "alerts/remedies/*_remedies.yaml" }}
+{{- $.Files.Get $path | indent 8 }}
+{{ end }}
     health: |-
       spec:
         - name: pre-update

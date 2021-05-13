@@ -1,0 +1,10 @@
+- description: "Removing pods from the node in Temporary Maintenance Mode"
+  name: "TMMPodsRemoving"
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # NORMAL
+        - label: SymptomID
+          value: OBJSC-SP-3004
+  notifiers:
+    - objectscale-supportassist-ese

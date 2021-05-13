@@ -1,0 +1,10 @@
+- description: "Permanent Maintenance Mode service procedure failed with error"
+  name: "PMMError"
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # Error
+        - label: SymptomID
+          value: OBJSC-SP-2053
+  notifiers:
+    - objectscale-supportassist-ese

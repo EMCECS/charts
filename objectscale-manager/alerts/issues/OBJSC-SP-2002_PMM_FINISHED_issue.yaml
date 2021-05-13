@@ -1,0 +1,10 @@
+- description: "Object Scale Permanent Maintenance Mode Finished"
+  name: "PMMFinished"
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # NORMAL
+        - label: SymptomID
+          value: OBJSC-SP-2002
+  notifiers:
+    - objectscale-supportassist-ese

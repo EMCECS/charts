@@ -1,0 +1,10 @@
+- description: "Not enough available capacity for unhealthy PVC replacing"
+  name: "InsufficientCapacityForDR"
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # WARNING
+        - label: SymptomID
+          value: OBJSC-SP-1051
+  notifiers:
+    - objectscale-supportassist-ese

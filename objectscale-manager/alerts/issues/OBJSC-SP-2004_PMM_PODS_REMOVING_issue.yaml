@@ -1,0 +1,10 @@
+- description: "Removing pods from the node in Permanent Maintenance Mode"
+  name: "PMMPodsRemoving"
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # NORMAL
+        - label: SymptomID
+          value: OBJSC-SP-2004
+  notifiers:
+    - objectscale-supportassist-ese

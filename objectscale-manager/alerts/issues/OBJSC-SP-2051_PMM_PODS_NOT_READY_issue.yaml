@@ -1,0 +1,10 @@
+- description: "Some pods on the node in Permanent Maintenance Mode aren't ready to remove"
+  name: "PMMPodsNotReady"
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # WARNING
+        - label: SymptomID
+          value: OBJSC-SP-2051
+  notifiers:
+    - objectscale-supportassist-ese

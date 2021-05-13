@@ -1,0 +1,10 @@
+- description: "Object Scale service procedure started Recovery Process"
+  name: "SPRecoveryStarted"
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # NORMAL
+        - label: SymptomID
+          value: OBJSC-SP-0001
+  notifiers:
+    - objectscale-supportassist-ese

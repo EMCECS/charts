@@ -1,0 +1,10 @@
+- description: "Node with Permanent Maintenance Mode taint was found"
+  name: "PMMNodeDetected"
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # NORMAL
+        - label: SymptomID
+          value: OBJSC-SP-2003
+  notifiers:
+    - objectscale-supportassist-ese

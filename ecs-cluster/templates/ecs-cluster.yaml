@@ -244,6 +244,20 @@ spec:
     {{- else }}
     version: {{ .Values.tag }}
     {{- end }}
+{{- if .Values.bookkeeper.disableAntiAffinity }}
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: component
+                  operator: In
+                  values:
+                    - bookie
+              topologyKey: kubernetes.io/hostname
+{{- end }}
     blockOwnerDeletion:  {{ .Values.bookkeeper.blockOwnerDeletion }}
     labels:
       app.kubernetes.io/namespace: {{ .Release.Namespace }}

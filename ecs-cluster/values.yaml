@@ -168,6 +168,7 @@ bookkeeper:
   image:
     pullPolicy: IfNotPresent
     tag: 0.10.0-2871.bf888da5e # rfw-update-this bookkeeper-docker-image
+  disableAntiAffinity: false
   blockOwnerDeletion: false
   autoRecovery: false
   probes:

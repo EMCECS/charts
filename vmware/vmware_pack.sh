@@ -110,7 +110,7 @@ sed "${sed_inplace[@]}" "s/SERVICE_ID/${service_id}/" temp_package/scripts/deplo
 cat temp_package/yaml/${vsphere7_plugin_file} >> temp_package/scripts/deploy-objectscale-plugin.sh 
 echo "EOF" >> temp_package/scripts/deploy-objectscale-plugin.sh
 
-cat <<'EOF' >> temp_package/scripts/deploy-objectscale-plugin.sh
+cat <<EOF >> temp_package/scripts/deploy-objectscale-plugin.sh
 
 if [ $? -ne 0 ]
 then

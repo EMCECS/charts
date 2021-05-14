@@ -34,7 +34,7 @@ cat <<'EOT' | kubectl apply -f -
 $(cat temp_package/yaml/objectscale-crd.yaml)
 EOT
 
-if [ $? -ne 0 ]
+if [ \$? -ne 0 ]
 then
     echomsg "ERROR unable to apply CRD yaml"
     exit 1
@@ -113,7 +113,7 @@ echo "EOF" >> temp_package/scripts/deploy-objectscale-plugin.sh
 
 cat <<EOF >> temp_package/scripts/deploy-objectscale-plugin.sh
 
-if [ $? -ne 0 ]
+if [ \$? -ne 0 ]
 then
     echomsg "ERROR unable to apply Dell EMC ObjectScale plugin"
     exit 1

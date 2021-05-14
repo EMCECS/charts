@@ -28,9 +28,17 @@ then
      sed "${sed_inplace[@]}" "s/SERVICE_ID/-${service_id}/g" temp_package/yaml/objectscale-manager.yaml
 
      extra_crd_install=<<'EOF'
+# manually install CRD because of OBSDEF-8341, also tag text for automation
+echomsg "Manually installing CRD because of non-default service ID ${service_id}"
 cat <<'EOT' | kubectl apply -f - 
 $(cat temp_package/yaml/objectscale-crd.yaml)
 EOT
+
+if [ $? -ne 0 ]
+then
+    echomsg "ERROR unable to apply CRD yaml"
+    exit 1
+fi 
 EOF
 
 else 
@@ -109,6 +117,9 @@ then
     echomsg "ERROR unable to apply Dell EMC ObjectScale plugin"
     exit 1
 fi 
+
+${extra_crd_install}
+
 echo
 echomsg "In vSphere7 UI Navigate to Workload-Cluster > Supervisor Services > Services"
 echomsg "Select Dell EMC ObjectScale then Enable"

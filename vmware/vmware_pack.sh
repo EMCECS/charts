@@ -27,7 +27,7 @@ then
      label="${label}-${service_id}"
      sed "${sed_inplace[@]}" "s/SERVICE_ID/-${service_id}/g" temp_package/yaml/objectscale-manager.yaml
 
-     extra_crd_install=<<'EOF'
+     extra_crd_install=$(cat <<EOF
 # manually install CRD because of OBSDEF-8341, also tag text for automation
 echomsg "Manually installing CRD because of non-default service ID ${service_id}"
 cat <<'EOT' | kubectl apply -f - 
@@ -40,6 +40,7 @@ then
     exit 1
 fi 
 EOF
+)
 
 else 
      sed "${sed_inplace[@]}" "s/SERVICE_ID//g" temp_package/yaml/objectscale-manager.yaml
@@ -126,3 +127,4 @@ echomsg "Select Dell EMC ObjectScale then Enable"
 EOF
 
 chmod 700 temp_package/scripts/deploy-objectscale-plugin.sh
+

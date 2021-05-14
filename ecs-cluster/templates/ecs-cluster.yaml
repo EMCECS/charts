@@ -63,6 +63,10 @@ spec:
   atlas:
     replicas: {{ coalesce .Values.atlas.replicas (index (dict "Large" 3) (title .Values.performanceProfile)) 1 }}
 {{ include "datasvc-lib.common-labels" . | indent 4 }}
+{{ include "common-lib.labels-sp-integrated-all" . | indent 6}}
+    pod:
+      annotations:
+{{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
       release: {{ .Release.Name }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.atlas.image.repository }}
@@ -208,6 +212,10 @@ spec:
 {{- end }}
     pod: 
       serviceAccountName: {{.Release.Name}}-storageserver
+      labels:
+{{ include "common-lib.labels-sp-integrated-all" . | indent 8}}
+      annotations:
+{{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
     labels:
       app: zookeeper
       component: zk

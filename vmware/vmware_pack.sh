@@ -43,7 +43,7 @@ EOF
 
 else 
      sed "${sed_inplace[@]}" "s/SERVICE_ID//g" temp_package/yaml/objectscale-manager.yaml
-     actual_crd = $(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/objectscale-crd.yaml)
+     actual_crd=$(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/objectscale-crd.yaml)
 fi
 
 cat <<EOT >> temp_package/yaml/${vsphere7_plugin_file}

@@ -1,0 +1,4 @@
+- symptomid: OBJSC-SP-3051
+  description: Temporary maintenance mode service procedure failed with error
+  remedies:
+    - Check service procedure CR in k8s and SP operator logs

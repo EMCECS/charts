@@ -18,12 +18,24 @@ objs_ver=$(grep appVersion: objectscale-manager/Chart.yaml | sed -e "s/.*: //g")
 
 vsphere7_plugin_file="objectscale-${objs_ver}-vmware-config-map.yaml"
 
+extra_crd_install=""
+actual_crd=""
+
 service_id=$1
 if [ ${service_id} != "objectscale" ]
 then
      label="${label}-${service_id}"
      sed "${sed_inplace[@]}" "s/SERVICE_ID/-${service_id}/g" temp_package/yaml/objectscale-manager.yaml
-else sed "${sed_inplace[@]}" "s/SERVICE_ID//g" temp_package/yaml/objectscale-manager.yaml
+
+     extra_crd_install=<<'EOF'
+cat <<'EOT' | kubectl apply -f - 
+$(cat temp_package/yaml/objectscale-crd.yaml)
+EOT
+EOF
+
+else 
+     sed "${sed_inplace[@]}" "s/SERVICE_ID//g" temp_package/yaml/objectscale-manager.yaml
+     actual_crd = $(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/objectscale-crd.yaml)
 fi
 
 cat <<EOT >> temp_package/yaml/${vsphere7_plugin_file}
@@ -37,7 +49,7 @@ metadata:
     appplatform.vmware.com/kind: supervisorservice
 data:
   ${service_id}-crd.yaml: |-
-$(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/objectscale-crd.yaml)
+${actual_crd}
   ${service_id}-operator.yaml: |-
 $(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/objectscale-manager.yaml)
 $(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/kahm.yaml)

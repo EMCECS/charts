@@ -67,11 +67,11 @@ affinity: {}
 db:
   eventTTL: "2592000"
   # BadgerDB or PostgresDB
-  dbType: BadgerDB
+  dbType: PostgresDB 
   # this is valid only if the dbType is PostgresDB
   postgres:
     # by default don't spawn postgres DB sub-chart
-    enable: false
+    enable: true 
     userName: kahm
     password: ChangeMe
     database: kahm

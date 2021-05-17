@@ -243,6 +243,7 @@ create-vsphere-templates: create-temp-package
     --set graphql.enabled=true \
 	--set global.registry=${REGISTRY} \
 	--set global.registrySecret=${REGISTRYSECRET} \
+	--set objectscale-portal.objectscale-graphql.eventPaginationSource=KAHM \
 	--set global.storageClassName=${STORAGECLASSNAME} ${HELM_UI_ARGS} ${HELM_GRAPHQL_ARGS} ${HELM_INSTALLER_ARGS} \
 	-f objectscale-vsphere/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
 
@@ -270,6 +271,7 @@ create-kahm-app: create-temp-package
 	--set global.registry=${KAHM_REGISTRY} \
 	--set global.registrySecret=${REGISTRYSECRET} \
 	--set storageClassName=${STORAGECLASSNAME} \
+	--set postgresql-ha.persistence.storageClass=${STORAGECLASSNAME} \
         ${HELM_KAHM_ARGS} \
 	-f values.yaml > ../${TEMP_PACKAGE}/yaml/kahm-app.yaml;
 	sed ${SED_INPLACE} 's/createkahmappResource\\":true/createkahmappResource\\":false/g' ${TEMP_PACKAGE}/yaml/kahm-app.yaml && \

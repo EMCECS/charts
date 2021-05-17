@@ -212,14 +212,13 @@ spec:
 {{- end }}
     pod: 
       serviceAccountName: {{.Release.Name}}-storageserver
-      labels:
-{{ include "common-lib.labels-sp-integrated-all" . | indent 8}}
       annotations:
 {{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
     labels:
       app: zookeeper
       component: zk
       release: {{ .Release.Name }}
+{{ include "common-lib.labels-sp-integrated-all" . | indent 6}}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.zookeeper.image.repository }}
       tag: {{ .Values.zookeeper.image.tag }}

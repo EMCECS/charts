@@ -1,4 +1,4 @@
-- description: "Object Scale Permanent Maintenance Mode Started"
+- description: "ObjectScale Permanent Maintenance Mode Started"
   name: "PMMStarted"
   issueCategory: Auto
   matchOnList:
@@ -6,5 +6,3 @@
         # NORMAL
         - label: SymptomID
           value: OBJSC-SP-2001
-  notifiers:
-    - objectscale-supportassist-ese

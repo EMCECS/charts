@@ -1,4 +1,4 @@
-- description: "Object Scale service procedure Recovery Process is in progress"
+- description: "ObjectScale service procedure Recovery Process is in progress"
   name: "SPRecoveryInProgress"
   issueCategory: Auto
   matchOnList:
@@ -6,5 +6,3 @@
         # WARNING
         - label: SymptomID
           value: OBJSC-SP-0051
-  notifiers:
-    - objectscale-supportassist-ese

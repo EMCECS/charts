@@ -1,12 +1,12 @@
 
 Thank you for installing {{ .Chart.Name }}. This release is capable of
-deploying and upgrading Dell EMC Common Kubernetes Services Support-Store
+deploying and upgrading DellEMC Common Kubernetes Services Support-Store
 
 Your release is named {{ .Release.Name }}.
 
 To install DECKS-SUPPORT-STORE via a Helm chart, use the helm install command below:
 
-  $ helm install dsa <repository name>/decks-support-store
+  $ helm install dss <repository name>/decks-support-store
 
 For more information on the installation and configuration options, see the
 README at https://github.com/EMCECS/charts/tree/master/decks-support-store and the

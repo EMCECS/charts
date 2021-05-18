@@ -260,7 +260,7 @@ spec:
 {{ include "common-lib.labels-sp-integrated-initiate-decommission-script" (dict "script" "bk-sp.sh_-t_recover_-o_600") | indent 6}}
 {{ include "common-lib.labels-sp-integrated-recovery-status-script" (dict "script" "bk-sp.sh_-t_precheck_-o_600") | indent 6}}
     annotations:
-      vsphere-emm-integrated: "true"
+{{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 6}}
     serviceAccountName:  {{ .Release.Name }}-pravega
     autoRecovery: {{ .Values.bookkeeper.autoRecovery }}
     {{- if .Values.bookkeeper.probes }}
@@ -355,9 +355,9 @@ spec:
         objectscale.dellemc.com/logging-release-name: "{{ .Release.Name }}"
 {{ include "common-lib.labels-sp-integrated-all" . | indent 8}}
       segmentStorePodAnnotations:
-        vsphere-emm-integrated: "true"
+{{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
       controllerPodAnnotations:
-        vsphere-emm-integrated: "true"
+{{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
       options:
         controller.metrics.influxDB.connect.db.name: {{ .Values.pravega.options.metrics.influxDBName }}
         metrics.influxDB.connect.db.name: {{ .Values.pravega.options.metrics.influxDBName }}

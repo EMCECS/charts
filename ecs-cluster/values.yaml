@@ -30,7 +30,7 @@ global:
 
 # The default docker tag and pull policy for the ECS Cluster
 # rfw-update-next *comp*object-services
-tag: 3.7.0.0-134257.2879f2f48ea
+tag: 3.7.0.0-134567.270484f4999
 pullPolicy: IfNotPresent
 
 # Override the default number of replicas which taken according to performance profile for each service
@@ -118,7 +118,7 @@ pravega:
   # labels:
   image:
     pullPolicy: IfNotPresent
-    tag: 0.10.0-2871.bf888da5e # rfw-update-this pravega-docker-image
+    tag: 0.10.0-2876.1c3854e66 # rfw-update-this pravega-docker-image
   controller:
 #    replicas: 1
     service:
@@ -167,8 +167,7 @@ bookkeeper:
   # labels:
   image:
     pullPolicy: IfNotPresent
-    tag: 0.10.0-2871.bf888da5e # rfw-update-this bookkeeper-docker-image
-  disableAntiAffinity: false
+    tag: 0.10.0-2876.1c3854e66 # rfw-update-this bookkeeper-docker-image
   blockOwnerDeletion: false
   autoRecovery: false
   probes:
@@ -297,7 +296,7 @@ objectsvc:
   # Docker repository to be used for objectsvc instances
   image:
     repository: object-service
-    tag: 3.7.0.0-2249.0d5d0e50 # rfw-update-this objectsvc-docker-image
+    tag: 3.7.0.0-2343.bc745e41 # rfw-update-this objectsvc-docker-image
     # pullPolicy: IfNotPresent
 
   # Elements to add to the service's ConfigMap. This is a map of string -> string
@@ -633,7 +632,7 @@ managementGateway:
   # Docker repository to be used for managementGateway instances
   image:
     repository: management-gateway
-    tag: 0.72.0.0-165.4b8651a # rfw-update-this management-gateway-docker-image
+    tag: 0.72.0.0-169.120135a # rfw-update-this management-gateway-docker-image
     # pullPolicy: IfNotPresent
 
   service:
@@ -690,7 +689,7 @@ provision:
   newProvisionAPI: true
   image:
     repository: provision
-    tag: 0.70.0.0-808.c2da1079 # rfw-update-this provision-docker-image
+    tag: 0.70.0.0-814.7fa7d2fb # rfw-update-this provision-docker-image
     # pullPolicy: IfNotPresent
 
 # The job will assign new created ss to the sp
@@ -701,7 +700,7 @@ expandsp:
 cmfswitch:
   image:
     repository: cmf-switch
-    tag: 0.6.0-166.7a36f1d # rfw-update-this cmf-switch-docker-image
+    tag: 0.6.0-169.120135a # rfw-update-this cmf-switch-docker-image
     # pullPolicy: IfNotPresent
 
 #
@@ -713,7 +712,7 @@ cmfswitch:
 syslogAgent:
   image:
     repository: rsyslog
-    tag: 3.7.0.0-1186.91aed4d8 # rfw-update-this rsyslog-docker-image
+    tag: 3.7.0.0-1199.e4e857f6 # rfw-update-this rsyslog-docker-image
     # pullPolicy: IfNotPresent
 
 # The log agent configuration for log collection of ECS services with a Syslog
@@ -721,7 +720,7 @@ syslogAgent:
 fluentbitAgent:
   image:
     repository: fluent-bit
-    tag: 3.7.0.0-1186.91aed4d8 # rfw-update-this fluent-bit-docker-image
+    tag: 3.7.0.0-1199.e4e857f6 # rfw-update-this fluent-bit-docker-image
     # pullPolicy: IfNotPresent
 
 # The fabric proxy sidecar configuration for ECS Service Discovery and container
@@ -756,12 +755,12 @@ healthChecks:
   connectivity:
     image:
       repository: objectstore-connectivity
-      tag: 0.72.0-39.99179ae # rfw-update-this objectstore-connectivity-image
+      tag: 0.73.0-40.9004428 # rfw-update-this objectstore-connectivity-image
   preUpdate:
     image:
       repository: objectstore-pre-update
-      tag: 0.72.0-39.99179ae # rfw-update-this objectstore-pre-update-image
+      tag: 0.73.0-40.9004428 # rfw-update-this objectstore-pre-update-image
   postUpgrade:
     image:
       repository: objectstore-post-upgrade
-      tag: 0.72.0-39.99179ae # rfw-update-this objectstore-pre-update-image
+      tag: 0.73.0-40.9004428 # rfw-update-this objectstore-pre-update-image

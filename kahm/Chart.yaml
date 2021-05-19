@@ -1,9 +1,9 @@
 ---
 apiVersion: v2
-appVersion: 2.72.0
+appVersion: 2.73.0
 description: A Helm chart for Kubernetes Applications Health Management
 name: kahm
-version: 2.72.0
+version: 2.73.0
 icon: https://avatars0.githubusercontent.com/u/12926680
 maintainers:
   - name: Dell EMC
@@ -14,5 +14,5 @@ dependencies:
     repository: https://charts.bitnami.com/bitnami
     condition: db.postgres.enable
   - name: common-lib
-    version: 0.72.0 # no_auto_change__flex_auto_change
+    version: 0.73.0 # no_auto_change__flex_auto_change
     repository: file://../common-lib

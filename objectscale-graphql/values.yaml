@@ -28,10 +28,10 @@ global:
 #
 # This is the list of available objectstore versions to graphql for UI to configure the store.
 objectStoreAvailableVersions:
-  - 0.72.0
+  - 0.73.0
 #
 # The default docker tag and pull policy for objectscale-graphql services
-tag: 0.72.0
+tag: 0.73.0
 pullPolicy: IfNotPresent
 #
 # This will create the graphql container with the debug image. debug image will always be {{image.repository}}-debug
@@ -40,7 +40,7 @@ debug: false
 #
 image:
   repository: ecs-flex-graphql
-  tag: 0.72.0-548.08bab70 # rfw-update-this graphql-image
+  tag: 0.73.0-576.2fbb387 # rfw-update-this graphql-image
   # pullPolicy: IfNotPresent
 withPlayground: false
 port: 8080
@@ -49,8 +49,8 @@ service:
   type: ClusterIP
 #
 decks:
-  licenseChartVersion: "2.72.0"
-  supportAssistChartVersion: "2.72.0"
+  licenseChartVersion: "2.73.0"
+  supportAssistChartVersion: "2.73.0"
   srsGatewayChartVersion: "1.2.0"
 #
 logReceiver:
@@ -82,7 +82,7 @@ logReceiver:
 fluentbitAgent:
   image:
     repository: fluent-bit
-    tag: 3.7.0.0-1186.91aed4d8 # rfw-update-this fluent-bit-docker-image
+    tag: 3.7.0.0-1199.e4e857f6 # rfw-update-this fluent-bit-docker-image
     # pullPolicy: IfNotPresent
 #
 helmController:

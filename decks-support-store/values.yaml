@@ -18,12 +18,12 @@ global:
 
 
 # The default docker tag and pull policy for the DECKS
-tag: 2.72.0
+tag: 2.73.0
 pullPolicy: IfNotPresent
 
 image:
   repository: decks-support-store
-  tag: 2.72.0-202.f700b48 # rfw-update-this decks-support-store-image
+  tag: 2.73.0-205.45598b0 # rfw-update-this decks-support-store-image
   version: 2.0.0
   pullPolicy: IfNotPresent
 persistentVolume:

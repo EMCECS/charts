@@ -118,14 +118,14 @@
             <AppenderRef ref="asyncT"/>
         </Logger>
 
-        <Logger name="com.emc.storageos.data.stream" level="ERROR">
+        <Logger name="com.emc.storageos.data.stream" level="INFO">
             <AppenderRef ref="asyncST"/>
         </Logger>
-        <Logger name="io.pravega.client" level="ERROR">
+        <Logger name="io.pravega.client" level="INFO">
             <AppenderRef ref="asyncST"/>
         </Logger>
 
-        <Root level="ERROR">
+        <Root level="INFO">
             <AppenderRef ref="asyncR"/>
             <AppenderRef ref="asyncE" level="error"/>
         </Root>

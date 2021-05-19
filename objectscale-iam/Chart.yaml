@@ -1,14 +1,14 @@
 ---
 apiVersion: v2
-appVersion: 0.72.0
+appVersion: 0.73.0
 description: A Helm chart for Dell EMC IAM
 name: objectscale-iam
-version: 0.72.0
+version: 0.73.0
 icon: https://avatars0.githubusercontent.com/u/12926680
 maintainers:
   - name: Dell EMC
     url: http://dellemc.com
 dependencies:
   - name: common-lib
-    version: 0.72.0
+    version: 0.73.0
     repository: file://../common-lib

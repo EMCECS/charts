@@ -27,9 +27,9 @@ spec:
       - name: fedsvc
         resources:
           limits:
-            memory: 500M
+            memory: 1000M
           requests:
-            memory: 500M
+            memory: 1000M
         env:
         - name: ATLAS_SERVICE_HOSTNAME
           value: {{ include "fedsvc.name" . }}-atlas-client
@@ -37,6 +37,10 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+        - name: MY_OBJECTSCALE_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
         - name: MY_POD_NAMESPACE
           valueFrom:
             fieldRef:

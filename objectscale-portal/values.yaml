@@ -37,7 +37,7 @@ global:
   #dns: kube-dns.kube-system.svc.cluster.local
 
 # The default docker tag and pull policy for objectscale-portal and other containers
-tag: 0.72.0
+tag: 0.73.0
 pullPolicy: IfNotPresent
 
 # This package gets values from objectscale-manager/values.yaml
@@ -58,7 +58,7 @@ graphql:
 enabled: false
 image:
   repository: ecs-flex-vsphere-plugin
-  tag: 0.72.0.0-918.a0be7043 # rfw-update-this ecs-flex-vsphere-plugin-docker-image
+  tag: 0.73.0.0-977.5466e649 # rfw-update-this ecs-flex-vsphere-plugin-docker-image
   # pullPolicy: IfNotPresent
 service:
   # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
@@ -94,7 +94,7 @@ features:
   # enable this if you want to deploy the BETA3 Buckets workflows
   bucketsv2: true
   # enable this if you want to deploy the BETA3 New/Edit Objectstore workflows
-  manageObjectStoreV2: true
+  manageObjectStoreV2: false
   replications: false
   objectscaleSystems: false
   # Possible Logging modes - ERROR, INFO, DEBUG, WARNING Only

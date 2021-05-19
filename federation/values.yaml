@@ -1,5 +1,5 @@
 ---
-tag: 0.72.0
+tag: 0.73.0
 global:
   registry: emccorp
   # Default: true == Watch ALL namespaces
@@ -11,7 +11,7 @@ fedsvc:
   image:
     pullPolicy: IfNotPresent
     repository: fedsvc
-    tag: 3.7.0.0-37.0e350a5 # rfw-update-this fedsvc-docker-image
+    tag: 3.7.0.0-41.a76c905 # rfw-update-this fedsvc-docker-image
   livenessProbe:
     probePath: /fedsvchealthcheck
   readinessProbe:
@@ -19,7 +19,7 @@ fedsvc:
   replicaCount: 3
   service:
     port: 9500
-    type: LoadBalancer
+    type: ClusterIP
 # Atlas Cluster configuration for ObjectScale persistent Storage
 atlas:
 

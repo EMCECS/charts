@@ -1,9 +1,9 @@
-- description: "If Pravega warning limit exceeded"
-  name: "PRAVEGA_THRESHOLD_EXCEEDED_WARNING"
+- description: "If tier is down or can not be written to"
+  name: "FAILED_TIER"
   defaultAutoClearTimeOut: 180
   issueCategory: Auto
   matchOnList:
     - matchon:
         # WARNING
         - label: SymptomID
-          value: 12008
+          value: 13000

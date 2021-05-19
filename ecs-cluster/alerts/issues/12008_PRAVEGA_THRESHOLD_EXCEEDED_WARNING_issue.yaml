@@ -1,0 +1,9 @@
+- description: "If Pravega warning limit exceeded"
+  name: "PRAVEGA_THRESHOLD_EXCEEDED_WARNING"
+  defaultAutoClearTimeOut: 180
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # ERROR
+        - label: SymptomID
+          value: 12008

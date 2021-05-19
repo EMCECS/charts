@@ -1,0 +1,9 @@
+- description: "If tier is down or can not be written to"
+  name: "FAILED_TIER"
+  defaultAutoClearTimeOut: 180
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # ERROR
+        - label: SymptomID
+          value: 12006

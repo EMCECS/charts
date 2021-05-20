@@ -1,8 +1,0 @@
-- description: "Disk Replacement service procedure removed unhealthy PVC"
-  name: "UnhealthyPVCRemoved"
-  issueCategory: Auto
-  matchOnList:
-    - matchon:
-        # NORMAL
-        - label: SymptomID
-          value: OBJSC-SP-1004

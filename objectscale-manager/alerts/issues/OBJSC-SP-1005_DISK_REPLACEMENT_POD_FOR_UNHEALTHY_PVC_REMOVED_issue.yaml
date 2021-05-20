@@ -1,8 +1,0 @@
-- description: "Disk Replacement service procedure removed pod for unhealthy PVC"
-  name: "PodForUnhealthyPVCRemoved"
-  issueCategory: Auto
-  matchOnList:
-    - matchon:
-        # NORMAL
-        - label: SymptomID
-          value: OBJSC-SP-1005

@@ -1,8 +1,0 @@
-- description: "Not enough capacity to migrate PVCs from the node in Permanent Maintenance Mode"
-  name: "PMMNotEnoughCapacity"
-  issueCategory: Auto
-  matchOnList:
-    - matchon:
-        # WARNING
-        - label: SymptomID
-          value: OBJSC-SP-2052

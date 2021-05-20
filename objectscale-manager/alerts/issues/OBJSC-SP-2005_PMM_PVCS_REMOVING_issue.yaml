@@ -1,8 +1,0 @@
-- description: "Removing PVCs using not high available storage class from the node in Permanent Maintenance Mode"
-  name: "PMMPVCsRemoving"
-  issueCategory: Auto
-  matchOnList:
-    - matchon:
-        # NORMAL
-        - label: SymptomID
-          value: OBJSC-SP-2005

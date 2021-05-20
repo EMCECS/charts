@@ -1,0 +1,7 @@
+- description: "Permanent Maintenance Mode service procedure handling by SP Operator"
+  name: "SPOperatorPMM"
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        - label: SymptomID
+          value: OBJSC-SP-0002

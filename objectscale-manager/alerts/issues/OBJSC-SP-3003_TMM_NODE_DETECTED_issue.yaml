@@ -1,8 +1,0 @@
-- description: "Node with Temporary Maintenance Mode taint was found"
-  name: "TMMNodeDetected"
-  issueCategory: Auto
-  matchOnList:
-    - matchon:
-        # NORMAL
-        - label: SymptomID
-          value: OBJSC-SP-3003

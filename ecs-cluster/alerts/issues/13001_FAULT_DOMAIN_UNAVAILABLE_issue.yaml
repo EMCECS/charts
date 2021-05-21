@@ -1,9 +1,8 @@
-- description: "If FD is down or can not be written to"
-  name: "FAILED_FD"
+- description: "Fault Domain is not available or degraded"
+  name: "FAULT_DOMAIN_UNAVAILABLE"
   defaultAutoClearTimeOut: 180
   issueCategory: Auto
   matchOnList:
     - matchon:
-        # WARNING
         - label: SymptomID
           value: 13001

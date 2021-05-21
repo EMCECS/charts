@@ -1,9 +1,8 @@
-- description: "If tier is down or can not be written to"
-  name: "FAILED_TIER"
+- description: "Storage tier is not available or degraded"
+  name: "STORAGE_TIER_UNAVAILABLE"
   defaultAutoClearTimeOut: 180
   issueCategory: Auto
   matchOnList:
     - matchon:
-        # WARNING
         - label: SymptomID
           value: 13000

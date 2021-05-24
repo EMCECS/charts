@@ -47,6 +47,9 @@ else
      actual_crd=$(awk '{printf "%4s%s\n", "", $0}' temp_package/yaml/objectscale-crd.yaml)
 fi
 
+objs_desc='Dell EMC ObjectScale is a dynamically scalable, secure, and multi-tenant object storage platform
+for on-premises and cloud use cases.'
+
 cat <<EOT >> temp_package/yaml/${vsphere7_plugin_file}
 ---
 apiVersion: v1
@@ -92,6 +95,7 @@ sed "${sed_inplace[@]}" 's/[[:space:]]*$//' temp_package/yaml/${vsphere7_plugin_
 
 ## Template the namespace value
 sed "${sed_inplace[@]}" "s/$namespace/{{ .service.namespace }}/g" temp_package/yaml/${vsphere7_plugin_file}
+sed "${sed_inplace[@]}" "s/$namespace/{{ .service.namespace }}/g" temp_package/yaml/*
 
 ## Template registry from supervisor service input
 sed "${sed_inplace[@]}" -e "s/REGISTRYTEMPLATE/{{ .Values.registryName }}/g" temp_package/yaml/*
@@ -102,8 +106,24 @@ sed "${sed_inplace[@]}" -e "s/DOCKERSECRETPLACEHOLDER/$dockersecret/g" temp_pack
 
 ## Template the vsphere service prefix value
 sed "${sed_inplace[@]}" "s/VSPHERE_SERVICE_PREFIX_VALUE/{{ .service.prefix }}/g" temp_package/yaml/${vsphere7_plugin_file}
+sed "${sed_inplace[@]}" "s/VSPHERE_SERVICE_PREFIX_VALUE/{{ .service.prefix }}/g" temp_package/yaml/*
 
 cp -p ./vmware/deploy-objectscale-plugin.sh temp_package/scripts 
+
+if [ -x vmware/create-vsphere-app.py ]
+then 
+    set -x 
+    mkdir -p temp_package/yaml/u3
+    (cd temp_package/yaml; cat logging-injector.yaml objectscale-manager.yaml kahm.yaml decks.yaml > u3/objectscale-vsphere-service.yaml ) 
+    vmware/create-vsphere-app.py -c temp_package/yaml/objectscale-crd.yaml -p temp_package/yaml/u3/objectscale-vsphere-service.yaml -v $objs_ver --display-name "Dell ObjectScale" \
+  --description "$objs_desc" -e dellemc_eula.txt -o temp_package/yaml/u3/objectscale-${objs_ver}-vsphere-service.yaml $service_id
+
+    if [ $? -ne 0 ]
+    then
+        "error: unable to generate ObjectScale vsphere7 U3 service yaml"
+        exit 1
+    fi
+fi
 
 ## Template the service_id value
 sed "${sed_inplace[@]}" "s/SERVICE_ID/${service_id}/" temp_package/scripts/deploy-objectscale-plugin.sh

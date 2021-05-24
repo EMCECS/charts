@@ -171,6 +171,18 @@
             <AppenderRef ref="asyncR"/>
         </Logger>
 
+        <Logger name="com.emc.ecs.ons.notification.DirectAggregator" level="DEBUG" additivity="false">
+            <AppenderRef ref="asyncR"/>
+        </Logger>
+      
+        <!-- Disable noisy error logs -->
+        <Logger name="com.emc.storageos.data.config.impl.DynamicConfigNode" level="FATAL" additivity="false">
+            <AppenderRef ref="asyncR"/>
+        </Logger>
+        <Logger name="com.emc.storageos.data.object.utils.DataNodeAddressCache" level="FATAL" additivity="false">
+            <AppenderRef ref="asyncR"/>
+        </Logger>
+
         <Root level="INFO">
             <AppenderRef ref="asyncR"/>
             <AppenderRef ref="asyncE" level="ERROR"/>

@@ -1,11 +1,15 @@
 ---
 apiVersion: v2
 name: helm-controller
-version: 0.72.0
-appVersion: 0.72.0
+version: 0.73.0
+appVersion: 0.73.0
 description: |
   helm-controller runs inside the cluster and acts as a helm broker to perform
   helm actions for packages, i.e install, update, delete
 maintainers:
   - name: Dell EMC
     url: https://dellemc.com
+dependencies:
+  - name: common-lib
+    version: 0.73.0
+    repository: file://../common-lib

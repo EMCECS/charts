@@ -14,6 +14,9 @@ spec:
     metadata:
       labels:
         {{- include "iam.selectorLabels" . | nindent 8 }}
+{{ include "common-lib.labels-sp-integrated-all" . | indent 8}}
+      annotations:
+{{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
     spec:
       {{- if .Values.global.registrySecret }}
       imagePullSecrets:
@@ -35,6 +38,10 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+        - name: MY_OBJECTSCALE_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
         - name: MY_POD_NAMESPACE
           valueFrom:
             fieldRef:

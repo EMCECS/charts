@@ -73,3 +73,8 @@ objectscale.dellemc.com/sp-integrated-recovery-status-probe-exec: "{{- .script -
 {{ define "common-lib.labels-sp-integrated-initiate-decommission-script" -}}
 objectscale.dellemc.com/sp-integrated-initiate-decommission-exec: "{{- .script -}}"
 {{- end }}
+
+# vSphere specific annotation. It prevents auto pod removal by VSphere in case of MM
+{{- define "common-lib.vsphere-emm-integrated_annotation" -}}
+appplatform.vmware.com/vsphere-emm-integrated: "true"
+{{- end -}}

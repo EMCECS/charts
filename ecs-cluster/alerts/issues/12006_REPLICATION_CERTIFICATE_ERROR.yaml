@@ -1,0 +1,9 @@
+- description: "Connection to remote replication endpoint cannot establish due to tls problem"
+  name: "REPLICATION_CERTIFICATE_ERROR"
+  defaultAutoClearTimeOut: 600
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # ERROR
+        - label: SymptomID
+          value: 12006

@@ -1,0 +1,14 @@
+- description: "Replication stream has large backlog in pravega."
+  name: "UNREAD_BYTES_DURING_PAUSE"
+  defaultAutoClearTimeOut: 120
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        # NORMAL
+        - label: SymptomID
+          value: 12001
+    - matchon:
+        # WARNING
+        - label: SymptomID
+          value: 12001
+# Do not generate SR

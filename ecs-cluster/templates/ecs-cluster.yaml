@@ -29,9 +29,44 @@ spec:
 {{- end }}
   performanceProfile: {{ .Values.performanceProfile }}
 
+{{- if .Values.topology.faultDomainKey }}
+  topologyFaultDomainKey: {{ .Values.topology.faultDomainKey}}
+{{- end }}
+
+{{- if or .Values.topology.excludedFaultDomains .Values.topology.nodeSelector }}
+  topologyNodeAffinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              # exclude any fault domains that the customer doesn't want in the
+              # node selectors
+              {{- if .Values.topology.excludedFaultDomains }}
+              - key: {{.Values.topology.faultDomainKey}}
+                operator: Out
+                values:
+              {{- range .Values.topology.excludedFaultDomains }}
+              - {{ .name }}
+                {{- end }}
+                {{- end }}
+                # Limit scheduling to only those listed in the node selector
+                # if we want this to be a multi-select list, we could actually do that
+                # just as easily
+         {{- if .Values.topology.nodeSelector }}
+              - key: {{.Values.topology.nodeSelector.key }}
+                operator: In
+                values:
+                  - {{ .Values.topology.nodeSelector.value }}
+         {{- end }}
+{{- end }}
+
   atlas:
     replicas: {{ coalesce .Values.atlas.replicas (index (dict "Large" 3) (title .Values.performanceProfile)) 1 }}
-    labels:
+{{ include "datasvc-lib.common-labels" . | indent 4 }}
+{{ include "common-lib.labels-sp-integrated-all" . | indent 6}}
+    pod:
+      annotations:
+{{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
       release: {{ .Release.Name }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.atlas.image.repository }}
@@ -177,10 +212,13 @@ spec:
 {{- end }}
     pod: 
       serviceAccountName: {{.Release.Name}}-storageserver
+      annotations:
+{{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
     labels:
       app: zookeeper
       component: zk
       release: {{ .Release.Name }}
+{{ include "common-lib.labels-sp-integrated-all" . | indent 6}}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.zookeeper.image.repository }}
       tag: {{ .Values.zookeeper.image.tag }}
@@ -218,6 +256,11 @@ spec:
       app.kubernetes.io/namespace: {{ .Release.Namespace }}
       objectscale.dellemc.com/logging-inject: "true"
       objectscale.dellemc.com/logging-release-name: "{{ .Release.Name }}"
+{{ include "common-lib.labels-sp-integrated-all" . | indent 6}}
+{{ include "common-lib.labels-sp-integrated-initiate-decommission-script" (dict "script" "bk-sp.sh_-t_recover_-o_600") | indent 6}}
+{{ include "common-lib.labels-sp-integrated-recovery-status-script" (dict "script" "bk-sp.sh_-t_precheck_-o_600") | indent 6}}
+    annotations:
+{{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 6}}
     serviceAccountName:  {{ .Release.Name }}-pravega
     autoRecovery: {{ .Values.bookkeeper.autoRecovery }}
     {{- if .Values.bookkeeper.probes }}
@@ -267,8 +310,8 @@ spec:
     options:
       log.level: {{ .Values.bookkeeper.options.log.level }}
       emptyDirVolumeMounts: {{ .Values.bookkeeper.options.emptyDirVolumeMounts }}
-      {{- if .Values.bookkeeper.options.configMapVolumeMounts }}
-      configMapVolumeMounts: {{$.Release.Name}}-bk-{{ .Values.bookkeeper.options.configMapVolumeMounts }}
+      {{- if .Values.bookkeeper.options.configMapVolumeMountsLog }}
+      configMapVolumeMounts: "{{.Release.Name}}-bk-log4j2{{.Values.bookkeeper.options.configMapVolumeMountsLog}},{{.Release.Name}}-bk-sp-log4j2{{.Values.bookkeeper.options.configMapVolumeMountsSP}}"
       {{ end }}
 
   pravega:
@@ -305,10 +348,16 @@ spec:
         app.kubernetes.io/namespace: {{ .Release.Namespace }}
         objectscale.dellemc.com/logging-inject: "true"
         objectscale.dellemc.com/logging-release-name: "{{ .Release.Name }}"
+{{ include "common-lib.labels-sp-integrated-all" . | indent 8}}
       segmentStorePodLabels:
         app.kubernetes.io/namespace: {{ .Release.Namespace }}
         objectscale.dellemc.com/logging-inject: "true"
         objectscale.dellemc.com/logging-release-name: "{{ .Release.Name }}"
+{{ include "common-lib.labels-sp-integrated-all" . | indent 8}}
+      segmentStorePodAnnotations:
+{{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
+      controllerPodAnnotations:
+{{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
       options:
         controller.metrics.influxDB.connect.db.name: {{ .Values.pravega.options.metrics.influxDBName }}
         metrics.influxDB.connect.db.name: {{ .Values.pravega.options.metrics.influxDBName }}
@@ -572,6 +621,10 @@ spec:
 {{- if .Values.geoReceiver.service }}
     service:
       {{ toYaml .Values.geoReceiver.service | nindent 6 | trim }}
+{{- end }}
+{{- if .Values.geoReceiver.tls }}
+    tls:
+      {{ toYaml .Values.geoReceiver.tls | nindent 6 | trim }}
 {{- end }}
 
   spaceReclaimer:

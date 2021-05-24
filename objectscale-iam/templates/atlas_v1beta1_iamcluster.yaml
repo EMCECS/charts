@@ -20,10 +20,14 @@ spec:
       resources:
         requests:
           storage: {{ required "atlas.persistence.size is required" .Values.atlas.persistence.size }}
+  labels:
+{{ include "common-lib.labels-sp-integrated-all" . | indent 4}}
+  pod:
+    annotations:
+{{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 6}}
 {{- if .Values.atlas.disableAntiAffinity }}
   # junk node affinity allows multiple atlas instances on the same node
   # - needed for 3 replicas deployed on a single node(test only)
-  pod:
     affinity:
       nodeAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:

@@ -10,7 +10,7 @@ global:
   registry: emccorp
 image:
   repository: bookkeeper-operator
-  tag: 0.1.3-65-5f78fe4 # rfw-update-this bookkeeper-operator-docker-image
+  tag: 0.1.3-6b808f7 # rfw-update-this bookkeeper-operator-docker-image
   pullPolicy: IfNotPresent
 
 ## Install RBAC roles and bindings.
@@ -30,7 +30,7 @@ testmode:
   ## version of pravega that you wish to deploy
   ## mention the major version number
   ## eg. enter 0.8.0 if u wish to deploy version 0.8.0-2500.efe501a
-  version: "0.9.0"
+  version: "0.10.0"
 
 ## Specifies which namespace the Operator should watch over.
 ## An empty string means all namespaces.

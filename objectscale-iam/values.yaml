@@ -3,7 +3,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-tag: 0.72.0
+tag: 0.73.0
 
 # These values may be overridden when the IAM is included within a subchart
 global:
@@ -18,7 +18,7 @@ global:
 image:
   pullPolicy: IfNotPresent
   repository: iamsvc
-  tag: 3.7.0.0-134251.b4062b94e40 # rfw-update-this iamsvc-docker-image
+  tag: 3.7.0.0-134569.f0a86f68449 # rfw-update-this iamsvc-docker-image
 
 # Number of replicas for the ObjectScale IAM deployment
 replicaCount: 3
@@ -36,7 +36,7 @@ iam:
 
 service:
   # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
-  type: LoadBalancer
+  type: ClusterIP
 
   # Specify the service port configuration for the s3 service
   ports:

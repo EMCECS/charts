@@ -6,6 +6,10 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   replicas: {{ coalesce .Values.atlas.replicaCount (index (dict "Large" 3) (title .Values.global.performanceProfile)) 1 }}
+  labels:
+    release: {{ .Release.Name }}
+{{ include "common-monitoring-lib.logging-inject-labels" . | indent 4 }}
+{{ include "common-lib.labels-sp-integrated-all" . | indent 4}}
   {{- if .Values.global.registrySecret }}
   imagePullSecret: {{ .Values.global.registrySecret }}
   {{- end }}
@@ -21,10 +25,12 @@ spec:
       resources:
         requests:
           storage: {{ required "atlas.persistence.size is required" .Values.atlas.persistence.size }}
+  pod:
+    annotations:
+{{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 6}}
 {{- if .Values.atlas.affinity }}
   # junk node affinity allows multiple atlas instances on the same node
   # - needed for 3 replicas deployed on a single node(test only)
-  pod:
     affinity:
       nodeAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:

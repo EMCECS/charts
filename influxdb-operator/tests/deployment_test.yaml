@@ -1,6 +1,7 @@
 suite: test deployment
 templates:
   - deployment.yaml
+  - nginx_config_context.yaml
 tests:
   - it: should create a deployment
     set:

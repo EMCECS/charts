@@ -73,7 +73,7 @@ topology:
 features:
 
   # Enable Cross Region Replication
-  enableCRR: false
+  enableCRR: true 
 
   # Enable ephemeral storage in Objectstore pods
   enableEphStorage: true

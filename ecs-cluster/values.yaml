@@ -73,7 +73,7 @@ topology:
 features:
 
   # Enable Cross Region Replication
-  enableCRR: false
+  enableCRR: true
 
   # Enable ephemeral storage in Objectstore pods
   enableEphStorage: true
@@ -575,7 +575,7 @@ geoReceiver:
     ports:
       - name: geo
         port: 9094
-      - name: http-external # should be changed to https when TLS integrated
+      - name: https-external
         port: 12002
         targetPort: 12002
     # loadBalancerIP:     # select specific load balancer IP of the connection
@@ -689,7 +689,7 @@ provision:
   newProvisionAPI: true
   image:
     repository: provision
-    tag: 0.70.0.0-814.7fa7d2fb # rfw-update-this provision-docker-image
+    tag: 0.70.0.0-814.7fa7d2fb
     # pullPolicy: IfNotPresent
 
 # The job will assign new created ss to the sp

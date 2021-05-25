@@ -55,6 +55,15 @@ spec:
             mountPath: "/etc/nginx/ssl/external"
           - name: tls-secrets-internal
             mountPath: "/etc/nginx/ssl/internal"
+        livenessProbe:
+          exec:
+            command:
+              - /usr/local/bin/checkRunningCertificateInternal.bash
+              - /usr/local/bin/checkRunningCertificateExternal.bash
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
       volumes:
       - name: tls-secrets-external
         secret:

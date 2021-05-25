@@ -109,6 +109,7 @@ postgresql-ha:
     extraVolumeMounts:
       - name: dshm
         mountPath: /dev/shm
+    podAntiAffinityPreset: hard
 
     ## PostgreSQL containers' resource requests and limits
     ## ref: http://kubernetes.io/docs/user-guide/compute-resources/

@@ -1,0 +1,4 @@
+- symptomid: OBJSOP-1003
+  description: Issue occured during upgrade procedure processing by Operator
+  remedies:
+    - Check Upgrade service procedure CR in the K8s and Operator logs for details

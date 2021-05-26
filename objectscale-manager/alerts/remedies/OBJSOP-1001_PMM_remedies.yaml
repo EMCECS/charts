@@ -1,0 +1,4 @@
+- symptomid: OBJSOP-1001
+  description: Issue occured during node permanent maintenance mode processing by Operator
+  remedies:
+    - Check PMM service procedure CR in the K8s and Operator logs for details

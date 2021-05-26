@@ -1,0 +1,7 @@
+- description: "Permanent Maintenance Mode service procedure handling by Operator"
+  name: "OperatorPMM"
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        - label: SymptomID
+          value: OBJSOP-1001

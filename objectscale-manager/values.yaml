@@ -255,7 +255,7 @@ healthChecks:
       repository: objectscale-capacity
       tag: # wait-73-rfw-update-this objectscale-capacity-image
     schedule: "0 * * * *"
-    disabled: false 
+    disabled: false
   performance:
     image:
       repository: objectscale-performance

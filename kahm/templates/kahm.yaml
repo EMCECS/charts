@@ -51,7 +51,11 @@ spec:
           name: db
         resources:
           requests:
-            memory: {{ .Values.resources.requests.memory }} 
+{{- if eq .Values.db.dbType "PostgresDB"}}
+            memory: {{ default 1Gi .Values.resources.requests.memory }} 
+{{- else }}
+            memory: {{ default 2Gi .Values.resources.requests.memory }}
+{{- end }}
         env:
         - name: POD_NAME
           valueFrom:

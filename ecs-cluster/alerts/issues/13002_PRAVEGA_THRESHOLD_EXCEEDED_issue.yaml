@@ -1,6 +1,6 @@
 - description: "Pravega threshold exceeded"
   name: "PRAVEGA_THRESHOLD_EXCEEDED"
-  defaultAutoClearTimeOut: 180
+  defaultAutoClearTimeOut: 3
   issueCategory: Auto
   matchOnList:
     - matchon:

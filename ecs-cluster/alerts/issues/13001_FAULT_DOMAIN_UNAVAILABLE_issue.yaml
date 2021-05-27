@@ -1,6 +1,6 @@
 - description: "Fault Domain is not available or degraded"
   name: "FAULT_DOMAIN_UNAVAILABLE"
-  defaultAutoClearTimeOut: 180
+  defaultAutoClearTimeOut: 3
   issueCategory: Auto
   matchOnList:
     - matchon:

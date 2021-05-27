@@ -1,6 +1,6 @@
 - description: "Storage tier is not available or degraded"
   name: "STORAGE_TIER_UNAVAILABLE"
-  defaultAutoClearTimeOut: 180
+  defaultAutoClearTimeOut: 3
   issueCategory: Auto
   matchOnList:
     - matchon:

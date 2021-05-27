@@ -1,4 +1,5 @@
 ---
+{{- if eq .Values.db.dbType "BadgerDB"}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -18,3 +19,4 @@ spec:
   resources:
     requests:
       storage: 2Gi
+{{- end }}

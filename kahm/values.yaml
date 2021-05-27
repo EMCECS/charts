@@ -49,13 +49,13 @@ testImage:
 # environments with little resources, such as Minikube. If you do want to
 # specify resources, uncomment the following lines, adjust them as necessary,
 # and remove the curly braces after 'resources:'.
-resources:
+resources: 
   # limits:
   #  cpu: 100m
   #  memory: 2Gi
   requests:
     #  cpu: 100m
-    # memory: 2Gi
+    memory: 1Gi
 
 nodeSelector: {}
 
@@ -102,6 +102,7 @@ postgresql-ha:
     username: kahm
     database: kahm
     postgresPassword: ChangeMe
+    repmgrPassword: ChangeMe
     extraVolumes:
       - name: dshm
         emptyDir:
@@ -109,6 +110,8 @@ postgresql-ha:
     extraVolumeMounts:
       - name: dshm
         mountPath: /dev/shm
+    podAntiAffinityPreset: hard
+    replicaCount: 3
 
     ## PostgreSQL containers' resource requests and limits
     ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
@@ -119,9 +122,9 @@ postgresql-ha:
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
       limits:
-        memory: 2Gi
+        memory: 1Gi
       requests:
-        memory: 2Gi
+        memory: 1Gi
 
   pgpool:
   ## The number of preforked Pgpool-II server processes. It is also the concurrent
@@ -144,6 +147,6 @@ postgresql-ha:
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
       limits:
-        memory: 2Gi
+        memory: 1Gi
       requests:
-        memory: 2Gi
+        memory: 1Gi

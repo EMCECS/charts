@@ -46,16 +46,14 @@ spec:
           name: metrics
         - containerPort: 17999
           name: rest
+{{- if eq .Values.db.dbType "BadgerDB"}}
         volumeMounts:
         - mountPath: /data/db
           name: db
+{{- end }}
         resources:
           requests:
-{{- if eq .Values.db.dbType "PostgresDB"}}
-            memory: {{ default 1Gi .Values.resources.requests.memory }} 
-{{- else }}
-            memory: {{ default 2Gi .Values.resources.requests.memory }}
-{{- end }}
+            memory: {{ .Values.resources.requests.memory }}
         env:
         - name: POD_NAME
           valueFrom:
@@ -119,7 +117,9 @@ spec:
               key: credentials
 {{- end }}
       restartPolicy: Always
+{{- if eq .Values.db.dbType "BadgerDB"}}
       volumes:
       - name: db
         persistentVolumeClaim:
           claimName: db-kahm-0 
+{{- end }}

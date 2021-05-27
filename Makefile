@@ -51,6 +51,8 @@ HELM_DECKS_ARGS      = # --set image.tag=${YOUR_VERSION_HERE}
 HELM_KAHM_ARGS       = # --set image.tag=${YOUR_VERSION_HERE}
 HELM_DECKS_SUPPORT_STORE_ARGS      = # --set decks-support-store.image.tag=${YOUR_VERSION_HERE}
 SED_INPLACE         := -i
+RSYSLOG_ENABLE      := false
+RSYSLOG_STDOUT_ENABLE   := false
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Darwin)
@@ -286,6 +288,9 @@ create-logging-injector-app: create-temp-package
 	--set global.registry=${REGISTRY} \
 	--set global.registrySecret=${REGISTRYSECRET} \
 	--set global.objectscale_release_name=objectscale-manager \
+	--set global.objectscale_release_name=objectscale-manager \
+	--set global.rsyslog_client_stdout_enabled=${RSYSLOG_STDOUT_ENABLE} \
+	--set global.rsyslog_enabled=${RSYSLOG_ENABLE} \
 	-f values.yaml > ../${TEMP_PACKAGE}/yaml/logging-injector-app.yaml;
 	sed ${SED_INPLACE} 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/logging-injector-app.yaml && \
 	sed ${SED_INPLACE} 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/logging-injector-app.yaml

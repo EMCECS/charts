@@ -245,6 +245,8 @@ create-vsphere-templates: create-temp-package
     --set graphql.enabled=true \
 	--set global.registry=${REGISTRY} \
 	--set global.registrySecret=${REGISTRYSECRET} \
+	--set global.rsyslog_client_stdout_enabled=${RSYSLOG_STDOUT_ENABLE} \
+    --set global.rsyslog_enabled=${RSYSLOG_ENABLE} \
 	--set objectscale-portal.objectscale-graphql.eventPaginationSource=KAHM \
 	--set global.storageClassName=${STORAGECLASSNAME} ${HELM_UI_ARGS} ${HELM_GRAPHQL_ARGS} ${HELM_INSTALLER_ARGS} \
 	-f objectscale-vsphere/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}

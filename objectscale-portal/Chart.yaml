@@ -15,7 +15,7 @@ dependencies:
   - name: rsyslog-client
     repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
     # rfw-update-next rsyslog-client-helm-chart
-    version: 3.7.0-1209.a2bfd98b # no_auto_change__monitoring_auto_change
+    version: 3.7.0-1211.92a0e9a6 # no_auto_change__monitoring_auto_change
     condition: global.rsyslog_enabled
   - name: common-lib
     version: 0.74.0

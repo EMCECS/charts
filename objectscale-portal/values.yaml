@@ -89,13 +89,43 @@ rsyslog-client:
 
 # ObjectScale UI Feature flags
 features:
-  objectscaleDashboard: true
-  iam: true
-  # enable this if you want to deploy the BETA3 Buckets workflows
-  bucketsv2: true
   # enable this if you want to deploy the BETA3 New/Edit Objectstore workflows
-  manageObjectStoreV2: false
-  replications: false
+  manageObjectStoreV2: true
+  replications: true
   objectscaleSystems: false
   # Possible Logging modes - ERROR, INFO, DEBUG, WARNING Only
   uiLoggingLevel: ERROR
+
+# Log Receiver configuration for vsphere portal
+logReceiver:
+  # The type of log receiver that ECS Flex will use to consolidate logs. Valid
+  # are: "Syslog" and "Elasticsearch".  When using a "Syslog" receiver, you can
+  # optionally instruct ECS Flex to create a syslog receiver.  In the case of
+  # Elasticsearch, the administrator is expected to create the cluster, and then
+  # provide connectivity details in the "logReceiver" configuration block below.
+  #
+  type:
+  # User login will be used by fluentd to connect to the elastic search.
+  # user: elastic
+
+  # Password will be used by fluentd to connect to the elsatic search.
+  # password: 123456
+
+  # Configure an external Syslog or Elasticsearch hostname to receive logs from
+  # ECS instances
+  # host: my-syslog-server
+  #
+  # Configure protocol to receive logs for a Syslog-based receiver. Valid values
+  # for syslog receivers are "tcp". Valid values for Elasticsearch are
+  # "http" and "https"
+  # protocol: tcp
+  #
+  # Port to use for customer provided Syslog or Elasticsearch receiver
+  # port: 514
+# The log agent configuration for log collection of Manager components
+fluentbitAgent:
+  image:
+    repository: fluent-bit
+    tag: 3.7.0.0-1209.a2bfd98b # rfw-update-this fluent-bit-docker-image
+    # pullPolicy: IfNotPresent
+#

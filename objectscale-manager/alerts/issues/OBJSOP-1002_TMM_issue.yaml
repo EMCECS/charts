@@ -1,0 +1,7 @@
+- description: "Temporary Maintenance Mode service procedure handling by Operator"
+  name: "OperatorTMM"
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        - label: SymptomID
+          value: OBJSOP-1002

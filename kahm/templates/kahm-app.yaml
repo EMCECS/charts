@@ -17,7 +17,7 @@ metadata:
     nautilus.dellemc.com/run-level: "12"
     nautilus.dellemc.com/chart-name: {{.Chart.Name}}
     nautilus.dellemc.com/chart-version: {{ .Chart.Version }}
-    nautilus.dellemc.com/chart-values: {{ .Values | toJson | quote }}
+    nautilus.dellemc.com/chart-values: {{ .Files.Get "customvalues.json" | toJson }}
 spec:
   selector:
     matchLabels:

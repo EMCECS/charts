@@ -267,18 +267,25 @@ create-decks-app: create-temp-package
 create-kahm-app: create-temp-package
 	# cd in makefiles spawns a subshell, so continue the command with ;
 	cd kahm; \
-	helm template --show-only templates/kahm-app.yaml kahm ../kahm  -n ${NAMESPACE} \
+	helm template --show-only templates/custom.yaml kahm ../kahm  -n ${NAMESPACE} ${HELM_KAHM_ARGS} \
 	--set global.platform=VMware \
+	--set createkahmappResource=true \
 	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} \
 	--set global.registry=${KAHM_REGISTRY} \
 	--set global.registrySecret=${REGISTRYSECRET} \
 	--set storageClassName=${STORAGECLASSNAME} \
 	--set postgresql-ha.persistence.storageClass=${STORAGECLASSNAME} \
-        ${HELM_KAHM_ARGS} \
-	-f values.yaml > ../${TEMP_PACKAGE}/yaml/kahm-app.yaml;
+	-f values.yaml > ./customvalues.yaml;
+	# helm does not template referenced files, so we cannot | toJson a file inline
+	yq eval kahm/customvalues.yaml -j -I 0 > kahm/customvalues.json; \
+	# Build the actual kahm application yaml file to apply
+	cd kahm; \
+	helm template --show-only templates/kahm-app.yaml kahm ../kahm  -n ${NAMESPACE} \
+	-f values.yaml -f customvalues.yaml > ../${TEMP_PACKAGE}/yaml/kahm-app.yaml
 	sed ${SED_INPLACE} 's/createkahmappResource\\":true/createkahmappResource\\":false/g' ${TEMP_PACKAGE}/yaml/kahm-app.yaml && \
 	sed ${SED_INPLACE} 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/kahm-app.yaml
-	cat ${TEMP_PACKAGE}/yaml/kahm-app.yaml >> ${TEMP_PACKAGE}/yaml/${KAHM_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/kahm-app.yaml
+	cat ${TEMP_PACKAGE}/yaml/kahm-app.yaml > ${TEMP_PACKAGE}/yaml/${KAHM_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/kahm-app.yaml
+	rm -rf kahm/customvalues.*
 
 create-logging-injector-app: create-temp-package
 	# cd in makefiles spawns a subshell, so continue the command with ;

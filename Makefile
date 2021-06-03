@@ -270,7 +270,7 @@ create-decks-app: create-temp-package
 	sed ${SED_INPLACE} 's/createdecksappResource\\":true/createdecksappResource\\":false/g' ${TEMP_PACKAGE}/yaml/decks-app.yaml && \
 	sed ${SED_INPLACE} 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/decks-app.yaml
 	cat ${TEMP_PACKAGE}/yaml/decks-app.yaml > ${TEMP_PACKAGE}/yaml/${DECKS_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/decks-app.yaml
-	rm -rf decks/customvalues.*
+	rm -rf decks/custom-values.*
 
 create-kahm-app: create-temp-package
 	# cd in makefiles spawns a subshell, so continue the command with ;

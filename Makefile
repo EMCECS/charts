@@ -251,18 +251,26 @@ create-vsphere-templates: create-temp-package
 
 create-decks-app: create-temp-package
 	# cd in makefiles spawns a subshell, so continue the command with ;
+	cp decks/decks-custom-values.yaml decks/templates/; \
 	cd decks; \
-	helm template --show-only templates/decks-app.yaml decks ../decks  -n ${NAMESPACE} \
+	helm template --show-only templates/decks-custom-values.yaml decks ../decks  -n ${NAMESPACE} ${HELM_DECKS_ARGS} ${HELM_DECKS_SUPPORT_STORE_ARGS} \
 	--set global.platform=VMware \
 	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} \
 	--set global.registry=${DECKS_REGISTRY} \
 	--set global.registrySecret=${REGISTRYSECRET} \
 	--set decks-support-store.persistentVolume.storageClassName=${STORAGECLASSNAME} \
-        ${HELM_DECKS_ARGS} ${HELM_DECKS_SUPPORT_STORE_ARGS} \
-	-f values.yaml > ../${TEMP_PACKAGE}/yaml/decks-app.yaml;
+	-f values.yaml >  ./customvalues.yaml;
+	# helm does not template referenced files, so we cannot | toJson a file inline
+	yq eval decks/customvalues.yaml -j -I 0 > decks/customvalues.json; \
+	# Build the actual decks application yaml file to apply
+	cd decks; \
+	rm -rf templates/decks-custom-values.yaml; \
+	helm template --show-only templates/decks-app.yaml decks ../decks  -n ${NAMESPACE} \
+	-f values.yaml -f customvalues.yaml > ../${TEMP_PACKAGE}/yaml/decks-app.yaml
 	sed ${SED_INPLACE} 's/createdecksappResource\\":true/createdecksappResource\\":false/g' ${TEMP_PACKAGE}/yaml/decks-app.yaml && \
 	sed ${SED_INPLACE} 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/decks-app.yaml
-	cat ${TEMP_PACKAGE}/yaml/decks-app.yaml >> ${TEMP_PACKAGE}/yaml/${DECKS_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/decks-app.yaml
+	cat ${TEMP_PACKAGE}/yaml/decks-app.yaml > ${TEMP_PACKAGE}/yaml/${DECKS_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/decks-app.yaml
+	rm -rf decks/customvalues.*
 
 create-kahm-app: create-temp-package
 	# cd in makefiles spawns a subshell, so continue the command with ;

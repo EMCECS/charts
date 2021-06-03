@@ -16,7 +16,7 @@ metadata:
     operator: objectscale-operator
     product: objectscale
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: objectscale-manager

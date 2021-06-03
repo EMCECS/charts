@@ -34,84 +34,8 @@ spec:
         release: {{ .Release.Name}}
         operator: objectscale-operator
         product: objectscale
-{{ include "common-lib.labels-sp-integrated-all" . | indent 8}}
-      annotations:
-{{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
-    spec:
-      {{- if .Values.global.registrySecret }}
-      imagePullSecrets:
-        - name: {{ .Values.global.registrySecret }}
-      {{- end }}
-      volumes:
-        - name: config-volume
-          configMap:
-            name: objectscale-portal
-        {{- if (eq .Values.global.platform "VMware") }}
-        - name: certificate
-          secret:
-            {{- if (eq .Release.Namespace "dellemc-objectscale-system") }}
-            secretName: objectscale-plugin-secret
-            {{- else }}
-            secretName: objectscale-plugin-secret-{{ .Release.Namespace }}
-            {{- end }}
-        {{- end }}
-      containers:
-        - name: objectscale-portal
-          image: {{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ default .Values.tag .Values.image.tag }}
-          env:
-            - name: OPERATOR_NAME
-              value: objectscale-operator
-          imagePullPolicy: {{ default .Values.pullPolicy .Values.image.pullPolicy }}
-          volumeMounts:
-            - name: config-volume
-              mountPath: /usr/share/nginx/html/plugin.json
-              subPath: plugin.json
-            - name: config-volume
-              mountPath: /conf/upstream.conf
-              subPath: upstream.conf
-            - name: config-volume
-              mountPath: /etc/nginx/nginx.conf
-              subPath: nginx.conf
-            {{- if (eq .Values.global.platform "VMware") }}
-            - name: certificate
-              mountPath: /etc/nginx/ssl
-            {{- end }}
 {{- if not .Values.logReceiver.type }}
 {{ include "common-monitoring-lib.rsyslog_client_sidecar_stdout" . | indent 6 }}
-{{- end }}
-{{- if ne .Values.global.platform "VMware"}}
-      {{- if .Values.logReceiver.type}}
-        - name: fluentbit-agent
-          image: {{ .Values.global.registry }}/{{ .Values.fluentbitAgent.image.repository }}:{{ default .Values.tag .Values.fluentbitAgent.image.tag }}
-          imagePullPolicy: {{ default .Values.pullPolicy .Values.fluentbitAgent.image.pullPolicy }}
-          env:
-            - name: POD
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.name
-            - name: NAMESPACE
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.namespace
-            - name: RELEASE_NAME
-              value: {{ .Release.Name }}
-            - name: IP
-              valueFrom:
-                fieldRef:
-                  fieldPath: status.podIP
-          volumeMounts:
-          - name: log
-            readOnly: true
-            mountPath: /var/log
-          - name: config
-            mountPath: /fluent-bit/etc
-        volumes:
-          - name: log
-            emptyDir: {}
-          - name: config
-            configMap:
-              name: objectscale-portal-logs-config
-      {{- end }}
 {{- end }}
 
 {{- if not .Values.logReceiver.type }}

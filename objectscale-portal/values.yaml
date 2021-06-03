@@ -122,10 +122,4 @@ logReceiver:
   #
   # Port to use for customer provided Syslog or Elasticsearch receiver
   # port: 514
-# The log agent configuration for log collection of Manager components
-fluentbitAgent:
-  image:
-    repository: fluent-bit
-    tag: 3.7.0.0-1209.a2bfd98b # rfw-update-this fluent-bit-docker-image
-    # pullPolicy: IfNotPresent
 #

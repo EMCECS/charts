@@ -20,7 +20,7 @@ global:
   platform: Default
 
 # The default docker tag and pull policy for the DECKS
-tag: 2.73.0
+tag: 2.74.0
 pullPolicy: IfNotPresent
 
 # The number of replicas for the DECKS deployment
@@ -29,7 +29,7 @@ replicaCount: 1
 # The image configured for the DECKS
 image:
   repository: decks
-  tag: 2.73.0-205.45598b0 # rfw-update-this decks-image
+  tag: 2.74.0-208.02413c7 # rfw-update-this decks-image
   # pullPolicy: IfNotPresent
 
 ## Allow callers to bypass creating app resource

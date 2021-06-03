@@ -41,3 +41,12 @@ spec:
     type: string
     description: The HTTPS location for the management API
     JSONPath: .status.endpoints.managementAPI
+  validation:
+    openAPIV3Schema:
+      properties:
+        metadata:
+          type: object
+          properties:
+            name:
+              type: string
+              maxLength: 31

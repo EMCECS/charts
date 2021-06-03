@@ -1,0 +1,7 @@
+- description: "Upgrade service procedure handling by Operator"
+  name: "OperatorUpgrade"
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        - label: SymptomID
+          value: OBJSOP-1003

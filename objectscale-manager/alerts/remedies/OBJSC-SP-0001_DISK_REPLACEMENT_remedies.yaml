@@ -1,0 +1,4 @@
+- symptomid: OBJSC-SP-0001
+  description: Issue occured during disk replacement processing by SP operator
+  remedies:
+    - Check disk replacement service procedure CR in the K8s and SP operator logs for details

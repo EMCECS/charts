@@ -11,11 +11,15 @@
 #
 #
 
+{{ define "datasvc-lib.logging-inject-common-labels" -}}
+app.kubernetes.io/namespace: {{ .Release.Namespace }}
+objectscale.dellemc.com/logging-inject: "true"
+objectscale.dellemc.com/logging-release-name: "{{ .Release.Name }}"
+{{- end }}
+
 {{ define "datasvc-lib.common-labels" -}}
 labels:
-  app.kubernetes.io/namespace: {{ .Release.Namespace }}
-  objectscale.dellemc.com/logging-inject: "true"
-  objectscale.dellemc.com/logging-release-name: "{{ .Release.Name }}"
+{{ include "datasvc-lib.logging-inject-common-labels" . | indent 2}}
 {{- end }}
 
 {{ define "datasvc-lib.logging-inject-logrotate-labels" -}}

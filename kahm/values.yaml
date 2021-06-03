@@ -41,7 +41,7 @@ createkahmappResource: true
 # Test image for KAHM.  Runs via helm test.
 testImage:
   repository: kahm-testapp
-  # tag: stable
+  tag: v2.74.0 # rfw-update-this kahm-testapp-image
   # pullPolicy: IfNotPresent
 
 # We usually recommend not to specify default resources and to leave this as a

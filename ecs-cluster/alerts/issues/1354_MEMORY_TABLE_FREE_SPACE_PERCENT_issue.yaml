@@ -6,10 +6,10 @@
     - matchon:
         # NORMAL
         - label: SymptomID
-          value: 1352
+          value: OBJST-1352
     - matchon:
         # ERROR
         - label: SymptomID
-          value: 1354
+          value: OBJST-1354
   notifiers:
     - objectscale-supportassist-ese

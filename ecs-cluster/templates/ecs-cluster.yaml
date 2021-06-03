@@ -687,6 +687,20 @@ spec:
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
+{{- if .Values.control.log }}
+    pod:
+      labels:
+        objectscale.dellemc.com/logging-inject: true
+        app.kubernetes.io/namespace: {{ .Release.Namespace }}
+      annotations:
+        objectscale.dellemc.com/logging-release-name: {{ .Release.Name }}
+    volumes:
+      - name: {{ .Values.control.log.name }}
+        emptyDir: {{ .Values.control.log.emptyDir }}
+    volumeMounts:
+      - name: {{ .Values.control.log.mountName }}
+        mountPath: {{ .Values.control.log.mountPath }}
+{{- end }}
 
   s3:
 {{ include "datasvc-lib.common-labels" . | indent 4 }}

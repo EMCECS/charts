@@ -624,6 +624,13 @@ control:
     tag: # rfw-update-this object-control-docker-image, non-component-version
     # pullPolicy: IfNotPresent
 
+  # Log files information used for object control service logging injection
+  log:
+    name: log
+    emptyDir: {}
+    mountName: log
+    mountPath: /var/log
+
 # The managementGateway configuration specification
 managementGateway:
   # Override the number of managementGateway replicas to run with the the deployment

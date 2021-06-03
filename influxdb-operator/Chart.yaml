@@ -1,8 +1,8 @@
 ---
 apiVersion: v2
 name: influxdb-operator
-version: 0.73.0
-appVersion: 0.73.0
+version: 0.74.0
+appVersion: 0.74.0
 description: |
   InfluxDB Operator deploys operator pod which is
   responsible for managing Influxdb custom resources
@@ -13,7 +13,7 @@ dependencies:
   - name: common-monitoring-lib
     repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
     # rfw-update-next common-monitoring-lib-helm-chart
-    version: 3.7.0-1209.a2bfd98b # no_auto_change__monitoring_auto_change
+    version: 3.7.0-1217.f4df1278 # no_auto_change__monitoring_auto_change
   - name: common-lib
-    version: 0.73.0
+    version: 0.74.0
     repository: file://../common-lib

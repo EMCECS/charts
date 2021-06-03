@@ -1,0 +1,7 @@
+- description: "Disk Replacement service procedure handling by Operator"
+  name: "OperatorDR"
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        - label: SymptomID
+          value: OBJSOP-1000

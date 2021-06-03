@@ -30,7 +30,7 @@ global:
 
 # The default docker tag and pull policy for the ECS Cluster
 # rfw-update-next *comp*object-services
-tag: 3.7.0.0-134567.270484f4999
+tag: 3.7.0.0-135301.a31017034e8
 pullPolicy: IfNotPresent
 
 # Override the default number of replicas which taken according to performance profile for each service
@@ -118,7 +118,7 @@ pravega:
   # labels:
   image:
     pullPolicy: IfNotPresent
-    tag: 0.10.0-2876.1c3854e66 # rfw-update-this pravega-docker-image
+    tag: 0.10.0-2880.276c30452 # rfw-update-this pravega-docker-image
   controller:
 #    replicas: 1
     service:
@@ -167,7 +167,7 @@ bookkeeper:
   # labels:
   image:
     pullPolicy: IfNotPresent
-    tag: 0.10.0-2876.1c3854e66 # rfw-update-this bookkeeper-docker-image
+    tag: 0.10.0-2880.28cdf5b6e # rfw-update-this bookkeeper-docker-image
   blockOwnerDeletion: false
   autoRecovery: false
   probes:
@@ -195,8 +195,6 @@ bookkeeper:
       volumeSize: 1Gi
   options:
     emptyDirVolumeMounts: "heap-dump=/crash-dump,log=/opt/bookkeeper/logs"
-    configMapVolumeMountsLog: ":apply-config-from-env.py=/opt/bookkeeper/scripts/apply-config-from-env.py"
-    configMapVolumeMountsSP: ":bk-sp.sh=/bk-sp.sh"
     log:
       level: "INFO"
 
@@ -207,7 +205,7 @@ zookeeper:
 
   image:
     repository: zookeeper
-    tag: 0.2.10 # rfw-update-this zookeeper-docker-image
+    tag: 0.2.10-176-00b29c6 # rfw-update-this zookeeper-docker-image
     # pullPolicy: IfNotPresent
 
   # Persistent storage options for zookeeper volume requests
@@ -298,7 +296,7 @@ objectsvc:
   # Docker repository to be used for objectsvc instances
   image:
     repository: object-service
-    tag: 3.7.0.0-2343.bc745e41 # rfw-update-this objectsvc-docker-image
+    tag: 3.7.0.0-2539.81e32734 # rfw-update-this objectsvc-docker-image
     # pullPolicy: IfNotPresent
 
   # Elements to add to the service's ConfigMap. This is a map of string -> string
@@ -634,7 +632,7 @@ managementGateway:
   # Docker repository to be used for managementGateway instances
   image:
     repository: management-gateway
-    tag: 0.72.0.0-169.120135a # rfw-update-this management-gateway-docker-image
+    tag: 0.74.0.0-175.d1ed9ef # rfw-update-this management-gateway-docker-image
     # pullPolicy: IfNotPresent
 
   service:
@@ -702,7 +700,7 @@ expandsp:
 cmfswitch:
   image:
     repository: cmf-switch
-    tag: 0.6.0-169.120135a # rfw-update-this cmf-switch-docker-image
+    tag: 0.6.0-175.d1ed9ef # rfw-update-this cmf-switch-docker-image
     # pullPolicy: IfNotPresent
 
 #
@@ -714,7 +712,7 @@ cmfswitch:
 syslogAgent:
   image:
     repository: rsyslog
-    tag: 3.7.0.0-1199.e4e857f6 # rfw-update-this rsyslog-docker-image
+    tag: 3.7.0.0-1209.a2bfd98b # rfw-update-this rsyslog-docker-image
     # pullPolicy: IfNotPresent
 
 # The log agent configuration for log collection of ECS services with a Syslog
@@ -722,7 +720,7 @@ syslogAgent:
 fluentbitAgent:
   image:
     repository: fluent-bit
-    tag: 3.7.0.0-1199.e4e857f6 # rfw-update-this fluent-bit-docker-image
+    tag: 3.7.0.0-1209.a2bfd98b # rfw-update-this fluent-bit-docker-image
     # pullPolicy: IfNotPresent
 
 # The fabric proxy sidecar configuration for ECS Service Discovery and container
@@ -736,7 +734,7 @@ fabricProxy:
   # Docker repository to be used for fabric proxy instances
   image:
     repository: fabric-proxy
-    tag: 1.1.0-24.bf06648 # rfw-update-this fabric-proxy-docker-image
+    tag: 1.1.0-25.769dc73 # rfw-update-this fabric-proxy-docker-image
     # pullPolicy: IfNotPresent
 
 # deos health check configuration
@@ -757,12 +755,12 @@ healthChecks:
   connectivity:
     image:
       repository: objectstore-connectivity
-      tag: 0.73.0-40.9004428 # rfw-update-this objectstore-connectivity-image
+      tag: 0.74.0-45.5303b15 # rfw-update-this objectstore-connectivity-image
   preUpdate:
     image:
       repository: objectstore-pre-update
-      tag: 0.73.0-40.9004428 # rfw-update-this objectstore-pre-update-image
+      tag: 0.74.0-45.5303b15 # rfw-update-this objectstore-pre-update-image
   postUpgrade:
     image:
       repository: objectstore-post-upgrade
-      tag: 0.73.0-40.9004428 # rfw-update-this objectstore-pre-update-image
+      tag: 0.74.0-45.5303b15 # rfw-update-this objectstore-pre-update-image

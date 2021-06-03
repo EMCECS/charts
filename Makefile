@@ -10,7 +10,7 @@ FLEXCHARTS := common-lib ecs-cluster objectscale-manager objectscale-vsphere obj
 
 # release version
 MAJOR=0
-MINOR=73
+MINOR=74
 PATCH=0
 PRERELEASE=
 
@@ -51,6 +51,7 @@ HELM_DECKS_ARGS      = # --set image.tag=${YOUR_VERSION_HERE}
 HELM_KAHM_ARGS       = # --set image.tag=${YOUR_VERSION_HERE}
 HELM_DECKS_SUPPORT_STORE_ARGS      = # --set decks-support-store.image.tag=${YOUR_VERSION_HERE}
 SED_INPLACE         := -i
+ENABLE_STDOUT_LOGS_COLLECTION   := false
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Darwin)
@@ -243,6 +244,7 @@ create-vsphere-templates: create-temp-package
     --set graphql.enabled=true \
 	--set global.registry=${REGISTRY} \
 	--set global.registrySecret=${REGISTRYSECRET} \
+	--set global.rsyslog_client_stdout_enabled=${ENABLE_STDOUT_LOGS_COLLECTION} \
 	--set objectscale-portal.objectscale-graphql.eventPaginationSource=KAHM \
 	--set global.storageClassName=${STORAGECLASSNAME} ${HELM_UI_ARGS} ${HELM_GRAPHQL_ARGS} ${HELM_INSTALLER_ARGS} \
 	-f objectscale-vsphere/values.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
@@ -286,6 +288,7 @@ create-logging-injector-app: create-temp-package
 	--set global.registry=${REGISTRY} \
 	--set global.registrySecret=${REGISTRYSECRET} \
 	--set global.objectscale_release_name=objectscale-manager \
+	--set global.rsyslog_client_stdout_enabled=${ENABLE_STDOUT_LOGS_COLLECTION} \
 	-f values.yaml > ../${TEMP_PACKAGE}/yaml/logging-injector-app.yaml;
 	sed ${SED_INPLACE} 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/logging-injector-app.yaml && \
 	sed ${SED_INPLACE} 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/logging-injector-app.yaml

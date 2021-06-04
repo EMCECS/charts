@@ -82,4 +82,3 @@ spec:
       {{- if not .Values.logReceiver.type }}
 {{ include "common-monitoring-lib.rsyslog_client_sidecar_stdout" . | indent 8 }}
       {{- end }}
-      imagePullPolicy: 

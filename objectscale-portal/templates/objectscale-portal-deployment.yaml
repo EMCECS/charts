@@ -55,6 +55,9 @@ spec:
             secretName: objectscale-plugin-secret-{{ .Release.Namespace }}
             {{- end }}
         {{- end }}
+        {{- if not .Values.logReceiver.type }}
+{{ include "common-monitoring-lib.rsyslog_client_volumes" . | indent 8 }}
+        {{- end }}
       containers:
         - name: objectscale-portal
           image: {{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ default .Values.tag .Values.image.tag }}
@@ -79,8 +82,4 @@ spec:
       {{- if not .Values.logReceiver.type }}
 {{ include "common-monitoring-lib.rsyslog_client_sidecar_stdout" . | indent 8 }}
       {{- end }}
-      {{- if not .Values.logReceiver.type }}
-      volumes:
-{{ include "common-monitoring-lib.rsyslog_client_sidecar_stdout" . | indent 8 }}
-      {{- end }}
-      
+      imagePullPolicy: 

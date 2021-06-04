@@ -107,7 +107,7 @@ spec:
           value: "fedsvc"
 {{- if .Values.dcm.enabled }}
         - name: DCM_SERVICE_HOSTNAME
-          value: "{{ .Release.Name }}-dcm"
+          value: "objectscale-dcm"
 {{- end }}
 {{- if .Values.logReceiver.create }}
         - name: LOG_RECEIVER_TYPE

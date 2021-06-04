@@ -74,3 +74,7 @@ affinity: {}
 ### new for decks 1.1 - replace webdav with nginx based supportStore
 supportStore:
   enabled: true
+  # 720 minutes - every 12 hours decks should purge all the aged files
+  gcPollingInterval: 720
+  # 15 days old files from decks-support-store should be removed
+  gcFileAgeToRemove: 15

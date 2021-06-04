@@ -78,4 +78,3 @@ spec:
               mountPath: /etc/nginx/ssl
             {{- end }}
 {{ include "common-monitoring-lib.rsyslog_client_sidecar_stdout" . | indent 8 }}
-      {{- end }}

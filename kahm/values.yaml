@@ -51,12 +51,12 @@ testImage:
 # and remove the curly braces after 'resources:'.
 # resources: {}
 resources:
-  # limits:
-  #  cpu: 100m
-  #  memory: 2Gi
-  requests:
+  limits:
   #  cpu: 100m
     memory: 1Gi
+  requests:
+  #  cpu: 100m
+    memory: 500Mi
 
 nodeSelector: {}
 
@@ -123,9 +123,9 @@ postgresql-ha:
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
       limits:
-        memory: 1Gi
+        memory: 500Mi 
       requests:
-        memory: 1Gi
+        memory: 500Mi 
 
   pgpool:
   ## The number of preforked Pgpool-II server processes. It is also the concurrent
@@ -149,6 +149,6 @@ postgresql-ha:
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
       limits:
-        memory: 1Gi
+        memory: 500Mi 
       requests:
-        memory: 1Gi
+        memory: 500Mi 

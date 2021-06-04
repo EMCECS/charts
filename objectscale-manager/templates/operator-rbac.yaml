@@ -134,6 +134,13 @@ rules:
     - "*"
   verbs:
     - "*"
+- apiGroups:
+    - csi-baremetal.dell.com
+  resources:
+    - volumes
+  verbs:
+    - get
+    - list
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1

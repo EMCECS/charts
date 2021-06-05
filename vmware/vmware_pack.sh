@@ -23,14 +23,6 @@ actual_crd=""
 
 service_id=$1
 
-## need to restrict service_id due to services creating long hostnames that exceed 127 chars.
-if [ ${#service_id} -ge 12 ]
-then
-    echo -e "\n\nERROR: Service ID: \"$service_id\" is ${#service_id} chars, must be less than 12\n"
-    exit 1
-fi
-
-
 svc_vs7u3_id=$service_id
 
 if [ ${service_id} != "objectscale" ]

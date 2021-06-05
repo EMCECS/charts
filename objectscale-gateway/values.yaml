@@ -94,7 +94,9 @@ objectscaleGateway:
       #   intermediateCA:      # provide the intermediate CA here (optional)
 
       signingRequest:
-        commonName: objectscale-gateway-internal
+        # For InternallySigned certificates do not add commonName so that its added in the format as below
+        # urn:ocs:ObjectScaleId::service/ServiceName
+        # commonName: objectscale-gateway-internal
         # email: insertyouremail@example.com.local
         names:
           country: USA

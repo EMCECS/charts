@@ -2,7 +2,7 @@
 apiVersion: atlas.dellemc.com/v1beta1
 kind: AtlasCluster
 metadata:
-  name: "{{ .Release.Name }}-dcm-atlas"
+  name: {{ include "dcm.name" . }}-atlas
   namespace: {{ .Release.Namespace }}
 spec:
   replicas: {{ coalesce .Values.atlas.replicaCount (index (dict "Large" 3) (title .Values.global.performanceProfile)) 1 }}

@@ -49,9 +49,10 @@ spec:
         volumeMounts:
         - mountPath: /data/db
           name: db
+        {{- if .Values.resources }}
         resources:
-          requests:
-            memory: {{ .Values.resources.requests.memory }} 
+{{ toYaml .Values.resources | indent 10 }}
+        {{- end }}
         env:
         - name: POD_NAME
           valueFrom:

@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "dcm.fullname" . }}
+  name: objectscale-dcm
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "dcm.labels" . | nindent 4 }}
@@ -30,7 +30,7 @@ spec:
           - name: SPRING_PROFILES_ACTIVE
             value: "atlas,flex,dns"
           - name: ATLAS_SERVICE_HOSTNAME
-            value: "{{ .Release.Name }}-dcm-atlas-client"
+            value: {{ include "dcm.name" .}}-atlas-client
           - name: MY_POD_NAME
             valueFrom:
              fieldRef:

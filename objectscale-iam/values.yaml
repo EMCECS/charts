@@ -70,7 +70,9 @@ tls:
   #   intermediateCA:      # provide the intermediate CA here (optional)
 
   signingRequest:
-    commonName: objectscale-iam
+    # For InternallySigned certificates do not add commonName so that its added in the format as below
+    # urn:ocs:ObjectScaleId::service/ServiceName
+    # commonName: objectscale-iam
     # email: insertyouremail@example.com.local
     names:
       country: USA

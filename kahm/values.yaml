@@ -49,13 +49,14 @@ testImage:
 # environments with little resources, such as Minikube. If you do want to
 # specify resources, uncomment the following lines, adjust them as necessary,
 # and remove the curly braces after 'resources:'.
+# resources: {}
 resources:
-  # limits:
+  limits:
   #  cpu: 100m
-  #  memory: 2Gi
+    memory: 1Gi
   requests:
-    #  cpu: 100m
-    memory: 2Gi
+  #  cpu: 100m
+    memory: 500Mi
 
 nodeSelector: {}
 
@@ -102,6 +103,7 @@ postgresql-ha:
     username: kahm
     database: kahm
     postgresPassword: ChangeMe
+    repmgrPassword: ChangeMe
     extraVolumes:
       - name: dshm
         emptyDir:
@@ -110,6 +112,7 @@ postgresql-ha:
       - name: dshm
         mountPath: /dev/shm
     podAntiAffinityPreset: hard
+    replicaCount: 3
 
     ## PostgreSQL containers' resource requests and limits
     ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
@@ -120,9 +123,9 @@ postgresql-ha:
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
       limits:
-        memory: 2Gi
+        memory: 500Mi 
       requests:
-        memory: 2Gi
+        memory: 500Mi 
 
   pgpool:
   ## The number of preforked Pgpool-II server processes. It is also the concurrent
@@ -130,6 +133,7 @@ postgresql-ha:
   ## ref: https://github.com/bitnami/bitnami-docker-pgpool#configuration
   ##
     numInitChildren: 32
+    replicaCount: 2
 
   ## The maximum number of cached connections in each child process (PGPOOL_MAX_POOL)
   ## ref: https://github.com/bitnami/bitnami-docker-pgpool#configuration
@@ -145,6 +149,6 @@ postgresql-ha:
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
       limits:
-        memory: 2Gi
+        memory: 500Mi 
       requests:
-        memory: 2Gi
+        memory: 500Mi 

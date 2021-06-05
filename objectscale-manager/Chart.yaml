@@ -20,7 +20,7 @@ dependencies:
     condition: atlas.enabled
   - name: objectscale-monitoring
     # rfw-update-next objectscale-monitoring-helm-chart
-    version: 3.7.0-1218.4ad2f6c0 # no_auto_change__monitoring_auto_change
+    version: 3.7.0-1219.c94c9ac1 # no_auto_change__monitoring_auto_change
     condition: global.monitoring.enabled
     repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
   - name: objectscale-gateway
@@ -47,9 +47,9 @@ dependencies:
     version: 0.1.3 # no_auto_change
     repository: file://../bookkeeper-operator
     condition: bookkeeper.enabled
-  - name: dcm
+  - name: objectscale-dcm
     version: 0.74.0
-    repository: file://../dcm
+    repository: file://../objectscale-dcm
     condition: dcm.enabled
   - name: common-lib
     version: 0.74.0

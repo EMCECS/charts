@@ -87,7 +87,7 @@ dep:
 		helm plugin install https://github.com/lrills/helm-unittest ; \
  	fi
 	export PATH=/tmp:$PATH
-	sudo pip install yamllint=="${YAMLLINT_VERSION}"
+	sudo pip install yamllint=="${YAMLLINT_VERSION}" requests
 	wget -q http://asdrepo.isus.emc.com/artifactory/objectscale-build/com/github/yq/v${YQ_VERSION}/yq_linux_amd64
 	sudo mv yq_linux_amd64 /usr/bin/yq
 	sudo chmod u+x /usr/bin/yq

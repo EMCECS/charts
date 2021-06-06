@@ -157,7 +157,7 @@ ${extra_crd_install}
 
 echo
 echomsg "In vSphere7 UI Navigate to Workload-Cluster > Supervisor Services > Services"
-echomsg "Select $label then Enable"
+echomsg "Select Dell EMC ObjectScale then Enable"
 EOF
 
 chmod 500 temp_package/scripts/deploy-objectscale-plugin.sh

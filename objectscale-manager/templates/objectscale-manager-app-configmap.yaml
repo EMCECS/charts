@@ -48,24 +48,65 @@ data:
           timelimit: "5m"
           schedule: {{ default "0 * * * *" .Values.healthChecks.inventory.schedule | quote}}
           disabled: {{ default false .Values.healthChecks.inventory.disabled}}
+          args:
+            - -platform
+            - {{ .Values.global.platform}}
+            - -watch_ns
+{{- if eq .Values.global.watchAllNamespaces true}}
+            - "" 
+{{- else }}
+            - metadata.namespace
+{{- end }}
         - name: capacity
           container: {{.Values.global.registry}}/{{ .Values.healthChecks.capacity.image.repository}}:{{default .Values.tag .Values.healthChecks.capacity.image.tag}}
           serviceaccount: {{ .Release.Name }}-capacity
           timelimit: "5m"
           schedule: {{ default "0 * * * *" .Values.healthChecks.capacity.schedule | quote}}
           disabled: {{ default false .Values.healthChecks.capacity.disabled}}
+          args:
+            - -platform
+            - {{ .Values.global.platform}}
+            - -watch_ns
+{{- if eq .Values.global.watchAllNamespaces true}}
+            - "" 
+{{- else }}
+            - metadata.namespace
+{{- end }}
+            - -schedule
+            - {{ default "0 * * * *" .Values.healthChecks.capacity.schedule | quote}}
+
         - name: performance
           container: {{.Values.global.registry}}/{{ .Values.healthChecks.performance.image.repository}}:{{default .Values.tag .Values.healthChecks.performance.image.tag}}
           serviceaccount: {{ .Release.Name }}-performance
           timelimit: "5m"
           schedule: {{ default "0 * * * *" .Values.healthChecks.performance.schedule | quote}}
           disabled: {{ default false .Values.healthChecks.performance.disabled}}
+          args:
+            - -platform
+            - {{ .Values.global.platform}}
+            - -watch_ns
+{{- if eq .Values.global.watchAllNamespaces true}}
+            - "" 
+{{- else }}
+            - metadata.namespace
+{{- end }}
+            - -schedule
+            - {{ default "0 * * * *" .Values.healthChecks.performance.schedule | quote}}
         - name: health
           container: {{.Values.global.registry}}/{{ .Values.healthChecks.health.image.repository}}:{{default .Values.tag .Values.healthChecks.health.image.tag}}
           serviceaccount: {{ .Release.Name }}-health
           timelimit: "5m"
           schedule: {{ default "*/5 * * * *" .Values.healthChecks.health.schedule | quote}}
           disabled: {{ default false .Values.healthChecks.health.disabled}}
+          args:
+            - -platform
+            - {{ .Values.global.platform}}
+            - -watch_ns
+{{- if eq .Values.global.watchAllNamespaces true}}
+            - "" 
+{{- else }}
+            - metadata.namespace
+{{- end }}
     eventRemedies: |-
       symptoms:
         - symptomid: DEOS-MGR-1001

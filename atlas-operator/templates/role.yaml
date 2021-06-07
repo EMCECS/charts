@@ -67,3 +67,9 @@ rules:
   - leases
   verbs:
   - '*'
+- apiGroups:
+  - policy
+  resources:
+  - poddisruptionbudgets
+  verbs:
+  - "*"

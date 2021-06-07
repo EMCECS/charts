@@ -9,7 +9,10 @@ _List the changes for this PR_
 - [ ] vSphere7 make package deployments passed
 - [ ] helm upgrade <chart> passed
 - [ ] helm test <release_name> passed
+- [ ] Passed - https://asd-ecs-jenkins.isus.emc.com/jenkins/view/ECS-Flex/job/charts-custom-ci/
 
 ## Testing
+_Paste URL of charts-custom-ci job here_
+
 _Paste the output of your helm install/vSphere7 deployment testing here_
 

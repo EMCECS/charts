@@ -27,14 +27,17 @@ global:
   # Default: true == Watch ALL namespaces
   watchAllNamespaces: true
 
-  # Enable log forwarding to central objectscale rsyslog
-  rsyslog_enabled: true
-  #
   # Name of the objectscale-manager release used by rsyslog sidecars
   objectscale_release_name: objectscale-manager
   #
   # default k8s fqdn dns name:
   #dns: kube-dns.kube-system.svc.cluster.local
+
+  # Enable log forwarding to central objectscale rsyslog
+  rsyslog_enabled: true
+
+  # Enable integration logging framework
+  logging_injection_enabled: true
 
 # The default docker tag and pull policy for objectscale-portal and other containers
 tag: 0.74.0
@@ -83,19 +86,12 @@ service:
 objectscale-graphql:
   managerReleaseName: objectscale-manager
 
-# rsyslog-client subchart configuration
-rsyslog-client:
-  createLogrotateConfigs: false
 
 # ObjectScale UI Feature flags
 features:
-  objectscaleDashboard: true
-  iam: true
-  # enable this if you want to deploy the BETA3 Buckets workflows
-  bucketsv2: true
   # enable this if you want to deploy the BETA3 New/Edit Objectstore workflows
-  manageObjectStoreV2: false
-  replications: false
+  manageObjectStoreV2: true
+  replications: true
   objectscaleSystems: false
   # Possible Logging modes - ERROR, INFO, DEBUG, WARNING Only
   uiLoggingLevel: ERROR

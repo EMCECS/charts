@@ -113,6 +113,10 @@ postgresql-ha:
         mountPath: /dev/shm
     podAntiAffinityPreset: hard
     replicaCount: 3
+    podLabels:
+      objectscale.dellemc.com/sp-integrated: "true"
+    podAnnotations:
+      appplatform.vmware.com/vsphere-emm-integrated: "true"
 
     ## PostgreSQL containers' resource requests and limits
     ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
@@ -123,9 +127,9 @@ postgresql-ha:
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
       limits:
-        memory: 500Mi 
+        memory: 500Mi
       requests:
-        memory: 500Mi 
+        memory: 500Mi
 
   pgpool:
   ## The number of preforked Pgpool-II server processes. It is also the concurrent
@@ -149,6 +153,10 @@ postgresql-ha:
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
       limits:
-        memory: 500Mi 
+        memory: 500Mi
       requests:
-        memory: 500Mi 
+        memory: 500Mi
+    podLabels:
+      objectscale.dellemc.com/sp-integrated: "true"
+    podAnnotations:
+      appplatform.vmware.com/vsphere-emm-integrated: "true"

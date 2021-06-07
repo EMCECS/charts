@@ -65,3 +65,7 @@ spec:
 {{- end }}
         - name: CONTROLLER_NAME
           value: decks
+        - name: GC_POLLING_INTERVAL_IN_MIN
+          value: {{ .Values.supportStore.gcPollingInterval }}
+        - name: GC_FILE_AGE_TO_REMOVE_IN_DAYS
+          value: {{ .Values.supportStore.gcFileAgeToRemove }}

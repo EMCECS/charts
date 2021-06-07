@@ -32,7 +32,7 @@ global:
   #
   # default k8s fqdn dns name:
   #dns: kube-dns.kube-system.svc.cluster.local
-    
+
   # Enable log forwarding to central objectscale rsyslog
   rsyslog_enabled: true
 
@@ -95,4 +95,3 @@ features:
   objectscaleSystems: false
   # Possible Logging modes - ERROR, INFO, DEBUG, WARNING Only
   uiLoggingLevel: ERROR
-

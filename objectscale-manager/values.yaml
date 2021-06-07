@@ -256,12 +256,16 @@ healthChecks:
       tag: 0.74.0-45.5303b15 # rfw-update-this objectscale-capacity-image
     schedule: "0 * * * *"
     disabled: false
+    # pull all records in a given window (60 minutes)
+    window: 60
   performance:
     image:
       repository: objectscale-performance
       tag: 0.74.0-45.5303b15 # rfw-update-this objectscale-performance-image
     schedule: "*/10 * * * *"
     disabled: false
+    # pull all records in a given window (10 minutes)
+    window: 10
   health:
     image:
       repository: objectscale-health

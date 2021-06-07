@@ -72,8 +72,8 @@ data:
 {{- else }}
             - metadata.namespace
 {{- end }}
-            - -schedule
-            - {{ default "0 * * * *" .Values.healthChecks.capacity.schedule | quote}}
+            - -window
+            - {{ default "60" .Values.healthChecks.capacity.window | quote}}
 
         - name: performance
           container: {{.Values.global.registry}}/{{ .Values.healthChecks.performance.image.repository}}:{{default .Values.tag .Values.healthChecks.performance.image.tag}}
@@ -90,8 +90,8 @@ data:
 {{- else }}
             - metadata.namespace
 {{- end }}
-            - -schedule
-            - {{ default "0 * * * *" .Values.healthChecks.performance.schedule | quote}}
+            - -window
+            - {{ default "10" .Values.healthChecks.performance.window | quote}}
         - name: health
           container: {{.Values.global.registry}}/{{ .Values.healthChecks.health.image.repository}}:{{default .Values.tag .Values.healthChecks.health.image.tag}}
           serviceaccount: {{ .Release.Name }}-health

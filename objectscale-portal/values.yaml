@@ -27,15 +27,15 @@ global:
   # Default: true == Watch ALL namespaces
   watchAllNamespaces: true
 
-  # Enable log forwarding to central objectscale rsyslog
-  rsyslog_enabled: true
-  #
   # Name of the objectscale-manager release used by rsyslog sidecars
   objectscale_release_name: objectscale-manager
   #
   # default k8s fqdn dns name:
   #dns: kube-dns.kube-system.svc.cluster.local
     
+  # Enable log forwarding to central objectscale rsyslog
+  rsyslog_enabled: true
+
   # Enable integration logging framework
   logging_injection_enabled: true
 

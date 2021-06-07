@@ -20,6 +20,9 @@ spec:
     metadata:
       labels:
         io.kompose.service: decks-support-store
+        app.kubernetes.io/name: "decks-support-store"
+        release: {{ .Release.Name }}
+{{ include "common-monitoring-lib.logging-inject-labels" . | indent 8 }}
 {{ include "common-lib.labels-sp-integrated-all" . | indent 8}}
       annotations:
 {{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}

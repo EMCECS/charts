@@ -18,6 +18,10 @@ global:
   # Platform:
   platform: Default
 
+  # Enable integration logging framework
+  logging_injection_enabled: true
+
+
 # The default docker tag and pull policy for the KAHM
 tag: 2.74.0
 pullPolicy: IfNotPresent
@@ -123,9 +127,9 @@ postgresql-ha:
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
       limits:
-        memory: 500Mi 
+        memory: 500Mi
       requests:
-        memory: 500Mi 
+        memory: 500Mi
 
   pgpool:
   ## The number of preforked Pgpool-II server processes. It is also the concurrent
@@ -149,6 +153,6 @@ postgresql-ha:
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
       limits:
-        memory: 500Mi 
+        memory: 500Mi
       requests:
-        memory: 500Mi 
+        memory: 500Mi

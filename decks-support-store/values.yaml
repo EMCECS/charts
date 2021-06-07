@@ -18,6 +18,10 @@ global:
 
   # storageClassName - set global.storageClassName
 
+  # Enable integration logging framework
+  logging_injection_enabled: true
+
+
 # The default docker tag and pull policy for the DECKS
 tag: 2.74.0
 pullPolicy: IfNotPresent

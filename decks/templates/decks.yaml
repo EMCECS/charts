@@ -19,6 +19,7 @@ spec:
         name: decks
         app.kubernetes.io/name: "decks"
         release: {{ .Release.Name }}
+{{ include "common-monitoring-lib.logging-inject-labels" . | indent 8 }}
 {{ include "common-lib.labels-sp-integrated-all" . | indent 8}}
       annotations:
 {{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
@@ -66,6 +67,6 @@ spec:
         - name: CONTROLLER_NAME
           value: decks
         - name: GC_POLLING_INTERVAL_IN_MIN
-          value: {{ .Values.supportStore.gcPollingInterval }}
+          value: "{{ .Values.supportStore.gcPollingInterval }}"
         - name: GC_FILE_AGE_TO_REMOVE_IN_DAYS
-          value: {{ .Values.supportStore.gcFileAgeToRemove }}
+          value: "{{ .Values.supportStore.gcFileAgeToRemove }}"

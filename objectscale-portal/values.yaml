@@ -35,6 +35,9 @@ global:
   #
   # default k8s fqdn dns name:
   #dns: kube-dns.kube-system.svc.cluster.local
+    
+  # Enable integration logging framework
+  logging_injection_enabled: true
 
 # The default docker tag and pull policy for objectscale-portal and other containers
 tag: 0.74.0
@@ -95,3 +98,4 @@ features:
   objectscaleSystems: false
   # Possible Logging modes - ERROR, INFO, DEBUG, WARNING Only
   uiLoggingLevel: ERROR
+

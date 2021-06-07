@@ -1,0 +1,7 @@
+- description: "ObjectScale cumulative object store usage"
+  name: "ObjectScale Licensing"
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        - label: SymptomID
+          value: OBJSC-LIC-0004

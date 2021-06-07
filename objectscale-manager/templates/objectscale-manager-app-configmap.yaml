@@ -66,25 +66,3 @@ data:
           timelimit: "5m"
           schedule: {{ default "*/5 * * * *" .Values.healthChecks.health.schedule | quote}}
           disabled: {{ default false .Values.healthChecks.health.disabled}}
-    eventRemedies: |-
-      symptoms:
-        - symptomid: DEOS-MGR-1001
-          description: Provisioning of the new objectstore failed
-          remedies:
-            - Check the results of the provisioning job
-          serviceaccount: {{ .Release.Name }}-performance
-          timelimit: "5m"
-          schedule: {{ default "*/5 * * * *" .Values.healthChecks.performance.schedule | quote}}
-          disabled: {{ default false .Values.healthChecks.performance.disabled }}
-        - name: health
-          container: {{.Values.global.registry}}/objectscale-health:{{default .Values.tag .Values.healthChecks.health.image.tag}}
-          serviceaccount: {{ .Release.Name }}-health
-          timelimit: "5m"
-          schedule: {{ default "*/5 * * * *" .Values.healthChecks.health.schedule | quote}}
-          disabled: {{ default false .Values.healthChecks.health.disabled }}
-    eventRemedies: |-
-      symptoms:
-        - symptomid: DEOS-MGR-1001
-          description: Provisioning of the new objectstore failed
-          remedies:
-            - Check the results of the provisioning job

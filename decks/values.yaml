@@ -84,5 +84,4 @@ healthChecks:
   preUpdate:
     image:
       repository: decks-pre-update
-      tag: # rfw-update-this objectstore-pre-update-image
-
+      tag: # rfw-update-this decks-pre-update-image

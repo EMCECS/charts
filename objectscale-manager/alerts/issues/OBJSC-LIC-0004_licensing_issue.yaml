@@ -1,5 +1,7 @@
-- description: "ObjectScale cumulative object store usage"
-  name: "ObjectScale Licensing"
+- name: "ObjectScale Licensing"
+  description: "ObjectScale cumulative object store usage"
+  # AutoClear the issue after 6hrs 5 min
+  defaultAutoClearTimeOut: 365
   issueCategory: Auto
   matchOnList:
     - matchon:

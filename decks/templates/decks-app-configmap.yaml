@@ -15,7 +15,6 @@ metadata:
         com.dellemc.kahm.subscribed: "true"
 data:
     eventRules: |-
-    healthChecks: |-
     eventRemedies: |-
       symptoms:
         - symptomid: DECKS-1007
@@ -47,3 +46,12 @@ data:
               interface
             - View the logs of the decks and srs-notifier services for any
               additional details
+    health: |-
+      spec:
+        - name: pre-update
+          container: {{.Values.global.registry}}/{{.Values.healthChecks.preUpdate.image.repository}}:{{default .Values.tag .Values.healthChecks.preUpdate.image.tag}}
+          serviceaccount: {{.Release.Name}}-healthchecks
+          timelimit: "5m"
+          args:
+            - -target-version
+            - {{ default .Values.tag .Values.healthChecks.preUpdate.image.tag }}

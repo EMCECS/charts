@@ -6,7 +6,7 @@ global:
   # Specifies which namespace the Operator should watch for new ClusterResource
   # resources
   # Default: true == Watch ALL namespaces
-  watchAllNamespaces: false
+  watchAllNamespaces: true
   registry: emccorp
 image:
   repository: bookkeeper-operator

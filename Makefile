@@ -87,7 +87,7 @@ dep:
 		helm plugin install https://github.com/lrills/helm-unittest ; \
  	fi
 	export PATH=/tmp:$PATH
-	sudo pip install yamllint=="${YAMLLINT_VERSION}"
+	sudo pip install yamllint=="${YAMLLINT_VERSION}" requests
 	wget -q http://asdrepo.isus.emc.com/artifactory/objectscale-build/com/github/yq/v${YQ_VERSION}/yq_linux_amd64
 	sudo mv yq_linux_amd64 /usr/bin/yq
 	sudo chmod u+x /usr/bin/yq
@@ -132,7 +132,13 @@ zookeeper-operatorver:
 pravega-operatorver:
 	sed ${SED_INPLACE} -e "/no_auto_change__flex_auto_change/s/version:.*/version: ${FLEXVER} # no_auto_change__flex_auto_change/g"  pravega-operator/Chart.yaml
 
-flexver: yqcheck graphqlver zookeeper-operatorver pravega-operatorver
+atlas-operatorver:
+	sed ${SED_INPLACE} -e "/no_auto_change__flex_auto_change/s/version:.*/version: ${FLEXVER} # no_auto_change__flex_auto_change/g"  atlas-operator/Chart.yaml
+
+bookkeeper-operatorver:
+	sed ${SED_INPLACE} -e "/no_auto_change__flex_auto_change/s/version:.*/version: ${FLEXVER} # no_auto_change__flex_auto_change/g"  bookkeeper-operator/Chart.yaml
+
+flexver: yqcheck graphqlver zookeeper-operatorver pravega-operatorver atlas-operatorver bookkeeper-operatorver
 	if [ -z ${FLEXVER} ] ; then \
 		echo "Missing FLEXVER= param" ; \
 		exit 1 ; \

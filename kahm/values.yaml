@@ -123,9 +123,9 @@ postgresql-ha:
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
       limits:
-        memory: 500Mi 
+        memory: 500Mi
       requests:
-        memory: 500Mi 
+        memory: 500Mi
 
   pgpool:
   ## The number of preforked Pgpool-II server processes. It is also the concurrent
@@ -149,6 +149,6 @@ postgresql-ha:
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
       limits:
-        memory: 500Mi 
+        memory: 500Mi
       requests:
-        memory: 500Mi 
+        memory: 500Mi

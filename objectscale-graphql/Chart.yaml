@@ -25,7 +25,7 @@ dependencies:
   - name: common-monitoring-lib
     repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
     # rfw-update-next common-monitoring-lib-helm-chart
-    version: 3.7.0-1221.3950eeb6 # no_auto_change__monitoring_auto_change
+    version: 3.7.0-1222.f9102d7c # no_auto_change__monitoring_auto_change
     import-values:
       - default
   - name: common-lib

@@ -158,5 +158,4 @@ healthChecks:
   preUpdate:
     image:
       repository: kahm-pre-update
-      tag: # rfw-update-this objectstore-pre-update-image
-
+      tag: # rfw-update-this kahm-pre-update-image

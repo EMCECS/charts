@@ -132,7 +132,13 @@ zookeeper-operatorver:
 pravega-operatorver:
 	sed ${SED_INPLACE} -e "/no_auto_change__flex_auto_change/s/version:.*/version: ${FLEXVER} # no_auto_change__flex_auto_change/g"  pravega-operator/Chart.yaml
 
-flexver: yqcheck graphqlver zookeeper-operatorver pravega-operatorver
+atlas-operatorver:
+	sed ${SED_INPLACE} -e "/no_auto_change__flex_auto_change/s/version:.*/version: ${FLEXVER} # no_auto_change__flex_auto_change/g"  atlas-operator/Chart.yaml
+
+bookkeeper-operatorver:
+	sed ${SED_INPLACE} -e "/no_auto_change__flex_auto_change/s/version:.*/version: ${FLEXVER} # no_auto_change__flex_auto_change/g"  bookkeeper-operator/Chart.yaml
+
+flexver: yqcheck graphqlver zookeeper-operatorver pravega-operatorver atlas-operatorver bookkeeper-operatorver
 	if [ -z ${FLEXVER} ] ; then \
 		echo "Missing FLEXVER= param" ; \
 		exit 1 ; \

@@ -5,7 +5,7 @@ metadata:
   name: kahm-app-config
   namespace: {{.Release.Namespace}}
   labels:
-    app.kubernetes.io/name: "decks"
+    app.kubernetes.io/name: "kahm"
     app.kubernetes.io/version: {{.Values.tag}}
     app.kubernetes.io/instance: {{.Release.Name}}
     app.kubernetes.io/managed-by: nautilus

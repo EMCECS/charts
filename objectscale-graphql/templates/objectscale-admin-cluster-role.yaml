@@ -76,10 +76,18 @@ rules:
     resources:
       - namespaces
       - serviceaccounts
-      - secrets
       - resourcequotas
       - configmaps
     verbs:
       - get
       - list
       - watch
+  - apiGroups:
+    - ""
+    resources:
+      - secrets
+    verbs:
+      - get
+      - list
+      - watch
+      - create

@@ -36,9 +36,6 @@ global:
   # Enable log forwarding to central objectscale rsyslog
   rsyslog_enabled: true
 
-  # Enable integration logging framework
-  logging_injection_enabled: true
-
 # The default docker tag and pull policy for objectscale-portal and other containers
 tag: 0.74.0
 pullPolicy: IfNotPresent

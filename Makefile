@@ -65,9 +65,9 @@ clean: clean-package
 
 all: test package
 
-release: decksver flexver build generate-issues-events-all add-to-git
+release: decksver flexver build generate-issues-events-all
 
-resolve-and-release: decksver flexver resolve-versions build generate-issues-events-all add-to-git
+resolve-and-release: decksver flexver resolve-versions build generate-issues-events-all
 
 test:
 	helm version
@@ -86,7 +86,7 @@ dep:
 	if [ "$${?}" -eq "1" ] ; then \
 		helm plugin install https://github.com/lrills/helm-unittest ; \
  	fi
-	export PATH=/tmp:$PATH
+	export PATH=/tmp:${PATH}
 	sudo pip install yamllint=="${YAMLLINT_VERSION}" requests
 	wget -q http://asdrepo.isus.emc.com/artifactory/objectscale-build/com/github/yq/v${YQ_VERSION}/yq_linux_amd64
 	sudo mv yq_linux_amd64 /usr/bin/yq
@@ -179,15 +179,15 @@ build: yqcheck
 		cd docs && helm repo index . ; \
 	fi
 
-add-to-git:
-	for CHART in ${CHARTS}; do \
-		if [ -d "$${CHART}/charts" ]; then \
-			echo "Adding charts to git for $${CHART}" ; \
-			git add $${CHART}/charts; \
-		fi; \
-	done ; \
-	echo "Adding docs to git" ; \
-	git add docs; \
+# add-to-git:
+# 	for CHART in ${CHARTS}; do \
+# 		if [ -d "$${CHART}/charts" ]; then \
+# 			echo "Adding charts to git for $${CHART}" ; \
+# 			git add $${CHART}/charts; \
+# 		fi; \
+# 	done ; \
+# 	echo "Adding docs to git" ; \
+# 	git add docs; \
 
 package: clean-package create-temp-package create-manifests combine-crds create-vmware-package archive-package
 create-temp-package:

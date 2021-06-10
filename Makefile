@@ -151,6 +151,12 @@ flexver: yqcheck graphqlver zookeeper-operatorver pravega-operatorver atlas-oper
 		sed ${SED_INPLACE} -e "0,/^tag.*/s//tag: ${FLEXVER}/"  $$CHART/values.yaml; \
 	done ;
 
+update-dependencies:
+	rm **/charts/**; \
+	for CHART in ${ALL_CHARTS}; do \
+		echo "Updating package for $${CHART}" ; \
+    	helm dep up $${CHART}; \
+	done ;
 
 resolve-versions:
 	python tools/build_helper/version_resolver.py -vs ${VERSION_SLICE_PATH}

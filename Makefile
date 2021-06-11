@@ -10,7 +10,7 @@ FLEXCHARTS := common-lib ecs-cluster objectscale-manager objectscale-vsphere obj
 
 # release version
 MAJOR=0
-MINOR=74
+MINOR=75
 PATCH=0
 PRERELEASE=
 

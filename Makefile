@@ -154,8 +154,8 @@ flexver: yqcheck graphqlver zookeeper-operatorver pravega-operatorver atlas-oper
 update-dependencies:
 	rm **/charts/**; \
 	for CHART in ${ALL_CHARTS}; do \
-		echo "Updating package for $${CHART}" ; \
-    	helm dep up $${CHART}; \
+		echo "Updating dependencies for $${CHART}" ; \
+		helm dep up $${CHART}; \
 	done ;
 
 resolve-versions:

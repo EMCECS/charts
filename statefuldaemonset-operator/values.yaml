@@ -17,6 +17,8 @@ global:
   labels: {}
 
   performanceProfile: "Small"
+  
+  logging_injection_enabled: true
 
 image:
   repository: statefuldaemonset-operator

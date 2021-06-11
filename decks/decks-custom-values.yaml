@@ -1,0 +1,17 @@
+---
+global:
+  registrySecret: {{ .Values.global.registrySecret }}
+
+  registry: {{ .Values.global.registry }}
+
+  watchAllNamespaces: {{ .Values.global.watchAllNamespaces }}
+
+  platform: {{ .Values.global.platform }}
+
+storageClassName: {{ .Values.storageClassName }}
+
+decks-support-store:
+  persistentVolume:
+    storageClassName: {{ index .Values "decks-support-store" "persistentVolume" "storageClassName" }}
+
+createdecksappResource: {{ .Values.createdecksappResource }}

@@ -3,7 +3,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-tag: 0.74.0
+tag: 0.75.0
 
 # These values may be overridden when the IAM is included within a subchart
 global:
@@ -18,7 +18,7 @@ global:
 image:
   pullPolicy: IfNotPresent
   repository: iamsvc
-  tag: 3.7.0.0-135276.3df402f1a40 # rfw-update-this iamsvc-docker-image
+  tag: 3.7.0.0-135756.89ebd100327 # rfw-update-this iamsvc-docker-image
 
 # Number of replicas for the ObjectScale IAM deployment
 replicaCount: 3
@@ -70,7 +70,9 @@ tls:
   #   intermediateCA:      # provide the intermediate CA here (optional)
 
   signingRequest:
-    commonName: objectscale-iam
+    # For InternallySigned certificates do not add commonName so that its added in the format as below
+    # urn:ocs:ObjectScaleId::service/ServiceName
+    # commonName: objectscale-iam
     # email: insertyouremail@example.com.local
     names:
       country: USA

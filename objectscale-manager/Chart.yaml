@@ -1,10 +1,10 @@
 ---
 apiVersion: v2
-appVersion: 0.74.0
+appVersion: 0.75.0
 description: |
   Dell EMC ObjectScale is highly scalable, and high performance S3 compatible object storage platform.
 name: objectscale-manager
-version: 0.74.0
+version: 0.75.0
 icon: https://avatars0.githubusercontent.com/u/12926680
 maintainers:
   - name: Dell EMC
@@ -20,23 +20,23 @@ dependencies:
     condition: atlas.enabled
   - name: objectscale-monitoring
     # rfw-update-next objectscale-monitoring-helm-chart
-    version: 3.7.0-1213.a4254844 # no_auto_change__monitoring_auto_change
+    version: 3.7.0-1222.f9102d7c # no_auto_change__monitoring_auto_change
     condition: global.monitoring.enabled
     repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
   - name: objectscale-gateway
-    version: 0.74.0
+    version: 0.75.0
     repository: file://../objectscale-gateway
     condition: objectscale-gateway.enabled
   - name: federation
-    version: 0.74.0
+    version: 0.75.0
     repository: file://../federation
     condition: federation.enabled
   - name: objectscale-iam
-    version: 0.74.0
+    version: 0.75.0
     repository: file://../objectscale-iam
     condition: iam.enabled
   - name: service-pod
-    version: 2.74.0 # no_auto_change__decks_auto_change
+    version: 2.75.0 # no_auto_change__decks_auto_change
     condition: servicePod.enabled
     repository: file://../service-pod
   - name: pravega-operator
@@ -47,10 +47,10 @@ dependencies:
     version: 0.1.3 # no_auto_change
     repository: file://../bookkeeper-operator
     condition: bookkeeper.enabled
-  - name: dcm
-    version: 0.74.0
-    repository: file://../dcm
+  - name: objectscale-dcm
+    version: 0.75.0
+    repository: file://../objectscale-dcm
     condition: dcm.enabled
   - name: common-lib
-    version: 0.74.0
+    version: 0.75.0
     repository: file://../common-lib

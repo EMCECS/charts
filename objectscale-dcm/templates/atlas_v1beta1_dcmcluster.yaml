@@ -1,0 +1,46 @@
+---
+apiVersion: atlas.dellemc.com/v1beta1
+kind: AtlasCluster
+metadata:
+  name: {{ include "dcm.name" . }}-atlas
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: {{ coalesce .Values.atlas.replicaCount (index (dict "Large" 3) (title .Values.global.performanceProfile)) 1 }}
+  labels:
+    release: {{ .Release.Name }}
+{{ include "common-monitoring-lib.logging-inject-labels" . | indent 4 }}
+{{ include "common-lib.labels-sp-integrated-all" . | indent 4}}
+  {{- if .Values.global.registrySecret }}
+  imagePullSecret: {{ .Values.global.registrySecret }}
+  {{- end }}
+  image:
+    repository:  {{  default  .Values.global.registry  .Values.atlas.registry }}/{{ .Values.atlas.image.repository }}
+    tag: {{ .Values.atlas.image.tag }}
+    pullPolicy: {{ .Values.atlas.image.pullPolicy }}
+  persistence:
+    spec:
+      {{- if .Values.global.storageClassName}}
+      storageClassName: {{.Values.global.storageClassName}}
+      {{- end }}
+      resources:
+        requests:
+          storage: {{ required "atlas.persistence.size is required" .Values.atlas.persistence.size }}
+  pod:
+    annotations:
+{{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 6}}
+{{- if .Values.atlas.affinity }}
+  # junk node affinity allows multiple atlas instances on the same node
+  # - needed for 3 replicas deployed on a single node(test only)
+    affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+                - key: another-node-label-key
+                  operator: In
+                  values:
+                    - another-node-label-value
+      podAntiAffinity: {}
+{{- end }}
+

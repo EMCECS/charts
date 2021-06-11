@@ -24,6 +24,7 @@ $ helm repo update
 * [SRS Gateway](srs-gateway)
 * [DellEMC license](dellemc-license)
 * [IAM](objectscale-iam)
+* [DCM](objectscale-dcm)
 
 ## Adding private Helm repository and Docker registries
 

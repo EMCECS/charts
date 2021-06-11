@@ -20,6 +20,8 @@ global:
 
   logging_injection_enabled: true
 
+  rsyslog_enabled: true
+
 image:
   repository: influxdb-operator
   # no need to insert rfw marker here because version comes from global.monitoring_tag

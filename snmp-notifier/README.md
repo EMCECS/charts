@@ -80,7 +80,7 @@ If securityLevel is "authpriv", then the following parameters are mandatory in a
     $ helm install snmp-notifier objectscale/snmp-notifier --set product=objectscale,snmpServer.host="10.11.12.13",snmpServer.version=v3, snmpServer.username="xxx",snmpServer.securityLevel="auth", snmpServer.authPass=yyyy,snmpServer.authProtocol=MD5,snmpServer.engineID="2345678910FFEEED"
 
     $ helm install snmp-notifier objectscale/snmp-notifier --set product=objectscale,snmpServer.host="10.11.12.13",snmpServer.version=v3, snmpServer.username="xxx",snmpServer.securityLevel="authpriv", snmpServer.authPass=yyyy,snmpServer.authProtocol=MD5,privPass=zzzz,privProtocol=SHA,snmpServer.engineID="2345678910FFEEED"
-   ```
+    ```
 
 ## TEST-TRAPS
 In order to test SNMP TRAPs, a test-trap event need to generate in the same namepace where the snmp-notifier is configured. The following command need to execute in order to send SNMP TEST TRAP.

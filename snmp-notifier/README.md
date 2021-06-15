@@ -81,3 +81,52 @@ If securityLevel is "authpriv", then the following parameters are mandatory in a
 
     $ helm install snmp-notifier objectscale/snmp-notifier --set product=objectscale,snmpServer.host="10.11.12.13",snmpServer.version=v3, snmpServer.username="xxx",snmpServer.securityLevel="authpriv", snmpServer.authPass=yyyy,snmpServer.authProtocol=MD5,privPass=zzzz,privProtocol=SHA,snmpServer.engineID="2345678910FFEEED"
    ```
+
+## TEST-TRAPS
+In order to test SNMP TRAPs, a test-trap event need to generate in the same namepace where the snmp-notifier is configured. The following command need to execute in order to send SNMP TEST TRAP.
+
+    ```
+    cat <<EOF | kubectl create -f -
+> apiVersion: v1
+> involvedObject:
+>   apiVersion: app.k8s.io/v1beta1
+>   kind: Application
+>   name: <helm-release-name>-<productName>-snmp-notifier
+>   namespace: default
+> kind: Event
+> message: test SNMP trap
+> metadata:
+>   generateName: testtrap1
+>   labels:
+>      SymptomID: "TEST-TRAP"
+> reason: TestTrap
+> source:
+>   component: snmp-testtrap
+> type: Normal
+> 
+> EOF
+
+   Example with release-name: snmp-notifier and product: objectscale
+    cat <<EOF | kubectl create -f -
+> apiVersion: v1
+> involvedObject:
+>   apiVersion: app.k8s.io/v1beta1
+>   kind: Application
+>   name: snmp-notifier-objectscale-snmp-notifier
+>   namespace: default
+> kind: Event
+> message: test SNMP trap
+> metadata:
+>   generateName: testtrap1
+>   labels:
+>      SymptomID: "TEST-TRAP"
+> reason: TestTrap
+> source:
+>   component: snmp-testtrap
+> type: Normal
+>
+> EOF
+
+
+   ```
+ 

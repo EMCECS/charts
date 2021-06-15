@@ -13,7 +13,7 @@ global:
 
 # The default docker tag and pull policy for dell-supportassist-ese
 tag: 2.76.0
-pullPolicy: Always
+pullPolicy: IfNotPresent
 
 # enabled - true - enable snmp-notifier false - disable it
 enabled: true
@@ -23,7 +23,7 @@ enabled: true
 # The image configured for snmp notifier 
 image:
   repository: snmp-notifier
-  # tag: # rfw-update-this snmp-notifier-image
+  tag: # rfw-update-this snmp-notifier-image
   # pullPolicy: Always
 # the GRPC setting between KAHM and snmp-notifier
 grpc:
@@ -54,7 +54,7 @@ snmpServer:
    # privProtocol: "DES"
    # needed only if v3
    # privPass: "admin1234"
-   # needed only if v3 -  A hexadecimal value of at least 10 characters, uniquely identifying the engineid.This is a mandatory argument for v3
+   # needed only if v3 -  A hexadecimal value of at least 10 characters, uniquely identifying the engineid.This is a mandatory argument for v3. This must be shared with SNMP manager
    # engineID: "3AFE3256879867ABCD"
    # needed only if v2c
    communityString: "public"

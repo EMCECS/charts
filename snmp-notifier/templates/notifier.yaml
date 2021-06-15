@@ -39,10 +39,10 @@ spec:
 {{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
     spec:
       serviceAccountName: {{include "notifier.fullName" .}}
-{{- if .Values.global.registrySecret }}
+      {{- if .Values.global.registrySecret }}
       imagePullSecrets:
         - name: {{ .Values.global.registrySecret }}
-{{- end }}
+      {{- end }}
       containers:
       - name: notifier
         image: {{.Values.global.registry}}/{{.Values.image.repository}}:{{default .Values.tag .Values.image.tag}}
@@ -77,7 +77,7 @@ spec:
             secretKeyRef:
               name: {{ include "notifier.fullName" .}}-credentials
               key: version
-{{- if eq .Values.snmpServer.version "v3" }}
+     {{- if eq .Values.snmpServer.version "v3" }}
         - name: SNMP_SERVER_SEC_LEVEL
           valueFrom:
             secretKeyRef:
@@ -93,7 +93,7 @@ spec:
             secretKeyRef:
               name: {{ include "notifier.fullName" .}}-credentials
               key: username
-{{- if ne .Values.snmpServer.securityLevel "none" }}
+        {{- if ne .Values.snmpServer.securityLevel "none" }}
         - name: SNMP_SERVER_AUTH_PROT
           valueFrom:
             secretKeyRef:
@@ -104,8 +104,8 @@ spec:
             secretKeyRef:
               name: {{ include "notifier.fullName" .}}-credentials
               key: authPass
-{{- end }}
-{{- if eq .Values.snmpServer.securityLevel "authpriv" }}
+        {{- end }}
+        {{- if eq .Values.snmpServer.securityLevel "authpriv" }}
         - name: SNMP_SERVER_PRIV_PROT
           valueFrom:
             secretKeyRef:
@@ -116,12 +116,12 @@ spec:
             secretKeyRef:
               name: {{ include "notifier.fullName" .}}-credentials
               key: privPass
-{{- end }}
-{{- else }}
+        {{- end }}
+    {{- else }}
         - name: SNMP_SERVER_COMMUNITY_STRING
           valueFrom:
             secretKeyRef:
               name: {{ include "notifier.fullName" .}}-credentials
               key: communityString
-{{- end }}
+     {{- end }}
       restartPolicy: Always

@@ -21,7 +21,7 @@ This Helm chart deploys:
 
 ## Requirements
 
-* A [Helm 3.0](https://helm.sh) installation with access to install to one or more namespaces.
+* A [Helm 3.5.x](https://helm.sh) installation with access to install to one or more namespaces.
 * Access to https://github.com/EMCECS/charts
 * Access to docker registries:
     * https://hub.docker.com/objectscale
@@ -59,7 +59,7 @@ This Helm chart deploys:
 ## Configuration
 
 ### configure v3 SNMP notifier to send v3 SNMP traps
-In order to setup SNMP v3 notifier, the following configuration parameters are mandatory:
+In order to setup SNMP v3 notifier, the following configuration parameters are required:
 
  1. version
  2. username
@@ -75,7 +75,7 @@ If securityLevel is "authpriv", then the following parameters are mandatory in a
  2. privProtocol
 
     ```
-    $ helm install snmp-notifier objectscale/snmp-notifier --set product=objectscale,snmpServer.host="10.11.12.13",snmpServer.version=v3, snmpServer.username="xxx",snmpServer.securityLevel="none", snmpServer.EngineID="<Hexa decimal string>"
+    $ helm install snmp-notifier objectscale/snmp-notifier --set product=objectscale,snmpServer.host="10.11.12.13",snmpServer.version=v3, snmpServer.username="xxx",snmpServer.securityLevel="none", snmpServer.EngineID="<Hexadecimal string>"
    
     $ helm install snmp-notifier objectscale/snmp-notifier --set product=objectscale,snmpServer.host="10.11.12.13",snmpServer.version=v3, snmpServer.username="xxx",snmpServer.securityLevel="auth", snmpServer.authPass=yyyy,snmpServer.authProtocol=MD5,snmpServer.engineID="2345678910FFEEED"
 
@@ -95,7 +95,7 @@ In order to test SNMP TRAPs, a test-trap event need to generate in the same name
  kind: Event
  message: test SNMP trap
  metadata:
-   generateName: testtrap1
+   generateName: snmp-testtrap-
    labels:
       SymptomID: "TEST-TRAP"
  reason: TestTrap
@@ -115,7 +115,7 @@ In order to test SNMP TRAPs, a test-trap event need to generate in the same name
 > kind: Event
 > message: test SNMP trap
 > metadata:
->   generateName: testtrap1
+>   generateName: snmp-testtrap-
 >   labels:
 >      SymptomID: "TEST-TRAP"
 > reason: TestTrap

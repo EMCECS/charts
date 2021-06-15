@@ -103,9 +103,8 @@ In order to test SNMP TRAPs, a test-trap event need to generate in the same name
    component: snmp-testtrap
  type: Normal
 
- ```
  Example with release-name: snmp-notifier and product: objectscale
- ```
+
     cat <<EOF | kubectl create -f -
 > apiVersion: v1
 > involvedObject:
@@ -126,5 +125,4 @@ In order to test SNMP TRAPs, a test-trap event need to generate in the same name
 >
 > EOF
 
-   ```
- 
+ ```

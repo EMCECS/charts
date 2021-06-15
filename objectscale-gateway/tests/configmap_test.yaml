@@ -33,3 +33,9 @@ tests:
       - matchRegex:
           path: data.location_flux\.conf
           pattern: proxy_pass http://ecs-flex-fluxd.ns1.svc.cluster.local:8093;
+  - it: Monitoring disabled
+    set:
+      global.monitoring.enabled: false
+    asserts:
+      - isNull:
+          path: data

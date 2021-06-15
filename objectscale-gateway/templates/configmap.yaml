@@ -7,6 +7,7 @@ metadata:
   labels:
 {{- include "objectscaleGateway.labels" . | nindent 4 }}
 data:
+{{- if .Values.global.monitoring.enabled }}
   location_flux.conf: |
     # handle ObjectScale fluxd
     location = /flux/ {
@@ -33,3 +34,4 @@ data:
       proxy_set_header Accept "application/json";
       proxy_set_header X-ALLOW-ROLES "SYSTEM_ADMIN,SYSTEM_MONITOR";
     }
+{{- end }}

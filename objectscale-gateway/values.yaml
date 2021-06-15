@@ -6,6 +6,9 @@ global:
   watchAllNamespaces: true
   # Platform:
   platform: Default
+  # Deploy additional configs for monitoring services
+  monitoring:
+    enabled: true
 
 objectscaleGateway:
   image:

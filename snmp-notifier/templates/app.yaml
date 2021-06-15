@@ -3,7 +3,7 @@
 apiVersion: app.k8s.io/v1beta1
 kind: Application
 metadata:
-  name: "{{.Release.Name}}-{{.Values.product}}-snmp-notifier"
+  name: {{include "notifier.fullName" .}}
   namespace: {{.Release.Namespace}}
   labels:
 {{ include "notifier.labels" . | indent 4 }}
@@ -14,7 +14,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{.Release.Name}}-{{.Values.product}}-snmp-notifier
+      app.kubernetes.io/name: {{include "notifier.fullName" .}}
   componentKinds:
     - group: apps
       kind: Deployment
@@ -26,7 +26,7 @@ spec:
       kind: ReplicaSet
   assemblyPhase: "Pending"
   descriptor:
-    type: "{{.Values.product}}-snmp-notifier"
+    type: "{{include "notifier.name" .}}"
     version: {{.Values.tag}}
     description: >
       Dell EMC SNMP Notifier

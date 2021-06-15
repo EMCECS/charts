@@ -2,13 +2,13 @@
 apiVersion: kahm.emcecs.github.com/v1beta1
 kind: Notifier
 metadata:
-  name: {{.Release.Name}}-{{required "product must be specified" .Values.product}}-snmp-notifier
+  name: {{ include "notifier.fullName" .}}
   namespace: {{.Release.Namespace}}
   labels:
-    kahm-notifier: {{required "product must be specified" .Values.product}}-snmp-notifier
+    kahm-notifier: {{ include "notifier.name" .}} 
 {{ include "notifier.labels" . | indent 4 }}
 spec:
-  hostname: {{.Release.Name}}-{{required "product must be specified" .Values.product}}-snmp-notifier
+  hostname: {{ include "notifier.serviceName" .}}
   port: {{.Values.grpc.servicePort}}
   grpcConnTimeout: {{.Values.grpc.grpcConnTimeout}}
   grpcRetries: {{.Values.grpc.grpcRetries}}

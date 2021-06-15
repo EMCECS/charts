@@ -12,7 +12,7 @@ global:
   registry: emccorp
 
 # The default docker tag and pull policy for dell-supportassist-ese
-tag: 2.74.0
+tag: 2.76.0
 pullPolicy: Always
 
 # enabled - true - enable snmp-notifier false - disable it
@@ -36,16 +36,16 @@ createAppResource: true
 
 # snmpServer- required field to pass using --set
 snmpServer:
-   # snmp server host/ip address
-   host: 10.241.218.59 
+   # snmp server host/ip address - mandatory parameter
+   # host: 10.11.12.13 
    # snmp server port
    port: 162
    # v2c or v3
    version: "v2c"
    # needed only if v3
-   # username: "snmpv3_objectscale_md5_des"
-   # needed only if v3: "none", "auth" - authentication only , "authpriv" - authentication + privacy
-   # securityLevel: "authpriv"
+   # username: "snmpv3_objectscale_md5_des" - this is mandatory argument for v3
+   # needed only if v3: "none", "auth" - authentication only , "authpriv" - authentication + privacy - this is mandatory argument for v3
+   # securityLevel: "authpriv" 
    # needed only if v3: "MD5" or "SHA"
    # authProtocol: "MD5"
    # needed only if v3
@@ -54,7 +54,7 @@ snmpServer:
    # privProtocol: "DES"
    # needed only if v3
    # privPass: "admin1234"
-   # needed only if v3 -  A hexadecimal value of at least 10 characters, uniquely identifying the engineid.This is a mandatory argument
+   # needed only if v3 -  A hexadecimal value of at least 10 characters, uniquely identifying the engineid.This is a mandatory argument for v3
    # engineID: "3AFE3256879867ABCD"
    # needed only if v2c
    communityString: "public"

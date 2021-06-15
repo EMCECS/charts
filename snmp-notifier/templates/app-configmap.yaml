@@ -2,16 +2,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-    name: {{.Release.Name}}-{{.Values.product}}-snmp-notifier-app-config
+    name: {{include "notifier.fullName" .}}-app-config
     namespace: {{.Release.Namespace}}
     labels:
-        app.kubernetes.io/name: {{.Release.Name}}-{{.Values.product}}-snmp-notifier
-        app.kubernetes.io/version: {{.Values.tag}}
-        app.kubernetes.io/instance: {{.Release.Name}}
-        app.kubernetes.io/managed-by: {{.Release.Service}}
-        helm.sh/chart: {{.Chart.Name}}-{{.Chart.Version | replace "+" "_"}}
-        release: {{.Release.Name}}
-        product: {{.Values.product}}
+{{ include "notifier.labels" . | indent 8 }}
     annotations:
         com.dellemc.kahm.subscribed: "true"
 data:

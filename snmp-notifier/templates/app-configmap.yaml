@@ -11,7 +11,7 @@ metadata:
 data:
     eventRules: |-
       rules:
-      - description: test TRAP
+      - description: test SNMP TRAP
         matchon:
         - field: type
           value: Normal

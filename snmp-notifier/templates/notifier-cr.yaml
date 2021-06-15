@@ -13,5 +13,5 @@ spec:
   grpcConnTimeout: {{.Values.grpc.grpcConnTimeout}}
   grpcRetries: {{.Values.grpc.grpcRetries}}
 {{- if eq .Values.enabled false }}
-  disable: true
+  disabled: true
 {{- end }}

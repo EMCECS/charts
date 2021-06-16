@@ -17,7 +17,7 @@ replicaCount: 1
 service:
   port: 9026
   targetPort: 9026
-  type: LoadBalancer
+  type: ClusterIP
 
 # Liveness and Readiness Probe configurations for the DCM Deployment
 livenessProbe:

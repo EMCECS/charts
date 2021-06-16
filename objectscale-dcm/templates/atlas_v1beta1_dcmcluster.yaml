@@ -5,7 +5,7 @@ metadata:
   name: {{ include "dcm.name" . }}-atlas
   namespace: {{ .Release.Namespace }}
 spec:
-  replicas: {{ coalesce .Values.atlas.replicaCount (index (dict "Large" 3) (title .Values.global.performanceProfile)) 1 }}
+  replicas: {{ .Values.atlas.replicaCount }}
   labels:
     release: {{ .Release.Name }}
 {{ include "common-monitoring-lib.logging-inject-labels" . | indent 4 }}

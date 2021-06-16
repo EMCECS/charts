@@ -24,14 +24,27 @@ actual_crd=""
 service_id=$1
 
 svc_vs7u3_id=$service_id
+svc_vs7u3_crd_opts=" -c temp_package/yaml/objectscale-crd.yaml "
 
 if [ ${service_id} != "objectscale" ]
 then
-     svc_vs7u3_id="objectscale-${service_id}"  # in VS7U3+ need to append custom name to svcid
-     label="${label}-${service_id}"
-     sed "${sed_inplace[@]}" "s/SERVICE_ID/-${service_id}/g" temp_package/yaml/objectscale-manager.yaml
 
-     extra_crd_install=$(cat <<EOF
+    ## Restricting custom service id to max 8 chars for U3 master-proxy pods 
+    ## and alleviate any long hostnames for components such as kahm postgres
+
+    # need to restrict service_id due to services creating long hostnames that exceed 127 chars.
+    if [ ${#service_id} -gt 8 ]
+    then
+        echo -e "\n\nERROR: Custom Service ID: \"$service_id\" is ${#service_id} chars, max 8 characters\n"
+        exit 1
+    fi
+    svc_vs7u3_id="objectscale-${service_id}"  # in VS7U3+ need to append custom name to svcid
+    label="${label}-${USER}-${service_id}"
+    sed "${sed_inplace[@]}" "s/SERVICE_ID/-${service_id}/g" temp_package/yaml/objectscale-manager.yaml
+    
+    ## apply crds outside of the plugin
+    svc_vs7u3_crd_opts=" "
+    extra_crd_install=$(cat <<EOF
 # manually install CRD because of OBSDEF-8341, also tag text for automation
 echomsg "Manually installing CRD because of non-default service ID ${service_id}"
 cat <<'EOT' | kubectl apply -f - 
@@ -115,39 +128,18 @@ sed "${sed_inplace[@]}" "s/VSPHERE_SERVICE_PREFIX_VALUE/{{ .service.prefix }}/g"
 
 cp -p ./vmware/deploy-objectscale-plugin.sh temp_package/scripts 
 
-### Building vSphere 7.0 U3+ ObjectScale WCP Plugin
-set -x
-vsphere_script=create-vsphere-app.py
-wget -O vmware/$vsphere_script https://asdrepo.isus.emc.com/artifactory/objectscale-tps-staging-local-mw/com/vmware/create-vsphere-app/7.0u3/$vsphere_script
-if [ $? != 0 ]
-then
-    echo "Unable to pull down create-vsphere-app.py script to build ObjectScale WCP plugin"
-    exit 1
-fi
+### Building the U2 (the edge) plugin script
 
-chmod +x vmware/$vsphere_script
-mkdir -p temp_package/u3/tmp
-
-(cd temp_package/yaml; cat logging-injector.yaml objectscale-manager.yaml kahm.yaml decks.yaml > ../u3/tmp/objectscale-vsphere-service-src.yaml )
-cat vmware/vs7u3-persistence-svc-config.yaml >> temp_package/u3/tmp/objectscale-vsphere-service-src.yaml
-vmware/$vsphere_script -c temp_package/yaml/objectscale-crd.yaml -p temp_package/u3/tmp/objectscale-vsphere-service-src.yaml -v $objs_ver --display-name "$label" \
-  --description "$objs_desc" -e dellemc_eula.txt -o temp_package/u3/objectscale-${objs_ver}-vsphere-service.yaml $svc_vs7u3_id
-
-if [ $? -ne 0 ]
-then
-    echo "error: unable to generate ObjectScale WCP plugin"
-    exit 1
-fi
-
-set +x
+vs7u2_plugin_script="temp_package/scripts/deploy-objectscale-plugin.sh"
 
 ## Template the service_id value
-sed "${sed_inplace[@]}" "s/SERVICE_ID/${service_id}/" temp_package/scripts/deploy-objectscale-plugin.sh
+sed "${sed_inplace[@]}" "s/SERVICE_ID/${service_id}/" $vs7u2_plugin_script
 
-cat temp_package/yaml/${vsphere7_plugin_file} >> temp_package/scripts/deploy-objectscale-plugin.sh 
-echo "EOF" >> temp_package/scripts/deploy-objectscale-plugin.sh
+cat vmware/common_funcs.sh vmware/deploy-main.sh temp_package/yaml/${vsphere7_plugin_file} >> $vs7u2_plugin_script
 
-cat <<EOF >> temp_package/scripts/deploy-objectscale-plugin.sh
+echo "EOF" >> $vs7u2_plugin_script
+
+cat <<EOF >> $vs7u2_plugin_script
 
 if [ \$? -ne 0 ]
 then
@@ -162,5 +154,62 @@ echomsg "In vSphere7 UI Navigate to Workload-Cluster > Supervisor Services > Ser
 echomsg "Select Dell EMC ObjectScale then Enable"
 EOF
 
-chmod 500 temp_package/scripts/deploy-objectscale-plugin.sh
+chmod 500 $vs7u2_plugin_script
+
+### end credits U2
+
+### Building vSphere 7.0 U3+ ObjectScale WCP Plugin
+set -x
+vsphere_script=create-vsphere-app.py
+wget -O vmware/$vsphere_script https://asdrepo.isus.emc.com/artifactory/objectscale-tps-staging-local-mw/com/vmware/create-vsphere-app/7.0u3/$vsphere_script
+if [ $? != 0 ]
+then
+    echo "Unable to pull down create-vsphere-app.py script to build ObjectScale WCP plugin"
+    exit 1
+fi
+
+chmod +x vmware/$vsphere_script
+mkdir -p temp_package/u3/tmp
+
+(cd temp_package/yaml; cat logging-injector.yaml objectscale-manager.yaml kahm.yaml decks.yaml > ../u3/tmp/objectscale-vsphere-service-src.yaml )
+sed "${sed_inplace[@]}" "s/dellemc-${service_id}/$svc_vs7u3_id/g" temp_package/u3/tmp/objectscale-vsphere-service-src.yaml
+
+## Append the 7.0 U3 Persistence Service Config to our yaml.  Eventually the 'create-vsphere-app.py' above will support this
+cat <<EOP >> temp_package/u3/tmp/objectscale-vsphere-service-src.yaml
+---
+#PersistenceServiceConfiguration
+apiVersion: psp.wcp.vmware.com/v1beta1
+kind: PersistenceServiceConfiguration
+metadata:
+  name: {{ .service.prefix }}-psp-config
+  namespace: {{ .service.namespace }}
+spec:
+  enableHostLocalStorage: true
+  serviceID: $svc_vs7u3_id
+---
+EOP
+
+vmware/$vsphere_script $svc_vs7u3_crd_opts -p temp_package/u3/tmp/objectscale-vsphere-service-src.yaml -v $objs_ver --display-name "$label" \
+  --description "$objs_desc" -e dellemc_eula.txt -o temp_package/u3/objectscale-${objs_ver}-vsphere-service.yaml $svc_vs7u3_id
+
+if [ $? -ne 0 ]
+then
+    echo "error: unable to generate ObjectScale WCP plugin"
+    exit 1
+fi
+
+## Now generating U3 preinstall script until OBSDEF-7223 is fixed.
+
+vs7u3_pre_install_script="temp_package/u3/objectscale-pre-install.sh"
+cp vmware/deploy-objectscale-plugin.sh $vs7u3_pre_install_script
+cat vmware/common_funcs.sh >> $vs7u3_pre_install_script
+
+cat <<EOS >> $vs7u3_pre_install_script
+add_vsphere7_clusterrole_rules
+
+${extra_crd_install}
+
+EOS
+
+chmod 500 $vs7u3_pre_install_script
 

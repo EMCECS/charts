@@ -22,10 +22,10 @@ data:
       bypass:             # List of checks which should be ignored
         PodReadyPreCheck: # Checks that all handling pods are in 'Running' state before service procedure execution
           enabled: true   # Flag to enable or disable check. By default all checks are enabled
-          match: "*"      # Regexp for processing objects in Golang format. Select all processing objects if empty
+          match: ".*"     # Regexp for processing objects in Golang format. Select all processing objects if empty
         PodReadyPostCheck: # Checks that stateless handling pods are in 'Running' state after service procedure execution
           enabled: true    # Flag to enable or disable check. By default all checks are enabled
-          match: "*"       # Regexp for processing objects in Golang format. Select all processing objects if empty
+          match: ".*"      # Regexp for processing objects in Golang format. Select all processing objects if empty
         SimultaneousSPPreCheck: # Checks that there is no another active service procedure before procedure execution
           enabled: true         # Flag to enable or disable check. By default all checks are enabled
     # Permanent Maintenance Mode service procedure configuration
@@ -33,10 +33,10 @@ data:
       bypass:             # List of checks which should be ignored
         PodReadyPreCheck: # Checks that all handling pods are in 'Running' state before service procedure execution
           enabled: true   # Flag to enable or disable check. By default all checks are enabled
-          match: "*"      # Regexp for processing objects in Golang format. Select all processing objects if empty
+          match: ".*"     # Regexp for processing objects in Golang format. Select all processing objects if empty
         PodReadyPostCheck: # Checks that all handling pods are in 'Running' state after service procedure execution
           enabled: true    # Flag to enable or disable check. By default all checks are enabled
-          match: "*"       # Regexp for processing objects in Golang format. Select all processing objects if empty
+          match: ".*"      # Regexp for processing objects in Golang format. Select all processing objects if empty
         SimultaneousSPPreCheck: # Checks that there is no another active service procedure before procedure execution
           enabled: true         # Flag to enable or disable check. By default all checks are enabled
         EnoughCapacityPreCheck: # Checks that there is enough capacity to move data from removing disk before service procedure execution
@@ -46,10 +46,10 @@ data:
       bypass:             # List of checks which should be ignored
         PodReadyPreCheck: # Checks that all handling pods are in 'Running' state before service procedure execution
           enabled: true   # Flag to enable or disable check. By default all checks are enabled
-          match: "*"      # Regexp for processing objects in Golang format. Select all processing objects if empty
+          match: ".*"     # Regexp for processing objects in Golang format. Select all processing objects if empty
         PodReadyPostCheck: # Checks that all handling pods are in 'Running' state after service procedure execution
           enabled: true    # Flag to enable or disable check. By default all checks are enabled
-          match: "*"       # Regexp for processing objects in Golang format. Select all processing objects if empty
+          match: ".*"      # Regexp for processing objects in Golang format. Select all processing objects if empty
         SimultaneousSPPreCheck: # Checks that there is no another active service procedure before procedure execution
           enabled: true         # Flag to enable or disable check. By default all checks are enabled
         EnoughCapacityPreCheck: # Checks that there is enough capacity to move data from removing disk before service procedure execution

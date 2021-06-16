@@ -38,7 +38,7 @@ objectscaleGateway:
 
     tls:
       # Type of certificate signing: SelfSigned, KubernetesSigned, or ExternallySigned
-      certificateType: KubernetesSigned
+      certificateType: SelfSigned
 
       certificate: {}
       # publicKey: < server side customer certificate>

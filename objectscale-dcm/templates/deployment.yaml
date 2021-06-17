@@ -67,10 +67,16 @@ spec:
             - name: config
               mountPath: /opt/storageos/conf/dcm-log4j2.xml
               subPath: dcm-log4j2.xml
+            - name: encryptionkey
+              mountPath: /opt/secure/encryptionkey
+              readOnly: true
       volumes:
         - name: log
           emptyDir: {}
         - name: config
           configMap:
             name: dcm-log-config
+        - name: encryptionkey
+          secret:
+            secretName: {{ .Release.Name }}-dcm-encryption-key
 

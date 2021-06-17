@@ -129,6 +129,7 @@ chmod +x vmware/$vsphere_script
 mkdir -p temp_package/yaml/u3
 
 (cd temp_package/yaml; cat logging-injector.yaml objectscale-manager.yaml kahm.yaml decks.yaml > u3/objectscale-vsphere-service-src.yaml )
+cat vmware/vs7u3-persistence-svc-config.yaml >> temp_package/yaml/u3/objectscale-vsphere-service-src.yaml
 vmware/$vsphere_script -c temp_package/yaml/objectscale-crd.yaml -p temp_package/yaml/u3/objectscale-vsphere-service-src.yaml -v $objs_ver --display-name "$label" \
   --description "$objs_desc" -e dellemc_eula.txt -o temp_package/yaml/u3/objectscale-${objs_ver}-vsphere-service.yaml $svc_vs7u3_id
 
@@ -137,6 +138,7 @@ then
     echo "error: unable to generate ObjectScale WCP plugin"
     exit 1
 fi
+
 set +x
 
 ## Template the service_id value

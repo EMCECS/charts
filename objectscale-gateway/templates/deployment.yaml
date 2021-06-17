@@ -55,6 +55,8 @@ spec:
             mountPath: "/etc/nginx/ssl/external"
           - name: tls-secrets-internal
             mountPath: "/etc/nginx/ssl/internal"
+          - name: location-config-volume
+            mountPath: "/etc/nginx/extra-locations"
         livenessProbe:
           exec:
             command:
@@ -71,4 +73,7 @@ spec:
       - name: tls-secrets-internal
         secret:
           secretName: objectscale-gateway-internal-tls
+      - name: location-config-volume
+        configMap:
+          name: {{ include "objectscaleGateway.fullname" . }}-location-config
 

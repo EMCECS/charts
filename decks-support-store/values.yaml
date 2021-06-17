@@ -19,12 +19,12 @@ global:
   # storageClassName - set global.storageClassName
 
 # The default docker tag and pull policy for the DECKS
-tag: 2.74.0
+tag: 2.75.0
 pullPolicy: IfNotPresent
 
 image:
   repository: decks-support-store
-  tag: 2.74.0-208.02413c7 # rfw-update-this decks-support-store-image
+  tag: 2.75.0-213.bfdd823 # rfw-update-this decks-support-store-image
   version: 2.0.0
   pullPolicy: IfNotPresent
 persistentVolume:

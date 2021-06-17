@@ -7,3 +7,6 @@
         # ERROR
         - label: SymptomID
           value: OBJST-12006
+  notifiers:
+    - objectscale-snmp-notifier
+

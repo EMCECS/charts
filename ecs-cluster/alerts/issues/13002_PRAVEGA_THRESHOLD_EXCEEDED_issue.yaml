@@ -6,3 +6,6 @@
     - matchon:
         - label: SymptomID
           value: OBJST-13002
+  notifiers:
+    - objectscale-snmp-notifier
+

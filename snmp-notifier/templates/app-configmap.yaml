@@ -10,6 +10,16 @@ metadata:
         com.dellemc.kahm.subscribed: "true"
 data:
     eventRules: |-
+      issueRules:
+      - description: "SNMP connection issue"
+        name: SNMPConnection
+        issueCategory: Auto
+        matchOnList:
+         - matchon:
+           - label: SymptomID
+             value: SNMPNOT-1 
+        notifiers:
+
       rules:
       - description: test SNMP TRAP
         matchon:
@@ -20,4 +30,12 @@ data:
         notifiers:
         - {{.Values.product}}-snmp-notifier
     eventRemedies: |
+      symptoms:
+        - symptomid: SNMPNOT-1
+          description: Dell EMC SNMP Notifier is not able to send TRAPs due to connection or authetication failure for product {{.Values.product}}
+          remedies:
+            - Check if the SNMP user is configured with the correct authetication parameters
+            - Check if the engineID is matching with the engineID configured for the user in SNMP manager
+            - Check if the SNMP notifier is configured with the correct SNMP manager host/IP address and port
+            - Check if the community string is configured correct in case of v2c SNMP manager
     health: |-

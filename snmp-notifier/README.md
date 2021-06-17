@@ -85,6 +85,7 @@ If securityLevel is "authpriv", then the following parameters are mandatory in a
 ## TEST-TRAPS
 In order to test SNMP TRAPs, a test-trap event need to generate in the same namepace where the snmp-notifier is configured. The following command need to execute in order to send SNMP TEST TRAP.
 
+ #cat << EOF |kubectl create -f -
  ```
  apiVersion: v1
  involvedObject:
@@ -104,25 +105,24 @@ In order to test SNMP TRAPs, a test-trap event need to generate in the same name
  type: Normal
 
  Example with release-name: snmp-notifier and product: objectscale
-
-    cat <<EOF | kubectl create -f -
-> apiVersion: v1
-> involvedObject:
->   apiVersion: app.k8s.io/v1beta1
->   kind: Application
->   name: snmp-notifier-objectscale-snmp-notifier
->   namespace: default
-> kind: Event
-> message: test SNMP trap
-> metadata:
->   generateName: snmp-testtrap-
->   labels:
->      SymptomID: "TEST-TRAP"
-> reason: TestTrap
-> source:
->   component: snmp-testtrap
-> type: Normal
->
+cat << EOF |kubectl create -f -
+>  apiVersion: v1
+>  involvedObject:
+>    apiVersion: app.k8s.io/v1beta1
+>    kind: Application
+>    name: snmp-notifier-objectscale-snmp-notifier
+>    namespace: default
+>  kind: Event
+>  message: test SNMP trap
+>  metadata:
+>    generateName: snmp-testtrap-
+>    labels:
+>       SymptomID: "TEST-TRAP"
+>  reason: TestTrap
+>  source:
+>    component: snmp-testtrap
+>  type: Normal
+> 
 > EOF
 
  ```

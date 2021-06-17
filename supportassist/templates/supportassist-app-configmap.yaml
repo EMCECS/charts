@@ -24,6 +24,8 @@ data:
           - matchon:
             - label: SymptomID
               value: DECKS-SA-1023
+         notifiers:
+          - {{.Values.product}}-snmp-notifiers
     eventRemedies: |-
       symptoms:
         - symptomid: DECKS-SA-1023

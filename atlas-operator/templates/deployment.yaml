@@ -16,6 +16,8 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "atlas-operator.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/component: {{ include "atlas-operator.name" . }}
+        component: atlas-operator
         release: {{ .Release.Name }}
 {{ include "common-monitoring-lib.logging-inject-labels" . | indent 8 }}
 {{ include "common-lib.labels-sp-integrated-all" . | indent 8}}

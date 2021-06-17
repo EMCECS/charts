@@ -8,6 +8,7 @@ spec:
   replicas: {{ coalesce .Values.atlas.replicaCount (index (dict "Large" 3) (title .Values.global.performanceProfile)) 1 }}
   labels:
     release: {{ .Release.Name }}
+    component: atlas
 {{ include "common-monitoring-lib.logging-inject-labels" . | indent 4 }}
 {{ include "common-lib.labels-sp-integrated-all" . | indent 4}}
   {{- if .Values.global.registrySecret }}

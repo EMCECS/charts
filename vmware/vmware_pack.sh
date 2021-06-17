@@ -135,7 +135,7 @@ vs7u2_plugin_script="temp_package/scripts/deploy-objectscale-plugin.sh"
 ## Template the service_id value
 sed "${sed_inplace[@]}" "s/SERVICE_ID/${service_id}/" $vs7u2_plugin_script
 
-cat vmware/common_funcs.sh vmware/deploy-main.sh temp_package/yaml/${vsphere7_plugin_file} >> $vs7u2_plugin_script
+cat vmware/common_funcs.sh vmware/deploy-vs7u2-main.sh temp_package/yaml/${vsphere7_plugin_file} >> $vs7u2_plugin_script
 
 echo "EOF" >> $vs7u2_plugin_script
 
@@ -169,13 +169,13 @@ then
 fi
 
 chmod +x vmware/$vsphere_script
-mkdir -p temp_package/u3/tmp
+mkdir -p temp_package/vs7u3/tmp
 
-(cd temp_package/yaml; cat logging-injector.yaml objectscale-manager.yaml kahm.yaml decks.yaml > ../u3/tmp/objectscale-vsphere-service-src.yaml )
-sed "${sed_inplace[@]}" "s/dellemc-${service_id}/$svc_vs7u3_id/g" temp_package/u3/tmp/objectscale-vsphere-service-src.yaml
+(cd temp_package/yaml; cat logging-injector.yaml objectscale-manager.yaml kahm.yaml decks.yaml > ../vs7u3/tmp/objectscale-vsphere-service-src.yaml )
+sed "${sed_inplace[@]}" "s/dellemc-${service_id}/$svc_vs7u3_id/g" temp_package/vs7u3/tmp/objectscale-vsphere-service-src.yaml
 
 ## Append the 7.0 U3 Persistence Service Config to our yaml.  Eventually the 'create-vsphere-app.py' above will support this
-cat <<EOP >> temp_package/u3/tmp/objectscale-vsphere-service-src.yaml
+cat <<EOP >> temp_package/vs7u3/tmp/objectscale-vsphere-service-src.yaml
 ---
 #PersistenceServiceConfiguration
 apiVersion: psp.wcp.vmware.com/v1beta1
@@ -189,8 +189,8 @@ spec:
 ---
 EOP
 
-vmware/$vsphere_script $svc_vs7u3_crd_opts -p temp_package/u3/tmp/objectscale-vsphere-service-src.yaml -v $objs_ver --display-name "$label" \
-  --description "$objs_desc" -e dellemc_eula.txt -o temp_package/u3/objectscale-${objs_ver}-vsphere-service.yaml $svc_vs7u3_id
+vmware/$vsphere_script $svc_vs7u3_crd_opts -p temp_package/vs7u3/tmp/objectscale-vsphere-service-src.yaml -v $objs_ver --display-name "$label" \
+  --description "$objs_desc" -e dellemc_eula.txt -o temp_package/vs7u3/objectscale-${objs_ver}-vsphere-service.yaml $svc_vs7u3_id
 
 if [ $? -ne 0 ]
 then
@@ -200,7 +200,7 @@ fi
 
 ## Now generating U3 preinstall script until OBSDEF-7223 is fixed.
 
-vs7u3_pre_install_script="temp_package/u3/objectscale-pre-install.sh"
+vs7u3_pre_install_script="temp_package/vs7u3/objectscale-pre-install.sh"
 cp vmware/deploy-objectscale-plugin.sh $vs7u3_pre_install_script
 cat vmware/common_funcs.sh >> $vs7u3_pre_install_script
 

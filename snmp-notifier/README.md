@@ -66,7 +66,7 @@ In order to setup SNMP v3 notifier, the following configuration parameters are r
  3. securityLevel
  4. engineID
 
-If securityLevel is "auth", then the following parameters are mandatory in addtion to the above
+If securityLevel is "auth", then the following parameters are mandatory in addition to the above
  1. authPass
  2. authProtocol
 

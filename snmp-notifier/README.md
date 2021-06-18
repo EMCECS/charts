@@ -70,7 +70,7 @@ If securityLevel is "auth", then the following parameters are mandatory in addti
  1. authPass
  2. authProtocol
 
-If securityLevel is "authpriv", then the following parameters are mandatory in addtion to the above
+If securityLevel is "authpriv", then the following parameters are mandatory in addition to the above
  1. privPass
  2. privProtocol
 

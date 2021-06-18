@@ -1,0 +1,8 @@
+- description: "Fault Domain is not available or degraded"
+  name: "FAULT_DOMAIN_UNAVAILABLE"
+  defaultAutoClearTimeOut: 3
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        - label: SymptomID
+          value: OBJST-13001

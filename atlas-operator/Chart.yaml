@@ -1,8 +1,8 @@
 ---
 apiVersion: v2
 name: atlas-operator
-version: "0.31.0"
-appVersion: "0.13.0"
+version: "0.32.0"
+appVersion: "0.14.0"
 description: |
   Atlas operator deploys a custom resource for an Atlas cluster and a
   pod to provision Atlas clusters.
@@ -13,7 +13,7 @@ dependencies:
   - name: common-monitoring-lib
     repository: https://asdrepo.isus.emc.com/artifactory/objectscale-helm-build/
     # rfw-update-next common-monitoring-lib-helm-chart
-    version: 3.7.0-1209.a2bfd98b # no_auto_change__monitoring_auto_change
+    version: 3.7.0-1222.f9102d7c # no_auto_change__monitoring_auto_change
   - name: common-lib
-    version: 0.74.0 # no_auto_change__flex_auto_change
+    version: 0.75.0 # no_auto_change__flex_auto_change
     repository: file://../common-lib

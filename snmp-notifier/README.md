@@ -83,7 +83,7 @@ If securityLevel is "authpriv", then the following parameters are mandatory in a
     ```
 
 ## TEST-TRAPS
-In order to test SNMP TRAPs, a test-trap event need to generate in the same namepace where the snmp-notifier is configured. The following command need to execute in order to send SNMP TEST TRAP.
+In order to test SNMP traps, use the following commands to generate a test trap event for kahm: 
 
  #cat << EOF |kubectl create -f -
  ```

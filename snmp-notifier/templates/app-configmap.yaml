@@ -17,7 +17,7 @@ data:
         matchOnList:
          - matchon:
            - label: SymptomID
-             value: SNMPNOT-1 
+             value: SNMPNOTI-1000
         notifiers:
 
       rules:
@@ -31,11 +31,12 @@ data:
         - {{.Values.product}}-snmp-notifier
     eventRemedies: |
       symptoms:
-        - symptomid: SNMPNOT-1
-          description: Dell EMC SNMP Notifier is not able to send TRAPs due to connection or authetication failure for product {{.Values.product}}
+        - symptomid: SNMPNOT-1000
+          description: Dell EMC SNMP Notifier is unable to send traps due to connection or authetication failure for the product {{.Values.product}}
           remedies:
-            - Check if the SNMP user is configured with the correct authetication parameters
-            - Check if the engineID is matching with the engineID configured for the user in SNMP manager
-            - Check if the SNMP notifier is configured with the correct SNMP manager host/IP address and port
-            - Check if the community string is configured correct in case of v2c SNMP manager
+            - Verify the SNMP credentials are configured with the correct authetication values
+            - Verify the engineID matches with the engineID configured for the product in the SNMP server
+            - Verify the product SNMP notifier is configured with the correct host/IP address and port
+            - Verify connectivity to the SNMP server, check firewalls, network routing etc...
+            - Verify the SNMP v2c configuration has the correct community string
     health: |-

@@ -3,7 +3,7 @@ deploying and upgrading Dell Technologies KAHM SNMP Notifier
 
 Your release is named {{ .Release.Name }}.
 
-Use the helm install command below to deploy dell-ese
+Use the helm install command below to deploy snmp-notifier 
 
   $ helm install snmp-notifier <repository name>/snmp-notifier
 

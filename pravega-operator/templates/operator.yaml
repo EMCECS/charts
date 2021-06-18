@@ -38,10 +38,18 @@ spec:
         - pravega-operator
         {{- if .Values.testmode.enabled }}
         args: ["-test", "-webhook=false"]
+        {{- else }}
+        args: ["-webhook=false"]
         {{- end }}
         env:
         - name: WATCH_NAMESPACE
-          value: "{{ .Release.Namespace }}"
+          {{- if eq .Values.global.watchAllNamespaces true}}
+          value: ""
+          {{- else }}
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+          {{- end }}
         - name: POD_NAME
           valueFrom:
             fieldRef:

@@ -40,17 +40,6 @@
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
 
-        <RollingFile name="Z" fileName="${sys:product.home}/logs/objectsvc-logbasedmetering.log"
-                     filePattern="${sys:product.home}/logs/objectsvc-logbasedmetering.log.%i">
-            <PatternLayout>
-                <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
-            </PatternLayout>
-            <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
-            </Policies>
-            <DefaultRolloverStrategy max="1"/>
-        </RollingFile>
-
         <RollingFile name="M" fileName="${sys:product.home}/logs/objectsvc-stats.log"
                      filePattern="${sys:product.home}/logs/objectsvc-stats.log.%i">
             <PatternLayout>
@@ -88,17 +77,6 @@
                      filePattern="${sys:product.home}/logs/objectsvc-monitor.log.%i">
             <PatternLayout>
                 <Pattern>%d{ISO8601} [%t] %5p  %F (line %L) %m%n%ex</Pattern>
-            </PatternLayout>
-            <Policies>
-                <SizeBasedTriggeringPolicy size="5 MB"/>
-            </Policies>
-            <DefaultRolloverStrategy max="1"/>
-        </RollingFile>
-
-        <RollingFile name="L" fileName="${sys:product.home}/logs/objectsvc-chunk-lifecycle.log"
-                     filePattern="${sys:product.home}/logs/objectsvc-chunk-lifecycle.log.%i">
-            <PatternLayout>
-                <Pattern>%d{ISO8601} %m%n%ex</Pattern>
             </PatternLayout>
             <Policies>
                 <SizeBasedTriggeringPolicy size="5 MB"/>
@@ -173,15 +151,9 @@
         <Async name="asyncT" includeLocation="true">
             <AppenderRef ref="T"/>
         </Async>
-        <Async name="asyncL" includeLocation="true">
-            <AppenderRef ref="L"/>
-        </Async>
         <Async name="asyncD" includeLocation="true">
             <AppenderRef ref="D"/>
         </Async>
-<!--        <Async name="asyncC" includeLocation="true">
-            <AppenderRef ref="C"/>
-        </Async> -->
         <Async name="asyncS" includeLocation="true">
             <AppenderRef ref="S"/>
         </Async>
@@ -231,10 +203,10 @@
             <AppenderRef ref="asyncP"/>
             <AppenderRef ref="asyncE" level="ERROR"/>
         </Logger>
-        <Logger name="com.emc.storageos.data.monitoring.MonitoringWorker" level="INFO">
+        <Logger name="com.emc.storageos.data.monitoring.MonitoringWorker" level="INFO" additivity="false">
             <AppenderRef ref="asyncM"/>
         </Logger>
-        <Logger name="com.emc.storageos.data.object.impl.buffer" level="INFO">
+        <Logger name="com.emc.storageos.data.object.impl.buffer" level="INFO" additivity="false">
             <AppenderRef ref="asyncM"/>
         </Logger>
         <Logger name="com.emc.storageos.data.object.ownership.impl" level="INFO" additivity="false">
@@ -257,16 +229,8 @@
             <AppenderRef ref="asyncG"/>
             <AppenderRef ref="asyncE" level="ERROR"/>
         </Logger>
-        <Logger name="com.emc.storageos.data.object.LogBasedMetering" level="INFO" additivity="false">
-            <AppenderRef ref="Z"/>
-            <AppenderRef ref="asyncE" level="ERROR"/>
-        </Logger>
         <Logger name="com.emc.storageos.data.object.bplustree.gc" level="INFO" additivity="false">
             <AppenderRef ref="asyncG"/>
-            <AppenderRef ref="asyncE" level="ERROR"/>
-        </Logger>
-        <Logger name="com.emc.storageos.data.object.impl.gc.ChunkLifecycleLogger" level="INFO" additivity="false">
-            <AppenderRef ref="asyncL"/>
             <AppenderRef ref="asyncE" level="ERROR"/>
         </Logger>
 
@@ -275,7 +239,7 @@
             <AppenderRef ref="asyncE" level="ERROR"/>
         </Logger>
 
-        <Logger name="org.apache.http.impl.conn.PoolingHttpClientConnectionManager" level="DEBUG" additivity="false">
+        <Logger name="org.apache.http.impl.conn.PoolingHttpClientConnectionManager" level="INFO" additivity="false">
             <AppenderRef ref="asyncR"/>
             <AppenderRef ref="asyncE" level="ERROR"/>
         </Logger>

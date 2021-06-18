@@ -69,3 +69,16 @@ spec:
             failureThreshold: {{ .Values.fedsvc.readinessProbe.failureThreshold | default 3 }}
             periodSeconds: {{ .Values.fedsvc.readinessProbe.periodSeconds | default 60 }}
             initialDelaySeconds: {{ .Values.fedsvc.readinessProbe.initialDelaySeconds | default 60 }}
+        volumeMounts:
+        - name: log
+          mountPath: /opt/storageos/logs
+        - name: config
+          mountPath: /opt/storageos/conf/fedsvc-log4j2.xml
+          subPath: fedsvc-log4j2.xml
+
+      volumes:
+        - name: log
+          emptyDir: {}
+        - name: config
+          configMap:
+            name: fedsvc-log-config

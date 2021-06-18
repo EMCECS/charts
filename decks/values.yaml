@@ -20,7 +20,7 @@ global:
   platform: Default
 
 # The default docker tag and pull policy for the DECKS
-tag: 2.74.0
+tag: 2.75.0
 pullPolicy: IfNotPresent
 
 # The number of replicas for the DECKS deployment
@@ -29,7 +29,7 @@ replicaCount: 1
 # The image configured for the DECKS
 image:
   repository: decks
-  tag: 2.74.0-208.02413c7 # rfw-update-this decks-image
+  tag: 2.75.0-213.bfdd823 # rfw-update-this decks-image
   # pullPolicy: IfNotPresent
 
 ## Allow callers to bypass creating app resource
@@ -78,3 +78,10 @@ supportStore:
   gcPollingInterval: 720
   # 15 days old files from decks-support-store should be removed
   gcFileAgeToRemove: 15
+
+# KAHM health check configuration
+healthChecks:
+  preUpdate:
+    image:
+      repository: decks-pre-update
+      tag: 2.75.0-213.bfdd823 # rfw-update-this decks-pre-update-image

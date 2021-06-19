@@ -20,6 +20,7 @@ Common labels
 app.kubernetes.io/name: {{ include "atlas-operator.name" . }}
 helm.sh/chart: {{ include "atlas-operator.chart" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/component: {{ include "atlas-operator.name" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}

@@ -1,0 +1,17 @@
+---
+apiVersion: kahm.emcecs.github.com/v1beta1
+kind: Notifier
+metadata:
+  name: {{ include "notifier.fullName" .}}
+  namespace: {{.Release.Namespace}}
+  labels:
+    kahm-notifier: {{ include "notifier.name" .}} 
+{{ include "notifier.labels" . | indent 4 }}
+spec:
+  hostname: {{ include "notifier.serviceName" .}}
+  port: {{.Values.grpc.servicePort}}
+  grpcConnTimeout: {{.Values.grpc.grpcConnTimeout}}
+  grpcRetries: {{.Values.grpc.grpcRetries}}
+{{- if eq .Values.enabled false }}
+  disable: true
+{{- end }}

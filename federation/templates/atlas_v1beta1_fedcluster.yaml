@@ -23,7 +23,10 @@ spec:
         requests:
           storage: {{ required "atlas.persistence.size is required" .Values.atlas.persistence.size }}
   labels:
+    component: atlas
 {{ include "common-lib.labels-sp-integrated-all" . | indent 4}}
+{{ include "common-monitoring-lib.logging-inject-labels" . | indent 4 }}
+    release: "{{ .Release.Name }}"
   pod:
     annotations:
 {{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 6}}

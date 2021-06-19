@@ -88,5 +88,5 @@ spec:
             secretName: {{ .Release.Name }}-dcm-encryption-key
         - name: mgmt-shared-secret
           secret:
-            secretName: mgmt-serviclogin-shared-secret
+            secretName: mgmt-servicelogin-shared-secret
 

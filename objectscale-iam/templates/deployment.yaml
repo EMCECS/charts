@@ -88,4 +88,4 @@ spec:
           secretName: objectscale-iam-tls
       - name: mgmt-shared-secret
         secret:
-          secretName: mgmt-serviclogin-shared-secret
+          secretName: mgmt-servicelogin-shared-secret

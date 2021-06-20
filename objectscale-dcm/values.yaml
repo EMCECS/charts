@@ -23,6 +23,12 @@ livenessProbe:
   probePath: /dcmhealthcheck
 readinessProbe:
   probePath: /dcmhealthcheck
+# Dcm memory request and limits
+resources:
+  limits:
+    memory: 512Mi
+  requests:
+    memory: 512Mi
 
 # Atlas Cluster configuration for DCM persistent Storage
 atlas:
@@ -36,3 +42,9 @@ atlas:
 
   # Define the replica if you want to explicitly set it
   replicaCount: 3
+  # DCM Atlas resource requests and limits
+  resources:
+    limits:
+      memory: 200Mi
+    requests:
+      memory: 100Mi

@@ -26,6 +26,11 @@ spec:
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
+          resources:
+            limits:
+              memory: {{ .Values.resources.limits.memory }}
+            requests:
+              memory: {{ .Values.resources.requests.memory }}
           env:
           - name: SPRING_PROFILES_ACTIVE
             value: "atlas,flex,dns"

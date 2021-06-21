@@ -117,7 +117,7 @@ data:
 
             location @grafana_auth_err {
                 absolute_redirect off;
-                return 302 /;
+                return 302 /?action=logoff;
             }
 
             location /validate_token_for_grafana {

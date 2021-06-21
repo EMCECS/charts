@@ -26,6 +26,11 @@ spec:
       resources:
         requests:
           storage: {{ required "atlas.persistence.size is required" .Values.atlas.persistence.size }}
+  resources:
+    limits:
+      memory: {{ .Values.atlas.resources.limits.memory }}
+    requests:
+      memory: {{ .Values.atlas.resources.requests.memory }}
   pod:
     annotations:
 {{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 6}}

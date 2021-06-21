@@ -135,7 +135,7 @@ data:
                 proxy_set_header X-SDS-AUTH-TOKEN $cookie_osauthtoken;
                 proxy_set_header X-ALLOW-ROLES "SYSTEM_ADMIN,SYSTEM_MONITOR";
                 proxy_set_header Content-Length "";
-                proxy_pass https://$fedsvcname:$fedsvcport/mgmt/validate;
+                proxy_pass http://$fedsvcname:$fedsvcport/mgmt/validate;
             }
 
             location /invalidate_token_for_grafana {
@@ -148,7 +148,7 @@ data:
                 # take token value from cookie with name OSAuthToken and set it as header
                 proxy_set_header X-SDS-AUTH-TOKEN $cookie_osauthtoken;
                 proxy_set_header Content-Length "";
-                proxy_pass https://$fedsvcname:$fedsvcport/mgmt/logout;
+                proxy_pass http://$fedsvcname:$fedsvcport/mgmt/logout;
             }
 
             location @logout_grafana {

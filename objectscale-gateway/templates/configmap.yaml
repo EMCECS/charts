@@ -1,0 +1,37 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "objectscaleGateway.fullname" . }}-location-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+{{- include "objectscaleGateway.labels" . | nindent 4 }}
+data:
+{{- if .Values.global.monitoring.enabled }}
+  location_flux.conf: |
+    # handle ObjectScale fluxd
+    location = /flux/ {
+{{- include "objectscaleGateway.dnsResolver" . | nindent 6 }}
+      auth_request /validate_token;
+      rewrite /flux/ /api/external/v3/query break;
+      proxy_pass http://{{ .Release.Name }}-fluxd.{{ .Release.Namespace }}.svc.cluster.local:8093;
+    }
+
+    # handle object store fluxd by namespace and object store name
+    location ~* ^/flux/[a-z0-9]([-a-z0-9]*[a-z0-9])?/[a-z0-9]([-a-z0-9]*[a-z0-9])?/$ {
+{{- include "objectscaleGateway.dnsResolver" . | nindent 6 }}
+      auth_request /validate_token;
+      rewrite /flux/([a-z0-9-]+)/([a-z0-9-]+)/ /api/external/v3/query break;
+      proxy_pass http://$2-fluxd.$1.svc.cluster.local:8093;
+    }
+
+    location /validate_token {
+      internal;
+      proxy_buffering            on;
+      proxy_pass http://fedsvc/mgmt/validateToken;
+      proxy_pass_request_body off;
+      proxy_set_header Content-Length "";
+      proxy_set_header Accept "application/json";
+      proxy_set_header X-ALLOW-ROLES "SYSTEM_ADMIN,SYSTEM_MONITOR";
+    }
+{{- end }}

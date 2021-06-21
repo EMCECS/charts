@@ -1,0 +1,79 @@
+---
+# Default values for dellemc-supportassist-ese
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# These global settings relate to supportassist-ese
+global:
+  # Name of a Kubernetes secret with Docker credentials for the private registry
+  registrySecret: dockerhub-registry-secret
+
+  # The registry hosting containers for Dell based k8s products
+  registry: emccorp
+
+# The default docker tag and pull policy for dell-supportassist-ese
+tag: 2.76.0
+pullPolicy: IfNotPresent
+
+# enabled - true - enable snmp-notifier false - disable it
+enabled: true
+
+# productName: objectscale - required field to pass in using --set
+
+# The image configured for snmp notifier
+image:
+  repository: snmp-notifier
+  tag: # rfw-update-this snmp-notifier-image
+  # pullPolicy: Always
+# the GRPC setting between KAHM and snmp-notifier
+grpc:
+  servicePort: 50051
+  grpcConnTimeout: 5
+  grpcRetries: 3
+
+# Create app resource thru helm
+createAppResource: true
+
+# snmpServer- required field to pass using --set
+snmpServer:
+  # snmp server host/ip address - mandatory parameter
+  # host: 10.11.12.13
+  # snmp server port
+  port: 162
+  # v2c or v3
+  version: "v2c"
+  # needed only if v3
+  # username: "snmpv3_objectscale_md5_des" - this is mandatory argument for v3
+  # needed only if v3: "none", "auth" - authentication only , "authpriv" - authentication + privacy - this is mandatory argument for v3
+  # securityLevel: "authpriv"
+  # needed only if v3: "MD5" or "SHA"
+  # authProtocol: "MD5"
+  # needed only if v3
+  # authPass: "admin1234"
+  # needed only if v3: privProtocol: "DES" or "AES"
+  # privProtocol: "DES"
+  # needed only if v3
+  # privPass: "admin1234"
+  # needed only if v3 -  A hexadecimal value of at least 10 characters. - this is mandatory argument for v3
+  # engineID: "3AFE3256879867ABCD"
+  # needed only if v2c
+  communityString: "public"
+
+# We usually recommend not to specify default resources and to leave this as a
+# conscious choice for the user. This also increases chances charts run on
+# environments with little resources, such as Minikube. If you do want to
+# specify resources, uncomment the following lines, adjust them as necessary,
+# and remove the curly braces after 'resources:'.
+resources: {}
+# limits:
+#  cpu: 100m
+#  memory: 128Mi
+# requests:
+#  cpu: 100m
+#  memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

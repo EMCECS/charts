@@ -1,0 +1,441 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "examples": [
+        {
+            "global": {
+                "registrySecret": "dockerhub-registry-secret",
+                "registry": "emccorp"
+            },
+            "tag": "2.76.0",
+            "pullPolicy": "IfNotPresent",
+            "enabled": true,
+            "image": {
+                "repository": "snmp-notifier",
+                "tag": "2.76.0",
+                "pullPolicy": "Always"
+            },
+            "grpc": {
+                "servicePort": 50051,
+                "grpcConnTimeout": 5,
+                "grpcRetries": 3
+            },
+            "createAppResource": true,
+            "snmpServer": {
+                "host": "10.11.12.13",
+                "port": 162,
+                "version": "v2c",
+                "username": "xxx",
+                "securityLevel": "authpriv",
+                "authProtocol": "MD5",
+                "authPass": "yyyyyy",
+                "privProtocol": "DES",
+                "privPass": "yyyyyy",
+                "engineID": "0504030201FEADDF",
+                "communityString": "public"
+            },
+            "resources": {},
+            "nodeSelector": {},
+            "tolerations": [],
+            "affinity": {}
+        }
+    ],
+    "required": [
+        "global",
+        "tag",
+        "pullPolicy",
+        "enabled",
+        "image",
+        "grpc",
+        "createAppResource",
+        "snmpServer",
+        "resources",
+        "nodeSelector",
+        "tolerations",
+        "affinity"
+    ],
+    "properties": {
+        "global": {
+            "$id": "#/properties/global",
+            "type": "object",
+            "title": "The global schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "registrySecret": "dockerhub-registry-secret",
+                    "registry": "emccorp"
+                }
+            ],
+            "required": [
+                "registry"
+            ],
+            "properties": {
+                "registrySecret": {
+                    "$id": "#/properties/global/properties/registrySecret",
+                    "type": "string",
+                    "title": "The registrySecret schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "dockerhub-registry-secret"
+                    ]
+                },
+                "registry": {
+                    "$id": "#/properties/global/properties/registry",
+                    "type": "string",
+                    "title": "The registry schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "emccorp"
+                    ]
+                }
+            },
+            "additionalProperties": true
+        },
+        "tag": {
+            "$id": "#/properties/tag",
+            "type": "string",
+            "title": "The tag schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "2.76.0"
+            ]
+        },
+        "pullPolicy": {
+            "$id": "#/properties/pullPolicy",
+            "type": "string",
+            "title": "The pullPolicy schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "IfNotPresent"
+            ],
+            "pattern": "^(Always|IfNotPresent)$"
+        },
+        "enabled": {
+            "$id": "#/properties/enabled",
+            "type": "boolean",
+            "title": "The enabled schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": false,
+            "examples": [
+                true
+            ]
+        },
+        "image": {
+            "$id": "#/properties/image",
+            "type": "object",
+            "title": "The image schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "repository": "snmp-notifier",
+                    "tag": "2.76.0",
+                    "pullPolicy": "Always"
+                }
+            ],
+            "required": [
+            ],
+            "properties": {
+                "repository": {
+                    "$id": "#/properties/image/properties/repository",
+                    "type": "string",
+                    "title": "The repository schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "snmp-notifier"
+                    ]
+                },
+                "tag": {
+                    "$id": "#/properties/image/properties/tag",
+                    "type": "string",
+                    "title": "The tag schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "2.76.0"
+                    ]
+                },
+                "pullPolicy": {
+                    "$id": "#/properties/image/properties/pullPolicy",
+                    "type": "string",
+                    "title": "The pullPolicy schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "Always"
+                    ],
+                    "pattern": "^(Always|IfNotPresent)$"
+                }
+            },
+            "additionalProperties": true
+        },
+        "grpc": {
+            "$id": "#/properties/grpc",
+            "type": "object",
+            "title": "The grpc schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "servicePort": 50051,
+                    "grpcConnTimeout": 5,
+                    "grpcRetries": 3
+                }
+            ],
+            "required": [
+                "servicePort",
+                "grpcConnTimeout",
+                "grpcRetries"
+            ],
+            "properties": {
+                "servicePort": {
+                    "$id": "#/properties/grpc/properties/servicePort",
+                    "type": "integer",
+                    "title": "The servicePort schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": 0,
+                    "examples": [
+                        50051
+                    ]
+                },
+                "grpcConnTimeout": {
+                    "$id": "#/properties/grpc/properties/grpcConnTimeout",
+                    "type": "integer",
+                    "title": "The grpcConnTimeout schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": 0,
+                    "examples": [
+                        5
+                    ]
+                },
+                "grpcRetries": {
+                    "$id": "#/properties/grpc/properties/grpcRetries",
+                    "type": "integer",
+                    "title": "The grpcRetries schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": 0,
+                    "examples": [
+                        3
+                    ]
+                }
+            },
+            "additionalProperties": true
+        },
+        "createAppResource": {
+            "$id": "#/properties/createAppResource",
+            "type": "boolean",
+            "title": "The createAppResource schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": false,
+            "examples": [
+                true
+            ]
+        },
+        "snmpServer": {
+            "$id": "#/properties/snmpServer",
+            "type": "object",
+            "title": "The snmpServer schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "host": "10.11.12.13",
+                    "port": 162,
+                    "version": "v2c",
+                    "username": "xxx",
+                    "securityLevel": "authpriv",
+                    "authProtocol": "MD5",
+                    "authPass": "yyyyyy",
+                    "privProtocol": "DES",
+                    "privPass": "yyyyyy",
+                    "engineID": "0504030201FEADDF",
+                    "communityString": "public"
+                }
+            ],
+            "required": [
+                "host",
+                "port",
+                "version"
+            ],
+            "properties": {
+                "host": {
+                    "$id": "#/properties/snmpServer/properties/host",
+                    "type": "string",
+                    "title": "The host schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "10.11.12.13"
+                    ]
+                },
+                "port": {
+                    "$id": "#/properties/snmpServer/properties/port",
+                    "type": "integer",
+                    "title": "The port schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": 0,
+                    "examples": [
+                        162
+                    ]
+                },
+                "version": {
+                    "$id": "#/properties/snmpServer/properties/version",
+                    "type": "string",
+                    "title": "The version schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "v2c"
+                    ],
+                    "pattern": "^(v2c|v3)$"
+                },
+                "username": {
+                    "$id": "#/properties/snmpServer/properties/username",
+                    "type": "string",
+                    "title": "The username schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "xxx"
+                    ]
+                },
+                "securityLevel": {
+                    "$id": "#/properties/snmpServer/properties/securityLevel",
+                    "type": "string",
+                    "title": "The securityLevel schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "authpriv"
+                    ],
+                    "pattern": "^(none|auth|authpriv)$"
+                },
+                "authProtocol": {
+                    "$id": "#/properties/snmpServer/properties/authProtocol",
+                    "type": "string",
+                    "title": "The authProtocol schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "MD5"
+                    ],
+                    "pattern": "^(MD5|SHA)$"
+                },
+                "authPass": {
+                    "$id": "#/properties/snmpServer/properties/authPass",
+                    "type": "string",
+                    "title": "The authPass schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "yyyyyy"
+                    ]
+                },
+                "privProtocol": {
+                    "$id": "#/properties/snmpServer/properties/privProtocol",
+                    "type": "string",
+                    "title": "The privProtocol schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "DES"
+                    ],
+                    "pattern": "^(DES|AES)$"
+                },
+                "privPass": {
+                    "$id": "#/properties/snmpServer/properties/privPass",
+                    "type": "string",
+                    "title": "The privPass schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "yyyyyy"
+                    ]
+                },
+                "engineID": {
+                    "$id": "#/properties/snmpServer/properties/engineID",
+                    "type": "string",
+                    "title": "The engineID schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "0504030201FEADDF"
+                    ],
+                    "pattern": "^[A-Fa-f0-9]{10,}$"
+                },
+                "communityString": {
+                    "$id": "#/properties/snmpServer/properties/communityString",
+                    "type": "string",
+                    "title": "The communityString schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "public"
+                    ]
+                }
+            },
+            "additionalProperties": true
+        },
+        "resources": {
+            "$id": "#/properties/resources",
+            "type": "object",
+            "title": "The resources schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {}
+            ],
+            "required": [],
+            "additionalProperties": true
+        },
+        "nodeSelector": {
+            "$id": "#/properties/nodeSelector",
+            "type": "object",
+            "title": "The nodeSelector schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {}
+            ],
+            "required": [],
+            "additionalProperties": true
+        },
+        "tolerations": {
+            "$id": "#/properties/tolerations",
+            "type": "array",
+            "title": "The tolerations schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": [],
+            "examples": [
+                []
+            ],
+            "additionalItems": true,
+            "items": {
+                "$id": "#/properties/tolerations/items"
+            }
+        },
+        "affinity": {
+            "$id": "#/properties/affinity",
+            "type": "object",
+            "title": "The affinity schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {}
+            ],
+            "required": [],
+            "additionalProperties": true
+        }
+    },
+    "additionalProperties": true
+}

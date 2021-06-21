@@ -62,3 +62,15 @@ Create the name of the service account to use
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Create the address of K8S DNS resolver
+*/}}
+{{- define "objectscaleGateway.dnsResolver" -}}
+{{- if (eq .Values.global.platform "OpenShift") -}}
+resolver {{ default "dns-default.openshift-dns.svc.cluster.local" .Values.global.dns}};
+{{- else -}}
+resolver {{ default "kube-dns.kube-system.svc.cluster.local" .Values.global.dns}};
+{{- end -}}
+{{- end -}}
+

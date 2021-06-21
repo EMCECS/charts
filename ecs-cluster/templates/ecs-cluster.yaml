@@ -62,7 +62,10 @@ spec:
 
   atlas:
     replicas: {{ coalesce .Values.atlas.replicas (index (dict "Large" 3) (title .Values.performanceProfile)) 1 }}
-{{ include "datasvc-lib.common-labels" . | indent 4 }}
+    labels:
+      component: atlas
+      release: {{ .Release.Name }}
+{{ include "datasvc-lib.logging-inject-common-labels" . | indent 6}}
 {{ include "common-lib.labels-sp-integrated-all" . | indent 6}}
     pod:
       annotations:

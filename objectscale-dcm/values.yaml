@@ -1,14 +1,13 @@
 ---
-tag: 0.74.0
+tag: 0.75.0
 global:
   registry: emccorp
-  performanceProfile: "Small"
 
 # DCM image configuration
 image:
   pullPolicy: IfNotPresent
   repository: dcm
-  tag: 3.7.0.0-135262.260126837ce # rfw-update-this dcm-docker-image
+  tag: 3.7.0.0-135750.09591a2fe4f # rfw-update-this dcm-docker-image
 
 # Number of replicas for the ObjectScale DCM deployment
 replicaCount: 1
@@ -17,13 +16,19 @@ replicaCount: 1
 service:
   port: 9026
   targetPort: 9026
-  type: LoadBalancer
+  type: ClusterIP
 
 # Liveness and Readiness Probe configurations for the DCM Deployment
 livenessProbe:
   probePath: /dcmhealthcheck
 readinessProbe:
   probePath: /dcmhealthcheck
+# Dcm memory request and limits
+resources:
+  limits:
+    memory: 512Mi
+  requests:
+    memory: 512Mi
 
 # Atlas Cluster configuration for DCM persistent Storage
 atlas:
@@ -33,6 +38,13 @@ atlas:
     repository: atlas
     tag: 1.1.3 # rfw-update-this atlas-docker-image
   persistence:
-    size: 1Gi
+    size: 3Gi
+
   # Define the replica if you want to explicitly set it
-  # replicaCount: 3
+  replicaCount: 3
+  # DCM Atlas resource requests and limits
+  resources:
+    limits:
+      memory: 200Mi
+    requests:
+      memory: 100Mi

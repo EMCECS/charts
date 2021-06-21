@@ -19,7 +19,7 @@ global:
   platform: Default
 
 # The default docker tag and pull policy for the KAHM
-tag: 2.74.0
+tag: 2.75.0
 pullPolicy: IfNotPresent
 
 # The number of replicas for the KAHM deployment
@@ -29,7 +29,7 @@ replicaCount: 1
 # The image configured for the KAHM
 image:
   repository: kahm
-  tag: v2.74.0 # rfw-update-this kahm-image
+  tag: v2.75.0-3-g7611b51 # rfw-update-this kahm-image
   # pullPolicy: IfNotPresent
 
 ## Allow callers to bypass creating app resource
@@ -41,7 +41,7 @@ createkahmappResource: true
 # Test image for KAHM.  Runs via helm test.
 testImage:
   repository: kahm-testapp
-  tag: v2.74.0 # rfw-update-this kahm-testapp-image
+  tag: v2.75.0-3-g7611b51 # rfw-update-this kahm-testapp-image
   # pullPolicy: IfNotPresent
 
 # We usually recommend not to specify default resources and to leave this as a
@@ -114,6 +114,10 @@ postgresql-ha:
         mountPath: /dev/shm
     podAntiAffinityPreset: hard
     replicaCount: 3
+    podLabels:
+      objectscale.dellemc.com/sp-integrated: "true"
+    podAnnotations:
+      appplatform.vmware.com/vsphere-emm-integrated: "true"
 
     ## PostgreSQL containers' resource requests and limits
     ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
@@ -153,10 +157,14 @@ postgresql-ha:
         memory: 500Mi
       requests:
         memory: 500Mi
+    podLabels:
+      objectscale.dellemc.com/sp-integrated: "true"
+    podAnnotations:
+      appplatform.vmware.com/vsphere-emm-integrated: "true"
 
 # KAHM health check configuration
 healthChecks:
   preUpdate:
     image:
       repository: kahm-pre-update
-      tag: # rfw-update-this kahm-pre-update-image
+      tag: v2.75.0-3-g7611b51 # rfw-update-this kahm-pre-update-image

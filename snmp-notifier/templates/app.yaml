@@ -1,0 +1,38 @@
+---
+{{- if .Values.createAppResource}}
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: {{include "notifier.fullName" .}}
+  namespace: {{.Release.Namespace}}
+  labels:
+{{ include "notifier.labels" . | indent 4 }}
+  annotations:
+    com.dellemc.kahm.subscribed: "true"
+    nautilus.dellemc.com/chart-name: {{.Chart.Name}}
+    nautilus.dellemc.com/chart-version: {{ .Chart.Version | toJson }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{include "notifier.fullName" .}}
+  componentKinds:
+    - group: apps
+      kind: Deployment
+    - group: core
+      kind: Secrets
+    - group: core
+      kind: Pod
+    - group: apps
+      kind: ReplicaSet
+  assemblyPhase: "Pending"
+  descriptor:
+    type: "{{include "notifier.name" .}}"
+    version: {{.Values.tag}}
+    description: >
+      Dell EMC SNMP Notifier
+    keywords:
+      - "snmp"
+      - "notifier"
+    info:
+      - "Copyright (c) 2021 Dell Inc. or its subsidiaries. All Rights Reserved."
+{{- end}}

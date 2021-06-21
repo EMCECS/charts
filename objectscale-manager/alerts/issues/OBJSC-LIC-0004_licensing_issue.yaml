@@ -1,0 +1,11 @@
+- name: "ObjectScale Licensing"
+  description: "ObjectScale cumulative object store usage"
+  # AutoClear the issue after 6hrs 5 min
+  defaultAutoClearTimeOut: 365
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        - label: SymptomID
+          value: OBJSC-LIC-0004
+  notifiers:
+    - objectscale-supportassist-ese

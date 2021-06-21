@@ -6,11 +6,11 @@ global:
   # Specifies which namespace the Operator should watch for new ClusterResource
   # resources
   # Default: true == Watch ALL namespaces
-  watchAllNamespaces: false
+  watchAllNamespaces: true
   registry: emccorp
 image:
   repository: bookkeeper-operator
-  tag: 0.1.3-6b808f7 # rfw-update-this bookkeeper-operator-docker-image
+  tag: 0.1.3-71-a0f1a00 # rfw-update-this bookkeeper-operator-docker-image
   pullPolicy: IfNotPresent
 
 ## Install RBAC roles and bindings.

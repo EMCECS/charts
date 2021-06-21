@@ -20,7 +20,7 @@ global:
   platform: Default
 
 # The default docker tag and pull policy for the DECKS
-tag: 2.73.0
+tag: 2.75.0
 pullPolicy: IfNotPresent
 
 # The number of replicas for the DECKS deployment
@@ -29,7 +29,7 @@ replicaCount: 1
 # The image configured for the DECKS
 image:
   repository: decks
-  tag: 2.73.0-205.45598b0 # rfw-update-this decks-image
+  tag: 2.75.0-213.bfdd823 # rfw-update-this decks-image
   # pullPolicy: IfNotPresent
 
 ## Allow callers to bypass creating app resource
@@ -74,3 +74,14 @@ affinity: {}
 ### new for decks 1.1 - replace webdav with nginx based supportStore
 supportStore:
   enabled: true
+  # 720 minutes - every 12 hours decks should purge all the aged files
+  gcPollingInterval: 720
+  # 15 days old files from decks-support-store should be removed
+  gcFileAgeToRemove: 15
+
+# KAHM health check configuration
+healthChecks:
+  preUpdate:
+    image:
+      repository: decks-pre-update
+      tag: 2.75.0-213.bfdd823 # rfw-update-this decks-pre-update-image

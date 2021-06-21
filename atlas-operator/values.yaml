@@ -21,7 +21,7 @@ global:
 image:
   repository: atlas-operator
   pullPolicy: IfNotPresent
-  tag: 0.13.0 # rfw-update-this atlas-operator-docker-image
+  tag: 0.14.0 # rfw-update-this atlas-operator-docker-image
 
 nameOverride: ""
 
@@ -39,10 +39,10 @@ securityContext: {}
 resources:
   requests:
     cpu: 250m
-    memory: 300Mi
+    memory: 100Mi
   limits:
     cpu: 1
-    memory: 500Mi
+    memory: 400Mi
 
 nodeSelector: {}
 

@@ -1,0 +1,127 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "notifier.fullName" .}}
+  namespace: {{.Release.Namespace}}
+  labels:
+{{ include "notifier.labels" . | indent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+  - name: grpc 
+    port: {{.Values.grpc.servicePort}} 
+    targetPort: grpc
+    protocol: TCP
+  selector:
+{{ include "notifier.selectorLabels" . | indent 4 }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "notifier.fullName" .}}
+  namespace: {{.Release.Namespace}}
+  labels:
+{{ include "notifier.labels" . | indent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+{{ include "notifier.selectorLabels" . | indent 6 }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+{{ include "notifier.labels" . | indent 8 }}
+{{ include "common-lib.labels-sp-integrated-all" . | indent 8}}
+      annotations:
+{{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
+    spec:
+      serviceAccountName: {{include "notifier.fullName" .}}
+      {{- if .Values.global.registrySecret }}
+      imagePullSecrets:
+        - name: {{ .Values.global.registrySecret }}
+      {{- end }}
+      containers:
+      - name: notifier
+        image: {{.Values.global.registry}}/{{.Values.image.repository}}:{{default .Values.tag .Values.image.tag}}
+        imagePullPolicy: {{default .Values.pullPolicy .Values.image.pullPolicy}}
+        ports:
+        - containerPort: {{.Values.grpc.servicePort}}
+          name: grpc 
+          protocol: TCP
+        env:
+        - name: PRODUCT_NAME
+          value:  {{ .Values.product }}
+        - name: POD_NAMESPACE
+          value:  {{ .Release.Namespace }}
+        - name: MY_POD_IP
+          valueFrom:
+           fieldRef:
+             fieldPath: status.podIP
+        - name: RELEASE_NAME
+          value: {{ .Release.Name }}
+        - name: SNMP_SERVER_HOST
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "notifier.fullName" .}}-credentials
+              key: host
+        - name: SNMP_SERVER_PORT
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "notifier.fullName" .}}-credentials
+              key: port
+        - name: SNMP_SERVER_VERSION
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "notifier.fullName" .}}-credentials
+              key: version
+     {{- if eq .Values.snmpServer.version "v3" }}
+        - name: SNMP_SERVER_SEC_LEVEL
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "notifier.fullName" .}}-credentials
+              key: secLevel
+        - name: SNMP_SERVER_ENGINE_ID
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "notifier.fullName" .}}-credentials
+              key: engineID 
+        - name: SNMP_SERVER_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "notifier.fullName" .}}-credentials
+              key: username
+        {{- if ne .Values.snmpServer.securityLevel "none" }}
+        - name: SNMP_SERVER_AUTH_PROT
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "notifier.fullName" .}}-credentials
+              key: authProt 
+        - name: SNMP_SERVER_AUTH_PASS
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "notifier.fullName" .}}-credentials
+              key: authPass
+        {{- end }}
+        {{- if eq .Values.snmpServer.securityLevel "authpriv" }}
+        - name: SNMP_SERVER_PRIV_PROT
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "notifier.fullName" .}}-credentials
+              key: privProt
+        - name: SNMP_SERVER_PRIV_PASS
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "notifier.fullName" .}}-credentials
+              key: privPass
+        {{- end }}
+    {{- else }}
+        - name: SNMP_SERVER_COMMUNITY_STRING
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "notifier.fullName" .}}-credentials
+              key: communityString
+     {{- end }}
+      restartPolicy: Always

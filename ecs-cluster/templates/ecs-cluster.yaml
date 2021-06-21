@@ -62,7 +62,14 @@ spec:
 
   atlas:
     replicas: {{ coalesce .Values.atlas.replicas (index (dict "Large" 3) (title .Values.performanceProfile)) 1 }}
-{{ include "datasvc-lib.common-labels" . | indent 4 }}
+    labels:
+      component: atlas
+      release: {{ .Release.Name }}
+{{ include "datasvc-lib.logging-inject-common-labels" . | indent 6}}
+{{ include "common-lib.labels-sp-integrated-all" . | indent 6}}
+    pod:
+      annotations:
+{{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
       release: {{ .Release.Name }}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.atlas.image.repository }}
@@ -208,10 +215,16 @@ spec:
 {{- end }}
     pod: 
       serviceAccountName: {{.Release.Name}}-storageserver
+      annotations:
+{{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
     labels:
       app: zookeeper
       component: zk
       release: {{ .Release.Name }}
+{{ include "datasvc-lib.logging-inject-common-labels" . | indent 6}}
+{{ include "common-lib.labels-sp-integrated-all" . | indent 6}}
+{{ include "common-lib.labels-sp-integrated-initiate-decommission-script" (dict "script" "zk-sp.sh_-t_recover") | indent 6}}
+{{ include "common-lib.labels-sp-integrated-recovery-status-script" (dict "script" "zk-sp.sh_-t_precheck") | indent 6}}
     image:
       repository: {{ .Values.global.registry }}/{{ .Values.zookeeper.image.repository }}
       tag: {{ .Values.zookeeper.image.tag }}
@@ -220,6 +233,18 @@ spec:
 {{- else }}
       pullPolicy: {{ .Values.pullPolicy }}
 {{- end }}
+    volumes:
+      - name: log
+        emptyDir:
+          medium: ""
+      - name: heap-dump
+        emptyDir:
+          medium: ""
+    volumeMounts:
+      - name: log
+        mountPath: /opt/zookeeper/logs
+      - name: heap-dump
+        mountPath: /crash-dump
     persistence:
       spec:
 {{- if .Values.zookeeper.persistence.storageClassName }}
@@ -244,16 +269,28 @@ spec:
     {{- else }}
     version: {{ .Values.tag }}
     {{- end }}
+{{- if .Values.bookkeeper.disableAntiAffinity }}
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: component
+                  operator: In
+                  values:
+                    - bookie
+              topologyKey: kubernetes.io/hostname
+{{- end }}
     blockOwnerDeletion:  {{ .Values.bookkeeper.blockOwnerDeletion }}
     labels:
-      app.kubernetes.io/namespace: {{ .Release.Namespace }}
-      objectscale.dellemc.com/logging-inject: "true"
-      objectscale.dellemc.com/logging-release-name: "{{ .Release.Name }}"
+{{ include "datasvc-lib.logging-inject-common-labels" . | indent 6}}
 {{ include "common-lib.labels-sp-integrated-all" . | indent 6}}
 {{ include "common-lib.labels-sp-integrated-initiate-decommission-script" (dict "script" "bk-sp.sh_-t_recover_-o_600") | indent 6}}
 {{ include "common-lib.labels-sp-integrated-recovery-status-script" (dict "script" "bk-sp.sh_-t_precheck_-o_600") | indent 6}}
     annotations:
-      vsphere-emm-integrated: "true"
+{{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 6}}
     serviceAccountName:  {{ .Release.Name }}-pravega
     autoRecovery: {{ .Values.bookkeeper.autoRecovery }}
     {{- if .Values.bookkeeper.probes }}
@@ -338,19 +375,15 @@ spec:
       segmentStoreReplicas: {{ .Values.pravega.segmentStore.replicas }}
       {{- end }}
       controllerPodLabels:
-        app.kubernetes.io/namespace: {{ .Release.Namespace }}
-        objectscale.dellemc.com/logging-inject: "true"
-        objectscale.dellemc.com/logging-release-name: "{{ .Release.Name }}"
+{{ include "datasvc-lib.logging-inject-common-labels" . | indent 8}}
 {{ include "common-lib.labels-sp-integrated-all" . | indent 8}}
       segmentStorePodLabels:
-        app.kubernetes.io/namespace: {{ .Release.Namespace }}
-        objectscale.dellemc.com/logging-inject: "true"
-        objectscale.dellemc.com/logging-release-name: "{{ .Release.Name }}"
+{{ include "datasvc-lib.logging-inject-common-labels" . | indent 8}}
 {{ include "common-lib.labels-sp-integrated-all" . | indent 8}}
       segmentStorePodAnnotations:
-        vsphere-emm-integrated: "true"
+{{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
       controllerPodAnnotations:
-        vsphere-emm-integrated: "true"
+{{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
       options:
         controller.metrics.influxDB.connect.db.name: {{ .Values.pravega.options.metrics.influxDBName }}
         metrics.influxDB.connect.db.name: {{ .Values.pravega.options.metrics.influxDBName }}

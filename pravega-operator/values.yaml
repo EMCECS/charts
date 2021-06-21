@@ -6,11 +6,11 @@ global:
   # Specifies which namespace the Operator should watch for new ClusterResource
   # resources
   # Default: true == Watch ALL namespaces
-  watchAllNamespaces: false
+  watchAllNamespaces: true
   registry: emccorp
 image:
   repository: pravega-operator
-  tag: 0.5.2-240-388128ca # rfw-update-this pravega-operator-docker-image
+  tag: 0.5.2-241-a2d2b321 # rfw-update-this pravega-operator-docker-image
   pullPolicy: IfNotPresent
 
 ## Install RBAC roles and bindings.
@@ -28,7 +28,7 @@ crd:
 
 testmode:
   ## Whether to enable test mode.
-  enabled: true
+  enabled: false
   ## version of pravega that you wish to deploy
   ## mention the major version number
   ## eg. enter 0.8.0 if u wish to deploy version 0.8.0-2500.efe501a

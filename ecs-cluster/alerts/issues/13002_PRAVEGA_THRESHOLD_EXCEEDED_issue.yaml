@@ -1,0 +1,8 @@
+- description: "Pravega threshold exceeded"
+  name: "PRAVEGA_THRESHOLD_EXCEEDED"
+  defaultAutoClearTimeOut: 3
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        - label: SymptomID
+          value: OBJST-13002

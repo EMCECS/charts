@@ -16,7 +16,7 @@ metadata:
     operator: objectscale-operator
     product: objectscale
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app.kubernetes.io/name: objectscale-manager
@@ -55,6 +55,7 @@ spec:
             secretName: objectscale-plugin-secret-{{ .Release.Namespace }}
             {{- end }}
         {{- end }}
+{{ include "common-monitoring-lib.rsyslog_client_volumes" . | indent 8 }}
       containers:
         - name: objectscale-portal
           image: {{ .Values.global.registry }}/{{ .Values.image.repository }}:{{ default .Values.tag .Values.image.tag }}
@@ -76,3 +77,4 @@ spec:
             - name: certificate
               mountPath: /etc/nginx/ssl
             {{- end }}
+{{ include "common-monitoring-lib.rsyslog_client_sidecar_stdout" . | indent 8 }}

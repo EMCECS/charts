@@ -6,10 +6,10 @@
     - matchon:
         # NORMAL
         - label: SymptomID
-          value: 4016
+          value: OBJST-MON-4016
     - matchon:
         # CRITICAL
         - label: SymptomID
-          value: 4019
+          value: OBJST-MON-4019
   notifiers:
     - objectscale-supportassist-ese

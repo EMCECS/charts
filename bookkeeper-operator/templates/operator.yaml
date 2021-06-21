@@ -16,6 +16,9 @@ spec:
         name: {{ template "bookkeeper-operator.fullname" . }}
         component: bookkeeper-operator
 {{ include "common-monitoring-lib.logging-inject-labels" . | indent 8 }}
+{{ include "common-lib.labels-sp-integrated-all" . | indent 8}}
+      annotations:
+{{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
     spec:
       serviceAccountName: {{ .Values.serviceAccount.name }}
       {{- if .Values.global.registrySecret }}
@@ -36,7 +39,13 @@ spec:
           {{- end }}
           env:
             - name: WATCH_NAMESPACE
-              value: "{{ .Release.Namespace }}"
+              {{- if eq .Values.global.watchAllNamespaces true}}
+              value: ""
+              {{- else }}
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+              {{- end }}
             - name: POD_NAME
               valueFrom:
                 fieldRef:

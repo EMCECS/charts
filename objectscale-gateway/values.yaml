@@ -1,17 +1,20 @@
 ---
-tag: 0.73.0
+tag: 0.75.0
 global:
   registry: emccorp
   # Default: true == Watch ALL namespaces
   watchAllNamespaces: true
   # Platform:
   platform: Default
+  # Deploy additional configs for monitoring services
+  monitoring:
+    enabled: true
 
 objectscaleGateway:
   image:
     pullPolicy: IfNotPresent
     repository: objectscale-gateway
-    tag: 3.7.0.0-41.a76c905 # rfw-update-this objectscale-gateway-docker-image
+    tag: 3.7.0.0-56.8c6235a # rfw-update-this objectscale-gateway-docker-image
     #livenessProbe:
     # probePath: /usr/local/bin/checkRunningCertificate.bash
   replicaCount: 1
@@ -38,7 +41,7 @@ objectscaleGateway:
 
     tls:
       # Type of certificate signing: SelfSigned, KubernetesSigned, or ExternallySigned
-      certificateType: KubernetesSigned
+      certificateType: SelfSigned
 
       certificate: {}
       # publicKey: < server side customer certificate>
@@ -94,7 +97,9 @@ objectscaleGateway:
       #   intermediateCA:      # provide the intermediate CA here (optional)
 
       signingRequest:
-        commonName: objectscale-gateway-internal
+        # For InternallySigned certificates do not add commonName so that its added in the format as below
+        # urn:ocs:ObjectScaleId::service/ServiceName
+        # commonName: objectscale-gateway-internal
         # email: insertyouremail@example.com.local
         names:
           country: USA

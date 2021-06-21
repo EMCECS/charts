@@ -54,6 +54,14 @@ function install_portal()
     fi
 
 }
+
+function instal_objectscale_manager() 
+{
+    mkdir -p ./tmp
+    helm show values objs/objectscale-manager > ./tmp/values.yaml   
+    helm template --show-only templates/objectscale-manager-custom-values.yaml objectscale-manager $helm_repo/objectscale-manager \
+        --set useCustomValues=true,global.platform=OpenShift --set ecs-monitoring.influxdb.persistence.storageClassName=$primaryStorageClassName -f ./tmp/values.yaml
+}
 # initialize variables
 progname=$(basename $0)
 verbose=0

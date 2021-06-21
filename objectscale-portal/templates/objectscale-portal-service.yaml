@@ -1,4 +1,5 @@
 ---
+{{- if eq .Values.global.platform "VMware" }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -16,12 +17,36 @@ metadata:
     operator: objectscale-operator
     product: objectscale
 spec:
-  {{- if eq .Values.global.platform "VMware" }}
   type: ClusterIP
-  {{- else}}
-  type: {{ .Values.service.type }}
-  {{- end }}
   selector:
     app.kubernetes.io/name: objectscale-manager
     app.kubernetes.io/component: objectscale-portal
   ports: {{ toYaml .Values.service.ports | nindent 6 }}
+{{- end }}
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: objectscale-portal-external
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: objectscale-portal
+    app.kubernetes.io/part-of: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name}}
+    operator: objectscale-operator
+    product: objectscale
+spec:
+  type: LoadBalancer
+  selector:
+    app.kubernetes.io/name: objectscale-manager
+    app.kubernetes.io/component: objectscale-portal
+  ports: {{ toYaml .Values.service.ports | nindent 6 }}
+
+---

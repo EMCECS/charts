@@ -75,6 +75,8 @@ spec:
             - name: encryptionkey
               mountPath: /opt/secure/encryptionkey
               readOnly: true
+            - name: mgmt-shared-secret
+              mountPath: "/etc/mgmt/sharedsecret"
       volumes:
         - name: log
           emptyDir: {}
@@ -84,4 +86,7 @@ spec:
         - name: encryptionkey
           secret:
             secretName: {{ .Release.Name }}-dcm-encryption-key
+        - name: mgmt-shared-secret
+          secret:
+            secretName: mgmt-servicelogin-shared-secret
 

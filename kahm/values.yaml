@@ -78,6 +78,7 @@ db:
     database: kahm
     # hostName:
     # port: "5432"
+    # sslmode - require/disable. it is sslmode=require by default when connnecting to remote postgres instance, otherwise disable
 
 restapi:
   realm: "kahm-restapi"

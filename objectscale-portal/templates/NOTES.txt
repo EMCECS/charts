@@ -9,11 +9,11 @@ This release is named {{ .Release.Name }}.
   $ read -r SVCACCOUNT_TOKEN \
         <<< $(kubectl get secret -o jsonpath='{.data.token}' $(kubectl get sa "objectscale-api" -o json | jq -r '.secrets[] | select (.name | test("objectscale-api-token-")).name') | base64 --decode; echo -n " ")
 
-2. Use "kubectl get svc objectscale-portal" to obtain the network address of the ObjectScale Portal
+2. Use "kubectl get svc objectscale-portal-external" to obtain the network address of the ObjectScale Portal
 
-   kubectl get svc objectscale-portal
+   kubectl get svc objectscale-portal-external
    NAME                         TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)          AGE
-   objectscale-portal           LoadBalancer   172.30.22.167   10.x.y.z        4443:30436/TCP   9m2s
+   objectscale-portal-external           LoadBalancer   172.30.22.167   10.x.y.z        4443:30436/TCP   9m2s
 
 3. Bring up a browser and connect to the above URL: https://<addr>:4443
 

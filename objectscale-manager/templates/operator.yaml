@@ -198,8 +198,10 @@ spec:
           requests:
             memory: {{ .Values.resources.operator.requests.memory }}
             ephemeral-storage: {{ .Values.resources.operator.requests.ephemeralStorage }}
-  {{- if eq .Values.loggerConfig.enabled true }}
         volumeMounts:
+        - name: service-procedures-config
+          mountPath: /etc/sp-config
+  {{- if .Values.loggerConfig.enabled }}
         - name: logger-config
           mountPath: /etc/config
         - name: crash-dump
@@ -319,11 +321,13 @@ spec:
             mountPath: /fluent-bit/etc
       {{- end }}
 {{- end }}
-
+      volumes:
+        - name: service-procedures-config
+          configMap:
+            name: objectscale-service-procedures-config
 # Because volumes config was created if platform is not VMware and logReceiver is active it's needed to add this
 # checking here to save previous logic
 {{- if or (eq .Values.loggerConfig.enabled true) (and (ne .Values.global.platform "VMware") (or .Values.logReceiver.type .Values.logReceiver.create)) }}
-      volumes:
         {{- if and (ne .Values.global.platform "VMware") (or .Values.logReceiver.type .Values.logReceiver.create) }}
         - name: log
           emptyDir: {}

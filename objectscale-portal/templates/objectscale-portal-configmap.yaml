@@ -26,6 +26,8 @@ data:
     }
 
     http {
+        proxy_cache_path  /var/cache/nginx/grafana_auth_cache/ keys_zone=grafana_auth_cache:1m inactive=15m;
+
         include /etc/nginx/mime.types;
         include /conf/upstream.conf;
         map $request_method $decksname {
@@ -34,6 +36,21 @@ data:
         map $request_method $decksport {
          default {{ .Values.decks.supportStore.service.port }};
         }
+
+        map $request_method $fedsvcname {
+         default {{ .Values.fedsvc.serviceName }}.{{.Release.Namespace }}.svc.cluster.local;
+        }
+        map $request_method $fedsvcport {
+         default {{ .Values.fedsvc.port }};
+        }
+
+        # map to support authorized but not added into grafana users (they will be logged as 'root')
+        map $grafana_user $grafana_user_updated {
+         "emcmonitor" "emcmonitor";
+         "emcservice" "emcservice";
+         default      "root";
+        }
+
         server {
             {{- if (eq .Values.global.platform "OpenShift") }}
             resolver {{ default "dns-default.openshift-dns.svc.cluster.local" .Values.global.dns}};
@@ -68,11 +85,80 @@ data:
             location /data {
                 proxy_pass https://$decksname:$decksport;
             }
+
+            location ~* /grafana/[a-z0-9]([-a-z0-9]*[a-z0-9])?/[a-z0-9]([-a-z0-9]*[a-z0-9])?/logout_grafana {
+                # grafana redirects to this endpoint after logout
+
+                # subrequest for token invalidation
+                # auth response 200: user was logged out
+                # auth response 401: token is already invalid
+                auth_request /invalidate_token_for_grafana;
+                error_page 401 @logout_grafana;
+                # workaround to redirect to @logout_grafana after response 200
+                try_files false @logout_grafana;
+            }
+
             location ~* /grafana/[a-z0-9]([-a-z0-9]*[a-z0-9])?/[a-z0-9]([-a-z0-9]*[a-z0-9])? {
                 rewrite /grafana/([a-z0-9-]+)/([a-z0-9-]+)/(.*) /$3 break;
                 rewrite /grafana/([a-z0-9-]+)/([a-z0-9-]+) / break;
+
+                # do auth request
+                auth_request /validate_token_for_grafana;
+                error_page 401 @grafana_auth_err;
+                # after auth request take user name from header X-SDS-AUTH-USERNAME
+                auth_request_set $grafana_user $upstream_http_x_sds_auth_username;
+                # set header which is required for grafana access
+                # value comes from $grafana_user variable thru the map defined at the top
+                proxy_set_header X-WEBAUTH-USER $grafana_user_updated;
+                # clear header which is used for basic auth
+                proxy_set_header Authorization "";
                 proxy_pass http://$2-grafana.$1.svc.cluster.local:3000;
             }
+
+            location @grafana_auth_err {
+                absolute_redirect off;
+                return 302 /?action=logoff;
+            }
+
+            location /validate_token_for_grafana {
+                internal;
+                # override global setting
+                proxy_buffering on;
+                proxy_cache grafana_auth_cache;
+                proxy_cache_key "$cookie_osauthtoken";
+                # for now we set expiration time to 5m, later may be changed to use value from authsvc response header
+                proxy_cache_valid 5m;
+                # cut all redundant headers excluding those which are set in this location
+                proxy_pass_request_headers off;
+                proxy_pass_request_body off;
+                # take token value from cookie with name OSAuthToken and set it as header
+                proxy_set_header X-SDS-AUTH-TOKEN $cookie_osauthtoken;
+                proxy_set_header X-ALLOW-ROLES "SYSTEM_ADMIN,SYSTEM_MONITOR";
+                proxy_set_header Content-Length "";
+                proxy_pass http://$fedsvcname:$fedsvcport/mgmt/validate;
+            }
+
+            location /invalidate_token_for_grafana {
+                internal;
+                # override global setting
+                proxy_buffering on;
+                # cut all redundant headers excluding those which are set in this location
+                proxy_pass_request_headers off;
+                proxy_pass_request_body off;
+                # take token value from cookie with name OSAuthToken and set it as header
+                proxy_set_header X-SDS-AUTH-TOKEN $cookie_osauthtoken;
+                proxy_set_header Content-Length "";
+                proxy_pass http://$fedsvcname:$fedsvcport/mgmt/logout;
+            }
+
+            location @logout_grafana {
+                absolute_redirect off;
+
+                # cleanup auth token
+                add_header Set-Cookie "OSAuthToken=; Path=/; secure; Secure; HTTPOnly";
+                return 302 /?action=logoff;
+            }
+
             location /platform {
                 default_type application/json;
                 return 200 '{"value":"{{ .Values.global.platform }}"}';

@@ -156,7 +156,7 @@ data:
 
                 # cleanup auth token
                 add_header Set-Cookie "OSAuthToken=; Path=/; secure; Secure; HTTPOnly";
-                return 302 /;
+                return 302 /?action=logoff;
             }
 
             location /platform {

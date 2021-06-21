@@ -1,4 +1,5 @@
 ---
+{{- if eq .Values.global.platform "VMware" }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -16,18 +17,15 @@ metadata:
     operator: objectscale-operator
     product: objectscale
 spec:
-  {{- if eq .Values.global.platform "VMware" }}
   type: ClusterIP
-  {{- else}}
-  type: {{ .Values.service.type }}
-  {{- end }}
   selector:
     app.kubernetes.io/name: objectscale-manager
     app.kubernetes.io/component: objectscale-portal
   ports: {{ toYaml .Values.service.ports | nindent 6 }}
+{{- end }}
+
 
 ---
-{{- if eq .Values.global.platform "VMware" }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -50,4 +48,5 @@ spec:
     app.kubernetes.io/name: objectscale-manager
     app.kubernetes.io/component: objectscale-portal
   ports: {{ toYaml .Values.service.ports | nindent 6 }}
-{{- end }}  
+
+---

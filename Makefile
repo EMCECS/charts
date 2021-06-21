@@ -246,7 +246,40 @@ create-manager-app: create-temp-package
 	sed ${SED_INPLACE} 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
 	sed ${SED_INPLACE} 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
 	cat ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
-	rm ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && rm -rf objectscale-manager/customvalues.*
+	rm ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml ## && rm -rf objectscale-manager/customvalues.*
+
+create-manager-app2: create-temp-package
+	# cd in makefiles spawns a subshell, so continue the command with ;
+	#
+	# Run helm template with monitoring.enabled=false to not pollute
+	# nautilus.dellemc.com/chart-values of objectscale-manager with tons of default values
+	# from child charts. After that replace this value by sed.
+	#cp objectscale-manager/objectscale-manager-custom-values.yaml objectscale-manager/templates/; \
+	#cd objectscale-manager; \
+	helm template --show-only templates/objectscale-manager-custom-values.yaml objectscale-manager ./objectscale-manager -n ${NAMESPACE} ${HELM_MANAGER_ARGS} \
+	--set useCustomValues=true \
+	--set global.platform=VMware \
+	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} \
+	--set global.registry=${REGISTRY} \
+	--set hooks.registry=${REGISTRY} \
+	--set global.registrySecret=${REGISTRYSECRET} \
+	--set global.storageClassName=${STORAGECLASSNAME} \
+	--set global.monitoring_registry=${REGISTRY} \
+	--set ecs-monitoring.influxdb.persistence.storageClassName=${STORAGECLASSNAME} \
+	--set objectscale-monitoring.influxdb.persistence.storageClassName=${STORAGECLASSNAME} \
+	--set objectscale-monitoring.rsyslog.persistence.storageClassName=${STORAGECLASSNAME_VSAN_SNA} \
+	${HELM_MANAGER_ARGS} ${HELM_MONITORING_ARGS} \
+	-f objectscale-manager/values.yaml > objectscale-manager/customvalues.yaml && sed -i '1d' objectscale-manager/customvalues.yaml; \
+	# helm does not template referenced files, so we cannot | toJson a file inline
+	yq eval objectscale-manager/customvalues.yaml -j -I 0 > objectscale-manager/customvalues.json; \
+	# Build the actual objectscale-manager application and master yaml file
+	cd objectscale-manager; \
+	helm template --show-only templates/objectscale-manager-app.yaml objectscale-manager ../objectscale-manager  -n ${NAMESPACE} \
+	-f values.yaml -f customvalues.yaml > ../${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
+	sed ${SED_INPLACE} 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml && \
+	sed ${SED_INPLACE} 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
+	cat ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
+	rm ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml ## && rm -rf objectscale-manager/customvalues.*
 
 create-vsphere-templates: create-temp-package
 	helm template vsphere-plugin ./objectscale-vsphere -n ${NAMESPACE} \

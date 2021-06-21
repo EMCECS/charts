@@ -85,7 +85,7 @@ function install_objectscale_manager()
 		--set objectscale-monitoring.influxdb.persistence.storageClassName=$primaryStorageClassName \
 	    --set objectscale-monitoring.rsyslog.persistence.storageClassName=$secondaryStorageClassName \
          -f ./tmp/values.yaml > ./tmp/objectscale-manager-custom-values.yaml && sed -i '1d' ./tmp/objectscale-manager-custom-values.yaml
-    grep -v "{{" objectscale-manager/templates/objectscale-manager-custom-values.yaml | yq eval -j -I 0 > objectscale-manager/customvalues.json
+    grep -v "{{" ./tmp/objectscale-manager-custom-values.yaml | yq eval -j -I 0 > objectscale-manager/customvalues.json
     ## now gen the app resource
     helm template --show-only templates/objectscale-manager-app.yaml objectscale-manager ${helm_repo}/objectscale-manager  \
 	    -f ./tmp/values.yaml -f ./tmp/objectscale-manager-custom-values.yaml > ./tmp/objectscale-manager-app.yaml

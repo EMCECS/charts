@@ -23,7 +23,7 @@ enabled: true
 # The image configured for snmp notifier
 image:
   repository: snmp-notifier
-  tag: # rfw-update-this snmp-notifier-image
+  tag: # snmp-notifier-image
   # pullPolicy: Always
 # the GRPC setting between KAHM and snmp-notifier
 grpc:

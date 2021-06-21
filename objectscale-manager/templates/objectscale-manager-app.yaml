@@ -18,7 +18,7 @@ metadata:
     nautilus.dellemc.com/run-level: "10"
     nautilus.dellemc.com/chart-name: objectscale-manager
     nautilus.dellemc.com/chart-version: {{ .Chart.Version }}
-    {{- if eq .Values.global.platform "VMware" }}
+    {{- if or (eq .Values.global.platform "VMware") (eq .Values.global.platform "OpenShift") }}
     nautilus.dellemc.com/chart-values: {{ .Files.Get "customvalues.json" | toJson }}
     {{- else }}
     nautilus.dellemc.com/chart-values: {{ .Values | toJson | quote }}

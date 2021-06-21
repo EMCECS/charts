@@ -31,12 +31,24 @@ function parse_set_opts()
     setName=${namevalArr[0]}
     setValue=${namevalArr[1]}
     case $setName in 
-        "type")                     install_type=$setValue ;;
-        "helmrepo")                 helm_repo=$setValue ;;
-        "primaryStorageClassName")  primaryStorageClassName=$setValue ;;
-        "secondaryStorageClassName") secondaryStorageClassName=$setValue;;
-        "global.registry")          registry="$nameval";;
-        *)                          set_opts+=($nameval) ;;
+        "type")                    
+            install_type=$setValue 
+            ;;
+        "helmrepo")                 
+            helm_repo=$setValue 
+            ;;
+        "primaryStorageClassName")  
+            primaryStorageClassName=$setValue 
+            ;;
+        "secondaryStorageClassName") 
+            secondaryStorageClassName=$setValue
+            ;;
+        "global.registry")          
+            registry="$nameval"
+            registryName="$setValue"
+            ;;
+        *)  
+            set_opts+=($nameval) ;;
     esac
 
 }
@@ -47,7 +59,6 @@ function install_portal()
     set -x 
     helm install objectscale-ui ${helm_repo}/objectscale-portal $dryrun --set global.platform=$platform,$registry --set global.storageClassName=$uiStorageClass
     hexit=$?
-    set +x
     if [ $? -ne 0 ]
     then
         echo "ERROR: unable to install UI"
@@ -55,13 +66,35 @@ function install_portal()
 
 }
 
-function instal_objectscale_manager() 
+function apply_app_crd()
+{
+    kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/application/master/config/crd/bases/app.k8s.io_applications.yaml
+}
+
+function install_objectscale_manager() 
 {
     mkdir -p ./tmp
-    helm show values objs/objectscale-manager > ./tmp/values.yaml   
+    helm show values ${helm_repo}/objectscale-manager > ./tmp/values.yaml   
     helm template --show-only templates/objectscale-manager-custom-values.yaml objectscale-manager $helm_repo/objectscale-manager \
-        --set useCustomValues=true,global.platform=OpenShift --set ecs-monitoring.influxdb.persistence.storageClassName=$primaryStorageClassName -f ./tmp/values.yaml
+        --set useCustomValues=true \
+        --set global.platform=OpenShift \
+        --set $registry \
+        --set hooks.registry=$registryName,global.storageClassName=$primaryStorageClassName \
+        --set ecs-monitoring.influxdb.persistence.storageClassName=$primaryStorageClassName \
+        --set global.monitoring_registry=$registryName \
+		--set objectscale-monitoring.influxdb.persistence.storageClassName=$primaryStorageClassName \
+	    --set objectscale-monitoring.rsyslog.persistence.storageClassName=$secondaryStorageClassName \
+         -f ./tmp/values.yaml > ./tmp/objectscale-manager-custom-values.yaml && sed -i '1d' ./tmp/objectscale-manager-custom-values.yaml
+    grep -v "{{" objectscale-manager/templates/objectscale-manager-custom-values.yaml | yq eval -j -I 0 > objectscale-manager/customvalues.json
+    ## now gen the app resource
+    helm template --show-only templates/objectscale-manager-app.yaml objectscale-manager ${helm_repo}/objectscale-manager  \
+	    -f ./tmp/values.yaml -f ./tmp/objectscale-manager-custom-values.yaml > ./tmp/objectscale-manager-app.yaml
+	sed -i 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ./tmp/objectscale-manager-app.yaml && \
+	sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ./tmp/objectscale-manager-app.yaml
+
 }
+
+
 # initialize variables
 progname=$(basename $0)
 verbose=0
@@ -119,6 +152,8 @@ fi
 case $install_type in 
     install)
         install_portal
+        apply_app_crd
+        install_objectscale_manager
         ;;
     upgrade)
         ;;
@@ -130,6 +165,4 @@ case $install_type in
         exit 1
         ;;
 esac 
-
-
 

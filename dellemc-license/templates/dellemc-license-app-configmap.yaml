@@ -29,6 +29,7 @@ data:
               value: DECKS-LIC-1002
          notifiers:
               - {{.Values.product}}-supportassist-ese
+              - {{.Values.product}}-snmp-notifier
        - description: "license is expiring or expired"
          name: ExpiringLicense
          issueCategory: Auto
@@ -44,6 +45,7 @@ data:
               value: DECKS-LIC-1002
          notifiers:
               - {{.Values.product}}-supportassist-ese
+              - {{.Values.product}}-snmp-notifier
     eventRemedies: |-
       symptoms:
         - symptomid: DECKS-LIC-1005

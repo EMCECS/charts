@@ -39,3 +39,10 @@ atlas:
 
   # Replica count for ObjectScale Federation Atlas Cluster
   replicaCount: 3
+
+  # Atlas pods limits and requests memory setting
+  resources:
+    limits:
+      memory: 1000Mi
+    requests:
+      memory: 256Mi

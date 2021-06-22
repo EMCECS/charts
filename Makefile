@@ -342,17 +342,27 @@ create-kahm-app: create-temp-package
 
 create-logging-injector-app: create-temp-package
 	# cd in makefiles spawns a subshell, so continue the command with ;
+	cp logging-injector/logging-injector-custom-values.yaml logging-injector/templates/; \
 	cd logging-injector; \
+	helm template --show-only templates/logging-injector-custom-values.yaml logging-injector ../logging-injector -n ${NAMESPACE} \
+		--set global.platform=VMware \
+		--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} \
+    	--set global.registry=${REGISTRY} \
+    	--set global.registrySecret=${REGISTRYSECRET} \
+    	--set global.objectscale_release_name=objectscale-manager \
+    	--set global.rsyslog_client_stdout_enabled=${ENABLE_STDOUT_LOGS_COLLECTION} \
+    -f values.yaml > ./customvalues.yaml
+  	# helm does not template referenced files, so we cannot | toJson a file inline
+	yq eval logging-injector/customvalues.yaml -j -I 0 > logging-injector/customvalues.json; \
+	# Build the actual logging injector appication yaml file to apply
+	cd logging-injector; \
+	rm -rf templates/logging-injector-custom-values.yaml; \
 	helm template --show-only templates/logging-injector-app.yaml logging-injector ../logging-injector -n ${NAMESPACE} \
-	--set global.watchAllNamespaces=${WATCH_ALL_NAMESPACES} \
-	--set global.registry=${REGISTRY} \
-	--set global.registrySecret=${REGISTRYSECRET} \
-	--set global.objectscale_release_name=objectscale-manager \
-	--set global.rsyslog_client_stdout_enabled=${ENABLE_STDOUT_LOGS_COLLECTION} \
-	-f values.yaml > ../${TEMP_PACKAGE}/yaml/logging-injector-app.yaml;
+	-f values.yaml -f customvalues.yaml > ../${TEMP_PACKAGE}/yaml/logging-injector-app.yaml;
 	sed ${SED_INPLACE} 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ${TEMP_PACKAGE}/yaml/logging-injector-app.yaml && \
 	sed ${SED_INPLACE} 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/logging-injector-app.yaml
 	cat ${TEMP_PACKAGE}/yaml/logging-injector-app.yaml >> ${TEMP_PACKAGE}/yaml/${LOGGING_INJECTOR_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/logging-injector-app.yaml
+	rm -rf logging-injector/customvalues.*
 
 archive-package:
 	tar -zcvf ${PACKAGE_NAME} ${TEMP_PACKAGE}/*

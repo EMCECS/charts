@@ -1,0 +1,15 @@
+---
+global:
+  registrySecret: {{ .Values.global.registrySecret }}
+
+  registry: {{ .Values.global.registry }}
+
+  watchAllNamespaces: {{ .Values.global.watchAllNamespaces }}
+
+  objectscale_release_name: {{ .Values.global.objectscale_release_name }}
+
+  rsyslog_client_stdout_enabled: {{ .Values.global.rsyslog_client_stdout_enabled }}
+
+  platform: {{ .Values.global.platform }}
+
+createApplicationResource: {{ .Values.createApplicationResource }}

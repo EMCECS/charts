@@ -6,4 +6,6 @@
         # WARNING
         - label: SymptomID
           value: OBJST-1008
+  notifiers:
+    - objectscale-snmp-notifier
 # Do not generate SR

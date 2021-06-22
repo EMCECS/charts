@@ -5,3 +5,6 @@
     - matchon:
         - label: SymptomID
           value: OBJSOP-1000
+  notifiers:
+    - objectscale-snmp-notifier
+

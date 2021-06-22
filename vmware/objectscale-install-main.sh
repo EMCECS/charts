@@ -84,11 +84,13 @@ function install_objectscale_manager()
         --set global.monitoring_registry=$registryName \
 		--set objectscale-monitoring.influxdb.persistence.storageClassName=$primaryStorageClassName \
 	    --set objectscale-monitoring.rsyslog.persistence.storageClassName=$secondaryStorageClassName \
-         -f ./tmp/values.yaml > ./tmp/objectscale-manager-custom-values.yaml && sed -i '1d' ./tmp/objectscale-manager-custom-values.yaml
-    grep -v "{{" ./tmp/objectscale-manager-custom-values.yaml | yq eval -j -I 0 > objectscale-manager/customvalues.json
+         -f ./tmp/values.yaml > ./tmp/objectscale-manager-custom-values.yaml && sed -i '1,5d' ./tmp/objectscale-manager-custom-values.yaml
+    grep -v "{{" ./tmp/objectscale-manager-custom-values.yaml | yq eval -j -I 0 > ./tmp/customvalues.json
     ## now gen the app resource
     helm template --show-only templates/objectscale-manager-app.yaml objectscale-manager ${helm_repo}/objectscale-manager  \
 	    -f ./tmp/values.yaml -f ./tmp/objectscale-manager-custom-values.yaml > ./tmp/objectscale-manager-app.yaml
+    sed -i 's/"/\\\\"/g' ./tmp/customvalues.json
+    sed -i "s%.*nautilus.dellemc.com/chart-values:.*%    nautilus.dellemc.com/chart-values: \"$(export IFS=; while read -r line ; do echo $line; done < tmp/customvalues.json)\"%" tmp/objectscale-manager-app.yaml 
 	sed -i 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ./tmp/objectscale-manager-app.yaml && \
 	sed -i 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ./tmp/objectscale-manager-app.yaml
 

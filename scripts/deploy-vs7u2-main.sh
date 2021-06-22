@@ -1,3 +1,4 @@
+
 kubectl -n vmware-system-appplatform-operator-system get cm ${service_id} 2>/dev/null
 if [ $? -eq 0 ]
 then

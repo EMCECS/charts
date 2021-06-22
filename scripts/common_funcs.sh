@@ -1,3 +1,12 @@
+##
+## Copyright (c) 2021. Dell Inc. or its subsidiaries. All Rights Reserved.
+##
+## This software contains the intellectual property of Dell Inc.
+## or is licensed to Dell Inc. from third parties. Use of this software
+## and the intellectual property contained therein is expressly limited to the
+## terms and conditions of the License Agreement under which it is provided by or
+## on behalf of Dell Inc. or its subsidiaries.
+
 
 echomsg () {
 
@@ -14,6 +23,13 @@ echomsg () {
             echo "$curdate : $msg"  >> $logfile
 	        return
 	        ;;
+        error)
+            msg=$2
+            echo
+            msg="ERROR: $msg"
+            echo
+            echo
+            ;;
 	    stl|starline)
 	        msg="**********************************************"
 	        ;;
@@ -67,9 +83,10 @@ EOT
 
 ## main()
 curdate=`date +"%y%m%d"`
-logfile="./log/deploy-objectscale-$curdate.log"
+logfile="./log/$(basename $0)-$curdate.log"
 
-echomsg "Starting deployment of ObjectScale"
+echomsg dl
+echomsg "ObjectScale install version: $objectscale_version"
 echomsg dl
 
 echomsg "Locating kubectl..."

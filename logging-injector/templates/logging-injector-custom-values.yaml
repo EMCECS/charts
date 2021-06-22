@@ -1,3 +1,4 @@
+{{- if .Values.useCustomValues }}
 ---
 global:
   registrySecret: {{ .Values.global.registrySecret }}
@@ -13,3 +14,4 @@ global:
   platform: {{ .Values.global.platform }}
 
 createApplicationResource: {{ .Values.createApplicationResource }}
+{{- end }}

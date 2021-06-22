@@ -126,7 +126,7 @@ sed "${sed_inplace[@]}" -e "s/DOCKERSECRETPLACEHOLDER/$dockersecret/g" temp_pack
 sed "${sed_inplace[@]}" "s/VSPHERE_SERVICE_PREFIX_VALUE/{{ .service.prefix }}/g" temp_package/yaml/${vsphere7_plugin_file}
 sed "${sed_inplace[@]}" "s/VSPHERE_SERVICE_PREFIX_VALUE/{{ .service.prefix }}/g" temp_package/yaml/*
 
-cp -p ./vmware/deploy-objectscale-plugin.sh temp_package/scripts 
+cp -p ./scripts/deploy-objectscale-plugin.sh temp_package/scripts 
 
 ### Building the U2 (the edge) plugin script
 
@@ -135,7 +135,7 @@ vs7u2_plugin_script="temp_package/scripts/deploy-objectscale-plugin.sh"
 ## Template the service_id value
 sed "${sed_inplace[@]}" "s/SERVICE_ID/${service_id}/" $vs7u2_plugin_script
 
-cat vmware/common_funcs.sh vmware/deploy-vs7u2-main.sh temp_package/yaml/${vsphere7_plugin_file} >> $vs7u2_plugin_script
+cat scripts/common_funcs.sh scripts/deploy-vs7u2-main.sh temp_package/yaml/${vsphere7_plugin_file} >> $vs7u2_plugin_script
 
 echo "EOF" >> $vs7u2_plugin_script
 
@@ -161,14 +161,14 @@ chmod 500 $vs7u2_plugin_script
 ### Building vSphere 7.0 U3+ ObjectScale WCP Plugin
 set -x
 vsphere_script=create-vsphere-app.py
-wget -O vmware/$vsphere_script https://asdrepo.isus.emc.com/artifactory/objectscale-tps-staging-local-mw/com/vmware/create-vsphere-app/7.0u3/$vsphere_script
+wget -O scripts/$vsphere_script https://asdrepo.isus.emc.com/artifactory/objectscale-tps-staging-local-mw/com/vmware/create-vsphere-app/7.0u3/$vsphere_script
 if [ $? != 0 ]
 then
     echo "Unable to pull down create-vsphere-app.py script to build ObjectScale WCP plugin"
     exit 1
 fi
 
-chmod +x vmware/$vsphere_script
+chmod +x scripts/$vsphere_script
 mkdir -p temp_package/vs7u3/tmp
 
 (cd temp_package/yaml; cat logging-injector.yaml objectscale-manager.yaml kahm.yaml decks.yaml > ../vs7u3/tmp/objectscale-vsphere-service-src.yaml )
@@ -189,7 +189,7 @@ spec:
 ---
 EOP
 
-vmware/$vsphere_script $svc_vs7u3_crd_opts -p temp_package/vs7u3/tmp/objectscale-vsphere-service-src.yaml -v $objs_ver --display-name "$label" \
+scripts/$vsphere_script $svc_vs7u3_crd_opts -p temp_package/vs7u3/tmp/objectscale-vsphere-service-src.yaml -v $objs_ver --display-name "$label" \
   --description "$objs_desc" -e dellemc_eula.txt -o temp_package/vs7u3/objectscale-${objs_ver}-vsphere-service.yaml $svc_vs7u3_id
 
 if [ $? -ne 0 ]
@@ -201,8 +201,8 @@ fi
 ## Now generating U3 preinstall script until OBSDEF-7223 is fixed.
 
 vs7u3_pre_install_script="temp_package/vs7u3/objectscale-pre-install.sh"
-cp vmware/deploy-objectscale-plugin.sh $vs7u3_pre_install_script
-cat vmware/common_funcs.sh >> $vs7u3_pre_install_script
+cp scripts/deploy-objectscale-plugin.sh $vs7u3_pre_install_script
+cat scripts/common_funcs.sh >> $vs7u3_pre_install_script
 
 cat <<EOS >> $vs7u3_pre_install_script
 add_vsphere7_clusterrole_rules
@@ -212,4 +212,10 @@ ${extra_crd_install}
 EOS
 
 chmod 500 $vs7u3_pre_install_script
+
+mkdir -p temp_package/openshift 
+install_script=temp_package/openshift/objectscale-install.sh
+echo "objectscale_version=$objs_ver" > temp_package/openshift/objectscale-install.sh
+cat scripts/common_funcs.sh scripts/objectscale-install-main.sh >> temp_package/openshift/objectscale-install.sh 
+chmod 500 temp_package/openshift/objectscale-install.sh
 

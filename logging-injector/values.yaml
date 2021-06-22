@@ -14,9 +14,12 @@
 ## Default values.yaml for logging-injector
 ## This is a YAML-formatted file.
 #
-# Create an application resource for management using Dell EMC common installer or other application-resource
-# controllers
 global:
   platform: Default
+
+  watchAllNamespaces: true
+
+# Create an application resource for management using Dell EMC common installer or other application-resource
+# controllers
 
 createApplicationResource: true

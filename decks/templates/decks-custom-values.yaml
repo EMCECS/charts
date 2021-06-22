@@ -1,3 +1,4 @@
+{{- if .Values.useCustomValues }}
 ---
 global:
   registrySecret: {{ .Values.global.registrySecret }}
@@ -10,8 +11,9 @@ global:
 
 storageClassName: {{ .Values.storageClassName }}
 
-postgresql-ha:
-  persistence:
-    storageClass: {{ index .Values "postgresql-ha" "persistence" "storageClass" }}
+decks-support-store:
+  persistentVolume:
+    storageClassName: {{ index .Values "decks-support-store" "persistentVolume" "storageClassName" }}
 
-createkahmappResource: {{ .Values.createkahmappResource }}
+createdecksappResource: {{ .Values.createdecksappResource }}
+{{- end }}

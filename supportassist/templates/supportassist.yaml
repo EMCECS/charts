@@ -100,7 +100,7 @@ spec:
       # https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#configure-volume-permission-and-ownership-change-policy-for-pods
       securityContext:
         fsGroup: 999
-        fsGroupChangePolicy: "OnRootMistmatch"
+        fsGroupChangePolicy: "OnRootMismatch"
       containers:
       - name: supportassist-{{.Values.product}}
         # image: <docker_registry>/dell-supportassist-ese:2.0.3

@@ -20,6 +20,11 @@ spec:
       resources:
         requests:
           storage: {{ required "atlas.persistence.size is required" .Values.atlas.persistence.size }}
+  resources:
+    limits:
+      memory: {{ .Values.atlas.resources.limits.memory }}
+    requests:
+      memory: {{ .Values.atlas.resources.requests.memory }}
   labels:
     component: atlas
 {{ include "common-lib.labels-sp-integrated-all" . | indent 4}}

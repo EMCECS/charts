@@ -102,3 +102,10 @@ atlas:
 
   # Replica count for ObjectScale IAM Atlas Cluster
   replicaCount: 3
+
+  # Atlas pods limits and requests memory setting
+  resources:
+    limits:
+      memory: 1000Mi
+    requests:
+      memory: 256Mi

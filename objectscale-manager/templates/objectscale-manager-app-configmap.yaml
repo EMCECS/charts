@@ -65,6 +65,13 @@ data:
           timelimit: "5m"
           schedule: {{ default "0 */6 * * *" .Values.healthChecks.licenseUsage.schedule | quote}}
           disabled: {{ default false .Values.healthChecks.licenseUsage.disabled}}
+          args:
+            - -watch_ns
+{{- if eq .Values.global.watchAllNamespaces true}}
+           - ""
+{{- else }}
+           - metadata.namespace
+{{- end }}
         - name: inventory
           container: {{.Values.global.registry}}/{{ .Values.healthChecks.inventory.image.repository}}:{{default .Values.tag .Values.healthChecks.inventory.image.tag}}
           serviceaccount: {{ .Release.Name }}-inventory

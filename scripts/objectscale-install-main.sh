@@ -132,7 +132,7 @@ function install_logging_injector()
         exit 1 
     fi 
 
-    yq eval ./tmp/logging-injector-customvalues.yaml -j -I 0 > ./tmp/logging-injector-customvalues.json
+    $yq_bin eval ./tmp/logging-injector-customvalues.yaml -j -I 0 > ./tmp/logging-injector-customvalues.json
     if [ $? -ne 0 ]
     then
         echomsg error "unable to create $component custom values json file"
@@ -184,7 +184,7 @@ function install_kahm()
         exit 1
     fi
 
-    yq eval ./tmp/kahm-customvalues.yaml -j -I 0 > ./tmp/kahm-customvalues.json
+    $yq_bin eval ./tmp/kahm-customvalues.yaml -j -I 0 > ./tmp/kahm-customvalues.json
     if [ $? -ne 0 ]
     then
         echomsg error "unable to create $component custom values json file"
@@ -232,7 +232,7 @@ function install_decks()
         exit 1
     fi
 
-    yq eval ./tmp/decks-customvalues.yaml -j -I 0 > ./tmp/decks-customvalues.json
+    $yq_bin eval ./tmp/decks-customvalues.yaml -j -I 0 > ./tmp/decks-customvalues.json
     if [ $? -ne 0 ]
     then
         echomsg error "unable to create $component custom values json file"
@@ -284,7 +284,7 @@ function install_objectscale_manager()
         exit 1
     fi
 
-    yq eval ./tmp/objectscale-manager-customvalues.yaml -j -I 0 > ./tmp/objectscale-manager-customvalues.json
+    $yq_bin eval ./tmp/objectscale-manager-customvalues.yaml -j -I 0 > ./tmp/objectscale-manager-customvalues.json
     if [ $? -ne 0 ]
     then
         echomsg error "unable to create $component custom values json file"
@@ -316,15 +316,18 @@ function objectscale_list_components()
 
 }
 
+
 # initialize variables
 progname=$(basename $0)
 verbose=0
 platform="OpenShift"
 
+yq_bin="./bin/yq_linux_amd64"
+
 # use getopt and store the output into $OPTS
 # note the use of -o for the short options, --long for the long name options
 # and a : for any option that takes a parameter
-OPTS=$(getopt -o "hvn:" --long "help,namespace:,set:,verbose,dry-run" -n "$progname" -- "$@")
+OPTS=$(getopt -o "dhvn:" --long "debug,dry-run,help,namespace:,set:,verbose" -n "$progname" -- "$@")
 if [ $? != 0 ] ; then echo "Error in command line arguments." >&2 ; usage; exit 1 ; fi
 eval set -- "$OPTS"
 
@@ -356,8 +359,21 @@ if (( $verbose > 0 )); then
 EOM
 fi
 
+
 case "$install_type" in
     install)
+        ## install a locat copy of yq
+        if [ ! -x $yq_bin ]
+        then 
+            yq_payload_line=$(awk '/^__YQ_PAYLOAD_BEGINS__/ { print NR + 1; exit 0; }' $0)
+
+            mkdir -p ./bin
+
+            # extract the embedded yq binary
+            tail -n +${yq_payload_line} $0 | base64 -d | tar -zpvx -C ./bin
+            chmod 550 $yq_bin
+        fi 
+
         if [ -z ${primaryStorageClassName} ]
         then
             echomsg error " primary storage class not specified"
@@ -402,7 +418,11 @@ case $install_type in
         install_decks
         install_objectscale_manager
         objectscale_list_components
-        echomsg "Done"
+        helm get notes objectscale-ui
+        echomsg dl
+        echo
+        echomsg "Please wait a few minutes until all ObjectScale have started"
+        echomsg dl 
         ;;
     list)
         objectscale_list_components
@@ -426,4 +446,6 @@ case $install_type in
         ;;
 esac 
 
+exit 0
 
+__YQ_PAYLOAD_BEGINS__

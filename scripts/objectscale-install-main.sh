@@ -15,21 +15,27 @@ function usage()
 {
    cat << HEREDOC
 
-   Usage: $progname  --set type=<install_type> --set helmrepo=<repo> --set primaryStorageClassName=... [--namespace <namespace] 
-                        [--verbose] [--dry-run]
+   Usage: $progname  --set type=<install_type> --set helmrepo=<repo> --set primaryStorageClassName=... [--set global.registry=myfavereg.docker.com]
+                        [--verbose] [--debug]
 
    required arguments:
-     --set type={install|list|upgrade|remove}    set install type
+     --set type={install|list|remove}       set install type
      --set helmrepo=repo_name               location of helm repository or directory where charts located
      --set primaryStorageClassName=<string> name of storage class to install high performance persistent volumes (e.g. csi-baremetal-ssdlvg)
 
    optional arguments:
      --set global.registry=<string>           where to pull ObjectScale container images
      --set secondaryStorageClassName=<string> name of storage class for normal performance persistent volumes (e.g. csi-baremetal-hddlvg)
-     -n, --namespace string                   k8s namespace to install ObjectScale management components
-     -h, --help           show this help message and exit
-     -v, --verbose        increase the verbosity of the bash script
-     --dry-run            do a dry run, dont change any files
+     -h, --help                               show this help message and exit
+     -v, --verbose                            increase the verbosity of the bash script
+     --debug                                  shell debug (-x) mode, lots of output
+
+   Example for OpenShift:
+   ----------------------
+   helm repo add objectscale "https://MY_PRIVATE_TOKEN@raw.githubusercontent.com/emcecs/charts/v0.7x.0/docs"
+   helm repo update
+   ./objectscale-install.sh --set type=install --set helmrepo=objectscale --set global.registry=asdrepo.isus.emc.com:8099 \
+                    --set primaryStorageClassName=csi-baremetal-sc-hddlvg
 
 HEREDOC
 }  
@@ -259,6 +265,7 @@ function install_decks()
 function install_objectscale_manager() 
 {
     component="objectscale-manager"
+    echomsg "Installing $component"
     cmd="helm show values ${helm_repo}/objectscale-manager > ./tmp/objectscale-manager-values.yaml"
     echomsg log "$cmd"
     eval $cmd
@@ -268,6 +275,7 @@ function install_objectscale_manager()
         exit 1
     fi
 
+    echomsg "Generating $component install settings..."
     helm template --show-only templates/objectscale-manager-custom-values.yaml objectscale-manager $helm_repo/objectscale-manager \
         --set useCustomValues=true \
         --set global.platform=$platform \
@@ -291,6 +299,7 @@ function install_objectscale_manager()
         exit 1
     fi 
 
+    echomsg "Generating $component application resource..."
     ## now gen the app resource
     helm template --show-only templates/objectscale-manager-app.yaml objectscale-manager ${helm_repo}/objectscale-manager  \
 	    -f ./tmp/objectscale-manager-values.yaml -f ./tmp/objectscale-manager-customvalues.yaml > ./tmp/objectscale-manager-app.yaml
@@ -304,6 +313,8 @@ function install_objectscale_manager()
 	sed -i 's/createApplicationResource\\":true/createApplicationResource\\":false/g' ./tmp/objectscale-manager-app.yaml
 
     apply_app_resource "objectscale-manager"
+
+    echomsg "Installed component: $comp"
 
 }
 
@@ -409,8 +420,9 @@ case $install_type in
         if [ -d ./tmp ] 
         then
             rm -rf ./tmp
-            mkdir -p ./tmp
         fi
+        mkdir -p ./tmp
+
         echomsg "Installing ObjectScale components..."
         apply_app_crd
         install_logging_injector
@@ -428,6 +440,7 @@ case $install_type in
         objectscale_list_components
         ;;
     upgrade)
+        echomsg "not implemented..."
         ;;
     delete|remove|uninstall)
         for comp in decks kahm objectscale-manager logging-injector 

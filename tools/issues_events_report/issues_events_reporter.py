@@ -62,6 +62,8 @@ def parse_rules(tx):
     if 'rules' in dt:
         for rl in dt['rules']:
             for mh in rl['matchon']:
+                if not 'label' in mh:
+                    continue
                 if mh['label'] == 'SymptomID':
                     reg_rule(mh['value'], rl.copy())
                 else:

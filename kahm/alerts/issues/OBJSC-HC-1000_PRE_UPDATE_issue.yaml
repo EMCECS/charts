@@ -1,0 +1,10 @@
+- description: "Pre-Update Health Check for Application"
+  name: "Pre-Update"
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        - label: SymptomID
+          value: OBJSC-HC-1000
+  notifiers:
+    - objectscale-snmp-notifier
+

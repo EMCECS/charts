@@ -1,5 +1,5 @@
 ---
-tag: 0.75.0
+tag: 0.76.0
 global:
   registry: emccorp
 
@@ -7,7 +7,7 @@ global:
 image:
   pullPolicy: IfNotPresent
   repository: dcm
-  tag: 3.7.0.0-135750.09591a2fe4f # rfw-update-this dcm-docker-image
+  tag: 3.7.0.0-136264.e1809f67372 # rfw-update-this dcm-docker-image
 
 # Number of replicas for the ObjectScale DCM deployment
 replicaCount: 1

@@ -13,13 +13,13 @@ description: A Helm chart for Kubernetes
 type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
-version: 0.75.0
+version: 0.76.0
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application.
-appVersion: 0.75.0
+appVersion: 0.76.0
 dependencies:
   - name: helm-controller
-    version: 0.75.0
+    version: 0.76.0
     repository: file://../helm-controller
     condition: helmController.enabled
   - name: common-monitoring-lib
@@ -29,5 +29,5 @@ dependencies:
     import-values:
       - default
   - name: common-lib
-    version: 0.75.0
+    version: 0.76.0
     repository: file://../common-lib

@@ -79,7 +79,7 @@ createApplicationResource: true
 debugMode: false
 
 # The default docker tag and pull policy for objectscale-manager services
-tag: 0.75.0
+tag: 0.76.0
 pullPolicy: IfNotPresent
 
 # The default number of replicas for the objectscale-manager deployment
@@ -88,7 +88,7 @@ replicaCount: 1
 # The image configured for the ObjectScale Manager
 image:
   repository: objectscale-operator
-  tag: 0.74.0-518.b9760cb6 # rfw-update-this operator-docker-image
+  tag: 0.76.0-547.30fe4113 # rfw-update-this operator-docker-image
   # pullPolicy: IfNotPresent
 
 # A customer provided log server can be used for external log aggregation.
@@ -132,7 +132,7 @@ logReceiver:
   # The Docker image used for the rSyslog receiver
   image:
     repository: rsyslog
-    tag: 3.7.0.0-1222.f9102d7c # rfw-update-this rsyslog-docker-image
+    tag: 3.7.0.0-1247.41b19c40 # rfw-update-this rsyslog-docker-image
     # pullPolicy: IfNotPresent
 
   persistence:
@@ -182,7 +182,7 @@ affinity: {}
 fluentbitAgent:
   image:
     repository: fluent-bit
-    tag: 3.7.0.0-1222.f9102d7c # rfw-update-this fluent-bit-docker-image
+    tag: 3.7.0.0-1247.41b19c40 # rfw-update-this fluent-bit-docker-image
     # pullPolicy: IfNotPresent
 
 # hook for VMWare platform
@@ -237,23 +237,23 @@ healthChecks:
   preUpdate:
     image:
       repository: objectscale-manager-pre-update
-      tag: 0.75.0-49.92db4a2 # rfw-update-this objectscale-manager-pre-update-image
+      tag: 0.76.0-53.9b8b8ec # rfw-update-this objectscale-manager-pre-update-image
   licenseUsage:
     image:
       repository: objectscale-license-usage
-      tag: 0.75.0-49.92db4a2 # rfw-update-this objectscale-license-usage-image
+      tag: 0.76.0-53.9b8b8ec # rfw-update-this objectscale-license-usage-image
     schedule: "0 */6 * * *"
     disabled: false
   inventory:
     image:
       repository: objectscale-inventory
-      tag: 0.75.0-49.92db4a2 # rfw-update-this objectscale-inventory-image
+      tag: 0.76.0-53.9b8b8ec # rfw-update-this objectscale-inventory-image
     schedule: "0 * * * *"
     disabled: false
   capacity:
     image:
       repository: objectscale-capacity
-      tag: 0.75.0-49.92db4a2 # rfw-update-this objectscale-capacity-image
+      tag: 0.76.0-53.9b8b8ec # rfw-update-this objectscale-capacity-image
     schedule: "0 * * * *"
     disabled: false
     # pull all records in a given window (60 minutes)
@@ -261,7 +261,7 @@ healthChecks:
   performance:
     image:
       repository: objectscale-performance
-      tag: 0.75.0-49.92db4a2 # rfw-update-this objectscale-performance-image
+      tag: 0.76.0-53.9b8b8ec # rfw-update-this objectscale-performance-image
     schedule: "*/10 * * * *"
     disabled: false
     # pull all records in a given window (10 minutes)
@@ -269,7 +269,7 @@ healthChecks:
   health:
     image:
       repository: objectscale-health
-      tag: 0.75.0-49.92db4a2 # rfw-update-this objectscale-health-image
+      tag: 0.76.0-53.9b8b8ec # rfw-update-this objectscale-health-image
     schedule: "*/10 * * * *"
     disabled: false
 

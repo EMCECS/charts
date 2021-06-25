@@ -19,7 +19,7 @@ global:
   platform: Default
 
 # The default docker tag and pull policy for the KAHM
-tag: 2.75.0
+tag: 2.76.0
 pullPolicy: IfNotPresent
 
 # The number of replicas for the KAHM deployment
@@ -29,7 +29,7 @@ replicaCount: 1
 # The image configured for the KAHM
 image:
   repository: kahm
-  tag: v2.75.0-3-g7611b51 # rfw-update-this kahm-image
+  tag: 2.76.0-164.e6c51a6 # rfw-update-this kahm-image
   # pullPolicy: IfNotPresent
 
 ## Allow callers to bypass creating app resource
@@ -41,7 +41,7 @@ createkahmappResource: true
 # Test image for KAHM.  Runs via helm test.
 testImage:
   repository: kahm-testapp
-  tag: v2.75.0-3-g7611b51 # rfw-update-this kahm-testapp-image
+  tag: 2.76.0-164.e6c51a6 # rfw-update-this kahm-testapp-image
   # pullPolicy: IfNotPresent
 
 # We usually recommend not to specify default resources and to leave this as a
@@ -167,4 +167,4 @@ healthChecks:
   preUpdate:
     image:
       repository: kahm-pre-update
-      tag: v2.75.0-3-g7611b51 # rfw-update-this kahm-pre-update-image
+      tag: 2.76.0-164.e6c51a6 # rfw-update-this kahm-pre-update-image

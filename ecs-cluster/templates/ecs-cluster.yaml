@@ -377,9 +377,11 @@ spec:
       controllerPodLabels:
 {{ include "datasvc-lib.logging-inject-common-labels" . | indent 8}}
 {{ include "common-lib.labels-sp-integrated-all" . | indent 8}}
+{{ include "common-lib.labels-sp-integrated-depends-on-stateful" . | indent 8}}
       segmentStorePodLabels:
 {{ include "datasvc-lib.logging-inject-common-labels" . | indent 8}}
 {{ include "common-lib.labels-sp-integrated-all" . | indent 8}}
+{{ include "common-lib.labels-sp-integrated-depends-on-stateful" . | indent 8}}
       segmentStorePodAnnotations:
 {{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
       controllerPodAnnotations:

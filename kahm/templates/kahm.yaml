@@ -16,6 +16,7 @@ spec:
     metadata:
       labels:
         name: kahm
+        app.kubernetes.io/instance: {{ .Release.Name }}
         release: {{ .Release.Name }}
         app: kahm
 {{ include "common-lib.labels-sp-integrated-all" . | indent 8}}
@@ -42,7 +43,7 @@ spec:
         command:
         - kahm
         ports:
-        - containerPort: 60000 
+        - containerPort: 60000
           name: metrics
         - containerPort: 17999
           name: rest
@@ -80,7 +81,7 @@ spec:
           value: {{ .Values.db.dbType }}
         - name: KAHM_DB_EVENT_TTL
           value: "{{ .Values.db.eventTTL }}"
-        - name: RELEASE_NAME 
+        - name: RELEASE_NAME
           value: {{ .Release.Name }}
         - name: RELEASE_NAMESPACE
           value: {{ .Release.Namespace }}
@@ -90,22 +91,22 @@ spec:
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-postgres-credentials
-              key: dbname 
+              key: dbname
         - name: POSTGRES_USERNAME
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-postgres-credentials
-              key: username 
+              key: username
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-postgres-credentials
-              key: password 
+              key: password
         - name: POSTGRES_PORT
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-postgres-credentials
-              key: port 
+              key: port
         - name: POSTGRES_HOSTNAME
           valueFrom:
             secretKeyRef:
@@ -122,5 +123,5 @@ spec:
       volumes:
       - name: db
         persistentVolumeClaim:
-          claimName: db-kahm-0 
+          claimName: db-kahm-0
 {{- end }}

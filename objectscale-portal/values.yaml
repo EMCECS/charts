@@ -37,7 +37,7 @@ global:
   rsyslog_enabled: true
 
 # The default docker tag and pull policy for objectscale-portal and other containers
-tag: 0.75.0
+tag: 0.76.0
 pullPolicy: IfNotPresent
 
 # This package gets values from objectscale-manager/values.yaml
@@ -55,10 +55,15 @@ graphql:
   port: 8080
   serviceName: objectscale-graphql
 
+# federation service endpoint settings
+fedsvc:
+  serviceName: fedsvc
+  port: 9500
+
 enabled: false
 image:
   repository: ecs-flex-vsphere-plugin
-  tag: 0.75.0.0-1068.53b1594c # rfw-update-this ecs-flex-vsphere-plugin-docker-image
+  tag: 0.76.0.0-1131.9e9d37ac # rfw-update-this ecs-flex-vsphere-plugin-docker-image
   # pullPolicy: IfNotPresent
 service:
   # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer
@@ -89,6 +94,6 @@ features:
   # enable this if you want to deploy the BETA3 New/Edit Objectstore workflows
   manageObjectStoreV2: true
   replications: true
-  objectscaleSystems: false
+  objectscaleSystems: true
   # Possible Logging modes - ERROR, INFO, DEBUG, WARNING Only
   uiLoggingLevel: ERROR

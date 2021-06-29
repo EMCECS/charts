@@ -1,0 +1,43 @@
+## Used to create custom values for objectscale-manager upgrades
+{{- if .Values.useCustomValues }}
+---
+global:
+  registrySecret: {{ .Values.global.registrySecret }}
+
+  registry: {{ .Values.global.registry }}
+
+  watchAllNamespaces: {{ .Values.global.watchAllNamespaces }}
+
+  platform: {{ .Values.global.platform }}
+
+  storageClassName: {{ .Values.global.storageClassName }}
+
+  monitoring_registry: {{ .Values.global.monitoring_registry }}
+
+  monitoring:
+    enabled: {{ .Values.global.monitoring.enabled }}
+
+hooks:
+  registry: {{ .Values.hooks.registry }}
+
+federation:
+  enabled: {{ .Values.federation.enabled }}
+
+ecs-monitoring:
+  influxdb:
+    persistence:
+      storageClassName: {{ index .Values "ecs-monitoring" "influxdb" "persistence" "storageClassName" }}
+
+objectscale-monitoring:
+  influxdb:
+    persistence:
+      storageClassName: {{ index .Values "objectscale-monitoring" "influxdb" "persistence" "storageClassName" }}
+  rsyslog:
+    persistence:
+      storageClassName: {{ index .Values "objectscale-monitoring" "rsyslog" "persistence" "storageClassName" }}
+
+objectscale-gateway:
+  enabled: {{ index .Values "objectscale-gateway" "enabled" }}
+
+createApplicationResource: {{ .Values.createApplicationResource }}
+{{- end }}

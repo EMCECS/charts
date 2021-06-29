@@ -17,7 +17,11 @@ metadata:
     nautilus.dellemc.com/run-level: "9"    # start before objectscale-manager
     nautilus.dellemc.com/chart-name: logging-injector
     nautilus.dellemc.com/chart-version: {{ .Chart.Version }}
+    {{- if eq .Values.global.platform "VMware" }}
+    nautilus.dellemc.com/chart-values: {{ .Files.Get "customvalues.json" | toJson }}
+    {{- else }}
     nautilus.dellemc.com/chart-values: {{ .Values | toJson | quote }}
+  {{- end }}
 spec:
   assemblyPhase: Pending
   selector:

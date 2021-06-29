@@ -78,9 +78,14 @@ spec:
           mountPath: /opt/storageos/logs
         - name: tls-secrets
           mountPath: "/etc/nginx/ssl"
+        - name: mgmt-shared-secret
+          mountPath: "/etc/mgmt/sharedsecret"
       volumes:
       - name: log
         emptyDir: {}
       - name: tls-secrets
         secret:
           secretName: objectscale-iam-tls
+      - name: mgmt-shared-secret
+        secret:
+          secretName: mgmt-servicelogin-shared-secret

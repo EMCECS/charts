@@ -1,0 +1,19 @@
+{{- if .Values.useCustomValues }}
+---
+global:
+  registrySecret: {{ .Values.global.registrySecret }}
+
+  registry: {{ .Values.global.registry }}
+
+  watchAllNamespaces: {{ .Values.global.watchAllNamespaces }}
+
+  platform: {{ .Values.global.platform }}
+
+storageClassName: {{ .Values.storageClassName }}
+
+postgresql-ha:
+  persistence:
+    storageClass: {{ index .Values "postgresql-ha" "persistence" "storageClass" }}
+
+createkahmappResource: {{ .Values.createkahmappResource }}
+{{- end }}

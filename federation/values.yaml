@@ -1,5 +1,5 @@
 ---
-tag: 0.75.0
+tag: 0.76.0
 global:
   registry: emccorp
   # Default: true == Watch ALL namespaces
@@ -11,7 +11,7 @@ fedsvc:
   image:
     pullPolicy: IfNotPresent
     repository: fedsvc
-    tag: 3.7.0.0-56.8c6235a # rfw-update-this fedsvc-docker-image
+    tag: 3.7.0.0-64.1d68960 # rfw-update-this fedsvc-docker-image
   livenessProbe:
     probePath: /fedsvchealthcheck
   readinessProbe:
@@ -39,3 +39,10 @@ atlas:
 
   # Replica count for ObjectScale Federation Atlas Cluster
   replicaCount: 3
+
+  # Atlas pods limits and requests memory setting
+  resources:
+    limits:
+      memory: 1000Mi
+    requests:
+      memory: 256Mi

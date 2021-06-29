@@ -12,13 +12,13 @@ global:
   registry: emccorp
 
 # The default docker tag and pull policy for dell-supportassist-ese
-tag: 2.75.0
+tag: 2.76.0
 pullPolicy: Always
 
 # The image configured for dell-ese
 image:
   repository: dell-supportassist-ese
-  tag: 2.75.0-213.bfdd823 # rfw-update-this dell-supportassist-ese-image
+  tag: 2.76.0-216.c84c8a0 # rfw-update-this dell-supportassist-ese-image
   # pullPolicy: Always
 
 # Create app resource thru helm
@@ -78,7 +78,7 @@ useGateways: true
 notifier:
   image:
     repository: "supportassist-ese-notifier"
-    tag: 2.75.0-213.bfdd823 # rfw-update-this ese-notifier-image
+    tag: 2.76.0-216.c84c8a0 # rfw-update-this ese-notifier-image
     # pullPolicy: "Always"
   servicePort: 50051
   grpcConnTimeout: 5
@@ -88,7 +88,7 @@ notifier:
 esecallback:
   image:
     repository: "ese-callback"
-    tag: 2.75.0-213.bfdd823 # rfw-update-this ese-callback-image
+    tag: 2.76.0-216.c84c8a0 # rfw-update-this ese-callback-image
     # pullPolicy: "Always"
   servicePort: 9447
 
@@ -97,7 +97,7 @@ esecallback:
 eseStore:
   image:
     repository: decks-support-store
-    tag: 2.75.0-213.bfdd823 # rfw-update-this decks-support-store-image
+    tag: 2.76.0-216.c84c8a0 # rfw-update-this decks-support-store-image
     pullPolicy: Always
   persistentVolume:
     size: 50Gi
@@ -131,7 +131,7 @@ telemetry:
   inventory:
     image:
       repository: telemetry-upload
-      tag: 2.75.0-213.bfdd823 # rfw-update-this telemetry-upload-image
+      tag: 2.76.0-216.c84c8a0 # rfw-update-this telemetry-upload-image
     schedule: "0 * * * *"
     disabled: false
     folder: inventory
@@ -139,7 +139,7 @@ telemetry:
   capacity:
     image:
       repository: telemetry-upload
-      tag: 2.75.0-213.bfdd823 # rfw-update-this telemetry-upload-image
+      tag: 2.76.0-216.c84c8a0 # rfw-update-this telemetry-upload-image
     schedule: "0 * * * *"
     disabled: false
     folder: capacity
@@ -147,7 +147,7 @@ telemetry:
   performance:
     image:
       repository: telemetry-upload
-      tag: 2.75.0-213.bfdd823 # rfw-update-this telemetry-upload-image
+      tag: 2.76.0-216.c84c8a0 # rfw-update-this telemetry-upload-image
     schedule: "*/10 * * * *"
     disabled: false
     folder: performance
@@ -155,7 +155,7 @@ telemetry:
   health:
     image:
       repository: telemetry-upload
-      tag: 2.75.0-213.bfdd823 # rfw-update-this telemetry-upload-image
+      tag: 2.76.0-216.c84c8a0 # rfw-update-this telemetry-upload-image
     schedule: "*/10 * * * *"
     disabled: false
     folder: health

@@ -1,0 +1,41 @@
+suite: test configmap
+templates:
+  - configmap.yaml
+tests:
+  - it: OpenShift platform dns resolver
+    set:
+      global.platform: OpenShift
+      global.telegraf_tls_enabled: true
+    asserts:
+      - matchRegex:
+          path: data.location_flux\.conf
+          pattern: 'resolver dns-default.openshift-dns.svc.cluster.local;'
+  - it: VMware platform dns resolver
+    set:
+      global.platform: VMware
+    asserts:
+      - matchRegex:
+          path: data.location_flux\.conf
+          pattern: 'resolver kube-dns.kube-system.svc.cluster.local;'
+  - it: custom DNS
+    set:
+      global.platform: VMware
+      global.dns: "dns_value"
+    asserts:
+      - matchRegex:
+          path: data.location_flux\.conf
+          pattern: 'resolver dns_value;'
+  - it: ObjectScale fluxd address
+    release:
+      name: ecs-flex
+      namespace: ns1
+    asserts:
+      - matchRegex:
+          path: data.location_flux\.conf
+          pattern: proxy_pass http://ecs-flex-fluxd.ns1.svc.cluster.local:8093;
+  - it: Monitoring disabled
+    set:
+      global.monitoring.enabled: false
+    asserts:
+      - isNull:
+          path: data

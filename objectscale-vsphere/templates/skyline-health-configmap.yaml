@@ -9,11 +9,11 @@ metadata:
   namespace: {{ .Release.Namespace }}
 data:
   alarm_en: |-
-    objectScale.objectScaleHealthCheck.event.description="Errors occrued in objectScale"
-    objectScale.objectScaleHealthCheck.event.formatOnComputeResource="Errors occrued in objectScale"
-    objectScale.objectScaleHealthCheck.event.fullFormat="Errors occrued in objectScale"
-    objectScale.objectScaleHealthCheck.label="Errors occrued in objectScale"
-    objectScale.objectScaleHealthCheck.summary="Errors occrued in objectScale"
+    objectScale.objectScaleHealthCheck.event.description="Errors occrued in ObjectScale"
+    objectScale.objectScaleHealthCheck.event.formatOnComputeResource="Errors occrued in ObjectScale"
+    objectScale.objectScaleHealthCheck.event.fullFormat="Errors occrued in ObjectScale"
+    objectScale.objectScaleHealthCheck.label="Errors occrued in ObjectScale"
+    objectScale.objectScaleHealthCheck.summary="Errors occrued in ObjectScale"
   health_en: |-
     objectScale="ObjectScale Health"
     objectScale.objectScaleHealthCheck.short="ObjectScale Health"
@@ -25,3 +25,4 @@ data:
     objectScale.objectScaleHealthCheck.columns.numberOfCritical="Critical"
     objectScale.objectScaleHealthCheck.columns.numOfErrors="Error"
     objectScale.objectScaleHealthCheck.columns.status="Status"
+    objectScale.objectScaleHealthCheck.columns.namespace="Namespace"

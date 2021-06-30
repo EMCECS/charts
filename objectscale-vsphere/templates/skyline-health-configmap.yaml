@@ -2,18 +2,17 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  creationTimestamp: {{ now | date "2006-01-02T15:04:05-0700"}}
   labels:
     vmware.vsphere.health: catalog
   name: objectscale-catalog
   namespace: {{ .Release.Namespace }}
 data:
   alarm_en: |-
-    objectScale.objectScaleHealthCheck.event.description="Errors occrued in ObjectScale"
+    objectScale.objectScaleHealthCheck.event.description="Errors occured in ObjectScale"
     objectScale.objectScaleHealthCheck.event.formatOnComputeResource="Errors occrued in ObjectScale"
-    objectScale.objectScaleHealthCheck.event.fullFormat="Errors occrued in ObjectScale"
-    objectScale.objectScaleHealthCheck.label="Errors occrued in ObjectScale"
-    objectScale.objectScaleHealthCheck.summary="Errors occrued in ObjectScale"
+    objectScale.objectScaleHealthCheck.event.fullFormat="Errors occured in ObjectScale"
+    objectScale.objectScaleHealthCheck.label="Errors occured in ObjectScale"
+    objectScale.objectScaleHealthCheck.summary="Errors occured in ObjectScale"
   health_en: |-
     objectScale="ObjectScale Health"
     objectScale.objectScaleHealthCheck.short="ObjectScale Health"

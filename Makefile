@@ -151,7 +151,7 @@ flexver: yqcheck graphqlver zookeeper-operatorver pravega-operatorver atlas-oper
 		sed ${SED_INPLACE} -e "0,/^tag.*/s//tag: ${FLEXVER}/"  $$CHART/values.yaml; \
 	done ;
 
-update-dependencies:
+chart-dep:
 	rm **/charts/**; \
 	rm -r **/tmpcharts; \
 	if [ "$${CHARTS}" = "$${ALL_CHARTS}" ] ; then \

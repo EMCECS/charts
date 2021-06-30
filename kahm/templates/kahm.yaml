@@ -46,9 +46,11 @@ spec:
           name: metrics
         - containerPort: 17999
           name: rest
+{{- if eq .Values.db.dbType "BadgerDB" }}
         volumeMounts:
         - mountPath: /data/db
           name: db
+{{- end }}
         {{- if .Values.resources }}
         resources:
 {{ toYaml .Values.resources | indent 10 }}
@@ -116,7 +118,9 @@ spec:
               key: credentials
 {{- end }}
       restartPolicy: Always
+{{- if eq .Values.db.dbType "BadgerDB" }}
       volumes:
       - name: db
         persistentVolumeClaim:
           claimName: db-kahm-0 
+{{- end }}

@@ -68,9 +68,9 @@ data:
           args:
             - -watch_ns
 {{- if eq .Values.global.watchAllNamespaces true}}
-           - ""
+            - ""
 {{- else }}
-           - metadata.namespace
+            - {{ .Release.Namespace }}
 {{- end }}
         - name: inventory
           container: {{.Values.global.registry}}/{{ .Values.healthChecks.inventory.image.repository}}:{{default .Values.tag .Values.healthChecks.inventory.image.tag}}

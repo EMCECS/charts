@@ -218,8 +218,10 @@ install_script=temp_package/openshift/objectscale-install.sh
 echo "objectscale_version=$objs_ver" > temp_package/openshift/objectscale-install.sh
 cat scripts/common_funcs.sh scripts/objectscale-install-main.sh >> temp_package/openshift/objectscale-install.sh
 
-wget -q http://asdrepo.isus.emc.com/artifactory/objectscale-build/com/github/yq/v4.4.1/yq_linux_amd64
+rm -f yq_linux_amd64*
+wget http://asdrepo.isus.emc.com/artifactory/objectscale-build/com/github/yq/v4.4.1/yq_linux_amd64
 tar -czvf yq.tar.gz yq_linux_amd64 && base64 yq.tar.gz >> temp_package/openshift/objectscale-install.sh
 
+rm -f yq_linux_amd64* yq.tar.gz
 chmod 500 temp_package/openshift/objectscale-install.sh
 

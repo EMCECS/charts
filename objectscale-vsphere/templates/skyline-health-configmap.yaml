@@ -1,0 +1,27 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    vmware.vsphere.health: catalog
+  name: objectscale-catalog
+  namespace: {{ .Release.Namespace }}
+data:
+  alarm_en: |-
+    objectScale.objectScaleHealthCheck.event.description="Errors occured in ObjectScale"
+    objectScale.objectScaleHealthCheck.event.formatOnComputeResource="Errors occrued in ObjectScale"
+    objectScale.objectScaleHealthCheck.event.fullFormat="Errors occured in ObjectScale"
+    objectScale.objectScaleHealthCheck.label="Errors occured in ObjectScale"
+    objectScale.objectScaleHealthCheck.summary="Errors occured in ObjectScale"
+  health_en: |-
+    objectScale="ObjectScale Health"
+    objectScale.objectScaleHealthCheck.short="ObjectScale Health"
+    objectScale.objectScaleHealthCheck.desc="Health status for each ObjectScale."
+    objectScale.objectScaleHealthCheck.testname="ObjectScale Health"
+    objectScale.objectScaleHealthCheck.table.label="ObjectScale Details"
+    objectScale.objectScaleHealthCheck.columns.component="Component"
+    objectScale.objectScaleHealthCheck.columns.numberOfWarning="Warning"
+    objectScale.objectScaleHealthCheck.columns.numberOfCritical="Critical"
+    objectScale.objectScaleHealthCheck.columns.numOfErrors="Error"
+    objectScale.objectScaleHealthCheck.columns.status="Status"
+    objectScale.objectScaleHealthCheck.columns.namespace="Namespace"

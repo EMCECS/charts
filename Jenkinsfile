@@ -36,6 +36,7 @@ pipeline {
                        sh('''
                             make dep
                             PATH=/tmp:$PATH
+                            make chart-dep
                             make test
                        ''')
                     }

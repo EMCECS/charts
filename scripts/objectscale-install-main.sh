@@ -25,6 +25,7 @@ function usage()
 
    optional arguments:
      --set global.registry=<string>           where to pull ObjectScale container images
+     --set global.registrySecret=<string>     what registry login to use to pull down container images
      --set secondaryStorageClassName=<string> name of storage class for normal performance persistent volumes (e.g. csi-baremetal-hddlvg)
      -h, --help                               show this help message and exit
      -v, --verbose                            increase the verbosity of the bash script
@@ -34,7 +35,7 @@ function usage()
    ----------------------
    helm repo add objectscale "https://MY_PRIVATE_TOKEN@raw.githubusercontent.com/emcecs/charts/v0.7x.0/docs"
    helm repo update
-   ./objectscale-install.sh --set type=install --set helmrepo=objectscale --set global.registry=asdrepo.isus.emc.com:8099 --set primaryStorageClassName=csi-baremetal-sc-hddlvg
+   ./objectscale-install.sh --set type=install --set helmrepo=objectscale --set global.registry=asdrepo.isus.emc.com:8099 --set primaryStorageClassName=csi-baremetal-sc-ssdlvg --set secondaryStorageClassName=csi-baremetal-sc-hddlvg
 
 HEREDOC
 }  

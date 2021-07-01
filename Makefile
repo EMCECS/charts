@@ -151,7 +151,8 @@ flexver: yqcheck graphqlver zookeeper-operatorver pravega-operatorver atlas-oper
 		sed ${SED_INPLACE} -e "0,/^tag.*/s//tag: ${FLEXVER}/"  $$CHART/values.yaml; \
 	done ;
 
-chart-dep:
+chart-dep: charts-dep
+charts-dep:
 	rm **/charts/**; \
 	rm -r **/tmpcharts; \
 	if [ "$${CHARTS}" = "$${ALL_CHARTS}" ] ; then \
@@ -191,17 +192,8 @@ build: yqcheck
 		cd docs && helm repo index . ; \
 	fi
 
-# add-to-git:
-# 	for CHART in ${CHARTS}; do \
-# 		if [ -d "$${CHART}/charts" ]; then \
-# 			echo "Adding charts to git for $${CHART}" ; \
-# 			git add $${CHART}/charts; \
-# 		fi; \
-# 	done ; \
-# 	echo "Adding docs to git" ; \
-# 	git add docs; \
 
-package: charts-dep clean-package create-temp-package create-manifests combine-crds create-packages archive-package
+package: clean-package create-temp-package create-manifests combine-crds create-packages archive-package
 create-temp-package:
 	mkdir -p ${TEMP_PACKAGE}/yaml
 	mkdir -p ${TEMP_PACKAGE}/scripts
@@ -258,6 +250,7 @@ create-manager-app: create-temp-package
 	sed ${SED_INPLACE} 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
 	cat ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
 	rm ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml ## && rm -rf objectscale-manager/customvalues.*
+	rm -f objectscale-manager/customvalues.*
 
 
 create-vsphere-templates: create-temp-package
@@ -292,7 +285,7 @@ create-decks-app: create-temp-package
 	sed ${SED_INPLACE} 's/createdecksappResource\\":true/createdecksappResource\\":false/g' ${TEMP_PACKAGE}/yaml/decks-app.yaml && \
 	sed ${SED_INPLACE} 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/decks-app.yaml
 	cat ${TEMP_PACKAGE}/yaml/decks-app.yaml > ${TEMP_PACKAGE}/yaml/${DECKS_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/decks-app.yaml
-	rm -rf decks/customvalues.*
+	rm -rf decks/custom-values.*
 
 create-kahm-app: create-temp-package
 	# cd in makefiles spawns a subshell, so continue the command with ;

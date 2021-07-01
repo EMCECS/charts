@@ -4,12 +4,8 @@ S3-compatible object storage.
 
 Your release is named {{ .Release.Name }}.
 
-To get started, simply read your access keys and endpoint(s):
+To get started, simply create your access keys and endpoint(s):
 
-  $ read -r ACCESS_KEY SECRET_KEY ACCOUNT_ID \
-        <<<$(kubectl -n {{ .Release.Namespace }} get secret {{ .Release.Name }}-initial-user -o jsonpath='{.data.IAM_ACCESS_KEY_ID}' | base64 -d; echo -n " "; \
-             kubectl -n {{ .Release.Namespace }} get secret {{ .Release.Name }}-initial-user -o jsonpath='{.data.IAM_SECRET_KEY}' | base64 -d; echo -n " "; \
-             kubectl -n {{ .Release.Namespace }} get secret {{ .Release.Name }}-initial-user -o jsonpath='{.data.IAM_ACCOUNT_ID}' | base64 -d )
 {{- if eq .Values.s3.service.type "LoadBalancer" }}
   $ read -r INTERNAL_ENDPOINT EXTERNAL_ENDPOINT \
         <<<$(kubectl get svc {{ .Release.Name }}-s3 \

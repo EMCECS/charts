@@ -4,7 +4,7 @@ S3-compatible object storage.
 
 Your release is named {{ .Release.Name }}.
 
-To get started, simply create your access keys and endpoint(s):
+To get started, simply get your access keys and endpoint(s):
 
 {{- if eq .Values.s3.service.type "LoadBalancer" }}
   $ read -r INTERNAL_ENDPOINT EXTERNAL_ENDPOINT \

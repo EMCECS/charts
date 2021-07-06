@@ -56,12 +56,8 @@ spec:
     description: Cluster-level management of Dell EMC ObjecScale Object Stores
     version: {{.Values.tag}}
     keywords:
-      - deos
       - objectscale
       - object store
-      - flex
-      - ecs
       - s3
-    info:
-      - "Copyright © 2019 Dell Inc. or its subsidiaries. All Rights Reserved."
+    notes: "Copyright © 2019-2021 Dell Inc. or its subsidiaries. All Rights Reserved."
 {{- end }}

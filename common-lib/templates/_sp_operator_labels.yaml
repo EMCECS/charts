@@ -20,6 +20,13 @@ objectscale.dellemc.com/sp-integrated: "true"
 {{- end }}
 
 #
+# Label for registering for ignoring stateless pods readiness post check on TMM.
+#
+{{ define "common-lib.labels-sp-integrated-depends-on-stateful" -}}
+objectscale.dellemc.com/sp-integrated-depends-on-stateful: "true"
+{{- end }}
+
+#
 # Label for registering for default handling on Permanent Maintenance Mode.
 #
 {{ define "common-lib.labels-sp-integrated-pmm" -}}

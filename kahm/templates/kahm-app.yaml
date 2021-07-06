@@ -22,7 +22,6 @@ metadata:
     {{- else }}
     nautilus.dellemc.com/chart-values: {{ .Values | toJson | quote }}
     {{- end }}
-
 spec:
   selector:
     matchLabels:
@@ -50,8 +49,8 @@ spec:
       Kubernetes Application Health Management
     keywords:
       - "kahm"
-      - "event"
+      - "events"
+      - "issues"
       - "health"
-    info:
-      - "Copyright (c) 2019-2020 Dell Inc. or its subsidiaries. All Rights Reserved."
+    notes: "Copyright (c) 2019-2021 Dell Inc. or its subsidiaries. All Rights Reserved."
   {{- end}}

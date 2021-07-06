@@ -2,7 +2,9 @@
 {{- if .Values.useCustomValues }}
 ---
 global:
+  {{- if .Values.global.registrySecret }}
   registrySecret: {{ .Values.global.registrySecret }}
+  {{- end }}
 
   registry: {{ .Values.global.registry }}
 

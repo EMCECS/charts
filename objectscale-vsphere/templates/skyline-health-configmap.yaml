@@ -8,15 +8,15 @@ metadata:
   namespace: {{ .Release.Namespace }}
 data:
   alarm_en: |-
-    objectScale.objectScaleHealthCheck.event.description="Errors occured in ObjectScale"
-    objectScale.objectScaleHealthCheck.event.formatOnComputeResource="Errors occrued in ObjectScale"
-    objectScale.objectScaleHealthCheck.event.fullFormat="Errors occured in ObjectScale"
-    objectScale.objectScaleHealthCheck.label="Errors occured in ObjectScale"
-    objectScale.objectScaleHealthCheck.summary="Errors occured in ObjectScale"
+    objectScale.objectScaleHealthCheck.event.description="Errors occurred in ObjectScale"
+    objectScale.objectScaleHealthCheck.event.formatOnComputeResource="Errors occurred in ObjectScale"
+    objectScale.objectScaleHealthCheck.event.fullFormat="Errors occurred in ObjectScale"
+    objectScale.objectScaleHealthCheck.label="Errors occurred in ObjectScale"
+    objectScale.objectScaleHealthCheck.summary="Errors occurred in ObjectScale"
   health_en: |-
     objectScale="ObjectScale Health"
     objectScale.objectScaleHealthCheck.short="ObjectScale Health"
-    objectScale.objectScaleHealthCheck.desc="Health status for each ObjectScale."
+    objectScale.objectScaleHealthCheck.desc="Health status for ObjectScale"
     objectScale.objectScaleHealthCheck.testname="ObjectScale Health"
     objectScale.objectScaleHealthCheck.table.label="ObjectScale Details"
     objectScale.objectScaleHealthCheck.columns.component="Component"

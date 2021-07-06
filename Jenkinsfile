@@ -33,6 +33,12 @@ pipeline {
 
                 withDockerContainer(image: DOCKER_IMAGE, args: DOCKER_ARGS) {
                     sshagent([GH_CREDS]) {
+
+                        // NOTE this is to fix non-default (not in /usr/bin) location of pip in newer python2.7
+                        sh("sed -i 's/\\(secure_path=\\\"\\)/\\1\\/usr\\/local\\/bin:/' /etc/sudoers")
+                        // remove old version of yq provided by fabric devkit
+                        sh("rm -rf /usr/local/bin/yq")
+
                        sh('''
                             make dep
                             PATH=/tmp:$PATH

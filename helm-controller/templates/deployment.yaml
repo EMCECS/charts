@@ -64,11 +64,10 @@ spec:
                   fieldPath: status.podIP
             - name: REST_PORT
               value: {{ .Values.service.targetPort | default 8080 | quote}}
-            - name: REST_CREDENTIALS
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Release.Name }}-rest-credentials
-                  key: credentials
+            - name: RELEASE_NAME
+              value: {{ .Release.Name}}
+            - name: RELEASE_NAMESPACE
+              value: {{ .Release.Namespace}}
             - name: WATCH_NAMESPACE
               {{- if eq .Values.global.watchAllNamespaces true}}
               value: ""

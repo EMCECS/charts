@@ -4,7 +4,6 @@
   matchOnList:
     - matchon:
         - label: SymptomID
-          value: OBJST-2063
+          value: CSI-2063
   notifiers:
     - objectscale-snmp-notifier
-

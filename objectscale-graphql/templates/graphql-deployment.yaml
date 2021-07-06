@@ -105,13 +105,10 @@ spec:
 {{- end }}
         - name: HELM_CONTROLLER_ENDPOINT
           value: http://{{ .Release.Name }}-installer
-        - name: HELM_CONTROLLER_REST_CREDENTIALS
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Release.Name }}-rest-credentials
-              key: credentials
         - name: KUBERNETES_PLATFORM
           value: {{ .Values.global.platform }}
+        - name: RELEASE_NAME
+          value: {{ .Release.Name }}
 {{- if .Values.withPlayground }}
         args:
           - "-P"

@@ -1,0 +1,10 @@
+- description: "Fake-attach involved issue"
+  name: "FakeAttachInvolved"
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        - label: SymptomID
+          value: CSI-2064
+  notifiers:
+    - objectscale-snmp-notifier
+

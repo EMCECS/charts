@@ -85,7 +85,7 @@ data:
 {{- if eq .Values.global.watchAllNamespaces true}}
             - "" 
 {{- else }}
-            - metadata.namespace
+            - {{ .Release.Namespace }}
 {{- end }}
         - name: capacity
           container: {{.Values.global.registry}}/{{ .Values.healthChecks.capacity.image.repository}}:{{default .Values.tag .Values.healthChecks.capacity.image.tag}}
@@ -100,7 +100,7 @@ data:
 {{- if eq .Values.global.watchAllNamespaces true}}
             - "" 
 {{- else }}
-            - metadata.namespace
+            - {{ .Release.Namespace }}
 {{- end }}
             - -window
             - {{ default "60" .Values.healthChecks.capacity.window | quote}}
@@ -118,7 +118,7 @@ data:
 {{- if eq .Values.global.watchAllNamespaces true}}
             - "" 
 {{- else }}
-            - metadata.namespace
+            - {{ .Release.Namespace }}
 {{- end }}
             - -window
             - {{ default "10" .Values.healthChecks.performance.window | quote}}
@@ -135,5 +135,13 @@ data:
 {{- if eq .Values.global.watchAllNamespaces true}}
             - "" 
 {{- else }}
-            - metadata.namespace
+            - {{ .Release.Namespace }}
+{{- end }}
+            - -uploadSkylineHealth
+            - {{ default true .Values.healthChecks.health.uploadHealthReport}}
+            - -uploadSkylineHealth
+{{- if eq .Values.global.platform "VMware" }}
+            - {{ default true .Values.healthChecks.health.uploadSkylineHealth}}
+{{- else }}
+            - false
 {{- end }}

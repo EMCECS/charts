@@ -272,6 +272,8 @@ healthChecks:
       tag: 0.76.0-53.9b8b8ec # rfw-update-this objectscale-health-image
     schedule: "*/10 * * * *"
     disabled: false
+    uploadSkylineHealth: true
+    uploadHealthReport: true
 
 features:
   spOperatorEnabled: true

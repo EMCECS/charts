@@ -6,10 +6,12 @@ To add this repository to your local Helm installation:
 
 > *_NOTE: Currently, this is a private repository, so use the private repo instructions below. Public repo options will be available once we go public._*
 
+This is the chart source repo, binaries were migrated to [EMCECS/charts-bin repo](https://github.com/EMCECS/charts-bin) 
+
 ## Adding the ECS Repository
 
 ```bash
-$ helm repo add ecs https://emcecs.github.io/charts
+$ helm repo add ecs https://emcecs.github.io/charts-bin
 $ helm repo update
 ```
 ## Available Charts
@@ -44,7 +46,7 @@ In this development phase, both the Helm repostory and referenced Docker registr
 
 ```bash
 $ helm repo add ecs \
-  "https://MY_PRIVATE_TOKEN@raw.githubusercontent.com/emcecs/charts/master/docs"
+  "https://MY_PRIVATE_TOKEN@raw.githubusercontent.com/emcecs/charts-bin/master/docs"
 $ helm repo update
 ```
 

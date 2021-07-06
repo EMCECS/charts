@@ -135,7 +135,7 @@ data:
                 proxy_set_header X-SDS-AUTH-TOKEN $cookie_osauthtoken;
                 proxy_set_header X-ALLOW-ROLES "SYSTEM_ADMIN,SYSTEM_MONITOR";
                 proxy_set_header Content-Length "";
-                proxy_pass http://$fedsvcname:$fedsvcport/mgmt/validate;
+                proxy_pass http://$fedsvcname:$fedsvcport/mgmt/validateToken;
             }
 
             location /invalidate_token_for_grafana {

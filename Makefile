@@ -3,7 +3,7 @@ HELM_URL     := https://get.helm.sh
 HELM_TGZ      = helm-${HELM_VERSION}-linux-amd64.tar.gz
 YQ_VERSION   := 4.4.1
 YAMLLINT_VERSION := 1.20.0
-ALL_CHARTS := common-lib ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod helm-controller objectscale-graphql objectscale-vsphere objectscale-portal objectscale-gateway objectscale-iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator influxdb-operator federation logging-injector objectscale-dcm
+ALL_CHARTS := common-lib ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod helm-controller objectscale-graphql objectscale-vsphere objectscale-portal objectscale-gateway objectscale-iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator influxdb-operator federation logging-injector objectscale-dcm snmp-notifier
 CHARTS = ${ALL_CHARTS}
 DECKSCHARTS := decks kahm supportassist service-pod dellemc-license decks-support-store
 FLEXCHARTS := common-lib ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller objectscale-portal objectscale-gateway objectscale-iam statefuldaemonset-operator influxdb-operator federation logging-injector objectscale-dcm
@@ -65,9 +65,9 @@ clean: clean-package
 
 all: test package
 
-release: decksver flexver build generate-issues-events-all add-to-git
+release: decksver flexver build generate-issues-events-all
 
-resolve-and-release: decksver flexver resolve-versions build generate-issues-events-all add-to-git
+resolve-and-release: decksver flexver resolve-versions build generate-issues-events-all
 
 test:
 	helm version
@@ -86,7 +86,7 @@ dep:
 	if [ "$${?}" -eq "1" ] ; then \
 		helm plugin install https://github.com/lrills/helm-unittest ; \
  	fi
-	export PATH=/tmp:$PATH
+	export PATH=/tmp:${PATH}
 	sudo pip install yamllint=="${YAMLLINT_VERSION}" requests
 	wget -q http://asdrepo.isus.emc.com/artifactory/objectscale-build/com/github/yq/v${YQ_VERSION}/yq_linux_amd64
 	sudo mv yq_linux_amd64 /usr/bin/yq
@@ -151,6 +151,19 @@ flexver: yqcheck graphqlver zookeeper-operatorver pravega-operatorver atlas-oper
 		sed ${SED_INPLACE} -e "0,/^tag.*/s//tag: ${FLEXVER}/"  $$CHART/values.yaml; \
 	done ;
 
+chart-dep: charts-dep
+charts-dep:
+	rm **/charts/**; \
+	rm -r **/tmpcharts; \
+	if [ "$${CHARTS}" = "$${ALL_CHARTS}" ] ; then \
+		BUILD_CHARTS=`python tools/build_helper/sort_charts_by_deps.py -c ${CHARTS}`; \
+	else  \
+		BUILD_CHARTS=`python tools/build_helper/sort_charts_by_deps.py -c ${ALL_CHARTS} -s ${CHARTS}`; \
+	fi ; \
+ 	for CHART in $${BUILD_CHARTS}; do \
+ 		echo "Updating dependencies for $${CHART}" ; \
+ 		helm dep up $${CHART}; \
+ 	done ;
 
 resolve-versions:
 	python tools/build_helper/version_resolver.py -vs ${VERSION_SLICE_PATH}
@@ -179,15 +192,6 @@ build: yqcheck
 		cd docs && helm repo index . ; \
 	fi
 
-add-to-git:
-	for CHART in ${CHARTS}; do \
-		if [ -d "$${CHART}/charts" ]; then \
-			echo "Adding charts to git for $${CHART}" ; \
-			git add $${CHART}/charts; \
-		fi; \
-	done ; \
-	echo "Adding docs to git" ; \
-	git add docs; \
 
 package: clean-package create-temp-package create-manifests combine-crds create-packages archive-package
 create-temp-package:
@@ -246,6 +250,7 @@ create-manager-app: create-temp-package
 	sed ${SED_INPLACE} 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml
 	cat ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml >> ${TEMP_PACKAGE}/yaml/${MANAGER_MANIFEST}
 	rm ${TEMP_PACKAGE}/yaml/objectscale-manager-app.yaml ## && rm -rf objectscale-manager/customvalues.*
+	rm -f objectscale-manager/customvalues.*
 
 
 create-vsphere-templates: create-temp-package
@@ -280,7 +285,7 @@ create-decks-app: create-temp-package
 	sed ${SED_INPLACE} 's/createdecksappResource\\":true/createdecksappResource\\":false/g' ${TEMP_PACKAGE}/yaml/decks-app.yaml && \
 	sed ${SED_INPLACE} 's/app.kubernetes.io\/managed-by: Helm/app.kubernetes.io\/managed-by: nautilus/g' ${TEMP_PACKAGE}/yaml/decks-app.yaml
 	cat ${TEMP_PACKAGE}/yaml/decks-app.yaml > ${TEMP_PACKAGE}/yaml/${DECKS_MANIFEST} && rm ${TEMP_PACKAGE}/yaml/decks-app.yaml
-	rm -rf decks/customvalues.*
+	rm -rf decks/custom-values.*
 
 create-kahm-app: create-temp-package
 	# cd in makefiles spawns a subshell, so continue the command with ;

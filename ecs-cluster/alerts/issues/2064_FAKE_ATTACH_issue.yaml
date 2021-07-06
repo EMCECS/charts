@@ -1,9 +1,10 @@
-- description: "Disk problems"
-  name: "DiskProblems"
+- description: "Fake-attach issue"
+  name: "FakeAttach"
   issueCategory: Auto
   matchOnList:
     - matchon:
         - label: SymptomID
-          value: CSI-2006
+          value: CSI-2064
   notifiers:
     - objectscale-snmp-notifier
+

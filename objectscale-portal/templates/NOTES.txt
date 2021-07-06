@@ -12,8 +12,8 @@ This release is named {{ .Release.Name }}.
 2. Use "kubectl get svc objectscale-portal-external" to obtain the network address of the ObjectScale Portal
 
    kubectl get svc objectscale-portal-external
-   NAME                         TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)          AGE
-   objectscale-portal-external           LoadBalancer   172.30.22.167   10.x.y.z        4443:30436/TCP   9m2s
+   NAME                          TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)          AGE
+   objectscale-portal-external   LoadBalancer   172.30.160.33   10.236.228.48   4443:31474/TCP   118s
 
 3. Bring up a browser and connect to the above URL: https://<addr>:4443
 

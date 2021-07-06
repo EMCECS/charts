@@ -25,6 +25,7 @@ function usage()
 
    optional arguments:
      --set global.registry=<string>           where to pull ObjectScale container images
+     --set global.registrySecret=<string>     what registry login to use to pull down container images
      --set secondaryStorageClassName=<string> name of storage class for normal performance persistent volumes (e.g. csi-baremetal-hddlvg)
      -h, --help                               show this help message and exit
      -v, --verbose                            increase the verbosity of the bash script
@@ -34,8 +35,7 @@ function usage()
    ----------------------
    helm repo add objectscale "https://MY_PRIVATE_TOKEN@raw.githubusercontent.com/emcecs/charts/v0.7x.0/docs"
    helm repo update
-   ./objectscale-install.sh --set type=install --set helmrepo=objectscale --set global.registry=asdrepo.isus.emc.com:8099 \
-                    --set primaryStorageClassName=csi-baremetal-sc-hddlvg
+   ./objectscale-install.sh --set type=install --set helmrepo=objectscale --set global.registry=asdrepo.isus.emc.com:8099 --set primaryStorageClassName=csi-baremetal-sc-ssdlvg --set secondaryStorageClassName=csi-baremetal-sc-hddlvg
 
 HEREDOC
 }  
@@ -53,16 +53,21 @@ function parse_set_opts()
         "helmrepo")                 
             helm_repo=$setValue 
             ;;
-        "primaryStorageClassName")  
+        "primaryStorageClassName"|"primaryStorageClass"|psc*)
             primaryStorageClassName=$setValue 
             ;;
-        "secondaryStorageClassName") 
+        "secondaryStorageClassName"|"secondaryStorageClass"|ssc*)
             secondaryStorageClassName=$setValue
             ;;
-        "global.registry")          
+        "global.registry")
             registry="$nameval"
             registryName="$setValue"
             ;;
+        "global.registrySecret")
+            regSecret="$nameval"
+            registryName="$setValue"
+            ;;
+
         *)  
             set_opts+=($nameval) ;;
     esac
@@ -72,11 +77,12 @@ function parse_set_opts()
 function install_portal() 
 {
     uiStorageClass=${secondaryStorageClassName:-$primaryStorageClassName}
-    helm install objectscale-ui ${helm_repo}/objectscale-portal $dryrun --set global.platform=$platform,$registry --set global.storageClassName=$uiStorageClass
-    hexit=$?
+    cmd="helm install objectscale-ui ${helm_repo}/objectscale-portal $dryrun --set global.platform=$platform,$registry,$regSecret --set global.storageClassName=$uiStorageClass"
+    echomsg log $cmd
+    eval $cmd
     if [ $? -ne 0 ]
     then
-        echomsg "ERROR: unable to install UI"
+        echomsg "ERROR: unable to install ObjectScale UI"
     fi
 
 }
@@ -127,11 +133,10 @@ function install_logging_injector()
     fi
    	helm template --show-only templates/logging-injector-custom-values.yaml logging-injector ${helm_repo}/logging-injector \
 		--set useCustomValues=true \
-		--set global.platform=$platform \
-    	--set $registry \
+		--set global.platform=$platform,$registry,$regSecret \
     	--set global.objectscale_release_name=objectscale-manager \
     	--set global.rsyslog_client_stdout_enabled=false \
-    -f ./tmp/logging-injector-values.yaml > ./tmp/logging-injector-customvalues.yaml 
+        -f ./tmp/logging-injector-values.yaml > ./tmp/logging-injector-customvalues.yaml
     if [ $? -ne 0 ]
     then
         echomsg error "unable to generate $component custom values"
@@ -179,8 +184,7 @@ function install_kahm()
 
    	helm template --show-only templates/kahm-custom-values.yaml kahm ${helm_repo}/kahm \
 		--set useCustomValues=true \
-		--set global.platform=$platform \
-    	--set $registry \
+		--set global.platform=$platform,$registry,$regSecret \
         --set storageClassName=$secondaryStorageClassName \
         --set postgresql-ha.persistence.storageClass=$secondaryStorageClassName \
     -f ./tmp/kahm-values.yaml > ./tmp/kahm-customvalues.yaml 
@@ -227,8 +231,7 @@ function install_decks()
 
    	helm template --show-only templates/decks-custom-values.yaml kahm ${helm_repo}/decks \
 		--set useCustomValues=true \
-		--set global.platform=$platform \
-    	--set $registry \
+		--set global.platform=$platform,$registry,$regSecret \
         --set global.storageClassName=$secondaryStorageClassName \
        	--set decks-support-store.persistentVolume.storageClassName=$secondaryStorageClassName \
     -f ./tmp/decks-values.yaml > ./tmp/decks-customvalues.yaml 
@@ -278,8 +281,7 @@ function install_objectscale_manager()
     echomsg "Generating $component install settings..."
     helm template --show-only templates/objectscale-manager-custom-values.yaml objectscale-manager $helm_repo/objectscale-manager \
         --set useCustomValues=true \
-        --set global.platform=$platform \
-        --set $registry \
+        --set global.platform=$platform,$registry,$regSecret \
         --set hooks.registry=$registryName,global.storageClassName=$primaryStorageClassName \
         --set ecs-monitoring.influxdb.persistence.storageClassName=$primaryStorageClassName \
         --set global.monitoring_registry=$registryName \

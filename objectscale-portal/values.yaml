@@ -63,7 +63,7 @@ fedsvc:
 enabled: false
 image:
   repository: ecs-flex-vsphere-plugin
-  tag: 0.76.0.0-1131.9e9d37ac # rfw-update-this ecs-flex-vsphere-plugin-docker-image
+  tag: 0.76.0.0-1142.7abcc3e2 # rfw-update-this ecs-flex-vsphere-plugin-docker-image
   # pullPolicy: IfNotPresent
 service:
   # Type of Kubernetes service to create: ClusterIP, NodePort, or LoadBalancer

@@ -57,7 +57,7 @@ data:
           serviceaccount: {{ .Release.Name }}-healthchecks
           timelimit: "5m"
           reason: "pre-update"
-          symptomID: "OBJSC-HC-1000"
+          symptomID: "OBJSC-MGR-HC-1000"
           args:
             - -target-version
             - {{ default .Values.tag .Values.healthChecks.preUpdate.image.tag}}

@@ -15,7 +15,37 @@ metadata:
     com.dellemc.kahm.subscribed: "true"
 data:
   eventRules: |-
+    issueRules:
+{{ range $path, $_ :=  .Files.Glob  "alerts/issues/*_issue.yaml" }}
+{{- $.Files.Get $path | indent 8 }}
+{{ end }}
+    rules:
+      - description: send all critical events to SNMP server
+        matchon:
+          - field: type
+            operator: "=="
+            value: Critical
+        notifiers:
+          - objectscale-snmp-notifier
+      - description: send all error events to SNMP server
+        matchon:
+          - field: type
+            operator: "=="
+            value: Error
+        notifiers:
+          - objectscale-snmp-notifier
+      - description: send all warning events to SNMP server
+        matchon:
+          - field: type
+            operator: "=="
+            value: Warning
+        notifiers:
+          - objectscale-snmp-notifier
   eventRemedies: |-
+    symptoms:
+{{ range $path, $_ :=  .Files.Glob  "alerts/remedies/*_remedies.yaml" }}
+{{- $.Files.Get $path | indent 8 }}
+{{ end }}
   health: |-
     spec:
       - name: pre-update
@@ -23,7 +53,7 @@ data:
         serviceaccount: {{.Release.Name}}-healthchecks
         timelimit: "5m"
         reason: "pre-update"
-        symptomID: "OBJSC-HC-1000"
+        symptomID: "KAHM-HC-1000"
         args:
           - -target-version
           - {{ default .Values.tag .Values.healthChecks.preUpdate.image.tag }}

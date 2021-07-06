@@ -23,7 +23,7 @@ enabled: true
 # The image configured for snmp notifier
 image:
   repository: snmp-notifier
-  tag: # rfw-update-this snmp-notifier-image
+  tag: 2.76.0 # rfw-update-this snmp-notifier-image
   # pullPolicy: Always
 # the GRPC setting between KAHM and snmp-notifier
 grpc:
@@ -37,7 +37,7 @@ createAppResource: true
 # snmpServer- required field to pass using --set
 snmpServer:
   # snmp server host/ip address - mandatory parameter
-  # host: 10.11.12.13
+  host: 10.11.12.13
   # snmp server port
   port: 162
   # v2c or v3

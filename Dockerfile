@@ -9,6 +9,6 @@
 
 # Dockerfile for install-controller
 
-FROM asdrepo.isus.emc.com:8099/install-controller:green
+FROM asdrepo.isus.emc.com:8099/install-controller:1.3-W6-ea53dff2
 
 COPY ./docs /docs

@@ -130,9 +130,7 @@ data:
 {{- else }}
             - {{ .Release.Namespace }}
 {{- end }}
-            - -uploadSkylineHealth
 {{- if eq .Values.global.platform "VMware" }}
+            - -uploadSkylineHealth
             - {{ default true .Values.healthChecks.health.uploadSkylineHealth}}
-{{- else }}
-            - false
 {{- end }}

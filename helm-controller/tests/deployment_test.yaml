@@ -26,10 +26,10 @@ tests:
       global.watchAllNamespaces: true
     asserts:
       - equal:
-          path: spec.template.spec.containers[0].env[4].name
+          path: spec.template.spec.containers[0].env[5].name
           value: WATCH_NAMESPACE
       - equal:
-          path: spec.template.spec.containers[0].env[4].value
+          path: spec.template.spec.containers[0].env[5].value
           value: ""
 
   - it: should support watching the current namespace
@@ -37,9 +37,9 @@ tests:
       global.watchAllNamespaces: false
     asserts:
       - equal:
-          path: spec.template.spec.containers[0].env[4].name
+          path: spec.template.spec.containers[0].env[5].name
           value: WATCH_NAMESPACE
       - equal:
-          path: spec.template.spec.containers[0].env[4].valueFrom.fieldRef.fieldPath
+          path: spec.template.spec.containers[0].env[5].valueFrom.fieldRef.fieldPath
           value: metadata.namespace
 

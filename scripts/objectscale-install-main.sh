@@ -77,7 +77,7 @@ function parse_set_opts()
 function install_portal() 
 {
     uiStorageClass=${secondaryStorageClassName:-$primaryStorageClassName}
-    cmd="helm install objectscale-ui ${helm_repo}/objectscale-portal $dryrun --set global.platform=$platform,$registry,$regSecret --set global.storageClassName=$uiStorageClass"
+    cmd="helm install objectscale-ui ${helm_repo}/objectscale-portal $dryrun --set global.platform=$platform,$registry,$regSecret --set global.storageClassName=$uiStorageClass --devel"
     echomsg log $cmd
     eval $cmd
     if [ $? -ne 0 ]
@@ -135,7 +135,7 @@ function install_logging_injector()
 		--set useCustomValues=true \
 		--set global.platform=$platform,$registry,$regSecret \
     	--set global.objectscale_release_name=objectscale-manager \
-    	--set global.rsyslog_client_stdout_enabled=false \
+    	--set global.rsyslog_client_stdout_enabled=false --devel \
         -f ./tmp/logging-injector-values.yaml > ./tmp/logging-injector-customvalues.yaml
     if [ $? -ne 0 ]
     then
@@ -151,7 +151,7 @@ function install_logging_injector()
     fi
 
     ## now gen the app resource
-    helm template --show-only templates/logging-injector-app.yaml logging-injector ${helm_repo}/logging-injector  \
+    helm template --show-only templates/logging-injector-app.yaml logging-injector ${helm_repo}/logging-injector --devel \
 	    -f ./tmp/logging-injector-values.yaml -f ./tmp/logging-injector-customvalues.yaml > ./tmp/logging-injector-app.yaml
     if [ $? -ne 0 ]
     then
@@ -186,7 +186,7 @@ function install_kahm()
 		--set useCustomValues=true \
 		--set global.platform=$platform,$registry,$regSecret \
         --set storageClassName=$secondaryStorageClassName \
-        --set postgresql-ha.persistence.storageClass=$secondaryStorageClassName \
+        --set postgresql-ha.persistence.storageClass=$secondaryStorageClassName --devel \
     -f ./tmp/kahm-values.yaml > ./tmp/kahm-customvalues.yaml 
     if [ $? -ne 0 ]
     then
@@ -202,7 +202,7 @@ function install_kahm()
     fi 
 
     ## now gen the app resource
-    helm template --show-only templates/kahm-app.yaml kahm ${helm_repo}/kahm  \
+    helm template --show-only templates/kahm-app.yaml kahm ${helm_repo}/kahm  --devel \
 	    -f ./tmp/kahm-values.yaml -f ./tmp/kahm-customvalues.yaml > ./tmp/kahm-app.yaml
     if [ $? -ne 0 ]
     then
@@ -233,7 +233,7 @@ function install_decks()
 		--set useCustomValues=true \
 		--set global.platform=$platform,$registry,$regSecret \
         --set global.storageClassName=$secondaryStorageClassName \
-       	--set decks-support-store.persistentVolume.storageClassName=$secondaryStorageClassName \
+       	--set decks-support-store.persistentVolume.storageClassName=$secondaryStorageClassName --devel \
     -f ./tmp/decks-values.yaml > ./tmp/decks-customvalues.yaml 
     if [ $? -ne 0 ]
     then
@@ -249,7 +249,7 @@ function install_decks()
     fi 
 
     ## now gen the app resource
-    helm template --show-only templates/decks-app.yaml decks ${helm_repo}/decks  \
+    helm template --show-only templates/decks-app.yaml decks ${helm_repo}/decks  --devel \
 	    -f ./tmp/decks-values.yaml -f ./tmp/decks-customvalues.yaml > ./tmp/decks-app.yaml
     if [ $? -ne 0 ]
     then
@@ -286,7 +286,7 @@ function install_objectscale_manager()
         --set ecs-monitoring.influxdb.persistence.storageClassName=$primaryStorageClassName \
         --set global.monitoring_registry=$registryName \
 		--set objectscale-monitoring.influxdb.persistence.storageClassName=$primaryStorageClassName \
-	    --set objectscale-monitoring.rsyslog.persistence.storageClassName=$secondaryStorageClassName \
+	    --set objectscale-monitoring.rsyslog.persistence.storageClassName=$secondaryStorageClassName --devel \
          -f ./tmp/objectscale-manager-values.yaml > ./tmp/objectscale-manager-customvalues.yaml && sed -i '1,5d' ./tmp/objectscale-manager-customvalues.yaml
     if [ $? -ne 0 ]
     then
@@ -303,7 +303,7 @@ function install_objectscale_manager()
 
     echomsg "Generating $component application resource..."
     ## now gen the app resource
-    helm template --show-only templates/objectscale-manager-app.yaml objectscale-manager ${helm_repo}/objectscale-manager  \
+    helm template --show-only templates/objectscale-manager-app.yaml objectscale-manager ${helm_repo}/objectscale-manager  --devel \
 	    -f ./tmp/objectscale-manager-values.yaml -f ./tmp/objectscale-manager-customvalues.yaml > ./tmp/objectscale-manager-app.yaml
     if [ $? -ne 0 ]
     then

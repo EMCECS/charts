@@ -169,28 +169,18 @@ resolve-versions:
 	python tools/build_helper/version_resolver.py -vs ${VERSION_SLICE_PATH}
 
 
-build: yqcheck
-	REINDEX=0; \
+build:
 	if [ "$${CHARTS}" == "$${ALL_CHARTS}" ] ; then \
 	    BUILD_CHARTS=`python tools/build_helper/sort_charts_by_deps.py -c ${CHARTS}`; \
 	else  \
 	    BUILD_CHARTS=`python tools/build_helper/sort_charts_by_deps.py -c ${ALL_CHARTS} -s ${CHARTS}`; \
 	fi ; \
 	for CHART in $${BUILD_CHARTS}; do \
-		CURRENT_VER=`yq e .version $$CHART/Chart.yaml` ; \
-		yq e ".entries.$${CHART}[].version" docs/index.yaml | grep -q "\- $${CURRENT_VER}$$" ; \
-		if [ "$${?}" -eq "1" ] || [ "$${REBUILDHELMPKG}" ] ; then \
-		    echo "Updating package for $${CHART}" ; \
-		    helm dep update $${CHART}; \
-			helm package $${CHART} --destination docs ; \
-			REINDEX=1 ; \
-		else  \
-		    echo "Packages for $${CHART} are up to date" ; \
-		fi ; \
+		echo "Updating package for $${CHART}" ; \
+		helm dep update $${CHART}; \
+		helm package $${CHART} --destination docs ; \
 	done ; \
-	if [ "$${REINDEX}" -eq "1" ]; then \
-		cd docs && helm repo index . ; \
-	fi
+    cd docs && helm repo index . ;
 
 
 package: clean-package create-temp-package create-manifests combine-crds create-packages archive-package

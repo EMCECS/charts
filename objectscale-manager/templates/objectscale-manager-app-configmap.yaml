@@ -131,8 +131,6 @@ data:
             - {{ .Release.Namespace }}
 {{- end }}
             - -uploadSkylineHealth
-            - {{ default true .Values.healthChecks.health.uploadHealthReport}}
-            - -uploadSkylineHealth
 {{- if eq .Values.global.platform "VMware" }}
             - {{ default true .Values.healthChecks.health.uploadSkylineHealth}}
 {{- else }}

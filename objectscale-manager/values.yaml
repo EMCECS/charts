@@ -273,7 +273,6 @@ healthChecks:
     schedule: "*/10 * * * *"
     disabled: false
     uploadSkylineHealth: true
-    uploadHealthReport: true
 
 features:
   spOperatorEnabled: true

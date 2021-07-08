@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fedsvc
+  name: objectscale-federation
   labels:
     {{- include "fedsvc.labels" . | nindent 4 }}
 spec:
@@ -24,7 +24,7 @@ spec:
         - name: {{ .Values.global.registrySecret }}
       {{- end }}
       containers:
-      - name: fedsvc
+      - name: {{ .Chart.Name }}
         resources:
           limits:
             memory: 1000M
@@ -81,4 +81,4 @@ spec:
           emptyDir: {}
         - name: config
           configMap:
-            name: fedsvc-log-config
+            name: objectscale-federation-log-config

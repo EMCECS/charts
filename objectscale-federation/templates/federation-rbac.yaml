@@ -2,10 +2,10 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: federation
+  name: objectscale-federation
   namespace: {{.Release.Namespace}}
   labels:
-    app.kubernetes.io/name: "federation"
+    app.kubernetes.io/name: "objectscale-federation"
     app.kubernetes.io/version: {{.Values.tag}}
     app.kubernetes.io/instance: {{.Release.Name}}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
@@ -19,12 +19,12 @@ imagePullSecrets:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{.Release.Namespace }}-federation
+  name: {{.Release.Namespace }}-objectscale-federation
 {{- if ne .Values.global.watchAllNamespaces true }}
   namespace: {{.Release.Namespace}}
 {{- end }}
   labels:
-    app.kubernetes.io/name: "federation"
+    app.kubernetes.io/name: "objectscale-federation"
     app.kubernetes.io/version: {{.Values.tag}}
     app.kubernetes.io/instance: {{.Release.Name}}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
@@ -32,9 +32,9 @@ metadata:
     release: {{ .Release.Name }}
 subjects:
 - kind: ServiceAccount
-  name: federation
+  name: objectscale-federation
   namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: {{ .Release.Namespace }}-federation-admin
+  name: {{ .Release.Namespace }}-objectscale-federation-admin
   apiGroup: rbac.authorization.k8s.io

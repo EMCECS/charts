@@ -18,7 +18,7 @@ spec:
       annotations:
 {{ include "common-lib.vsphere-emm-integrated_annotation" . | indent 8}}
     spec:
-      serviceAccountName: "federation"
+      serviceAccountName: "objectscale-federation"
       {{- if .Values.global.registrySecret }}
       imagePullSecrets:
         - name: {{ .Values.global.registrySecret }}

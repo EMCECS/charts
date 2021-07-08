@@ -41,6 +41,7 @@ pipeline {
 
                        sh('''
                             make dep
+                            PATH=/tmp:$PATH
                             make charts-dep
                             make test
                             make package

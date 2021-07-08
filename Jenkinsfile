@@ -44,6 +44,7 @@ pipeline {
                             PATH=/tmp:$PATH
                             make charts-dep
                             make test
+                            make build
                             make package
                             make generate-issues-events-all
                        ''')

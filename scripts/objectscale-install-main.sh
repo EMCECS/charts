@@ -287,7 +287,7 @@ function install_objectscale_manager()
         --set global.monitoring_registry=$registryName \
 		--set objectscale-monitoring.influxdb.persistence.storageClassName=$primaryStorageClassName \
 	    --set objectscale-monitoring.rsyslog.persistence.storageClassName=$secondaryStorageClassName --devel \
-         -f ./tmp/objectscale-manager-values.yaml > ./tmp/objectscale-manager-customvalues.yaml && sed -i '1,5d' ./tmp/objectscale-manager-customvalues.yaml
+         -f ./tmp/objectscale-manager-values.yaml > ./tmp/objectscale-manager-customvalues.yaml && sed -i -e "/^-/d" -e "/^\#/d" ./tmp/objectscale-manager-customvalues.yaml
     if [ $? -ne 0 ]
     then
         echomsg error "unable to generate $component custom values"

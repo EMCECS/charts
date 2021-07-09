@@ -6,7 +6,7 @@ To add this repository to your local Helm installation:
 
 This is the chart source repo, binaries were migrated to [EMCECS/charts-bin repo](https://github.com/EMCECS/charts-bin) 
 
-## Adding the ECS Repository
+## Adding the ObjectScale Repository
 
 Add the repository to helm:
 

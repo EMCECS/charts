@@ -4,6 +4,7 @@ metadata:
   name: kahm
   namespace: {{ .Release.Namespace}}
   labels:
+    app.kubernetes.io/instance: {{ .Release.Name }}
     release: {{ .Release.Name }}
 spec:
   replicas: 1

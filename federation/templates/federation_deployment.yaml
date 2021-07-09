@@ -55,6 +55,9 @@ spec:
           - name: http
             containerPort: 9501 
             protocol: TCP
+          - name: https
+            containerPort: 9502
+            protocol: TCP
         livenessProbe:
             httpGet:
                 path: {{ .Values.fedsvc.livenessProbe.probePath }}
@@ -75,6 +78,8 @@ spec:
         - name: config
           mountPath: /opt/storageos/conf/fedsvc-log4j2.xml
           subPath: fedsvc-log4j2.xml
+        - name: tls-secret
+          mountPath: /etc/ssl
 
       volumes:
         - name: log
@@ -82,3 +87,6 @@ spec:
         - name: config
           configMap:
             name: fedsvc-log-config
+        - name: tls-secret
+          secret:
+            secretName: objectscale-federation-tls

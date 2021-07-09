@@ -11,9 +11,27 @@ metadata:
 spec:
   type: {{ .Values.fedsvc.service.type }}
   ports:
-    - port: {{ .Values.fedsvc.service.port }}
+    - port: {{ .Values.fedsvc.service.httpPort }}
       targetPort: http
       protocol: TCP
       name: http
+    - port: {{ .Values.fedsvc.service.httpsPort }}
+      targetPort: https
+      protocol: TCP
+      name: https
   selector:
     {{- include "fedsvc.selectorLabels" . | nindent 4 }}
+---
+  {{ $ssCert := genSelfSignedCert "fedsvc" nil nil 365 }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: objectscale-federation-tls
+  labels:
+    {{- include "fedsvc.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": "pre-install"
+    "helm.sh/hook-delete-policy": "before-hook-creation"
+data:
+  cert: {{ b64enc $ssCert.Cert }}
+  key: {{ b64enc $ssCert.Key }}

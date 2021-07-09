@@ -18,7 +18,8 @@ fedsvc:
     probePath: /fedsvchealthcheck
   replicaCount: 3
   service:
-    port: 9500
+    httpPort: 9500
+    httpsPort: 443
     type: ClusterIP
 # Atlas Cluster configuration for ObjectScale persistent Storage
 atlas:

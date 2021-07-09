@@ -20,27 +20,27 @@ data:
 {{- $.Files.Get $path | indent 8 }}
 {{ end }}
       rules:
-      - description: send all critical events to SNMP server
-      matchon:
-      - field: type
-        operator: "=="
-        value: Critical
-      notifiers:
-      - objectscale-snmp-notifier
-      - description: send all error events to SNMP server
-      matchon:
-      - field: type
-        operator: "=="
-        value: Error
-      notifiers:
-      - objectscale-snmp-notifier
-      - description: send all warning events to SNMP server
-      matchon:
-      - field: type
-        operator: "=="
-        value: Warning
-      notifiers:
-      - objectscale-snmp-notifier
+        - description: send all critical events to SNMP server
+          matchon:
+          - field: type
+            operator: "=="
+            value: Critical
+          notifiers:
+          - objectscale-snmp-notifier
+        - description: send all error events to SNMP server
+          matchon:
+          - field: type
+            operator: "=="
+            value: Error
+          notifiers:
+          - objectscale-snmp-notifier
+        - description: send all warning events to SNMP server
+          matchon:
+          - field: type
+            operator: "=="
+            value: Warning
+          notifiers:
+          - objectscale-snmp-notifier
     eventRemedies: |-
       symptoms:
         - symptomid: DECKS-1007

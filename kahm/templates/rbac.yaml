@@ -47,6 +47,7 @@ rules:
   - persistentvolumeclaims
   - events
   - configmaps
+  - configmaps/finalizers
   - secrets
   - applications
   - deployments

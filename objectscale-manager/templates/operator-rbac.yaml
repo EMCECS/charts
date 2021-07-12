@@ -60,6 +60,7 @@ rules:
   resources:
   - pods
   - pods/exec
+  - pods/finalizers
   - services
   - endpoints
   - persistentvolumeclaims
@@ -87,6 +88,7 @@ rules:
   - apps
   resources:
   - deployments
+  - deployments/finalizers
   - daemonsets
   - replicasets
   - statefulsets

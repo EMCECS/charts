@@ -153,8 +153,8 @@ flexver: yqcheck graphqlver zookeeper-operatorver pravega-operatorver atlas-oper
 
 chart-dep: charts-dep
 charts-dep:
-	rm **/charts/**; \
-	rm -r **/tmpcharts; \
+	rm -f **/charts/**; \
+	rm -rf **/tmpcharts; \
 	if [ "$${CHARTS}" = "$${ALL_CHARTS}" ] ; then \
 		BUILD_CHARTS=`python tools/build_helper/sort_charts_by_deps.py -c ${CHARTS}`; \
 	else  \

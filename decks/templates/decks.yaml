@@ -5,7 +5,8 @@ metadata:
   name: decks
   namespace: {{.Release.Namespace}}
   labels:
-    app.kubernetes.io/name: "decks"
+    app.kubernetes.io/name: {{ .Release.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
     release: {{ .Release.Name }}
     name: decks
 spec:

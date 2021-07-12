@@ -72,6 +72,7 @@ metadata:
   name: supportassist-{{.Values.product}}
   namespace: {{.Release.namespace}}
   labels:
+    app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/component: supportassist-{{.Values.product}}-ese
 {{ include "supportassist.labels" . | indent 4 }}
 spec:

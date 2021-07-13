@@ -46,7 +46,7 @@ spec:
                 operator: Out
                 values:
               {{- range .Values.topology.excludedFaultDomains }}
-              - {{ .name }}
+              - {{ . }}
                 {{- end }}
                 {{- end }}
                 # Limit scheduling to only those listed in the node selector

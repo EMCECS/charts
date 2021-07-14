@@ -162,12 +162,11 @@ charts-dep:
 	fi ; \
  	for CHART in $${BUILD_CHARTS}; do \
  		echo "Updating dependencies for $${CHART}" ; \
- 		helm dep up $${CHART}; \
+ 		helm dep up $${CHART} || exit $?; \
  	done ;
 
 resolve-versions:
 	python tools/build_helper/version_resolver.py -vs ${VERSION_SLICE_PATH}
-
 
 build:
 	if [ "$${CHARTS}" == "$${ALL_CHARTS}" ] ; then \
@@ -177,8 +176,8 @@ build:
 	fi ; \
 	for CHART in $${BUILD_CHARTS}; do \
 		echo "Updating package for $${CHART}" ; \
-		helm dep update $${CHART}; \
-		helm package $${CHART} --destination docs ; \
+		helm dep update $${CHART} || exit $?; \
+		helm package $${CHART} --destination docs || exit $?; \
 	done ; \
     cd docs && helm repo index . ;
 

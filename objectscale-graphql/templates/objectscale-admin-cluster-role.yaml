@@ -74,6 +74,7 @@ rules:
   - apiGroups:
       - ""
     resources:
+      - pods
       - namespaces
       - serviceaccounts
       - resourcequotas

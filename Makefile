@@ -5,7 +5,7 @@ YQ_VERSION   := 4.4.1
 YAMLLINT_VERSION := 1.20.0
 ALL_CHARTS := common-lib ecs-cluster objectscale-manager mongoose zookeeper-operator atlas-operator decks kahm dks-testapp fio-test sonobuoy dellemc-license service-pod helm-controller objectscale-graphql objectscale-vsphere objectscale-portal objectscale-gateway objectscale-iam pravega-operator bookkeeper-operator supportassist decks-support-store statefuldaemonset-operator influxdb-operator federation logging-injector objectscale-dcm snmp-notifier
 CHARTS = ${ALL_CHARTS}
-DECKSCHARTS := decks kahm supportassist service-pod dellemc-license decks-support-store
+DECKSCHARTS := decks kahm supportassist service-pod dellemc-license decks-support-store snmp-notifier
 FLEXCHARTS := common-lib ecs-cluster objectscale-manager objectscale-vsphere objectscale-graphql helm-controller objectscale-portal objectscale-gateway objectscale-iam statefuldaemonset-operator influxdb-operator federation logging-injector objectscale-dcm
 
 # release version

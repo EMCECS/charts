@@ -1,0 +1,9 @@
+- name: "TLSCertExpire"
+  description: "ObjectScale TLS certificate about to expire notification or expired notifications"
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        - label: SymptomID
+          value: OBJSOP-2002
+  notifiers:
+    - objectscale-snmp-notifier

@@ -69,6 +69,8 @@ tls:
   #   rootCA: xxxx
   #   intermediateCA:      # provide the intermediate CA here (optional)
 
+  # expiryNotificationTime in days
+  expiryNotificationTime: 60
   signingRequest:
     # For InternallySigned certificates do not add commonName so that its added in the format as below
     # urn:ocs:ObjectScaleId::service/ServiceName

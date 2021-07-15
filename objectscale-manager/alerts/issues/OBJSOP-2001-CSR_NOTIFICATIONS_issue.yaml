@@ -1,0 +1,9 @@
+- name: "CSRRequestAndApprovals"
+  description: "ObjectScale CSR issue and approval notifications"
+  issueCategory: Auto
+  matchOnList:
+    - matchon:
+        - label: SymptomID
+          value: OBJSOP-2001
+  notifiers:
+    - objectscale-snmp-notifier

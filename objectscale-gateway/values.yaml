@@ -50,7 +50,8 @@ objectscaleGateway:
       # authority: |-  # (optional)
       #   rootCA: xxxx
       #   intermediateCA:      # provide the intermediate CA here (optional)
-
+      # expiryNotificationTime in days
+      expiryNotificationTime: 60
       signingRequest:
         commonName: objectscale-gateway
         # email: insertyouremail@example.com.local
@@ -96,6 +97,8 @@ objectscaleGateway:
       #   rootCA: xxxx
       #   intermediateCA:      # provide the intermediate CA here (optional)
 
+      # expiryNotificationTime in days
+      expiryNotificationTime: 60
       signingRequest:
         # For InternallySigned certificates do not add commonName so that its added in the format as below
         # urn:ocs:ObjectScaleId::service/ServiceName

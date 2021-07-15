@@ -28,11 +28,7 @@ dependencies:
     repository: file://../objectscale-gateway
     condition: objectscale-gateway.enabled
   - name: objectscale-federation
-<<<<<<< HEAD
     version: 0.77.0
-=======
-    version: 0.76.0
->>>>>>> Rename federation to objectscale-federation
     repository: file://../objectscale-federation
     condition: federation.enabled
   - name: objectscale-iam

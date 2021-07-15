@@ -27,9 +27,9 @@ dependencies:
     version: 0.77.0
     repository: file://../objectscale-gateway
     condition: objectscale-gateway.enabled
-  - name: federation
+  - name: objectscale-federation
     version: 0.77.0
-    repository: file://../federation
+    repository: file://../objectscale-federation
     condition: federation.enabled
   - name: objectscale-iam
     version: 0.77.0

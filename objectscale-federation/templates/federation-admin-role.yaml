@@ -2,7 +2,7 @@
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Release.Namespace }}-federation-admin
+  name: {{ .Release.Namespace }}-objectscale-federation-admin
   {{- if (eq .Values.global.watchAllNamespaces false) }}
   namespace: {{ .Release.Namespace }}
   {{- end }}
@@ -11,7 +11,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/version: {{ .Chart.AppVersion }}
-    app.kubernetes.io/component: federation
+    app.kubernetes.io/component: objectscale-federation
     app.kubernetes.io/part-of: {{ .Release.Name }}
     helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     release: {{ .Release.Name}}

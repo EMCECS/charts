@@ -104,7 +104,7 @@ spec:
         - name: IAM_SERVICE_NAME
           value: "objectscale-iam"
         - name: FEDERATION_SERVICE_NAME
-          value: "fedsvc"
+          value: "objectscale-federation"
 {{- if .Values.dcm.enabled }}
         - name: DCM_SERVICE_HOSTNAME
           value: "objectscale-dcm"

@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: fedsvc
+  name: objectscale-federation
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "fedsvc.labels" . | nindent 4 }}

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: fedsvc-log-config
+  name: objectscale-federation-log-config
   namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: objectscale-manager
